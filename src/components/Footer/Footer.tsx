@@ -1,5 +1,5 @@
 import { FC } from "react";
 
 export const Footer:FC = () => {
-  return <div>Footer</div>
+  return <footer>Footer</footer>
 }
