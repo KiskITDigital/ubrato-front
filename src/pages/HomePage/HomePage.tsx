@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../store/store';
+import { MainBanner } from '../../components/MainBanner/MainBanner';
 // import { useStore } from 'zustand';
 
 export const HomePage: FC = () => {
@@ -8,7 +9,7 @@ export const HomePage: FC = () => {
 
   return (
     <div>
-      <h1>HomePage dev</h1>
+      <MainBanner/>
       <div>
         <p>{store.count}</p>
         <button onClick={store.increase}>+</button>

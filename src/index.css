@@ -1,10 +1,12 @@
+@import url('./assets/colors.css');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'GTEestiPro';
   text-decoration: none;
-  color: inherit;
+  color: var(--color-dark-text);
 }
 
 li {

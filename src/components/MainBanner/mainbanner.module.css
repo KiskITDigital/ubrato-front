@@ -1,0 +1,32 @@
+@import '../../assets/colors.css';
+
+.blueText {
+  color: var(--color-blue-primary);
+}
+
+.header {
+  font-size: 46px;
+  font-weight: 700;
+  margin-top: 106px;
+  margin-bottom: 22px;
+  max-width: 470px;
+}
+
+.agregator {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image {
+  width: 449px;
+  height: 449px;
+}
+
+.createTender {
+  padding: 4px 22px 4px 4px;
+}
