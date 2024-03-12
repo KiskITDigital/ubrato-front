@@ -1,0 +1,82 @@
+@import '../../assets/colors.css';
+
+.text {
+  color: var(--color-text-gray);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.locationText {
+  color: var(--color-dark-text);
+}
+
+.location {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 11px;
+}
+
+.headerTopLinks {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.navLink {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.navLink > img {
+  width: 20px;
+  height: 20px;
+}
+
+.navLinksList {
+  display: flex;
+  gap: 40px;
+}
+
+.registrationText {
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.registrationLink {
+  padding: 9px 14px;
+  border-radius: 10px;
+  background-color: var(--color-blue-primary);
+}
+
+.loginRegister {
+  display: flex;
+  gap: 20px;
+}
+
+.headerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.loginLink {
+  display: flex;
+  gap: 9px;
+  padding: 9px 14px;
+  background-color: var(--color-light-gray);
+  border-radius: 10px;
+}
+
+.loginText {
+  color: var(--color-dark-text);
+}
