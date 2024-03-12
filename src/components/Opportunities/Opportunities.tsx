@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import styles from './opportunities.module.css';
 import { OpportunitiesCard } from '../OpportunitiesCard/OpportunutitesCard';
+import { useIsOrdererState } from '../../store/store';
 
 type InfoT = {
   title: string;
@@ -40,15 +41,15 @@ export const Opportunities: FC = () => {
     },
   ];
 
-  const [isOrderer, setIsOrderer] = useState(true);
+  const ordererState = useIsOrdererState();
   const [info, setInfo] = useState<InfoT[]>(Orderer);
 
   function handleInfo() {
-    if (isOrderer) {
-      setIsOrderer(false);
+    if (ordererState.isOrderer) {
+      ordererState.handleState()
       setInfo(Executor);
     } else {
-      setIsOrderer(true);
+      ordererState.handleState();
       setInfo(Orderer);
     }
   }
@@ -67,7 +68,7 @@ export const Opportunities: FC = () => {
           onClick={() => {
             handleInfo();
           }}
-          disabled={isOrderer}
+          disabled={ordererState.isOrderer}
           className={`${styles.button}`}
         >
           Для заказчика
@@ -76,7 +77,7 @@ export const Opportunities: FC = () => {
           onClick={() => {
             handleInfo();
           }}
-          disabled={!isOrderer}
+          disabled={!ordererState.isOrderer}
           className={`${styles.button}`}
         >
           Для исполнителя

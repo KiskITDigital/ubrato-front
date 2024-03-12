@@ -1,7 +1,7 @@
 @import url('./assets/colors.css');
 
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -15,47 +15,47 @@ li {
   list-style: none;
 }
 
-@font-face {
-  font-family: "GTEestiPro";
+/* @font-face {
+  font-family: 'GTEestiPro';
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/GTEestiProText-Regular.woff2") format("woff2");
+  src: url('./fonts/GTEestiProText-Regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "GTEestiPro";
+  font-family: 'GTEestiPro';
   font-style: italic;
   font-weight: 400;
-  src: url("./fonts/GTEestiProText-RegularItalic.woff2") format("woff2");
+  src: url('./fonts/GTEestiProText-RegularItalic.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "GTEestiPro";
+  font-family: 'GTEestiPro';
   font-style: normal;
   font-weight: 500;
-  src: url("./fonts/GTEestiProText-Medium.woff2") format("woff2");
+  src: url('./fonts/GTEestiProText-Medium.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "GTEestiPro";
+  font-family: 'GTEestiPro';
   font-style: italic;
   font-weight: 500;
-  src: url("./fonts/GTEestiProText-MediumItalic.woff2") format("woff2");
+  src: url('./fonts/GTEestiProText-MediumItalic.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "GTEestiPro";
+  font-family: 'GTEestiPro';
   font-style: normal;
   font-weight: 700;
-  src: url("./fonts/GTEestiProText-Bold.woff2") format("woff2");
+  src: url('./fonts/GTEestiProText-Bold.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "GTEestiPro";
+  font-family: 'GTEestiPro';
   font-style: italic;
   font-weight: 700;
-  src: url("./fonts/GTEestiProText-BoldItalic.woff2") format("woff2");
-}
+  src: url('./fonts/GTEestiProText-BoldItalic.woff2') format('woff2');
+} */
 
 .container {
   width: 1130px;
