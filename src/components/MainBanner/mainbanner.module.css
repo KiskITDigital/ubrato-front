@@ -6,15 +6,15 @@
 
 .header {
   font-size: 46px;
-  font-weight: 700;
+  font-weight: 900;
   margin-top: 106px;
   margin-bottom: 22px;
-  max-width: 470px;
+  max-width: 521px;
 }
 
 .agregator {
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .container {
@@ -29,4 +29,49 @@
 
 .createTender {
   padding: 4px 22px 4px 4px;
+  background-color: var(--color-blue-primary);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 31px;
+}
+
+.createTenderInput {
+  width: 365px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.createTenderInput::placeholder {
+  color: var(--color-dark-text);
+}
+
+.createTenderBtn {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-white);
+}
+
+.exampleSearch {
+  color: var(--color-text-gray);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.exampleSearchLink {
+  text-decoration: underline;
+}
+
+.exampleSearchContainer {
+  margin-top: 20px;
+  display: flex;
+  gap: 3px;
 }
