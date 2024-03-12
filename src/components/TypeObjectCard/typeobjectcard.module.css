@@ -1,0 +1,17 @@
+@import '../../assets/colors.css';
+
+.container {
+  width: 274px;
+  height: 90px;
+  border-radius: 26px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid transparent;
+}
+
+.active {
+  border: 1px solid var(--color-blue-primary);
+  box-shadow: 0 4px 0 0 var(--color-blue-primary);
+}

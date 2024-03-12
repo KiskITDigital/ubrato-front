@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../store/store';
 import { MainBanner } from '../../components/MainBanner/MainBanner';
-// import { useStore } from 'zustand';
+import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
 
 export const HomePage: FC = () => {
   const store = useStore((state) => state);
@@ -10,6 +10,7 @@ export const HomePage: FC = () => {
   return (
     <div>
       <MainBanner/>
+      <ExecutorsCatalog/>
       <div>
         <p>{store.count}</p>
         <button onClick={store.increase}>+</button>

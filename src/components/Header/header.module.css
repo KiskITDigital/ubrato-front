@@ -79,4 +79,5 @@
 
 .loginText {
   color: var(--color-dark-text);
+  font-weight: 400;
 }

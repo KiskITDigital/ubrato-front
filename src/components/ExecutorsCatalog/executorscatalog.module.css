@@ -1,0 +1,41 @@
+@import '../../assets/colors.css';
+
+.blueText {
+  color: var(--color-blue-primary);
+}
+
+.header {
+  font-size: 46px;
+  font-weight: 900;
+  margin-top: 106px;
+  margin-bottom: 22px;
+  max-width: 551px;
+  margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.text {
+  color: var(--color-text-gray-second);
+  font-size: 20px;
+  line-height: 28px;
+  max-width: 730px;
+  text-align: center;
+}
+
+.objectsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 274px);
+  row-gap: 15px;
+  column-gap: 6px;
+}
+
+.whereToClean {
+  color: var(--color-black-60);
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
