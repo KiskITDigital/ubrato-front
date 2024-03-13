@@ -32,10 +32,17 @@
   grid-template-columns: repeat(4, 274px);
   row-gap: 15px;
   column-gap: 6px;
+  transition: height 1s ease-in-out;
+  overflow: hidden;
+  height: 195px;
 }
 
 .whereToClean {
   color: var(--color-black-60);
   margin-top: 30px;
   margin-bottom: 15px;
+}
+
+.btnContainer {
+  width: 100%;
 }

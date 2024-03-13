@@ -1,19 +1,27 @@
-import { FC } from 'react';
+import { FC, useEffect, useState, useRef } from 'react';
 import styles from './executorscatalog.module.css';
 import { TypeObjectCard } from '../TypeObjectCard/TypeObjectCard';
-import { useTypesObjectsStore } from '../../store/store';
+import { useTypesObjectsStore } from '../../store/objectsStore';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();
 
-  // const handleActive = (ix:number) => {
-  //   const curObjects = objects
-  //   curObjects[ix].isActive = !curObjects[ix].isActive;
-  //   curObjects[ix].name = 'hui'
-  //   console.log(curObjects)
-  //   setObjects(curObjects)
-  //   console.log(objects)
-  // }
+  const listRef = useRef<HTMLDivElement>(null);
+  const [isShown, setIsShown] = useState(false);
+  const [showBtnText, setShowBtnText] = useState('Показать все объекты');
+
+  useEffect(() => {
+    const height = Math.ceil((objectsStore.objects.length - 8) / 4) * 105;
+    if (isShown) {
+      setShowBtnText('Скрыть');
+      listRef.current!.style.height = `${listRef.current!.offsetHeight + height}px`;
+      console.log(listRef.current?.offsetHeight);
+    } else {
+      listRef.current!.style.height = `${listRef.current!.offsetHeight - height}px`;
+      setShowBtnText('Показать все объекты');
+      console.log(listRef.current?.offsetHeight);
+    }
+  }, [isShown, objectsStore.objects.length]);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -26,10 +34,13 @@ export const ExecutorsCatalog: FC = () => {
       </p>
       <div>
         <p className={styles.whereToClean}>Укажите, где нужен клининг</p>
-        <div className={styles.objectsGrid}>
+        <div ref={listRef} className={styles.objectsGrid}>
           {objectsStore.objects.map((e, ix) => (
             <TypeObjectCard key={ix} info={e} changeActive={objectsStore.handleActive} ix={ix} />
           ))}
+        </div>
+        <div className={styles.btnContainer}>
+          <button onClick={() => setIsShown(!isShown)}>{showBtnText}</button>
         </div>
       </div>
     </div>
