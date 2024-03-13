@@ -13,5 +13,5 @@ RUN npm run build
 ### STAGE 2: Run ###
 FROM nginx:1.25.2-alpine3.18@sha256:34b58b4f5c6d133d97298cbaae140283dc325ff1aeffb28176f63078baeffd14
 COPY --from=builder /app/build /var/www/default
-COPY --from=build /nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /deployment/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
