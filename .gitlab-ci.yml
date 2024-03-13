@@ -1,0 +1,60 @@
+image: docker:latest
+services:
+  - docker:dind
+before_script:
+  - docker info
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  - eval $(ssh-agent -s)
+
+  - chmod 400 "$SSH_PRIVATE_KEY"
+  - ssh-add "$SSH_PRIVATE_KEY"
+
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+
+  - cp $KNOWN_HOSTS ~/.ssh/known_hosts
+
+  
+stages:
+  - build
+  - deploy
+
+variables:
+  REMOTE_USER: "ubrato"
+  REMOTE_HOST: "185.103.102.159"
+  REMOTE_PATH: "/home/ubrato/ubrato"
+
+dev-build:
+  only:
+    - dev
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+
+dev-deploy:
+  only:
+    - dev
+  stage: deploy
+  script:
+    - ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST -p 2048 "cd $REMOTE_PATH && ./update-front.sh"
+
+prod-build:
+  only:
+    - main
+    - master
+  stage: build
+  script:
+    - docker login -u $CI_REGISTRY_USER -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+
+prod-deploy:
+  only:
+    - master
+    - main
+  stage: deploy
+  script:
+    - ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST -p 2048 "cd $REMOTE_PATH && ./update-front.sh"
