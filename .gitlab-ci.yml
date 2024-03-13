@@ -43,6 +43,7 @@ dev-deploy:
 
 prod-build:
   only:
+    - main
     - master
   stage: build
   script:
@@ -53,6 +54,7 @@ prod-build:
 prod-deploy:
   only:
     - master
+    - main
   stage: deploy
   script:
     - ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST -p 2048 "cd $REMOTE_PATH && ./update-front.sh"
