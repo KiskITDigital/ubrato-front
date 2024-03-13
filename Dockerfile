@@ -5,13 +5,13 @@ ARG API_PROD_URL
 ENV API_PROD_URL=${API_PROD_URL}
 
 WORKDIR /app
-RUN npm install
 COPY . .
+RUN npm install
 RUN npm run build
 
 
 ### STAGE 2: Run ###
 FROM nginx:1.25.2-alpine3.18@sha256:34b58b4f5c6d133d97298cbaae140283dc325ff1aeffb28176f63078baeffd14
-COPY --from=builder /app/build /var/www/default
-COPY --from=build /deployment/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /var/www/default
+COPY ./deployment/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
