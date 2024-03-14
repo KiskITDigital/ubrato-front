@@ -97,3 +97,7 @@ export const generalQuestions: QuestionT[] = [
     ),
   },
 ];
+
+export const executorQustions: QuestionT[] = [];
+
+export const ordererQustions: QuestionT[] = [];
