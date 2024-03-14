@@ -1,10 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 import styles from './NewsMenu.module.css'; // Make sure to create a corresponding CSS module file
 
 interface NewsItemProps {
   date: string;
   text: string;
-  imgSrc: string;
+  imageSrc: string;
 }
 
 const NewsItem: FC<NewsItemProps> = ({ date, text, imageSrc }) => (
