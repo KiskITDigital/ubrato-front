@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styles from './questionpage.module.css';
-import { Collapse, ConfigProvider, Space } from 'antd';
+import { Collapse } from 'antd';
+import { ExpandButton } from '../ExpandButton/ExpandButton';
 
 const text = `
   В нашем проекте каждый исполнитель проходит тщательную проверку. Ни один сомнительный кандидат не допускается на нашу площадку. Мы уделяем максимальное внимание безопасности на нашей площадке. Все переписки и личные данные надежно защищены. Площадка будет развиваться и улучшаться на постоянной основе.
@@ -21,58 +22,25 @@ export const QuestionPage: FC = () => (
       <button className={`${styles.button}`}>Заказчику</button>
     </div>
     <div className={styles.pageQuestion}>
-      <ConfigProvider
-        theme={{
-          components: {
-            Collapse: {
-              headerBg: '#FFFFFF',
-            },
+      <Collapse
+        className={styles.accordion}
+        expandIconPosition="end"
+        collapsible="icon"
+        expandIcon={ExpandButton}
+        // defaultActiveKey={}
+        items={[
+          {
+            key: '1',
+            label: <p className={styles.blacktext}>Почему такое название Ubrato?</p>,
+            children: <p className={styles.greytext}>{text}</p>,
           },
-          token: {
-            colorBorder: '#FFFFFF',
-            borderRadiusLG: 30,
+          {
+            key: '2',
+            label: <p className={styles.blacktext}>Почему такое название Ubrato?2</p>,
+            children: <p className={styles.greytext}>{text}</p>,
           },
-        }}
-      >
-        <Space direction="vertical">
-          <Collapse
-            expandIconPosition="end"
-            collapsible="icon"
-            defaultActiveKey={['0']}
-            items={[
-              {
-                key: '1',
-                label: <p className={styles.blacktext}>Почему такое название Ubrato?</p>,
-                children: <p className={styles.greytext}>{text}</p>,
-              },
-            ]}
-          />
-          <Collapse
-            expandIconPosition="end"
-            collapsible="icon"
-            defaultActiveKey={['1']}
-            items={[
-              {
-                key: '1',
-                label: <p className={styles.blacktext}>В чем отличие от других агрегаторов?</p>,
-                children: <p className={styles.greytext}>{text}</p>,
-              },
-            ]}
-          />
-          <Collapse
-            expandIconPosition="end"
-            collapsible="icon"
-            defaultActiveKey={['0']}
-            items={[
-              {
-                key: '1',
-                label: <p className={styles.blacktext}>Что такое Ubrato.ru?</p>,
-                children: <p className={styles.greytext}>{text}</p>,
-              },
-            ]}
-          />
-        </Space>
-      </ConfigProvider>
+        ]}
+      />
     </div>
   </div>
 );
