@@ -20,3 +20,20 @@
   width: 60px;
   height: auto;
 }
+
+.text {
+  color: var(--color-black-60);
+  font-size: 14px;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+}
+
+.header {
+  font-weight: 600;
+}

@@ -33,6 +33,9 @@
 .header {
   font-size: 24px;
   max-width: 256px;
-  
   font-weight: 600;
+}
+
+.text {
+  color: var(--color-black-60);
 }

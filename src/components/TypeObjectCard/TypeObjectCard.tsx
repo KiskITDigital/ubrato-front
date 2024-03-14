@@ -17,9 +17,9 @@ export const TypeObjectCard: FC<PropsT> = ({ changeActive, info, ix }) => {
       className={`${styles.container} ${info.isActive ? styles.active : ''}`}
     >
       <img className={styles.image} src={info.image} alt="" />
-      <div>
-        <p>{info.name}</p>
-        <p>
+      <div className={styles.textContent}>
+        <p className={styles.header}>{info.name}</p>
+        <p className={styles.text}>
           {info.count} {countTransform(info.count)}
         </p>
       </div>
