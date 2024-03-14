@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styles from './seo.module.css';
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 //type SEOBlockProps = {
 //title: string;
