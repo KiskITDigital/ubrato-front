@@ -1,52 +1,16 @@
 import { FC, useState } from 'react';
 import styles from './opportunities.module.css';
 import { OpportunitiesCard } from '../OpportunitiesCard/OpportunutitesCard';
-import { useIsOrdererState } from '../../store/store';
-
-type InfoT = {
-  title: string;
-  image: string;
-  text: string;
-  btnText: string;
-};
+import { useIsOrdererState } from '../../store/isOrdererStore';
+import { Executor, OpportunitiesInfoT, Orderer } from '../../textData/textData';
 
 export const Opportunities: FC = () => {
-  const Orderer: InfoT[] = [
-    {
-      title: 'Тендер',
-      text: 'Создайте тендер, если хотите выбрать лучшее предложение среди откликов на вашу задачу',
-      image: './tender-red.svg',
-      btnText: 'Создать тендер',
-    },
-    {
-      title: 'Каталог',
-      text: 'Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям',
-      image: './catalog-purple.svg',
-      btnText: 'Найти исполнителя',
-    },
-  ];
-
-  const Executor: InfoT[] = [
-    {
-      title: 'Тендер',
-      text: 'Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену',
-      image: './tender-red.svg',
-      btnText: 'Найти тендер',
-    },
-    {
-      title: 'Портфолио',
-      text: 'Расскажите о возможностях и приемуществах вашей компании, получайте предложения от заказчиков',
-      image: './catalog-purple.svg',
-      btnText: 'Создать портфолио',
-    },
-  ];
-
   const ordererState = useIsOrdererState();
-  const [info, setInfo] = useState<InfoT[]>(Orderer);
+  const [info, setInfo] = useState<OpportunitiesInfoT[]>(Orderer);
 
   function handleInfo() {
     if (ordererState.isOrderer) {
-      ordererState.handleState()
+      ordererState.handleState();
       setInfo(Executor);
     } else {
       ordererState.handleState();

@@ -81,6 +81,10 @@ export const ExecutorsCatalog: FC = () => {
           </div>
         </div>
       </div>
+      <div className={styles.findExecutor}>
+        <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
+        <button className={styles.findExecutorBtn}>Найти исполнителя<img src="./arrow-with-line-right-white.svg" alt="arrow" /></button>
+      </div>
     </div>
   );
 };

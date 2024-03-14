@@ -4,19 +4,21 @@ import { useStore } from '../../store/store';
 import { MainBanner } from '../../components/MainBanner/MainBanner';
 import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
 import { Opportunities } from '../../components/Opportunities/Opportunities';
+import { HowToFind } from '../../components/HowToFind/HowToFind';
 
 export const HomePage: FC = () => {
   const store = useStore((state) => state);
 
   return (
     <div>
-      <MainBanner/>
-      <ExecutorsCatalog/>
-      <Opportunities/>
+      <MainBanner />
+      <ExecutorsCatalog />
+      <Opportunities />
+      <HowToFind />
       <div>
         <p>{store.count}</p>
         <button onClick={store.increase}>+</button>
-        <button onClick={store.decrease}>-</button> 
+        <button onClick={store.decrease}>-</button>
       </div>
       <Link to="/tenders">Tenders</Link>
     </div>
