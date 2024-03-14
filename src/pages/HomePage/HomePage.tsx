@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { useStore } from '../../store/store';
 import { MainBanner } from '../../components/MainBanner/MainBanner';
 import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
+import { NewsMenu } from '../../components/NewsMenu/NewsMenu'
+import { QuestionPage } from '../../components/QuestionPage/QuestionPage'
+import { QuestionPageTwo } from '../../components/QuestionPage/QuestionPageTwo'
+import { Seo } from '../../components/Seo/seo'
 import { Opportunities } from '../../components/Opportunities/Opportunities';
 import { HowToFind } from '../../components/HowToFind/HowToFind';
 import { TendersAdvice } from '../../components/TendersAdvice/TendersAdvice';
@@ -12,6 +16,11 @@ export const HomePage: FC = () => {
 
   return (
     <div>
+      <MainBanner/>
+      <ExecutorsCatalog/>
+      <NewsMenu/>
+      <QuestionPage/>
+      <Seo/>
       <MainBanner />
       <ExecutorsCatalog />
       <Opportunities />

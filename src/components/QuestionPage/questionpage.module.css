@@ -1,0 +1,93 @@
+@import '../../assets/colors.css';
+
+.container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	background-color: #F4F7F9;
+	border-radius: 50px;
+	padding: 30px 30px 30px 30px;
+}
+
+.pageQuestion {
+	display: flex;
+	align-items: center;
+	width: 875px;
+	flex-direction: column;
+}
+
+
+.widthofitm {
+	display: flex;
+	align-items: center;
+}
+
+.blueText {
+	color: var(--color-blue-primary);
+}
+
+.header {
+	font-size: 46px;
+	font-weight: 900;
+	margin-bottom: 22px;
+	max-width: 600;
+	margin-bottom: 20px;
+}
+
+.greytext {
+	color: var(--color-text-gray);
+	font-size: 20px;
+	font-weight: 500;
+	margin-bottom: 30px
+}
+
+.seletct {
+	margin-bottom: 30px
+}
+
+.seletcttext {
+	color: var(--color-text-gray);
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.blacktext {
+	color: var(--color-text-black);
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.selected-item {
+	text-align: center;
+}
+
+.btnsblock {
+	padding: 4px;
+	background-color: var(--color-white);
+	border-radius: 20px;
+	margin-top: px;
+	display: flex;
+	gap: 2px;
+	margin-bottom: 30px;
+}
+
+.button:disabled {
+	background-color: var(--color-blue-primary);
+	color: var(--color-white);
+}
+
+.button {
+	font-size: 18px;
+	font-weight: 600;
+	border-radius: 17px;
+	border: none;
+	outline: none;
+	
+	padding: 14px 40px;
+	background-color: transparent;
+	color: var(--color-black-60);
+}
+
+.active {
+	background-color: var(--color-blue-primary);
+}

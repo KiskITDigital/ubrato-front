@@ -1,0 +1,70 @@
+@import '../../assets/colors.css';
+
+.seoBlock {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.titleblock {
+    font-size: 46px;
+    font-weight: 900;
+    margin-bottom: 22px;
+    max-width: 600;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    padding-top: 50px;
+    border-top: 1px solid #E5E5E5 ; 
+}
+
+.header {
+  display: inline-block;
+}
+
+.blueText {
+  color: var(--color-blue-primary);
+}
+
+.contentWrapper {
+  overflow: hidden;
+  max-height: 100%;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.collapsedContent {
+  max-height: 90px; 
+  transition: max-height 0.5s ease-in-out; 
+  color: #595D73;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.expandedContent {
+  max-height: 500px; 
+  transition: max-height 0.5s ease-in-out;
+  color: #595D73;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.button {
+  background-color: #0084FF; 
+  color: #ffffff; 
+  border: none;
+  padding: 5px 20px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #003d82;
+}
+
+.greytext {
+  color: #595D73;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px
+}
