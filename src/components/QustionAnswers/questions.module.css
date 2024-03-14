@@ -1,0 +1,51 @@
+.link {
+  color: var(--color-blue-primary);
+}
+
+.seeAlso {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.seeAlso > p {
+  margin-bottom: 8px;
+}
+
+.seeAlso > a {
+  margin-left: 20px;
+}
+
+.li {
+  list-style: initial;
+  margin-left: 35px;
+  color: var(--color-gray-595);
+  font-weight: 500;
+}
+
+.title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.text {
+  color: var(--color-gray-595);
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.link {
+  color: var(--color-blue-primary);
+}
+
+.startText {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: var(--color-gray-595);
+}

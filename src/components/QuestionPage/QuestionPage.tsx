@@ -2,10 +2,7 @@ import { FC } from 'react';
 import styles from './questionpage.module.css';
 import { Collapse } from 'antd';
 import { ExpandButton } from '../ExpandButton/ExpandButton';
-
-const text = `
-  В нашем проекте каждый исполнитель проходит тщательную проверку. Ни один сомнительный кандидат не допускается на нашу площадку. Мы уделяем максимальное внимание безопасности на нашей площадке. Все переписки и личные данные надежно защищены. Площадка будет развиваться и улучшаться на постоянной основе.
-`;
+import { generalQuestions } from '../../textData/questionsData';
 
 export const QuestionPage: FC = () => (
   <div className={`container ${styles.container}`}>
@@ -27,20 +24,14 @@ export const QuestionPage: FC = () => (
         expandIconPosition="end"
         collapsible="header"
         expandIcon={ExpandButton}
-        
         defaultActiveKey={['1']}
-        items={[
-          {
-            key: '1',
-            label: <p className={styles.blacktext}>Почему такое название Ubrato?</p>,
-            children: <p className={styles.greytext}>{text}</p>,
-          },
-          {
-            key: '2',
-            label: <p className={styles.blacktext}>Почему такое название Ubrato?2</p>,
-            children: <p className={styles.greytext}>{text}</p>,
-          },
-        ]}
+        items={generalQuestions.map((e, ix) => {
+          return {
+            key: `${ix+1}`,
+            label: <p className={styles.blacktext}>{e.title}</p>,
+            children: e.textComponent,
+          };
+        })}
       />
     </div>
   </div>

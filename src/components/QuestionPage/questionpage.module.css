@@ -37,6 +37,7 @@
   color: var(--color-text-gray);
   font-size: 20px;
   font-weight: 500;
+  margin-bottom: 30px;
 }
 
 .seletct {
@@ -53,8 +54,8 @@
   color: var(--color-text-black);
   font-size: 20px;
   font-weight: 700;
-	z-index: 3;
-	position: relative!important;
+  z-index: 3;
+  position: relative !important;
 }
 
 .selected-item {
@@ -130,8 +131,11 @@
 }
 
 .accordion > div > div:first-child > span {
+  height: 50px;
   align-self: flex-start;
-	margin-top: 9.285px;
+  line-height: initial;
+	display: flex;
+	align-items: center;
 }
 
 .accordion > div > div:first-child > div {

@@ -15,6 +15,22 @@ li {
   list-style: none;
 }
 
+/* .ant-collapse-item-active div:first-child > span {
+  position: relative;
+}
+
+.ant-collapse-item-active div:first-child > span > p {
+  align-self: flex-start !important;
+  margin-bottom: 20px;
+  position: absolute;
+  margin-top: 9.285px;
+	height: 31.43px;
+} */
+
+/* .ant-collapse-header {
+  transition: none;
+} */
+
 /* @font-face {
   font-family: 'GTEestiPro';
   font-style: normal;
