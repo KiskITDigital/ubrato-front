@@ -78,4 +78,17 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
     });
   },
 }));
+
+interface OrdererState {
+  isOrderer: boolean;
+  handleState: () => void;
+}
+
+export const useIsOrdererState = create<OrdererState>()((set) => ({
+  isOrderer: true,
+  handleState: () => {
+    set((state) => ({ isOrderer: !state.isOrderer }));
+  },
+}));
+
 //Базовый пример глобального хранилища, в будующем нужно будет для авторизации и т.д.

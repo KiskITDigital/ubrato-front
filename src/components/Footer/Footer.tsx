@@ -34,7 +34,7 @@ export const Footer:FC = () => {
         </ul>
       </div>
       <div className= {styles.column}>
-        <p className={styles.headercolumn}>Об Urbanto</p>
+        <p className={styles.headercolumn}>Об Ubanto</p>
         <ul>
           <li><Link to="/"><p className={styles.point}>О сервисе</p></Link></li>
           <li><Link to="/"><p className={styles.point}>Контакты</p></Link></li>
@@ -58,7 +58,7 @@ export const Footer:FC = () => {
       <Link to="/"><p className={styles.confidental}>Согласие на обработку персональных данных</p></Link>
     </div>
     <div className={styles.last}>
-      <p className={styles.greytext}>© 2022-2023 ООО “Интеграция” (ubrato.ru)</p>
+      <p className={styles.greytext}>© 2022-2023 ООО “Интеграция” <Link to="" className={styles.greytext}>(ubrato.ru)</Link></p>
     </div>
     </footer>);
 };
