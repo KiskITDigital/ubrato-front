@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 import styles from './executorscatalog.module.css';
 import { TypeObjectCard } from '../TypeObjectCard/TypeObjectCard';
 import { useTypesObjectsStore } from '../../store/objectsStore';
@@ -20,11 +20,9 @@ export const ExecutorsCatalog: FC = () => {
     if (isShown) {
       setShowBtnText('Скрыть доп. объекты');
       listRef.current!.style.height = `${listRef.current!.offsetHeight + height}px`;
-      console.log(listRef.current?.offsetHeight);
     } else {
       listRef.current!.style.height = `${listRef.current!.offsetHeight - height}px`;
       setShowBtnText('Показать все объекты');
-      console.log(listRef.current?.offsetHeight);
     }
   }, [isShown, objectsStore.objects.length]);
 
@@ -83,7 +81,10 @@ export const ExecutorsCatalog: FC = () => {
       </div>
       <div className={styles.findExecutor}>
         <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
-        <button className={styles.findExecutorBtn}>Найти исполнителя<img src="./arrow-with-line-right-white.svg" alt="arrow" /></button>
+        <button className={styles.findExecutorBtn}>
+          Найти исполнителя
+          <img src="./arrow-with-line-right-white.svg" alt="arrow" />
+        </button>
       </div>
     </div>
   );

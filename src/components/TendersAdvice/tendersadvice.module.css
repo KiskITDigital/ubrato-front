@@ -1,0 +1,81 @@
+.carouselItem {
+  display: grid !important;
+  grid-template-columns: repeat(2, 550px);
+  justify-content: space-between;
+  row-gap: 30px;
+  padding: 0px 12px;
+}
+
+.carouselItem > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  background-color: var(--color-blue-primary);
+  color: var(--color-white);
+  height: 427px;
+}
+
+.container {
+  width: 1230px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  font-size: 46px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.blueText {
+  color: var(--color-blue-primary);
+}
+
+.headerText {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text-gray);
+  max-width: 800px;
+  text-align: center;
+  line-height: 28px;
+  margin-bottom: 60px;
+}
+
+.carouselContainer {
+  padding-bottom: 74px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.14);
+  margin-bottom: 75px;
+}
+
+.btn {
+  padding: 13.5px 16px 13.5px 18px;
+  display: flex;
+  align-items: center;
+  gap: 139px;
+  background-color: var(--color-blue-primary);
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+.btnContainer {
+  position: absolute;
+  bottom: 50px;
+  padding: 0 34px;
+  background-color: var(--color-white);
+}
+
+.btnText {
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: 600;
+}

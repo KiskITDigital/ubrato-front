@@ -5,6 +5,7 @@ import { MainBanner } from '../../components/MainBanner/MainBanner';
 import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
 import { Opportunities } from '../../components/Opportunities/Opportunities';
 import { HowToFind } from '../../components/HowToFind/HowToFind';
+import { TendersAdvice } from '../../components/TendersAdvice/TendersAdvice';
 
 export const HomePage: FC = () => {
   const store = useStore((state) => state);
@@ -15,6 +16,7 @@ export const HomePage: FC = () => {
       <ExecutorsCatalog />
       <Opportunities />
       <HowToFind />
+      <TendersAdvice />
       <div>
         <p>{store.count}</p>
         <button onClick={store.increase}>+</button>
