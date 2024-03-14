@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { CleaningTypeT } from '../../types/app';
 import styles from './typecleaningcard.module.css';
+import { countTransform } from '../../utils/cuntTransform';
 
 type PropsT = {
   info: CleaningTypeT;
@@ -19,7 +20,9 @@ export const TypeCleaningCard: FC<PropsT> = ({ info, changeActive, ix }) => {
     >
       <div className={styles.textContent}>
         <p className={styles.header}>{info.name}</p>
-        <p>{info.count}</p>
+        <p>
+          {info.count} {countTransform(info.count)}
+        </p>
       </div>
     </div>
   );

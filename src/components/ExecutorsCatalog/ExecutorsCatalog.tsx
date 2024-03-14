@@ -5,6 +5,7 @@ import { useTypesObjectsStore } from '../../store/objectsStore';
 import { useCleaningTypeStore } from '../../store/cleaningTypeStore';
 import { TypeCleaningCard } from '../TypeCleaningCard/TypeCleaningCard';
 import { Link } from 'react-router-dom';
+import { countTransform } from '../../utils/cuntTransform';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();
@@ -26,6 +27,8 @@ export const ExecutorsCatalog: FC = () => {
       console.log(listRef.current?.offsetHeight);
     }
   }, [isShown, objectsStore.objects.length]);
+
+  const count = 200;
 
   return (
     <div className={`container ${styles.container}`}>
@@ -71,7 +74,9 @@ export const ExecutorsCatalog: FC = () => {
           <div>
             <Link to="/tenders" className={styles.allTenderLink}>
               <p className={styles.allTenderHeader}>Все тендеры</p>
-              <p className={styles.allTenderCount}>200 тендеров</p>
+              <p className={styles.allTenderCount}>
+                {count} {countTransform(count)}
+              </p>
             </Link>
           </div>
         </div>

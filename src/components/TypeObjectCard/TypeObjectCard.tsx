@@ -1,20 +1,27 @@
 import { FC } from 'react';
 import { ObjectInfoT } from '../../types/app';
 import styles from './typeobjectcard.module.css';
+import { countTransform } from '../../utils/cuntTransform';
 
 type PropsT = {
-  info: ObjectInfoT,
-  changeActive: (ix:number) => void,
-  ix:number
-}
+  info: ObjectInfoT;
+  changeActive: (ix: number) => void;
+  ix: number;
+};
 
 export const TypeObjectCard: FC<PropsT> = ({ changeActive, info, ix }) => {
+
   return (
-    <div onClick={() => changeActive(ix)} className={`${styles.container} ${info.isActive ? styles.active : ''}`}>
-      <img src={info.image} alt="" />
+    <div
+      onClick={() => changeActive(ix)}
+      className={`${styles.container} ${info.isActive ? styles.active : ''}`}
+    >
+      <img className={styles.image} src={info.image} alt="" />
       <div>
         <p>{info.name}</p>
-        <p>{info.count}</p>
+        <p>
+          {info.count} {countTransform(info.count)}
+        </p>
       </div>
     </div>
   );

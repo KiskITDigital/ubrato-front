@@ -15,3 +15,8 @@
   border: 1px solid var(--color-blue-primary);
   box-shadow: 0 4px 0 0 var(--color-blue-primary);
 }
+
+.image {
+  width: 60px;
+  height: auto;
+}
