@@ -25,9 +25,10 @@ export const QuestionPage: FC = () => (
       <Collapse
         className={styles.accordion}
         expandIconPosition="end"
-        collapsible="icon"
+        collapsible="header"
         expandIcon={ExpandButton}
-        // defaultActiveKey={}
+        
+        defaultActiveKey={['1']}
         items={[
           {
             key: '1',
