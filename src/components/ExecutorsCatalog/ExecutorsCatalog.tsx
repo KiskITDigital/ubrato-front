@@ -26,6 +26,10 @@ export const ExecutorsCatalog: FC = () => {
     }
   }, [isShown, objectsStore.objects.length]);
 
+  // useEffect(() => {
+  //   objectsStore.fetchObjects();
+  // }, [objectsStore]);
+
   const count = 200;
 
   return (

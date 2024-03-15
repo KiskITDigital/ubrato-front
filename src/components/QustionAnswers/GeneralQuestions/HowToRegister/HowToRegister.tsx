@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const HowToRegister: FC = () => {
   return (
-    <div>
+    <div className={qstyles.container}>
       <p className={qstyles.startText}>
         Чтобы начать работу на площадке, пройдите процедуру регистрации. Подключение пользователей к
         сервису организовано в три этапа: Регистрация Верификация Модерация

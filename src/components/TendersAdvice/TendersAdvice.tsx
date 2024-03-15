@@ -21,6 +21,7 @@ export const TendersAdvice: FC = () => {
       alignItems: 'center',
       width: '1230px',
     },
+    speed: 600,
   };
 
   return (

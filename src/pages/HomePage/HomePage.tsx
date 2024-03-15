@@ -12,6 +12,10 @@ import { TendersAdvice } from '../../components/TendersAdvice/TendersAdvice';
 export const HomePage: FC = () => {
   return (
     <div>
+      <Link to="/faq&page=1&number=1">questions</Link>
+      <Link to="/faq&page=1&number=2">questions2</Link>
+      <Link to="/faq&page=1&number=2">questions3</Link>
+      <Link to="/faq&page=2&number=1">questions3</Link>
       <MainBanner />
       <ExecutorsCatalog />
       <Opportunities />

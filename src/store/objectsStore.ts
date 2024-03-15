@@ -1,12 +1,36 @@
 import { create } from 'zustand';
 import { ObjectInfoT } from '../types/app';
+import { SERVER_URI } from '../utils/serverURI';
+import axios from 'axios';
+
+type apiObjectT =
+  | [
+      {
+        id: number;
+        name: string;
+        types: [
+          {
+            id: number;
+            name: string;
+          }
+        ];
+      }
+    ]
+  | [];
 
 interface ObjectsState {
   objects: ObjectInfoT[];
+  apiObjects: apiObjectT;
+  loading: boolean;
+  error: null | string;
   handleActive: (ix: number) => void;
+  fetchObjects: () => void;
 }
 
 export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
+  apiObjects: [],
+  loading: false,
+  error: null,
   objects: [
     {
       name: 'Офисная недвижимость',
@@ -99,4 +123,22 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       return { objects: state.objects };
     });
   },
+  fetchObjects: async () => {
+    set({ loading: true })
+    try {
+      const response = await axios.get(`${SERVER_URI}v1/tenders/objects-types`)
+      if (response.status !== 200) throw response
+      console.log(response)
+    } catch (e) {
+      console.log(e)
+      // let error = e
+      // // custom error
+      // if (e.status === 400) {
+      //   error = await e.json()
+      // }
+      // set({ error })
+    } finally {
+      set({ loading: false })
+    }
+  }
 }));

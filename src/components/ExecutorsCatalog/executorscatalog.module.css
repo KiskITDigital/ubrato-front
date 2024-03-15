@@ -40,8 +40,9 @@
   column-gap: 6px;
   transition: height 0.5s ease-in-out;
   overflow: hidden;
-  height: 203px;
+  height: 205px;
   margin-bottom: 15px;
+  padding-bottom: 10px;
 }
 
 .whereToClean {
