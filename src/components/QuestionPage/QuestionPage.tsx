@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './questionpage.module.css';
-import { Collapse } from 'antd';
 import { ExpandButton } from '../ExpandButton/ExpandButton';
 import { executorQustions, generalQuestions, ordererQustions } from '../../textData/questionsData';
 import { useParams } from 'react-router-dom';
+import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 
 export const QuestionPage: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
@@ -12,6 +12,16 @@ export const QuestionPage: FC = () => {
   const [qusetionNumber, setQuestionNumber] = useState('1');
   const [pageNumber, setPageNumber] = useState('1');
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
+
+  const itemClasses = {
+    base: `${styles.accordionItem}`,
+    title: styles.accordionTitle,
+    heading: styles.accordionHeading,
+    indicator: styles.accordionIndicator,
+    trigger: styles.accordionTrigger,
+    content: styles.accordionContent,
+    titleWrapper: styles.accordionTitleWrapper,
+  };
 
   useEffect(() => {
     if (params.id) {
@@ -75,24 +85,31 @@ export const QuestionPage: FC = () => {
         </button>
       </div>
       <div className={styles.pageQuestion}>
-        <Collapse
-          className={styles.accordion}
-          expandIconPosition="end"
-          collapsible="header"
-          expandIcon={ExpandButton}
-          defaultActiveKey={['1']}
-          activeKey={[qusetionNumber]}
-          onChange={(e) => {
-            setQuestionNumber(e[1]);
+        <Accordion
+          showDivider={false}
+          className={styles.accordionWrapper}
+          selectionMode="multiple"
+          defaultSelectedKeys={['1']}
+          selectedKeys={[qusetionNumber]}
+          itemClasses={itemClasses}
+          onSelectionChange={(e: Selection) => {
+            if (e instanceof Set) {
+              if (e.size != 0) {
+                setQuestionNumber(Array.from(e)[1].toString());
+              } else {
+                setQuestionNumber('0');
+              }
+            }
           }}
-          items={qustionsArr.map((e, ix) => {
-            return {
-              key: `${ix + 1}`,
-              label: <p className={styles.blacktext}>{e.title}</p>,
-              children: e.textComponent,
-            };
+        >
+          {qustionsArr.map((e, ix) => {
+            return (
+              <AccordionItem indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()}/>} key={ix + 1} title={e.title}>
+                {e.textComponent}
+              </AccordionItem>
+            );
           })}
-        />
+        </Accordion>
       </div>
     </div>
   );
