@@ -126,7 +126,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   fetchObjects: async () => {
     set({ loading: true })
     try {
-      const response = await axios.get(`${SERVER_URI}/v1/tenders/services-types`)
+      const response = await axios.get(`${SERVER_URI}/v1/tenders/objects-types`)
       if (response.status !== 200) throw response
       console.log(response)
     } catch (e) {
