@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MainBanner } from '../../components/MainBanner/MainBanner';
 import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
 import { NewsMenu } from '../../components/NewsMenu/NewsMenu';
-import { QuestionPage } from '../../components/QuestionPage/QuestionPage';
+import { QuestionsBlock } from '../../components/QuestionsBlock/QuestionsBlock';
 import { Seo } from '../../components/Seo/seo';
 import { Opportunities } from '../../components/Opportunities/Opportunities';
 import { HowToFind } from '../../components/HowToFind/HowToFind';
@@ -22,7 +22,7 @@ export const HomePage: FC = () => {
       <HowToFind />
       <TendersAdvice />
       <NewsMenu />
-      <QuestionPage />
+      <QuestionsBlock />
       <Seo />
       <Link to="/tenders">Tenders</Link>
     </div>

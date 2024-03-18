@@ -11,6 +11,10 @@
   color: var(--color-dark-text);
 }
 
+main {
+  margin-top: 110px;
+}
+
 li {
   list-style: none;
 }

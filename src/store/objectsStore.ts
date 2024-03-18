@@ -39,13 +39,13 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Производственныая недвижимость',
+      name: 'Производственная недвижимость',
       count: 564,
       image: './factory.svg',
       isActive: false,
     },
     {
-      name: 'Складскиая недвижимость',
+      name: 'Складская недвижимость',
       count: 100,
       image: './warehouse.svg',
       isActive: false,
@@ -63,9 +63,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Объект здравоохранения',
-      count: 121,
-      image: './health.svg',
+      name: 'Спортивно-оздоровительные объекты',
+      count: 10,
+      image: './sport.svg',
       isActive: false,
     },
     {
@@ -93,9 +93,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Спортивно-оздаровительные объекты',
-      count: 10,
-      image: './sport.svg',
+      name: 'Объект здравоохранения',
+      count: 121,
+      image: './health.svg',
       isActive: false,
     },
     {
@@ -124,13 +124,13 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
     });
   },
   fetchObjects: async () => {
-    set({ loading: true })
+    set({ loading: true });
     try {
-      const response = await axios.get(`${SERVER_URI}/v1/tenders/objects-types`)
-      if (response.status !== 200) throw response
-      console.log(response)
+      const response = await axios.get(`${SERVER_URI}/v1/tenders/objects-types`);
+      if (response.status !== 200) throw response;
+      console.log(response);
     } catch (e) {
-      console.log(e)
+      console.log(e);
       // let error = e
       // // custom error
       // if (e.status === 400) {
@@ -138,7 +138,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       // }
       // set({ error })
     } finally {
-      set({ loading: false })
+      set({ loading: false });
     }
-  }
+  },
 }));

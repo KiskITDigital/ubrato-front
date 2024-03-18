@@ -7,14 +7,14 @@
 }
 
 .titleblock {
-    font-size: 46px;
-    font-weight: 900;
-    margin-bottom: 22px;
-    max-width: 600;
-    margin-bottom: 20px;
-    margin-top: 40px;
-    padding-top: 50px;
-    border-top: 1px solid #E5E5E5 ; 
+  font-size: 46px;
+  font-weight: 900;
+  margin-bottom: 22px;
+  max-width: 600;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  padding-top: 50px;
+  border-top: 1px solid #e5e5e5;
 }
 
 .header {
@@ -32,24 +32,24 @@
 }
 
 .collapsedContent {
-  max-height: 90px; 
-  transition: max-height 0.5s ease-in-out; 
-  color: #595D73;
+  max-height: 90px;
+  transition: max-height 0.5s ease-in-out;
+  color: #595d73;
   font-size: 20px;
   font-weight: 500;
 }
 
 .expandedContent {
-  max-height: 500px; 
+  max-height: 500px;
   transition: max-height 0.5s ease-in-out;
-  color: #595D73;
+  color: #595d73;
   font-size: 20px;
   font-weight: 500;
 }
 
 .button {
-  background-color: #0084FF; 
-  color: #ffffff; 
+  background-color: #0084ff;
+  color: #ffffff;
   border: none;
   padding: 5px 20px;
   font-size: 16px;
@@ -63,8 +63,8 @@
 }
 
 .greytext {
-  color: #595D73;
+  color: #595d73;
   font-size: 20px;
   font-weight: 500;
-  margin-bottom: 30px
+  margin-bottom: 30px;
 }

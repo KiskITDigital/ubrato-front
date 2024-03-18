@@ -1,11 +1,11 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import styles from './questionpage.module.css';
+import styles from './questionsblock.module.css';
 import { ExpandButton } from '../ExpandButton/ExpandButton';
 import { executorQustions, generalQuestions, ordererQustions } from '../../textData/questionsData';
 import { useParams } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 
-export const QuestionPage: FC = () => {
+export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
 
   const params = useParams();
