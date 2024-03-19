@@ -14,7 +14,7 @@ export const OpportunitiesCard: FC<PropsT> = ({ image, title, text, btnText }) =
     <div className={styles.container}>
       <div className={styles.cardContent}>
         <div className={styles.header}>
-          <img src={image} alt="pic" />
+          <img className={styles.image} src={image} alt="pic" />
           <h3>{title}</h3>
         </div>
         <p className={styles.cardText}>{text}</p>

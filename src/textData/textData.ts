@@ -30,13 +30,13 @@ export const Orderer: OpportunitiesInfoT[] = [
   {
     title: 'Тендер',
     text: 'Создайте тендер, если хотите выбрать лучшее предложение среди откликов на вашу задачу',
-    image: './tender-red.svg',
+    image: './tender.svg',
     btnText: 'Создать тендер',
   },
   {
     title: 'Каталог',
     text: 'Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям',
-    image: './catalog-purple.svg',
+    image: './catalog-ic.svg',
     btnText: 'Найти исполнителя',
   },
 ];

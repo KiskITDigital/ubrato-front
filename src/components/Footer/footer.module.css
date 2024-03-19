@@ -26,11 +26,7 @@
 
 .column {
 	width: 222px;
-	height: 215px;
-	margin-top: 30px;
-	float: left;
-	margin-right: 60px;
-	margin-bottom: 30px;
+	height: fit-content;
 }
 
 .headercolumn {
@@ -67,6 +63,14 @@
 	margin-bottom: 30px;
 	padding-top: 30px;
 	border-top: 1px solid #E5E5E5;
+	margin-top: 30px;
+}
+
+.footerUnder {
+	height: fit-content;
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .confidental {

@@ -25,41 +25,41 @@
   color: var(--color-blue-primary);
 }
 
-.contentWrapper {
+.content {
+  color: #595d73;
+  font-size: 20px;
+  font-weight: 500;
+  position: relative;
   overflow: hidden;
-  max-height: 100%;
-  transition: max-height 0.5s ease-in-out;
+  height: 226px;
+  transition: height 0.3s ease;
 }
 
-.collapsedContent {
-  max-height: 90px;
-  transition: max-height 0.5s ease-in-out;
-  color: #595d73;
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.expandedContent {
-  max-height: 500px;
-  transition: max-height 0.5s ease-in-out;
-  color: #595d73;
-  font-size: 20px;
-  font-weight: 500;
+.contentHidden {
+  height: 113px;
+  transition: height 0.3s ease;
 }
 
 .button {
-  background-color: #0084ff;
-  color: #ffffff;
-  border: none;
-  padding: 5px 20px;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  width: 100%;
+  height: 113px;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  transition: background 0.3s ease;
 }
 
-.button:hover {
-  background-color: #003d82;
+.gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, #ffffff 100%);
+  height: 113px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  transition: bottom 0.5s ease;
+}
+
+.active {
+  bottom: -113px;
 }
 
 .greytext {

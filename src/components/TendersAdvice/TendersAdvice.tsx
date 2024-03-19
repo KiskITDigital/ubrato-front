@@ -1,28 +1,22 @@
-import { Carousel } from 'antd';
-import { CarouselProps } from 'antd/es/carousel';
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { ArrowControl } from '../ArrowControl/ArrowControl';
 import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../store/isOrdererStore';
 import { Link } from 'react-router-dom';
+import useEmblaCarousel from 'embla-carousel-react';
 
 export const TendersAdvice: FC = () => {
   const isOrdererState = useIsOrdererState();
 
-  const settings: CarouselProps = {
-    arrows: true,
-    dots: false,
-    draggable: true,
-    nextArrow: <ArrowControl image="./arrow-right.svg" />,
-    prevArrow: <ArrowControl image="./arrow-left.svg" />,
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '1230px',
-    },
-    speed: 600,
-  };
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -38,20 +32,46 @@ export const TendersAdvice: FC = () => {
         </p>
       </div>
       <div className={styles.carouselContainer}>
-        <Carousel {...settings}>
-          <div style={{ width: '1130px' }} className={styles.carouselItem}>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4</div>
+        <div className="embla">
+          <div className="embla__viewport" ref={emblaRef}>
+            <div className={`embla__container `}>
+              <div className="embla__slide">
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                </div>
+              </div>
+              <div className="embla__slide">
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                </div>
+              </div>
+            </div>
           </div>
-          <div style={{ width: '1130px' }} className={styles.carouselItem}>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7</div>
-            <div>{isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8</div>
-          </div>
-        </Carousel>
+          <button className="embla__prev" onClick={scrollPrev}>
+            <ArrowControl image="./arrow-left.svg" />
+          </button>
+          <button className="embla__next" onClick={scrollNext}>
+            <ArrowControl image="./arrow-right.svg" />
+          </button>
+        </div>
       </div>
       <div className={styles.btnContainer}>
         <Link to="/tenders" className={styles.btn}>

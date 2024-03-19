@@ -58,7 +58,7 @@ export const ExecutorsCatalog: FC = () => {
               <img
                 src="./arrow-down.svg"
                 alt="arrow"
-                style={{ transform: isShown ? 'rotate(180deg)' : '' }}
+                style={{ transform: isShown ? 'rotate(180deg)' : 'none' }}
               />
               <p>{showBtnText}</p>
             </button>

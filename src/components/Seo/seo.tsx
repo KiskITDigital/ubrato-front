@@ -17,14 +17,12 @@ export const Seo: FC = () => {
         <h2 className={styles.titleblock}>
           <span className={styles.blueText}>Seo </span>Заголовок
         </h2>
-        <div className={styles.contentWrapper}>
-          <p className={isCollapsed ? styles.collapsedContent : styles.expandedContent}>
-            {content}
-          </p>
-        </div>
-        <button className={styles.button} onClick={() => setIsCollapsed(!isCollapsed)}>
-          {isCollapsed ? 'Показать весь текст' : 'Скрыть текст'}
-        </button>
+        <p className={`${styles.content} ${isCollapsed ? styles.contentHidden : ''}`}>
+          {content}
+          <button className={`${styles.button}`} onClick={() => setIsCollapsed(!isCollapsed)}>
+            <div className={`${styles.gradient} ${!isCollapsed ? styles.active : ''}`}></div>
+          </button>
+        </p>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from './NewsMenu.module.css'; // Make sure to create a corresponding CSS module file
+import styles from './newsblock.module.css';
 
 interface NewsItemProps {
   date: string;
@@ -7,9 +7,9 @@ interface NewsItemProps {
   imageSrc: string;
 }
 
-const NewsItem: FC<NewsItemProps> = ({ date, text, imageSrc }) => (
+const NewsItem: FC<NewsItemProps> = ({ date, text }) => (
   <div className={styles.newsItem}>
-    <img src={imageSrc} alt="News" className={styles.newsImage} />
+    {/* <img src={imageSrc} alt="News" className={styles.newsImage} /> */}
     <div className={styles.blockcontent}>
       <div className={styles.blockdate}>{date}</div>
       <div className={styles.blocktext}>{text}</div>
@@ -17,7 +17,7 @@ const NewsItem: FC<NewsItemProps> = ({ date, text, imageSrc }) => (
   </div>
 );
 
-export const NewsMenu: FC = () => (
+export const NewsBlock: FC = () => (
   <div className={`container ${styles.container}`}>
     <div className={styles.newsBlock}>
       <h2 className={styles.header}>

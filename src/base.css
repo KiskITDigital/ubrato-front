@@ -19,6 +19,48 @@ li {
   list-style: none;
 }
 
+.embla {
+  overflow: hidden;
+  position: relative;
+}
+
+.embla__viewport {
+  width: 1230px;
+  padding: 0 50px;
+}
+
+.embla__next {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 44px);
+}
+
+.embla__prev {
+  position: absolute;
+  left: 0;
+  top: calc(50% - 44px);
+}
+.embla__container {
+  display: flex;
+  width: 1130px;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.embla__slide:not(:last-child) {
+  margin-right: 200px;
+}
+
+.embla__slide {
+  margin-left: 200px;
+}
+
 /* .ant-collapse-item-active div:first-child > span {
   position: relative;
 }
