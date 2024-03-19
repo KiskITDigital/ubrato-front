@@ -10,7 +10,7 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "serve": "NODE_ENV=production node server"
+    "serve": "SSR_PORT=5174 NODE_ENV=production node server"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.10",

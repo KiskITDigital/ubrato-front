@@ -65,7 +65,9 @@ const createServer = async () => {
     }
   })
 
-  app.listen(5174)
+  const PORT = process.env.SSR_PORT || 5174;
+
+  app.listen(PORT)
 }
 
 createServer().then(() => {
