@@ -15,13 +15,13 @@ export const Executor: OpportunitiesInfoT[] = [
   {
     title: 'Тендер',
     text: 'Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену',
-    image: './tender-red.svg',
+    image: './tender.svg',
     btnText: 'Найти тендер',
   },
   {
     title: 'Портфолио',
     text: 'Расскажите о возможностях и приемуществах вашей компании, получайте предложения от заказчиков',
-    image: './catalog-purple.svg',
+    image: './catalog-ic.svg',
     btnText: 'Создать портфолио',
   },
 ];
