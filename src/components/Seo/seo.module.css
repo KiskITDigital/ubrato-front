@@ -6,6 +6,11 @@
   margin-bottom: 20px;
 }
 
+.container {
+  position: absolute;
+  z-index: -1;
+}
+
 .titleblock {
   font-size: 46px;
   font-weight: 900;
@@ -14,7 +19,8 @@
   margin-bottom: 20px;
   margin-top: 40px;
   padding-top: 50px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #fff;
+  color: #fff;
 }
 
 .header {
@@ -22,11 +28,11 @@
 }
 
 .blueText {
-  color: var(--color-blue-primary);
+  color: #fff;
 }
 
 .content {
-  color: #595d73;
+  color: #fff;
   font-size: 20px;
   font-weight: 500;
   position: relative;
@@ -63,7 +69,7 @@
 }
 
 .greytext {
-  color: #595d73;
+  color: #fff;
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 30px;
