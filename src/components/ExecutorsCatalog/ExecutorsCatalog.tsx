@@ -27,10 +27,12 @@ export const ExecutorsCatalog: FC = () => {
   }, [isShown, objectsStore.objects.length]);
 
   const fetchObjects = objectsStore.fetchObjects
+  const fetchCleaningTypes = typeCleaningStore.fetchCleaningTypes
 
   useEffect(() => {
     fetchObjects();
-  }, [fetchObjects]);
+    fetchCleaningTypes()
+  }, [fetchCleaningTypes, fetchObjects]);
 
   const count = 200;
 

@@ -24,6 +24,7 @@
 .text {
   color: var(--color-black-60);
   font-size: 14px;
+  height: 21px;
 }
 
 .textContent {

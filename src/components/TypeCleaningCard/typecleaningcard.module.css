@@ -15,6 +15,7 @@
   background-origin: content-box;
   background-repeat: no-repeat;
   background-position-x: calc(100%);
+  border: 1px solid var(--color-blue-primary);
 }
 
 .textContent {
@@ -26,7 +27,6 @@
 }
 
 .active {
-  border: 1px solid var(--color-blue-primary);
   box-shadow: 0 4px 0 0 var(--color-blue-primary);
 }
 
