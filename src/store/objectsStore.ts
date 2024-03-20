@@ -132,8 +132,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       if (activeIx !== -1) {
         state.objects[activeIx].isActive = false;
         state.objects[ix].isActive = true;
-      } else if (activeIx === ix) {
-        state.objects[ix].isActive = false;
+        if (activeIx === ix) {
+          state.objects[ix].isActive = false;
+        }
       } else {
         state.objects[ix].isActive = true;
       }

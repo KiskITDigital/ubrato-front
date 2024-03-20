@@ -128,8 +128,9 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
       if (activeIx !== -1) {
         state.types[activeIx].isActive = false;
         state.types[ix].isActive = true;
-      } else if (activeIx === ix) {
-        state.types[ix].isActive = false;
+        if (activeIx === ix) {
+          state.types[ix].isActive = false;
+        }
       } else {
         state.types[ix].isActive = true;
       }
