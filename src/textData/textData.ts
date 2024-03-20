@@ -15,13 +15,13 @@ export const Executor: OpportunitiesInfoT[] = [
   {
     title: 'Тендер',
     text: 'Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену',
-    image: './tender.svg',
+    image: './respond-for-tender.svg',
     btnText: 'Найти тендер',
   },
   {
     title: 'Портфолио',
     text: 'Расскажите о возможностях и приемуществах вашей компании, получайте предложения от заказчиков',
-    image: './catalog-ic.svg',
+    image: './portfolio.svg',
     btnText: 'Создать портфолио',
   },
 ];
@@ -66,12 +66,12 @@ export const executorCardList: HowToFindCardT[] = [
     text: 'Укажите ИНН юридического лица и контактные данные',
   },
   {
-    img: './blue-ten-ic.svg',
+    img: './portfolio.svg',
     title: 'Создайте портфолио',
     text: 'Расскажите о возможностях и преимуществах вашей компании',
   },
   {
-    img: './executor-ic.svg',
+    img: './win-tenders.svg',
     title: 'Побеждайте в тендерах',
     text: 'Предлагайте лучшие условия, общайтесь с заказчиками и зарабатывайте',
   },
