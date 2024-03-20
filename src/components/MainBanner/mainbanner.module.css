@@ -75,3 +75,35 @@
   display: flex;
   gap: 3px;
 }
+
+.embla {
+  overflow: hidden;
+  position: relative;
+}
+
+.embla__viewport {
+  width: 1130px;
+}
+
+.embla__container {
+  display: flex;
+  width: 1130px;
+}
+
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.embla__slide:not(:last-child) {
+  margin-right: 200px;
+}
+
+.embla__slide {
+  margin-left: 200px;
+}
+
+.slide2 {
+  height: 449px;
+  background-color: var(--color-blue-primary);
+}

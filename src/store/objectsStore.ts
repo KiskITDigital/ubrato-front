@@ -119,7 +119,23 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   ],
   handleActive(ix) {
     set((state) => {
-      state.objects[ix].isActive = !state.objects[ix].isActive;
+      let activeIx = -1;
+
+      state.objects.every((e, ixc) => {
+        if (e.isActive) {
+          activeIx = ixc;
+          return false;
+        }
+        return true;
+      });
+
+      if (activeIx !== -1) {
+        state.objects[activeIx].isActive = false;
+        state.objects[ix].isActive = true;
+      } else {
+        state.objects[ix].isActive = true;
+      }
+
       return { objects: state.objects };
     });
   },
