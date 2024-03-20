@@ -6,7 +6,7 @@ import Autoplay from 'embla-carousel-autoplay';
 
 export const MainBanner: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
-    Autoplay({ playOnInit: true, delay: 3000 }),
+    Autoplay({ playOnInit: false, delay: 300000 }),
   ]);
 
   const [isPlaying, setIsPlaying] = useState(true);
@@ -27,7 +27,7 @@ export const MainBanner: FC = () => {
   }, [emblaApi, isPlaying]);
 
   return (
-    <div className={`container`}>
+    <div className={`container ${styles.mobileContainer}`}>
       <div className={`${styles.embla}`}>
         <div className={`${styles.embla__viewport}`} ref={emblaRef}>
           <div className={styles.embla__container}>

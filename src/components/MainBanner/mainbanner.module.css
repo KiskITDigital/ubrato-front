@@ -107,3 +107,108 @@
   height: 449px;
   background-color: var(--color-blue-primary);
 }
+
+@media screen and (width < 450px) {
+  .header {
+    font-size: 30px;
+    text-align: center;
+    max-width: 359px;
+    margin-top: 32px;
+  }
+
+  .embla {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .embla__viewport {
+    width: 390px;
+  }
+
+  .embla__container {
+    display: flex;
+    width: 390px;
+  }
+
+  .embla__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    max-width: 390px;
+  }
+
+  .embla__slide:not(:last-child) {
+    margin-right: calc((100vw - 390px) / 2);
+  }
+
+  .embla__slide {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .exampleSearch {
+    color: var(--color-text-gray);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .exampleSearchLink {
+    text-decoration: underline;
+  }
+
+  .exampleSearchContainer {
+    margin-top: 5px;
+    display: flex;
+    gap: 3px;
+  }
+
+  .createTenderInput {
+    width: 221px;
+    padding: 11px 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .createTenderInput::placeholder {
+    color: var(--color-dark-text);
+  }
+
+  .createTenderBtn {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-white);
+  }
+
+  .createTender {
+    padding: 4px 22px 4px 4px;
+    background-color: var(--color-blue-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .image {
+    display: none;
+  }
+
+  .mobileContainer {
+    width: 100vw;
+  }
+
+  .agregator {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .slide2 {
+    height: 210px;
+  }
+}

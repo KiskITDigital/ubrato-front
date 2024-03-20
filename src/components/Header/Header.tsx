@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const Header: FC = () => {
   return (
     <header className={`${styles.container}`}>
-      <div className='container'>
+      <div className={`container ${styles.mobileContainer}`}>
         <div className={styles.headerTop}>
           <Link to="/">
             <img src="./logo.svg" alt="logo" />

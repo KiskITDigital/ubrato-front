@@ -19,107 +19,21 @@ li {
   list-style: none;
 }
 
-.embla {
-  overflow: hidden;
-  position: relative;
-}
-
-.embla__viewport {
-  width: 1230px;
-  padding: 0 50px;
-}
-
-.embla__next {
-  position: absolute;
-  right: 0;
-  top: calc(50% - 44px);
-}
-
-.embla__prev {
-  position: absolute;
-  left: 0;
-  top: calc(50% - 44px);
-}
-.embla__container {
-  display: flex;
-  width: 1130px;
-}
-.embla__slide {
-  flex: 0 0 100%;
-  min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 30px;
-}
-
-.embla__slide:not(:last-child) {
-  margin-right: 200px;
-}
-
-.embla__slide {
-  margin-left: 200px;
-}
-
-/* .ant-collapse-item-active div:first-child > span {
-  position: relative;
-}
-
-.ant-collapse-item-active div:first-child > span > p {
-  align-self: flex-start !important;
-  margin-bottom: 20px;
-  position: absolute;
-  margin-top: 9.285px;
-	height: 31.43px;
-} */
-
-/* .ant-collapse-header {
-  transition: none;
-} */
-
-/* @font-face {
-  font-family: 'GTEestiPro';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/GTEestiProText-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GTEestiPro';
-  font-style: italic;
-  font-weight: 400;
-  src: url('./fonts/GTEestiProText-RegularItalic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GTEestiPro';
-  font-style: normal;
-  font-weight: 500;
-  src: url('./fonts/GTEestiProText-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GTEestiPro';
-  font-style: italic;
-  font-weight: 500;
-  src: url('./fonts/GTEestiProText-MediumItalic.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GTEestiPro';
-  font-style: normal;
-  font-weight: 700;
-  src: url('./fonts/GTEestiProText-Bold.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'GTEestiPro';
-  font-style: italic;
-  font-weight: 700;
-  src: url('./fonts/GTEestiProText-BoldItalic.woff2') format('woff2');
-} */
-
 .container {
   width: 1130px;
   margin: 0 auto;
 }
+
+@media screen and (width < 450px) {
+  .container {
+    width: 390px;
+  }
+
+  main {
+    margin-top: 65.5px;
+  }
+}
+
+/* #root {
+  overflow: hidden;
+} */

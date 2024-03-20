@@ -135,7 +135,7 @@
   align-items: center;
   justify-content: center;
   min-width: 50px;
-  background-color: var(--color-gray);
+  background-color: var(--color-light-gray);
   border-radius: 20px;
   outline: none;
 }

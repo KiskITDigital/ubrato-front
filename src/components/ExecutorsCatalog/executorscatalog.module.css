@@ -58,7 +58,7 @@
   display: flex;
   justify-content: center;
   border-radius: 10px;
-  background-color: var(--color-gray);
+  background-color: var(--color-light-gray);
   padding: 8px;
 }
 
@@ -187,4 +187,26 @@
 .findExecutorBtn > img {
   width: 24px;
   height: 24px;
+}
+
+@media screen and (width < 450px) {
+  .header {
+    font-size: 30px;
+    margin-top: 30px;
+  }
+
+  .text {
+    font-size: 14.5px;
+    line-height: 20px;
+    max-width: 360px;
+    font-weight: 600;
+  }
+
+  .objectsGrid {
+    display: flex;
+    width: calc(100vw - 15px);
+    margin-left: 15px;
+    overflow-x: scroll;
+    height: fit-content;
+  }
 }

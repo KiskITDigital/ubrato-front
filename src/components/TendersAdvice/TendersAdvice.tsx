@@ -32,10 +32,10 @@ export const TendersAdvice: FC = () => {
         </p>
       </div>
       <div className={styles.carouselContainer}>
-        <div className="embla">
-          <div className="embla__viewport" ref={emblaRef}>
-            <div className={`embla__container`}>
-              <div className="embla__slide">
+        <div className={styles.embla}>
+          <div className={styles.embla__viewport} ref={emblaRef}>
+            <div className={styles.embla__container}>
+              <div className={styles.embla__slide}>
                 <div className={styles.slide_item}>
                   {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
                 </div>
@@ -49,7 +49,7 @@ export const TendersAdvice: FC = () => {
                   {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
                 </div>
               </div>
-              <div className="embla__slide">
+              <div className={styles.embla__slide}>
                 <div className={styles.slide_item}>
                   {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
                 </div>
@@ -65,10 +65,10 @@ export const TendersAdvice: FC = () => {
               </div>
             </div>
           </div>
-          <button className="embla__prev" onClick={scrollPrev}>
+          <button className={styles.embla__prev} onClick={scrollPrev}>
             <ArrowControl image="./arrow-left.svg" />
           </button>
-          <button className="embla__next" onClick={scrollNext}>
+          <button className={styles.embla__next} onClick={scrollNext}>
             <ArrowControl image="./arrow-right.svg" />
           </button>
         </div>

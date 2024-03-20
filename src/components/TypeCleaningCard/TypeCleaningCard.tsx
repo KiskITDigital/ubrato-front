@@ -21,7 +21,7 @@ export const TypeCleaningCard: FC<PropsT> = ({ info, changeActive, ix }) => {
       <div className={styles.textContent}>
         <p className={styles.header}>{info.name}</p>
         <p className={styles.text}>
-          {info.count} {countTransform(info.count)}
+          {info.count === -1 ? '' : `${info.count} ${countTransform(info.count)}`}
         </p>
       </div>
     </div>

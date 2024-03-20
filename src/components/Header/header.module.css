@@ -92,3 +92,47 @@
   color: var(--color-dark-text);
   font-weight: 400;
 }
+
+@media screen and (width < 450px) {
+  .navLinksList {
+    display: none;
+  }
+
+  .headerTopLinks {
+    display: none;
+  }
+
+  .headerTop {
+    width: fit-content;
+  }
+
+  .headerBottom {
+    width: fit-content;
+  }
+
+  .mobileContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .registrationText {
+    font-size: 12px;
+  }
+
+  .loginText {
+    font-size: 12px;
+  }
+
+  .navLink > img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .loginLink {
+    padding: 5px 10px;
+  }
+
+  .registrationLink {
+    padding: 5px 10px;
+  }
+}

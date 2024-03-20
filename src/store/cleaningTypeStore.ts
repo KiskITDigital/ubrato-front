@@ -30,84 +30,84 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
   types: [
     {
       name: 'Генеральная уборка',
-      count: 983,
+      count: -1,
       image: './general-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
-      name: 'Регулярная уборка',
-      count: 564,
+      name: 'Ежедневная уборка',
+      count: -1,
       image: './regular-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Поддерживающая уборка',
-      count: 100,
+      count: -1,
       image: './supporting-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
-      name: 'Комплексная уборка',
-      count: 928,
+      name: 'Интенсивная уборка',
+      count: -1,
       image: './complex-cleaning.png',
       isActive: false,
       padding: 0,
     },
     {
       name: 'Уборка после ремонта',
-      count: 764,
+      count: -1,
       image: './cleaning-after-renovation.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Уборка офиса',
-      count: 121,
+      count: -1,
       image: './office-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Уборка ТЦ',
-      count: 1306,
+      count: -1,
       image: './shop-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Уборка склада',
-      count: 10,
+      count: -1,
       image: './warehouse-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
-      name: 'Уборка территории',
-      count: 10,
+      name: 'Уборка прилегающей территории',
+      count: -1,
       image: './territory-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Вывоз строительного мусора',
-      count: 10,
+      count: -1,
       image: './building-garbage-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Вывоз бытового мусора',
-      count: 10,
+      count: -1,
       image: './everyday-garbage-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Зимняя уборка',
-      count: 10,
+      count: -1,
       image: './snow-cleaning.png',
       isActive: false,
       padding: 10,
@@ -154,6 +154,13 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
       set((state) => {
         state.types.forEach((e) => {
           state.apiCleaningTypes.forEach((o) => {
+            if (o.name === 'Вывоз') {
+              o.types.forEach((j) => {
+                if (e.name.toUpperCase().includes(j.name.toUpperCase())) {
+                  e.count = j.count;
+                }
+              });
+            }
             o.types.forEach((j) => {
               if (j.name === e.name) {
                 e.count = j.count;
