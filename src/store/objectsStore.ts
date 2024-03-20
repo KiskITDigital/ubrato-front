@@ -63,7 +63,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Спортивно-оздоровительные объекты',
+      name: 'Спортивные объекты',
       count: -1,
       image: './sport.svg',
       isActive: false,
@@ -155,6 +155,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       set((state) => {
         state.objects.forEach((e) => {
           state.apiObjects.forEach((o) => {
+            if (e.name === 'Спортивные объекты' && o.name === 'Спортивно-оздоровительные объекты') {
+              e.count = o.total;
+            }
             if (e.name === o.name) {
               e.count = o.total;
             }
