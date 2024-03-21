@@ -17,14 +17,12 @@ export const Header: FC = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    // console.log(token);
     if (token !== null) {
       fetchUser(token);
     }
   }, [fetchUser]);
 
   useEffect(() => {
-    console.log(window.outerWidth);
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }

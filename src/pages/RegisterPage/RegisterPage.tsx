@@ -122,24 +122,6 @@ export const RegisterPage: FC = () => {
           />
         </div>
         <p>Укажите данные компании</p>
-        <div className={styles.inputContainer}>
-          <Input
-            id="inn"
-            name="inn"
-            label="ИНН"
-            type="number"
-            value={
-              typeof formik.values.inn == 'number'
-                ? formik.values.inn.toString()
-                : formik.values.inn
-            }
-            onChange={formik.handleChange}
-            placeholder="ИНН"
-            isInvalid={Boolean(formik.errors.inn)}
-            errorMessage={formik.errors.inn}
-            classNames={itemClasses}
-          />
-        </div>
         <p>Укажите контактное лицо</p>
         <div className={styles.inputContainer}>
           <Input

@@ -128,7 +128,7 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
     try {
       const response = await axios.get(`${SERVER_URI}/v1/tenders/services-types`);
       if (response.status !== 200) throw response;
-      console.log(response);
+      // console.log(response);
       set((state) => {
         state.apiCleaningTypes = response.data.groups;
         return { apiCleaningTypes: state.apiCleaningTypes };

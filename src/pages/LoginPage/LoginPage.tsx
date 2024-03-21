@@ -5,6 +5,7 @@ import axios from 'axios';
 import { SERVER_URI } from '../../utils/serverURI';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
+axios.defaults.withCredentials = true
 
 export const LoginPage: FC = () => {
   const initialValues: LoginFormValuesT = {

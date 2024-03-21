@@ -14,7 +14,6 @@ export const TypeCleaningCard: FC<PropsT> = ({ info, changeActive, ix }) => {
   const widthR = useRef<number | null>(width);
 
   useEffect(() => {
-    console.log(window.outerWidth);
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }

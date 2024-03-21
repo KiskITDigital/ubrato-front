@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { UserInfoT } from '../types/app';
 import { SERVER_URI } from '../utils/serverURI';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+axios.defaults.withCredentials = true;
 
 interface UserInfoState {
   user: UserInfoT;
@@ -27,22 +28,20 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
   fetchUser: async (token) => {
     set({ loading: true });
     try {
-      // const response = await axios.post(
-      //   `${SERVER_URI}/v1/users/me`,
-      //   {},
-      //   { headers: { authorization: token } }
-      // );
-      // if (response.status !== 200) throw response;
-      // console.log(response);
-      console.log(token);
+      const response = await axios.get(`${SERVER_URI}/v1/users/me`, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      if (response.status !== 200) throw response;
+      console.log(response);
     } catch (e) {
-      console.log(e);
-      // let error = e
-      // // custom error
-      // if (e.status === 400) {
-      //   error = await e.json()
-      // }
-      // set({ error })
+      if (e instanceof AxiosError) {
+        console.log(e.response?.status);
+        if (e.response?.status === 401) {
+          const resp2 = await axios.get(`${SERVER_URI}/v1/auth/refresh`);
+          console.log(1);
+          console.log(resp2);
+        }
+      }
     } finally {
       set({ loading: false });
     }

@@ -147,7 +147,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
     try {
       const response = await axios.get(`${SERVER_URI}/v1/tenders/objects-types`);
       if (response.status !== 200) throw response;
-      console.log(response);
+      // console.log(response);
       set((state) => {
         state.apiObjects = response.data.groups;
         return { apiObjects: state.apiObjects };
