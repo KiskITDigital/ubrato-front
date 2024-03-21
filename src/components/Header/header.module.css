@@ -97,6 +97,7 @@
 
   .container {
     height: 65px;
+    justify-content: center;
   }
 
   .navLinksList {
