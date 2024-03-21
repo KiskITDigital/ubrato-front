@@ -208,5 +208,89 @@
     margin-left: 15px;
     overflow-x: scroll;
     height: fit-content;
+    margin-bottom: 0;
+  }
+
+  .mobileBorder {
+    border-top: 1px dashed rgba(0, 0, 0, 0.14);
+    position: relative;
+    padding-top: 19px;
+    margin-top: 25px;
+  }
+
+  .btnContainer {
+    display: none;
+  }
+
+  .cleaningTypeGrid {
+    display: flex;
+    overflow-x: scroll;
+    height: fit-content;
+    gap: 15px;
+    padding-bottom: 10px;
+  }
+
+  .allTenderLink {
+    padding: 10px 15px;
+    height: 90px;
+  }
+
+  .allTenderHeader {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .allTenderCount {
+    font-size: 12px;
+  }
+
+  .whereToClean {
+    font-size: 12px;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    width: fit-content;
+    top: -10.5px;
+    background-color: var(--color-white);
+    left: calc(50vw - 98px);
+  }
+
+  .dasshedBorder {
+    padding-bottom: 16.5px;
+    position: relative;
+  }
+
+  .cleanType {
+    font-size: 12px;
+    margin: 0;
+    padding: 0 15px;
+    background-color: var(--color-white);
+    position: absolute;
+    top: -30.5px;
+    left: calc(50vw - 81.125px);
+  }
+
+  .executorsCount {
+    display: none;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .countExecutorsText {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+  }
+
+  .findExecutorBtn {
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 390px;
+    font-weight: 700;
+    font-size: 14px;
   }
 }

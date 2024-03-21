@@ -28,3 +28,15 @@ export interface LoginFormValuesT {
   email: string;
   password: string;
 }
+
+export interface UserInfoT {
+  id: string;
+  email: string;
+  phone: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  verified: boolean;
+  role: number;
+  created_at: string;
+}

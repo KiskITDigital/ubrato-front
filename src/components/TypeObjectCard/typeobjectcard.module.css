@@ -48,4 +48,9 @@
   .container {
     padding: 10px 15px;
   }
+
+  .header {
+    font-size: 12px;
+    font-weight: 700;
+  }
 }

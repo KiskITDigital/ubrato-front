@@ -94,6 +94,11 @@
 }
 
 @media screen and (width < 450px) {
+
+  .container {
+    height: 65px;
+  }
+
   .navLinksList {
     display: none;
   }
@@ -103,6 +108,7 @@
   }
 
   .headerTop {
+    margin: 0;
     width: fit-content;
   }
 
@@ -113,6 +119,7 @@
   .mobileContainer {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   .registrationText {

@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { ArrowControl } from '../ArrowControl/ArrowControl';
 import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../store/isOrdererStore';
@@ -18,6 +18,16 @@ export const TendersAdvice: FC = () => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
+  const width: number | null = null;
+  const widthR = useRef<number | null>(width);
+
+  useEffect(() => {
+    console.log(window.outerWidth);
+    if (window.outerWidth <= 450) {
+      widthR.current = window.outerHeight;
+    }
+  }, []);
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
@@ -32,46 +42,96 @@ export const TendersAdvice: FC = () => {
         </p>
       </div>
       <div className={styles.carouselContainer}>
-        <div className={styles.embla}>
-          <div className={styles.embla__viewport} ref={emblaRef}>
-            <div className={styles.embla__container}>
-              <div className={styles.embla__slide}>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+        {!widthR.current && (
+          <div className={styles.embla}>
+            <div className={styles.embla__viewport} ref={emblaRef}>
+              <div className={styles.embla__container}>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                  </div>
                 </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
-                </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
-                </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                  </div>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                  </div>
                 </div>
               </div>
-              <div className={styles.embla__slide}>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+            </div>
+            <button className={styles.embla__prev} onClick={scrollPrev}>
+              <ArrowControl image="./arrow-left.svg" />
+            </button>
+            <button className={styles.embla__next} onClick={scrollNext}>
+              <ArrowControl image="./arrow-right.svg" />
+            </button>
+          </div>
+        )}
+        {widthR.current && (
+          <div className={styles.embla}>
+            <div className={styles.embla__viewport} ref={emblaRef}>
+              <div className={styles.embla__container}>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                  </div>
                 </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                  </div>
                 </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                  </div>
                 </div>
-                <div className={styles.slide_item}>
-                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                  </div>
+                </div>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                  </div>
+                </div>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                  </div>
+                </div>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                  </div>
+                </div>
+                <div className={styles.embla__slide}>
+                  <div className={styles.slide_item}>
+                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <button className={styles.embla__prev} onClick={scrollPrev}>
-            <ArrowControl image="./arrow-left.svg" />
-          </button>
-          <button className={styles.embla__next} onClick={scrollNext}>
-            <ArrowControl image="./arrow-right.svg" />
-          </button>
-        </div>
+        )}
       </div>
       <div className={styles.btnContainer}>
         <Link to="/tenders" className={styles.btn}>

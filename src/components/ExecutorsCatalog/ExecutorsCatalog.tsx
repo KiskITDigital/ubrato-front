@@ -36,6 +36,16 @@ export const ExecutorsCatalog: FC = () => {
 
   const count = 200;
 
+  const width: number | null = null;
+  const widthR = useRef<number | null>(width);
+
+  useEffect(() => {
+    console.log(window.outerWidth);
+    if (window.outerWidth <= 450) {
+      widthR.current = window.outerHeight;
+    }
+  }, []);
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={`${styles.dasshedBorder} ${styles.container}`}>
@@ -46,7 +56,7 @@ export const ExecutorsCatalog: FC = () => {
           Выбирайте исполнителей из каталога Ubrato в зависимости от объекта, которым вы управляете,
           или от необходимой вам услуги клининга
         </p>
-        <div>
+        <div className={styles.mobileBorder}>
           <p className={styles.whereToClean}>Укажите, где нужен клининг</p>
           <div ref={listRef} className={styles.objectsGrid}>
             {objectsStore.objects.map((e, ix) => (
@@ -91,7 +101,8 @@ export const ExecutorsCatalog: FC = () => {
         <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
         <button className={styles.findExecutorBtn}>
           Найти исполнителя
-          <img src="./arrow-with-line-right-white.svg" alt="arrow" />
+          {widthR.current?<p className={styles.countExecutorsText}> 2485</p>:''}
+          <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
         </button>
       </div>
     </div>

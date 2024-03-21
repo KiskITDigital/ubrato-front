@@ -1,14 +1,41 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
+import { useUserInfoStore } from '../../store/userInfoStore';
 
 export const Header: FC = () => {
+  const userInfoStorage = useUserInfoStore();
+
+  // if (localStorage.getItem('token') !== undefined) {
+  //   console.log(localStorage.getItem('token'))
+  // }
+
+  const width: number | null = null;
+  const widthR = useRef<number | null>(width);
+
+  const fetchUser = userInfoStorage.fetchUser;
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    // console.log(token);
+    if (token !== null) {
+      fetchUser(token);
+    }
+  }, [fetchUser]);
+
+  useEffect(() => {
+    console.log(window.outerWidth);
+    if (window.outerWidth <= 450) {
+      widthR.current = window.outerHeight;
+    }
+  }, []);
+
   return (
     <header className={`${styles.container}`}>
       <div className={`container ${styles.mobileContainer}`}>
         <div className={styles.headerTop}>
           <Link to="/">
-            <img src="./logo.svg" alt="logo" />
+            <img src={widthR.current ? './logo-mobile.svg' : './logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/">

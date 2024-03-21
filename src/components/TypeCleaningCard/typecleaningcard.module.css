@@ -42,3 +42,20 @@
 .text {
   color: var(--color-black-60);
 }
+
+@media screen and (width < 450px) {
+  .container {
+    padding: 10px 15px;
+    height: 90px;
+  }
+
+  .header {
+    font-size: 12px;
+    font-weight: 700;
+    height: fit-content;
+  }
+
+  .textContent {
+    height: 100%;
+  }
+}

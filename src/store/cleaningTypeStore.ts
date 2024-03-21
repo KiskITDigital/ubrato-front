@@ -115,25 +115,7 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
   ],
   handleActive(ix) {
     set((state) => {
-      let activeIx = -1;
-
-      state.types.every((e, ixc) => {
-        if (e.isActive) {
-          activeIx = ixc;
-          return false;
-        }
-        return true;
-      });
-
-      if (activeIx !== -1) {
-        state.types[activeIx].isActive = false;
-        state.types[ix].isActive = true;
-        if (activeIx === ix) {
-          state.types[ix].isActive = false;
-        }
-      } else {
-        state.types[ix].isActive = true;
-      }
+      state.types[ix].isActive = !state.types[ix].isActive;
 
       return { types: state.types };
     });
