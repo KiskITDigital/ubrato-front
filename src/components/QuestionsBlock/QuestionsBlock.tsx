@@ -2,13 +2,13 @@ import { FC, useEffect, useRef, useState } from 'react';
 import styles from './questionsblock.module.css';
 import { ExpandButton } from '../ExpandButton/ExpandButton';
 import { executorQustions, generalQuestions, ordererQustions } from '../../textData/questionsData';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 
 export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
 
-  const params = useParams();
+  const location = useLocation();
   const [qusetionNumber, setQuestionNumber] = useState('1');
   const [pageNumber, setPageNumber] = useState('1');
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
@@ -22,29 +22,28 @@ export const QuestionsBlock: FC = () => {
     content: styles.accordionContent,
     titleWrapper: styles.accordionTitleWrapper,
   };
-
   useEffect(() => {
-    if (params.id) {
-      if (params.id === 'faq') {
-        window.scrollTo(0, questions.current!.offsetTop);
-      } else if (params.id.includes('faq')) {
-        window.scrollTo(0, questions.current!.offsetTop);
-        setQuestionNumber(params.id.slice(-1));
-        const pageNumber = params.id.slice(9, 10);
-        setPageNumber(pageNumber);
-        if (pageNumber === '1') {
-          setQuestionArr(generalQuestions);
-        } else if (pageNumber === '2') {
-          setQuestionArr(executorQustions);
-        } else if (pageNumber === '3') {
-          setQuestionArr(ordererQustions);
+    if (location.search) {
+      setQuestionNumber(location.search.slice(-1));
+      if (location.hash) {
+        const question = document.getElementById(location.hash.slice(1));
+        if (question) {
+          if (question.previousElementSibling instanceof HTMLElement) {
+            window.scrollTo(0, question.previousElementSibling.offsetTop - 16);
+          } else {
+            window.scrollTo(0, question.offsetTop - 116);
+          }
         }
       }
+    } else if (location.pathname === '/faq') {
+      window.scrollTo(0, questions.current!.offsetTop - 116);
+    } else {
+      scrollTo(0, 0);
     }
-  }, [params]);
+  }, [location]);
 
   return (
-    <div className={`container ${styles.container}`}>
+    <div ref={questions} className={`container ${styles.container}`}>
       <h2 className={styles.header}>
         Частые вопросы про <span className={styles.blueText}>Ubrato</span>
       </h2>
@@ -52,7 +51,7 @@ export const QuestionsBlock: FC = () => {
         {' '}
         Мы постоянно пополняем базу знаний, основываясь на Ваших вопросах.{' '}
       </p>
-      <div ref={questions} className={styles.btnsblock}>
+      <div className={styles.btnsblock}>
         <button
           disabled={pageNumber === '1'}
           onClick={() => {
@@ -84,7 +83,7 @@ export const QuestionsBlock: FC = () => {
           Заказчику
         </button>
       </div>
-      <div className={styles.pageQuestion}>
+      <div id="hey" className={styles.pageQuestion}>
         <Accordion
           showDivider={false}
           className={styles.accordionWrapper}
@@ -104,7 +103,12 @@ export const QuestionsBlock: FC = () => {
         >
           {qustionsArr.map((e, ix) => {
             return (
-              <AccordionItem indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()}/>} key={ix + 1} title={e.title}>
+              <AccordionItem
+                id={`q${ix + 1}`}
+                indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()} />}
+                key={ix + 1}
+                title={e.title}
+              >
                 {e.textComponent}
               </AccordionItem>
             );

@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { UserInfoT } from '../types/app';
 import { SERVER_URI } from '../utils/serverURI';
 import axios, { AxiosError } from 'axios';
-axios.defaults.withCredentials = true;
+import { axiosInstance } from '../utils/baseHttp';
+import { refreshToken } from '../utils/refreshToken';
 
 interface UserInfoState {
   user: UserInfoT;
@@ -37,9 +38,14 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
       if (e instanceof AxiosError) {
         console.log(e.response?.status);
         if (e.response?.status === 401) {
-          const resp2 = await axios.get(`${SERVER_URI}/v1/auth/refresh`);
-          console.log(1);
-          console.log(resp2);
+          await refreshToken();
+        }
+        const newToken = localStorage.getItem('token');
+        if (newToken) {
+          const response = await axiosInstance.get(`/v1/users/me`, {
+            headers: { authorization: `Bearer ${newToken}` },
+          });
+          console.log(response);
         }
       }
     } finally {

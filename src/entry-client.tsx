@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import './base.css';
@@ -9,13 +8,12 @@ import { NextUIProvider } from '@nextui-org/react';
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <React.StrictMode>
-    <NextUIProvider>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
-    </NextUIProvider>
-  </React.StrictMode>
+
+  <NextUIProvider>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  </NextUIProvider>
 );
 
 // ReactDOM.createRoot(document.getElementById('root')!).render(
