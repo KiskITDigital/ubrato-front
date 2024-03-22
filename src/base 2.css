@@ -1,0 +1,39 @@
+@import url('./assets/colors.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Mulish';
+  text-decoration: none;
+  color: var(--color-dark-text);
+}
+
+main {
+  margin-top: 110px;
+}
+
+li {
+  list-style: none;
+}
+
+.container {
+  width: 1130px;
+  margin: 0 auto;
+}
+
+@media screen and (width < 450px) {
+  .container {
+    width: 390px;
+  }
+
+  main {
+    margin-top: 65.5px;
+  }
+}
+
+/* #root {
+  overflow: hidden;
+} */

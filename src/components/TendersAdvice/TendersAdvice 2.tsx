@@ -1,0 +1,86 @@
+import { FC, useCallback } from 'react';
+import { ArrowControl } from '../ArrowControl/ArrowControl';
+import styles from './tendersadvice.module.css';
+import { useIsOrdererState } from '../../store/isOrdererStore';
+import { Link } from 'react-router-dom';
+import useEmblaCarousel from 'embla-carousel-react';
+
+export const TendersAdvice: FC = () => {
+  const isOrdererState = useIsOrdererState();
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  return (
+    <div className={`container ${styles.container}`}>
+      <div className={styles.headerContainer}>
+        <h2 className={styles.header}>
+          {isOrdererState.isOrderer ? 'Исполнители' : 'Тендеры'}{' '}
+          <span className={styles.blueText}>Ubrato</span>
+        </h2>
+        <p className={styles.headerText}>
+          {isOrdererState.isOrderer
+            ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками поитогам выполнения тендеров'
+            : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
+        </p>
+      </div>
+      <div className={styles.carouselContainer}>
+        <div className={styles.embla}>
+          <div className={styles.embla__viewport} ref={emblaRef}>
+            <div className={styles.embla__container}>
+              <div className={styles.embla__slide}>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                </div>
+              </div>
+              <div className={styles.embla__slide}>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                </div>
+                <div className={styles.slide_item}>
+                  {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                </div>
+              </div>
+            </div>
+          </div>
+          <button className={styles.embla__prev} onClick={scrollPrev}>
+            <ArrowControl image="./arrow-left.svg" />
+          </button>
+          <button className={styles.embla__next} onClick={scrollNext}>
+            <ArrowControl image="./arrow-right.svg" />
+          </button>
+        </div>
+      </div>
+      <div className={styles.btnContainer}>
+        <Link to="/tenders" className={styles.btn}>
+          <p className={styles.btnText}>
+            {isOrdererState.isOrderer ? 'Найти исполнителя' : 'Найти тендер'}
+          </p>
+          <img src="./arrow-with-line-right-white.svg" alt="arrow" />
+        </Link>
+      </div>
+    </div>
+  );
+};

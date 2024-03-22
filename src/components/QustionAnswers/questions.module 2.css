@@ -10,11 +10,11 @@
   gap: 7px;
 }
 
-.seeAlso>p {
+.seeAlso > p {
   margin-bottom: 8px;
 }
 
-.seeAlso>a {
+.seeAlso > a {
   margin-left: 20px;
 }
 
@@ -53,8 +53,4 @@
 .container {
   z-index: 4;
   position: relative;
-}
-
-.underline {
-  text-decoration: underline;
 }

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { WhatIs } from '../components/QustionAnswers/GeneralQuestions/WhatIs/WhatIs';
 import { HowToRegister } from '../components/QustionAnswers/GeneralQuestions/HowToRegister/HowToRegister';
-import Requirements from '../components/QustionAnswers/GeneralQuestions/Requirements';
 
 export type QuestionT = {
   title: string;
@@ -21,8 +20,7 @@ export const generalQuestions: QuestionT[] = [
     title: 'Какие требования предъявляются на Ubrato к заказчикам и исполнителям при регистрации?',
     textComponent: (
       <div style={{ marginTop: '30px' }}>
-        <Requirements />
-        {/* B2B Доступ к площадке предоставлен компаниям, работающим в корпоративном сегменте
+        B2B Доступ к площадке предоставлен компаниям, работающим в корпоративном сегменте
         (business-to-business, B2B). Юрлицо На сайте Ubrato могут зарегистрироваться только
         действующие юридические лица, не находящиеся в процедуре банкротства, на стадии ликвидации и
         в процессе присоединения к другому лицу с последующей ликвидацией. В настоящее время
@@ -94,7 +92,7 @@ export const generalQuestions: QuestionT[] = [
         машин и оборудования, не включенных в другие группировки 45.00 Торговля оптовая и розничная
         автотранспортными средствами и мотоциклами и их ремонт 45.20 Техническое обслуживание и
         ремонт автотранспортных средств 45.20.3 Мойка автотранспортных средств, полирование и
-        предоставление аналогичных услуг Смотрите также: Как зарегистрироваться на сайте Ubrato? */}
+        предоставление аналогичных услуг Смотрите также: Как зарегистрироваться на сайте Ubrato?
       </div>
     ),
   },
