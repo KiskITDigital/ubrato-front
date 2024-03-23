@@ -18,9 +18,12 @@ export const Header: FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token !== null) {
+      console.log(1);
       fetchUser(token);
     }
   }, [fetchUser]);
+
+  const userinfoState = useUserInfoStore();
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
@@ -77,15 +80,18 @@ export const Header: FC = () => {
               </li>
             </ul>
           </nav>
-          <div className={styles.loginRegister}>
-            <Link to="/login" className={styles.loginLink}>
-              <img src="./login.svg" alt="login" />
-              <p className={styles.loginText}>Вход</p>
-            </Link>
-            <Link to="/register" className={styles.registrationLink}>
-              <p className={styles.registrationText}>Регистрация</p>
-            </Link>
-          </div>
+          {!userinfoState.isLoggedIn && (
+            <div className={styles.loginRegister}>
+              <Link to="/login" className={styles.loginLink}>
+                <img src="./login.svg" alt="login" />
+                <p className={styles.loginText}>Вход</p>
+              </Link>
+              <Link to="/register" className={styles.registrationLink}>
+                <p className={styles.registrationText}>Регистрация</p>
+              </Link>
+            </div>
+          )}
+          {userinfoState.isLoggedIn && <div>{userinfoState.user.first_name}</div>}
         </div>
       </div>
     </header>

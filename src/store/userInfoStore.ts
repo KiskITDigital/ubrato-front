@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { UserInfoT } from '../types/app';
-import { SERVER_URI } from '../utils/serverURI';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { axiosInstance } from '../utils/baseHttp';
 import { refreshToken } from '../utils/refreshToken';
 
@@ -10,6 +9,7 @@ interface UserInfoState {
   fetchUser: (token: string) => void;
   loading: boolean;
   error: null | string;
+  isLoggedIn: boolean;
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => ({
@@ -29,11 +29,25 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
   fetchUser: async (token) => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${SERVER_URI}/v1/users/me`, {
+      const response = await axiosInstance.get(`/v1/users/me`, {
         headers: { authorization: `Bearer ${token}` },
       });
       if (response.status !== 200) throw response;
-      console.log(response);
+      console.log(response.data);
+      set({
+        user: {
+          first_name: response.data.first_name,
+          last_name: response.data.last_name,
+          middle_name: response.data.middle_name,
+          id: response.data.id,
+          created_at: response.data.created_at,
+          phone: response.data.phone,
+          role: response.data.role,
+          verified: response.data.verified,
+          email: response.data.email,
+        },
+        isLoggedIn: true,
+      });
     } catch (e) {
       if (e instanceof AxiosError) {
         console.log(e.response?.status);
@@ -46,10 +60,15 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
             headers: { authorization: `Bearer ${newToken}` },
           });
           console.log(response);
+          if (response.status === 200) {
+            console.log(response.data);
+            // set()
+          }
         }
       }
     } finally {
       set({ loading: false });
     }
   },
+  isLoggedIn: false,
 }));
