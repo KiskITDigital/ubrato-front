@@ -5,13 +5,16 @@ import axios from 'axios';
 import { SERVER_URI } from '../../utils/serverURI';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
-axios.defaults.withCredentials = true
+import { useUserInfoStore } from '../../store/userInfoStore';
+axios.defaults.withCredentials = true;
 
 export const LoginPage: FC = () => {
   const initialValues: LoginFormValuesT = {
     email: '',
     password: '',
   };
+
+  const userInfoStore = useUserInfoStore();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible);
@@ -28,6 +31,10 @@ export const LoginPage: FC = () => {
         const res = await axios.post(`${SERVER_URI}/v1/auth/signin`, parameters);
         console.log(res);
         localStorage.setItem('token', res.data.access_token);
+        const token = localStorage.getItem('token');
+        if (token) {
+          userInfoStore.fetchUser(token);
+        }
       })();
     },
   });

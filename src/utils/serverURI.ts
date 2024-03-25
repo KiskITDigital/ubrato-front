@@ -1,1 +1,1 @@
-export const SERVER_URI:string = 'https://apiubrato.godmod.dev'
+export const SERVER_URI: string = 'https://api.ubrato.ru';

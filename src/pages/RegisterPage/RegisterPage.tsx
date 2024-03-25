@@ -1,15 +1,16 @@
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
 import { RegisterFormValuesT } from '../../types/app';
-import { Input } from '@nextui-org/react';
+import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '../../validation/registerSchema';
 import styles from './registerpage.module.css';
-import axios from 'axios';
-import { SERVER_URI } from '../../utils/serverURI';
+import { axiosInstance } from '../../utils/baseHttp';
+import { useUserInfoStore } from '../../store/userInfoStore';
 
 export const RegisterPage: FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+  const userInfoStore = useUserInfoStore();
 
   const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible);
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
@@ -46,17 +47,35 @@ export const RegisterPage: FC = () => {
         first_name: values.firstName,
         middle_name: values.middleName,
         last_name: values.lastName,
+        inn: values.inn?.toString(),
+        is_contractor: isContractor,
       };
       (async () => {
-        const res = await axios.post(`${SERVER_URI}/v1/auth/signup`, parameters);
+        const res = await axiosInstance.post(`/v1/auth/signup`, parameters);
         console.log(res);
+        const token = localStorage.getItem('token');
+        if (token) {
+          userInfoStore.fetchUser(token);
+        }
       })();
     },
     validationSchema: registerSchema,
   });
 
+  const [isContractor, setIsContractor] = useState(false);
+
+  const checkStyle = {
+    base: styles.checkBase,
+    icon: styles.checkIcon,
+    wrapper: styles.checkWrapper,
+  };
+
   return (
     <div className={`container ${styles.container}`}>
+      <p>Я - заказчик</p>
+      <Checkbox defaultSelected classNames={checkStyle} isDisabled />
+      <p>Я - исполнитель</p>
+      <Checkbox classNames={checkStyle} isSelected={isContractor} onValueChange={setIsContractor} />
       <form onSubmit={formik.handleSubmit}>
         <p>Создайте учетную запись</p>
         <div className={styles.inputContainer}>
@@ -122,6 +141,20 @@ export const RegisterPage: FC = () => {
           />
         </div>
         <p>Укажите данные компании</p>
+        <div className={styles.inputContainer}>
+          <Input
+            id="inn"
+            name="inn"
+            type="number"
+            label="ИНН"
+            value={formik.values.inn ? formik.values.inn.toString() : undefined}
+            onChange={formik.handleChange}
+            placeholder="ИНН"
+            isInvalid={Boolean(formik.errors.inn)}
+            errorMessage={formik.errors.inn}
+            classNames={itemClasses}
+          />
+        </div>
         <p>Укажите контактное лицо</p>
         <div className={styles.inputContainer}>
           <Input
