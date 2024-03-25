@@ -1,8 +1,14 @@
 import { FC } from 'react';
 import qstyles from '../../questions.module.css';
 import { Link } from 'react-router-dom';
+import { useQuestionBlock } from '../../../../store/questionsBlockStore';
+import { executorQustions, ordererQustions } from '../../../../textData/questionsData';
 
 export const HowToRegister: FC = () => {
+  const questionBlockStore = useQuestionBlock()
+
+  // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
+  const { handlePageNumber: setPageNumber, handleQuestionNumber: setQuestionNumber, handleQuestionsArr: setQuestionArr } = questionBlockStore
   return (
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
@@ -11,7 +17,7 @@ export const HowToRegister: FC = () => {
       </p>
       <p className={qstyles.title}>1. Регистрация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
-        Заполните регистрационную форму. Зарегистрироваться могут только юридические лица. В
+        Заполните <Link className={qstyles.link} to="/register">регистрационную форму</Link>. Зарегистрироваться могут только юридические лица. В
         качестве исполнителей могут регистрироваться только компании с видом деятельности,
         относящемся к клинингу или к смежным услугам.
       </p>
@@ -29,12 +35,13 @@ export const HowToRegister: FC = () => {
       </p>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
-        <Link to="/" className={qstyles.link}>
+        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('3') }}>
           Какие требования предъявляются на Ubrato к заказчикам и исполнителям при регистрации?
-        </Link>
-        <Link to="/">Как стать заказчиком?</Link>
-        <Link to="/">Как стать исполнителем?</Link>
+        </p>
+        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1'); setPageNumber('3'); setQuestionArr(ordererQustions) }}>Как стать заказчиком?</p>
+        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1'); setPageNumber('2'); setQuestionArr(executorQustions) }}>Как стать исполнителем?</p>
       </div>
+      <p className={`${qstyles.text}`}>Остались вопросы? <span onClick={() => alert('smth?')} className={`${qstyles.link}`}>Напишите телефон</span> и мы перезвоним.</p>
     </div>
   );
 };

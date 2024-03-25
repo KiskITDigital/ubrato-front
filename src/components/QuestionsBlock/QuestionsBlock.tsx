@@ -1,17 +1,26 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import styles from './questionsblock.module.css';
 import { ExpandButton } from '../ExpandButton/ExpandButton';
 import { executorQustions, generalQuestions, ordererQustions } from '../../textData/questionsData';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
+
+import { useQuestionBlock } from '../../store/questionsBlockStore';
+import { useLocation } from 'react-router-dom';
 
 export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
 
-  const params = useParams();
-  const [qusetionNumber, setQuestionNumber] = useState('1');
-  const [pageNumber, setPageNumber] = useState('1');
-  const [qustionsArr, setQuestionArr] = useState(generalQuestions);
+  const questionBlockStore = useQuestionBlock()
+
+  const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
+  const { handlePageNumber: setPageNumber, handleQuestionNumber: setQuestionNumber, handleQuestionsArr: setQuestionArr } = questionBlockStore
+  // const params = useParams();
+  const location = useLocation()
+  // const [qusetionNumber, setQuestionNumber] = useState('1');
+
+  // const [pageNumber, setPageNumber] = useState('1');
+  // const [qustionsArr, setQuestionArr] = useState(generalQuestions);
 
   const itemClasses = {
     base: `${styles.accordionItem}`,
@@ -23,25 +32,30 @@ export const QuestionsBlock: FC = () => {
     titleWrapper: styles.accordionTitleWrapper,
   };
 
+  // useEffect(() => {
+  //   if (params.id) {
+  //     if (params.id === 'faq') {
+  //       window.scrollTo(0, questions.current!.offsetTop);
+  //     } else if (params.id.includes('faq')) {
+  //       window.scrollTo(0, questions.current!.offsetTop);
+  //       setQuestionNumber(params.id.slice(-1));
+  //       const pageNumber = params.id.slice(9, 10);
+  //       setPageNumber(pageNumber);
+  //       if (pageNumber === '1') {
+  //         setQuestionArr(generalQuestions);
+  //       } else if (pageNumber === '2') {
+  //         setQuestionArr(executorQustions);
+  //       } else if (pageNumber === '3') {
+  //         setQuestionArr(ordererQustions);
+  //       }
+  //     }
+  //   }
+  // }, [params]);
   useEffect(() => {
-    if (params.id) {
-      if (params.id === 'faq') {
-        window.scrollTo(0, questions.current!.offsetTop);
-      } else if (params.id.includes('faq')) {
-        window.scrollTo(0, questions.current!.offsetTop);
-        setQuestionNumber(params.id.slice(-1));
-        const pageNumber = params.id.slice(9, 10);
-        setPageNumber(pageNumber);
-        if (pageNumber === '1') {
-          setQuestionArr(generalQuestions);
-        } else if (pageNumber === '2') {
-          setQuestionArr(executorQustions);
-        } else if (pageNumber === '3') {
-          setQuestionArr(ordererQustions);
-        }
-      }
-    }
-  }, [params]);
+    setQuestionArr(generalQuestions)
+    setPageNumber('1')
+    setQuestionNumber('1')
+  }, [setQuestionArr, setPageNumber, setQuestionNumber, location]);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -57,6 +71,7 @@ export const QuestionsBlock: FC = () => {
           disabled={pageNumber === '1'}
           onClick={() => {
             setPageNumber('1');
+            setQuestionNumber('1')
             setQuestionArr(generalQuestions);
           }}
           className={`${styles.button}`}
@@ -66,6 +81,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('2');
+            setQuestionNumber('1')
             setQuestionArr(executorQustions);
           }}
           disabled={pageNumber === '2'}
@@ -76,6 +92,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('3');
+            setQuestionNumber('1')
             setQuestionArr(ordererQustions);
           }}
           disabled={pageNumber === '3'}

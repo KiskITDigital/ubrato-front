@@ -130,11 +130,12 @@
 }
 
 .accordionIndicator {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 50px;
+  padding: 20.5px 19px;
+  /* height: 100%; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* min-width: 50px; */
   background-color: var(--color-light-gray);
   border-radius: 20px;
   outline: none;

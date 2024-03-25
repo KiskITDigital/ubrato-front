@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ObjectInfoT {
   name: string;
   count: number;
@@ -27,4 +29,9 @@ export interface RegisterFormValuesT {
 export interface LoginFormValuesT {
   email: string;
   password: string;
+}
+
+export interface QuestionT {
+  title: string;
+  textComponent: ReactNode;
 }
