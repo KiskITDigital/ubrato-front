@@ -1,14 +1,9 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
 import { Link } from "react-router-dom";
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
-import { ordererQustions } from '../../../../textData/questionsData';
 
 const Differences: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handlePageNumber: setPageNumber, handleQuestionNumber: setQuestionNumber, handleQuestionsArr: setQuestionArr } = questionBlockStore
+    
     return (
         <div className={qstyles.container}>
             <p className={`${qstyles.mt30} ${qstyles.startText}`}>Ubrato — это специализированная площадка для заказчиков и исполнителей клининговых услуг.</p>
@@ -26,9 +21,9 @@ const Differences: FC = () => {
             </p>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('5'); setPageNumber('3'); setQuestionArr(ordererQustions) }}>
+                <Link to='/faq?page=3&number=5#q3_5' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как найти и выбрать исполнителя?
-                </p>
+                </Link>
                 <Link to="/" className={qstyles.link}>Правовая информация</Link>
             </div>
         </div>

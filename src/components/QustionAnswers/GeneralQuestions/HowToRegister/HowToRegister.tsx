@@ -1,14 +1,8 @@
 import { FC } from 'react';
 import qstyles from '../../questions.module.css';
 import { Link } from 'react-router-dom';
-import { useQuestionBlock } from '../../../../store/questionsBlockStore';
-import { executorQustions, ordererQustions } from '../../../../textData/questionsData';
 
 export const HowToRegister: FC = () => {
-  const questionBlockStore = useQuestionBlock()
-
-  // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-  const { handlePageNumber: setPageNumber, handleQuestionNumber: setQuestionNumber, handleQuestionsArr: setQuestionArr } = questionBlockStore
   return (
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
@@ -17,9 +11,13 @@ export const HowToRegister: FC = () => {
       </p>
       <p className={qstyles.title}>1. Регистрация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
-        Заполните <Link className={qstyles.link} to="/register">регистрационную форму</Link>. Зарегистрироваться могут только юридические лица. В
-        качестве исполнителей могут регистрироваться только компании с видом деятельности,
-        относящемся к клинингу или к смежным услугам.
+        Заполните{' '}
+        <Link className={qstyles.link} to="/register">
+          регистрационную форму
+        </Link>
+        . Зарегистрироваться могут только юридические лица. В качестве исполнителей могут
+        регистрироваться только компании с видом деятельности, относящемся к клинингу или к смежным
+        услугам.
       </p>
       <p className={qstyles.title}>2. Верификация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
@@ -35,13 +33,23 @@ export const HowToRegister: FC = () => {
       </p>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
-        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('3') }}>
+        <Link to="/faq?page=1&number=3#q1_3" className={`${qstyles.link} ${qstyles.ml20}`}>
           Какие требования предъявляются на Ubrato к заказчикам и исполнителям при регистрации?
-        </p>
-        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1'); setPageNumber('3'); setQuestionArr(ordererQustions) }}>Как стать заказчиком?</p>
-        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1'); setPageNumber('2'); setQuestionArr(executorQustions) }}>Как стать исполнителем?</p>
+        </Link>
+        <Link to="/faq?page=3&number=1#q3_1" className={`${qstyles.link} ${qstyles.ml20}`}>
+          Как стать заказчиком?
+        </Link>
+        <Link to="/faq?page=2&number=1#q2_1" className={`${qstyles.link} ${qstyles.ml20}`}>
+          Как стать исполнителем?
+        </Link>
       </div>
-      <p className={`${qstyles.text}`}>Остались вопросы? <span onClick={() => alert('smth?')} className={`${qstyles.link}`}>Напишите телефон</span> и мы перезвоним.</p>
+      <p className={`${qstyles.text}`}>
+        Остались вопросы?{' '}
+        <span onClick={() => alert('smth?')} className={`${qstyles.link}`}>
+          Напишите телефон
+        </span>{' '}
+        и мы перезвоним.
+      </p>
     </div>
   );
 };

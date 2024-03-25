@@ -30,7 +30,7 @@
 .accordionTitleWrapper {
     align-self: flex-start;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 /* .accordionItem>h2>button>span {

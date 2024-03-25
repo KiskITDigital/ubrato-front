@@ -1,13 +1,9 @@
 import { FC } from 'react';
 import qstyles from '../../questions.module.css';
-import { useQuestionBlock } from '../../../../store/questionsBlockStore';
+import { Link } from "react-router-dom";
 
 
 const Services: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
     return (
         <div className={qstyles.container}>
             <p className={qstyles.startText}>На сайте Ubrato зарегистрированы исполнители клининговых и смежных услуг. В <span className={`${qstyles.link}`}>каталоге</span> представлены более 100 услуг, объединенных в 17 видов: </p>
@@ -33,12 +29,12 @@ const Services: FC = () => {
             <p className={qstyles.text}>При создании тендерной заявки можно выбрать несколько значений необходимых услуг.</p>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('4') }}>
+                <Link to='/faq?page=3&number=4#q3_4' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как создать тендер?
-                </p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('5') }}>
+                </Link>
+                <Link to='/faq?page=3&number=5#q3_5' className={`${qstyles.link} ${qstyles.ml20}`} >
                     Как найти и выбрать исполнителя?
-                </p>
+                </Link>
             </div>
         </div>
     );

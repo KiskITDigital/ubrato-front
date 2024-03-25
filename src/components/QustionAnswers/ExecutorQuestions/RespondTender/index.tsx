@@ -1,13 +1,9 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
 import { Link } from "react-router-dom";
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
 
 const RespondTender: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
+    
     return (
         <div className={qstyles.container}>
             <ul className={qstyles.mt20}>
@@ -20,9 +16,9 @@ const RespondTender: FC = () => {
             </ul>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1') }}>
+                <Link to='/faq?page=2&number=1#q2_1' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как стать исполнителем?
-                </p>
+                </Link>
             </div>
         </div>
     );

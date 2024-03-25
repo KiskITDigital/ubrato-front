@@ -1,15 +1,11 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
+
 import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 
 
 const CreateTender: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
     return (
         <div className={`${qstyles.container}`}>
             <ul className={`${qstyles.mb20} ${qstyles.mt20}`}>
@@ -24,9 +20,9 @@ const CreateTender: FC = () => {
             <p className={qstyles.text}>На любом этапе вы можете <Link className={qstyles.link} to="/">задать вопрос</Link> администрации Ubrato.</p>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('5') }}>
+                <Link to='/faq?page=3&number=5#q3_5' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как найти и выбрать исполнителя?
-                </p>
+                </Link>
             </div>
         </div>
     );

@@ -1,13 +1,9 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
 import { Link } from "react-router-dom";
 
 const FindAndChoose: FC = () => {
-    const questionBlockStore = useQuestionBlock()
 
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
     return (
         <div className={qstyles.container}>
             <p className={qstyles.startText}>На Ubrato есть два способа поиска исполнителя услуг:</p>
@@ -34,9 +30,9 @@ const FindAndChoose: FC = () => {
             </ul>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('4') }}>
+                <Link to='/faq?page=3&number=4#q3_4' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как создать тендер?
-                </p>
+                </Link>
             </div>
         </div>
     );

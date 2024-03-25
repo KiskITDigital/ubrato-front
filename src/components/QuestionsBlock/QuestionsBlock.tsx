@@ -9,7 +9,7 @@ export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
-  const [qusetionNumber, setQuestionNumber] = useState('1');
+  const [qusetionNumber, setQuestionNumber] = useState('');
   const [pageNumber, setPageNumber] = useState('1');
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
 
@@ -25,22 +25,36 @@ export const QuestionsBlock: FC = () => {
   useEffect(() => {
     if (location.search) {
       setQuestionNumber(location.search.slice(-1));
-      if (location.hash) {
-        const question = document.getElementById(location.hash.slice(1));
-        if (question) {
-          if (question.previousElementSibling instanceof HTMLElement) {
-            window.scrollTo(0, question.previousElementSibling.offsetTop - 16);
-          } else {
-            window.scrollTo(0, question.offsetTop - 116);
+      setPageNumber(location.search.slice(6, 7));
+      setTimeout(() => {
+        if (location.hash) {
+          const question = document.getElementById(location.hash.slice(1));
+          if (question) {
+            if (question.previousElementSibling instanceof HTMLElement) {
+              window.scrollTo(0, question.previousElementSibling.offsetTop - 16);
+            } else {
+              window.scrollTo(0, question.offsetTop - 116);
+            }
+            // window.scrollTo(0, question.offsetTop - 116);
           }
         }
-      }
+      }, 300);
     } else if (location.pathname === '/faq') {
       window.scrollTo(0, questions.current!.offsetTop - 116);
     } else {
       scrollTo(0, 0);
     }
   }, [location]);
+
+  useEffect(() => {
+    if (pageNumber === '1') {
+      setQuestionArr(generalQuestions);
+    } else if (pageNumber === '2') {
+      setQuestionArr(executorQustions);
+    } else if (pageNumber === '3') {
+      setQuestionArr(ordererQustions);
+    }
+  }, [pageNumber]);
 
   return (
     <div ref={questions} className={`container ${styles.container}`}>
@@ -56,7 +70,7 @@ export const QuestionsBlock: FC = () => {
           disabled={pageNumber === '1'}
           onClick={() => {
             setPageNumber('1');
-            setQuestionNumber('1')
+            setQuestionNumber('1');
             setQuestionArr(generalQuestions);
           }}
           className={`${styles.button}`}
@@ -66,7 +80,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('2');
-            setQuestionNumber('1')
+            setQuestionNumber('1');
             setQuestionArr(executorQustions);
           }}
           disabled={pageNumber === '2'}
@@ -77,7 +91,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('3');
-            setQuestionNumber('1')
+            setQuestionNumber('1');
             setQuestionArr(ordererQustions);
           }}
           disabled={pageNumber === '3'}
@@ -91,7 +105,6 @@ export const QuestionsBlock: FC = () => {
           showDivider={false}
           className={styles.accordionWrapper}
           selectionMode="multiple"
-          defaultSelectedKeys={['1']}
           selectedKeys={[qusetionNumber]}
           itemClasses={itemClasses}
           onSelectionChange={(e: Selection) => {
@@ -107,8 +120,8 @@ export const QuestionsBlock: FC = () => {
           {qustionsArr.map((e, ix) => {
             return (
               <AccordionItem
-                id={`q${ix + 1}`}
-                indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()}  />}
+                id={`q${pageNumber}_${ix + 1}`}
+                indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()} />}
                 key={ix + 1}
                 title={e.title}
               >
@@ -121,4 +134,3 @@ export const QuestionsBlock: FC = () => {
     </div>
   );
 };
-

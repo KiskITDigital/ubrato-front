@@ -1,13 +1,7 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
-import { Link } from "react-router-dom";
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
-
+import { Link } from "react-router-dom";Link
 const WhatOrders: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
     return (
         <div className={qstyles.container}>
             <p className={`${qstyles.startText}`}>На сайте Ubrato размещены заказы на оказание клининговых и смежных услуг. Сейчас в <Link className={qstyles.link} to="/">каталоге</Link> находится более 100 услуг, сгруппированных в 17 видов:</p>
@@ -33,12 +27,12 @@ const WhatOrders: FC = () => {
             <p className={`${qstyles.text} ${qstyles.mt20}`}>При создании тендерной заявки можно выбрать несколько значений из списка.</p>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('1') }}>
+                <Link to='/faq?page=2&number=1#q2_1' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как стать исполнителем?
-                </p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('4') }}>
+                </Link>
+                <Link to='/faq?page=2&number=4#q2_4' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как откликнуться на тендер?
-                </p>
+                </Link>
             </div>
         </div>
     );

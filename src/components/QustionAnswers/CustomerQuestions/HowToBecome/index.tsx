@@ -1,14 +1,9 @@
 import { FC } from "react";
 import qstyles from '../../questions.module.css';
 import { Link } from "react-router-dom";
-import { useQuestionBlock } from "../../../../store/questionsBlockStore";
-import { generalQuestions } from '../../../../textData/questionsData';
 
 const HowToBecome: FC = () => {
-    const questionBlockStore = useQuestionBlock()
-
-    // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
-    const { handlePageNumber: setPageNumber, handleQuestionNumber: setQuestionNumber, handleQuestionsArr: setQuestionArr } = questionBlockStore
+    
     return (
         <div className={qstyles.container}>
             <p className={qstyles.startText}>
@@ -25,15 +20,15 @@ const HowToBecome: FC = () => {
             </ul>
             <div className={qstyles.seeAlso}>
                 <p className={qstyles.title}>Смотрите также:</p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('3'); setPageNumber('1'); setQuestionArr(generalQuestions) }}>
+                <Link to='/faq?page=1&number=3#q1_3' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Какие требования предъявляются на Ubrato к заказчикам и исполнителям при регистрации?
-                </p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('4') }}>
+                </Link>
+                <Link to='/faq?page=3&number=4#q3_4' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как создать тендер?
-                </p>
-                <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('5') }}>
+                </Link>
+                <Link to='/faq?page=3&number=5#q3_5' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как найти и выбрать исполнителя?
-                </p>
+                </Link>
             </div>
             <p className={`${qstyles.text}`}>Остались вопросы? <span onClick={() => alert('smth?')} className={`${qstyles.link}`}>Напишите телефон</span> и мы перезвоним.</p>
         </div>
