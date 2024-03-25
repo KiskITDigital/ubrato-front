@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface ObjectInfoT {
   name: string;
   count: number;
@@ -39,4 +41,9 @@ export interface UserInfoT {
   verified: boolean;
   role: number;
   created_at: string;
+}
+
+export interface QuestionT {
+  title: string;
+  textComponent: ReactNode;
 }

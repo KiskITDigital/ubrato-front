@@ -1,8 +1,15 @@
 import { FC } from 'react';
 import qstyles from '../../questions.module.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { useQuestionBlock } from '../../../../store/questionsBlockStore';
 
 export const WhatIs: FC = () => {
+
+  const questionBlockStore = useQuestionBlock()
+
+  // const { pageNumber, qusetionNumber, qustionsArr } = questionBlockStore
+  const { handleQuestionNumber: setQuestionNumber } = questionBlockStore
+
   return (
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
@@ -21,9 +28,9 @@ export const WhatIs: FC = () => {
       </ul>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
-        <Link to="/#questions" className={qstyles.link}>
+        <p className={`${qstyles.link} ${qstyles.ml20}`} onClick={() => { setQuestionNumber('5') }}>
           В чем отличия Ubrato от других агрегаторов и электронных торговых площадок?
-        </Link>
+        </p>
       </div>
     </div>
   );

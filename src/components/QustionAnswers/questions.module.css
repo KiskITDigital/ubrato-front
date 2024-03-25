@@ -1,7 +1,3 @@
-.link {
-  color: var(--color-blue-primary);
-}
-
 .seeAlso {
   margin-top: 30px;
   margin-bottom: 30px;
@@ -10,11 +6,11 @@
   gap: 7px;
 }
 
-.seeAlso > p {
+.seeAlso>p {
   margin-bottom: 8px;
 }
 
-.seeAlso > a {
+.seeAlso>a {
   margin-left: 20px;
 }
 
@@ -40,8 +36,22 @@
   margin-left: 20px;
 }
 
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt30 {
+  margin-top: 30px !important;
+}
+
 .link {
   color: var(--color-blue-primary);
+  cursor: pointer;
+  /* text-decoration: underline; */
 }
 
 .startText {

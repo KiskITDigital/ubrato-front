@@ -56,6 +56,7 @@ export const QuestionsBlock: FC = () => {
           disabled={pageNumber === '1'}
           onClick={() => {
             setPageNumber('1');
+            setQuestionNumber('1')
             setQuestionArr(generalQuestions);
           }}
           className={`${styles.button}`}
@@ -65,6 +66,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('2');
+            setQuestionNumber('1')
             setQuestionArr(executorQustions);
           }}
           disabled={pageNumber === '2'}
@@ -75,6 +77,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('3');
+            setQuestionNumber('1')
             setQuestionArr(ordererQustions);
           }}
           disabled={pageNumber === '3'}
@@ -105,7 +108,7 @@ export const QuestionsBlock: FC = () => {
             return (
               <AccordionItem
                 id={`q${ix + 1}`}
-                indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()} />}
+                indicator={<ExpandButton isActive={qusetionNumber === (ix + 1).toString()}  />}
                 key={ix + 1}
                 title={e.title}
               >
@@ -118,3 +121,4 @@ export const QuestionsBlock: FC = () => {
     </div>
   );
 };
+
