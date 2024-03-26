@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { ObjectInfoT } from '../types/app';
-import { SERVER_URI } from '../utils/serverURI';
 import axios from 'axios';
 
 type objectT = {
@@ -145,7 +144,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   fetchObjects: async () => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${SERVER_URI}/v1/tenders/objects-types`);
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/v1/tenders/objects-types`);
       if (response.status !== 200) throw response;
       // console.log(response);
       set((state) => {
