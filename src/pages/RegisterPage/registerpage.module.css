@@ -8,6 +8,7 @@
 .input {
   outline: none;
   margin: 14px 15px;
+  width: 100%;
 }
 
 .container {
@@ -30,6 +31,8 @@
   top: -28px;
   left: 15px;
   color: var(--color-black-60);
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .errorMessage {
@@ -65,7 +68,6 @@
 .checkIcon {
   width: 80%;
   height: 80%;
-  
 }
 
 .checkIcon > polyline {
@@ -79,3 +81,114 @@
   width: 100%;
   height: 100%;
 }
+
+.formContainer {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  font-size: 27px;
+  font-weight: 600;
+  margin-top: 70px;
+  margin-left: 15px;
+}
+
+.create {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.info {
+  width: 16px;
+  height: 16px;
+}
+
+.createInfo {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+.buttonsContainer {
+  width: 478px;
+  padding: 3px;
+  background-color: var(--color-light-gray);
+  border-radius: 11px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.button {
+  font-size: 17px;
+  line-height: 19.7px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  width: 234px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.active {
+  border-radius: 9px;
+  background-color: var(--color-blue-primary);
+  color: var(--color-white);
+}
+
+.questionsAboutRegistration {
+  font-size: 17px;
+  color: var(--color-black-60);
+  line-height: 22px;
+  text-align: center;
+  width: 340px;
+  margin-top: 15px;
+}
+
+.questionsAboutRegistrationContainer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--color-light-gray);
+  margin-bottom: 36px;
+}
+
+.phoneLink {
+  color: var(--color-blue-primary);
+  text-decoration: underline;
+}
+
+.inputGrHeader {
+  margin-top: 36px;
+  margin-left: 15px;
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.submit {
+  border-radius: 10px;
+  padding: 10px;
+  width: 448px;
+  background-color: var(--color-blue-primary);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.8;
+}
+.submitContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+

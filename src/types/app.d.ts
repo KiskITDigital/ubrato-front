@@ -16,7 +16,7 @@ export interface CleaningTypeT {
 }
 
 export interface RegisterFormValuesT {
-  inn: number | undefined;
+  inn: string;
   email: string;
   phone: string;
   password: string;

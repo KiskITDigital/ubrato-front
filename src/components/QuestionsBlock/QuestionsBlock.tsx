@@ -9,6 +9,7 @@ export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
 
   const location = useLocation();
+
   const [qusetionNumber, setQuestionNumber] = useState('');
   const [pageNumber, setPageNumber] = useState('1');
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
@@ -22,6 +23,7 @@ export const QuestionsBlock: FC = () => {
     content: styles.accordionContent,
     titleWrapper: styles.accordionTitleWrapper,
   };
+
   useEffect(() => {
     if (location.search) {
       setQuestionNumber(location.search.slice(-1));
@@ -35,7 +37,6 @@ export const QuestionsBlock: FC = () => {
             } else {
               window.scrollTo(0, question.offsetTop - 116);
             }
-            // window.scrollTo(0, question.offsetTop - 116);
           }
         }
       }, 300);

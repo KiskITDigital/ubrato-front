@@ -48,3 +48,29 @@
 .inputContainer {
   height: 83px;
 }
+
+.header {
+  font-size: 27px;
+  font-weight: 600;
+  margin-top: 70px;
+  margin-left: 15px;
+}
+
+.submit {
+  border-radius: 10px;
+  padding: 10px;
+  width: 448px;
+  background-color: var(--color-blue-primary);
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.submit:disabled {
+  opacity: 0.8;
+}
+.submitContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  margin-top: 30px;
+}
