@@ -6,6 +6,7 @@ import express from 'express';
 const createServer = async () => {
   const app = express();
   let vite;
+  // console.log(import.meta.env.VITE_NODE_ENV)
 
   if (process.env.NODE_ENV === 'development') {
     vite = await (
@@ -40,9 +41,9 @@ const createServer = async () => {
         render = (await import('./dist/server/entry-server.js')).render;
       }
 
-      const appHtml = await render({ path: url, data: result.results });
+      const appHtml = await render({ path: url});
 
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml).replace(`<!--ssr-data-->`, data);
+      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (error) {
