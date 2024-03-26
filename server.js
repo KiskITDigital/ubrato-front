@@ -2,7 +2,6 @@
 import fs from 'fs';
 import path from 'path';
 import express from 'express';
-import fetch from 'node-fetch';
 
 const createServer = async () => {
   const app = express();
@@ -41,11 +40,7 @@ const createServer = async () => {
         render = (await import('./dist/server/entry-server.js')).render;
       }
 
-      const response = await fetch(`https://rickandmortyapi.com/api/character`);
-      const result = await response.json();
-
       const appHtml = await render({ path: url, data: result.results });
-      const data = `<script>window.__SSR_DATA__=${JSON.stringify(result.results)}</script>`;
 
       const html = template.replace(`<!--ssr-outlet-->`, appHtml).replace(`<!--ssr-data-->`, data);
 
