@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import { FC, useState } from 'react';
 import { LoginFormValuesT } from '../../types/app';
 import axios from 'axios';
-import { SERVER_URI } from '../../utils/serverURI';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
 import { useUserInfoStore } from '../../store/userInfoStore';
@@ -32,7 +31,7 @@ export const LoginPage: FC = () => {
       (async () => {
         setIsLoading(true);
         try {
-          const res = await axios.post(`${SERVER_URI}/v1/auth/signin`, parameters);
+          const res = await axios.post(`${import.meta.env.VITE_SERVER_URI}/v1/auth/signin`, parameters);
           console.log(res);
           localStorage.setItem('token', res.data.access_token);
           const token = localStorage.getItem('token');

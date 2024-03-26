@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { CleaningTypeT } from '../types/app';
 import axios from 'axios';
-import { SERVER_URI } from '../utils/serverURI';
 
 type cleaningTypeT = {
   id: number;
@@ -126,7 +125,7 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
   fetchCleaningTypes: async () => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${SERVER_URI}/v1/tenders/services-types`);
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/v1/tenders/services-types`);
       if (response.status !== 200) throw response;
       // console.log(response);
       set((state) => {
