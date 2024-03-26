@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
-import { CleaningTypeT } from '../../types/app';
+import { CleaningTypeT } from '@/types/app';
 import styles from './typecleaningcard.module.css';
-import { countTransform } from '../../utils/cuntTransform';
+import { countTransform } from '@/utils/countTransform';
 
 type PropsT = {
   info: CleaningTypeT;

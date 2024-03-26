@@ -1,11 +1,10 @@
 import { FC, useState, useRef, useEffect } from 'react';
 import styles from './executorscatalog.module.css';
-import { TypeObjectCard } from '../TypeObjectCard/TypeObjectCard';
-import { useTypesObjectsStore } from '../../store/objectsStore';
-import { useCleaningTypeStore } from '../../store/cleaningTypeStore';
-import { TypeCleaningCard } from '../TypeCleaningCard/TypeCleaningCard';
+import { TypeObjectCard, TypeCleaningCard } from '@/components';
+import { useTypesObjectsStore } from '@/store/objectsStore';
+import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { Link } from 'react-router-dom';
-import { countTransform } from '../../utils/cuntTransform';
+import { countTransform } from '@/utils/countTransform';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();

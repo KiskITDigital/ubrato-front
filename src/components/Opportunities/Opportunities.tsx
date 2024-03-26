@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import styles from './opportunities.module.css';
-import { OpportunitiesCard } from '../OpportunitiesCard/OpportunutitesCard';
-import { useIsOrdererState } from '../../store/isOrdererStore';
-import { Executor, OpportunitiesInfoT, Orderer } from '../../textData/textData';
+import { OpportunitiesCard } from '@/components';
+import { useIsOrdererState } from '@/store/isOrdererStore';
+import { Executor, OpportunitiesInfoT, Orderer } from '@/textData/textData';
 
 export const Opportunities: FC = () => {
   const ordererState = useIsOrdererState();

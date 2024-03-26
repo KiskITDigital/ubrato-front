@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CleaningTypeT } from '../types/app';
+import { CleaningTypeT } from '@/types/app';
 import axios from 'axios';
 
 type cleaningTypeT = {

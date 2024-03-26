@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import qstyles from '../../questions.module.css';
+import qstyles from '@/components/QustionAnswers/questions.module.css';
 import styles from './requirements.module.css';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 import { ExpandButton } from './ExpandButton';

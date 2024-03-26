@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
 import { ChangeEvent, FC, useState } from 'react';
-import { RegisterFormValuesT } from '../../types/app';
+import { RegisterFormValuesT } from '@/types/app';
 import { Input } from '@nextui-org/react';
-import { registerSchema } from '../../validation/registerSchema';
+import { registerSchema } from '@/validation/registerSchema';
 import styles from './registerpage.module.css';
-import { axiosInstance } from '../../utils/baseHttp';
-import { useUserInfoStore } from '../../store/userInfoStore';
+import { axiosInstance } from '@/utils';
+import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link } from 'react-router-dom';
 
 export const RegisterPage: FC = () => {

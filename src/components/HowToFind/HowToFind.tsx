@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { useIsOrdererState } from '../../store/isOrdererStore';
+import { useIsOrdererState } from '@/store/isOrdererStore';
 import styles from './howtofind.module.css';
-import { executorCardList, ordererCardList } from '../../textData/textData';
-import { HowToFindCard } from '../HowToFindCard/HowToFindCard';
+import { executorCardList, ordererCardList } from '@/textData/textData';
+import { HowToFindCard } from '@/components';
 import { Link } from 'react-router-dom';
 
 export const HowToFind: FC = () => {

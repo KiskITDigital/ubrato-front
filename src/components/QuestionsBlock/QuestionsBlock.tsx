@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './questionsblock.module.css';
-import { ExpandButton } from '../ExpandButton/ExpandButton';
-import { executorQustions, generalQuestions, ordererQustions } from '../../textData/questionsData';
+import { ExpandButton } from '@/components';
+import { executorQustions, generalQuestions, ordererQustions } from '@/textData/questionsData';
 import { useLocation } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 

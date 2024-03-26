@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { HowToFindCardT } from '../../textData/textData';
+import { HowToFindCardT } from '@/textData/textData';
 import styles from './howtofindcard.module.css'
 
 export const HowToFindCard: FC<HowToFindCardT> = ({ img, title, text }) => {

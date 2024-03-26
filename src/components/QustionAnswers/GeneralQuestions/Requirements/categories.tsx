@@ -1,4 +1,4 @@
-import qstyles from '../../questions.module.css';
+import qstyles from '@/components/QustionAnswers/questions.module.css';
 
 export const categories = [
     {

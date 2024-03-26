@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ObjectInfoT } from '../types/app';
+import { ObjectInfoT } from '@/types/app';
 import axios from 'axios';
 
 type objectT = {
