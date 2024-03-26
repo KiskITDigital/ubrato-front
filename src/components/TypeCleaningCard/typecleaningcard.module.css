@@ -47,6 +47,7 @@
   .container {
     padding: 10px 15px;
     height: 90px;
+    min-width: 170px;
   }
 
   .header {

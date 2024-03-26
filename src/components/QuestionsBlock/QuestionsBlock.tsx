@@ -24,6 +24,15 @@ export const QuestionsBlock: FC = () => {
     titleWrapper: styles.accordionTitleWrapper,
   };
 
+  const width: number | null = null;
+  const widthR = useRef<number | null>(width);
+
+  useEffect(() => {
+    if (window.outerWidth <= 450) {
+      widthR.current = window.outerHeight;
+    }
+  }, []);
+
   useEffect(() => {
     if (location.search) {
       setQuestionNumber(location.search.slice(-1));
@@ -33,9 +42,9 @@ export const QuestionsBlock: FC = () => {
           const question = document.getElementById(location.hash.slice(1));
           if (question) {
             if (question.previousElementSibling instanceof HTMLElement) {
-              window.scrollTo(0, question.previousElementSibling.offsetTop - 16);
+              window.scrollTo(0, question.previousElementSibling.offsetTop - (widthR.current?-55:16));
             } else {
-              window.scrollTo(0, question.offsetTop - 116);
+              window.scrollTo(0, question.offsetTop - (widthR.current?75:116));
             }
           }
         }
@@ -71,7 +80,7 @@ export const QuestionsBlock: FC = () => {
           disabled={pageNumber === '1'}
           onClick={() => {
             setPageNumber('1');
-            setQuestionNumber('1');
+            setQuestionNumber('');
             setQuestionArr(generalQuestions);
           }}
           className={`${styles.button}`}
@@ -81,7 +90,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('2');
-            setQuestionNumber('1');
+            setQuestionNumber('');
             setQuestionArr(executorQustions);
           }}
           disabled={pageNumber === '2'}
@@ -92,7 +101,7 @@ export const QuestionsBlock: FC = () => {
         <button
           onClick={() => {
             setPageNumber('3');
-            setQuestionNumber('1');
+            setQuestionNumber('');
             setQuestionArr(ordererQustions);
           }}
           disabled={pageNumber === '3'}

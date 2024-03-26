@@ -47,10 +47,15 @@
 
   .container {
     padding: 10px 15px;
+    min-width: 170px;
   }
 
   .header {
     font-size: 12px;
     font-weight: 700;
+  }
+
+  .textContent {
+    justify-content: space-between;
   }
 }

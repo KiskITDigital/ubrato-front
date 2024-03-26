@@ -64,3 +64,25 @@
   z-index: 4;
   position: relative;
 }
+
+@media screen and (width < 450px) {
+  .startText {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 15px;
+  }
+
+  .li {
+    font-size: 14px;
+  }
+
+  .link {
+    font-size: 14px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+}

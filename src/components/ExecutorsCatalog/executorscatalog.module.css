@@ -228,11 +228,13 @@
     height: fit-content;
     gap: 15px;
     padding-bottom: 10px;
+    gap: 6px;
   }
 
   .allTenderLink {
     padding: 10px 15px;
     height: 90px;
+    min-width: 150px;
   }
 
   .allTenderHeader {
