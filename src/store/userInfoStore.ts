@@ -1,8 +1,7 @@
 import { create } from 'zustand';
-import { UserInfoT } from '../types/app';
+import { UserInfoT } from '@/types/app';
 import { AxiosError } from 'axios';
-import { axiosInstance } from '../utils/baseHttp';
-import { refreshToken } from '../utils/refreshToken';
+import { axiosInstance, refreshToken } from '@/utils';
 
 interface UserInfoState {
   user: UserInfoT;

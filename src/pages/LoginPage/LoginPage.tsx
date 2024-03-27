@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
 import { FC, useState } from 'react';
-import { LoginFormValuesT } from '../../types/app';
+import { LoginFormValuesT } from '@/types/app';
 import axios from 'axios';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
-import { useUserInfoStore } from '../../store/userInfoStore';
-import { loginSchema } from '../../validation/loginSchema';
+import { useUserInfoStore } from '@/store/userInfoStore';
+import { loginSchema } from '@/validation/loginSchema';
 axios.defaults.withCredentials = true;
 
 export const LoginPage: FC = () => {

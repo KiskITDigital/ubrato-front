@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useRef } from 'react';
-import { ArrowControl } from '../ArrowControl/ArrowControl';
+import { ArrowControl } from '@/components';
 import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../store/isOrdererStore';
 import { Link } from 'react-router-dom';

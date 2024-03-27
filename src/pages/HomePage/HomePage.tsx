@@ -1,12 +1,14 @@
 import { FC } from 'react';
-import { MainBanner } from '../../components/MainBanner/MainBanner';
-import { ExecutorsCatalog } from '../../components/ExecutorsCatalog/ExecutorsCatalog';
-import { NewsBlock } from '../../components/NewsBlock/NewsBlock';
-import { QuestionsBlock } from '../../components/QuestionsBlock/QuestionsBlock';
-import { Seo } from '../../components/Seo/seo';
-import { Opportunities } from '../../components/Opportunities/Opportunities';
-import { HowToFind } from '../../components/HowToFind/HowToFind';
-import { TendersAdvice } from '../../components/TendersAdvice/TendersAdvice';
+import { 
+  MainBanner,
+  ExecutorsCatalog,
+  NewsBlock,
+  QuestionsBlock,
+  Seo,
+  Opportunities,
+  HowToFind,
+  TendersAdvice
+} from '@/components';
 // import { Link } from 'react-router-dom';
 
 export const HomePage: FC = () => {

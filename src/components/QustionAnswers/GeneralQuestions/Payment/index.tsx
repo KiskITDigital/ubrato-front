@@ -1,5 +1,5 @@
 import { FC } from "react";
-import qstyles from '../../questions.module.css';
+import qstyles from '@/components/QustionAnswers/questions.module.css';
 import { Link } from "react-router-dom";
 
 const Payment: FC = () => {

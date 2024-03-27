@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { ObjectInfoT } from '../../types/app';
+import { ObjectInfoT } from '@/types/app';
 import styles from './typeobjectcard.module.css';
-import { countTransform } from '../../utils/cuntTransform';
+import { countTransform } from '@/utils/countTransform';
 
 type PropsT = {
   info: ObjectInfoT;

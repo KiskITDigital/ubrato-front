@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
-import { useUserInfoStore } from '../../store/userInfoStore';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
