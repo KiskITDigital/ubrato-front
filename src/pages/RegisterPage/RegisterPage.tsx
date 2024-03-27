@@ -116,7 +116,7 @@ export const RegisterPage: FC = () => {
               : 'Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.'}
           </p>
         </div>
-        <form onSubmit={formik.handleSubmit}>
+        <form className={styles.form} onSubmit={formik.handleSubmit}>
           <p className={styles.inputGrHeader}>Создайте учетную запись</p>
           <div className={styles.inputContainer}>
             <Input
@@ -304,6 +304,13 @@ export const RegisterPage: FC = () => {
               type="submit"
               value="Зарегистрироваться"
             />
+          </div>
+          <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
+            Есть вопросы по регистрации?{' '}
+            <Link to="/" className={styles.link}>
+              Напишите телефон
+            </Link>{' '}
+            и мы перезвоним
           </div>
         </form>
       </div>

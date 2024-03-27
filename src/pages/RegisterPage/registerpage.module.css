@@ -190,7 +190,6 @@
 .submitContainer {
   display: flex;
   justify-content: center;
-  margin-bottom: 60px;
 }
 
 .infoText {
@@ -218,4 +217,16 @@
 
 .checkErr {
   left: 0;
+}
+
+.stillHaveQuestions {
+  width: 340px;
+  align-self: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 90px;
 }
