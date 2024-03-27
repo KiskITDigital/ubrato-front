@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, Ref, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
 import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
@@ -7,6 +7,7 @@ import styles from './registerpage.module.css';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link } from 'react-router-dom';
 import { registerUser } from '@/api';
+import { useIMask } from 'react-imask';
 
 export const RegisterPage: FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -82,6 +83,10 @@ export const RegisterPage: FC = () => {
     wrapper: styles.checkWrapper,
     label: `${styles.checkText} ${styles.infoText}`,
   };
+
+  // const phoneRef = useRef(null);
+
+  const { ref, value } = useIMask({ mask: '+{7}(900)000-00-00' });
 
   return (
     <div className={`container ${styles.container}`}>
@@ -250,13 +255,15 @@ export const RegisterPage: FC = () => {
               classNames={itemClasses}
             />
           </div>
+          {/* <IMaskInput ref={ref}></IMaskInput> */}
           <div className={styles.inputContainer}>
             <Input
+              ref={ref as Ref<HTMLInputElement>}
               id="phone"
               name="phone"
               label="Телефон"
               type="phone"
-              value={formik.values.phone}
+              value={value}
               onChange={formik.handleChange}
               placeholder="Телефон"
               isInvalid={Boolean(formik.errors.phone)}
