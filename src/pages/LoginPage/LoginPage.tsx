@@ -82,7 +82,7 @@ export const LoginPage: FC = () => {
               id="password"
               name="password"
               type={isPasswordVisible ? 'text' : 'password'}
-              label="Пароль (не менее 6 знаков)"
+              label="Пароль"
               value={formik.values.password}
               onChange={formik.handleChange}
               placeholder="Придумайте пароль"

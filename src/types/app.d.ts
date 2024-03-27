@@ -24,6 +24,8 @@ export interface RegisterFormValuesT {
   firstName: string;
   middleName: string;
   lastName: string;
+  personalDataApproval: boolean;
+  callsRecievApproval: boolean;
 }
 
 export interface LoginFormValuesT {

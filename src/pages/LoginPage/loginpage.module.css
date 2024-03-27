@@ -8,6 +8,7 @@
 .input {
   outline: none;
   margin: 14px 15px;
+  width: 100%;
 }
 
 .container {
@@ -34,19 +35,19 @@
 
 .errorMessage {
   color: #f90a0a;
-  background-color: #ffd1d4;
-  border-top: 1px solid #ffc5c5;
-  padding: 6px 15px;
-  border-bottom-left-radius: 9px;
-  border-bottom-right-radius: 9px;
+  font-size: 10px;
+  position: absolute;
+  left: 15px;
+  line-height: 22px;
 }
 
 .base[data-invalid] {
-  border: 1px solid #ffc5c5;
+  border: 1px solid #f90a0a;
 }
 
 .inputContainer {
-  height: 83px;
+  height: fit-content;
+  padding-bottom: 20px;
 }
 
 .header {

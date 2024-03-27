@@ -6,10 +6,6 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
 
-  // if (localStorage.getItem('token') !== undefined) {
-  //   console.log(localStorage.getItem('token'))
-  // }
-
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
@@ -18,7 +14,6 @@ export const Header: FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token !== null) {
-      console.log(1);
       fetchUser(token);
     }
   }, [fetchUser]);

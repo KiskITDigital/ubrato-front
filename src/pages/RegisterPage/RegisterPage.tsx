@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
 import { ChangeEvent, FC, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
-import { Input } from '@nextui-org/react';
+import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
 import styles from './registerpage.module.css';
-import { axiosInstance } from '@/utils';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link } from 'react-router-dom';
+import { registerUser } from '@/api';
 
 export const RegisterPage: FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -26,6 +26,8 @@ export const RegisterPage: FC = () => {
     firstName: '',
     lastName: '',
     middleName: '',
+    personalDataApproval: false,
+    callsRecievApproval: false,
   };
 
   const itemClasses = {
@@ -55,18 +57,17 @@ export const RegisterPage: FC = () => {
       (async () => {
         setIsLoading(true);
         try {
-          const res = await axiosInstance.post(`/v1/auth/signup`, parameters);
-          console.log(res);
-          const token = localStorage.getItem('token');
-          if (token) {
-            userInfoStore.fetchUser(token);
-          }
+          await registerUser(parameters);
         } catch (e) {
           console.log(e);
         } finally {
           setIsLoading(false);
         }
       })();
+      const token = localStorage.getItem('token');
+      if (token) {
+        userInfoStore.fetchUser(token);
+      }
     },
     validationSchema: registerSchema,
     validateOnBlur: false,
@@ -75,24 +76,17 @@ export const RegisterPage: FC = () => {
 
   const [isContractor, setIsContractor] = useState(false);
 
-  // const checkStyle = {
-  //   base: styles.checkBase,
-  //   icon: styles.checkIcon,
-  //   wrapper: styles.checkWrapper,
-  // };
+  const checkStyle = {
+    base: styles.checkBase,
+    icon: styles.checkIcon,
+    wrapper: styles.checkWrapper,
+    label: `${styles.checkText} ${styles.infoText}`,
+  };
 
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте</h1>
-        {/* <p>Я - заказчик</p>
-      <Checkbox defaultSelected classNames={checkStyle} isDisabled />
-      <p>Я - исполнитель</p>
-        <Checkbox
-          classNames={checkStyle}
-          isSelected={isContractor}
-          onValueChange={setIsContractor}
-        /> */}
         <div className={styles.createInfo}>
           <p className={styles.create}>Создайте учетную запись</p>
           <img className={styles.info} src="./info-ic.svg" alt="info" />
@@ -113,7 +107,7 @@ export const RegisterPage: FC = () => {
         <div className={styles.questionsAboutRegistrationContainer}>
           <p className={styles.questionsAboutRegistration}>
             Есть вопросы по регистрации?{' '}
-            <Link to="/" className={styles.phoneLink}>
+            <Link to="/" className={styles.link}>
               Напишите телефон
             </Link>{' '}
             и мы перезвоним
@@ -192,7 +186,6 @@ export const RegisterPage: FC = () => {
               label="ИНН"
               value={formik.values.inn}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                console.log(formik.values.inn);
                 if (e.nativeEvent instanceof InputEvent) {
                   if (formik.values.inn.length >= 10 && e.nativeEvent.data) {
                     return;
@@ -201,10 +194,6 @@ export const RegisterPage: FC = () => {
                     formik.handleChange(e);
                   }
                 }
-
-                // console.log(e.nativeEvent);
-
-                // console.log(formik.values.inn);
               }}
               placeholder="ИНН"
               isInvalid={Boolean(formik.errors.inn)}
@@ -212,7 +201,13 @@ export const RegisterPage: FC = () => {
               classNames={itemClasses}
             />
           </div>
+          <p className={styles.infoText}>
+            В настоящее время сервис Ubrato открыт для юридических лиц
+          </p>
           <p className={styles.inputGrHeader}>Укажите контактное лицо</p>
+          <p className={`${styles.infoText} ${styles.weCall}`}>
+            Мы свяжемся с Вами для верификации данных
+          </p>
           <div className={styles.inputContainer}>
             <Input
               id="lastName"
@@ -263,11 +258,39 @@ export const RegisterPage: FC = () => {
               type="phone"
               value={formik.values.phone}
               onChange={formik.handleChange}
-              placeholder="Фамилия"
+              placeholder="Телефон"
               isInvalid={Boolean(formik.errors.phone)}
               errorMessage={formik.errors.phone}
               classNames={itemClasses}
             />
+          </div>
+          <div className={styles.approvalContainer}>
+            <Checkbox
+              id="personalDataApproval"
+              name="personalDataApproval"
+              isSelected={formik.values.personalDataApproval}
+              onChange={formik.handleChange}
+              classNames={checkStyle}
+            >
+              Согласие на передачу и обработку данных, согласно с{' '}
+              <Link className={styles.link} to="/">
+                условиями
+              </Link>{' '}
+              пользования сайтом
+              <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+                {formik.errors.personalDataApproval}
+              </p>
+            </Checkbox>
+
+            <Checkbox
+              id="callsRecievApproval"
+              name="callsRecievApproval"
+              isSelected={formik.values.callsRecievApproval}
+              onChange={formik.handleChange}
+              classNames={checkStyle}
+            >
+              Соглашаюсь получать маркетинговые звонки и смс от ООО «Интеграция»
+            </Checkbox>
           </div>
           <div className={styles.submitContainer}>
             <input
