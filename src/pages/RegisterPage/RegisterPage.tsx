@@ -91,9 +91,9 @@ export const RegisterPage: FC = () => {
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.formContainer}>
-        <h1 className={styles.header}>Регистрация на сайте</h1>
+        <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
         <div className={styles.createInfo}>
-          <p className={styles.create}>Создайте учетную запись</p>
+          <p className={styles.create}>Выберите Вашу роль</p>
           <img className={styles.info} src="./info-ic.svg" alt="info" />
         </div>
         <div className={styles.buttonsContainer}>
@@ -111,11 +111,9 @@ export const RegisterPage: FC = () => {
         </div>
         <div className={styles.questionsAboutRegistrationContainer}>
           <p className={styles.questionsAboutRegistration}>
-            Есть вопросы по регистрации?{' '}
-            <Link to="/" className={styles.link}>
-              Напишите телефон
-            </Link>{' '}
-            и мы перезвоним
+            {isContractor
+              ? 'Если ваша компания выполняет заказы, то добавьте функционал исполнителя. Или выберите эту роль позже.'
+              : 'Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.'}
           </p>
         </div>
         <form onSubmit={formik.handleSubmit}>

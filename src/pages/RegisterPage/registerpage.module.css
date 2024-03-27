@@ -151,7 +151,7 @@
   color: var(--color-black-60);
   line-height: 22px;
   text-align: center;
-  width: 340px;
+  width: 472px;
   margin-top: 15px;
 }
 
@@ -160,6 +160,7 @@
   justify-content: center;
   padding-bottom: 20px;
   border-bottom: 2px solid var(--color-light-gray);
+  width: 478px;
 }
 
 .link {
