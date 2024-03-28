@@ -75,3 +75,18 @@
   margin-bottom: 60px;
   margin-top: 30px;
 }
+
+@media screen and (width < 450px) { 
+  .base {
+    width: 360px;
+  }
+
+  .submit {
+    width: 360px;
+  }
+
+  .header {
+    text-align: center;
+    font-size: 22px;
+  }
+}
