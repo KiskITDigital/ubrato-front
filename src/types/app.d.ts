@@ -41,7 +41,7 @@ export interface UserInfoT {
   middle_name: string;
   last_name: string;
   verified: boolean;
-  role: number;
+  is_contractor: boolean;
   created_at: string;
 }
 

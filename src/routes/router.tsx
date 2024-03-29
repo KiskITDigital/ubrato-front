@@ -4,6 +4,7 @@ import { HomePage } from '../pages/HomePage/HomePage';
 import { TendersPage } from '../pages/TendersPage/TendersPage';
 import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
+import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 
 // export const routes = [
 //   {
@@ -37,6 +38,7 @@ export const Router = () => {
         <Route path="tenders" element={<TendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

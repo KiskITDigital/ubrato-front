@@ -1,11 +1,12 @@
 import { useFormik } from 'formik';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { LoginFormValuesT } from '@/types/app';
 import axios from 'axios';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { loginSchema } from '@/validation/loginSchema';
+import { useNavigate } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 export const LoginPage: FC = () => {
@@ -15,6 +16,7 @@ export const LoginPage: FC = () => {
   };
 
   const userInfoStore = useUserInfoStore();
+  const navigate = useNavigate();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,12 +33,18 @@ export const LoginPage: FC = () => {
       (async () => {
         setIsLoading(true);
         try {
-          const res = await axios.post(`${import.meta.env.VITE_SERVER_URI}/v1/auth/signin`, parameters);
+          const res = await axios.post(
+            `${import.meta.env.VITE_SERVER_URI}/v1/auth/signin`,
+            parameters
+          );
           console.log(res);
           localStorage.setItem('token', res.data.access_token);
           const token = localStorage.getItem('token');
           if (token) {
-            userInfoStore.fetchUser(token);
+            await userInfoStore.fetchUser(token);
+            if (!userInfoStore.error) {
+              navigate('/profile');
+            }
           }
         } catch (e) {
           console.log(e);
@@ -56,6 +64,12 @@ export const LoginPage: FC = () => {
     errorMessage: styles.errorMessage,
     helperWrapper: styles.helperWrapper,
   };
+
+  useEffect(() => {
+    if (userInfoStore.isLoggedIn) {
+      navigate('/profile');
+    }
+  }, [navigate, userInfoStore.isLoggedIn]);
 
   return (
     <div className={`container ${styles.container}`}>

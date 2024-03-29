@@ -2,6 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { Avatar } from '@nextui-org/react';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -10,6 +11,11 @@ export const Header: FC = () => {
   const widthR = useRef<number | null>(width);
 
   const fetchUser = userInfoStorage.fetchUser;
+
+  const avatarStyle = {
+    fallback: styles.fallback,
+    base: styles.base
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -86,7 +92,7 @@ export const Header: FC = () => {
               </Link>
             </div>
           )}
-          {userinfoState.isLoggedIn && <div>{userinfoState.user.first_name}</div>}
+          {userinfoState.isLoggedIn && <Link to='/profile'><Avatar classNames={avatarStyle} name={userinfoState.user.first_name} /></Link>}
         </div>
       </div>
     </header>

@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
-import { ChangeEvent, FC, Ref, useState } from 'react';
+import { ChangeEvent, FC, Ref, useEffect, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
 import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
 import styles from './registerpage.module.css';
 import { useUserInfoStore } from '@/store/userInfoStore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { registerUser } from '@/api';
 import { useIMask } from 'react-imask';
 
@@ -14,6 +14,8 @@ export const RegisterPage: FC = () => {
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userInfoStore = useUserInfoStore();
+  const navigate = useNavigate()
+  const fetchUser = userInfoStore.fetchUser
 
   const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible);
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
@@ -59,16 +61,20 @@ export const RegisterPage: FC = () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
+
+          const token = localStorage.getItem('token');
+          if (token) {
+            await fetchUser(token);
+            if (!userInfoStore.error) {
+              navigate('/profile')
+            }
+          }
         } catch (e) {
           console.log(e);
         } finally {
           setIsLoading(false);
         }
       })();
-      const token = localStorage.getItem('token');
-      if (token) {
-        userInfoStore.fetchUser(token);
-      }
     },
     validationSchema: registerSchema,
     validateOnBlur: false,
@@ -87,6 +93,12 @@ export const RegisterPage: FC = () => {
   // const phoneRef = useRef(null);
 
   const { ref, value } = useIMask({ mask: '+{7}(900)000-00-00' });
+
+  useEffect(() => {
+    if (userInfoStore.isLoggedIn) {
+      navigate('/profile');
+    }
+  }, [navigate, userInfoStore.isLoggedIn]);
 
   return (
     <div className={`container ${styles.container}`}>

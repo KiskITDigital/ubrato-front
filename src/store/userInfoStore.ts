@@ -5,10 +5,11 @@ import { axiosInstance, refreshToken } from '@/utils';
 
 interface UserInfoState {
   user: UserInfoT;
-  fetchUser: (token: string) => void;
+  fetchUser: (token: string) => Promise<void>;
   loading: boolean;
   error: null | string;
   isLoggedIn: boolean;
+  setLoggedIn: (e: boolean) => void;
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => ({
@@ -20,7 +21,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
     middle_name: '',
     last_name: '',
     verified: false,
-    role: -1,
+    is_contractor: false,
     created_at: '',
   },
   loading: false,
@@ -41,7 +42,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
           id: response.data.id,
           created_at: response.data.created_at,
           phone: response.data.phone,
-          role: response.data.role,
+          is_contractor: response.data.role,
           verified: response.data.verified,
           email: response.data.email,
         },
@@ -70,4 +71,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
     }
   },
   isLoggedIn: false,
+  setLoggedIn(e) {
+    set({ isLoggedIn: e });
+  },
 }));
