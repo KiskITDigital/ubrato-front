@@ -50,6 +50,10 @@
   height: 20px;
 }
 
+.navLink > p {
+  white-space: nowrap;
+}
+
 .navLinksList {
   display: flex;
   gap: 40px;

@@ -1,11 +1,8 @@
-import SurveyMainPart from "../../components/SurveyComponents/MainPart";
+import { SurveyMainPart } from '@/components';
+import { FC } from 'react';
 
-const SurveyPage = () => {
-    // console.log();
+export const SurveyPage: FC = () => {
+  // console.log();
 
-    return (
-        <SurveyMainPart />
-    );
-}
-
-export default SurveyPage;
+  return <SurveyMainPart />;
+};

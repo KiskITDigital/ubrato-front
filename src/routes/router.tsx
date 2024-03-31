@@ -4,31 +4,9 @@ import { HomePage } from '../pages/HomePage/HomePage';
 import { TendersPage } from '../pages/TendersPage/TendersPage';
 import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
-import SurveyPage from '../pages/SurveyPage';
-import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 
-// export const routes = [
-//   {
-//     path: '/',
-//     element: <App />,
-//     children: [
-//       { path: '', element: <HomePage /> },
-//       { path: ':id', element: <HomePage /> },
-//       {
-//         path: 'tenders',
-//         element: <TendersPage />,
-//       },
-//       {
-//         path: 'register',
-//         element: <RegisterPage />,
-//       },
-//       {
-//         path: 'login',
-//         element: <LoginPage />,
-//       },
-//     ],
-//   },
-// ];
+import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
+import { SurveyPage } from '@/pages/SurveyPage';
 
 export const Router = () => {
   return (
@@ -39,7 +17,7 @@ export const Router = () => {
         <Route path="tenders" element={<TendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="/survey" element={<SurveyPage />} />
+        <Route path="survey" element={<SurveyPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Route>
     </Routes>

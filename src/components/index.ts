@@ -13,3 +13,4 @@ export { TypeCleaningCard } from "./TypeCleaningCard/TypeCleaningCard";
 export { HowToFindCard } from "./HowToFindCard/HowToFindCard";
 export { OpportunitiesCard } from "./OpportunitiesCard/OpportunutitesCard"
 export { ExpandButton } from "./ExpandButton/ExpandButton"
+export { SurveyMainPart } from './SurveyComponents/MainPart/index'
