@@ -105,7 +105,7 @@
 
 .slide2 {
   height: 449px;
-  background-color: var(--color-blue-primary);
+  /* background-color: var(--color-blue-primary); */
 }
 
 @media screen and (width < 450px) {

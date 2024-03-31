@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './mainbanner.module.css';
+import styles2 from './mainbanner2.module.css';
 import { Link } from 'react-router-dom';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
 export const MainBanner: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
-    Autoplay({ playOnInit: false, delay: 300000 }),
+    Autoplay({ playOnInit: false, delay: 3000 }),
   ]);
 
   const [isPlaying, setIsPlaying] = useState(true);
@@ -63,7 +64,27 @@ export const MainBanner: FC = () => {
               </div>
               <img className={styles.image} src="./banner-image.png" alt="big-man" />
             </div>
-            <div className={`${styles.embla__slide} ${styles.slide2}`}></div>
+            <div className={`${styles.embla__slide} ${styles2.slide2}`}>
+              <div className={styles2.textBlock}>
+                <h2 className={`${styles2.surveyTitle} ${styles2.blueText}`}>Онлайн опрос</h2>
+                <div className={styles2.survey__pair}>
+                  <img className={styles2.survey__pair__image} src="./survey/check-mark.svg" alt="" />
+                  <p className={styles2.survey__pair__text}>Примите участие в опросе</p>
+                </div>
+                <div className={styles2.survey__pair}>
+                  <img className={styles2.survey__pair__image} src="./survey/arrow-down.svg" alt="" />
+                  <p className={styles2.survey__pair__text}>Получите исследование в подарок</p>
+                </div>
+                <div className={styles2.survey__pair}>
+                  <img className={styles2.survey__pair__image} src="./survey/heart.svg" alt="" />
+                  <p className={styles2.survey__pair__text}>Давайте улучшим <span className={styles2.blueText}>Ubrato</span> вместе</p>
+                </div>
+                <Link to="survey">
+                  <button className={styles2.survey__button}>Участвовать! <img className={styles2.survey__button__image} src="./survey/arrow-right.svg" alt="" /></button>
+                </Link>
+              </div>
+              <img className={styles2.image} src="./survey/laptop.png" alt="laptop" />
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,277 @@
+ .blueText {
+     color: var(--color-blue-tertiary);
+ }
+
+ .container {
+     width: 1130px;
+     margin: 0 auto;
+ }
+
+
+
+ .title {
+     font-size: 40px;
+     font-weight: 700;
+     text-align: center;
+     margin-bottom: 30px;
+     font-family: 'Inter';
+ }
+
+ .textBlock {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     font-family: 'Inter';
+ }
+
+
+ .survey__pair {
+     display: flex;
+     flex-direction: row;
+     gap: 10px;
+     align-items: center;
+ }
+
+
+ .survey__pair__image {
+     width: 50px;
+     height: 50px;
+ }
+
+
+ .survey__pair__text {
+     font-size: 20px;
+     font-weight: 700;
+     font-family: 'Inter';
+ }
+
+
+ .part1 {
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+     background-color: var(--color-blue-light);
+     height: 327px;
+ }
+
+
+ .laptopImage {
+     width: 500px;
+     height: 500px;
+ }
+
+
+
+ .regularText {
+     font-size: 16px;
+     font-weight: 400;
+     font-family: 'Inter';
+ }
+
+
+ .boldText {
+     font-size: 16px;
+     font-weight: 700;
+     font-family: 'Inter';
+ }
+
+
+ .link {
+     text-decoration: underline;
+     font-weight: 700;
+     font-family: 'Inter';
+     color: var(--color-blue-secondary);
+ }
+
+
+
+ .part2 {
+     margin-top: 10px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 15px;
+ }
+
+
+
+
+ .part2>p,
+ ul {
+     max-width: 658px;
+ }
+
+
+ .dotLi {
+     list-style-type: initial;
+     margin-left: 15px;
+ }
+
+ .numberLi {
+     color: var(--color-blue-secondary);
+     font-weight: 700;
+ }
+
+
+ .survey__button {
+     background-color: var(--color-blue-tertiary);
+     color: white;
+     width: 430px;
+     padding: 11px 0;
+     border-radius: 20px;
+     font-weight: 700;
+     font-size: 32px;
+     font-family: 'Inter';
+     margin: 25px 0;
+ }
+
+ .italic {
+     font-style: italic;
+ }
+
+
+ @media screen and (width <=1050px) {
+     .container {
+         width: 670px;
+     }
+
+     .title {
+         font-size: 30px;
+     }
+
+     .survey__pair__image {
+         width: 40px;
+         height: 40px;
+     }
+
+     .survey__pair__text {
+         font-size: 15px;
+     }
+
+
+     .part1 {
+         height: 257px;
+     }
+
+
+     .laptopImage {
+         width: 350px;
+         height: 350px;
+     }
+
+
+
+     .regularText {
+         font-size: 12px;
+     }
+
+
+     .boldText {
+         font-size: 12px;
+     }
+
+     .part2>p,
+     ul {
+         max-width: 658px;
+     }
+
+     .survey__button {
+         width: 320px;
+         font-size: 18px;
+     }
+ }
+
+ @media screen and (width <=700px) {
+     .container {
+         width: 470px;
+     }
+
+     .title {
+         font-size: 20px;
+     }
+
+     .survey__pair__image {
+         width: 30px;
+         height: 30px;
+     }
+
+     .survey__pair__text {
+         font-size: 10px;
+     }
+
+     .part1 {
+         height: 200px;
+     }
+
+     .laptopImage {
+         width: 250px;
+         height: 250px;
+     }
+
+     .regularText {
+         font-size: 12px;
+     }
+
+     .boldText {
+         font-size: 12px;
+     }
+
+     .part2>p,
+     ul {
+         max-width: 458px;
+     }
+
+     .survey__button {
+         width: 220px;
+         font-size: 12px;
+     }
+ }
+
+
+
+ @media screen and (width <=500px) {
+     .container {
+         width: 90%;
+     }
+
+     .title {
+         font-size: 20px;
+     }
+
+     .survey__pair__image {
+         width: 20px;
+         height: 20px;
+     }
+
+     .survey__pair__text {
+         font-size: 10px;
+     }
+
+     .part1 {
+         height: 150px;
+     }
+
+     .laptopImage {
+         width: 150px;
+         height: 150px;
+     }
+
+     .regularText {
+         font-size: 10px;
+     }
+
+     .boldText {
+         font-size: 10px;
+     }
+
+     .part2>p,
+     ul {
+         max-width: 90%;
+     }
+
+     .survey__button {
+         width: 140px;
+         font-size: 10px;
+     }
+ }
