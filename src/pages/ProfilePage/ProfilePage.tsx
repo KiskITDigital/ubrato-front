@@ -1,20 +1,22 @@
 import { useUserInfoStore } from '@/store/userInfoStore';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const ProfilePage: FC = () => {
   const userInfo = useUserInfoStore();
   const navigate = useNavigate();
 
-  if (!userInfo.isLoggedIn) {
-    navigate('/');
-  }
-
   const handleLogOut = () => {
     localStorage.removeItem('token');
     userInfo.setLoggedIn(false);
     navigate('/');
   };
+
+  useEffect(() => {
+    if (!userInfo.isLoggedIn) {
+      navigate('/');
+    }
+  }, [navigate, userInfo.isLoggedIn])
 
   return (
     <div className="conatiner">
