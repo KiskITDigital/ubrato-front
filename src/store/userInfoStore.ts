@@ -23,6 +23,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
     verified: false,
     is_contractor: false,
     created_at: '',
+    avatar: '',
   },
   loading: false,
   error: null,
@@ -45,6 +46,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
           is_contractor: response.data.role,
           verified: response.data.verified,
           email: response.data.email,
+          avatar: response.data.avatar
         },
         isLoggedIn: true,
       });

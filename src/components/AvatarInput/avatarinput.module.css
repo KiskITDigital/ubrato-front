@@ -1,0 +1,24 @@
+.base {
+  background-color: var(--color-light-gray);
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  /* background-image: url('./avatar-ic.svg'); */
+}
+
+.base:hover {
+  background-image: url('./avatar-ic.svg');
+  /* background-color: transparent; */
+}
+
+.base:hover > .name {
+  display: none;
+}
+
+.name {
+  color: red;
+}

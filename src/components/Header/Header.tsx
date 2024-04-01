@@ -13,9 +13,8 @@ export const Header: FC = () => {
   const fetchUser = userInfoStorage.fetchUser;
 
   const avatarStyle = {
-    fallback: styles.fallback,
-    base: styles.base
-  }
+    base: styles.base,
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,8 +22,6 @@ export const Header: FC = () => {
       fetchUser(token);
     }
   }, [fetchUser]);
-
-  const userinfoState = useUserInfoStore();
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
@@ -81,7 +78,7 @@ export const Header: FC = () => {
               </li>
             </ul>
           </nav>
-          {!userinfoState.isLoggedIn && (
+          {!userInfoStorage.isLoggedIn && (
             <div className={styles.loginRegister}>
               <Link to="/login" className={styles.loginLink}>
                 <img src="./login.svg" alt="login" />
@@ -92,7 +89,15 @@ export const Header: FC = () => {
               </Link>
             </div>
           )}
-          {userinfoState.isLoggedIn && <Link to='/profile'><Avatar classNames={avatarStyle} name={userinfoState.user.first_name} /></Link>}
+          {userInfoStorage.isLoggedIn && (
+            <Link to="/profile">
+              <Avatar
+                src={userInfoStorage.user.avatar}
+                classNames={avatarStyle}
+                name={userInfoStorage.user.first_name}
+              />
+            </Link>
+          )}
         </div>
       </div>
     </header>

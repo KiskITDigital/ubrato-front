@@ -1,12 +1,14 @@
 import { useFormik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { LoginFormValuesT } from '@/types/app';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { loginSchema } from '@/validation/loginSchema';
 import { useNavigate } from 'react-router-dom';
+import { login } from '@/api';
+
 axios.defaults.withCredentials = true;
 
 export const LoginPage: FC = () => {
@@ -14,6 +16,8 @@ export const LoginPage: FC = () => {
     email: '',
     password: '',
   };
+
+  const [errorMsg, setErrorMsg] = useState('');
 
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
@@ -33,12 +37,7 @@ export const LoginPage: FC = () => {
       (async () => {
         setIsLoading(true);
         try {
-          const res = await axios.post(
-            `${import.meta.env.VITE_SERVER_URI}/v1/auth/signin`,
-            parameters
-          );
-          console.log(res);
-          localStorage.setItem('token', res.data.access_token);
+          await login(parameters);
           const token = localStorage.getItem('token');
           if (token) {
             await userInfoStore.fetchUser(token);
@@ -47,7 +46,16 @@ export const LoginPage: FC = () => {
             }
           }
         } catch (e) {
-          console.log(e);
+          console.log(e, '1');
+          if (e instanceof AxiosError) {
+            if (e.response?.status === 401) {
+              setErrorMsg('Неверный пароль');
+            } else if (e.response?.status === 404) {
+              setErrorMsg('Пользователя с таким e-mail не существует');
+            } else {
+              setErrorMsg('Что-то пошло не так');
+            }
+          }
         } finally {
           setIsLoading(false);
         }
@@ -89,6 +97,9 @@ export const LoginPage: FC = () => {
               isInvalid={Boolean(formik.errors.email)}
               errorMessage={formik.errors.email}
               classNames={itemClasses}
+              onFocus={() => {
+                setErrorMsg('');
+              }}
             />
           </div>
           <div className={styles.inputContainer}>
@@ -112,10 +123,14 @@ export const LoginPage: FC = () => {
                 </button>
               }
               classNames={itemClasses}
+              onFocus={() => {
+                setErrorMsg('');
+              }}
             />
           </div>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
+            {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>
         </form>
       </div>

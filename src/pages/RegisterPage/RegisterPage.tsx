@@ -14,8 +14,8 @@ export const RegisterPage: FC = () => {
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userInfoStore = useUserInfoStore();
-  const navigate = useNavigate()
-  const fetchUser = userInfoStore.fetchUser
+  const navigate = useNavigate();
+  const fetchUser = userInfoStore.fetchUser;
 
   const toggleVisibility = () => setIsPasswordVisible(!isPasswordVisible);
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
@@ -56,6 +56,7 @@ export const RegisterPage: FC = () => {
         last_name: values.lastName,
         inn: values.inn,
         is_contractor: isContractor,
+        avatar: '',
       };
       (async () => {
         setIsLoading(true);
@@ -66,7 +67,7 @@ export const RegisterPage: FC = () => {
           if (token) {
             await fetchUser(token);
             if (!userInfoStore.error) {
-              navigate('/profile')
+              navigate('/profile');
             }
           }
         } catch (e) {
