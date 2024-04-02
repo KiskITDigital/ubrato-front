@@ -5,7 +5,7 @@ type parameters = {
   private: boolean;
 };
 
-export const uploadAvatar = async (token: string, parameters: parameters): Promise<string> => {
+export const uploadFile = async (token: string, parameters: parameters): Promise<string> => {
   const res = await axiosInstanceStore.post('/s3/upload/', parameters, {
     headers: { authorization: `Bearer ${token}` },
   });

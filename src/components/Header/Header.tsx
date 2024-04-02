@@ -14,6 +14,7 @@ export const Header: FC = () => {
 
   const avatarStyle = {
     base: styles.base,
+    img: styles.avatarImg
   };
 
   useEffect(() => {

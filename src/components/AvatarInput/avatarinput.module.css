@@ -7,18 +7,34 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  /* background-image: url('./avatar-ic.svg'); */
-}
-
-.base:hover {
-  background-image: url('./avatar-ic.svg');
-  /* background-color: transparent; */
-}
-
-.base:hover > .name {
-  display: none;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .name {
   color: red;
+}
+
+.img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.changeAvatar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.base:hover ~ .changeAvatar {
+  opacity: 1;
+}
+
+.baseInput {
+  display: none;
+}
+
+.avatarLabel {
+  width: fit-content;
+  display: block;
 }
