@@ -32,69 +32,15 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   error: null,
   objects: [
     {
-      name: 'Офисная недвижимость',
-      count: -1,
-      image: './office.svg',
-      isActive: false,
-    },
-    {
-      name: 'Производственная недвижимость',
-      count: -1,
-      image: './factory.svg',
-      isActive: false,
-    },
-    {
-      name: 'Складская недвижимость',
-      count: -1,
-      image: './warehouse.svg',
-      isActive: false,
-    },
-    {
       name: 'Торговая недвижимость',
       count: -1,
       image: './commercial.svg',
       isActive: false,
     },
     {
-      name: 'Территория',
+      name: 'Офисная недвижимость',
       count: -1,
-      image: './territory.svg',
-      isActive: false,
-    },
-    {
-      name: 'Спортивные объекты',
-      count: -1,
-      image: './sport.svg',
-      isActive: false,
-    },
-    {
-      name: 'Жилая недвижимость',
-      count: -1,
-      image: './housing.svg',
-      isActive: false,
-    },
-    {
-      name: 'Природные объекты',
-      count: -1,
-      image: './nature.svg',
-      isActive: false,
-    },
-    {
-      name: 'HoReCa',
-      count: -1,
-      image: './horeco.svg',
-      isActive: false,
-    },
-    {
-      name: 'Объекты культурного наследия',
-      count: -1,
-      image: './culture.svg',
-      isActive: false,
-    },
-    {
-      name: 'Объект здравоохранения',
-      count: -1,
-      image: './health.svg',
+      image: './office.svg',
       isActive: false,
     },
     {
@@ -104,15 +50,69 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Транспортная инфраструктура',
+      name: 'Производственная недвижимость',
       count: -1,
-      image: './transport-inf.svg',
+      image: './factory.svg',
+      isActive: false,
+    },
+    {
+      name: 'HoReCa',
+      count: -1,
+      image: './horeco.svg',
+      isActive: false,
+    },
+    {
+      name: 'Объект здравоохранения',
+      count: -1,
+      image: './health.svg',
       isActive: false,
     },
     {
       name: 'Объекты образования',
       count: -1,
       image: './education.svg',
+      isActive: false,
+    },
+    {
+      name: 'Жилая недвижимость',
+      count: -1,
+      image: './housing.svg',
+      isActive: false,
+    },
+    {
+      name: 'Складская недвижимость',
+      count: -1,
+      image: './warehouse.svg',
+      isActive: false,
+    },
+    {
+      name: 'Спортивные объекты',
+      count: -1,
+      image: './sport.svg',
+      isActive: false,
+    },
+    {
+      name: 'Территория',
+      count: -1,
+      image: './territory.svg',
+      isActive: false,
+    },
+    {
+      name: 'Объекты культурного наследия',
+      count: -1,
+      image: './culture.svg',
+      isActive: false,
+    },
+    {
+      name: 'Транспортная инфраструктура',
+      count: -1,
+      image: './transport-inf.svg',
+      isActive: false,
+    },
+    {
+      name: 'Природные объекты',
+      count: -1,
+      image: './nature.svg',
       isActive: false,
     },
   ],
@@ -144,7 +144,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   fetchObjects: async () => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${import.meta.env.VITE_SERVER_URI}/v1/tenders/objects-types`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_SERVER_URI}/v1/tenders/objects-types`
+      );
       if (response.status !== 200) throw response;
       // console.log(response);
       set((state) => {

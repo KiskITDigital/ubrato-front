@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styles from './mainbanner.module.css';
 import styles2 from './mainbanner2.module.css';
 import { Link } from 'react-router-dom';
@@ -14,6 +14,15 @@ export const MainBanner: FC = () => {
   const [isPlaying, setIsPlaying] = useState(true);
 
   const userStore = useUserInfoStore();
+
+  const width: number | null = null;
+  const widthR = useRef<number | null>(width);
+
+  useEffect(() => {
+    if (window.outerWidth <= 450) {
+      widthR.current = window.outerHeight;
+    }
+  }, []);
 
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
@@ -50,7 +59,7 @@ export const MainBanner: FC = () => {
                 className={styles.createTenderInput}
                 type="text"
                 name="tender_text"
-                placeholder="Опишите задачу или объект"
+                placeholder={widthR.current ? 'Создать тендер' : 'Опишите задачу или объект'}
               />
               <button className={styles.createTenderBtn}>Создать тендер</button>
             </div>

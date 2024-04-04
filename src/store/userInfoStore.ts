@@ -24,6 +24,11 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
     is_contractor: false,
     created_at: '',
     avatar: '',
+    organization: {
+      id: '',
+      short_name: '',
+      inn: '',
+    },
   },
   loading: false,
   error: null,
@@ -47,6 +52,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
           verified: response.data.verified,
           email: response.data.email,
           avatar: response.data.avatar,
+          organization: response.data.organiztion,
         },
         isLoggedIn: true,
       });
@@ -55,16 +61,31 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
         console.log(e.response?.status);
         if (e.response?.status === 401 || e.response?.status === 400) {
           await refreshToken();
-        }
-        const newToken = localStorage.getItem('token');
-        if (newToken) {
-          const response = await axiosInstance.get(`/v1/users/me`, {
-            headers: { authorization: `Bearer ${newToken}` },
-          });
-          console.log(response);
-          if (response.status === 200) {
-            console.log(response.data);
-            // set()
+          const newToken = localStorage.getItem('token');
+          if (newToken) {
+            const response = await axiosInstance.get(`/v1/users/me`, {
+              headers: { authorization: `Bearer ${newToken}` },
+            });
+            console.log(response);
+            if (response.status === 200) {
+              console.log(response.data);
+              set({
+                user: {
+                  first_name: response.data.first_name,
+                  last_name: response.data.last_name,
+                  middle_name: response.data.middle_name,
+                  id: response.data.id,
+                  created_at: response.data.created_at,
+                  phone: response.data.phone,
+                  is_contractor: response.data.is_contractor,
+                  verified: response.data.verified,
+                  email: response.data.email,
+                  avatar: response.data.avatar,
+                  organization: response.data.organiztion,
+                },
+                isLoggedIn: true,
+              });
+            }
           }
         }
       }

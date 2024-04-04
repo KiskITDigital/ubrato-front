@@ -14,7 +14,7 @@ export const Header: FC = () => {
 
   const avatarStyle = {
     base: styles.base,
-    img: styles.avatarImg
+    img: styles.avatarImg,
   };
 
   useEffect(() => {
@@ -91,7 +91,11 @@ export const Header: FC = () => {
             </div>
           )}
           {userInfoStorage.isLoggedIn && (
-            <Link to="/profile">
+            <Link to="/profile" className={styles.profileLink}>
+              <div>
+                <p className={styles.organizationText}>{userInfoStorage.user.organization.short_name}</p>
+                <p className={styles.organizationText}>ИНН {userInfoStorage.user.organization.inn}</p>
+              </div>
               <Avatar
                 src={userInfoStorage.user.avatar}
                 classNames={avatarStyle}

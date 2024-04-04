@@ -133,7 +133,7 @@ export const Footer: FC = () => {
       </div>
       <div className={styles.last}>
         <p className={styles.greytext}>
-          © 2023-2024 ООО “Интеграция”{' '}
+          © 2024 ООО “Интеграция”{' '}
           <Link to="/" className={styles.greytext}>
             (ubrato.ru)
           </Link>

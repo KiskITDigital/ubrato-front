@@ -44,6 +44,11 @@ export interface UserInfoT {
   is_contractor: boolean;
   created_at: string;
   avatar: string;
+  organization: {
+    id: string;
+    short_name: string;
+    inn: string;
+  }
 }
 
 export interface QuestionT {

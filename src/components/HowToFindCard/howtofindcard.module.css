@@ -36,12 +36,12 @@
   }
 
   .headerContainer {
-    justify-content: center;
+    justify-content: flex-start;
     margin-bottom: 10px;
   }
 
   .text {
-    text-align: center;
     font-size: 16px;
+    margin-left: 51px;
   }
 }
