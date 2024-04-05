@@ -1,16 +1,22 @@
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styles from './header.module.css';
 import { Link } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Avatar } from '@nextui-org/react';
+import { useIsOrdererState } from '@/store/isOrdererStore';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
+  const isOrdererState = useIsOrdererState();
 
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
   const fetchUser = userInfoStorage.fetchUser;
+
+  const handleState = isOrdererState.handleState;
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const avatarStyle = {
     base: styles.base,
@@ -20,9 +26,15 @@ export const Header: FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token !== null) {
-      fetchUser(token);
+      (async () => {
+        await fetchUser(token);
+      })();
     }
   }, [fetchUser]);
+
+  useEffect(() => {
+    handleState(userInfoStorage.user.is_contractor ? 'contractor' : 'orderer');
+  }, [handleState, userInfoStorage.user.is_contractor]);
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
@@ -32,8 +44,30 @@ export const Header: FC = () => {
 
   return (
     <header className={`${styles.container}`}>
+      {widthR.current && isMenuOpen && (
+        <div className={styles.mobileMenu}>
+          <Link to="/">Создать тендер</Link>
+          <Link to="/">Найти исполнителя</Link>
+          <Link to="/">Найти тендер</Link>
+          <Link to="/">Мои тендеры</Link>
+          <Link to="/">О сервисе</Link>
+          <Link to="/">Правовая информация</Link>
+        </div>
+      )}
       <div className={`container ${styles.mobileContainer}`}>
         <div className={styles.headerTop}>
+          {widthR.current ? (
+            <button
+              className={styles.burger}
+              onClick={() => {
+                setIsMenuOpen(!isMenuOpen);
+              }}
+            >
+              <img src="./burger_button.svg" alt="" />
+            </button>
+          ) : (
+            ''
+          )}
           <Link to="/">
             <img src={widthR.current ? './logo-mobile.svg' : './logo.svg'} alt="logo" />
           </Link>
@@ -65,12 +99,15 @@ export const Header: FC = () => {
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
-              <li>
-                <Link to="/" className={styles.navLink}>
-                  <img src="./find-tender.svg" alt="my-tender" />
-                  <p>Найти тендер</p>
-                </Link>
-              </li>
+              {userInfoStorage.user.is_contractor ||
+                (!userInfoStorage.isLoggedIn && (
+                  <li>
+                    <Link to="/" className={styles.navLink}>
+                      <img src="./find-tender.svg" alt="my-tender" />
+                      <p>Найти тендер</p>
+                    </Link>
+                  </li>
+                ))}
               <li>
                 <Link to="/" className={styles.navLink}>
                   <img src="./my-tenders.svg" alt="my-tenders" />
@@ -85,16 +122,24 @@ export const Header: FC = () => {
                 <img src="./login.svg" alt="login" />
                 <p className={styles.loginText}>Вход</p>
               </Link>
-              <Link to="/register" className={styles.registrationLink}>
-                <p className={styles.registrationText}>Регистрация</p>
-              </Link>
+              {widthR.current ? (
+                ''
+              ) : (
+                <Link to="/register" className={styles.registrationLink}>
+                  <p className={styles.registrationText}>Регистрация</p>
+                </Link>
+              )}
             </div>
           )}
           {userInfoStorage.isLoggedIn && (
             <Link to="/profile" className={styles.profileLink}>
               <div>
-                <p className={styles.organizationText}>{userInfoStorage.user.organization.short_name}</p>
-                <p className={styles.organizationText}>ИНН {userInfoStorage.user.organization.inn}</p>
+                <p className={styles.organizationText}>
+                  {userInfoStorage.user.organization.short_name}
+                </p>
+                <p className={styles.organizationText}>
+                  ИНН {userInfoStorage.user.organization.inn}
+                </p>
               </div>
               <Avatar
                 src={userInfoStorage.user.avatar}

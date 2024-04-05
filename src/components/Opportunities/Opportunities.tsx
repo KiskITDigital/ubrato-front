@@ -1,22 +1,30 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './opportunities.module.css';
 import { OpportunitiesCard } from '@/components';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Executor, OpportunitiesInfoT, Orderer } from '@/textData/textData';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Opportunities: FC = () => {
   const ordererState = useIsOrdererState();
+  const userState = useUserInfoStore();
   const [info, setInfo] = useState<OpportunitiesInfoT[]>(Orderer);
 
   function handleInfo() {
-    if (ordererState.isOrderer) {
-      ordererState.handleState();
+    if (ordererState.role === 'orderer') {
+      ordererState.handleState('contractor');
       setInfo(Executor);
     } else {
-      ordererState.handleState();
+      ordererState.handleState('orderer');
       setInfo(Orderer);
     }
   }
+
+  useEffect(() => {
+    if (userState.user.is_contractor) {
+      setInfo(Executor);
+    } else setInfo(Orderer);
+  }, [userState.user.is_contractor]);
 
   return (
     <div className={`container ${styles.container}`}>
@@ -32,7 +40,7 @@ export const Opportunities: FC = () => {
           onClick={() => {
             handleInfo();
           }}
-          disabled={ordererState.isOrderer}
+          disabled={ordererState.role === 'orderer'}
           className={`${styles.button}`}
         >
           Для заказчика
@@ -41,7 +49,7 @@ export const Opportunities: FC = () => {
           onClick={() => {
             handleInfo();
           }}
-          disabled={!ordererState.isOrderer}
+          disabled={ordererState.role === 'contractor'}
           className={`${styles.button}`}
         >
           Для исполнителя

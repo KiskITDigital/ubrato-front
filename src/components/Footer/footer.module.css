@@ -7,6 +7,10 @@
   align-items: center;
 }
 
+.container {
+  margin-top: 50px;
+}
+
 .minilogo {
   width: 60px;
   height: 86px;
@@ -20,7 +24,9 @@
 
 .footerTop {
   justify-content: space-between;
+  align-items: center;
   margin-top: 11px;
+  display: flex;
 }
 
 .column {
@@ -91,13 +97,114 @@
   font-weight: 500;
 }
 
+.base {
+  background-color: var(--color-light-gray);
+  width: 37px;
+  height: 37px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-blue-primary);
+}
+
+.avatarImg {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.loginLink {
+  display: flex;
+  gap: 9px;
+  padding: 9px 14px;
+  background-color: var(--color-light-gray);
+  border-radius: 10px;
+}
+
+.loginText {
+  color: var(--color-dark-text);
+  font-weight: 400;
+}
+
+.registrationText {
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.registrationLink {
+  padding: 9px 14px;
+  border-radius: 10px;
+  background-color: var(--color-blue-primary);
+}
+
+.loginRegister {
+  display: flex;
+  gap: 20px;
+}
+
 @media screen and (width < 450px) {
   .footerTop {
+    justify-content: space-between;
+    max-width: 390px;
+    width: 100%;
+  }
+
+  .headercolumn {
+    text-align: center;
+  }
+
+  .column {
     display: none;
   }
 
-  .footerUnder {
-    display: none;
+  .bluetext {
+    text-align: center;
+  }
+
+  .supportService {
+    display: block;
+    width: 365px;
+  }
+
+  .supportService > ul {
+    display: flex;
+    max-width: 365px;
+  }
+
+  .pointtwo {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .loginRegister {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .loginLink {
+    padding: 5px 10px;
+  }
+
+  .loginLink > img {
+    width: 13.5px;
+    height: 13.5px;
+    align-self: center;
+  }
+
+  .registrationLink {
+    padding: 5px 10px;
+  }
+
+  .registrationText {
+    font-size: 12px;
+  }
+
+  .loginText {
+    font-size: 12px;
   }
 
   .container {
@@ -105,7 +212,7 @@
     width: 100vw;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .line {

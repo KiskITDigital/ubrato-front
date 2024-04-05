@@ -4,9 +4,11 @@ import { ExpandButton } from '@/components';
 import { executorQustions, generalQuestions, ordererQustions } from '@/textData/questionsData';
 import { useLocation } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
+import { useIsOrdererState } from '@/store/isOrdererStore';
 
 export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
+  const isOrdererState = useIsOrdererState();
 
   const location = useLocation();
 
@@ -34,6 +36,14 @@ export const QuestionsBlock: FC = () => {
   }, []);
 
   useEffect(() => {
+    if (isOrdererState.role === 'orderer') {
+      setPageNumber('3');
+    } else {
+      setPageNumber('2');
+    }
+  }, [isOrdererState.role]);
+
+  useEffect(() => {
     if (location.search) {
       setQuestionNumber(location.search.slice(-1));
       setPageNumber(location.search.slice(6, 7));
@@ -42,9 +52,12 @@ export const QuestionsBlock: FC = () => {
           const question = document.getElementById(location.hash.slice(1));
           if (question) {
             if (question.previousElementSibling instanceof HTMLElement) {
-              window.scrollTo(0, question.previousElementSibling.offsetTop - (widthR.current?-55:16));
+              window.scrollTo(
+                0,
+                question.previousElementSibling.offsetTop - (widthR.current ? -55 : 16)
+              );
             } else {
-              window.scrollTo(0, question.offsetTop - (widthR.current?75:116));
+              window.scrollTo(0, question.offsetTop - (widthR.current ? 75 : 116));
             }
           }
         }

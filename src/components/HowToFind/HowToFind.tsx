@@ -13,12 +13,12 @@ export const HowToFind: FC = () => {
       <h2 className={styles.header}>
         Как найти{' '}
         <span className={styles.blueHeader}>
-          {isOrdererStore.isOrderer ? 'надёжного' : 'выгодный'}
+          {isOrdererStore.role === 'orderer' ? 'надёжного' : 'выгодный'}
         </span>
-        {isOrdererStore.isOrderer ? ' исполнителя' : ' тендер'}
+        {isOrdererStore.role === 'orderer' ? ' исполнителя' : ' тендер'}
       </h2>
       <div className={styles.cards}>
-        {isOrdererStore.isOrderer
+        {isOrdererStore.role === 'orderer'
           ? ordererCardList.map((e, ix) => (
               <HowToFindCard key={ix} img={e.img} title={e.title} text={e.text} />
             ))
@@ -29,7 +29,7 @@ export const HowToFind: FC = () => {
       <div className={styles.btnContainer}>
         <Link to="/tenders" className={styles.btn}>
           <p className={styles.btnText}>
-            {isOrdererStore.isOrderer ? 'Опубликуйте тендер' : 'Найти тендер'}
+            {isOrdererStore.role === 'orderer' ? 'Опубликуйте тендер' : 'Найти тендер'}
           </p>
           <img src="./arrow-with-line-right-white.svg" alt="arrow" />
         </Link>

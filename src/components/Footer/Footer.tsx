@@ -1,8 +1,11 @@
 import { FC } from 'react';
 import styles from './footer.module.css';
 import { Link } from 'react-router-dom';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Footer: FC = () => {
+  const userInfoStorage = useUserInfoStore();
+
   return (
     <footer className={`container ${styles.container}`}>
       <div className={styles.footerTop}>
@@ -10,6 +13,22 @@ export const Footer: FC = () => {
           <img src="./minilogo2.png" className={styles.minilogo} alt="minilogo" />
           <img src="./logo.svg" className={styles.logo} alt="logo" />
         </div>
+        {!userInfoStorage.isLoggedIn && (
+          <div className={styles.loginRegister}>
+            <Link to="/login" className={styles.loginLink}>
+              <img src="./login.svg" alt="login" />
+              <p className={styles.loginText}>Вход</p>
+            </Link>
+            <Link to="/register" className={styles.registrationLink}>
+              <p className={styles.registrationText}>Регистрация</p>
+            </Link>
+          </div>
+        )}
+        {userInfoStorage.isLoggedIn && (
+          <Link to="/profile" className={styles.registrationLink}>
+            <p className={styles.registrationText}>Личный кабинет</p>
+          </Link>
+        )}
       </div>
       <div className={styles.footerUnder}>
         <div className={styles.column}>
@@ -102,7 +121,7 @@ export const Footer: FC = () => {
             </li>
           </ul>
         </div>
-        <div className={styles.column}>
+        <div className={`${styles.column} ${styles.supportService}`}>
           <p className={styles.headercolumn}>Служба поддержки</p>
           <ul>
             <li>

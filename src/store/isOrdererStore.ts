@@ -1,13 +1,13 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface OrdererState {
-  isOrderer: boolean;
-  handleState: () => void;
+  role: string;
+  handleState: (role:string) => void;
 }
 
 export const useIsOrdererState = create<OrdererState>()((set) => ({
-  isOrderer: true,
-  handleState: () => {
-    set((state) => ({ isOrderer: !state.isOrderer }));
+  role: 'orderer',
+  handleState: (role: string) => {
+    set(() => ({ role: role }));
   },
 }));

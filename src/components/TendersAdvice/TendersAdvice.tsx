@@ -31,11 +31,11 @@ export const TendersAdvice: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
         <h2 className={styles.header}>
-          {isOrdererState.isOrderer ? 'Исполнители' : 'Тендеры'}{' '}
+          {isOrdererState.role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
           <span className={styles.blueText}>Ubrato</span>
         </h2>
         <p className={styles.headerText}>
-          {isOrdererState.isOrderer
+          {isOrdererState.role === 'orderer'
             ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками поитогам выполнения тендеров'
             : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
         </p>
@@ -47,30 +47,30 @@ export const TendersAdvice: FC = () => {
               <div className={styles.embla__container}>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
                   </div>
                 </div>
               </div>
@@ -89,42 +89,42 @@ export const TendersAdvice: FC = () => {
               <div className={styles.embla__container}>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}1
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}2
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}3
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}4
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}5
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}6
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}7
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.isOrderer ? 'Исполнитель ' : 'Тендер '}8
+                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
                   </div>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export const TendersAdvice: FC = () => {
       <div className={styles.btnContainer}>
         <Link to="/tenders" className={styles.btn}>
           <p className={styles.btnText}>
-            {isOrdererState.isOrderer ? 'Найти исполнителя' : 'Найти тендер'}
+            {isOrdererState.role === 'orderer' ? 'Найти исполнителя' : 'Найти тендер'}
           </p>
           <img src="./arrow-with-line-right-white.svg" alt="arrow" />
         </Link>

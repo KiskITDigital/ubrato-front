@@ -163,7 +163,7 @@
   }
 
   .createTenderInput {
-    width: 221px;
+    width: 286px;
     padding: 11px 10px;
     border-radius: 10px;
     border: none;
@@ -191,7 +191,7 @@
     border-radius: 12px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 22px;
     margin-top: 16px;
   }
 

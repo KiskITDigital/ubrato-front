@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './mainbanner.module.css';
 import styles2 from './mainbanner2.module.css';
 import { Link } from 'react-router-dom';
@@ -15,12 +15,11 @@ export const MainBanner: FC = () => {
 
   const userStore = useUserInfoStore();
 
-  const width: number | null = null;
-  const widthR = useRef<number | null>(width);
+  const [mobile, setMobile] = useState(false);
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
-      widthR.current = window.outerHeight;
+      setMobile(true);
     }
   }, []);
 
@@ -59,9 +58,11 @@ export const MainBanner: FC = () => {
                 className={styles.createTenderInput}
                 type="text"
                 name="tender_text"
-                placeholder={widthR.current ? 'Создать тендер' : 'Опишите задачу или объект'}
+                placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
               />
-              <button className={styles.createTenderBtn}>Создать тендер</button>
+              <button className={styles.createTenderBtn}>
+                {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+              </button>
             </div>
             <div className={styles.exampleSearchContainer}>
               <p className={styles.exampleSearch}>Например, </p>
@@ -96,9 +97,11 @@ export const MainBanner: FC = () => {
                       className={styles.createTenderInput}
                       type="text"
                       name="tender_text"
-                      placeholder="Опишите задачу или объект"
+                      placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
                     />
-                    <button className={styles.createTenderBtn}>Создать тендер</button>
+                    <button className={styles.createTenderBtn}>
+                      {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+                    </button>
                   </div>
                   <div className={styles.exampleSearchContainer}>
                     <p className={styles.exampleSearch}>Например, </p>
