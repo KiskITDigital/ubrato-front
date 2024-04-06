@@ -110,7 +110,7 @@ export const LoginPage: FC = () => {
               label="Пароль"
               value={formik.values.password}
               onChange={formik.handleChange}
-              placeholder="Придумайте пароль"
+              placeholder="Введите пароль"
               isInvalid={Boolean(formik.errors.password)}
               errorMessage={formik.errors.password}
               endContent={
