@@ -148,8 +148,8 @@
 
 @media screen and (width < 450px) {
   .container {
-    width: 100vw;
-    border-radius: 0;
+    width: 380px;
+    border-radius: 20px;
     padding: 0;
     align-items: center;
     padding-top: 30px;

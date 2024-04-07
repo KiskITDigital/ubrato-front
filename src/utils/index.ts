@@ -1,3 +1,3 @@
 export { axiosInstance } from "./baseHttp";
-export { countTransform } from "./countTransform";
+export { countTransformTender, countTransformService } from "./countTransform";
 export { refreshToken } from "./refreshToken";

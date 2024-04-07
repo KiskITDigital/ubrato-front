@@ -4,11 +4,13 @@ import { TypeObjectCard, TypeCleaningCard } from '@/components';
 import { useTypesObjectsStore } from '@/store/objectsStore';
 import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { Link } from 'react-router-dom';
-import { countTransform } from '@/utils/countTransform';
+import { countTransformTender, countTransformService } from '@/utils';
+import { useIsOrdererState } from '@/store/isOrdererStore';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();
   const typeCleaningStore = useCleaningTypeStore();
+  const isOrdererState = useIsOrdererState();
 
   const listRef = useRef<HTMLDivElement>(null);
   const [isShown, setIsShown] = useState(false);
@@ -25,12 +27,12 @@ export const ExecutorsCatalog: FC = () => {
     }
   }, [isShown, objectsStore.objects.length]);
 
-  const fetchObjects = objectsStore.fetchObjects
-  const fetchCleaningTypes = typeCleaningStore.fetchCleaningTypes
+  const fetchObjects = objectsStore.fetchObjects;
+  const fetchCleaningTypes = typeCleaningStore.fetchCleaningTypes;
 
   useEffect(() => {
     fetchObjects();
-    fetchCleaningTypes()
+    fetchCleaningTypes();
   }, [fetchCleaningTypes, fetchObjects]);
 
   const count = 200;
@@ -77,6 +79,19 @@ export const ExecutorsCatalog: FC = () => {
       <div className={`${styles.dasshedBorder} ${styles.cleaningType}`}>
         <p className={styles.cleanType}>Укажите вид клининга</p>
         <div className={styles.cleaningTypeGrid}>
+          {widthR.current && (
+            <div>
+              <Link to="/tenders" className={styles.allTenderLink}>
+                <p className={styles.allTenderHeader}>Все тендеры</p>
+                <p className={styles.allTenderCount}>
+                  {count}{' '}
+                  {isOrdererState.role === 'contractor'
+                    ? countTransformTender(count)
+                    : countTransformService(count)}
+                </p>
+              </Link>
+            </div>
+          )}
           {typeCleaningStore.types.map((e, ix) => (
             <TypeCleaningCard
               key={ix}
@@ -85,21 +100,26 @@ export const ExecutorsCatalog: FC = () => {
               ix={ix}
             />
           ))}
-          <div>
-            <Link to="/tenders" className={styles.allTenderLink}>
-              <p className={styles.allTenderHeader}>Все тендеры</p>
-              <p className={styles.allTenderCount}>
-                {count} {countTransform(count)}
-              </p>
-            </Link>
-          </div>
+          {!widthR.current && (
+            <div>
+              <Link to="/tenders" className={styles.allTenderLink}>
+                <p className={styles.allTenderHeader}>Все тендеры</p>
+                <p className={styles.allTenderCount}>
+                  {count}{' '}
+                  {isOrdererState.role === 'contractor'
+                    ? countTransformTender(count)
+                    : countTransformService(count)}
+                </p>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       <div className={styles.findExecutor}>
         <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
         <button className={styles.findExecutorBtn}>
           Найти исполнителя
-          {widthR.current?<p className={styles.countExecutorsText}> 2485</p>:''}
+          {widthR.current ? <p className={styles.countExecutorsText}> 2485</p> : ''}
           <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
         </button>
       </div>
