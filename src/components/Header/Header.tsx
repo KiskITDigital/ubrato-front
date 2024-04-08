@@ -99,15 +99,14 @@ export const Header: FC = () => {
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
-              {userInfoStorage.user.is_contractor ||
-                (!userInfoStorage.isLoggedIn && (
-                  <li>
-                    <Link to="/" className={styles.navLink}>
-                      <img src="./find-tender.svg" alt="my-tender" />
-                      <p>Найти тендер</p>
-                    </Link>
-                  </li>
-                ))}
+              {(userInfoStorage.user.is_contractor || !userInfoStorage.isLoggedIn) && (
+                <li>
+                  <Link to="/" className={styles.navLink}>
+                    <img src="./find-tender.svg" alt="my-tender" />
+                    <p>Найти тендер</p>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/" className={styles.navLink}>
                   <img src="./my-tenders.svg" alt="my-tenders" />
