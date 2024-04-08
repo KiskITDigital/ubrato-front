@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
+import { Notifications } from '..';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -45,13 +46,20 @@ export const Header: FC = () => {
   return (
     <header className={`${styles.container}`}>
       {widthR.current && isMenuOpen && (
-        <div className={styles.mobileMenu}>
-          <Link to="/">Создать тендер</Link>
-          <Link to="/">Найти исполнителя</Link>
-          <Link to="/">Найти тендер</Link>
-          <Link to="/">Мои тендеры</Link>
-          <Link to="/">О сервисе</Link>
-          <Link to="/">Правовая информация</Link>
+        <div
+          onClick={() => {
+            setIsMenuOpen(false);
+          }}
+          className={styles.mobileMenuWrapper}
+        >
+          <div className={styles.mobileMenu}>
+            <Link to="/">Создать тендер</Link>
+            <Link to="/">Найти исполнителя</Link>
+            <Link to="/">Найти тендер</Link>
+            <Link to="/">Мои тендеры</Link>
+            <Link to="/">О сервисе</Link>
+            <Link to="/">Правовая информация</Link>
+          </div>
         </div>
       )}
       <div className={`container ${styles.mobileContainer}`}>
@@ -131,21 +139,24 @@ export const Header: FC = () => {
             </div>
           )}
           {userInfoStorage.isLoggedIn && (
-            <Link to="/profile" className={styles.profileLink}>
-              <div>
-                <p className={styles.organizationText}>
-                  {userInfoStorage.user.organization.short_name}
-                </p>
-                <p className={styles.organizationText}>
-                  ИНН {userInfoStorage.user.organization.inn}
-                </p>
-              </div>
-              <Avatar
-                src={userInfoStorage.user.avatar}
-                classNames={avatarStyle}
-                name={userInfoStorage.user.first_name}
-              />
-            </Link>
+            <div className={styles.notifContainer}>
+              <Link to="/profile" className={styles.profileLink}>
+                <div className={styles.orgInfo}>
+                  <p className={styles.organizationText}>
+                    {userInfoStorage.user.organization.short_name}
+                  </p>
+                  <p className={styles.organizationText}>
+                    ИНН {userInfoStorage.user.organization.inn}
+                  </p>
+                </div>
+                <Avatar
+                  src={userInfoStorage.user.avatar}
+                  classNames={avatarStyle}
+                  name={userInfoStorage.user.first_name}
+                />
+              </Link>
+              <Notifications count={1} />
+            </div>
           )}
         </div>
       </div>

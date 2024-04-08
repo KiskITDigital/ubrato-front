@@ -10,7 +10,6 @@
   font-size: 46px;
   font-weight: 900;
   margin-bottom: 22px;
-  max-width: 600;
   margin-bottom: 20px;
   margin-top: 40px;
   padding-top: 50px;
@@ -73,6 +72,8 @@
 @media screen and (width < 450px) {
   .titleblock {
     font-size: 30px;
+    padding-top: 10px;
+    margin-top: 10px;
   }
 
   .content {

@@ -62,7 +62,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       isActive: false,
     },
     {
-      name: 'Объект здравоохранения',
+      name: 'Объекты здравоохранения',
       count: -1,
       image: './health.svg',
       isActive: false,

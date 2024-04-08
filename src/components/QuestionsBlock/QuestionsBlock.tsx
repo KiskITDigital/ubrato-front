@@ -5,10 +5,12 @@ import { executorQustions, generalQuestions, ordererQustions } from '@/textData/
 import { useLocation } from 'react-router-dom';
 import { Accordion, AccordionItem, Selection } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const QuestionsBlock: FC = () => {
   const questions = useRef<HTMLDivElement>(null);
   const isOrdererState = useIsOrdererState();
+  const userInfoStore = useUserInfoStore();
 
   const location = useLocation();
 
@@ -36,12 +38,14 @@ export const QuestionsBlock: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isOrdererState.role === 'orderer') {
-      setPageNumber('3');
-    } else {
-      setPageNumber('2');
+    if (userInfoStore.isLoggedIn) {
+      if (isOrdererState.role === 'orderer') {
+        setPageNumber('3');
+      } else {
+        setPageNumber('2');
+      }
     }
-  }, [isOrdererState.role]);
+  }, [isOrdererState.role, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
     if (location.search) {

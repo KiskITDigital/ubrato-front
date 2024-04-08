@@ -126,6 +126,36 @@
   line-height: 17px;
   margin-right: 10px;
   text-align: right;
+  max-width: 130px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.notifContainer {
+  display: flex;
+  gap: 29px;
+  align-items: center;
+}
+
+.orgInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.organizationText:last-child {
+  display: none;
+}
+
+.orgInfo:hover > .organizationText {
+  color: #333;
+  width: fit-content;
+  max-width: 250px;
+}
+
+.orgInfo:hover > .organizationText:last-child {
+  display: block;
 }
 
 @media screen and (width < 450px) {
@@ -155,6 +185,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 5px;
+  }
+
+  .mobileMenuWrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .notifContainer {
+    gap: 7px;
   }
 
   .registrationText {

@@ -284,15 +284,16 @@
 
   .countExecutorsText {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
+    font-size: 18px;
+    line-height: 34px;
   }
 
   .findExecutorBtn {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    width: 390px;
+    width: 360px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 18px;
   }
 }
