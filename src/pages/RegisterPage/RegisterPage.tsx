@@ -101,6 +101,10 @@ export const RegisterPage: FC = () => {
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
+  if (!userInfoStore.isLoggedIn) {
+    return <div></div>;
+  }
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.formContainer}>
