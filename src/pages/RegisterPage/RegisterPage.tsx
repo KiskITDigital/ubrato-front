@@ -101,7 +101,7 @@ export const RegisterPage: FC = () => {
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
-  if (!userInfoStore.isLoggedIn) {
+  if (userInfoStore.isLoggedIn) {
     return <div></div>;
   }
 
