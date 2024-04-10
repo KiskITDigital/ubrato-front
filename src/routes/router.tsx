@@ -7,6 +7,7 @@ import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
+import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
 import { Page1, SurveyStart } from '@/components';
 
 export const Router = () => {
@@ -23,6 +24,8 @@ export const Router = () => {
           <Route path="1" element={<Page1 />} />
         </Route>
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="testmytender" element={<OneTenderPage/>} />
+
       </Route>
     </Routes>
   );
