@@ -7,6 +7,7 @@ import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
+import { Page1, SurveyStart } from '@/components';
 
 export const Router = () => {
   return (
@@ -17,7 +18,10 @@ export const Router = () => {
         <Route path="tenders" element={<TendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="survey" element={<SurveyPage />} />
+        <Route path="survey" element={<SurveyPage />}>
+          <Route path="" element={<SurveyStart />} />
+          <Route path="1" element={<Page1 />} />
+        </Route>
         <Route path="profile" element={<ProfilePage />} />
       </Route>
     </Routes>

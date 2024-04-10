@@ -15,3 +15,5 @@ export { OpportunitiesCard } from './OpportunitiesCard/OpportunutitesCard';
 export { ExpandButton } from './ExpandButton/ExpandButton';
 export { SurveyMainPart } from './SurveyComponents/MainPart/index';
 export { Notifications } from './Notifications/Notifications';
+export { Page1 } from './SurveyComponents/Page1/Page1';
+export { SurveyStart } from './SurveyComponents/SurveyStart/SurveyStart';

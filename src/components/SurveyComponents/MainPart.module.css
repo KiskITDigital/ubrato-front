@@ -1,5 +1,5 @@
 .blueText {
-  color: var(--color-blue-tertiary);
+  color: var(--color-blue-primary);
 }
 
 .container {
@@ -92,19 +92,77 @@ ul {
 }
 
 .survey__button {
-  background-color: var(--color-blue-tertiary);
+  background-color: var(--color-blue-primary);
   color: white;
   width: 430px;
   padding: 11px 0;
   border-radius: 20px;
   font-weight: 700;
   font-size: 32px;
-
+  display: flex;
+  justify-content: center;
   margin: 25px 0;
+}
+
+.blueBackground {
+  background-color: var(--color-blue-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  padding: 28px;
+}
+
+.text {
+  width: 1016px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.questionsHeader {
+  margin-top: 40px;
 }
 
 .italic {
   font-style: italic;
+}
+.questionItem {
+  list-style-type: decimal;
+}
+
+.questionsContainer {
+  width: 1016px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.radioBase {
+  display: flex;
+  gap: 32px;
+}
+
+.radioControl {
+  width: 0;
+  height: 0;
+  border-radius: 100%;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.radioBase[data-selected] > .radioWrapper > .radioControl {
+  background-color: black;
+  width: 18px;
+  height: 18px;
+}
+
+.radioWrapper {
+  border: 3px solid black;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (width <=1050px) {

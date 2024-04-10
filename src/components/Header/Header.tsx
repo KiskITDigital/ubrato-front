@@ -71,13 +71,13 @@ export const Header: FC = () => {
                 setIsMenuOpen(!isMenuOpen);
               }}
             >
-              <img src="./burger_button.svg" alt="" />
+              <img src="/burger_button.svg" alt="" />
             </button>
           ) : (
             ''
           )}
           <Link to="/">
-            <img src={widthR.current ? './logo-mobile.svg' : './logo.svg'} alt="logo" />
+            <img src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/">
@@ -87,7 +87,7 @@ export const Header: FC = () => {
               <p className={styles.text}>8 800-775-67-57</p>
             </Link>
             <div className={styles.location}>
-              <img src="./location.svg" alt="location" />
+              <img src="/location.svg" alt="location" />
               <p className={styles.locationText}>Москва</p>
             </div>
           </div>
@@ -97,27 +97,27 @@ export const Header: FC = () => {
             <ul className={styles.navLinksList}>
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./create-tender.svg" alt="create-tender" />
+                  <img src="/create-tender.svg" alt="create-tender" />
                   <p>Создать тендер</p>
                 </Link>
               </li>
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./find-executor.svg" alt="find-executor" />
+                  <img src="/find-executor.svg" alt="find-executor" />
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
               {(userInfoStorage.user.is_contractor || !userInfoStorage.isLoggedIn) && (
                 <li>
                   <Link to="/" className={styles.navLink}>
-                    <img src="./find-tender.svg" alt="my-tender" />
+                    <img src="/find-tender.svg" alt="my-tender" />
                     <p>Найти тендер</p>
                   </Link>
                 </li>
               )}
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./my-tenders.svg" alt="my-tenders" />
+                  <img src="/my-tenders.svg" alt="my-tenders" />
                   <p>Мои тендеры</p>
                 </Link>
               </li>
@@ -126,7 +126,7 @@ export const Header: FC = () => {
           {!userInfoStorage.isLoggedIn && (
             <div className={styles.loginRegister}>
               <Link to="/login" className={styles.loginLink}>
-                <img src="./login.svg" alt="login" />
+                <img src="/login.svg" alt="login" />
                 <p className={styles.loginText}>Вход</p>
               </Link>
               {widthR.current ? (

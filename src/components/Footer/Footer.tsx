@@ -10,13 +10,13 @@ export const Footer: FC = () => {
     <footer className={`container ${styles.container}`}>
       <div className={styles.footerTop}>
         <div className={styles.imgcontainer}>
-          <img src="./minilogo2.png" className={styles.minilogo} alt="minilogo" />
-          <img src="./logo.svg" className={styles.logo} alt="logo" />
+          <img src="/minilogo2.png" className={styles.minilogo} alt="minilogo" />
+          <img src="/logo.svg" className={styles.logo} alt="logo" />
         </div>
         {!userInfoStorage.isLoggedIn && (
           <div className={styles.loginRegister}>
             <Link to="/login" className={styles.loginLink}>
-              <img src="./login.svg" alt="login" />
+              <img src="/login.svg" alt="login" />
               <p className={styles.loginText}>Вход</p>
             </Link>
             <Link to="/register" className={styles.registrationLink}>
