@@ -7,6 +7,7 @@ import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
+import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
 
 export const Router = () => {
   return (
@@ -19,6 +20,8 @@ export const Router = () => {
         <Route path="register" element={<RegisterPage />} />
         <Route path="survey" element={<SurveyPage />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="testmytender" element={<OneTenderPage/>} />
+
       </Route>
     </Routes>
   );

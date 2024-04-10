@@ -1,0 +1,61 @@
+.infocontainer{
+    width: 1024px;
+    margin: auto;
+}
+
+.offerings_block{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.nd_info{
+    padding-bottom: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    border-bottom: 4px solid #0084FF1A;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-top-left-radius: 2px;
+    /* position: relative;
+    width: 100%;
+    display: block; */
+}
+.one_part_grow{
+    flex-grow: 1;
+}
+
+.date_info{
+    display: flex;
+    gap: 30px;
+    padding-top: 14px;
+}
+
+.info_start{
+    position: relative;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+.info_end{
+    position: relative;
+    padding-top: 5px;
+    font-size: 18px;
+}
+
+.info_start::before{
+    content: "Начало";
+    position: absolute;
+    font-size: 14px;
+    color: #666666;
+    top: -10px; 
+}
+
+.info_end::before{
+    content: "Окончание";
+    color: #666666;
+    font-size: 14px;
+    position: absolute;
+    top: -10px; 
+}
