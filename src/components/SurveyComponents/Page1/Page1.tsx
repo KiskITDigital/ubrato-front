@@ -1,18 +1,42 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from '../MainPart.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Radio, RadioGroup } from '@nextui-org/react';
+import { useSurveyStore } from '@/store/surveyStore';
 
 export const Page1: FC = () => {
-
   const radioStyle = {
     base: styles.radioBase,
     wrapper: styles.radioWrapper,
-    control: styles.radioControl
-  }
+    control: styles.radioControl,
+  };
+
+  const radioGroupStyle = {
+    wrapper: styles.radioGroupWrapper,
+  };
+
+  const [error, setError] = useState('');
+  const surveyStore = useSurveyStore();
+  const navigate = useNavigate();
+
+  const handleGoNext = () => {
+    if (
+      !surveyStore.question1.answer ||
+      (surveyStore.question1.answer === 'свой вариант' && !surveyStore.question1.comment)
+    ) {
+      setError('Это обязательный вопрос');
+    } else {
+      surveyStore.setIsPage1Completed(true);
+      navigate('/survey/2');
+    }
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <div>
+    <div style={{ marginBottom: '120px' }}>
       <h1 className={styles.title}>
         Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
@@ -45,12 +69,45 @@ export const Page1: FC = () => {
             </Link>
             .
           </p>
-          <RadioGroup>
-            <Radio classNames={radioStyle} value='yes'>Да</Radio>
-            <Radio classNames={radioStyle} value='no'>Нет</Radio>
+          <RadioGroup
+            value={surveyStore.question1.answer}
+            onValueChange={(v) => {
+              surveyStore.setQuestion1(v);
+              setError('');
+            }}
+            classNames={radioGroupStyle}
+          >
+            <Radio classNames={radioStyle} value="да">
+              Да
+            </Radio>
+            <Radio classNames={radioStyle} value="нет">
+              Нет
+            </Radio>
+            <Radio classNames={radioStyle} value="не решил">
+              Ещё не решил
+            </Radio>
+            <div className={styles.yourVariant}>
+              <Radio classNames={radioStyle} value="свой вариант">
+                Ваш вариант
+              </Radio>
+              <input
+                value={surveyStore.question1.comment}
+                onChange={(e) => {
+                  surveyStore.setQuestion1comment(e.target.value);
+                }}
+                disabled={surveyStore.question1.answer !== 'свой вариант'}
+                type="text"
+                className={styles.input}
+              />
+            </div>
+            {error && <p className={styles.errorText}>{error}</p>}
           </RadioGroup>
         </li>
       </ol>
+      <button className={`${styles.survey__button} ${styles.nextBtn}`} onClick={handleGoNext}>
+        Далее
+        <img src="/arrow-with-line-right-white.svg" alt="" />
+      </button>
     </div>
   );
 };

@@ -128,6 +128,12 @@ ul {
 }
 .questionItem {
   list-style-type: decimal;
+  margin-bottom: 70px;
+}
+
+.questionItem:not(:first-child) {
+  border-top: 1px dashed var(--color-black-60);
+  padding-top: 50px;
 }
 
 .questionsContainer {
@@ -163,6 +169,186 @@ ul {
   border-radius: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.radioGroupNumbersWrapper {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.radioNumberBase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+  background-color: black;
+  width: 18px;
+  height: 18px;
+}
+
+.input {
+  border: 3px solid var(--color-black-30);
+  border-radius: 20px;
+  width: 431px;
+  height: 58px;
+  outline: none;
+  padding: 10px 10px;
+  font-size: 20px;
+}
+
+.input:disabled {
+  opacity: 0.3;
+}
+
+.radioGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  position: relative;
+}
+
+.yourVariant {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nextBtn {
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+}
+
+.nextBtn2 {
+  min-width: 175px;
+  max-width: 220px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+}
+
+.backBtn {
+  background-color: var(--color-light-gray);
+  color: black;
+  width: 175px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.btnsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.errorText {
+  color: var(--color-red-error);
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+}
+
+.comment {
+  margin-top: 40px;
+}
+
+.tableQuestinHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tableQuestinHeader > p {
+  color: var(--color-blue-primary);
+}
+
+.tableQuestinHeader > div {
+  display: flex;
+  width: 320px;
+  justify-content: space-around;
+}
+
+.tableQuestinHeader > div > p {
+  color: var(--color-blue-primary);
+  width: 125px;
+  text-align: center;
+}
+
+.tableRadioGroupWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  background-color: var(--color-light-gray);
+  padding: 12px 18px;
+  border-radius: 10px;
+}
+
+.tableRadioGroupWrapper > div {
+  display: flex;
+  width: 320px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.checkBase {
+  display: block;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.checkIcon {
+  width: 80%;
+  height: 80%;
+}
+
+.checkIcon > polyline {
+  stroke: var(--color-blue-primary);
+}
+
+.checkWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-black-10);
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.checkText {
+  margin-left: 10px;
+}
+
+.checkContainer {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-light-gray);
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.checkContainer > p {
+  width: 600px;
+}
+
+.checkGroup {
+  margin-top: 30px;
+  position: relative;
 }
 
 @media screen and (width <=1050px) {
