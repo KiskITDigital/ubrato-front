@@ -3,6 +3,7 @@ import { CheckboxGroup, Checkbox } from '@nextui-org/react';
 import { FC, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from '../MainPart.module.css';
+import { sendAnswers } from '@/api';
 
 export const Page5: FC = () => {
   const checkStyle = {
@@ -16,7 +17,57 @@ export const Page5: FC = () => {
   const navigate = useNavigate();
 
   const handleGoNext = () => {
-    navigate('/profile');
+    const answers: string[] = [
+      surveyStore.question1.answer,
+      surveyStore.question1.comment,
+      surveyStore.question2.rate,
+      surveyStore.question2.comment,
+      surveyStore.question3.rate,
+      surveyStore.question3.comment,
+      surveyStore.question4.naviagtion,
+      surveyStore.question4.companyInfoChanging,
+      surveyStore.question4.contactInfoChanging,
+      surveyStore.question4.portfolioCreating,
+      surveyStore.question4.comment,
+      surveyStore.question5.rate,
+      surveyStore.question5.comment,
+      JSON.stringify(surveyStore.question6.answers),
+      surveyStore.question6.comment,
+      surveyStore.question7.rate,
+      surveyStore.question7.comment,
+      JSON.stringify(surveyStore.question8.answers),
+      surveyStore.question8.comment,
+      surveyStore.question9.rate,
+      surveyStore.question9.comment,
+      surveyStore.question10.rate,
+      surveyStore.question10.comment,
+      surveyStore.question11.response,
+      surveyStore.question11.priceNDS,
+      surveyStore.question11.chat,
+      surveyStore.question11.winnerInfo,
+      surveyStore.question11.readyConfirm,
+      surveyStore.question11.comment,
+      JSON.stringify(surveyStore.question12.answers),
+      surveyStore.question12.comment,
+      JSON.stringify(surveyStore.question13.answers),
+      surveyStore.question13.comment,
+      JSON.stringify(surveyStore.question14.answers),
+      surveyStore.question15,
+    ];
+    console.log(answers);
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        (async () => {
+          const res = await sendAnswers(token, answers);
+          if (res === 200) {
+            navigate('/profile');
+          }
+        })();
+      } catch (e) {
+        console.log(e);
+      }
+    }
   };
 
   useEffect(() => {

@@ -40,7 +40,7 @@ export const MainBanner: FC = () => {
 
   return (
     <div className={`container ${styles.mobileContainer}`}>
-      {!(userStore.isLoggedIn && userStore.user.is_contractor) && (
+      {(!(userStore.isLoggedIn && userStore.user.is_contractor) || userStore.passedSurvey) && (
         <div className={` ${styles.container}`}>
           <div>
             <h1 className={styles.header}>
@@ -77,7 +77,7 @@ export const MainBanner: FC = () => {
           <img className={styles.image} src="./banner-image.png" alt="big-man" />
         </div>
       )}
-      {userStore.isLoggedIn && userStore.user.is_contractor && (
+      {userStore.isLoggedIn && userStore.user.is_contractor && !userStore.passedSurvey && (
         <div className={`${styles.embla}`}>
           <div className={`${styles.embla__viewport}`} ref={emblaRef}>
             <div className={styles.embla__container}>

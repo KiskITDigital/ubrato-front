@@ -1,7 +1,7 @@
 import { AvatarInput } from '@/components/AvatarInput/AvatarInput';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const ProfilePage: FC = () => {
   const userStore = useUserInfoStore();
@@ -30,6 +30,7 @@ export const ProfilePage: FC = () => {
       <h3>{userStore.user.is_contractor ? 'Заказчик и исполнитель' : 'Заказчик'}</h3>
       <button onClick={handleLogOut}>Выйти</button>
       <AvatarInput />
+      <h2>{userStore.passedSurvey ? 'Опрос пройден' : <Link to="/survey">Опрос</Link>}</h2>
     </div>
   );
 };

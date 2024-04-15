@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { UserInfoT } from '@/types/app';
 import { AxiosError } from 'axios';
 import { axiosInstance, refreshToken } from '@/utils';
+import { surveyCheck } from '@/api';
 
 interface UserInfoState {
   user: UserInfoT;
@@ -10,6 +11,7 @@ interface UserInfoState {
   error: null | string;
   isLoggedIn: boolean;
   setLoggedIn: (e: boolean) => void;
+  passedSurvey: boolean;
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => ({
@@ -30,6 +32,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
       inn: '',
     },
   },
+  passedSurvey: false,
   loading: false,
   error: null,
   fetchUser: async (token) => {
@@ -40,7 +43,9 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
       });
       if (response.status !== 200) throw response;
       console.log(response.data);
+      const surveyPass = await surveyCheck(token);
       set({
+        passedSurvey: surveyPass,
         user: {
           first_name: response.data.first_name,
           last_name: response.data.last_name,
@@ -67,9 +72,11 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
               headers: { authorization: `Bearer ${newToken}` },
             });
             console.log(response);
+            const surveyPass = await surveyCheck(newToken);
             if (response.status === 200) {
               console.log(response.data);
               set({
+                passedSurvey: surveyPass,
                 user: {
                   first_name: response.data.first_name,
                   last_name: response.data.last_name,
