@@ -109,7 +109,7 @@ export const Page4: FC = () => {
         Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
       </h1>
       <div className={styles.blueBackground}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
@@ -119,15 +119,18 @@ export const Page4: FC = () => {
           .
         </p>
         <p className={styles.text}>
-          Пожалуйста, ответьте на вопросы анкеты. * Звездочкой отмечены обязательные для ответов{' '}
+          <span className={styles.bold}>
+            Пожалуйста, ответьте на вопросы анкеты. <br /> *
+          </span>{' '}
+          Звездочкой отмечены обязательные для ответов
         </p>
       </div>
       <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={styles.text}>Оцените удобство работы с тендерами</p>
+        <p className={`${styles.text} ${styles.bold}`}>Оцените удобство работы с тендерами</p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Пожалуйста, оцените удобства поиска тендеров *</p>
+          <p className={styles.bold}>Пожалуйста, оцените удобства поиска тендеров *</p>
           <p>1 - совсем непонятный и неудобный поиск тендеров, 10 - все понял, все удобно</p>
           <RadioGroup
             value={surveyStore.question9.rate}
@@ -159,7 +162,7 @@ export const Page4: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Пожалуйста, оцените полноту данных о тендере для отклика *</p>
+          <p className={styles.bold}>Пожалуйста, оцените полноту данных о тендере для отклика *</p>
           <p>
             1 - совсем мало данных о тендере, чтобы сделать отклик, 10 - данных о тендере достаточно
             для отклика

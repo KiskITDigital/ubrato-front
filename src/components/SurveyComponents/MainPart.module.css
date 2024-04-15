@@ -42,8 +42,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-blue-light);
+  background-color: #f5fafe;
   height: 327px;
+}
+
+.afertaText {
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .laptopImage {
@@ -52,20 +57,37 @@
 }
 
 .regularText {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 400;
 }
 
+.text {
+  width: 1016px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 800;
+}
+
 .boldText {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 700;
+  margin-top: 60px;
+}
+
+.narrowText {
+  width: 569px;
+  align-self: flex-end;
+  border-left: 9px solid #f3f3f3;
+  padding-left: 15px;
 }
 
 .link {
   text-decoration: underline;
   font-weight: 700;
-
-  color: var(--color-blue-secondary);
+  color: var(--color-blue-primary);
 }
 
 .part2 {
@@ -78,7 +100,7 @@
 
 .part2 > p,
 ul {
-  max-width: 658px;
+  max-width: 956px;
 }
 
 .dotLi {
@@ -87,7 +109,6 @@ ul {
 }
 
 .numberLi {
-  color: var(--color-blue-secondary);
   font-weight: 700;
 }
 
@@ -111,12 +132,6 @@ ul {
   align-items: center;
   gap: 26px;
   padding: 28px;
-}
-
-.text {
-  width: 1016px;
-  font-size: 24px;
-  font-weight: 500;
 }
 
 .questionsHeader {
@@ -388,7 +403,7 @@ ul {
 
   .part2 > p,
   ul {
-    max-width: 658px;
+    max-width: 956px;
   }
 
   .survey__button {

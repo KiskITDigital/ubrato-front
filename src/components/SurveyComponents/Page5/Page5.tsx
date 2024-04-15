@@ -104,7 +104,7 @@ export const Page5: FC = () => {
         Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
       </h1>
       <div className={styles.blueBackground}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
@@ -114,15 +114,18 @@ export const Page5: FC = () => {
           .
         </p>
         <p className={styles.text}>
-          Пожалуйста, ответьте на вопросы анкеты. * Звездочкой отмечены обязательные для ответов{' '}
+          <span className={styles.bold}>
+            Пожалуйста, ответьте на вопросы анкеты. <br /> *
+          </span>{' '}
+          Звездочкой отмечены обязательные для ответов
         </p>
       </div>
-      <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={styles.text}>Ubrato и ваш бизнес</p>
+      <div className={`${styles.blueBackground} ${styles.questionsHeader} ${styles.bold}`}>
+        <p className={`${styles.text} ${styles.bold}`}>Ubrato и ваш бизнес</p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
+          <p className={styles.bold}>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
           <CheckboxGroup
             value={surveyStore.question12.answers}
             onChange={(e) => {
@@ -172,7 +175,7 @@ export const Page5: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
+          <p className={styles.bold}>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
           <CheckboxGroup
             value={surveyStore.question13.answers}
             onChange={(e) => {
@@ -258,7 +261,7 @@ export const Page5: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Если площадка Ubrato станет платной, то какие услуги вы готовы оплачивать?</p>
+          <p className={styles.bold}>Если площадка Ubrato станет платной, то какие услуги вы готовы оплачивать?</p>
           <CheckboxGroup
             value={surveyStore.question14.answers}
             onChange={(e) => {
@@ -326,7 +329,7 @@ export const Page5: FC = () => {
         </li>
         <li>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Что еще вы хотели бы улучшить или добавить на сайте Ubrato?</p>
+            <p className={styles.text}>Что еще вы хотели бы улучшить или добавить на сайте Ubrato?</p>
             <input
               type="text"
               value={surveyStore.question15}

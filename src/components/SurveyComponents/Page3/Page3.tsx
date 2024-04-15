@@ -77,7 +77,7 @@ export const Page3: FC = () => {
         Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
       </h1>
       <div className={styles.blueBackground}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
@@ -87,15 +87,18 @@ export const Page3: FC = () => {
           .
         </p>
         <p className={styles.text}>
-          Пожалуйста, ответьте на вопросы анкеты. * Звездочкой отмечены обязательные для ответов{' '}
+          <span className={styles.bold}>
+            Пожалуйста, ответьте на вопросы анкеты. <br /> *
+          </span>{' '}
+          Звездочкой отмечены обязательные для ответов
         </p>
       </div>
       <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={styles.text}>Оцените полноту информации на сайте Ubrato</p>
+        <p className={`${styles.text} ${styles.bold}`}>Оцените полноту информации на сайте Ubrato</p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>
+          <p className={styles.bold}>
             Выберете один или несколько вариантов, как вам удобнее получать уведомления от нашего
             сайта
           </p>
@@ -154,7 +157,7 @@ export const Page3: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Пожалуйста, оцените, насколько информативны уведомления *</p>
+          <p className={styles.bold}>Пожалуйста, оцените, насколько информативны уведомления *</p>
           <p>
             1 - совсем непонятные и неинформативные уведомления, 10 - все понял, все информативно
           </p>
@@ -188,7 +191,7 @@ export const Page3: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Какие новости вы хотели бы видеть на Ubrato *</p>
+          <p className={styles.bold}>Какие новости вы хотели бы видеть на Ubrato *</p>
           <CheckboxGroup
             value={surveyStore.question8.answers}
             onChange={(e) => {

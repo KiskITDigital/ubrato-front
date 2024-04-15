@@ -41,7 +41,7 @@ export const Page1: FC = () => {
         Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
       <div className={styles.blueBackground}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
@@ -51,19 +51,24 @@ export const Page1: FC = () => {
           .
         </p>
         <p className={styles.text}>
-          Пожалуйста, ответьте на вопросы анкеты. * Звездочкой отмечены обязательные для ответов{' '}
+          <span className={styles.bold}>
+            Пожалуйста, ответьте на вопросы анкеты. <br /> *
+          </span>{' '}
+          Звездочкой отмечены обязательные для ответов
         </p>
       </div>
       <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Полезен ли <span className={styles.blueText}>Ubrato</span> для бизнеса вашей компании?{' '}
         </p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
           <p>
-            Помогает ли профильный агрегатор Ubrato в решении задач вашего бизнеса? * Чем полезен
-            сайт Ubrato - смотрите на странице{' '}
+            <span className={styles.bold}>
+              Помогает ли профильный агрегатор Ubrato в решении задач вашего бизнеса? *<br />
+            </span>
+            Чем полезен сайт Ubrato - смотрите на странице{' '}
             <Link to="/" target="_blank">
               “<span className={styles.blueText}>О сервисе</span>”
             </Link>
@@ -88,7 +93,7 @@ export const Page1: FC = () => {
             </Radio>
             <div className={styles.yourVariant}>
               <Radio classNames={radioStyle} value="свой вариант">
-                Ваш вариант
+                Ваш комментарий
               </Radio>
               <input
                 value={surveyStore.question1.comment}

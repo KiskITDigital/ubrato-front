@@ -105,7 +105,7 @@ export const Page2: FC = () => {
         Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
       </h1>
       <div className={styles.blueBackground}>
-        <p className={styles.text}>
+        <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
@@ -115,15 +115,18 @@ export const Page2: FC = () => {
           .
         </p>
         <p className={styles.text}>
-          Пожалуйста, ответьте на вопросы анкеты. * Звездочкой отмечены обязательные для ответов{' '}
+          <span className={styles.bold}>
+            Пожалуйста, ответьте на вопросы анкеты. <br /> *
+          </span>{' '}
+          Звездочкой отмечены обязательные для ответов
         </p>
       </div>
       <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={styles.text}>Оцените элементы и сервисы сайта Ubrato</p>
+        <p className={`${styles.text} ${styles.bold}`}>Оцените элементы и сервисы сайта Ubrato</p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>
+          <p className={styles.bold}>
             Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию (ссылки,
             кнопки, переходы в разделы и другие страницы и тд) *
           </p>
@@ -158,7 +161,7 @@ export const Page2: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Пожалуйста, оцените процесс регистрации и верификации в целом *</p>
+          <p className={styles.bold}>Пожалуйста, оцените процесс регистрации и верификации в целом *</p>
           <p>1 - неудобный, 10 - удобный</p>
           <RadioGroup
             value={surveyStore.question3.rate}

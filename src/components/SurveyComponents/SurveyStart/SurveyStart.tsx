@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import styles from '../MainPart.module.css'
+import styles from '../MainPart.module.css';
 import { Link } from 'react-router-dom';
 
 export const SurveyStart: FC = () => {
@@ -33,7 +33,7 @@ export const SurveyStart: FC = () => {
           качестве <span className={styles.link}>Исполнителей</span>, принять участие в тест-драйве
           сайта.
         </p>
-        <p className={styles.regularText}>
+        <p className={`${styles.regularText} ${styles.narrowText}`}>
           Ubrato – это платформа для корпоративных клиентов, которые ищут профессиональные услуги
           уборки и сопутствующие услуги. Платформа работает по принципу электронной торговой
           площадки, где заказчики публикуют свои запросы, а исполнители предлагают им свои услуги.
@@ -75,7 +75,7 @@ export const SurveyStart: FC = () => {
           </li>
           <li className={`${styles.regularText}`}>
             <span className={styles.numberLi}>3. </span>
-            <span className={styles.link}>Заполните анкету</span> участника в личном кабинете.
+            Заполните <span className={styles.link}>анкету</span> участника в личном кабинете.
           </li>
           <li className={`${styles.regularText}`}>
             <span className={styles.numberLi}>4. </span>Получите в подарок от нас Исследование рынка
@@ -86,7 +86,7 @@ export const SurveyStart: FC = () => {
         <Link to="1" className={styles.survey__button}>
           Участвовать
         </Link>
-        <p className={`${styles.italic} ${styles.regularText}`}>
+        <p className={`${styles.afertaText}`}>
           Настоящие условия не являются офертой. Администрация площадки Ubrato.ru вправе вносить
           изменения в условия тест-драйва без предварительного уведомления пользователей.
         </p>
