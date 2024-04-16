@@ -8,10 +8,13 @@
   --color-blue-light: #e5f1ff;
   --color-text-gray: rgba(7, 12, 44, 0.6);
   --color-text-gray-second: #595d73;
+  --color-black: black;
   --color-black-60: rgba(0, 0, 0, 0.6);
   --color-black-50: rgba(0, 0, 0, 0.5);
   --color-black-10: rgba(0, 0, 0, 0.1);
   --color-light-gray: #f3f7fa;
+  --color-light-gray-secondary: #ECF0F3;
+  --color-light-gray-tertiary: #e7e7e7;
   --color-light-blue: #F4FAFF;
   --color-back-gray: #f4f7f9;
   --color-gray-595: #595d73;
