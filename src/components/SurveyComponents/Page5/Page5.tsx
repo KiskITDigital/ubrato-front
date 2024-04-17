@@ -101,7 +101,7 @@ export const Page5: FC = () => {
   return (
     <div style={{ marginBottom: '120px' }}>
       <h1 className={styles.title}>
-        Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
+        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
       <div className={styles.blueBackground}>
         <p className={`${styles.text} ${styles.bold}`}>
@@ -125,7 +125,9 @@ export const Page5: FC = () => {
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
+          <p className={styles.bold}>
+            Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?
+          </p>
           <CheckboxGroup
             value={surveyStore.question12.answers}
             onChange={(e) => {
@@ -137,29 +139,29 @@ export const Page5: FC = () => {
           >
             <div className={styles.checkContainer}>
               <p>Поиск заказа</p>
-              <Checkbox value="Поиск заказа" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Поиск заказа" classNames={checkStyle}>Да</Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Согласование объема и стоимости услуг</p>
-              <Checkbox
-                value="Согласование объема и стоимости услуг"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Согласование объема и стоимости услуг" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Проверка контрагента</p>
-              <Checkbox value="Проверка контрагента" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Проверка контрагента" classNames={checkStyle}>Да</Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Возможность загружать примеры работ (кейсы)</p>
-              <Checkbox
-                value="Возможность загружать примеры работ"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Возможность загружать примеры работ" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Наличие отзывов</p>
-              <Checkbox value="Наличие отзывов" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Наличие отзывов" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
           </CheckboxGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
@@ -175,7 +177,9 @@ export const Page5: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?</p>
+          <p className={styles.bold}>
+            Какие услуги платформы Ubrato были бы интересны и востребованы для вашего бизнеса?
+          </p>
           <CheckboxGroup
             value={surveyStore.question13.answers}
             onChange={(e) => {
@@ -190,46 +194,57 @@ export const Page5: FC = () => {
                 Режим одного окна (договор, акт сдачи-приемки работ, арбитраж, привлечение эксперта
                 на любом из этапов взаимодействия сторон, в т.ч. с выездом на объект)
               </p>
-              <Checkbox value="Режим одного окна" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Режим одного окна" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Гарантия получения оплаты по процедуре “Безопасная сделка”</p>
               <Checkbox
                 value="Гарантия получения оплаты по процедуре “Безопасная сделка”"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Заключение договора через площадку</p>
-              <Checkbox
-                value="Заключение договора через площадку"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Заключение договора через площадку" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Подписание акта выполненных работ через площадку</p>
               <Checkbox
                 value="Подписание акта выполненных работ через площадку"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Разрешение споров с помощью процедуры арбитража</p>
               <Checkbox
                 value="Разрешение споров с помощью процедуры арбитража"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Аренда/продажа уборочной техники, расходных материалов и экипировки</p>
               <Checkbox
                 value="Аренда/продажа уборочной техники, расходных материалов и экипировки"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Аутсорсинг персонала</p>
-              <Checkbox value="Аутсорсинг персонала" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Аутсорсинг персонала" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
@@ -238,14 +253,18 @@ export const Page5: FC = () => {
               <Checkbox
                 value="Финансовые услуги (страхование, помощь в получении кредита, банковской гарантии)"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
                 Продвижение компании на сайте (баннерная реклама, выделенная карточка профиля,
                 приоритетное размещение в выдаче каталога и др.)
               </p>
-              <Checkbox value="Продвижение компании на сайте" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Продвижение компании на сайте" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
           </CheckboxGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
@@ -261,7 +280,9 @@ export const Page5: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>Если площадка Ubrato станет платной, то какие услуги вы готовы оплачивать?</p>
+          <p className={styles.bold}>
+            Если площадка Ubrato станет платной, то какие услуги вы готовы оплачивать?
+          </p>
           <CheckboxGroup
             value={surveyStore.question14.answers}
             onChange={(e) => {
@@ -273,14 +294,15 @@ export const Page5: FC = () => {
           >
             <div className={styles.checkContainer}>
               <p>Участие в тендерах (абонентская плата)</p>
-              <Checkbox
-                value="Участие в тендерах (абонентская плата)"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Участие в тендерах (абонентская плата)" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Доступ к базе текущих тендеров (единовременная плата за пакет услуг)</p>
-              <Checkbox value="Доступ к базе текущих тендеров" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Доступ к базе текущих тендеров" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
@@ -290,11 +312,15 @@ export const Page5: FC = () => {
               <Checkbox
                 value="Доступ к базе текущих тендеров и продвижение компании"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Комиссия за победу в тендере</p>
-              <Checkbox value="Комиссия за победу в тендере" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Комиссия за победу в тендере" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
@@ -304,7 +330,9 @@ export const Page5: FC = () => {
               <Checkbox
                 value="Раскрытие контактных данных вашей организации в каталоге Исполнителей"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
@@ -314,7 +342,9 @@ export const Page5: FC = () => {
               <Checkbox
                 value="Размещение и оформление профиля, продвижение компании"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>
@@ -323,13 +353,17 @@ export const Page5: FC = () => {
               <Checkbox
                 value="Смс-уведомления о публикации новых тендеров в вашем сегменте"
                 classNames={checkStyle}
-              ></Checkbox>
+              >
+                Да
+              </Checkbox>
             </div>
           </CheckboxGroup>
         </li>
         <li>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p className={styles.text}>Что еще вы хотели бы улучшить или добавить на сайте Ubrato?</p>
+            <p className={styles.text}>
+              Что еще вы хотели бы улучшить или добавить на сайте Ubrato?
+            </p>
             <input
               type="text"
               value={surveyStore.question15}

@@ -1,3 +1,4 @@
+import { surveyCheck } from '@/api';
 import { AvatarInput } from '@/components/AvatarInput/AvatarInput';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
@@ -6,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export const ProfilePage: FC = () => {
   const userStore = useUserInfoStore();
   const navigate = useNavigate();
+  const setPassedSurvey = userStore.setPassedSurvey;
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
@@ -14,10 +16,15 @@ export const ProfilePage: FC = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem('token') || userStore.error) {
+    const token = localStorage.getItem('token');
+    if (!token || userStore.error) {
       navigate('/');
+    } else {
+      (async () => {
+        setPassedSurvey(await surveyCheck(token));
+      })();
     }
-  }, [navigate, userStore.error, userStore.isLoggedIn, userStore.loading]);
+  }, [navigate, setPassedSurvey, userStore.error, userStore.isLoggedIn, userStore.loading]);
 
   if (!userStore.isLoggedIn) {
     return <div></div>;

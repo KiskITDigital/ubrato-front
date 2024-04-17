@@ -12,6 +12,7 @@ interface UserInfoState {
   isLoggedIn: boolean;
   setLoggedIn: (e: boolean) => void;
   passedSurvey: boolean;
+  setPassedSurvey: (e: boolean) => void;
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => ({
@@ -103,5 +104,8 @@ export const useUserInfoStore = create<UserInfoState>()((set) => ({
   isLoggedIn: false,
   setLoggedIn(e) {
     set({ isLoggedIn: e });
+  },
+  setPassedSurvey(e) {
+    set({ passedSurvey: e });
   },
 }));

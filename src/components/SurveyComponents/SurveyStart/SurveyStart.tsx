@@ -11,21 +11,21 @@ export const SurveyStart: FC = () => {
       <div className={`${styles.part1}`}>
         <div className={`${styles.textBlock}`}>
           <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="./survey/check-mark.svg" alt="" />
+            <img className={styles.survey__pair__image} src="/survey/check-mark.svg" alt="" />
             <p className={styles.survey__pair__text}>Примите участие в опросе</p>
           </div>
           <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="./survey/arrow-down.svg" alt="" />
+            <img className={styles.survey__pair__image} src="/survey/arrow-down.svg" alt="" />
             <p className={styles.survey__pair__text}>Получите исследование в подарок</p>
           </div>
           <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="./survey/heart.svg" alt="" />
+            <img className={styles.survey__pair__image} src="/survey/heart.svg" alt="" />
             <p className={styles.survey__pair__text}>
               Давайте улучшим <span className={styles.blueText}>Ubrato</span> вместе
             </p>
           </div>
         </div>
-        <img className={styles.laptopImage} src="./survey/laptop.png" alt="" />
+        <img className={styles.laptopImage} src="/survey/laptop.png" alt="" />
       </div>
       <div className={`${styles.part2} ${styles.container}`}>
         <p className={styles.boldText}>

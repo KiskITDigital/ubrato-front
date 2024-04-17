@@ -106,7 +106,7 @@ export const Page4: FC = () => {
   return (
     <div style={{ marginBottom: '120px' }}>
       <h1 className={styles.title}>
-        Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
+        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
       <div className={styles.blueBackground}>
         <p className={`${styles.text} ${styles.bold}`}>

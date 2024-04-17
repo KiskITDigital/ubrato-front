@@ -74,7 +74,7 @@ export const Page3: FC = () => {
   return (
     <div style={{ marginBottom: '120px' }}>
       <h1 className={styles.title}>
-        Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
+        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
       <div className={styles.blueBackground}>
         <p className={`${styles.text} ${styles.bold}`}>
@@ -94,7 +94,9 @@ export const Page3: FC = () => {
         </p>
       </div>
       <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={`${styles.text} ${styles.bold}`}>Оцените полноту информации на сайте Ubrato</p>
+        <p className={`${styles.text} ${styles.bold}`}>
+          Оцените полноту информации на сайте Ubrato
+        </p>
       </div>
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
@@ -204,39 +206,39 @@ export const Page3: FC = () => {
           >
             <div className={styles.checkContainer}>
               <p>Динамика рынка клининга, информация об активности заказчиков</p>
-              <Checkbox value="Динамика рынка клининга" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Динамика рынка клининга" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Слияния и поглощения игроков рынка клининга</p>
-              <Checkbox
-                value="Слияния и поглощения игроков рынка клининга"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Слияния и поглощения игроков рынка клининга" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Новости о регулировании рынка клининга</p>
-              <Checkbox
-                value="Новости о регулировании рынка клининга"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Новости о регулировании рынка клининга" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Информация о новинках оборудования, инструментов и чистящих средств</p>
-              <Checkbox
-                value="Информация о новинках оборудования"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Информация о новинках оборудования" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Все ключевые отраслевые новости</p>
-              <Checkbox value="Все ключевые новости" classNames={checkStyle}></Checkbox>
+              <Checkbox value="Все ключевые новости" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Хочу сфокусироваться на работе с тендерами, не отвлекаясь на отраслевые новости</p>
-              <Checkbox
-                value="Хочу сфокусироваться на работе с тендерами"
-                classNames={checkStyle}
-              ></Checkbox>
+              <Checkbox value="Хочу сфокусироваться на работе с тендерами" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             {error3 && <p className={styles.errorText}>{error3}</p>}
           </CheckboxGroup>

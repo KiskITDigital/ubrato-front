@@ -30,18 +30,18 @@ export const Page2: FC = () => {
   const [error4, setError4] = useState('');
 
   const handleGoNext = () => {
-    let error = true
+    let error = true;
     if (!surveyStore.question2.rate) {
       setError1('Это обязательный вопрос');
-      error = true
+      error = true;
     } else {
-      error = false
+      error = false;
     }
     if (!surveyStore.question3.rate) {
       setError2('Это обязательный вопрос');
-      error = true
+      error = true;
     } else {
-      error = false
+      error = false;
     }
     if (
       !surveyStore.question4.naviagtion ||
@@ -49,18 +49,17 @@ export const Page2: FC = () => {
       !surveyStore.question4.contactInfoChanging ||
       !surveyStore.question4.portfolioCreating
     ) {
-      error = true
+      error = true;
       setError3('Ответьте на все вопросы');
     } else {
-      error = false
+      error = false;
     }
     if (!surveyStore.question5.rate) {
-      error = true
+      error = true;
       setError4('Это обязательный вопрос');
     } else {
-      error = false
+      error = false;
     }
-    console.log(error)
     if (!error) {
       surveyStore.setIsPage2Completed(true);
       navigate('/survey/3');
@@ -102,7 +101,7 @@ export const Page2: FC = () => {
   return (
     <div style={{ marginBottom: '120px' }}>
       <h1 className={styles.title}>
-        Оцените некоторые элементы и сервисы сайта <span className={styles.blueText}>Ubrato</span>
+        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
       <div className={styles.blueBackground}>
         <p className={`${styles.text} ${styles.bold}`}>
@@ -161,7 +160,9 @@ export const Page2: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>Пожалуйста, оцените процесс регистрации и верификации в целом *</p>
+          <p className={styles.bold}>
+            Пожалуйста, оцените процесс регистрации и верификации в целом *
+          </p>
           <p>1 - неудобный, 10 - удобный</p>
           <RadioGroup
             value={surveyStore.question3.rate}

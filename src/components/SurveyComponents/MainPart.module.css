@@ -78,10 +78,16 @@
 }
 
 .narrowText {
-  width: 569px;
-  align-self: flex-end;
-  border-left: 9px solid #f3f3f3;
-  padding-left: 15px;
+  position: relative;
+}
+
+.narrowText::before {
+  content: '';
+  width: 9px;
+  height: 100%;
+  position: absolute;
+  background-color: #f3f3f3;
+  left: -24px;
 }
 
 .link {
@@ -290,6 +296,7 @@ ul {
   display: flex;
   width: 320px;
   justify-content: space-around;
+  margin-right: 18px;
 }
 
 .tableQuestinHeader > div > p {
