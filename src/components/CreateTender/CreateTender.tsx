@@ -147,33 +147,33 @@ export const CreateTender: FC = () => {
 
 
 
-    const animals = [
-        { label: "Cat", value: "cat", description: "The second most popular pet in the world" },
-        { label: "Dog", value: "dog", description: "The most popular pet in the world" },
-        { label: "Elephant", value: "elephant", description: "The largest land animal" },
-        { label: "Lion", value: "lion", description: "The king of the jungle" },
-        { label: "Tiger", value: "tiger", description: "The largest cat species" },
-        { label: "Giraffe", value: "giraffe", description: "The tallest land animal" },
-        {
-            label: "Dolphin",
-            value: "dolphin",
-            description: "A widely distributed and diverse group of aquatic mammals",
-        },
-        { label: "Penguin", value: "penguin", description: "A group of aquatic flightless birds" },
-        { label: "Zebra", value: "zebra", description: "A several species of African equids" },
-        {
-            label: "Shark",
-            value: "shark",
-            description: "A group of elasmobranch fish characterized by a cartilaginous skeleton",
-        },
-        {
-            label: "Whale",
-            value: "whale",
-            description: "Diverse group of fully aquatic placental marine mammals",
-        },
-        { label: "Otter", value: "otter", description: "A carnivorous mammal in the subfamily Lutrinae" },
-        { label: "Crocodile", value: "crocodile", description: "A large semiaquatic reptile" },
-    ];
+    // const animals = [
+    //     { label: "Cat", value: "cat", description: "The second most popular pet in the world" },
+    //     { label: "Dog", value: "dog", description: "The most popular pet in the world" },
+    //     { label: "Elephant", value: "elephant", description: "The largest land animal" },
+    //     { label: "Lion", value: "lion", description: "The king of the jungle" },
+    //     { label: "Tiger", value: "tiger", description: "The largest cat species" },
+    //     { label: "Giraffe", value: "giraffe", description: "The tallest land animal" },
+    //     {
+    //         label: "Dolphin",
+    //         value: "dolphin",
+    //         description: "A widely distributed and diverse group of aquatic mammals",
+    //     },
+    //     { label: "Penguin", value: "penguin", description: "A group of aquatic flightless birds" },
+    //     { label: "Zebra", value: "zebra", description: "A several species of African equids" },
+    //     {
+    //         label: "Shark",
+    //         value: "shark",
+    //         description: "A group of elasmobranch fish characterized by a cartilaginous skeleton",
+    //     },
+    //     {
+    //         label: "Whale",
+    //         value: "whale",
+    //         description: "Diverse group of fully aquatic placental marine mammals",
+    //     },
+    //     { label: "Otter", value: "otter", description: "A carnivorous mammal in the subfamily Lutrinae" },
+    //     { label: "Crocodile", value: "crocodile", description: "A large semiaquatic reptile" },
+    // ];
 
 
 
@@ -332,11 +332,14 @@ export const CreateTender: FC = () => {
                         {/* <input type="text" className={`${styles.input} ${styles.city__input}`} /> */}
                         <Autocomplete
                             className={`${styles.section__block__cities}`}
+                            onInputChange={(newQuery) => createTenderState.getCities(newQuery)}
                         // className={`${styles.input} ${styles.city__input}`}
                         >
-                            {animals.map((animal) => (
-                                <AutocompleteItem key={animal.value} value={animal.value}>
-                                    {animal.label}
+                            {createTenderState.cities.map((city) => (
+                                <AutocompleteItem key={city.id} value={city.name}>
+                                    {/* <p>{city.name} - <span style={{ color: 'blue' }}>{city.region}</span></p> */}
+                                    {/* {city.name} */}
+                                    {`${city.name} - ${city.region}`}
                                 </AutocompleteItem>
                             ))}
                         </Autocomplete>
@@ -604,6 +607,15 @@ export const CreateTender: FC = () => {
                                 ref={inputFileRef}
                                 style={{ display: 'none' }}
                             />
+                        </div>
+                    </div>
+                </div>
+                <div className={`${styles.section} ${styles.sendButtons}`}>
+                    <div className={`${styles.section__block}`}>
+                        <p className={`${styles.section__block__p}`}></p>
+                        <div className={`${styles.section__sendButtons__block}`}>
+                            <button className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
+                            <button className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                         </div>
                     </div>
                 </div>

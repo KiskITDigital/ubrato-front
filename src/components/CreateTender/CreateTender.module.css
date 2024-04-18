@@ -805,3 +805,30 @@
     border-color: var(--color-blue-primary);
     background-color: var(--color-white);
 } */
+
+.sendButtons {
+    border-bottom: none;
+}
+
+.section__sendButtons__block {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.section__sendButtons__block>button {
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 500;
+}
+
+.section__sendButtons__block__moderationButton {
+    background-color: var(--color-blue-primary);
+    color: var(--color-white);
+}
+
+.section__sendButtons__block__templateButton {
+    background-color: var(--color-back-gray);
+}

@@ -1,3 +1,5 @@
+import { City } from "@/types/app";
+import axios from "axios";
 import { create } from "zustand";
 
 interface createTenderState {
@@ -35,6 +37,9 @@ interface createTenderState {
     addService: (newServiceName: string, newServiceTypes: string[]) => void
     removeService: (id: number) => void
     removeServiceType: (serviceId: number, typeId: number) => void
+
+    cities: City[]
+    getCities: (query: string) => void
 }
 
 export const useCreateTenderState = create<createTenderState>()((set) => ({
@@ -63,6 +68,8 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     objectCategory: [],
 
     services: [],
+
+    cities: [],
 
     "reception_start": "",
     "reception_time_start": "",
@@ -114,5 +121,14 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         // } else {
         //     set((state) => ({ ...state, services: state.services.map(service => service.id === serviceId ? { ...service, types: service.types.filter(type => type.id !== typeId) } : service) }))
         // }
+    },
+
+    getCities: async (query: string) => {
+        console.log(query);
+
+        const newSities = query ? (await axios.get(`https://api.ubrato.ru/v1/suggest/city?query=${query}`)).data : []
+        console.log(newSities);
+
+        set((state) => ({ ...state, cities: newSities }))
     }
 }));

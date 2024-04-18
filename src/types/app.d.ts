@@ -55,3 +55,9 @@ export interface QuestionT {
   title: string;
   textComponent: ReactNode;
 }
+
+export interface City {
+  "id": number,
+  "name": string,
+  "region": string
+}
