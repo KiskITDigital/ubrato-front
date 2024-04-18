@@ -155,7 +155,7 @@ export const Header: FC = () => {
                   name={userInfoStorage.user.first_name}
                 />
               </Link>
-              <Notifications count={1} />
+              <Notifications />
             </div>
           )}
         </div>
