@@ -124,10 +124,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     },
 
     getCities: async (query: string) => {
-        console.log(query);
-
+        // console.log(query);
         const newSities = query ? (await axios.get(`https://api.ubrato.ru/v1/suggest/city?query=${query}`)).data : []
-        console.log(newSities);
+        // console.log(newSities);
 
         set((state) => ({ ...state, cities: newSities }))
     }
