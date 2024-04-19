@@ -10,12 +10,10 @@ export const NotificationsList: FC<{
 }> = ({ isDisplayed, closeList, listRef }) => {
   const notificationsStore = useNotificationsStore();
 
+  
   return (
     <div
       tabIndex={1}
-      onBlur={() => {
-        closeList(false);
-      }}
       ref={listRef}
       className={`${styles.container} ${isDisplayed ? '' : styles.displayNone}`}
     >
