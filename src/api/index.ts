@@ -4,4 +4,4 @@ export { uploadFile } from './updateAvatar';
 export { updateAvatar } from './updateAvatar';
 export { sendAnswers } from './sendSurvey';
 export { surveyCheck } from './surveyCheck';
-export { getNotifications } from './getNotofications';
+export { getNotifications, setNotificationRead } from './notofications';

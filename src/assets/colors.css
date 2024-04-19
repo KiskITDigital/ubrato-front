@@ -1,5 +1,6 @@
 :root {
   --color-blue-primary: #0084ff;
+  --color-blue-primary-20: rgba(0, 132, 255, 0.2);
   --color-blue-secondary: #3798f2;
   --color-blue-tertiary: #008dce;
   --color-dark-text: #070c2c;

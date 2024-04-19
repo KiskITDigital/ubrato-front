@@ -61,6 +61,7 @@ export interface notificationT {
   href: string | null;
   id: 0;
   header: string;
+  read: true;
 }
 
 export interface notificationsT {
