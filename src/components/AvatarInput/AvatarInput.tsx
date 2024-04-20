@@ -2,7 +2,7 @@ import { Avatar } from '@nextui-org/react';
 import { FC } from 'react';
 import styles from './avatarinput.module.css';
 import { useUserInfoStore } from '@/store/userInfoStore';
-import { updateAvatar, uploadFile } from '@/api';
+import { updateAvatar, updateToken, uploadFile } from '@/api';
 
 export const AvatarInput: FC = () => {
   const userInfoState = useUserInfoStore();
@@ -37,10 +37,14 @@ export const AvatarInput: FC = () => {
               private: false,
             };
             if (token) {
-              const link = await uploadFile(token, parameters);
+              const link = await updateToken<string, { file: File; private: boolean }>(
+                token,
+                uploadFile,
+                parameters
+              );
               const avatar = `https://store.ubrato.ru/s3${link?.replace('/files', '')}`;
-              await updateAvatar(token, avatar);
-              await userInfoState.fetchUser(token);
+              await updateToken<void, string>(token, updateAvatar, avatar);
+              await updateToken<void, undefined>(token, userInfoState.fetchUser, undefined);
             }
           }}
           type="file"

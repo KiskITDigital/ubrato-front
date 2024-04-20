@@ -5,6 +5,7 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
+import { updateToken } from '@/api';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -28,7 +29,7 @@ export const Header: FC = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {
       (async () => {
-        await fetchUser(token);
+        await updateToken<void, undefined>(token, fetchUser, undefined);
       })();
     }
   }, [fetchUser]);
@@ -41,6 +42,9 @@ export const Header: FC = () => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
+    navigator.geolocation.getCurrentPosition((e) => {
+      console.log(e);
+    });
   }, []);
 
   return (

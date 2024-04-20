@@ -4,19 +4,13 @@ import { useNotificationsStore } from '@/store/notificationsStore';
 import { Link } from 'react-router-dom';
 
 export const NotificationsList: FC<{
-  isDisplayed: boolean;
   closeList: (state: boolean) => void;
   listRef: RefObject<HTMLDivElement>;
-}> = ({ isDisplayed, closeList, listRef }) => {
+}> = ({ closeList, listRef }) => {
   const notificationsStore = useNotificationsStore();
 
-  
   return (
-    <div
-      tabIndex={1}
-      ref={listRef}
-      className={`${styles.container} ${isDisplayed ? '' : styles.displayNone}`}
-    >
+    <div tabIndex={1} ref={listRef} className={`${styles.container} `}>
       <div className={styles.scroll}>
         {notificationsStore.notifications.notifications.map(
           (e) =>

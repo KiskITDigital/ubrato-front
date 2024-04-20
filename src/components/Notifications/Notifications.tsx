@@ -2,7 +2,9 @@ import { FC, useEffect, useRef, useState } from 'react';
 import styles from './notifications.module.css';
 import { useNotificationsStore } from '@/store/notificationsStore';
 import { NotificationsList } from '../NotificationsList/NotificationsList';
-import { useClickOutside } from '@/hooks';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import { updateToken } from '@/api';
+
 
 export const Notifications: FC = () => {
   const notificationsStore = useNotificationsStore();
@@ -12,31 +14,28 @@ export const Notifications: FC = () => {
 
   const listRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(listRef, () => {
-    if (isDisplayed) {
-      setTimeout(() => setIsDisplayed(false), 210);
-    }
-  });
+  // useUpdateToken<void, never>(token, fetchNotifications, undefined);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      fetchNotifications(token);
-    }
+    updateToken<void, undefined>(token, fetchNotifications, undefined);
   }, [fetchNotifications]);
 
   return (
     <div className={styles.container}>
-      <button
-        className={styles.dis}
-        onClick={() => {
-          setIsDisplayed(!isDisplayed);
-        }}
-      >
-        <img className={styles.img} src="/bell.svg" alt="" />
-      </button>
-      <div className={styles.count}>{notificationsStore.notifications.total}</div>
-      <NotificationsList listRef={listRef} closeList={setIsDisplayed} isDisplayed={isDisplayed} />
+      <Popover isOpen={isDisplayed} onOpenChange={(open) => setIsDisplayed(open)}>
+        <PopoverTrigger>
+          <div className={styles.trigger}>
+            <button>
+              <img className={styles.img} src="/bell.svg" alt="" />
+            </button>
+            <div className={styles.count}>{notificationsStore.notifications.total}</div>
+          </div>
+        </PopoverTrigger>
+        <PopoverContent>
+          <NotificationsList listRef={listRef} closeList={setIsDisplayed} />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };

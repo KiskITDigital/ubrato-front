@@ -1,4 +1,4 @@
-import { surveyCheck } from '@/api';
+import { surveyCheck, updateToken } from '@/api';
 import { AvatarInput } from '@/components/AvatarInput/AvatarInput';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
@@ -21,7 +21,7 @@ export const ProfilePage: FC = () => {
       navigate('/');
     } else {
       (async () => {
-        setPassedSurvey(await surveyCheck(token));
+        setPassedSurvey(await updateToken<boolean, undefined>(token, surveyCheck, undefined));
       })();
     }
   }, [navigate, setPassedSurvey, userStore.error, userStore.isLoggedIn, userStore.loading]);
@@ -37,7 +37,9 @@ export const ProfilePage: FC = () => {
       <h3>{userStore.user.is_contractor ? 'Заказчик и исполнитель' : 'Заказчик'}</h3>
       <button onClick={handleLogOut}>Выйти</button>
       <AvatarInput />
-      <h2>{userStore.passedSurvey ? 'Опрос пройден' : <Link to="/survey">Опрос</Link>}</h2>
+      {userStore.user.is_contractor && (
+        <p>{userStore.passedSurvey ? 'Опрос пройден' : <Link to="/survey">Опрос</Link>}</p>
+      )}
     </div>
   );
 };
