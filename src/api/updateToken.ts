@@ -1,11 +1,11 @@
 import { refreshToken } from '@/utils';
 
 export const updateToken: <T, C>(
-  token: string | null,
   callback: (token: string, args: C) => Promise<T>,
   callbackArgs: C
-) => Promise<T> = async (token, callback, callbackArgs) => {
+) => Promise<T> = async (callback, callbackArgs) => {
   try {
+    const token = localStorage.getItem('token');
     if (token) {
       const res = await callback(token, callbackArgs);
       return res;
@@ -13,7 +13,7 @@ export const updateToken: <T, C>(
       throw 'no token';
     }
   } catch (e) {
-    console.log(e);
+    console.log();
     await refreshToken();
     const newToken = localStorage.getItem('token');
     const res = await callback(newToken!, callbackArgs);

@@ -29,7 +29,7 @@ export const Header: FC = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {
       (async () => {
-        await updateToken<void, undefined>(token, fetchUser, undefined);
+        await updateToken<void, undefined>(fetchUser, undefined);
       })();
     }
   }, [fetchUser]);
@@ -44,6 +44,7 @@ export const Header: FC = () => {
     }
     navigator.geolocation.getCurrentPosition((e) => {
       console.log(e);
+      
     });
   }, []);
 

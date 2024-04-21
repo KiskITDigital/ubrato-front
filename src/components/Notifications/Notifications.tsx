@@ -14,11 +14,8 @@ export const Notifications: FC = () => {
 
   const listRef = useRef<HTMLDivElement>(null);
 
-  // useUpdateToken<void, never>(token, fetchNotifications, undefined);
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    updateToken<void, undefined>(token, fetchNotifications, undefined);
+    updateToken<void, null>(fetchNotifications, null);
   }, [fetchNotifications]);
 
   return (

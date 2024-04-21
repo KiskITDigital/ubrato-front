@@ -38,13 +38,12 @@ export const AvatarInput: FC = () => {
             };
             if (token) {
               const link = await updateToken<string, { file: File; private: boolean }>(
-                token,
                 uploadFile,
                 parameters
               );
               const avatar = `https://store.ubrato.ru/s3${link?.replace('/files', '')}`;
-              await updateToken<void, string>(token, updateAvatar, avatar);
-              await updateToken<void, undefined>(token, userInfoState.fetchUser, undefined);
+              await updateToken<void, string>(updateAvatar, avatar);
+              await updateToken<void, null>(userInfoState.fetchUser, null);
             }
           }}
           type="file"

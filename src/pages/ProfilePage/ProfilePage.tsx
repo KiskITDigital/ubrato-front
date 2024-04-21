@@ -21,7 +21,7 @@ export const ProfilePage: FC = () => {
       navigate('/');
     } else {
       (async () => {
-        setPassedSurvey(await updateToken<boolean, undefined>(token, surveyCheck, undefined));
+        setPassedSurvey(await updateToken<boolean, null>(surveyCheck, null));
       })();
     }
   }, [navigate, setPassedSurvey, userStore.error, userStore.isLoggedIn, userStore.loading]);
