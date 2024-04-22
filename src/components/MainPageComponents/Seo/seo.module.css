@@ -30,13 +30,7 @@
   font-weight: 500;
   position: relative;
   overflow: hidden;
-  height: 226px;
-  transition: height 0.3s ease;
-}
-
-.contentHidden {
-  height: 226px;
-  transition: height 0.3s ease;
+  height: fit-content;
 }
 
 .button {

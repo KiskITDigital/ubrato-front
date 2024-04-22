@@ -6,6 +6,7 @@ import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
 import { updateToken } from '@/api';
+import axios from 'axios';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -38,14 +39,28 @@ export const Header: FC = () => {
     handleState(userInfoStorage.user.is_contractor ? 'contractor' : 'orderer');
   }, [handleState, userInfoStorage.user.is_contractor]);
 
+  const [city, setCity] = useState('');
+
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    navigator.geolocation.getCurrentPosition((e) => {
-      console.log(e);
-      
-    });
+    setCity(localStorage.getItem('userCity') ?? 'Москва');
+    (async () => {
+      const curAxios = axios.create({ withCredentials: false });
+      const res = await curAxios.get('https://geolocation-db.com/json/');
+      console.log(res);
+      const lat = res.data.latitude;
+      const lon = res.data.longitude;
+      console.log(lat, lon);
+      const res2 = await curAxios.get(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+        { headers: { 'Accept-language': 'ru-RU' } }
+      );
+      console.log(res2);
+      localStorage.setItem('userCity', res2.data.address.city);
+      setCity(res2.data.address.city);
+    })();
   }, []);
 
   return (
@@ -93,7 +108,7 @@ export const Header: FC = () => {
             </Link>
             <div className={styles.location}>
               <img src="/location.svg" alt="location" />
-              <p className={styles.locationText}>Москва</p>
+              <p className={styles.locationText}>{city}</p>
             </div>
           </div>
         </div>
