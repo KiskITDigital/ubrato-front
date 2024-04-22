@@ -56,8 +56,33 @@
     border-color: var(--color-blue-primary);
 }
 
+.inputError {
+    border-color: var(--color-red);
+}
 
+.inputErrorText {
+    position: absolute;
+    color: var(--color-red);
+    margin-top: 140px;
+    margin-left: 244px;
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 400;
+}
 
+.inputErrorTextName {
+    margin-top: 56px;
+    margin-left: 177px;
+}
+
+.inputErrorTextPrice {
+    margin-top: 55px;
+    margin-left: 0;
+}
+
+.inputErrorTextFloorSspace {
+    margin-top: 57px;
+}
 
 /* /////////// */
 
@@ -170,6 +195,19 @@
     width: 100%;
 }
 
+@media screen and (max-width: 1050px) {
+    .firstSections {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .firstSections__div {
+        /* width: 359px; */
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
 .firstSections__div__title {
     display: flex;
     flex-direction: row;
@@ -236,8 +274,8 @@
     height: 22px;
 }
 
-.SwitchNextUIOn>span:first-of-type {
-    background-color: var(--color-blue-primary) !important;
+.SwitchNextUI:hover {
+    cursor: pointer;
 }
 
 /* .SwitchNextUI>span:first-of-type[focus-visible=true] {
@@ -254,6 +292,38 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 18.56px;
+}
+
+
+.SwitchNextUI>span:first-of-type {
+    width: 42px;
+    height: 22px;
+    background-color: var(--color-light-gray-secondary);
+    position: absolute;
+    margin-left: -50px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    transition: all ease-in-out .2s;
+}
+
+.SwitchNextUIOn>span:first-of-type {
+    background-color: var(--color-blue-primary);
+}
+
+.SwitchNextUI>span:first-of-type>span {
+    width: 17px;
+    height: 17px;
+    background-color: var(--color-white);
+    border-radius: 30px;
+    position: absolute;
+    transition: all ease-in-out .2s;
+    left: 3px;
+}
+
+.SwitchNextUIOn>span:first-of-type>span {
+    margin-left: 19px;
 }
 
 .firstSections__div__title__p {
@@ -296,7 +366,9 @@
     padding: 4px 6px;
 }
 
-.CheckboxNextUI>span:first-of-type {
+
+
+/* .CheckboxNextUI>span:first-of-type {
     width: 22px;
     height: 22px;
 }
@@ -324,7 +396,7 @@
     background-color: red !important;
 } */
 
-.CheckboxNextUI polyline {}
+/* .CheckboxNextUI polyline {} */
 
 .CheckboxNextUI__block {
     display: flex;
@@ -340,6 +412,43 @@
     height: 10.5px;
     border: .5px solid rgba(0, 0, 0, .2);
 }
+
+.CheckboxNextUI {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    /* margin-top: auto; */
+    /* margin-left: auto; */
+}
+
+.CheckboxNextUI:hover {
+    cursor: pointer;
+}
+
+.CheckboxNextUI>span:first-of-type {
+    width: 22px;
+    height: 22px;
+    border-radius: 8px;
+    border: 1px solid var(--color-black-10);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    background-color: var(--color-white);
+    transition: all ease-in-out .2s;
+}
+
+.CheckboxNextUIActive>span:first-of-type {
+    background-color: var(--color-blue-primary);
+    border-color: var(--color-blue-primary);
+    padding: 4px;
+}
+
+.CheckboxNextUI polyline {
+    color: var(--color-white);
+}
+
+.CheckboxNextUIActiveTypes>span:last-of-type {
+    color: var(--color-blue-primary);
+}
+
 
 
 .section {
@@ -375,8 +484,12 @@
     gap: 8px;
     border-radius: 10px;
     background-color: var(--color-light-gray-secondary);
-    border: none;
+    border: 1px solid var(--color-light-gray-secondary);
     align-items: center;
+}
+
+.section__block__buttonError {
+    border-color: var(--color-red);
 }
 
 /* 
@@ -394,7 +507,116 @@
 }
 
 
-.section__block__object__change {}
+/* .section__block__object__change {} */
+/* 
+.AutoCompleteUI {
+    width: 100%;
+}
+
+.AutoCompleteUI>div>div>div>div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+}
+
+.AutoCompleteUI>div>div>div>div>input {
+    outline: none;
+    width: 100%;
+}
+
+.AutoCompleteUI>div>div>div>div>div {
+    width: 40px;
+    position: relative;
+}
+
+/* .AutoCompleteItemUI {
+    background-color: red !important;
+}
+
+.listboxWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.listbox>div {
+    background-color: gold;
+    height: min-content;
+}
+
+.popoverContent {
+    background-color: blue;
+    height: min-content;
+}
+
+.AutoCompleteUI>div>div>div>div>div>button {
+    outline: none;
+} */
+
+.cities__input {
+    width: 100%;
+}
+
+.cities__autocomplete {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid var(--color-black-10);
+    background-color: var(--color-white);
+    width: 385px;
+    position: absolute;
+    z-index: 10;
+    margin-top: 40px;
+}
+
+.cities__autocomplete__item {
+    padding: 10px 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--color-black);
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.cities__autocomplete__item:hover {
+    background-color: var(--color-blue-primary-6);
+    color: var(--color-blue-primary);
+}
+
+.cities__autocomplete__item>span {
+    color: var(--color-black-50);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cities__autocomplete__item:hover>span {
+    color: var(--color-blue-primary-50);
+}
+
+.cities__autocomplete__item>img {
+    width: 16px;
+    height: 12px;
+    display: none;
+    margin-left: auto;
+}
+
+.cities__autocomplete__item:hover>img {
+    display: block;
+}
+
+.city__autocomplete__chosen {
+    width: fit-content;
+}
 
 
 
@@ -551,7 +773,7 @@
 }
 
 .object__objects__types__p {
-    padding: 16px 12px;
+    padding: 10px 12px;
 }
 
 .object__objects__types__p>div>span {

@@ -10,7 +10,8 @@ import closeImg from '../../../public/create-tender/close.svg'
 import fileImg from '../../../public/create-tender/file.svg'
 import downloadImg from '../../../public/create-tender/download-image.svg'
 import closeWhiteImg from '../../../public/create-tender/close-white.svg'
-import { CheckboxGroup, Checkbox, Switch, Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import citiesAutocompleteCheckmarkImg from '../../../public/create-tender/cities-autocomplete-checkmark.svg'
+import { CheckboxGroup, Checkbox, Switch } from "@nextui-org/react";
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { addTwoDots, checkFloorSpace, checkOnlyNumber } from "./masks";
 import DatePicker from "react-datepicker";
@@ -114,8 +115,7 @@ export const CreateTender: FC = () => {
             const reader = new FileReader();
 
             reader.onload = (e) => {
-                // Проверяем тип файла
-                const fileType = file.type.split('/')[0]; // Получаем основной тип файла (например, 'image', 'application')
+                const fileType = file.type.split('/')[0];
 
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
                     newImages.push({ id: Date.now(), data: e.target.result, text: '', isChanging: true, fileType: fileType });
@@ -124,67 +124,10 @@ export const CreateTender: FC = () => {
                     console.error('Неподдерживаемый тип файла:', file.type);
                 }
             };
-
-            // Читаем файл как Data URL
             reader.readAsDataURL(file);
         }
     };
 
-
-    const changeAttachmentText = (id: number, newVal: string) => {
-        setImages(prev => prev.map(image => image.id === id ? { ...image, text: newVal } : image))
-    }
-    const changeAttachmentIsChanging = (id: number) => {
-        setImages(prev => prev.map(image => image.id === id ? { ...image, isChanging: !image.isChanging } : image))
-    }
-
-    const removeAttachment = (id: number) => {
-        setImages(prev => prev.filter(image => image.id !== id))
-    }
-
-
-
-
-
-
-    // const animals = [
-    //     { label: "Cat", value: "cat", description: "The second most popular pet in the world" },
-    //     { label: "Dog", value: "dog", description: "The most popular pet in the world" },
-    //     { label: "Elephant", value: "elephant", description: "The largest land animal" },
-    //     { label: "Lion", value: "lion", description: "The king of the jungle" },
-    //     { label: "Tiger", value: "tiger", description: "The largest cat species" },
-    //     { label: "Giraffe", value: "giraffe", description: "The tallest land animal" },
-    //     {
-    //         label: "Dolphin",
-    //         value: "dolphin",
-    //         description: "A widely distributed and diverse group of aquatic mammals",
-    //     },
-    //     { label: "Penguin", value: "penguin", description: "A group of aquatic flightless birds" },
-    //     { label: "Zebra", value: "zebra", description: "A several species of African equids" },
-    //     {
-    //         label: "Shark",
-    //         value: "shark",
-    //         description: "A group of elasmobranch fish characterized by a cartilaginous skeleton",
-    //     },
-    //     {
-    //         label: "Whale",
-    //         value: "whale",
-    //         description: "Diverse group of fully aquatic placental marine mammals",
-    //     },
-    //     { label: "Otter", value: "otter", description: "A carnivorous mammal in the subfamily Lutrinae" },
-    //     { label: "Crocodile", value: "crocodile", description: "A large semiaquatic reptile" },
-    // ];
-
-
-
-    // function downloadFile(fileUrl, fileName) {
-    //     const link = document.createElement('a');
-    //     link.href = fileUrl;
-    //     link.download = fileName;
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    // }
     const handleDownload = (dataURL, fileName) => {
         const link = document.createElement('a');
         link.href = dataURL;
@@ -193,16 +136,32 @@ export const CreateTender: FC = () => {
         // document.body.removeChild(link);
     };
 
+    // const itemClasses = {
+    //     listboxWrapper: styles.listboxWrapper,
+    //     listbox: styles.listbox,
+    //     popoverContent: styles.popoverContent,
+    // }
+
+    const [isCitiesAutoComplete, setIsCitiesAutoComplete] = useState(false);
+
     return (
         <div className={`container ${styles.container}`}>
-            {/* {JSON.stringify(apiObjects)} */}
             <div className={`${styles.title}`}>
                 <h1 className={`${styles.title__h1} ${styles.textBlack60} ${styles.textRegular}`}>Тендер №{'1304'}</h1>
                 <p className={`${styles.title__p} ${styles.textBlack60} ${styles.textRegular}`}>Статус: <span className={`${styles.textBlack} ${styles.textMedium}`}>{'Создание тендера'}</span></p>
             </div>
             <div className={`${styles.nameTender}`}>
                 <label className={`${styles.nameTender__label} ${styles.textBlack60} ${styles.textRegular}`}>Название тендера:</label>
-                <input maxLength={6} type="text" className={`${styles.nameTender__input} ${styles.input}`} value={createTenderState.name} onChange={(e) => createTenderState.handleSimpleInput("name", e.currentTarget.value)} />
+                <input
+                    // maxLength={6}
+                    onFocus={() => createTenderState.removeError('name')}
+                    onBlur={() => !createTenderState.name && createTenderState.addError('name')}
+                    type="text"
+                    className={`${styles.nameTender__input} ${styles.input} ${createTenderState.errors.includes('name') ? styles.inputError : ''}`}
+                    value={createTenderState.name}
+                    onChange={(e) => createTenderState.handleSimpleInput("name", e.currentTarget.value)}
+                />
+                {createTenderState.errors.includes('name') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextName}`}>Обязательно для заполнения</p>}
             </div>
             <div className={`${styles.switcher}`}>
                 <div onClick={() => setSwitcher('Тендер')} className={`${styles.switcher__div} ${switcher === 'Тендер' ? `${styles.borderBottomBlue}` : ''}`}><p className={`${styles.switcher__p} ${switcher === 'Тендер' ? `${styles.textMedium} ${styles.textBlack}` : `${styles.textReguar} ${styles.textBlack60}`}`}>Тендер</p></div>
@@ -274,13 +233,20 @@ export const CreateTender: FC = () => {
                         <div className={`${styles.firstSections__div__main}`}>
                             <div className={`${styles.firstSections__div__main__block}`}>
                                 <p className={`${styles.firstSections__div__main__block__p}`}>Стоимость в рублях</p>
-                                <input value={createTenderState.price} onChange={(e) => createTenderState.handleSimpleInput('price', e.currentTarget.value, checkOnlyNumber)} className={`${styles.input} ${styles.firstSections__div__main__block__input}`} type="text" />
+                                <input
+                                    onFocus={() => createTenderState.removeError('price')}
+                                    onBlur={() => !createTenderState.price && createTenderState.addError('price')}
+                                    value={createTenderState.price}
+                                    onChange={(e) => createTenderState.handleSimpleInput('price', e.currentTarget.value, checkOnlyNumber)}
+                                    className={`${styles.input} ${styles.firstSections__div__main__block__input} ${createTenderState.errors.includes('price') ? styles.inputError : ''}`}
+                                    type="text" />
+                                {createTenderState.errors.includes('price') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextPrice}`}>Обязательно для заполнения</p>}
                             </div>
                             <div className={`${styles.firstSections__div__main__block} ${styles.CheckboxNextUI__block}`}>
                                 {/* <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p> */}
                                 {/* <input className={`${styles.input} ${styles.firstSections__div__main__block__input}`} type="text" /> */}
                                 <span className={`${styles.CheckboxNextUI__block__span}`}></span>
-                                <Checkbox onValueChange={() => createTenderState.handleSimpleInput('is_contract_price', !createTenderState.is_contract_price)} className={`${styles.CheckboxNextUI}`} isSelected={createTenderState.is_contract_price}>
+                                <Checkbox onValueChange={() => createTenderState.handleSimpleInput('is_contract_price', !createTenderState.is_contract_price)} className={`${styles.CheckboxNextUI} ${createTenderState.is_contract_price ? styles.CheckboxNextUIActive : ''}`} isSelected={createTenderState.is_contract_price}>
                                     Договорная
                                 </Checkbox>
                             </div>
@@ -329,20 +295,53 @@ export const CreateTender: FC = () => {
                 <div className={`${styles.section}`}>
                     <div className={`${styles.section__block} ${styles.city}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Город и регион:</p>
+                        <div className={`${styles.services__block}`}>
+                            {
+                                (isCitiesAutoComplete || !createTenderState.city) ? <>
+                                    <input
+                                        onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
+                                        onBlur={() => { createTenderState.addError('city'); setIsCitiesAutoComplete(false) }}
+                                        value={createTenderState.city}
+                                        onChange={(e) => { createTenderState.handleSimpleInput('city', e.currentTarget.value); createTenderState.getCities(e.currentTarget.value) }}
+                                        type="text"
+                                        className={`${styles.input} ${styles.cities__input} ${createTenderState.errors.includes('city') ? styles.inputError : ''}`} />
+                                    {
+                                        isCitiesAutoComplete && !!createTenderState.city.length && !!createTenderState.cities.length && <div className={styles.cities__autocomplete}>
+                                            {
+                                                createTenderState.cities.map((city) =>
+                                                    <p className={styles.cities__autocomplete__item}
+                                                        key={city.id}
+                                                        onMouseDown={(e) => { e.stopPropagation(); createTenderState.handleSimpleInput('city', city.name) }}
+                                                    >
+                                                        {city.name}
+                                                        <span>{city.region}</span>
+                                                        <img src={citiesAutocompleteCheckmarkImg} alt="" />
+                                                    </p>)
+                                            }
+                                        </div>
+                                    }
+                                </>
+                                    : <p className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory} ${styles.city__autocomplete__chosen}`}>
+                                        {createTenderState.city}
+                                        <span className={`${styles.section__block__add__object__objectCategory__span}`}></span>
+                                        <img onClick={() => createTenderState.handleSimpleInput('city', '')} className={`${styles.section__block__add__object__objectCategory__img}`} src={closeWhiteImg} alt="" />
+                                    </p>
+                            }
+                        </div>
                         {/* <input type="text" className={`${styles.input} ${styles.city__input}`} /> */}
-                        <Autocomplete
-                            className={`${styles.section__block__cities}`}
+                        {/* <Autocomplete
+                            classNames={itemClasses}
+                            className={`${styles.section__block__cities} ${styles.AutoCompleteUI}`}
                             onInputChange={(newQuery) => createTenderState.getCities(newQuery)}
+                            onBlur={() => { }}
                         // className={`${styles.input} ${styles.city__input}`}
                         >
                             {createTenderState.cities.map((city) => (
-                                <AutocompleteItem key={city.id} value={city.name}>
-                                    {/* <p>{city.name} - <span style={{ color: 'blue' }}>{city.region}</span></p> */}
-                                    {/* {city.name} */}
+                                <AutocompleteItem className={`${styles.AutoCompleteItemUI}`} key={city.id} value={city.name}>
                                     {`${city.name} - ${city.region}`}
                                 </AutocompleteItem>
                             ))}
-                        </Autocomplete>
+                        </Autocomplete> */}
                     </div>
                 </div>
                 <div className={`${styles.section} ${styles.object}`}>
@@ -370,7 +369,7 @@ export const CreateTender: FC = () => {
                                 </div>
                             </div>}
                             <button
-                                className={`${styles.section__block__button} ${styles.textRegular} ${(createTenderState.objectName || isChoosingObject) ? styles.section__block__button__end : ''}`}
+                                className={`${styles.section__block__button} ${styles.textRegular} ${(createTenderState.objectName || isChoosingObject) ? styles.section__block__button__end : ''} ${createTenderState.errors.includes('object') ? styles.section__block__buttonError : ''}`}
                                 onClick={() => { setIsChoosingObject(prev => !prev); }}
                             >{
                                     (createTenderState.objectName && !isChoosingObject) ?
@@ -382,7 +381,7 @@ export const CreateTender: FC = () => {
                                             </> :
                                             <>
                                                 <img src={plusImg} alt="plus" />
-                                                Добавить
+                                                Добавить объект
                                             </>
                                 }</button>
                         </div>
@@ -406,7 +405,7 @@ export const CreateTender: FC = () => {
                                             onValueChange={setChooseTypesTypesToObjectToAddObject}
                                         >
                                             {
-                                                choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddObject.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
                                             }
 
                                         </CheckboxGroup>
@@ -427,7 +426,15 @@ export const CreateTender: FC = () => {
                     }
                     <div className={`${styles.section__block} ${styles.square}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Площадь:</p>
-                        <input value={createTenderState.floor_space} onChange={(e) => createTenderState.handleSimpleInput('floor_space', e.currentTarget.value, checkFloorSpace)} type="text" className={`${styles.input} ${styles.square__input}`} /><label className={`${styles.square__label} ${styles.textReguar} ${styles.textBlack50}`} htmlFor="">кв. м.</label>
+                        <input
+                            onFocus={() => createTenderState.removeError('floor_space')}
+                            onBlur={() => !createTenderState.floor_space && createTenderState.addError('floor_space')}
+                            value={createTenderState.floor_space}
+                            onChange={(e) => createTenderState.handleSimpleInput('floor_space', e.currentTarget.value, checkFloorSpace)}
+                            type="text"
+                            className={`${styles.input} ${styles.square__input} ${createTenderState.errors.includes('floor_space') ? styles.inputError : ''}`}
+                        /><label className={`${styles.square__label} ${styles.textReguar} ${styles.textBlack50}`} htmlFor="">кв. м.</label>
+                        {createTenderState.errors.includes('floor_space') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace}`}>Обязательно для заполнения</p>}
                     </div>
                 </div>
 
@@ -473,7 +480,7 @@ export const CreateTender: FC = () => {
                                                             onValueChange={setChooseTypesTypesToObjectToChangeService}
                                                         >
                                                             {
-                                                                cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToChangeService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                                cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToChangeService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
                                                             }
                                                         </CheckboxGroup>
                                                         <button onClick={() => {
@@ -497,14 +504,8 @@ export const CreateTender: FC = () => {
                                     </div>
                                 )
                             }
-
-
-
-
-
-
                         </div>}
-                        <button onClick={() => { setIsChoosingServiceToAdd(prev => !prev); setChooseTypesNameToObjectToAddService(null) }} className={`${styles.section__block__button} ${styles.service__button} ${styles.textRegular}`}><img src={isChoosingServiceToAdd ? closeImg : plusImg} alt="plus" />{isChoosingServiceToAdd ? 'Отмена' : 'Добавить услугу'}</button>
+                        <button onClick={() => { setIsChoosingServiceToAdd(prev => !prev); setChooseTypesNameToObjectToAddService(null) }} className={`${styles.section__block__button} ${styles.service__button} ${styles.textRegular} ${createTenderState.errors.includes('services') ? styles.section__block__buttonError : ''}`}><img src={isChoosingServiceToAdd ? closeImg : plusImg} alt="plus" />{isChoosingServiceToAdd ? 'Отмена' : 'Добавить услугу'}</button>
                         {
                             isChoosingServiceToAdd && <div className={`${styles.object__objects} ${styles.service__objects}`}>
                                 <div className={styles.object__objects__objects}>
@@ -523,7 +524,7 @@ export const CreateTender: FC = () => {
                                                 onValueChange={setChooseTypesTypesToObjectToAddService}
                                             >
                                                 {
-                                                    cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                    cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
                                                 }
                                             </CheckboxGroup>
                                             <button onClick={() => {
@@ -546,13 +547,29 @@ export const CreateTender: FC = () => {
                 <div className={`${styles.section} ${styles.description}`}>
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Описание тендера:</p>
-                        <textarea value={createTenderState.description} onChange={(e) => createTenderState.handleSimpleInput('description', e.currentTarget.value)} name="" id="" rows={5} className={`${styles.input} ${styles.description__textarea}`}></textarea>
+                        <textarea
+                            onFocus={() => createTenderState.removeError('description')}
+                            onBlur={() => !createTenderState.description && createTenderState.addError('description')}
+                            value={createTenderState.description}
+                            onChange={(e) => createTenderState.handleSimpleInput('description', e.currentTarget.value)}
+                            name="" id="" rows={5}
+                            className={`${styles.input} ${styles.description__textarea} ${createTenderState.errors.includes('description') ? styles.inputError : ''}`}
+                        ></textarea>
+                        {createTenderState.errors.includes('description') && <p className={styles.inputErrorText}>Обязательно для заполнения</p>}
                     </div>
                 </div>
                 <div className={`${styles.section} ${styles.wishes}`}>
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Пожелания:</p>
-                        <textarea value={createTenderState.wishes} onChange={(e) => createTenderState.handleSimpleInput('wishes', e.currentTarget.value)} name="" id="" rows={5} className={`${styles.input} ${styles.wishes__textarea}`}></textarea>
+                        <textarea
+                            onFocus={() => createTenderState.removeError('wishes')}
+                            onBlur={() => !createTenderState.wishes && createTenderState.addError('wishes')}
+                            value={createTenderState.wishes}
+                            onChange={(e) => createTenderState.handleSimpleInput('wishes', e.currentTarget.value)}
+                            name="" id="" rows={5}
+                            className={`${styles.input} ${styles.wishes__textarea} ${createTenderState.errors.includes('wishes') ? styles.inputError : ''}`}
+                        ></textarea>
+                        {createTenderState.errors.includes('wishes') && <p className={styles.inputErrorText}>Обязательно для заполнения</p>}
                     </div>
                 </div>
                 <div className={`${styles.section} ${styles.attachments}`}>
@@ -598,7 +615,7 @@ export const CreateTender: FC = () => {
                                     }
                                 </div>
                             }
-                            <button onClick={() => { images.length < 8 && handleButtonFileClick() }} disabled={images.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
+                            <button onClick={() => { images.length < 8 && handleButtonFileClick() }} disabled={images.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
                             <input
                                 type="file"
                                 multiple
@@ -614,7 +631,7 @@ export const CreateTender: FC = () => {
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p}`}></p>
                         <div className={`${styles.section__sendButtons__block}`}>
-                            <button className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
+                            <button onClick={() => createTenderState.validateInputs()} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
                             <button className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                         </div>
                     </div>
