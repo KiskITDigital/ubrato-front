@@ -14,7 +14,7 @@
 
 .scroll {
   overflow-y: scroll;
-  height: 270px;
+  max-height: 270px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -42,4 +42,28 @@
   color: var(--color-blue-primary);
   align-self: center;
   text-decoration: underline;
+}
+
+@media screen and (width < 450px) { 
+  .container {
+    width: 200px;
+    padding: 15px 4px 15px 10px;
+    left: -174px;
+  }
+
+  .scroll {
+    font-size: 15px;
+  }
+
+  .scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-blue-primary);
+    border-radius: 8px;
+    border: 3px solid white;
+  }
 }

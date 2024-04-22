@@ -164,7 +164,7 @@
 
 @media screen and (width < 450px) {
   .container {
-    height: 65px;
+    height: 105px;
     justify-content: center;
   }
 
@@ -173,6 +173,19 @@
   }
 
   .headerTopLinks {
+    display: flex;
+    position: absolute;
+    height: 40px;
+    background-color: var(--color-light-blue);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    padding: 0 10px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .headerTopLinks > a:nth-child(2n) {
     display: none;
   }
 
@@ -190,6 +203,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 5px;
+    padding-top: 40px;
   }
 
   .mobileMenuWrapper {
@@ -203,6 +217,7 @@
 
   .notifContainer {
     gap: 7px;
+    width: 220px;
   }
 
   .registrationText {
@@ -237,7 +252,7 @@
     padding: 9px 12px;
     gap: 12px;
     position: absolute;
-    top: 65px;
+    top: 105px;
     left: 0;
     width: 100vw;
     background-color: var(--color-white);

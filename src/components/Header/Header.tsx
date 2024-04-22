@@ -45,21 +45,25 @@ export const Header: FC = () => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    setCity(localStorage.getItem('userCity') ?? 'Москва');
+    const localCity = localStorage.getItem('userCity');
+    setCity(localCity ? (localCity != 'undefined' ? localCity : 'Не определён') : '');
     (async () => {
       const curAxios = axios.create({ withCredentials: false });
       const res = await curAxios.get('https://geolocation-db.com/json/');
       console.log(res);
       const lat = res.data.latitude;
       const lon = res.data.longitude;
-      console.log(lat, lon);
       const res2 = await curAxios.get(
         `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
         { headers: { 'Accept-language': 'ru-RU' } }
       );
       console.log(res2);
       localStorage.setItem('userCity', res2.data.address.city);
-      setCity(res2.data.address.city);
+      setCity(res2.data.address.city ?? 'Не определён');
+      (async () => {
+        const res = await axios.post('https://egrul.nalog.ru/', { query: '7721546864' });
+        console.log(res);
+      })();
     })();
   }, []);
 

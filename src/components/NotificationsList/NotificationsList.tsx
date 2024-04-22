@@ -24,20 +24,6 @@ export const NotificationsList: FC<{
             )
         )}
         {notificationsStore.notifications.total === 0 && <p>Новых уведомлений нет</p>}
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
-        <div className="">1</div>
         <Link onClick={() => closeList(false)} to="./profile" className={styles.link}>
           Смотреть все
         </Link>
