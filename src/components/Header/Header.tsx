@@ -20,6 +20,14 @@ export const Header: FC = () => {
   const handleState = isOrdererState.handleState;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [confirm, setConfirm] = useState<boolean>(true);
+  const [city, setCity] = useState('');
+
+  const handleConfirm = () => {
+    const { city } = JSON.parse(localStorage.getItem('userCity')!);
+    localStorage.setItem('userCity', JSON.stringify({ city: city, confirmed: true }));
+    setConfirm(true);
+  };
 
   const avatarStyle = {
     base: styles.base,
@@ -39,32 +47,34 @@ export const Header: FC = () => {
     handleState(userInfoStorage.user.is_contractor ? 'contractor' : 'orderer');
   }, [handleState, userInfoStorage.user.is_contractor]);
 
-  const [city, setCity] = useState('');
-
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    const localCity = localStorage.getItem('userCity');
-    setCity(localCity ? (localCity != 'undefined' ? localCity : 'Не определён') : '');
-    (async () => {
-      const curAxios = axios.create({ withCredentials: false });
-      const res = await curAxios.get('https://geolocation-db.com/json/');
-      console.log(res);
-      const lat = res.data.latitude;
-      const lon = res.data.longitude;
-      const res2 = await curAxios.get(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-        { headers: { 'Accept-language': 'ru-RU' } }
-      );
-      console.log(res2);
-      localStorage.setItem('userCity', res2.data.address.city);
-      setCity(res2.data.address.city ?? 'Не определён');
+    const localCity = JSON.parse(localStorage.getItem('userCity') ?? '{}');
+    setCity(
+      localCity.city ? (localCity.city != 'undefined' ? localCity.city : 'Не определён') : ''
+    );
+    if (!localCity.confirmed) {
       (async () => {
-        const res = await axios.post('https://egrul.nalog.ru/', { query: '7721546864' });
+        setConfirm(false);
+        const curAxios = axios.create({ withCredentials: false });
+        const res = await curAxios.get('https://geolocation-db.com/json/');
         console.log(res);
+        const lat = res.data.latitude;
+        const lon = res.data.longitude;
+        const res2 = await curAxios.get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+          { headers: { 'Accept-language': 'ru-RU' } }
+        );
+        console.log(res2);
+        localStorage.setItem(
+          'userCity',
+          JSON.stringify({ city: res2.data.address.city, confirmed: false })
+        );
+        setCity(res2.data.address.city ?? 'Не определён');
       })();
-    })();
+    }
   }, []);
 
   return (
@@ -113,6 +123,15 @@ export const Header: FC = () => {
             <div className={styles.location}>
               <img src="/location.svg" alt="location" />
               <p className={styles.locationText}>{city}</p>
+              {!confirm && (
+                <div className={styles.cityConfirm}>
+                  <p>Ваш город {city}?</p>
+                  <div>
+                    <button onClick={() => handleConfirm()}>Да</button>
+                    <button>Нет</button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

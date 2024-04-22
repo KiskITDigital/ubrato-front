@@ -6,7 +6,7 @@ import { registerSchema } from '@/validation/registerSchema';
 import styles from './registerpage.module.css';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser } from '@/api';
+import { checkINN, registerUser } from '@/api';
 import { useIMask } from 'react-imask';
 
 export const RegisterPage: FC = () => {
@@ -83,6 +83,8 @@ export const RegisterPage: FC = () => {
   });
 
   const [isContractor, setIsContractor] = useState(false);
+  const [companyName, setCompanyName] = useState('');
+  // const [nameConfirm, setNameConfirm] = useState(false);
 
   const checkStyle = {
     base: styles.checkBase,
@@ -207,8 +209,14 @@ export const RegisterPage: FC = () => {
               value={formik.values.inn}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 if (e.nativeEvent instanceof InputEvent) {
+                  console.log(e.target.value);
                   if (formik.values.inn.length >= 10 && e.nativeEvent.data) {
                     return;
+                  }
+                  if (e.target.value.length === 10) {
+                    (async () => {
+                      setCompanyName(await checkINN(e.target.value));
+                    })();
                   }
                   if (e.nativeEvent.data?.match(/[\d]/) || !e.nativeEvent.data) {
                     formik.handleChange(e);
@@ -220,6 +228,28 @@ export const RegisterPage: FC = () => {
               errorMessage={formik.errors.inn}
               classNames={itemClasses}
             />
+            <div className={styles.companyName}>
+              <p className={`${styles.label} ${styles.companyText}`}>
+                Это название вашей компании?
+              </p>
+              <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
+              <p className={styles.nameConfirm}>{companyName}</p>
+              <div className={styles.companyBtns}>
+                <button type="button">
+                  Да
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    // setNameConfirm(false);
+                    formik.values.inn = '';
+                    setCompanyName('');
+                  }}
+                >
+                  Нет
+                </button>
+              </div>
+            </div>
           </div>
           <p className={styles.infoText}>
             В настоящее время сервис Ubrato открыт для юридических лиц

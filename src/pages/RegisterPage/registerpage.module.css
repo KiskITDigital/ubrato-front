@@ -231,6 +231,50 @@
   margin-bottom: 90px;
 }
 
+.companyName {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.companyText {
+  top: 0;
+  position: relative;
+  align-self: center;
+}
+
+.companyText:not(:first-of-type) {
+  align-self: flex-start;
+  margin-top: 5px;
+}
+
+.nameConfirm {
+  padding: 14px 15px;
+  background-color: var(--color-back-gray);
+  border: 1px solid #e7e7e7;
+  width: 478px;
+  height: 53px;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.companyBtns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.companyBtns > button {
+  width: 200px;
+  padding: 10px 15px;
+  background-color: var(--color-blue-light);
+  border-radius: 10px;
+  height: fit-content;
+}
+
 @media screen and (width < 450px) {
   .base {
     width: 360px;
@@ -240,7 +284,7 @@
     width: 360px;
     gap: 3px;
   }
-  
+
   .questionsAboutRegistrationContainer {
     width: 360px;
   }
@@ -266,7 +310,7 @@
     font-size: 14px;
     width: 320px;
   }
-  
+
   .stillHaveQuestions {
     font-size: 14px;
   }

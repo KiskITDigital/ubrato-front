@@ -25,6 +25,39 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  position: relative;
+}
+
+.cityConfirm {
+  padding: 10px 15px;
+  border: 1px solid var(--color-blue-primary);
+  border-radius: 10px;
+  position: absolute;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  top: 25px;
+  left: -80px;
+  align-items: center;
+  min-width: 200px;
+}
+
+.cityConfirm > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.cityConfirm > div > button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 7px var(--color-black-10);
+}
+
+.cityConfirm > div > button:first-child {
+  background-color: var(--color-blue-primary);
+  color: white;
 }
 
 .headerTop {
