@@ -5,6 +5,8 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
+import { updateToken } from '@/api';
+import axios from 'axios';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -18,6 +20,14 @@ export const Header: FC = () => {
   const handleState = isOrdererState.handleState;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [confirm, setConfirm] = useState<boolean>(true);
+  const [city, setCity] = useState('');
+
+  const handleConfirm = () => {
+    const { city } = JSON.parse(localStorage.getItem('userCity')!);
+    localStorage.setItem('userCity', JSON.stringify({ city: city, confirmed: true }));
+    setConfirm(true);
+  };
 
   const avatarStyle = {
     base: styles.base,
@@ -28,7 +38,7 @@ export const Header: FC = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {
       (async () => {
-        await fetchUser(token);
+        await updateToken<void, undefined>(fetchUser, undefined);
       })();
     }
   }, [fetchUser]);
@@ -40,6 +50,30 @@ export const Header: FC = () => {
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
+    }
+    const localCity = JSON.parse(localStorage.getItem('userCity') ?? '{}');
+    setCity(
+      localCity.city ? (localCity.city != 'undefined' ? localCity.city : 'Не определён') : ''
+    );
+    if (!localCity.confirmed) {
+      (async () => {
+        setConfirm(false);
+        const curAxios = axios.create({ withCredentials: false });
+        const res = await curAxios.get('https://geolocation-db.com/json/');
+        console.log(res);
+        const lat = res.data.latitude;
+        const lon = res.data.longitude;
+        const res2 = await curAxios.get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+          { headers: { 'Accept-language': 'ru-RU' } }
+        );
+        console.log(res2);
+        localStorage.setItem(
+          'userCity',
+          JSON.stringify({ city: res2.data.address.city, confirmed: false })
+        );
+        setCity(res2.data.address.city ?? 'Не определён');
+      })();
     }
   }, []);
 
@@ -71,13 +105,13 @@ export const Header: FC = () => {
                 setIsMenuOpen(!isMenuOpen);
               }}
             >
-              <img src="./burger_button.svg" alt="" />
+              <img src="/burger_button.svg" alt="" />
             </button>
           ) : (
             ''
           )}
           <Link to="/">
-            <img src={widthR.current ? './logo-mobile.svg' : './logo.svg'} alt="logo" />
+            <img src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/">
@@ -87,8 +121,17 @@ export const Header: FC = () => {
               <p className={styles.text}>8 800-775-67-57</p>
             </Link>
             <div className={styles.location}>
-              <img src="./location.svg" alt="location" />
-              <p className={styles.locationText}>Москва</p>
+              <img src="/location.svg" alt="location" />
+              <p className={styles.locationText}>{city}</p>
+              {!confirm && (
+                <div className={styles.cityConfirm}>
+                  <p>Ваш город {city}?</p>
+                  <div>
+                    <button onClick={() => handleConfirm()}>Да</button>
+                    <button>Нет</button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -97,27 +140,27 @@ export const Header: FC = () => {
             <ul className={styles.navLinksList}>
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./create-tender.svg" alt="create-tender" />
+                  <img src="/create-tender.svg" alt="create-tender" />
                   <p>Создать тендер</p>
                 </Link>
               </li>
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./find-executor.svg" alt="find-executor" />
+                  <img src="/find-executor.svg" alt="find-executor" />
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
               {(userInfoStorage.user.is_contractor || !userInfoStorage.isLoggedIn) && (
                 <li>
                   <Link to="/" className={styles.navLink}>
-                    <img src="./find-tender.svg" alt="my-tender" />
+                    <img src="/find-tender.svg" alt="my-tender" />
                     <p>Найти тендер</p>
                   </Link>
                 </li>
               )}
               <li>
                 <Link to="/" className={styles.navLink}>
-                  <img src="./my-tenders.svg" alt="my-tenders" />
+                  <img src="/my-tenders.svg" alt="my-tenders" />
                   <p>Мои тендеры</p>
                 </Link>
               </li>
@@ -126,7 +169,7 @@ export const Header: FC = () => {
           {!userInfoStorage.isLoggedIn && (
             <div className={styles.loginRegister}>
               <Link to="/login" className={styles.loginLink}>
-                <img src="./login.svg" alt="login" />
+                <img src="/login.svg" alt="login" />
                 <p className={styles.loginText}>Вход</p>
               </Link>
               {widthR.current ? (
@@ -155,7 +198,7 @@ export const Header: FC = () => {
                   name={userInfoStorage.user.first_name}
                 />
               </Link>
-              <Notifications count={1} />
+              <Notifications />
             </div>
           )}
         </div>

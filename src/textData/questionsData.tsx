@@ -1,19 +1,18 @@
-// import { ReactNode } from 'react';
-import { WhatIs } from '../components/QustionAnswers/GeneralQuestions/WhatIs/WhatIs';
-import { HowToRegister } from '../components/QustionAnswers/GeneralQuestions/HowToRegister/HowToRegister';
-import Requirements from '../components/QustionAnswers/GeneralQuestions/Requirements';
-import HowToBecome from '../components/QustionAnswers/CustomerQuestions/HowToBecome';
-import HowToBecomeExecutor from '../components/QustionAnswers/ExecutorQuestions/HowToBecome';
-import Services from '../components/QustionAnswers/CustomerQuestions/Services';
-import WhatObjects from '../components/QustionAnswers/CustomerQuestions/WhatObjects';
-import CreateTender from '../components/QustionAnswers/CustomerQuestions/CreateTender';
-import FindAndChoose from '../components/QustionAnswers/CustomerQuestions/FindAndChoose';
-import Payment from '../components/QustionAnswers/GeneralQuestions/Payment';
-import Differences from '../components/QustionAnswers/GeneralQuestions/Differences';
-import CreateProfile from '../components/QustionAnswers/ExecutorQuestions/CreateProfile';
-import WhatOrders from '../components/QustionAnswers/ExecutorQuestions/WhatOrders';
-import RespondTender from '../components/QustionAnswers/ExecutorQuestions/RespondTender';
+import { WhatIs } from '@/components/MainPageComponents/QustionAnswers/GeneralQuestions/WhatIs/WhatIs';
 import { QuestionT } from '../types/app';
+import { HowToRegister } from '@/components/MainPageComponents/QustionAnswers/GeneralQuestions/HowToRegister/HowToRegister';
+import Requirements from '@/components/MainPageComponents/QustionAnswers/GeneralQuestions/Requirements';
+import Payment from '@/components/MainPageComponents/QustionAnswers/GeneralQuestions/Payment';
+import Differences from '@/components/MainPageComponents/QustionAnswers/GeneralQuestions/Differences';
+import CreateProfile from '@/components/MainPageComponents/QustionAnswers/ExecutorQuestions/CreateProfile';
+import WhatOrders from '@/components/MainPageComponents/QustionAnswers/ExecutorQuestions/WhatOrders';
+import CreateTender from '@/components/MainPageComponents/QustionAnswers/CustomerQuestions/CreateTender';
+import FindAndChoose from '@/components/MainPageComponents/QustionAnswers/CustomerQuestions/FindAndChoose';
+import Services from '@/components/MainPageComponents/QustionAnswers/CustomerQuestions/Services';
+import WhatObjects from '@/components/MainPageComponents/QustionAnswers/CustomerQuestions/WhatObjects';
+import RespondTender from '@/components/MainPageComponents/QustionAnswers/ExecutorQuestions/RespondTender';
+import HowToBecomeExecutor from '@/components/MainPageComponents/QustionAnswers/ExecutorQuestions/HowToBecomeExecutor';
+import HowToBecomeCustomer from '@/components/MainPageComponents/QustionAnswers/CustomerQuestions/HowToBecomeCustomer';
 
 export const generalQuestions: QuestionT[] = [
   {
@@ -64,7 +63,7 @@ export const executorQustions: QuestionT[] = [
 export const ordererQustions: QuestionT[] = [
   {
     title: 'Как стать заказчиком?',
-    textComponent: <HowToBecome />,
+    textComponent: <HowToBecomeCustomer />,
   },
   {
     title: 'Какие услуги можно заказать на Ubrato?',

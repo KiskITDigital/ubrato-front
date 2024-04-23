@@ -79,6 +79,10 @@ export const LoginPage: FC = () => {
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
+  if (userInfoStore.isLoggedIn) {
+    return <div></div>;
+  }
+
   return (
     <div className={`container ${styles.container}`}>
       <div>

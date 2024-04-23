@@ -9,6 +9,8 @@
   color: var(--color-white);
   font-size: 13px;
   box-shadow: 0px 2px 4px 0px #0084ff33;
+  position: absolute;
+  left: 60%;
 }
 
 .img {
@@ -16,9 +18,19 @@
   height: 20px;
 }
 
+.dis:disabled {
+  background-color: red;
+}
+
+.trigger {
+  display: flex;
+  position: relative;
+}
+
 .container {
   display: flex;
   gap: 10px;
+  position: relative;
 }
 
 @media screen and (width < 450px) {
