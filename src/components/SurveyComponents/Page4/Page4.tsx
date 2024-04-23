@@ -104,7 +104,7 @@ export const Page4: FC = () => {
   }, []);
 
   return (
-    <div style={{ marginBottom: '120px' }}>
+    <div>
       <h1 className={styles.title}>
         Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>

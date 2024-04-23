@@ -99,7 +99,7 @@ export const Page5: FC = () => {
   }, []);
 
   return (
-    <div style={{ marginBottom: '120px' }}>
+    <div>
       <h1 className={styles.title}>
         Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
       </h1>
@@ -139,7 +139,9 @@ export const Page5: FC = () => {
           >
             <div className={styles.checkContainer}>
               <p>Поиск заказа</p>
-              <Checkbox value="Поиск заказа" classNames={checkStyle}>Да</Checkbox>
+              <Checkbox value="Поиск заказа" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Согласование объема и стоимости услуг</p>
@@ -149,7 +151,9 @@ export const Page5: FC = () => {
             </div>
             <div className={styles.checkContainer}>
               <p>Проверка контрагента</p>
-              <Checkbox value="Проверка контрагента" classNames={checkStyle}>Да</Checkbox>
+              <Checkbox value="Проверка контрагента" classNames={checkStyle}>
+                Да
+              </Checkbox>
             </div>
             <div className={styles.checkContainer}>
               <p>Возможность загружать примеры работ (кейсы)</p>

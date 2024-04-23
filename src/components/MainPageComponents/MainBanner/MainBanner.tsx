@@ -62,7 +62,7 @@ export const MainBanner: FC = () => {
                 placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
               />
               <button className={styles.createTenderBtn}>
-                {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+                {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
               </button>
             </div>
             <div className={styles.exampleSearchContainer}>

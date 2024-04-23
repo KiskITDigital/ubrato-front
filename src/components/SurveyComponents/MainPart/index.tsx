@@ -29,8 +29,8 @@ export const SurveyMainPart: FC = () => {
   }
 
   return (
-    <div>
+    <>
       <Outlet />
-    </div>
+    </>
   );
 };
