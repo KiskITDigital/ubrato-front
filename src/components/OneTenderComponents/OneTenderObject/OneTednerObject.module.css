@@ -11,10 +11,52 @@
     width: 244px;
     font-size: 18px;
     color: #666666;
+    display: flex;
+    align-items: center;
 }
 
 .block_add_p{
-    flex-grow: 2;
+    flex-grow: 1;
     font-size: 18px;
-    width: 780px;
+    /* width: 780px; */
+    background-color: #F4F7F9;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+
+.lineList{
+    display: flex;
+    align-items: center;
+
+}
+
+.icon{
+    width: 24px;
+    height: 24px;
+}
+
+.IconBack{
+    width:40px;
+    height: 40px;
+    background-color: #E1EAFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.iconLine{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.iconLine, span{
+    padding: 0 10px;
+}
+
+
+.iconLine, p{
+    font-size: 18px;
 }
