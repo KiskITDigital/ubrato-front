@@ -4,8 +4,8 @@ import styles from './OneTenderSwitcher.module.css';
 
 type SwitchProps = {
   options: string[];
-  noticeKnocks: number,
-}
+  noticeKnocks: number;
+};
 
 const Switchero: React.FC<SwitchProps> = ({ options }) => {
   const { activeIndex, setActiveIndex } = useSwitchStore();
