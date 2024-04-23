@@ -1,10 +1,13 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import Switchero from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
+import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 import { FC, ReactNode,} from 'react';
-import { useSwitchStore } from '@/store/switchStore';
-import { OneTenderInfoView } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoView/OneTenderInfoView';
 
-export const OneTenderPage: FC = () => {
+
+import { useSwitchStore } from '@/store/switchStore';
+
+
+export const OneTenderPageExecutor: FC = () => {
 
 
 const testData = {
@@ -44,7 +47,7 @@ const testData = {
 
   switch (activeIndex) {
     case 0:
-      stack = <OneTenderInfoView></OneTenderInfoView>;
+      stack = <OneTenderInfoViewExecutor></OneTenderInfoViewExecutor>;
       break;
     case 1:
       stack = <div>tt</div>;

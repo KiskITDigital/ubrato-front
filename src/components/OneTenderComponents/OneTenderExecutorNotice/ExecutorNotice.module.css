@@ -1,5 +1,6 @@
-.block_main{
+.block{
     display: flex;
+    flex-direction: column;
     margin: 0 auto;
     padding: 30px 0;
     width: 1024px;
@@ -18,4 +19,3 @@
     font-size: 18px;
     width: 780px;
 }
-
