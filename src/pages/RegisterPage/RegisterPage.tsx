@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { ChangeEvent, FC, Ref, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, Ref, useEffect, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
 import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
@@ -235,9 +235,7 @@ export const RegisterPage: FC = () => {
               <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
               <p className={styles.nameConfirm}>{companyName}</p>
               <div className={styles.companyBtns}>
-                <button type="button">
-                  Да
-                </button>
+                <button type="button">Да</button>
                 <button
                   type="button"
                   onClick={() => {
@@ -309,7 +307,9 @@ export const RegisterPage: FC = () => {
               label="Телефон"
               type="phone"
               value={value}
-              onChange={formik.handleChange}
+              onInput={(e: FormEvent<HTMLInputElement>) => {
+                formik.handleChange(e);
+              }}
               placeholder="Телефон"
               isInvalid={Boolean(formik.errors.phone)}
               errorMessage={formik.errors.phone}
