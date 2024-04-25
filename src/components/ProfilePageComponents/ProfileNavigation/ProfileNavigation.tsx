@@ -4,10 +4,7 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import styles from './profilenav.module.css';
-import DocumentsIC from './icons/documents-ic.svg?react';
-import SurveyIC from './icons/survey-ic.svg?react';
-import LogoutIC from './icons/logout-ic.svg?react';
-import HeartIC from './icons/heart-ic.svg?react';
+import { DocumentsIC, HeartIC, LogoutIC, SurveyIC } from './icons';
 
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
