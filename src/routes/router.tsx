@@ -8,7 +8,7 @@ import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
 import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
 import { OneTenderPageExecutor } from '@/pages/OneTenderPageExecutor/OneTenderPageExecutor';
-import { Page1, SurveyStart } from '@/components';
+import { Page1, ProfileDocuments, SurveyStart } from '@/components';
 import { Page2 } from '@/components/SurveyComponents/Page2/Page2';
 import { Page3 } from '@/components/SurveyComponents/Page3/Page3';
 import { Page4 } from '@/components/SurveyComponents/Page4/Page4';
@@ -31,10 +31,12 @@ export const Router = () => {
           <Route path="4" element={<Page4 />} />
           <Route path="5" element={<Page5 />} />
         </Route>
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="testmytender" element={<OneTenderPage/>} />
-        <Route path="testmytenderexecutor" element={<OneTenderPageExecutor/>} />
-
+        <Route path="profile" element={<ProfilePage />}>
+          <Route path="favourite" element={<div>Избранное</div>} />
+          <Route path="documents" element={<ProfileDocuments />} />
+        </Route>
+        <Route path="testmytender" element={<OneTenderPage />} />
+        <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />
       </Route>
     </Routes>
   );

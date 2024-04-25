@@ -21,7 +21,7 @@ export const AvatarInput: FC = () => {
           classNames={avatarStyle}
           name={userInfoState.user.first_name}
         />
-        <p className={styles.changeAvatar}>Изменить аватар</p>
+        <div className={styles.camera}></div>
         <input
           className={styles.baseInput}
           accept="image/png, image/jpeg"

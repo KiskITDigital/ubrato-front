@@ -24,6 +24,10 @@ li {
   margin: 0 auto;
 }
 
+.flex {
+  display: flex;
+}
+
 @media screen and (width < 450px) {
   .container {
     width: 100%;
