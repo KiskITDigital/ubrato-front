@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styles from './CreateTender.module.css'
 import refreshImg from '../../../public/create-tender/refresh.svg'
 import arrowRightImg from '../../../public/create-tender/arrow-right.svg'
@@ -13,7 +13,7 @@ import closeWhiteImg from '../../../public/create-tender/close-white.svg'
 import citiesAutocompleteCheckmarkImg from '../../../public/create-tender/cities-autocomplete-checkmark.svg'
 import { CheckboxGroup, Checkbox, Switch } from "@nextui-org/react";
 import { useCreateTenderState } from "@/store/createTenderStore";
-import { addTwoDots, checkFloorSpace, checkOnlyNumber } from "./masks";
+import { addTwoDots, checkFloorSpace, checkOnlyNumber, formatFileSize, makeSpecialIsoString } from "./funcs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -30,11 +30,11 @@ export const CreateTender: FC = () => {
     const cleaningTypeStore = useCleaningTypeStore()
 
 
-    const [startDate, setStartDate] = useState(new Date("2024/02/08"));
-    const [endDate, setEndDate] = useState(new Date("2024/02/10"));
+    // const [startDate, setStartDate] = useState(new Date());
+    // const [endDate, setEndDate] = useState(new Date());
 
-    const [startDate2, setStartDate2] = useState(new Date("2024/02/08"));
-    const [endDate2, setEndDate2] = useState(new Date("2024/02/10"));
+    // const [startDate2, setStartDate2] = useState(new Date());
+    // const [endDate2, setEndDate2] = useState(new Date());
 
 
 
@@ -60,6 +60,9 @@ export const CreateTender: FC = () => {
     const [chooseTypesTypesToObjectToChangeService, setChooseTypesTypesToObjectToChangeService] = useState<string[]>([]);
 
 
+    const [isChoosingObjectNameMobile, setIsChoosingObjectNameMobile] = useState(false);
+
+
 
     const [images, setImages] = useState([]);
 
@@ -69,80 +72,70 @@ export const CreateTender: FC = () => {
         inputFileRef.current!.click();
     };
 
-    // const handleFileUpload = (event) => {
-    //     const files = event.target.files;
-    //     const newImages = [...images];
-
-    //     for (let i = 0; i < files.length; i++) {
-    //         const file = files[i];
-    //         const reader = new FileReader();
-
-    //         reader.onload = (e) => {
-    //             newImages.push({ id: Date.now(), data: e.target.result, text: '', isChanging: true });
-    //             setImages([...newImages]);
-    //         };
-
-    //         reader.readAsDataURL(file);
-    //     }
-    // };
-    // const handleFileUpload = (event) => {
-    //     // const files = event.target.files;
-    //     // const newImages = [...images];
-
-    //     // for (let i = 0; i < files.length; i++) {
-    //     const file = event.target.files
-    //     const reader = new FileReader();
-
-    //     reader.readAsText(file);
-
-    //     reader.onload = (e) => {
-    //         const newFile = { id: Date.now(), data: e.target.result, text: '', isChanging: true }
-    //         setImages(prev => [...prev, newFile]);
-    //         console.log(reader.result);
-
-    //     };
-
-    //     // reader.readAsDataURL(file);
-    //     // }
-    // };
-    const handleFileUpload = (event) => {
-        const files = event.target.files;
-        const newFiles = [...files];
-        const newImages = [...images];
-
-        for (let i = 0; i < newFiles.length; i++) {
-            const file = newFiles[i];
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                const fileType = file.type.split('/')[0];
-
-                if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-                    newImages.push({ id: Date.now(), data: e.target.result, text: '', isChanging: true, fileType: fileType });
-                    setImages([...newImages]);
-                } else {
-                    console.error('Неподдерживаемый тип файла:', file.type);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
     const handleDownload = (dataURL, fileName) => {
         const link = document.createElement('a');
         link.href = dataURL;
         link.download = fileName;
         link.click();
-        // document.body.removeChild(link);
     };
 
-    // const itemClasses = {
-    //     listboxWrapper: styles.listboxWrapper,
-    //     listbox: styles.listbox,
-    //     popoverContent: styles.popoverContent,
-    // }
-
     const [isCitiesAutoComplete, setIsCitiesAutoComplete] = useState(false);
+
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+    };
+    useEffect(() => {
+        setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+    }, []);
+
+    const submit = () => {
+        if (createTenderState.validateInputs()) return;
+        console.log(createTenderState.validateInputs());
+        const arrToSearchObjectTypes = objectsStore.apiObjects
+            .map(type => type.types)
+            .reduce((acc, el) => [...acc, ...el], [])
+            .filter(el => createTenderState.objectCategory.includes(el.name))
+            .map(el => el.id)
+        const servicesToCheck = createTenderState.services
+            .map(el => el.types)
+            .reduce((acc, el) => [...acc, ...el], [])
+            .map(el => el.name)
+        const arrToSearchServicesTypes = cleaningTypeStore.apiCleaningTypes
+            .filter(el => createTenderState.services.some(elem => elem.name === el.name))
+            .map(el => el.types)
+            .reduce((acc, el) => [...acc, ...el], [])
+            .filter(el => servicesToCheck.includes(el.name))
+            .map(el => el.id)
+        // console.log(arrToSearchObjectTypes, arrToSearchServicesTypes);
+
+        const objectToSend = {
+            object_types: arrToSearchObjectTypes,
+            services_types: arrToSearchServicesTypes,
+            name: createTenderState.name,
+            price: +createTenderState.price,
+            is_contract_price: createTenderState.is_contract_price,
+            is_NDS: createTenderState.is_NDS,
+            floor_space: +createTenderState.floor_space,
+            wishes: createTenderState.wishes,
+            description: createTenderState.description,
+            // reception_start2: createTenderState.reception_start,
+
+            reception_start: createTenderState.reception_start.toISOString(),
+            reception_end: createTenderState.reception_end.toISOString(),
+            reception_time_start: createTenderState.reception_time_start,
+            reception_time_end: createTenderState.reception_time_end,
+            work_start: createTenderState.work_start.toISOString(),
+            work_end: createTenderState.work_end.toISOString(),
+            attachments: createTenderState.attachments,
+            // city: createTenderState.city
+            city: createTenderState.cities.find(el => el.name === createTenderState.city)?.id
+        }
+        console.log(objectToSend);
+        console.log(makeSpecialIsoString(createTenderState.reception_start, createTenderState.reception_time_start));
+
+    }
 
     return (
         <div className={`container ${styles.container}`}>
@@ -173,11 +166,21 @@ export const CreateTender: FC = () => {
                     <div className={`${styles.switcher__div}`}><span className={`${styles.switcher__span}`}></span></div>
                     <div onClick={() => setSwitcher('Доп. информация')} className={`${styles.switcher__div} ${switcher === 'Доп. информация' ? `${styles.borderBottomBlue}` : ''}`}><p className={`${styles.switcher__p} ${switcher === 'Доп. информация' ? `${styles.textMedium} ${styles.textBlack}` : `${styles.textReguar} ${styles.textBlack60}`}`}>Доп. информация</p></div>
                 </>)}
-                <div className={`${styles.switcher__div} ${styles.switcher__lastdiv}`}>
+                {
+                    windowWidth > 1050 &&
+                    <div className={`${styles.switcher__div} ${styles.switcher__lastdiv}`}>
+                        <img src={refreshImg} alt="refresh" />
+                        <p className={`${styles.switcher__p} ${styles.textBlack40}`}>Автосохранение черновика</p>
+                    </div>
+                }
+            </div>
+            {
+                windowWidth <= 1050 &&
+                <div className={`${styles.switcher__div} ${styles.switcher__lastdiv} ${styles.switcher__lastdivMobile}`}>
                     <img src={refreshImg} alt="refresh" />
                     <p className={`${styles.switcher__p} ${styles.textBlack40}`}>Автосохранение черновика</p>
                 </div>
-            </div>
+            }
             {switcher === 'Тендер' && (<>
                 <div className={`${styles.firstSections}`}>
                     <div className={`${styles.firstSections__div} ${styles.firstSections__responses}`}>
@@ -192,12 +195,16 @@ export const CreateTender: FC = () => {
                                     {/* <input type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input1}`} /> */}
                                     <DatePicker
                                         className={`${styles.input} ${styles.firstSections__responses__inputs__input1}`}
-                                        selected={startDate}
-                                        onChange={(date) => setStartDate(date!)}
+                                        // selected={startDate}
+                                        selected={createTenderState.reception_start}
+                                        // onChange={(date) => setStartDate(date!)}
+                                        onChange={(date) => createTenderState.handleSimpleInput('reception_start', date!)}
                                         selectsStart
                                         dateFormat="dd.MM.yyyy"
-                                        startDate={startDate}
-                                        endDate={endDate}
+                                        // startDate={startDate}
+                                        startDate={createTenderState.reception_start}
+                                        // endDate={endDate}
+                                        endDate={createTenderState.reception_end}
                                     />
                                     <span className={styles.firstSections__responses__inputs__span}></span>
                                     <input maxLength={5} value={createTenderState.reception_time_start} onChange={(e) => createTenderState.handleSimpleInput('reception_time_start', e.currentTarget.value, addTwoDots)} type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
@@ -209,13 +216,16 @@ export const CreateTender: FC = () => {
                                 <div className={styles.firstSections__responses__inputs}>
                                     <DatePicker
                                         className={`${styles.input} ${styles.firstSections__responses__inputs__input1}`}
-                                        selected={endDate}
-                                        onChange={(date) => setEndDate(date!)}
+                                        // selected={endDate}
+                                        // onChange={(date) => setEndDate(date!)}
+                                        selected={createTenderState.reception_end}
+                                        onChange={(date) => createTenderState.handleSimpleInput('reception_end', date!)}
                                         selectsEnd
                                         dateFormat="dd.MM.yyyy"
-                                        startDate={startDate}
-                                        endDate={endDate}
-                                        minDate={startDate}
+                                        startDate={createTenderState.reception_start}
+                                        endDate={createTenderState.reception_end}
+                                        // minDate={startDate}
+                                        minDate={createTenderState.reception_start}
                                     />
                                     <span className={styles.firstSections__responses__inputs__span}></span>
                                     <input maxLength={5} value={createTenderState.reception_time_end} onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)} type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
@@ -262,25 +272,34 @@ export const CreateTender: FC = () => {
                                 {/* <input className={`${styles.input} ${styles.firstSections__div__main__block__input}`} type="text" /> */}
                                 <DatePicker
                                     className={`${styles.input} ${styles.firstSections__div__main__block__input}`}
-                                    selected={startDate2}
-                                    onChange={(date) => setStartDate2(date!)}
+                                    // selected={startDate2}
+                                    // onChange={(date) => setStartDate2(date!)}
+                                    selected={createTenderState.work_start}
+                                    onChange={(date) => createTenderState.handleSimpleInput('work_start', date!)}
                                     selectsStart
                                     dateFormat="dd.MM.yyyy"
-                                    startDate={startDate2}
-                                    endDate={endDate2}
+                                    // startDate={startDate2}
+                                    // endDate={endDate2}
+                                    startDate={createTenderState.work_start}
+                                    endDate={createTenderState.work_end}
                                 />
                             </div>
                             <div className={`${styles.firstSections__div__main__block}`}>
                                 <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
                                 <DatePicker
                                     className={`${styles.input} ${styles.firstSections__div__main__block__input}`}
-                                    selected={endDate2}
-                                    onChange={(date) => setEndDate2(date!)}
+                                    // selected={endDate2}
+                                    // onChange={(date) => setEndDate2(date!)}
+                                    selected={createTenderState.work_end}
+                                    onChange={(date) => createTenderState.handleSimpleInput('work_end', date!)}
                                     selectsEnd
                                     dateFormat="dd.MM.yyyy"
-                                    startDate={startDate2}
-                                    endDate={endDate2}
-                                    minDate={startDate2}
+                                    // startDate={startDate2}
+                                    // endDate={endDate2}
+                                    startDate={createTenderState.work_start}
+                                    endDate={createTenderState.work_end}
+                                    // minDate={startDate2}
+                                    minDate={createTenderState.work_start}
                                 />
                             </div>
                         </div>
@@ -295,16 +314,17 @@ export const CreateTender: FC = () => {
                 <div className={`${styles.section}`}>
                     <div className={`${styles.section__block} ${styles.city}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Город и регион:</p>
-                        <div className={`${styles.services__block}`}>
+                        <div className={`${styles.services__block} ${styles.services__cities}`}>
                             {
                                 (isCitiesAutoComplete || !createTenderState.city) ? <>
                                     <input
                                         onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
-                                        onBlur={() => { createTenderState.addError('city'); setIsCitiesAutoComplete(false) }}
+                                        onBlur={() => { createTenderState.addError('city'); setIsCitiesAutoComplete(false); console.log(createTenderState.cities) }}
                                         value={createTenderState.city}
                                         onChange={(e) => { createTenderState.handleSimpleInput('city', e.currentTarget.value); createTenderState.getCities(e.currentTarget.value) }}
                                         type="text"
                                         className={`${styles.input} ${styles.cities__input} ${createTenderState.errors.includes('city') ? styles.inputError : ''}`} />
+                                    {createTenderState.errors.includes('city') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
                                     {
                                         isCitiesAutoComplete && !!createTenderState.city.length && !!createTenderState.cities.length && <div className={styles.cities__autocomplete}>
                                             {
@@ -347,81 +367,137 @@ export const CreateTender: FC = () => {
                 <div className={`${styles.section} ${styles.object}`}>
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Объект:</p>
-                        <div className={`${styles.section__block__add__object}`}>
-                            {!!createTenderState.objectCategory.length && <div className={`${styles.services__block__service} ${styles.object__block__service}`}>
-                                <p className={`${styles.service__name}`}>{createTenderState.objectName}</p>
-                                <img className={styles.service__name__img} src={arrowRightImg} alt="" />
-                                <div className={`${styles.services__block__service__types}`}>
-                                    {
-                                        createTenderState.objectCategory.map((type, ind) => <p key={ind} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
-                                            {type}
-                                            <span className={`${styles.section__block__add__object__objectCategory__span}`}></span>
-                                            <img onClick={() => {
-                                                createTenderState.removeObjectType(ind);
-                                                setChooseTypesTypesToObjectToAddObject(prev => prev.filter((_, i) => i !== ind));
-                                                if (createTenderState.objectCategory.length === 1) {
-                                                    createTenderState.handleSimpleInput('objectName', '')
-                                                    setIsObjectChoosed(null)
-                                                }
-                                            }} className={`${styles.section__block__add__object__objectCategory__img}`} src={closeWhiteImg} alt="" />
-                                        </p>)
-                                    }
+                        {
+                            windowWidth <= 1050 ? (<>
+                                <button
+                                    onClick={() => { setIsChoosingObjectNameMobile(prev => !prev); createTenderState.addObject('', []) }}
+                                    className={`${styles.section__block__button} ${styles.textRegular} ${createTenderState.errors.includes('object') ? styles.section__block__buttonError : ''}`}
+                                >
+                                    <img src={(createTenderState.objectName || isChoosingObjectNameMobile) ? closeImg : plusImg} alt="plus" />
+                                    {createTenderState.objectName || 'Добавить объект'}
+                                </button>
+                                {
+                                    createTenderState.objectName &&
+                                    <CheckboxGroup
+                                        //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
+                                        label=""
+                                        defaultValue={[]}
+                                        // className={styles.object__services__types__checkboxGroup}
+                                        className={`${styles.checkbox__mobile}`}
+                                        value={createTenderState.objectCategory}
+                                        onValueChange={(newObjectTypes) => { console.log(newObjectTypes); createTenderState.addObject(createTenderState.objectName, newObjectTypes) }}
+                                    >
+                                        {
+                                            choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                        }
+
+                                    </CheckboxGroup>
+                                }
+                                {
+                                    isChoosingObjectNameMobile && <div
+                                        // onBlur={() => setIsChoosingObjectNameMobile(false)}
+                                        className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile}`}>
+                                        {
+                                            objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) =>
+                                                <p
+                                                    onClick={() => { createTenderState.handleSimpleInput('objectName', object.name); setIsChoosingObjectNameMobile(false); setChoosingObjectTypes(object.types.map(object => ({ ...object, count: 0 }))) }}
+                                                    className={styles.cities__autocomplete__item}
+                                                    key={object.id}
+                                                >
+                                                    {object.name} <img src={citiesAutocompleteCheckmarkImg} alt="" />
+                                                </p>
+                                            )
+                                        }
+                                    </div>
+                                }
+                            </>) :
+                                <div className={`${styles.section__block__add__object}`}>
+                                    {!!createTenderState.objectCategory.length && <div className={`${styles.services__block__service} ${styles.object__block__service}`}>
+                                        <p className={`${styles.service__name}`}>{createTenderState.objectName}</p>
+                                        <img className={styles.service__name__img} src={arrowRightImg} alt="" />
+                                        <div className={`${styles.services__block__service__types}`}>
+                                            {
+                                                createTenderState.objectCategory.map((type, ind) => <p key={ind} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
+                                                    {type}
+                                                    <span className={`${styles.section__block__add__object__objectCategory__span}`}></span>
+                                                    <img onClick={() => {
+                                                        createTenderState.removeObjectType(ind);
+                                                        setChooseTypesTypesToObjectToAddObject(prev => prev.filter((_, i) => i !== ind));
+                                                        if (createTenderState.objectCategory.length === 1) {
+                                                            createTenderState.handleSimpleInput('objectName', '')
+                                                            setIsObjectChoosed(null)
+                                                        }
+                                                    }} className={`${styles.section__block__add__object__objectCategory__img}`} src={closeWhiteImg} alt="" />
+                                                </p>)
+                                            }
+                                        </div>
+                                    </div>}
+                                    <button
+                                        className={`${styles.section__block__button} ${styles.textRegular} ${(createTenderState.objectName || isChoosingObject) ? styles.section__block__button__end : ''} ${createTenderState.errors.includes('object') ? styles.section__block__buttonError : ''}`}
+                                        onClick={() => { setIsChoosingObject(prev => !prev); }}
+                                    >{
+                                            (createTenderState.objectName && !isChoosingObject) ?
+                                                'Изменить' :
+                                                isChoosingObject ?
+                                                    <>
+                                                        <img src={closeImg} alt="close" />
+                                                        Отмена
+                                                    </> :
+                                                    <>
+                                                        <img src={plusImg} alt="plus" />
+                                                        Добавить объект
+                                                    </>
+                                        }</button>
+                                    {createTenderState.errors.includes('object') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.objectError} ${(createTenderState.objectName || isChoosingObject) ? styles.objectErrorRight : ''}`}>Обязательно для заполнения</p>}
                                 </div>
-                            </div>}
-                            <button
-                                className={`${styles.section__block__button} ${styles.textRegular} ${(createTenderState.objectName || isChoosingObject) ? styles.section__block__button__end : ''} ${createTenderState.errors.includes('object') ? styles.section__block__buttonError : ''}`}
-                                onClick={() => { setIsChoosingObject(prev => !prev); }}
-                            >{
-                                    (createTenderState.objectName && !isChoosingObject) ?
-                                        'Изменить' :
-                                        isChoosingObject ?
-                                            <>
-                                                <img src={closeImg} alt="close" />
-                                                Отмена
-                                            </> :
-                                            <>
-                                                <img src={plusImg} alt="plus" />
-                                                Добавить объект
-                                            </>
-                                }</button>
-                        </div>
+                        }
                     </div>
                     {
-                        isChoosingObject && <div className={`${styles.object__objects} ${choosingObjectTypes ? '' : styles.object__objectsEmpty}`}>
-                            <div className={styles.object__objects__objects}>
+                        isChoosingObject && windowWidth > 1050 && <div
+                            className={`${styles.object__types} ${choosingObjectTypes ? '' : styles.object__typesHalf}`}
+                        //  className={`${styles.object__objects} ${choosingObjectTypes ? '' : styles.object__objectsEmpty}`}
+                        >
+                            <div
+                            //  className={styles.object__objects__objects}
+                            >
                                 {
                                     objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) => <p className={`${styles.object__objects__objects__p} ${object.name === isObjectChoosed ? styles.object__objects__objects__pSelected : ''}`} onClick={() => { setChoosingObjectTypes(object.types.map(el => ({ id: el.id, name: el.name, count: 0 }))); setIsObjectChoosed(object.name); setChooseTypesTypesToObjectToAddObject([]) }} key={object.id}>{object.name} {object.name === isObjectChoosed && <img src={arrowRightImg} alt="" />}</p>)
                                 }
                             </div>
-                            <div className={`${styles.object__objects__types} ${choosingObjectTypes ? '' : styles.object__objects__typesEmpty}`}>
-                                {
-                                    isObjectChoosed && (<>
-                                        <CheckboxGroup
-                                            //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
-                                            label=""
-                                            defaultValue={[]}
-                                            className={styles.object__services__types__checkboxGroup}
-                                            value={chooseTypesTypesToObjectToAddObject}
-                                            onValueChange={setChooseTypesTypesToObjectToAddObject}
-                                        >
-                                            {
-                                                choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddObject.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
-                                            }
+                            {!!choosingObjectTypes?.length &&
+                                <div
+                                // className={`${choosingObjectTypes ? '' : styles.object__objects__typesEmpty}`}
+                                // className={`${styles.object__objects__types} ${choosingObjectTypes ? '' : styles.object__objects__typesEmpty}`}
+                                >
+                                    {
+                                        isObjectChoosed && (<>
+                                            <CheckboxGroup
+                                                //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
+                                                label=""
+                                                defaultValue={[]}
+                                                // className={styles.object__services__types__checkboxGroup}
+                                                value={chooseTypesTypesToObjectToAddObject}
+                                                onValueChange={setChooseTypesTypesToObjectToAddObject}
+                                            >
+                                                {
+                                                    choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddObject.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                }
 
-                                        </CheckboxGroup>
-                                        <button onClick={() => {
-                                            if (chooseTypesTypesToObjectToAddObject.length) {
-                                                // createTenderState.handleSimpleInput('objectName', isObjectChoosed!);
-                                                // createTenderState.handleSimpleInput('objectCategory', objectTypeChosen!);
-                                                // createTenderState.addObject('', [])
-                                                createTenderState.addObject(isObjectChoosed!, chooseTypesTypesToObjectToAddObject)
-                                                setIsChoosingObject(false)
-                                                // setObjectTypeChosen(null)
-                                            }
-                                        }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddObject.length}>Применить</button>
-                                    </>)
-                                }
-                            </div>
+                                            </CheckboxGroup>
+                                            <button onClick={() => {
+                                                if (chooseTypesTypesToObjectToAddObject.length) {
+                                                    // createTenderState.handleSimpleInput('objectName', isObjectChoosed!);
+                                                    // createTenderState.handleSimpleInput('objectCategory', objectTypeChosen!);
+                                                    // createTenderState.addObject('', [])
+                                                    createTenderState.removeError('object')
+                                                    createTenderState.addObject(isObjectChoosed!, chooseTypesTypesToObjectToAddObject)
+                                                    setIsChoosingObject(false)
+                                                    // setObjectTypeChosen(null)
+                                                }
+                                            }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddObject.length}>Применить</button>
+                                        </>)
+                                    }
+                                </div>}
                         </div>
                     }
                     <div className={`${styles.section__block} ${styles.square}`}>
@@ -444,7 +520,7 @@ export const CreateTender: FC = () => {
                         {createTenderState.services.length > 0 && <div className={styles.services__block__services}>
                             {
                                 createTenderState.services.map(service =>
-                                    <div className={styles.services__block__serviceToChange}>
+                                    <div className={styles.services__block__serviceToChange} key={service.id}>
                                         <div key={service.id} className={`${styles.services__block__service}`}>
                                             <p className={`${styles.service__name}`}>{service.name}</p>
                                             <img className={styles.service__name__img} src={arrowRightImg} alt="" />
@@ -463,24 +539,35 @@ export const CreateTender: FC = () => {
                                             <button onClick={() => createTenderState.removeService(service.id)} className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__remove}`}><img src={closeImg} alt="" /></button>
                                         </div>
 
-                                        {isChoosingServiceToChange === service.id && <div className={`${styles.object__objects} ${styles.service__objects}`}>
-                                            <div className={styles.object__objects__objects}>
+                                        {isChoosingServiceToChange === service.id && <div
+                                            //  className={`${styles.object__objects} ${styles.service__objects}`}
+                                            className={`${styles.object__types} ${styles.services__types}`}
+                                        >
+                                            <div
+                                            //  className={styles.object__objects__objects}
+                                            >
                                                 {
                                                     cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src={arrowRightImg} alt="" />}</p>)
                                                 }
                                             </div>
-                                            <div className={`${styles.object__objects__types} ${styles.services__object__types} ${chooseTypesNameToObjectToChangeService ? '' : styles.object__objects__typesEmpty}`}>
+                                            <div
+                                            // className={`${styles.services__object__types} ${styles.object__objects__types} ${chooseTypesNameToObjectToChangeService ? '' : styles.object__objects__typesEmpty}`}
+                                            >
                                                 {
                                                     chooseTypesNameToObjectToChangeService && (<>
                                                         <CheckboxGroup
                                                             label=""
                                                             defaultValue={chooseTypesTypesToObjectToChangeService}
-                                                            className={styles.object__services__types__checkboxGroup}
+                                                            // className={`${styles.object__services__types__checkboxGroup} ${styles.object__services__types__checkboxGroup2}`}
                                                             value={chooseTypesTypesToObjectToChangeService}
                                                             onValueChange={setChooseTypesTypesToObjectToChangeService}
                                                         >
                                                             {
-                                                                cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToChangeService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                                cleaningTypeStore.apiCleaningTypes.find(service =>
+                                                                    service.name === chooseTypesNameToObjectToChangeService)?.types.map(type =>
+                                                                        <Checkbox
+                                                                            className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`}
+                                                                            key={type.id} value={type.name}>{type.name}</Checkbox>)
                                                             }
                                                         </CheckboxGroup>
                                                         <button onClick={() => {
@@ -506,39 +593,50 @@ export const CreateTender: FC = () => {
                             }
                         </div>}
                         <button onClick={() => { setIsChoosingServiceToAdd(prev => !prev); setChooseTypesNameToObjectToAddService(null) }} className={`${styles.section__block__button} ${styles.service__button} ${styles.textRegular} ${createTenderState.errors.includes('services') ? styles.section__block__buttonError : ''}`}><img src={isChoosingServiceToAdd ? closeImg : plusImg} alt="plus" />{isChoosingServiceToAdd ? 'Отмена' : 'Добавить услугу'}</button>
+                        {createTenderState.errors.includes('services') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
                         {
-                            isChoosingServiceToAdd && <div className={`${styles.object__objects} ${styles.service__objects}`}>
-                                <div className={styles.object__objects__objects}>
+                            isChoosingServiceToAdd && <div
+                                className={`${styles.object__types} ${styles.services__types} ${chooseTypesNameToObjectToAddService ? '' : `${styles.object__typesHalf} ${styles.services__typesHalf}`}`}
+                            // className={`${styles.object__objects} ${styles.service__objects}`}
+                            >
+                                <div
+                                // className={styles.object__objects__objects}
+                                >
                                     {
                                         cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src={arrowRightImg} alt="" />}</p>)
                                     }
                                 </div>
-                                <div className={`${styles.object__objects__types} ${styles.services__object__types} ${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}>
-                                    {
-                                        chooseTypesNameToObjectToAddService && (<>
-                                            <CheckboxGroup
-                                                label=""
-                                                defaultValue={[]}
-                                                className={styles.object__services__types__checkboxGroup}
-                                                value={chooseTypesTypesToObjectToAddService}
-                                                onValueChange={setChooseTypesTypesToObjectToAddService}
-                                            >
-                                                {
-                                                    cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
-                                                }
-                                            </CheckboxGroup>
-                                            <button onClick={() => {
-                                                if (chooseTypesTypesToObjectToAddService.length) {
-                                                    createTenderState.addService(chooseTypesNameToObjectToAddService, chooseTypesTypesToObjectToAddService)
-                                                    setChooseTypesTypesToObjectToAddService([])
-                                                    setChooseTypesNameToObjectToAddService(null)
-                                                    setIsChoosingServiceToAdd(false)
-                                                }
-                                            }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddService.length}>Применить</button>
-                                        </>)
-                                    }
+                                {
+                                    !!chooseTypesNameToObjectToAddService?.length &&
+                                    <div
+                                    // className={`${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
+                                    // className={`${styles.object__objects__types} ${styles.services__object__types} ${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
+                                    >
+                                        {
+                                            chooseTypesNameToObjectToAddService && (<>
+                                                <CheckboxGroup
+                                                    label=""
+                                                    defaultValue={[]}
+                                                    // className={styles.object__services__types__checkboxGroup}
+                                                    value={chooseTypesTypesToObjectToAddService}
+                                                    onValueChange={setChooseTypesTypesToObjectToAddService}
+                                                >
+                                                    {
+                                                        cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                    }
+                                                </CheckboxGroup>
+                                                <button onClick={() => {
+                                                    if (chooseTypesTypesToObjectToAddService.length) {
+                                                        createTenderState.addService(chooseTypesNameToObjectToAddService, chooseTypesTypesToObjectToAddService)
+                                                        setChooseTypesTypesToObjectToAddService([])
+                                                        setChooseTypesNameToObjectToAddService(null)
+                                                        setIsChoosingServiceToAdd(false)
+                                                    }
+                                                }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddService.length}>Применить</button>
+                                            </>)
+                                        }
 
-                                </div>
+                                    </div>}
                             </div>
                         }
                     </div>
@@ -576,54 +674,52 @@ export const CreateTender: FC = () => {
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Вложения:</p>
                         <div className={`${styles.section__attachments__block}`}>
-                            {!!images.length &&
+                            {!!createTenderState.attachments.length &&
                                 <div className={`${styles.section__attachments__block__cardList}`}>
                                     {
-                                        images.map((img, ind) => {
-                                            console.log(img);
-
-                                            return <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
-                                                {
-                                                    img.data.slice(5, 10) === 'image' ?
-                                                        <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < images.length ? img.data : plusImg} alt="" /> :
-                                                        <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
-                                                            <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={fileImg} alt="" />
-                                                            <div className={styles.section__attachments__block__cardItem__notImageInfo}>
-                                                                <p>{img.data.slice(5, 13) === 'text/xml' ? 'XML' : 'PDF'}</p>
-                                                                <img src={downloadImg} alt="" onClick={() => handleDownload(img.data, `image_${img.id}`)} />
-                                                            </div>
+                                        createTenderState.attachments.map((img, ind) => <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
+                                            {
+                                                img.data.slice(5, 10) === 'image' ?
+                                                    <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < createTenderState.attachments.length ? img.data as string : plusImg} alt="" /> :
+                                                    <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
+                                                        <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={fileImg} alt="" />
+                                                        <div className={styles.section__attachments__block__cardItem__notImageInfo}>
+                                                            <p>{img.data.slice(5, 13) === 'text/xml' ? 'XML' : 'PDF'}, {formatFileSize(img.fileSize)}</p>
+                                                            <img src={downloadImg} alt="" onClick={() => handleDownload(img.data, `image_${img.id}`)} />
                                                         </div>
-                                                }
-                                                {
-                                                    img.isChanging ?
-                                                        <textarea
-                                                            cols={2} value={img.text}
-                                                            onChange={(e) => changeAttachmentText(img.id, e.currentTarget.value)}
-                                                            className={`${styles.input}`}></textarea> :
-                                                        <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.text}</p>
-                                                }
-                                                <div className={`${styles.section__attachments__block__cardItem__changes}`}>
-                                                    <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
-                                                        src={img.isChanging ? checkMarkImg : changeAttachmentImg} alt=""
-                                                        onClick={() => changeAttachmentIsChanging(img.id)} />
-                                                    <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
-                                                    <img onClick={() => removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src={removeAttachmentImg} alt="" />
-                                                    <p onClick={() => removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
-                                                </div>
+                                                    </div>
+                                            }
+                                            {
+                                                img.isChanging ?
+                                                    <textarea
+                                                        cols={2} value={img.text}
+                                                        onChange={(e) => createTenderState.changeAttachmentText(img.id, e.currentTarget.value)}
+                                                        className={`${styles.input}`}></textarea> :
+                                                    <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.text}</p>
+                                            }
+                                            <div className={`${styles.section__attachments__block__cardItem__changes}`}>
+                                                <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
+                                                    src={img.isChanging ? checkMarkImg : changeAttachmentImg} alt=""
+                                                    onClick={() => createTenderState.changeAttachmentIsChanging(img.id)} />
+                                                <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
+                                                <img onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src={removeAttachmentImg} alt="" />
+                                                <p onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
                                             </div>
-                                        })
+                                        </div>
+                                        )
                                     }
                                 </div>
                             }
-                            <button onClick={() => { images.length < 8 && handleButtonFileClick() }} disabled={images.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
+                            <button onClick={() => { createTenderState.attachments.length < 8 && handleButtonFileClick() }} disabled={images.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
                             <input
                                 type="file"
                                 multiple
                                 accept="image/*,.pdf,.xml"
-                                onChange={handleFileUpload}
+                                onChange={createTenderState.handleFileUpload}
                                 ref={inputFileRef}
                                 style={{ display: 'none' }}
                             />
+                            {createTenderState.errors.includes('attachments') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
                         </div>
                     </div>
                 </div>
@@ -631,7 +727,7 @@ export const CreateTender: FC = () => {
                     <div className={`${styles.section__block}`}>
                         <p className={`${styles.section__block__p}`}></p>
                         <div className={`${styles.section__sendButtons__block}`}>
-                            <button onClick={() => createTenderState.validateInputs()} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
+                            <button onClick={() => { submit() }} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
                             <button className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                         </div>
                     </div>

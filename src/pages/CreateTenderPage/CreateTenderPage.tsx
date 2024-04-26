@@ -1,4 +1,3 @@
-
 import { CreateTender } from "@/components/CreateTender/CreateTender";
 import { FC } from "react";
 
