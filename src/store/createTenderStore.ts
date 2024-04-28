@@ -71,7 +71,7 @@ interface createTenderState {
 
     // changeAttachmentText: (id: )
     // React.ChangeEvent<HTMLInputElement>
-    handleFileUpload: (event: ChangeEvent<HTMLInputElement>) => void
+    handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId?: number) => void
     changeAttachmentText: (id: number, text: string) => void
     changeAttachmentIsChanging: (id: number) => void
     removeAttachment: (id: number) => void
@@ -188,11 +188,11 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         set((state) => ({ ...state, errors: [...state.errors.filter(error => error !== errorToRemove)] }))
     },
 
-    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>) => {
+    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>, idToChange?: number) => {
         const files = event.target.files;
         // const reader = new FileReader();
         const file = files![files!.length - 1];
-        console.log(file.size);
+        // console.log(file.size);
 
         let newFile: { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number } | undefined;
         const token = localStorage.getItem('token');
@@ -200,10 +200,10 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             file,
             private: false,
         };
-        console.log(token);
+        // console.log(token);
         if (token) {
             try {
-                console.log(typeof token);
+                // console.log(typeof token);
 
                 const link = await uploadFile(token, parameters);
                 // console.log(link);
@@ -214,27 +214,18 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
 
 
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-                    newFile = { id: Date.now(), fileName, linkToSend: `https://store.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
-                    set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
+                    // idToChange ||= Date.now()
+                    newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://store.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
+                    if (idToChange) {
+                        set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === idToChange ? newFile! : attachment) }))
+                    } else {
+                        set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
+                    }
                 }
             } catch (e) {
                 console.error('sending file err: ', e);
             }
         }
-        // reader.onload = async (e) => {
-        //     try {
-
-
-        //         const fileType = file.type.split('/')[0];
-        //         if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-        //             newFile = { id: Date.now(), data: e.target!.result!, text: '', isChanging: true, fileType, fileSize: file.size }
-        //         }
-        //         set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
-        //     } catch (err) {
-        //         console.error(err);
-        //     }
-        // }
-        // reader.readAsDataURL(file);
     },
 
     validateInputs: () => {
@@ -249,48 +240,6 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             if (!state.objectName) newErrors.push('object')
             if (!state.services.length) newErrors.push('services')
             if (!state.attachments.length) newErrors.push('attachments')
-
-            // if (!newErrors.length) {
-            //     const objectToSend = {
-            //         name: state.name,
-            //         price: +state.price,
-
-
-            //         is_contract_price: state.is_contract_price,
-            //         is_NDS: state.is_NDS,
-
-            //         floor_space: +state.floor_space,
-
-            //         wishes: state.wishes,
-            //         description: state.description,
-
-            //         reception_start: state.reception_start.toISOString(),
-            //         reception_end: state.reception_end.toISOString(),
-            //         reception_time_start: state.reception_time_start,
-            //         reception_time_end: state.reception_time_end,
-            //         work_start: state.work_start.toISOString(),
-            //         work_end: state.work_end.toISOString(),
-
-
-            //         // object: { objectName: state.objectName, objectCategory: state.objectCategory },
-            //         objectName: state.objectName,
-            //         objectCategory: state.objectCategory,
-            //         services: state.services.map(service => ({ id: service.id, name: service.name, types: service.types.map(type => type.name) })),
-
-
-            //         attachments: state.attachments,
-
-            //         city: state.city
-            //         // services_groups: state.services_groups,
-            //         // services_types: state.services_types,
-
-            //         // city_id: state.city_id,
-            //         // object_group_id: state.object_group_id,
-            //         // object_type_id: state.object_type_id,
-            //     }
-            //     console.log(objectToSend);
-
-            // }
 
             return { ...state, errors: [...newErrors] }
         })

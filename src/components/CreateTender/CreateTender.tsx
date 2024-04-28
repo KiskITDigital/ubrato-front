@@ -9,6 +9,8 @@ import plusImg from '../../../public/create-tender/plus.svg'
 import closeImg from '../../../public/create-tender/close.svg'
 import closeGrayImg from '../../../public/create-tender/close-gray.svg'
 import fileImg from '../../../public/create-tender/file.svg'
+import imgMobileImg from '../../../public/create-tender/img-mobile.svg'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import downloadImg from '../../../public/create-tender/download-image.svg'
 import closeWhiteImg from '../../../public/create-tender/close-white.svg'
 import citiesAutocompleteCheckmarkImg from '../../../public/create-tender/cities-autocomplete-checkmark.svg'
@@ -74,12 +76,19 @@ export const CreateTender: FC = () => {
         inputFileRef.current!.click();
     };
 
-    const handleDownload = (dataURL, fileName) => {
-        const link = document.createElement('a');
-        link.href = dataURL;
-        link.download = fileName;
-        link.click();
+    const inputChangeFileRef = useRef(null);
+
+    const handleButtonChangeFileClick = () => {
+        inputChangeFileRef.current!.click();
     };
+
+
+    // const handleDownload = (dataURL, fileName) => {
+    //     const link = document.createElement('a');
+    //     link.href = dataURL;
+    //     link.download = fileName;
+    //     link.click();
+    // };
 
     const [isCitiesAutoComplete, setIsCitiesAutoComplete] = useState(false);
 
@@ -146,7 +155,7 @@ export const CreateTender: FC = () => {
     return (
         <div className={`container ${styles.container}`}>
             <div className={`${styles.title}`}>
-                <h1 className={`${styles.title__h1} ${styles.textBlack60} ${styles.textRegular}`}>Тендер №{'1304'}</h1>
+                {/* <h1 className={`${styles.title__h1} ${styles.textBlack60} ${styles.textRegular}`}>Тендер №{'1304'}</h1> */}
                 <p className={`${styles.title__p} ${styles.textBlack60} ${styles.textRegular}`}>Статус: <span className={`${styles.textBlack} ${styles.textMedium}`}>{'Создание тендера'}</span></p>
             </div>
             <div className={`${styles.nameTender}`}>
@@ -159,7 +168,7 @@ export const CreateTender: FC = () => {
                     value={createTenderState.name}
                     onChange={(e) => createTenderState.handleSimpleInput("name", e.currentTarget.value)}
                 />
-                {createTenderState.errors.includes('name') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextName}`}>Обязательно для заполнения</p>}
+                {createTenderState.errors.includes('name') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextName} ${styles.inputErrorTenderName}`}>Обязательно для заполнения</p>}
             </div>
             <div className={`${styles.switcher}`}>
                 <div onClick={() => setSwitcher('Тендер')} className={`${styles.switcher__div} ${switcher === 'Тендер' ? `${styles.borderBottomBlue}` : ''}`}><p className={`${styles.switcher__p} ${switcher === 'Тендер' ? `${styles.textMedium} ${styles.textBlack}` : `${styles.textReguar} ${styles.textBlack60}`}`}>Тендер</p></div>
@@ -255,13 +264,13 @@ export const CreateTender: FC = () => {
                                     onChange={(e) => createTenderState.handleSimpleInput('price', e.currentTarget.value, checkOnlyNumber)}
                                     className={`${styles.input} ${styles.firstSections__div__main__block__input} ${createTenderState.errors.includes('price') ? styles.inputError : ''}`}
                                     type="text" />
-                                {createTenderState.errors.includes('price') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextPrice}`}>Обязательно для заполнения</p>}
+                                {createTenderState.errors.includes('price') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextPrice} ${styles.inputErrorTenderPrice}`}>Обязательно для заполнения</p>}
                             </div>
                             <div className={`${styles.firstSections__div__main__block} ${styles.CheckboxNextUI__block}`}>
                                 {/* <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p> */}
                                 {/* <input className={`${styles.input} ${styles.firstSections__div__main__block__input}`} type="text" /> */}
                                 <span className={`${styles.CheckboxNextUI__block__span}`}></span>
-                                <Checkbox onValueChange={() => createTenderState.handleSimpleInput('is_contract_price', !createTenderState.is_contract_price)} className={`${styles.CheckboxNextUI} ${createTenderState.is_contract_price ? styles.CheckboxNextUIActive : ''}`} isSelected={createTenderState.is_contract_price}>
+                                <Checkbox onValueChange={() => createTenderState.handleSimpleInput('is_contract_price', !createTenderState.is_contract_price)} className={`${styles.CheckboxNextUI} ${createTenderState.is_contract_price ? styles.CheckboxNextUIActive : ''} ${styles.CheckboxNextUIIsContract}`} isSelected={createTenderState.is_contract_price}>
                                     Договорная
                                 </Checkbox>
                             </div>
@@ -324,12 +333,21 @@ export const CreateTender: FC = () => {
                                 (isCitiesAutoComplete || !createTenderState.city) ? <>
                                     <input
                                         onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
-                                        onBlur={() => { createTenderState.addError('city'); setIsCitiesAutoComplete(false); console.log(createTenderState.cities) }}
+                                        onBlur={() => {
+                                            setIsCitiesAutoComplete(false);
+                                            console.log(createTenderState.cities);
+                                            if (createTenderState.cities.length) {
+                                                createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)
+                                            } else {
+                                                createTenderState.addError('city');
+                                                createTenderState.handleSimpleInput('city', '')
+                                            }
+                                        }}
                                         value={createTenderState.city}
                                         onChange={(e) => { createTenderState.handleSimpleInput('city', e.currentTarget.value); createTenderState.getCities(e.currentTarget.value) }}
                                         type="text"
                                         className={`${styles.input} ${styles.cities__input} ${createTenderState.errors.includes('city') ? styles.inputError : ''}`} />
-                                    {createTenderState.errors.includes('city') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError} ${styles.inputErrorTextCity}`}>Обязательно для заполнения</p>}
+                                    {createTenderState.errors.includes('city') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.inputErrorTextCity}`}>Обязательно для заполнения</p>}
                                     {
                                         isCitiesAutoComplete && !!createTenderState.city.length && !!createTenderState.cities.length && <div className={styles.cities__autocomplete}>
                                             {
@@ -393,7 +411,8 @@ export const CreateTender: FC = () => {
                                         onValueChange={(newObjectTypes) => { console.log(newObjectTypes); createTenderState.addObject(createTenderState.objectName, newObjectTypes) }}
                                     >
                                         {
-                                            choosingObjectTypes!.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                            // choosingObjectTypes?.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                            objectsStore.apiObjects?.find(el => el.name === createTenderState.objectName)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
                                         }
 
                                     </CheckboxGroup>
@@ -526,7 +545,7 @@ export const CreateTender: FC = () => {
                         {
                             createTenderState.services.map(service =>
                                 <Fragment key={service.id}>
-                                    <button className={`${styles.section__block__button} ${styles.textRegular}`}><img src={closeImg} alt="close" />{service.name}</button>
+                                    <button onClick={() => { createTenderState.removeService(service.id) }} className={`${styles.section__block__button} ${styles.textRegular}`}><img src={closeImg} alt="close" />{service.name}</button>
                                     <CheckboxGroup
                                         //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
                                         label=""
@@ -564,12 +583,13 @@ export const CreateTender: FC = () => {
                             <img src={(isChoosingNewServiceNameMobile) ? closeImg : plusImg} alt="plus" />
                             Добавить услуги
                         </button>
+                        {createTenderState.errors.includes('services') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
                         {
                             isChoosingNewServiceNameMobile && <div
                                 // onBlur={() => setIsChoosingObjectNameMobile(false)}
                                 className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile}`}>
                                 {
-                                    cleaningTypeStore.apiCleaningTypes.map((service) =>
+                                    cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
                                         <p
                                             onClick={() => { setIsChoosingNewServiceNameMobile(false); createTenderState.addService(service.name, []) }}
                                             className={styles.cities__autocomplete__item}
@@ -613,7 +633,8 @@ export const CreateTender: FC = () => {
                                                 //  className={styles.object__objects__objects}
                                                 >
                                                     {
-                                                        cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src={arrowRightImg} alt="" />}</p>)
+                                                        cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
+                                                            <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src={arrowRightImg} alt="" />}</p>)
                                                     }
                                                 </div>
                                                 <div
@@ -670,7 +691,8 @@ export const CreateTender: FC = () => {
                                     // className={styles.object__objects__objects}
                                     >
                                         {
-                                            cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src={arrowRightImg} alt="" />}</p>)
+                                            cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
+                                                <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src={arrowRightImg} alt="" />}</p>)
                                         }
                                     </div>
                                     {
@@ -721,7 +743,7 @@ export const CreateTender: FC = () => {
                             name="" id="" rows={5}
                             className={`${styles.input} ${styles.description__textarea} ${createTenderState.errors.includes('description') ? styles.inputError : ''}`}
                         ></textarea>
-                        {createTenderState.errors.includes('description') && <p className={styles.inputErrorText}>Обязательно для заполнения</p>}
+                        {createTenderState.errors.includes('description') && <p className={`${styles.inputErrorText} ${styles.textAreaError}`}>Обязательно для заполнения</p>}
                     </div>
                 </div>
                 <div className={`${styles.section} ${styles.wishes}`}>
@@ -735,7 +757,7 @@ export const CreateTender: FC = () => {
                             name="" id="" rows={5}
                             className={`${styles.input} ${styles.wishes__textarea} ${createTenderState.errors.includes('wishes') ? styles.inputError : ''}`}
                         ></textarea>
-                        {createTenderState.errors.includes('wishes') && <p className={styles.inputErrorText}>Обязательно для заполнения</p>}
+                        {createTenderState.errors.includes('wishes') && <p className={`${styles.inputErrorText} ${styles.textAreaError}`}>Обязательно для заполнения</p>}
                     </div>
                 </div>
                 <div className={`${styles.section} ${styles.attachments}`}>
@@ -747,31 +769,36 @@ export const CreateTender: FC = () => {
                                     {
                                         createTenderState.attachments.map((img, ind) => <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
                                             {
-                                                img.fileType === 'image' ?
+                                                (img.fileType === 'image' && windowWidth > 1050) ?
                                                     <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < createTenderState.attachments.length ? img.linkToSend : plusImg} alt="" /> :
                                                     <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
-                                                        <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={fileImg} alt="" />
+                                                        <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={img.fileType === 'image' ? imgMobileImg : fileImg} alt="" />
                                                         <div className={styles.section__attachments__block__cardItem__notImageInfo}>
-                                                            <p>{img.fileType === 'text' ? 'XML' : 'PDF'}, {formatFileSize(img.fileSize)}</p>
-                                                            <img src={downloadImg} alt="" onClick={() => handleDownload(img.linkToSend, img.fileName)} />
-                                                            <img onClick={() => createTenderState.removeAttachment(img.id)} src={closeGrayImg} alt="" />
+                                                            <p>
+                                                                {/* {img.fileType === 'text' ? 'XML' : 'PDF'} */}
+                                                                <span className={styles.section__attachments__block__cardItem__notImageInfo__span}>{img.fileName}</span>
+                                                                , {formatFileSize(img.fileSize)}</p>
+                                                            {/* <img src={downloadImg} alt="" onClick={() => handleDownload(img.linkToSend, img.fileName)} /> */}
+                                                            {windowWidth <= 1050 && <img onClick={() => createTenderState.removeAttachment(img.id)} src={closeGrayImg} alt="" />}
                                                         </div>
                                                     </div>
                                             }
                                             {windowWidth > 1050 && <>
                                                 <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName}</p>
-                                                {/* {
-                                                img.isChanging ?
-                                                    <textarea
-                                                        cols={2} value={img.text}
-                                                        onChange={(e) => createTenderState.changeAttachmentText(img.id, e.currentTarget.value)}
-                                                        className={`${styles.input}`}></textarea> :
-                                                    <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.text}</p>
-                                            } */}
                                                 <div className={`${styles.section__attachments__block__cardItem__changes}`}>
                                                     <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
                                                         src={changeAttachmentImg} alt=""
-                                                        onClick={() => createTenderState.changeAttachmentIsChanging(img.id)} />
+                                                        // onClick={() => createTenderState.changeAttachmentIsChanging(img.id)}
+                                                        onClick={handleButtonChangeFileClick}
+                                                    />
+                                                    <input
+                                                        type="file"
+                                                        multiple
+                                                        accept="image/*,.pdf,.xml"
+                                                        onChange={(e) => createTenderState.handleFileUpload(e, img.id)}
+                                                        ref={inputChangeFileRef}
+                                                        style={{ display: 'none' }}
+                                                    />
                                                     <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
                                                     <img onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src={removeAttachmentImg} alt="" />
                                                     <p onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
@@ -779,38 +806,6 @@ export const CreateTender: FC = () => {
                                             </>}
                                         </div>)
                                     }
-                                    {/* {
-                                        createTenderState.attachments.map((img, ind) => <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
-                                            {
-                                                img.data.slice(5, 10) === 'image' ?
-                                                    <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < createTenderState.attachments.length ? img.data as string : plusImg} alt="" /> :
-                                                    <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
-                                                        <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={fileImg} alt="" />
-                                                        <div className={styles.section__attachments__block__cardItem__notImageInfo}>
-                                                            <p>{img.data.slice(5, 13) === 'text/xml' ? 'XML' : 'PDF'}, {formatFileSize(img.fileSize)}</p>
-                                                            <img src={downloadImg} alt="" onClick={() => handleDownload(img.data, `image_${img.id}`)} />
-                                                        </div>
-                                                    </div>
-                                            }
-                                            {
-                                                img.isChanging ?
-                                                    <textarea
-                                                        cols={2} value={img.text}
-                                                        onChange={(e) => createTenderState.changeAttachmentText(img.id, e.currentTarget.value)}
-                                                        className={`${styles.input}`}></textarea> :
-                                                    <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.text}</p>
-                                            }
-                                            <div className={`${styles.section__attachments__block__cardItem__changes}`}>
-                                                <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
-                                                    src={img.isChanging ? checkMarkImg : changeAttachmentImg} alt=""
-                                                    onClick={() => createTenderState.changeAttachmentIsChanging(img.id)} />
-                                                <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
-                                                <img onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src={removeAttachmentImg} alt="" />
-                                                <p onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
-                                            </div>
-                                        </div>
-                                        )
-                                    } */}
                                 </div>
                             }
                             <button onClick={() => { createTenderState.attachments.length < 8 && handleButtonFileClick() }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
@@ -822,7 +817,7 @@ export const CreateTender: FC = () => {
                                 ref={inputFileRef}
                                 style={{ display: 'none' }}
                             />
-                            {createTenderState.errors.includes('attachments') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
+                            {createTenderState.errors.includes('attachments') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.attachmentsError}`}>Обязательно для заполнения</p>}
                         </div>
                     </div>
                 </div>
