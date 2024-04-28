@@ -1,24 +1,26 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, Fragment, useEffect, useRef, useState } from "react";
 import styles from './CreateTender.module.css'
 import refreshImg from '../../../public/create-tender/refresh.svg'
 import arrowRightImg from '../../../public/create-tender/arrow-right.svg'
 import changeAttachmentImg from '../../../public/create-tender/change-attachment.svg'
 import removeAttachmentImg from '../../../public/create-tender/remove-attachment.svg'
-import checkMarkImg from '../../../public/create-tender/checkmark.svg'
+// import checkMarkImg from '../../../public/create-tender/checkmark.svg'
 import plusImg from '../../../public/create-tender/plus.svg'
 import closeImg from '../../../public/create-tender/close.svg'
+import closeGrayImg from '../../../public/create-tender/close-gray.svg'
 import fileImg from '../../../public/create-tender/file.svg'
 import downloadImg from '../../../public/create-tender/download-image.svg'
 import closeWhiteImg from '../../../public/create-tender/close-white.svg'
 import citiesAutocompleteCheckmarkImg from '../../../public/create-tender/cities-autocomplete-checkmark.svg'
 import { CheckboxGroup, Checkbox, Switch } from "@nextui-org/react";
 import { useCreateTenderState } from "@/store/createTenderStore";
-import { addTwoDots, checkFloorSpace, checkOnlyNumber, formatFileSize, makeSpecialIsoString } from "./funcs";
+import { addTwoDots, checkFloorSpace, checkOnlyNumber, formatDate, formatFileSize } from "./funcs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { useTypesObjectsStore } from "@/store/objectsStore";
 import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
+import { createTender } from "@/api/createTender";
 
 export const CreateTender: FC = () => {
     const status = 'создание тендера'
@@ -61,10 +63,10 @@ export const CreateTender: FC = () => {
 
 
     const [isChoosingObjectNameMobile, setIsChoosingObjectNameMobile] = useState(false);
+    const [isChoosingNewServiceNameMobile, setIsChoosingNewServiceNameMobile] = useState(false);
 
 
 
-    const [images, setImages] = useState([]);
 
     const inputFileRef = useRef(null);
 
@@ -92,7 +94,7 @@ export const CreateTender: FC = () => {
 
     const submit = () => {
         if (createTenderState.validateInputs()) return;
-        console.log(createTenderState.validateInputs());
+        // console.log(createTenderState.validateInputs());
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .map(type => type.types)
             .reduce((acc, el) => [...acc, ...el], [])
@@ -111,29 +113,33 @@ export const CreateTender: FC = () => {
         // console.log(arrToSearchObjectTypes, arrToSearchServicesTypes);
 
         const objectToSend = {
-            object_types: arrToSearchObjectTypes,
+            objects_types: arrToSearchObjectTypes,
             services_types: arrToSearchServicesTypes,
             name: createTenderState.name,
             price: +createTenderState.price,
             is_contract_price: createTenderState.is_contract_price,
-            is_NDS: createTenderState.is_NDS,
+            is_nds_price: createTenderState.is_NDS,
             floor_space: +createTenderState.floor_space,
             wishes: createTenderState.wishes,
             description: createTenderState.description,
-            // reception_start2: createTenderState.reception_start,
-
-            reception_start: createTenderState.reception_start.toISOString(),
-            reception_end: createTenderState.reception_end.toISOString(),
-            reception_time_start: createTenderState.reception_time_start,
-            reception_time_end: createTenderState.reception_time_end,
-            work_start: createTenderState.work_start.toISOString(),
-            work_end: createTenderState.work_end.toISOString(),
-            attachments: createTenderState.attachments,
+            // reception_start: createTenderState.reception_start.toISOString(),
+            reception_start: formatDate(createTenderState.reception_start, createTenderState.reception_time_start),
+            // reception_end: createTenderState.reception_end.toISOString(),
+            reception_end: formatDate(createTenderState.reception_end, createTenderState.reception_time_end),
+            // reception_time_start: createTenderState.reception_time_start,
+            // reception_time_end: createTenderState.reception_time_end,
+            // work_start: createTenderState.work_start.toISOString(),
+            work_start: formatDate(createTenderState.work_start),
+            // work_end: createTenderState.work_end.toISOString(),
+            work_end: formatDate(createTenderState.work_end),
             // city: createTenderState.city
-            city: createTenderState.cities.find(el => el.name === createTenderState.city)?.id
+            city_id: createTenderState.cities.find(el => el.name === createTenderState.city)?.id,
+            attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
         console.log(objectToSend);
-        console.log(makeSpecialIsoString(createTenderState.reception_start, createTenderState.reception_time_start));
+        const token = localStorage.getItem('token');
+        token && createTender(token, objectToSend)
+        // console.log(makeSpecialIsoString(createTenderState.reception_start, createTenderState.reception_time_start));
 
     }
 
@@ -146,7 +152,6 @@ export const CreateTender: FC = () => {
             <div className={`${styles.nameTender}`}>
                 <label className={`${styles.nameTender__label} ${styles.textBlack60} ${styles.textRegular}`}>Название тендера:</label>
                 <input
-                    // maxLength={6}
                     onFocus={() => createTenderState.removeError('name')}
                     onBlur={() => !createTenderState.name && createTenderState.addError('name')}
                     type="text"
@@ -324,7 +329,7 @@ export const CreateTender: FC = () => {
                                         onChange={(e) => { createTenderState.handleSimpleInput('city', e.currentTarget.value); createTenderState.getCities(e.currentTarget.value) }}
                                         type="text"
                                         className={`${styles.input} ${styles.cities__input} ${createTenderState.errors.includes('city') ? styles.inputError : ''}`} />
-                                    {createTenderState.errors.includes('city') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
+                                    {createTenderState.errors.includes('city') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError} ${styles.inputErrorTextCity}`}>Обязательно для заполнения</p>}
                                     {
                                         isCitiesAutoComplete && !!createTenderState.city.length && !!createTenderState.cities.length && <div className={styles.cities__autocomplete}>
                                             {
@@ -410,6 +415,7 @@ export const CreateTender: FC = () => {
                                         }
                                     </div>
                                 }
+                                {createTenderState.errors.includes('object') && <p className={`${styles.inputErrorText} ${styles.objectError}`}>Обязательно для заполнения</p>}
                             </>) :
                                 <div className={`${styles.section__block__add__object}`}>
                                     {!!createTenderState.objectCategory.length && <div className={`${styles.services__block__service} ${styles.object__block__service}`}>
@@ -516,130 +522,192 @@ export const CreateTender: FC = () => {
 
                 <div className={`${styles.section} ${styles.services}`}>
                     <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Услуги:</p>
-                    <div className={`${styles.services__block}`}>
-                        {createTenderState.services.length > 0 && <div className={styles.services__block__services}>
-                            {
-                                createTenderState.services.map(service =>
-                                    <div className={styles.services__block__serviceToChange} key={service.id}>
-                                        <div key={service.id} className={`${styles.services__block__service}`}>
-                                            <p className={`${styles.service__name}`}>{service.name}</p>
-                                            <img className={styles.service__name__img} src={arrowRightImg} alt="" />
-                                            <div className={`${styles.services__block__service__types}`}>
-                                                {
-                                                    service.types.map(type => <p key={type.id} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
-                                                        {type.name}
-                                                        <span className={`${styles.section__block__add__object__objectCategory__span}`}></span>
-                                                        <img onClick={() => createTenderState.removeServiceType(service.id, type.id)} className={`${styles.section__block__add__object__objectCategory__img}`} src={closeWhiteImg} alt="" />
-                                                    </p>)
-                                                }
-                                            </div>
-                                            <button
-                                                onClick={() => { setIsChoosingServiceToChange(service.id); setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService(service.types.map(type => type.name)) }}
-                                                className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__change}`}>Изменить</button>
-                                            <button onClick={() => createTenderState.removeService(service.id)} className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__remove}`}><img src={closeImg} alt="" /></button>
-                                        </div>
-
-                                        {isChoosingServiceToChange === service.id && <div
-                                            //  className={`${styles.object__objects} ${styles.service__objects}`}
-                                            className={`${styles.object__types} ${styles.services__types}`}
-                                        >
-                                            <div
-                                            //  className={styles.object__objects__objects}
-                                            >
-                                                {
-                                                    cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src={arrowRightImg} alt="" />}</p>)
-                                                }
-                                            </div>
-                                            <div
-                                            // className={`${styles.services__object__types} ${styles.object__objects__types} ${chooseTypesNameToObjectToChangeService ? '' : styles.object__objects__typesEmpty}`}
-                                            >
-                                                {
-                                                    chooseTypesNameToObjectToChangeService && (<>
-                                                        <CheckboxGroup
-                                                            label=""
-                                                            defaultValue={chooseTypesTypesToObjectToChangeService}
-                                                            // className={`${styles.object__services__types__checkboxGroup} ${styles.object__services__types__checkboxGroup2}`}
-                                                            value={chooseTypesTypesToObjectToChangeService}
-                                                            onValueChange={setChooseTypesTypesToObjectToChangeService}
-                                                        >
-                                                            {
-                                                                cleaningTypeStore.apiCleaningTypes.find(service =>
-                                                                    service.name === chooseTypesNameToObjectToChangeService)?.types.map(type =>
-                                                                        <Checkbox
-                                                                            className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`}
-                                                                            key={type.id} value={type.name}>{type.name}</Checkbox>)
-                                                            }
-                                                        </CheckboxGroup>
-                                                        <button onClick={() => {
-                                                            if (chooseTypesTypesToObjectToChangeService.length) {
-                                                                // createTenderState.addService(chooseTypesNameToObjectToChangeService, chooseTypesTypesToObjectToChangeService)
-                                                                createTenderState.changeService(isChoosingServiceToChange, chooseTypesNameToObjectToChangeService, chooseTypesTypesToObjectToChangeService)
-                                                                setChooseTypesTypesToObjectToChangeService([])
-                                                                setChooseTypesNameToObjectToChangeService(null)
-                                                                setIsChoosingServiceToChange(null)
-                                                                // setIsChoosingServiceToAdd(false)
-
-                                                            }
-                                                        }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToChangeService.length}>Применить</button>
-                                                    </>)
-                                                }
-
-                                            </div>
-                                        </div>}
-
-
-                                    </div>
-                                )
-                            }
-                        </div>}
-                        <button onClick={() => { setIsChoosingServiceToAdd(prev => !prev); setChooseTypesNameToObjectToAddService(null) }} className={`${styles.section__block__button} ${styles.service__button} ${styles.textRegular} ${createTenderState.errors.includes('services') ? styles.section__block__buttonError : ''}`}><img src={isChoosingServiceToAdd ? closeImg : plusImg} alt="plus" />{isChoosingServiceToAdd ? 'Отмена' : 'Добавить услугу'}</button>
-                        {createTenderState.errors.includes('services') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
+                    {windowWidth <= 1050 ? (<>
                         {
-                            isChoosingServiceToAdd && <div
-                                className={`${styles.object__types} ${styles.services__types} ${chooseTypesNameToObjectToAddService ? '' : `${styles.object__typesHalf} ${styles.services__typesHalf}`}`}
-                            // className={`${styles.object__objects} ${styles.service__objects}`}
-                            >
-                                <div
-                                // className={styles.object__objects__objects}
-                                >
-                                    {
-                                        cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src={arrowRightImg} alt="" />}</p>)
-                                    }
-                                </div>
-                                {
-                                    !!chooseTypesNameToObjectToAddService?.length &&
-                                    <div
-                                    // className={`${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
-                                    // className={`${styles.object__objects__types} ${styles.services__object__types} ${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
+                            createTenderState.services.map(service =>
+                                <Fragment key={service.id}>
+                                    <button className={`${styles.section__block__button} ${styles.textRegular}`}><img src={closeImg} alt="close" />{service.name}</button>
+                                    <CheckboxGroup
+                                        //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
+                                        label=""
+                                        defaultValue={[]}
+                                        // className={styles.object__services__types__checkboxGroup}
+                                        className={`${styles.checkbox__mobile}`}
+                                        value={service.types.map(type => type.name)}
+                                        onValueChange={(newServiceTypes => {
+                                            console.log(newServiceTypes, service.types)
+                                            createTenderState.changeService(service.id, service.name, newServiceTypes)
+                                        })}
+                                    // onValueChange={(newObjectTypes) => { console.log(newObjectTypes); createTenderState.addObject(createTenderState.objectName, newObjectTypes) }}
                                     >
                                         {
-                                            chooseTypesNameToObjectToAddService && (<>
-                                                <CheckboxGroup
-                                                    label=""
-                                                    defaultValue={[]}
-                                                    // className={styles.object__services__types__checkboxGroup}
-                                                    value={chooseTypesTypesToObjectToAddService}
-                                                    onValueChange={setChooseTypesTypesToObjectToAddService}
-                                                >
-                                                    {
-                                                        cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
-                                                    }
-                                                </CheckboxGroup>
-                                                <button onClick={() => {
-                                                    if (chooseTypesTypesToObjectToAddService.length) {
-                                                        createTenderState.addService(chooseTypesNameToObjectToAddService, chooseTypesTypesToObjectToAddService)
-                                                        setChooseTypesTypesToObjectToAddService([])
-                                                        setChooseTypesNameToObjectToAddService(null)
-                                                        setIsChoosingServiceToAdd(false)
-                                                    }
-                                                }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddService.length}>Применить</button>
-                                            </>)
+                                            cleaningTypeStore.apiCleaningTypes.find(ser =>
+                                                ser.name === service.name)?.types.map(type =>
+                                                    <Checkbox
+                                                        // className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`}
+                                                        className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${service.types.some(el => el.name === type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`}
+                                                        key={type.id} value={type.name}>{type.name}
+                                                    </Checkbox>)
                                         }
+                                        {/* {
+                                            service.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                        } */}
 
-                                    </div>}
+                                    </CheckboxGroup>
+                                </Fragment>
+                            )
+                        }
+                        <button
+                            onClick={() => { setIsChoosingNewServiceNameMobile(prev => !prev) }}
+                            className={`${styles.section__block__button} ${styles.textRegular} ${createTenderState.errors.includes('object') ? styles.section__block__buttonError : ''}`}
+                        >
+                            <img src={(isChoosingNewServiceNameMobile) ? closeImg : plusImg} alt="plus" />
+                            Добавить услуги
+                        </button>
+                        {
+                            isChoosingNewServiceNameMobile && <div
+                                // onBlur={() => setIsChoosingObjectNameMobile(false)}
+                                className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile}`}>
+                                {
+                                    cleaningTypeStore.apiCleaningTypes.map((service) =>
+                                        <p
+                                            onClick={() => { setIsChoosingNewServiceNameMobile(false); createTenderState.addService(service.name, []) }}
+                                            className={styles.cities__autocomplete__item}
+                                            key={service.id}
+                                        >
+                                            {service.name} <img src={citiesAutocompleteCheckmarkImg} alt="" />
+                                        </p>
+                                    )
+                                }
                             </div>
                         }
-                    </div>
+                    </>) :
+                        <div className={`${styles.services__block}`}>
+                            {createTenderState.services.length > 0 && <div className={styles.services__block__services}>
+                                {
+                                    createTenderState.services.map(service =>
+                                        <div className={styles.services__block__serviceToChange} key={service.id}>
+                                            <div key={service.id} className={`${styles.services__block__service}`}>
+                                                <p className={`${styles.service__name}`}>{service.name}</p>
+                                                <img className={styles.service__name__img} src={arrowRightImg} alt="" />
+                                                <div className={`${styles.services__block__service__types}`}>
+                                                    {
+                                                        service.types.map(type => <p key={type.id} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
+                                                            {type.name}
+                                                            <span className={`${styles.section__block__add__object__objectCategory__span}`}></span>
+                                                            <img onClick={() => createTenderState.removeServiceType(service.id, type.id)} className={`${styles.section__block__add__object__objectCategory__img}`} src={closeWhiteImg} alt="" />
+                                                        </p>)
+                                                    }
+                                                </div>
+                                                <button
+                                                    onClick={() => { setIsChoosingServiceToChange(service.id); setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService(service.types.map(type => type.name)) }}
+                                                    className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__change}`}>Изменить</button>
+                                                <button onClick={() => createTenderState.removeService(service.id)} className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__remove}`}><img src={closeImg} alt="" /></button>
+                                            </div>
+
+                                            {isChoosingServiceToChange === service.id && <div
+                                                //  className={`${styles.object__objects} ${styles.service__objects}`}
+                                                className={`${styles.object__types} ${styles.services__types}`}
+                                            >
+                                                <div
+                                                //  className={styles.object__objects__objects}
+                                                >
+                                                    {
+                                                        cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src={arrowRightImg} alt="" />}</p>)
+                                                    }
+                                                </div>
+                                                <div
+                                                // className={`${styles.services__object__types} ${styles.object__objects__types} ${chooseTypesNameToObjectToChangeService ? '' : styles.object__objects__typesEmpty}`}
+                                                >
+                                                    {
+                                                        chooseTypesNameToObjectToChangeService && (<>
+                                                            <CheckboxGroup
+                                                                label=""
+                                                                defaultValue={chooseTypesTypesToObjectToChangeService}
+                                                                // className={`${styles.object__services__types__checkboxGroup} ${styles.object__services__types__checkboxGroup2}`}
+                                                                value={chooseTypesTypesToObjectToChangeService}
+                                                                onValueChange={setChooseTypesTypesToObjectToChangeService}
+                                                            >
+                                                                {
+                                                                    cleaningTypeStore.apiCleaningTypes.find(service =>
+                                                                        service.name === chooseTypesNameToObjectToChangeService)?.types.map(type =>
+                                                                            <Checkbox
+                                                                                className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToChangeService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`}
+                                                                                key={type.id} value={type.name}>{type.name}
+                                                                            </Checkbox>)
+                                                                }
+                                                            </CheckboxGroup>
+                                                            <button onClick={() => {
+                                                                if (chooseTypesTypesToObjectToChangeService.length) {
+                                                                    // createTenderState.addService(chooseTypesNameToObjectToChangeService, chooseTypesTypesToObjectToChangeService)
+                                                                    createTenderState.changeService(isChoosingServiceToChange, chooseTypesNameToObjectToChangeService, chooseTypesTypesToObjectToChangeService)
+                                                                    setChooseTypesTypesToObjectToChangeService([])
+                                                                    setChooseTypesNameToObjectToChangeService(null)
+                                                                    setIsChoosingServiceToChange(null)
+                                                                    // setIsChoosingServiceToAdd(false)
+
+                                                                }
+                                                            }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToChangeService.length}>Применить</button>
+                                                        </>)
+                                                    }
+
+                                                </div>
+                                            </div>}
+
+
+                                        </div>
+                                    )
+                                }
+                            </div>}
+                            <button onClick={() => { setIsChoosingServiceToAdd(prev => !prev); setChooseTypesNameToObjectToAddService(null) }} className={`${styles.section__block__button} ${styles.service__button} ${styles.textRegular} ${createTenderState.errors.includes('services') ? styles.section__block__buttonError : ''}`}><img src={isChoosingServiceToAdd ? closeImg : plusImg} alt="plus" />{isChoosingServiceToAdd ? 'Отмена' : 'Добавить услугу'}</button>
+                            {createTenderState.errors.includes('services') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${styles.servicesError}`}>Обязательно для заполнения</p>}
+                            {
+                                isChoosingServiceToAdd && <div
+                                    className={`${styles.object__types} ${styles.services__types} ${chooseTypesNameToObjectToAddService ? '' : `${styles.object__typesHalf} ${styles.services__typesHalf}`}`}
+                                // className={`${styles.object__objects} ${styles.service__objects}`}
+                                >
+                                    <div
+                                    // className={styles.object__objects__objects}
+                                    >
+                                        {
+                                            cleaningTypeStore.apiCleaningTypes.map((service) => <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src={arrowRightImg} alt="" />}</p>)
+                                        }
+                                    </div>
+                                    {
+                                        !!chooseTypesNameToObjectToAddService?.length &&
+                                        <div
+                                        // className={`${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
+                                        // className={`${styles.object__objects__types} ${styles.services__object__types} ${chooseTypesNameToObjectToAddService ? '' : styles.object__objects__typesEmpty}`}
+                                        >
+                                            {
+                                                chooseTypesNameToObjectToAddService && (<>
+                                                    <CheckboxGroup
+                                                        label=""
+                                                        defaultValue={[]}
+                                                        // className={styles.object__services__types__checkboxGroup}
+                                                        value={chooseTypesTypesToObjectToAddService}
+                                                        onValueChange={setChooseTypesTypesToObjectToAddService}
+                                                    >
+                                                        {
+                                                            cleaningTypeStore.apiCleaningTypes.find(service => service.name === chooseTypesNameToObjectToAddService)?.types.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${chooseTypesTypesToObjectToAddService.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
+                                                        }
+                                                    </CheckboxGroup>
+                                                    <button onClick={() => {
+                                                        if (chooseTypesTypesToObjectToAddService.length) {
+                                                            createTenderState.addService(chooseTypesNameToObjectToAddService, chooseTypesTypesToObjectToAddService)
+                                                            setChooseTypesTypesToObjectToAddService([])
+                                                            setChooseTypesNameToObjectToAddService(null)
+                                                            setIsChoosingServiceToAdd(false)
+                                                        }
+                                                    }} className={styles.object__objects__types__button} disabled={!chooseTypesTypesToObjectToAddService.length}>Применить</button>
+                                                </>)
+                                            }
+
+                                        </div>}
+                                </div>
+                            }
+                        </div>
+                    }
                 </div>
 
                 <div className={`${styles.section} ${styles.description}`}>
@@ -679,6 +747,41 @@ export const CreateTender: FC = () => {
                                     {
                                         createTenderState.attachments.map((img, ind) => <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
                                             {
+                                                img.fileType === 'image' ?
+                                                    <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < createTenderState.attachments.length ? img.linkToSend : plusImg} alt="" /> :
+                                                    <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
+                                                        <img className={styles.section__attachments__block__cardItem__notImageInfo__img} src={fileImg} alt="" />
+                                                        <div className={styles.section__attachments__block__cardItem__notImageInfo}>
+                                                            <p>{img.fileType === 'text' ? 'XML' : 'PDF'}, {formatFileSize(img.fileSize)}</p>
+                                                            <img src={downloadImg} alt="" onClick={() => handleDownload(img.linkToSend, img.fileName)} />
+                                                            <img onClick={() => createTenderState.removeAttachment(img.id)} src={closeGrayImg} alt="" />
+                                                        </div>
+                                                    </div>
+                                            }
+                                            {windowWidth > 1050 && <>
+                                                <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName}</p>
+                                                {/* {
+                                                img.isChanging ?
+                                                    <textarea
+                                                        cols={2} value={img.text}
+                                                        onChange={(e) => createTenderState.changeAttachmentText(img.id, e.currentTarget.value)}
+                                                        className={`${styles.input}`}></textarea> :
+                                                    <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.text}</p>
+                                            } */}
+                                                <div className={`${styles.section__attachments__block__cardItem__changes}`}>
+                                                    <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
+                                                        src={changeAttachmentImg} alt=""
+                                                        onClick={() => createTenderState.changeAttachmentIsChanging(img.id)} />
+                                                    <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
+                                                    <img onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src={removeAttachmentImg} alt="" />
+                                                    <p onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
+                                                </div>
+                                            </>}
+                                        </div>)
+                                    }
+                                    {/* {
+                                        createTenderState.attachments.map((img, ind) => <div key={img.id} className={`${styles.section__attachments__block__cardItem}`}>
+                                            {
                                                 img.data.slice(5, 10) === 'image' ?
                                                     <img className={`${styles.section__attachments__block__cardItem__img}`} src={ind < createTenderState.attachments.length ? img.data as string : plusImg} alt="" /> :
                                                     <div className={`${styles.section__attachments__block__cardItem__img} ${styles.section__attachments__block__cardItem__notImage}`}>
@@ -707,10 +810,10 @@ export const CreateTender: FC = () => {
                                             </div>
                                         </div>
                                         )
-                                    }
+                                    } */}
                                 </div>
                             }
-                            <button onClick={() => { createTenderState.attachments.length < 8 && handleButtonFileClick() }} disabled={images.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
+                            <button onClick={() => { createTenderState.attachments.length < 8 && handleButtonFileClick() }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src={plusImg} alt="plus" />Добавить вложения (до 8 шт.)</button>
                             <input
                                 type="file"
                                 multiple

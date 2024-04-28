@@ -5,3 +5,10 @@ export const getCities = async (query: string) => {
     // console.log(res);
     return res
 }
+
+export const createTender = async (token: string, parameters) => {
+    const res = await axiosInstance.post(`/v1/tenders/create`, parameters, {
+        headers: { authorization: `Bearer ${token}` },
+    });
+    console.log(res);
+}

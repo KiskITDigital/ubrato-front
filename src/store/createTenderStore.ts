@@ -1,3 +1,4 @@
+import { uploadFile } from "@/api";
 import { getCities } from "@/api/createTender";
 import { City } from "@/types/app";
 // import { AxiosPromise } from "axios";
@@ -14,12 +15,21 @@ interface createTenderState {
     floor_space: string
     description: string
     wishes: string
-    attachments: { id: number; data: string | ArrayBuffer; text: string; isChanging: boolean; fileType: string; fileSize: number }[]
+    attachments: {
+        id: number;
+        // data: string | ArrayBuffer;
+        linkToSend: string
+        // text: string; isChanging: boolean; 
+        fileType: string;
+        fileSize: number
+        fileName: string
+    }[]
+    // attachments: string[]
     services_groups: number[]
 
 
-    objects_types: { id: number, name: string }[]
-    services_types: number[]
+    // objects_types: { id: number, name: string }[]
+    // services_types: number[]
 
     city: string
 
@@ -79,8 +89,8 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     "attachments": [],
     "services_groups": [],
 
-    "objects_types": [],
-    "services_types": [],
+    // "objects_types": [],
+    // "services_types": [],
 
     is_NDS: true,
 
@@ -178,25 +188,53 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         set((state) => ({ ...state, errors: [...state.errors.filter(error => error !== errorToRemove)] }))
     },
 
-    handleFileUpload: (event: ChangeEvent<HTMLInputElement>) => {
+    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
-        const reader = new FileReader();
+        // const reader = new FileReader();
         const file = files![files!.length - 1];
         console.log(file.size);
 
-        let newFile: { id: number; data: string | ArrayBuffer; text: string; isChanging: boolean; fileType: string; fileSize: number } | undefined;
-        reader.onload = (e) => {
+        let newFile: { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number } | undefined;
+        const token = localStorage.getItem('token');
+        const parameters = {
+            file,
+            private: false,
+        };
+        console.log(token);
+        if (token) {
             try {
+                console.log(typeof token);
+
+                const link = await uploadFile(token, parameters);
+                // console.log(link);
                 const fileType = file.type.split('/')[0];
+                // console.log(fileType);
+                // console.log(link.slice(link.lastIndexOf('/') + 1));
+                const fileName = link.slice(link.lastIndexOf('/') + 1)
+
+
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-                    newFile = { id: Date.now(), data: e.target!.result!, text: '', isChanging: true, fileType, fileSize: file.size }
+                    newFile = { id: Date.now(), fileName, linkToSend: `https://store.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
+                    set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
                 }
-                set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
-            } catch (err) {
-                console.error(err);
+            } catch (e) {
+                console.error('sending file err: ', e);
             }
         }
-        reader.readAsDataURL(file);
+        // reader.onload = async (e) => {
+        //     try {
+
+
+        //         const fileType = file.type.split('/')[0];
+        //         if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
+        //             newFile = { id: Date.now(), data: e.target!.result!, text: '', isChanging: true, fileType, fileSize: file.size }
+        //         }
+        //         set((state) => ({ ...state, attachments: [...state.attachments, newFile!], errors: state.errors.filter(error => error !== 'attachments') }))
+        //     } catch (err) {
+        //         console.error(err);
+        //     }
+        // }
+        // reader.readAsDataURL(file);
     },
 
     validateInputs: () => {

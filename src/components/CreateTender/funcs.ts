@@ -43,9 +43,12 @@ export const formatFileSize = (bytes: number) => {
 }
 
 
-export const makeSpecialIsoString = (date: Date, time: string) => {
-    const hours = time.split(':')[0] || '00'
-    const minutes = time.split(':')[1] || '00'
-    const month = date.getMonth() + 1
-    return `${date.getFullYear()}-${month < 10 ? '0' + month : month}-${date.getDate()}T${hours.length < 2 ? '0' + hours : hours}:${minutes.length < 2 ? '0' + minutes : minutes}:00.000Z`
+export const formatDate = (date: Date, time?: string) => {
+    const hours = time?.split(':')[0] || 3
+    const minutes = time?.split(':')[1] || 0
+    date.setHours(+hours)
+    date.setMinutes(+minutes)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    return date.toISOString()
 }
