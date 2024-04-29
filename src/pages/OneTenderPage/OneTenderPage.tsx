@@ -1,5 +1,5 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
-import Switchero from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
+import {Switchero} from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
 import { FC, ReactNode,} from 'react';
 import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderInfoView } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoView/OneTenderInfoView';
@@ -62,7 +62,7 @@ const testData = {
   return (
     <div>
         <OneTenderHeader status={testData.active} id={testData.id} name={testData.name}></OneTenderHeader>
-        <Switchero options={['Tender', 'Отклики', 'Вопросы и ответы', "Доп. информация"]} noticeKnocks={2}></Switchero>
+        <Switchero options={['Tender', 'Отклики', 'Вопросы и ответы', "Доп. информация"]} noticeKnocks={2} button_text={'Принять работу'}></Switchero>
         {stack}
 
     </div>

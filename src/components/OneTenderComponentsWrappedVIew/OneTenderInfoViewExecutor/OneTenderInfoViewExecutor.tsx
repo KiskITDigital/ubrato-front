@@ -9,7 +9,7 @@ import { OneTenderInfoExecutor } from '@/components/OneTenderComponents/OneTende
 import { OneTenderObject } from '@/components/OneTenderComponents/OneTenderObject/OneTenderObject';
 import { OneTenderOffers } from '@/components/OneTenderComponents/OneTenderOffers/OneTenderOffers';
 import { OneTenderWishes } from '@/components/OneTenderComponents/OneTenderWishes/OneTenderWishes';
-import { OneTenderMainBlock } from '@/components/OneTenderComponents/OneTenderWork/OneTenderWork';
+// import { OneTenderMainBlock } from '@/components/OneTenderComponents/OneTenderWork/OneTenderWork';
 import { FC } from 'react';
 
 
@@ -46,7 +46,7 @@ const testData = {
   return (
     <div>
         <OneTenderInfoExecutor price={testData.price} timestamp_rc_start={testData.reception_start} timestamp_rc_end={testData.reception_end} timestamp_wrk_start={testData.work_start} timestamp_wrk_end={testData.work_end} timestamp_crtd={testData.created_at}></OneTenderInfoExecutor>
-        <OneTenderMainBlock gg = ''></OneTenderMainBlock>
+        {/* <OneTenderMainBlock gg = ''></OneTenderMainBlock> */}
         <OneTenderExecutorNotification></OneTenderExecutorNotification>
         <OneTenderCity city={testData.location}></OneTenderCity>
         <OneTenderObject building={testData.services_groups}></OneTenderObject>

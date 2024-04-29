@@ -1,10 +1,12 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
-import Switchero from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
+import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
 import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 import { FC, ReactNode,} from 'react';
 
-
+// import { savePostDataToLocalStorage, loadPostDataFromLocalStorage } from '@/utils/lsSaveTest';
 import { useSwitchStore } from '@/store/switchStore';
+import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
+import { PostData } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 
 
 export const OneTenderPageExecutor: FC = () => {
@@ -42,6 +44,20 @@ const testData = {
   
   const { activeIndex } = useSwitchStore();
 
+  // interface PostData {
+  //   title: string;
+  //   text: string;
+  //   files: File[];
+  // }
+
+  const handlePostSubmit = () => {
+    // savePostDataToLocalStorage(activeIndex, postData);
+    // console.log('done');
+    
+  };
+
+  // const post = loadPostDataFromLocalStorage(activeIndex)
+  let post: PostData;
 
   let stack: ReactNode;
 
@@ -56,7 +72,7 @@ const testData = {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = <div>qweqwe</div>;
+      stack = <OneTenderAdd onSubmit={handlePostSubmit} post={post}></OneTenderAdd>;
       break;
     default:
       stack = <div>No stack component found</div>;
@@ -65,7 +81,7 @@ const testData = {
   return (
     <div>
         <OneTenderHeader status={testData.active} id={testData.id} name={testData.name}></OneTenderHeader>
-        <Switchero options={['Tender', 'Отклики', 'Вопросы и ответы', "Доп. информация"]} noticeKnocks={2}></Switchero>
+        <Switchero options={['Tender', 'Отклики', 'Вопросы и ответы', "Доп. информация"]} noticeKnocks={2} button_text={'Откликнуться на тендер'} price={testData.price}></Switchero>
         {stack}
 
     </div>

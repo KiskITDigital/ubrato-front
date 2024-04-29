@@ -19,3 +19,12 @@
     width: 780px;
 }
 
+
+@media screen and (width < 450px) {
+    .block_main{
+        width: 358px;
+        margin: 20px auto;
+        flex-direction: column;
+    }
+   
+   }
