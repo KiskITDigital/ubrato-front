@@ -129,6 +129,7 @@ ul {
   display: flex;
   justify-content: center;
   margin: 25px 0;
+  margin-bottom: 120px;
 }
 
 .blueBackground {
@@ -281,6 +282,7 @@ ul {
 
 .comment {
   margin-top: 40px;
+  margin-bottom: 40px;
 }
 
 .tableQuestinHeader {
@@ -465,13 +467,13 @@ ul {
   }
 }
 
-@media screen and (width <=500px) {
+@media screen and (width <=450px) {
   .container {
     width: 90%;
   }
 
   .title {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .survey__pair__image {
@@ -480,11 +482,12 @@ ul {
   }
 
   .survey__pair__text {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .part1 {
     height: 150px;
+    padding: 0 5px;
   }
 
   .laptopImage {
@@ -493,11 +496,11 @@ ul {
   }
 
   .regularText {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .boldText {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .part2 > p,
@@ -507,6 +510,85 @@ ul {
 
   .survey__button {
     width: 140px;
-    font-size: 10px;
+    font-size: 15px;
+  }
+
+  .text {
+    font-size: 15px;
+    max-width: 360px;
+  }
+
+  .blueBackground {
+    padding: 20px;
+  }
+
+  .questionsContainer {
+    max-width: 360px;
+  }
+
+  .yourVariant {
+    flex-direction: column;
+  }
+
+  .input {
+    width: 100%;
+    font-size: 15px;
+    border-width: 1px;
+    height: 50px;
+  }
+
+  .radioBase {
+    align-self: self-start;
+  }
+
+  .radioWrapper {
+    width: 24px;
+    height: 24px;
+  }
+
+  .radioBase[data-selected] > .radioWrapper > .radioControl {
+    width: 13px;
+    height: 13px;
+  }
+
+  .radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+    width: 13px;
+    height: 13px;
+  }
+
+  .questionItem {
+    margin-bottom: 30px;
+  }
+
+  .survey__button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .tableQuestinHeader > div > p {
+    width: 80px;
+  }
+
+  .tableQuestinHeader > div {
+    width: fit-content;
+    margin-right: 14px;
+    gap: 5px;
+  }
+
+  .tableRadioGroupWrapper {
+    padding: 8px 14px;
+  }
+
+  .tableRadioGroupWrapper > div {
+    width: 160px;
+  }
+
+  .tableRadioGroupWrapper > p {
+    max-width: 170px;
+  }
+
+  .checkWrapper {
+    width: 24px;
+    height: 24px;
   }
 }

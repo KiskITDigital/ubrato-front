@@ -1,9 +1,9 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
-type SwitchState =  {
+type SwitchState = {
   activeIndex: number;
   setActiveIndex: (index: number) => void;
-}
+};
 
 export const useSwitchStore = create<SwitchState>((set) => ({
   activeIndex: 0,

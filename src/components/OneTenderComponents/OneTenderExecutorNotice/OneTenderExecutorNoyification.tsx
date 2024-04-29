@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC } from 'react';
 // import style from './OneTenderExecutorNotification.css'
-import styles from './ExecutorNotice.module.css'
+import styles from './ExecutorNotice.module.css';
 
 
 export const OneTenderExecutorNotification: FC = () =>{

@@ -1,19 +1,13 @@
-import { surveyCheck, updateToken } from '@/api';
-import { AvatarInput } from '@/components/AvatarInput/AvatarInput';
+import { updateToken, surveyCheck } from '@/api';
+import { ProfileNavigation } from '@/components';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 export const ProfilePage: FC = () => {
   const userStore = useUserInfoStore();
   const navigate = useNavigate();
   const setPassedSurvey = userStore.setPassedSurvey;
-
-  const handleLogOut = () => {
-    localStorage.removeItem('token');
-    userStore.setLoggedIn(false);
-    navigate('/');
-  };
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -31,15 +25,9 @@ export const ProfilePage: FC = () => {
   }
 
   return (
-    <div className="conatiner">
-      <h1>{userStore.user.first_name}</h1>
-      <h2>{userStore.user.phone}</h2>
-      <h3>{userStore.user.is_contractor ? 'Заказчик и исполнитель' : 'Заказчик'}</h3>
-      <button onClick={handleLogOut}>Выйти</button>
-      <AvatarInput />
-      {userStore.user.is_contractor && (
-        <p>{userStore.passedSurvey ? 'Опрос пройден' : <Link to="/survey">Опрос</Link>}</p>
-      )}
+    <div className="container flex">
+      <ProfileNavigation />
+      <Outlet />
     </div>
   );
 };
