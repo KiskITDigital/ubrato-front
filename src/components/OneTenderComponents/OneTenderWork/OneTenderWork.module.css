@@ -60,7 +60,11 @@
         display: flex;
         margin-top: 15px;
     }
-
+    .block_add_p{
+        flex-grow: 2;
+        font-size: 18px;
+        width: 10%;
+    }
 
     .circle_picture{
         width: 35px;

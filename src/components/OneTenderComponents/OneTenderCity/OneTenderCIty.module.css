@@ -28,5 +28,11 @@
         margin: 20px auto;
         flex-direction: column;
     }
+
+    .block_add_p{
+        flex-grow: 2;
+        font-size: 18px;
+        width: 100%;
+    }
    
    }

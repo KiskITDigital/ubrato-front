@@ -284,6 +284,9 @@
   width: 100%;
   height: 2px;
 }
+.button_modal{
+  display: none;
+}
 
 .button_modal_adapt{
   display: block;
@@ -295,8 +298,6 @@
   border-radius: 10px;
 }
 
-.button_modal{
-  display: none;
-}
+
 
 }
