@@ -106,10 +106,18 @@
     }
     
     .date_info{
-        padding: 2px;
+        padding: 8px;
         text-align: center;
         border: 1px solid rgba(0, 0, 0, 0.096);
         border-radius: 8px;
     }
+
+    .info_start{
+        width: 170px;
+        border-right: 1px solid #1a16161e;
+        margin-right: 10px;
+    }
+
+    
    
 }

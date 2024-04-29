@@ -69,4 +69,8 @@
         flex-direction: column;
     }
    
+    .block_add_p {
+        flex-grow: 0;
+      }
+      
    }
