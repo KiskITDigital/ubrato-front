@@ -1,6 +1,8 @@
 :root {
   --color-blue-primary: #0084ff;
   --color-blue-primary-20: rgba(0, 132, 255, 0.2);
+  --color-blue-primary-6: rgba(0, 132, 255, 0.06);
+  --color-blue-primary-50: rgba(0, 132, 255, 0.5);
   --color-blue-secondary: #3798f2;
   --color-blue-tertiary: #008dce;
   --color-dark-text: #070c2c;
@@ -9,6 +11,7 @@
   --color-blue-light: #e5f1ff;
   --color-text-gray: rgba(7, 12, 44, 0.6);
   --color-text-gray-second: #595d73;
+  --color-black: black;
   --color-black-60: rgba(0, 0, 0, 0.6);
   --color-black-50: rgba(0, 0, 0, 0.5);
   --color-black-30: rgba(0, 0, 0, 0.3);
