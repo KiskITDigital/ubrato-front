@@ -7,12 +7,14 @@
   padding-top: 26px;
   padding-bottom: 20px;
   align-items: center;
+  position: relative;
+  min-width: 42px;
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  width: 270px;
+  width: 100%;
   gap: 12px;
   padding-bottom: 12px;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.16);
@@ -28,6 +30,13 @@
   padding-bottom: 2px;
   align-items: center;
   font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.linkActive {
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .link:hover {
@@ -71,4 +80,32 @@
 .active > svg > path {
   fill: var(--color-blue-primary);
   fill-opacity: 1;
+}
+
+.menuBtn {
+  position: absolute;
+  top: 14px;
+  right: 17px;
+}
+
+.menuBtn > img {
+  transform-origin: center;
+  transform: rotate(180deg);
+  transition: all 0.3s ease;
+}
+
+.menuBtnActive {
+  position: relative;
+  top: -16px;
+  left: 3px;
+}
+
+.menuBtnActive > img {
+  transform: rotate(0deg);
+}
+
+.avatar {
+  width: 270px;
+  display: flex;
+  justify-content: center;
 }
