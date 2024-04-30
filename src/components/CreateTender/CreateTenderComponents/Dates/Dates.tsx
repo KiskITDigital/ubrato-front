@@ -3,7 +3,10 @@ import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { Checkbox, Switch } from "@nextui-org/react";
 import { addTwoDots, checkOnlyNumber } from "../../funcs";
-import ReactDatePicker from "react-datepicker";
+// import ReactDatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 const Dates: FC = () => {
     const createTenderState = useCreateTenderState()
@@ -18,7 +21,7 @@ const Dates: FC = () => {
                     <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                         <div className={styles.firstSections__responses__inputs}>
-                            <ReactDatePicker
+                            {/* <ReactDatePicker
                                 className={`${styles.input} ${styles.firstSections__responses__inputs__input1}`}
                                 // selected={startDate}
                                 selected={createTenderState.reception_start}
@@ -30,7 +33,7 @@ const Dates: FC = () => {
                                 startDate={createTenderState.reception_start}
                                 // endDate={endDate}
                                 endDate={createTenderState.reception_end}
-                            />
+                            /> */}
                             <span className={styles.firstSections__responses__inputs__span}></span>
                             <input maxLength={5} value={createTenderState.reception_time_start} onChange={(e) => createTenderState.handleSimpleInput('reception_time_start', e.currentTarget.value, addTwoDots)} type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
                         </div>
@@ -38,7 +41,7 @@ const Dates: FC = () => {
                     <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
                         <div className={styles.firstSections__responses__inputs}>
-                            <ReactDatePicker
+                            {/* <ReactDatePicker
                                 className={`${styles.input} ${styles.firstSections__responses__inputs__input1}`}
                                 // selected={endDate}
                                 // onChange={(date) => setEndDate(date!)}
@@ -50,7 +53,7 @@ const Dates: FC = () => {
                                 endDate={createTenderState.reception_end}
                                 // minDate={startDate}
                                 minDate={createTenderState.reception_start}
-                            />
+                            /> */}
                             <span className={styles.firstSections__responses__inputs__span}></span>
                             <input maxLength={5} value={createTenderState.reception_time_end} onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)} type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
                         </div>
@@ -91,7 +94,7 @@ const Dates: FC = () => {
                 <div className={`${styles.firstSections__div__main}`}>
                     <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
-                        <ReactDatePicker
+                        {/* <ReactDatePicker
                             className={`${styles.input} ${styles.firstSections__div__main__block__input}`}
                             // selected={startDate2}
                             // onChange={(date) => setStartDate2(date!)}
@@ -103,11 +106,11 @@ const Dates: FC = () => {
                             // endDate={endDate2}
                             startDate={createTenderState.work_start}
                             endDate={createTenderState.work_end}
-                        />
+                        /> */}
                     </div>
                     <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-                        <ReactDatePicker
+                        {/* <ReactDatePicker
                             className={`${styles.input} ${styles.firstSections__div__main__block__input}`}
                             selected={createTenderState.work_end}
                             onChange={(date) => createTenderState.handleSimpleInput('work_end', date!)}
@@ -116,7 +119,7 @@ const Dates: FC = () => {
                             startDate={createTenderState.work_start}
                             endDate={createTenderState.work_end}
                             minDate={createTenderState.work_start}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
