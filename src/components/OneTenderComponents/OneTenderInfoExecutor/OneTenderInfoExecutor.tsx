@@ -20,28 +20,22 @@ export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
 }) => {
   return (
     <div className={styles.infocontainer}>
-      <div className={styles.offerings_block}>
-        <div className={styles.one_part_grow}>
-          <p className={styles.nd_info}>Приём откликов</p>
-          <div className={styles.date_info}>
-            <p className={styles.info_start}>{timestamp_rc_start.split('T')[0]}</p>{' '}
-            <p className={styles.info_end}>{timestamp_rc_end.split('T')[0]}</p>
+        <div className={styles.offerings_block}>
+          <div className={styles.one_part_grow}><p className={styles.nd_info_accented}>Приём откликов</p> 
+            <div className={styles.date_info}><p className={styles.info_start}>{timestamp_rc_start.split('T')[0]}</p> <p className={styles.info_end}>{timestamp_rc_end.split('T')[0]}</p></div>
           </div>
-        </div>
-        <div className={styles.one_part_grow}>
-          <p className={styles.nd_info}>Стоимость</p>
-          <div className={styles.date_info}>
-            <p>{price} ₽</p>
+          <div className={styles.one_part_grow}><p className={styles.nd_info_accented}>Стоимость</p> 
+            <div className={styles.date_info}><p>{price} ₽</p></div>
           </div>
-        </div>
-        <div className={styles.one_part_grow}>
+          <div className={styles.one_part_grow}>
           <p className={styles.nd_info}>Оказание услуг</p>
           <div className={styles.date_info}>
             <p className={styles.info_start}>{timestamp_wrk_start.split('T')[0]}</p>
             <p className={styles.info_end}>{timestamp_wrk_end.split('T')[0]}</p>
           </div>
         </div>
+        </div>
+        
       </div>
-    </div>
   );
 };

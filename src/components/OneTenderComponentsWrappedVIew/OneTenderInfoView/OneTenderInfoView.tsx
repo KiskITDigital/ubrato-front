@@ -3,13 +3,13 @@ import { OneTenderArea } from '@/components/OneTenderComponents/OneTenderArea/On
 import { OneTenderAttachments } from '@/components/OneTenderComponents/OneTenderAttachments/OneTenderAttachments';
 import { OneTenderCity } from '@/components/OneTenderComponents/OneTenderCity/OneTenderCity';
 import { OneTenderDescription } from '@/components/OneTenderComponents/OneTenderDescription/OneTenderDescription';
-import { OneTenderExecutorNotification } from '@/components/OneTenderComponents/OneTenderExecutorNotice/OneTenderExecutorNoyification';
 import { OneTenderInfo } from '@/components/OneTenderComponents/OneTenderInfo/OneTenderInfo';
 import { OneTenderObject } from '@/components/OneTenderComponents/OneTenderObject/OneTenderObject';
 import { OneTenderOffers } from '@/components/OneTenderComponents/OneTenderOffers/OneTenderOffers';
 import { OneTenderWishes } from '@/components/OneTenderComponents/OneTenderWishes/OneTenderWishes';
-// import { OneTenderMainBlock } from '@/components/OneTenderComponents/OneTenderWork/OneTenderWork';
 import { FC } from 'react';
+// import { OneTenderInfoViewExecutor } from '../OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
+import { OneTenderMainBlock } from '@/components/OneTenderComponents/OneTenderWork/OneTenderWork';
 
 
 export const OneTenderInfoView: FC = () => {
@@ -42,11 +42,18 @@ const testData = {
     "verified": true,
     "active": true
   }
+
+const Otzyv = {
+    'compName': 'ООО Гермес и его веники — клининг и профессиональная чистка',
+    'rating': 4,
+    'text': 'Разнообразный и богатый опыт говорит нам, что начало повседневной работы по формированию позиции предопределяет высокую востребованность форм воздействия. Картельные сговоры не допускают ситуации, при которой представители современных социальных резервов формируют глобальную экономическую сеть и при этом — превращены в посмешище, хотя само их существование приносит несомненную пользу обществу. И нет сомнений, что тщательные исследования конкурентов объявлены нарушающими общечеловеческие нормы этики и морали. А ещё действия представителей оппозиции, превозмогая сложившуюся непростую экономическую ситуацию, преданы социально-демократической анафеме. Имеется спорная точка зрения, гласящая примерно следующее: ключевые особенности структуры проекта формируют глобальную экономическую сеть и при этом — заблокированы в рамках своих собственных рациональных ограничений.'
+
+}
+
   return (
     <div>
         <OneTenderInfo price={testData.price} timestamp_rc_start={testData.reception_start} timestamp_rc_end={testData.reception_end} timestamp_wrk_start={testData.work_start} timestamp_wrk_end={testData.work_end} timestamp_crtd={testData.created_at}></OneTenderInfo>
-
-        <OneTenderExecutorNotification></OneTenderExecutorNotification>
+        <OneTenderMainBlock gg={Otzyv.text} rate={Otzyv.rating} compName={Otzyv.compName}></OneTenderMainBlock>
         <OneTenderCity city={testData.location}></OneTenderCity>
         <OneTenderObject building={testData.services_groups}></OneTenderObject>
         <OneTenderArea area={testData.floor_space}></OneTenderArea>

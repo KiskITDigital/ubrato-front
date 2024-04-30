@@ -20,3 +20,4 @@ export const OneTenderHeader: FC<PropsForTenderHeader> = ({ status, id, name }) 
     </div>
   );
 };
+
