@@ -43,6 +43,13 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 /* #root {
   overflow: hidden;
 } */
+
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-range {
+  background-color: var(--color-blue-primary) !important;
+}

@@ -87,7 +87,7 @@ export const Header: FC = () => {
           className={styles.mobileMenuWrapper}
         >
           <div className={styles.mobileMenu}>
-            <Link to="/">Создать тендер</Link>
+            <Link to="/create-tender">Создать тендер</Link>
             <Link to="/">Найти исполнителя</Link>
             <Link to="/">Найти тендер</Link>
             <Link to="/">Мои тендеры</Link>
@@ -139,7 +139,7 @@ export const Header: FC = () => {
           <nav>
             <ul className={styles.navLinksList}>
               <li>
-                <Link to="/" className={styles.navLink}>
+                <Link to="/create-tender" className={styles.navLink}>
                   <img src="/create-tender.svg" alt="create-tender" />
                   <p>Создать тендер</p>
                 </Link>
