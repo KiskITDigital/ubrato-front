@@ -43,7 +43,7 @@ export const formatFileSize = (bytes: number) => {
 }
 
 
-export const formatDate = (date: Date, time?: string) => {
+export const formatDate = (date: Date, time?: string): string => {
     const hours = time?.split(':')[0] || 3
     const minutes = time?.split(':')[1] || 0
     date.setHours(+hours)

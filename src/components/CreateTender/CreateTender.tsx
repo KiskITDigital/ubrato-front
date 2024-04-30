@@ -11,7 +11,7 @@ import closeGrayImg from '../../../public/create-tender/close-gray.svg'
 import fileImg from '../../../public/create-tender/file.svg'
 import imgMobileImg from '../../../public/create-tender/img-mobile.svg'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import downloadImg from '../../../public/create-tender/download-image.svg'
+// import downloadImg from '../../../public/create-tender/download-image.svg'
 import closeWhiteImg from '../../../public/create-tender/close-white.svg'
 import citiesAutocompleteCheckmarkImg from '../../../public/create-tender/cities-autocomplete-checkmark.svg'
 import { CheckboxGroup, Checkbox, Switch } from "@nextui-org/react";
@@ -33,55 +33,35 @@ export const CreateTender: FC = () => {
 
     const cleaningTypeStore = useCleaningTypeStore()
 
-
-    // const [startDate, setStartDate] = useState(new Date());
-    // const [endDate, setEndDate] = useState(new Date());
-
-    // const [startDate2, setStartDate2] = useState(new Date());
-    // const [endDate2, setEndDate2] = useState(new Date());
-
-
-
     const [isChoosingObject, setIsChoosingObject] = useState(false);
     const [isObjectChoosed, setIsObjectChoosed] = useState<null | string>(null);
     const [choosingObjectTypes, setChoosingObjectTypes] = useState<null | { id: number, name: string, count: number }[]>(null);
-    // const [objectTypeChosen, setObjectTypeChosen] = useState<null | string>(null);
 
 
     const [chooseTypesTypesToObjectToAddObject, setChooseTypesTypesToObjectToAddObject] = useState<string[]>([]);
-
 
     const [isChoosingServiceToAdd, setIsChoosingServiceToAdd] = useState(false);
     const [chooseTypesNameToObjectToAddService, setChooseTypesNameToObjectToAddService] = useState<null | string>(null);
     const [chooseTypesTypesToObjectToAddService, setChooseTypesTypesToObjectToAddService] = useState<string[]>([]);
 
-
-    // const [newServices, setNewServices] = useState<{ id: number, name: string, total: number, types: { id: number, name: string, count: number }[] }>([]);
-
-
     const [isChoosingServiceToChange, setIsChoosingServiceToChange] = useState<null | number>(null);
     const [chooseTypesNameToObjectToChangeService, setChooseTypesNameToObjectToChangeService] = useState<null | string>(null);
     const [chooseTypesTypesToObjectToChangeService, setChooseTypesTypesToObjectToChangeService] = useState<string[]>([]);
 
-
     const [isChoosingObjectNameMobile, setIsChoosingObjectNameMobile] = useState(false);
     const [isChoosingNewServiceNameMobile, setIsChoosingNewServiceNameMobile] = useState(false);
 
-
-
-
-    const inputFileRef = useRef(null);
+    const inputFileRef = useRef<HTMLInputElement>(null);
 
     const handleButtonFileClick = () => {
-        inputFileRef.current!.click();
+        if (inputFileRef.current) inputFileRef.current.click();
     };
 
-    const inputChangeFileRef = useRef(null);
+    const inputChangeFileRef = useRef<HTMLInputElement>(null);
 
     const handleButtonChangeFileClick = () => {
-        inputChangeFileRef.current!.click();
+        if (inputChangeFileRef.current) inputChangeFileRef.current.click();
     };
-
 
     // const handleDownload = (dataURL, fileName) => {
     //     const link = document.createElement('a');
@@ -105,21 +85,27 @@ export const CreateTender: FC = () => {
         if (createTenderState.validateInputs()) return;
         // console.log(createTenderState.validateInputs());
         const arrToSearchObjectTypes = objectsStore.apiObjects
-            .map(type => type.types)
-            .reduce((acc, el) => [...acc, ...el], [])
+            // .map(type => type.types)
+            // .reduce((acc, el) => [...acc, ...el], [])
+            // .filter(el => createTenderState.objectCategory.includes(el.name))
+            // .map(el => el.id)
+            .flatMap(type => type.types)
             .filter(el => createTenderState.objectCategory.includes(el.name))
-            .map(el => el.id)
+            .map(el => el.id);
         const servicesToCheck = createTenderState.services
             .map(el => el.types)
             .reduce((acc, el) => [...acc, ...el], [])
             .map(el => el.name)
         const arrToSearchServicesTypes = cleaningTypeStore.apiCleaningTypes
             .filter(el => createTenderState.services.some(elem => elem.name === el.name))
-            .map(el => el.types)
-            .reduce((acc, el) => [...acc, ...el], [])
+            // .map(el => el.types)
+            // .reduce((acc, el) => [...acc, ...el], [])
+            // .filter(el => servicesToCheck.includes(el.name))
+            .flatMap(type => type.types)
             .filter(el => servicesToCheck.includes(el.name))
             .map(el => el.id)
         // console.log(arrToSearchObjectTypes, arrToSearchServicesTypes);
+        const city_id = createTenderState.cities.find(el => el.name === createTenderState.city)?.id || 0
 
         const objectToSend = {
             objects_types: arrToSearchObjectTypes,
@@ -131,25 +117,16 @@ export const CreateTender: FC = () => {
             floor_space: +createTenderState.floor_space,
             wishes: createTenderState.wishes,
             description: createTenderState.description,
-            // reception_start: createTenderState.reception_start.toISOString(),
             reception_start: formatDate(createTenderState.reception_start, createTenderState.reception_time_start),
-            // reception_end: createTenderState.reception_end.toISOString(),
             reception_end: formatDate(createTenderState.reception_end, createTenderState.reception_time_end),
-            // reception_time_start: createTenderState.reception_time_start,
-            // reception_time_end: createTenderState.reception_time_end,
-            // work_start: createTenderState.work_start.toISOString(),
             work_start: formatDate(createTenderState.work_start),
-            // work_end: createTenderState.work_end.toISOString(),
             work_end: formatDate(createTenderState.work_end),
-            // city: createTenderState.city
-            city_id: createTenderState.cities.find(el => el.name === createTenderState.city)?.id,
+            city_id,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        console.log(objectToSend);
+        // console.log(objectToSend);
         const token = localStorage.getItem('token');
-        token && createTender(token, objectToSend)
-        // console.log(makeSpecialIsoString(createTenderState.reception_start, createTenderState.reception_time_start));
-
+        token && city_id && createTender(token, objectToSend)
     }
 
     return (
@@ -335,7 +312,7 @@ export const CreateTender: FC = () => {
                                         onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
                                         onBlur={() => {
                                             setIsCitiesAutoComplete(false);
-                                            console.log(createTenderState.cities);
+                                            // console.log(createTenderState.cities);
                                             if (createTenderState.cities.length) {
                                                 createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)
                                             } else {
@@ -408,7 +385,7 @@ export const CreateTender: FC = () => {
                                         // className={styles.object__services__types__checkboxGroup}
                                         className={`${styles.checkbox__mobile}`}
                                         value={createTenderState.objectCategory}
-                                        onValueChange={(newObjectTypes) => { console.log(newObjectTypes); createTenderState.addObject(createTenderState.objectName, newObjectTypes) }}
+                                        onValueChange={(newObjectTypes) => { createTenderState.addObject(createTenderState.objectName, newObjectTypes); createTenderState.removeError('object') }}
                                     >
                                         {
                                             // choosingObjectTypes?.map(type => <Checkbox className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${createTenderState.objectCategory.includes(type.name) ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}` : ''}`} key={type.id} value={type.name}>{type.name}</Checkbox>)
@@ -554,7 +531,7 @@ export const CreateTender: FC = () => {
                                         className={`${styles.checkbox__mobile}`}
                                         value={service.types.map(type => type.name)}
                                         onValueChange={(newServiceTypes => {
-                                            console.log(newServiceTypes, service.types)
+                                            // console.log(newServiceTypes, service.types)
                                             createTenderState.changeService(service.id, service.name, newServiceTypes)
                                         })}
                                     // onValueChange={(newObjectTypes) => { console.log(newObjectTypes); createTenderState.addObject(createTenderState.objectName, newObjectTypes) }}

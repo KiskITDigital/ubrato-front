@@ -61,3 +61,21 @@ export interface City {
   "name": string,
   "region": string
 }
+
+export interface createTenderData {
+  objects_types: number[]
+  services_types: number[]
+  name: string
+  price: number
+  is_contract_price: boolean
+  is_nds_price: boolean
+  floor_space: number
+  wishes: string
+  description: string
+  reception_start: string
+  reception_end: string
+  work_start: string
+  work_end: string
+  city_id: number
+  attachments: string[]
+}

@@ -1482,11 +1482,11 @@
 
 
 .objectTypesSelectorMobile {
-    margin-top: 74px;
+    /* margin-top: 74px; */
     max-height: 130px;
     overflow-y: scroll;
     bottom: 0;
-    margin-bottom: -130px;
+    margin-bottom: -120px;
 }
 
 .objectTypesSelectorMobile>p {
