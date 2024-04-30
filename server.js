@@ -8,6 +8,11 @@ const createServer = async () => {
   let vite;
   // console.log(import.meta.env.VITE_NODE_ENV)
 
+  const ssrManifest =
+    process.env.NODE_ENV === 'development'
+      ? fs.readFileSync('./dist/client/.vite/ssr-manifest.json', 'utf-8')
+      : undefined;
+
   if (process.env.NODE_ENV === 'development') {
     vite = await (
       await import('vite')
@@ -41,7 +46,8 @@ const createServer = async () => {
         render = (await import('./dist/server/entry-server.js')).render;
       }
 
-      const appHtml = await render({ path: url});
+      const appHtml = await render(req.originalUrl, ssrManifest);
+      // console.log(appHtml.head);
 
       const html = template.replace(`<!--ssr-outlet-->`, appHtml);
 
