@@ -10,15 +10,21 @@ export const ProfilePage: FC = () => {
   const setPassedSurvey = userStore.setPassedSurvey;
 
   useEffect(() => {
+    (async () => {
+      setPassedSurvey(await updateToken<boolean, null>(surveyCheck, null));
+    })();
+  }, [setPassedSurvey]);
+
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token || userStore.error) {
       navigate('/');
-    } else {
-      (async () => {
-        setPassedSurvey(await updateToken<boolean, null>(surveyCheck, null));
-      })();
     }
-  }, [navigate, setPassedSurvey, userStore.error, userStore.isLoggedIn, userStore.loading]);
+  }, [navigate, userStore.error]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!userStore.isLoggedIn) {
     return <div></div>;

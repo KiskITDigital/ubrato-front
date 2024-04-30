@@ -34,6 +34,11 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<div>Избранное</div>} />
           <Route path="documents" element={<ProfileDocuments />} />
+          <Route path="company" element={<div></div>} />
+          <Route path="tenders" element={<div></div>} />
+          <Route path="notifications" element={<div></div>} />
+          <Route path="settings" element={<div></div>} />
+          <Route path="help" element={<div></div>} />
         </Route>
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />

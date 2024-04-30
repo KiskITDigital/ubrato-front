@@ -46,7 +46,8 @@ const createServer = async () => {
         render = (await import('./dist/server/entry-server.js')).render;
       }
 
-      const appHtml = await render(req.originalUrl, ssrManifest);
+      const appHtml = await render({ path: url }, ssrManifest);
+
       // console.log(appHtml.head);
 
       const html = template.replace(`<!--ssr-outlet-->`, appHtml);
