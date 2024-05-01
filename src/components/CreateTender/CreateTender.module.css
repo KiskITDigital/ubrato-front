@@ -1486,7 +1486,7 @@
     max-height: 130px;
     overflow-y: scroll;
     bottom: 0;
-    margin-bottom: -120px;
+    margin-bottom: -130px;
 }
 
 .objectTypesSelectorMobile>p {
@@ -1513,4 +1513,14 @@
     border-radius: 10px;
     background-color: var(--color-light-gray-secondary);
     text-wrap: nowrap;
+}
+
+.typesToAdd {
+    display: flex;
+    flex-direction: column !important;
+}
+
+.typesToAdd>div {
+    display: flex;
+    flex-direction: column !important;
 }

@@ -130,6 +130,7 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                         label=""
                                         defaultValue={[]}
                                         // className={styles.object__services__types__checkboxGroup}
+                                        className={`${styles.typesToAdd}`}
                                         value={chooseTypesTypesToObjectToAddObject}
                                         onValueChange={setChooseTypesTypesToObjectToAddObject}
                                     >

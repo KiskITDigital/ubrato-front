@@ -122,6 +122,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                                         label=""
                                                         defaultValue={chooseTypesTypesToObjectToChangeService}
                                                         // className={`${styles.object__services__types__checkboxGroup} ${styles.object__services__types__checkboxGroup2}`}
+                                                        className={`${styles.typesToAdd}`}
                                                         value={chooseTypesTypesToObjectToChangeService}
                                                         onValueChange={setChooseTypesTypesToObjectToChangeService}
                                                     >
@@ -183,6 +184,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                                 label=""
                                                 defaultValue={[]}
                                                 // className={styles.object__services__types__checkboxGroup}
+                                                className={`${styles.typesToAdd}`}
                                                 value={chooseTypesTypesToObjectToAddService}
                                                 onValueChange={setChooseTypesTypesToObjectToAddService}
                                             >
