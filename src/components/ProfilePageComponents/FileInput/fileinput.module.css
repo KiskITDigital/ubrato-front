@@ -27,3 +27,14 @@
   border-bottom: 2px solid #e7e7e7;
   width: 100%;
 }
+
+.label {
+  position: relative;
+}
+
+.error {
+  color: #f90a0a;
+  font-size: 10px;
+  position: absolute;
+  line-height: 22px;
+}

@@ -1,5 +1,3 @@
-@import '../../assets/colors.css';
-
 .blueText {
   color: var(--color-blue-primary);
 }

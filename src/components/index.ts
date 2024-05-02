@@ -1,6 +1,6 @@
 export { ArrowControl } from './ArrowControl/ArrowControl';
 export { MainBanner } from './MainPageComponents/MainBanner/MainBanner';
-export { ExecutorsCatalog } from './ExecutorsCatalog/ExecutorsCatalog';
+export { ExecutorsCatalog } from './MainPageComponents/ExecutorsCatalog/ExecutorsCatalog';
 export { NewsBlock } from './MainPageComponents/NewsBlock/NewsBlock';
 export { QuestionsBlock } from './MainPageComponents/QuestionsBlock/QuestionsBlock';
 export { Seo } from './MainPageComponents/Seo/seo';

@@ -3,9 +3,9 @@ import styles from './profiledocuments.module.css';
 import { FileInput } from '../FileInput/FileInput';
 
 export const ProfileDocuments: FC = () => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<string[]>([]);
 
-  const addFile = (filesArr: File[], file: File) => {
+  const addFile = (filesArr: string[], file: string) => {
     const files = [...filesArr];
     files.push(file);
     setFiles(files);
