@@ -7,3 +7,4 @@ export { surveyCheck } from './surveyCheck';
 export { getNotifications, setNotificationRead } from './notofications';
 export { updateToken } from './updateToken';
 export { checkINN } from './checkINN';
+export { fetchDocumentsTypes, sendDoc, fetchUserDocs, fetchPrivateFile } from './documents'

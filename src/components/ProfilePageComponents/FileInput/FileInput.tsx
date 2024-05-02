@@ -1,16 +1,27 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './fileinput.module.css';
-import { updateToken, uploadFile } from '@/api';
+import { fetchPrivateFile, sendDoc, updateToken, uploadFile } from '@/api';
 
 interface FileInputProps {
   header: string;
-  addFile: (filesArr: string[], file: string) => void;
-  files: string[];
   id: string;
+  type: number;
+  link?: string;
 }
 
-export const FileInput: FC<FileInputProps> = ({ header, addFile, files, id }) => {
+export const FileInput: FC<FileInputProps> = ({ header, type, id, link }) => {
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // console.log(link);
+    if (link) {
+      console.log(link);
+      (async () => {
+        const res = await updateToken<void, string>(fetchPrivateFile, link);
+        console.log(res);
+      })();
+    }
+  }, [link]);
 
   return (
     <div className={styles.fileContainer}>
@@ -36,7 +47,11 @@ export const FileInput: FC<FileInputProps> = ({ header, addFile, files, id }) =>
                   parameters
                 );
                 console.log(link);
-                addFile(files, link);
+                const res = await updateToken<boolean, { link: string; type: number }>(sendDoc, {
+                  link: link,
+                  type: type,
+                });
+                console.log(res);
               })();
             } else {
               setError('Неверный тип файла');
