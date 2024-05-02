@@ -27,6 +27,20 @@
   position: relative;
 }
 
+.trigger > button {
+  padding: 5px;
+  border-radius: 100%;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.trigger > button:hover {
+  background-color: #e7e7e7;
+}
+
 .container {
   display: flex;
   gap: 10px;

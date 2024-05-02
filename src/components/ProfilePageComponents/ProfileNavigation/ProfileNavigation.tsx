@@ -65,7 +65,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="company"
           className={`${styles.link} ${
-            page.includes('company') && isMenuActive ? styles.active : ''
+            page.includes('company') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <CompanyProfiveIC />
@@ -75,7 +75,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="tenders"
           className={`${styles.link} ${
-            page.includes('tenders') && isMenuActive ? styles.active : ''
+            page.includes('tenders') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <TenderIC />
@@ -84,7 +84,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="favourite"
           className={`${styles.link} ${
-            page.includes('favourite') && isMenuActive ? styles.active : ''
+            page.includes('favourite') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <HeartIC />
@@ -93,7 +93,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="notifications"
           className={`${styles.link} ${
-            page.includes('notifications') && isMenuActive ? styles.active : ''
+            page.includes('notifications') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <BellIC />
@@ -102,7 +102,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="documents"
           className={`${styles.link} ${
-            page.includes('documents') && isMenuActive ? styles.active : ''
+            page.includes('documents') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <DocumentsIC />
@@ -111,7 +111,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="settings"
           className={`${styles.link} ${
-            page.includes('settings') && isMenuActive ? styles.active : ''
+            page.includes('settings') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <SettingsIC />
@@ -120,7 +120,7 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="help"
           className={`${styles.link} ${
-            page.includes('help') && isMenuActive ? styles.active : ''
+            page.includes('help') ? (isMenuActive ? styles.active : styles.active2) : ''
           } ${isMenuActive ? '' : styles.linkActive}`}
         >
           <HelpIC />

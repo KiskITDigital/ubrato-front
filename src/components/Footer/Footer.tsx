@@ -1,10 +1,12 @@
 import { FC } from 'react';
 import styles from './footer.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
+
+  const location = useLocation();
 
   return (
     <footer className={`container ${styles.container}`}>
@@ -24,7 +26,7 @@ export const Footer: FC = () => {
             </Link>
           </div>
         )}
-        {userInfoStorage.isLoggedIn && (
+        {userInfoStorage.isLoggedIn && !location.pathname.includes('profile') && (
           <Link to="/profile" className={styles.registrationLink}>
             <p className={styles.registrationText}>Личный кабинет</p>
           </Link>
@@ -32,7 +34,7 @@ export const Footer: FC = () => {
       </div>
       <div className={styles.footerUnder}>
         <div className={styles.column}>
-          <p className={styles.headercolumn}>Возможнонсти</p>
+          <p className={styles.footercolumn}>Возможности</p>
           <ul>
             <li>
               <Link to="/">
@@ -62,7 +64,7 @@ export const Footer: FC = () => {
           </ul>
         </div>
         <div className={styles.column}>
-          <p className={styles.headercolumn}>Информация</p>
+          <p className={styles.footercolumn}>Информация</p>
           <ul>
             <li>
               <Link to="/">
@@ -97,7 +99,7 @@ export const Footer: FC = () => {
           </ul>
         </div>
         <div className={styles.column}>
-          <p className={styles.headercolumn}>Об Ubrato</p>
+          <p className={styles.footercolumn}>Об Ubrato</p>
           <ul>
             <li>
               <Link to="/">
@@ -122,7 +124,7 @@ export const Footer: FC = () => {
           </ul>
         </div>
         <div className={`${styles.column} ${styles.supportService}`}>
-          <p className={styles.headercolumn}>Служба поддержки</p>
+          <p className={styles.footercolumn}>Служба поддержки</p>
           <ul>
             <li>
               <Link to="/">

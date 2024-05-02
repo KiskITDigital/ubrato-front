@@ -1,9 +1,34 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
+import styles from './profiledocuments.module.css';
+import { FileInput } from '../FileInput/FileInput';
 
 export const ProfileDocuments: FC = () => {
+  const [files, setFiles] = useState<File[]>([]);
+
+  const addFile = (filesArr: File[], file: File) => {
+    const files = [...filesArr];
+    files.push(file);
+    setFiles(files);
+  };
+
+  useEffect(() => {
+    console.log(files);
+  }, [files]);
+
   return (
-    <div>
-      <h1>Документы</h1>
+    <div className={styles.container}>
+      <div className={styles.headerContainer}>
+        <h2 className={styles.header}>Документы для верификации</h2>
+        <p>Чтобы начать работу с тендерами пройдите верификацию.</p>
+        <p>
+          Загрузите выписку из ЕГРЮЛ, приказ о назначении генерального директора, карточку и устав
+          компании.
+        </p>
+      </div>
+      <FileInput files={files} addFile={addFile} header="ЕГРЮЛ" />
+      <FileInput files={files} addFile={addFile} header="Карточка компании" />
+      <FileInput files={files} addFile={addFile} header="Приказ о назначении гендиректора" />
+      <FileInput files={files} addFile={addFile} header="Устав компании" />
     </div>
   );
 };

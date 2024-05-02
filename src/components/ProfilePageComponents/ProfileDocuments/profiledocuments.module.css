@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.headerContainer > p:first-of-type {
+  margin-bottom: 25px;
+}
+
+.headerContainer > p {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.fileHeader {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.fileText {
+  font-size: 16px;
+  color: var(--color-black-60);
+}
+
+.inputFile {
+  display: none;
+}
+
+.fileBtn {
+  background-color: var(--color-blue-primary);
+  padding: 9px 15px;
+  border-radius: 13px;
+  color: var(--color-white);
+  margin-top: 10px;
+  width: fit-content;
+}
+
+.fileContainer {
+  padding: 15px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid #e7e7e7;
+  width: 100%;
+}

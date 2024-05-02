@@ -82,6 +82,11 @@
   fill-opacity: 1;
 }
 
+.active2 > svg > path {
+  fill: var(--color-blue-primary);
+  fill-opacity: 1;
+}
+
 .menuBtn {
   position: absolute;
   top: 14px;
