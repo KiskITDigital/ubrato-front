@@ -1,5 +1,5 @@
 import { uploadFile } from "@/api";
-import { getCities } from "@/api/createTender";
+import { getCities } from "@/api/index"
 import { City } from "@/types/app";
 // import { AxiosPromise } from "axios";
 // import axios from "axios";
@@ -161,23 +161,11 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
                 return { ...state, services: state.services.map(service => service.id === serviceId ? { ...service, types: service.types.filter(type => type.id !== typeId) } : service) }
             }
         })
-
-        // set((state) => ({ ...state, services: state.services.map(service => service.id === serviceId ? service.types.length <= 1 ?  : { ...service, types: service.types.filter(type => type.id !== typeId) } : service) }))
-        // const serviceToFind = this?.services.find((service: { id: number, name: string, total: number, types: { id: number, name: string, count: number }[] }) => service.id === serviceId)
-        // if (serviceToFind.types.length <= 1) {
-        //     this?.removeService(serviceId)
-        // } else {
-        //     set((state) => ({ ...state, services: state.services.map(service => service.id === serviceId ? { ...service, types: service.types.filter(type => type.id !== typeId) } : service) }))
-        // }
     },
 
     getCities: async (query: string) => {
-        // console.log(query);
-        // const newSities = query ? (await axios.get(`https://api.ubrato.ru/v1/suggest/city?query=${query}`)).data : []
-        const newSities = query ? await getCities(query) : []
-        // console.log(newSities.data);
-
-        set((state) => ({ ...state, cities: newSities.data ?? [] }))
+        const newSities = query ? (await getCities(query)).data : []
+        set((state) => ({ ...state, cities: newSities ?? [] }))
     },
 
     addError: (newError: string) => {
@@ -192,29 +180,20 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         const files = event.target.files;
         // const reader = new FileReader();
         const file = files![files!.length - 1];
-        // console.log(file.size);
 
         let newFile: { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number } | undefined;
         const token = localStorage.getItem('token');
         const parameters = {
             file,
-            private: false,
+            private: true,
         };
-        // console.log(token);
         if (token) {
             try {
-                // console.log(typeof token);
-
                 const link = await uploadFile(token, parameters);
-                // console.log(link);
                 const fileType = file.type.split('/')[0];
-                // console.log(fileType);
-                // console.log(link.slice(link.lastIndexOf('/') + 1));
                 const fileName = link.slice(link.lastIndexOf('/') + 1)
 
-
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-                    // idToChange ||= Date.now()
                     newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://store.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
                     if (idToChange) {
                         set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === idToChange ? newFile! : attachment) }))
