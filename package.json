@@ -23,7 +23,6 @@
     "framer-motion": "^11.0.14",
     "node-fetch": "^3.3.1",
     "react": "^18.2.0",
-    "react-datepicker": "^6.6.0",
     "react-dom": "^18.2.0",
     "react-imask": "^7.5.0",
     "react-router-dom": "^6.22.3",
