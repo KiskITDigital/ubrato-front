@@ -7,3 +7,5 @@ export { surveyCheck } from './surveyCheck';
 export { getNotifications, setNotificationRead } from './notofications';
 export { updateToken } from './updateToken';
 export { checkINN } from './checkINN';
+export { getCities } from './createTender/getCities'
+export { createTender } from './createTender/createTender'

@@ -1,6 +1,6 @@
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { useTypesObjectsStore } from "@/store/objectsStore";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 import styles from '../../CreateTender.module.css'
 import { checkFloorSpace } from "../../funcs";
@@ -14,6 +14,12 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     const [isChoosingObject, setIsChoosingObject] = useState(false);
     const [isObjectChoosed, setIsObjectChoosed] = useState<null | string>(null);
     const [choosingObjectTypes, setChoosingObjectTypes] = useState<null | { id: number, name: string, count: number }[]>(null);
+
+    const fetchObjects = objectsStore.fetchObjects;
+
+    useEffect(() => {
+        if (!objectsStore.apiObjects.length) fetchObjects();
+    }, [objectsStore.apiObjects.length, fetchObjects]);
 
     return (
         <div className={`${styles.section} ${styles.object}`}>

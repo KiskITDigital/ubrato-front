@@ -19,11 +19,13 @@ const City: FC = () => {
                                 onBlur={() => {
                                     setIsCitiesAutoComplete(false);
                                     // console.log(createTenderState.cities);
-                                    if (createTenderState.cities.length) {
-                                        createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)
-                                    } else {
-                                        createTenderState.addError('city');
-                                        createTenderState.handleSimpleInput('city', '')
+                                    if (!createTenderState.cities.some(el => el.name === createTenderState.city)) {
+                                        if (createTenderState.cities.length) {
+                                            createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)
+                                        } else {
+                                            createTenderState.addError('city');
+                                            createTenderState.handleSimpleInput('city', '')
+                                        }
                                     }
                                 }}
                                 value={createTenderState.city}
