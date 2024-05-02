@@ -25,10 +25,15 @@ export const ProfileDocuments: FC = () => {
           компании.
         </p>
       </div>
-      <FileInput files={files} addFile={addFile} header="ЕГРЮЛ" />
-      <FileInput files={files} addFile={addFile} header="Карточка компании" />
-      <FileInput files={files} addFile={addFile} header="Приказ о назначении гендиректора" />
-      <FileInput files={files} addFile={addFile} header="Устав компании" />
+      <FileInput id="egrul" files={files} addFile={addFile} header="ЕГРЮЛ" />
+      <FileInput id="company_card" files={files} addFile={addFile} header="Карточка компании" />
+      <FileInput
+        id="director_order"
+        files={files}
+        addFile={addFile}
+        header="Приказ о назначении гендиректора"
+      />
+      <FileInput id="company_regulation" files={files} addFile={addFile} header="Устав компании" />
     </div>
   );
 };
