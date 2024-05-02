@@ -245,7 +245,7 @@
 .switcher__lastdivMobile {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-top: 10px;
 }
 
@@ -1513,4 +1513,14 @@
     border-radius: 10px;
     background-color: var(--color-light-gray-secondary);
     text-wrap: nowrap;
+}
+
+.typesToAdd {
+    display: flex;
+    flex-direction: column !important;
+}
+
+.typesToAdd>div {
+    display: flex;
+    flex-direction: column !important;
 }

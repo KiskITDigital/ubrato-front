@@ -73,7 +73,7 @@ interface createTenderState {
     // React.ChangeEvent<HTMLInputElement>
     handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId?: number) => void
     changeAttachmentText: (id: number, text: string) => void
-    changeAttachmentIsChanging: (id: number) => void
+    // changeAttachmentIsChanging: (id: number) => void
     removeAttachment: (id: number) => void
 }
 
@@ -249,9 +249,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     changeAttachmentText: (id: number, newText: string) => {
         set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === id ? { ...attachment, text: newText } : attachment) }))
     },
-    changeAttachmentIsChanging: (id: number) => {
-        set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === id ? { ...attachment, isChanging: !attachment.isChanging } : attachment) }))
-    },
+    // changeAttachmentIsChanging: (id: number) => {
+    //     set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === id ? { ...attachment, isChanging: !attachment.isChanging } : attachment) }))
+    // },
     removeAttachment: (id: number) => {
         set((state) => ({ ...state, attachments: state.attachments.filter(attachment => attachment.id !== id) }))
     }
