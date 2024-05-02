@@ -1,47 +1,39 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
 import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
-import { FC, ReactNode,} from 'react';
+import { FC, ReactNode } from 'react';
 
 // import { savePostDataToLocalStorage, loadPostDataFromLocalStorage } from '@/utils/lsSaveTest';
 import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 import { PostData } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 
-
 export const OneTenderPageExecutor: FC = () => {
+  const testData = {
+    id: 0,
+    name: 'string',
+    price: 0,
+    is_contract_price: true,
+    location: 'string',
+    floor_space: 0,
+    description:
+      'string А также диаграммы связей набирают популярность среди определенных слоев населения, а значит, должны быть объективно рассмотрены соответствующими инстанциями. Прежде всего, существующая теория, в своём классическом представлении, допускает внедрение укрепления моральных ценностей. Как уже неоднократно упомянуто, сделанные на базе интернет-аналитики выводы могут быть рассмотрены исключительно в разрезе маркетинговых и финансовых предпосылок.',
+    wishes: 'string',
+    attachments: ['string'],
+    services_groups: ['string'],
+    services_types: ['string'],
+    reception_start: '2024-04-08T22:48:30.145Z',
+    reception_end: '2024-04-08T22:48:30.145Z',
+    work_start: '2024-04-08T22:48:30.145Z',
+    work_end: '2024-04-08T22:48:30.145Z',
+    object_group_id: 'string',
+    object_type_id: 'string',
+    user_id: 'string',
+    created_at: '2024-04-08T22:48:30.145Z',
+    verified: true,
+    active: true,
+  };
 
-
-const testData = {
-    "id": 0,
-    "name": "string",
-    "price": 0,
-    "is_contract_price": true,
-    "location": "string",
-    "floor_space": 0,
-    "description": "string А также диаграммы связей набирают популярность среди определенных слоев населения, а значит, должны быть объективно рассмотрены соответствующими инстанциями. Прежде всего, существующая теория, в своём классическом представлении, допускает внедрение укрепления моральных ценностей. Как уже неоднократно упомянуто, сделанные на базе интернет-аналитики выводы могут быть рассмотрены исключительно в разрезе маркетинговых и финансовых предпосылок.",
-    "wishes": "string",
-    "attachments": [
-      "string"
-    ],
-    "services_groups": [
-      "string", 
-    ],
-    "services_types": [
-      "string"
-    ],
-    "reception_start": "2024-04-08T22:48:30.145Z",
-    "reception_end": "2024-04-08T22:48:30.145Z",
-    "work_start": "2024-04-08T22:48:30.145Z",
-    "work_end": "2024-04-08T22:48:30.145Z",
-    "object_group_id": "string",
-    "object_type_id": "string",
-    "user_id": "string",
-    "created_at": "2024-04-08T22:48:30.145Z",
-    "verified": true,
-    "active": true
-  }
-  
   const { activeIndex } = useSwitchStore();
 
   // interface PostData {
@@ -53,7 +45,6 @@ const testData = {
   const handlePostSubmit = () => {
     // savePostDataToLocalStorage(activeIndex, postData);
     // console.log('done');
-    
   };
 
   // const post = loadPostDataFromLocalStorage(activeIndex)
@@ -80,10 +71,18 @@ const testData = {
 
   return (
     <div>
-        <OneTenderHeader status={testData.active} id={testData.id} name={testData.name}></OneTenderHeader>
-        <Switchero options={['Tender', 'Отклики', 'Вопросы и ответы', "Доп. информация"]} noticeKnocks={2} button_text={'Откликнуться на тендер'} price={testData.price}></Switchero>
-        {stack}
-
+      <OneTenderHeader
+        status={testData.active}
+        id={testData.id}
+        name={testData.name}
+      ></OneTenderHeader>
+      <Switchero
+        options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
+        noticeKnocks={2}
+        button_text={'Откликнуться на тендер'}
+        price={testData.price}
+      ></Switchero>
+      {stack}
     </div>
   );
 };

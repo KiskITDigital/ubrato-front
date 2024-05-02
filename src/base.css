@@ -48,8 +48,6 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
 } */
 
-
-.react-datepicker__day--selected,
-.react-datepicker__day--in-range {
-  background-color: var(--color-blue-primary) !important;
+input:-webkit-autofill {
+  box-shadow: inset 0 0 0 1000px #fff;
 }

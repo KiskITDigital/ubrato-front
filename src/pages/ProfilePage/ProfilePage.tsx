@@ -3,6 +3,7 @@ import { ProfileNavigation } from '@/components';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import styles from './proflepage.module.css'
 
 export const ProfilePage: FC = () => {
   const userStore = useUserInfoStore();
@@ -33,7 +34,9 @@ export const ProfilePage: FC = () => {
   return (
     <div className="container flex">
       <ProfileNavigation />
-      <Outlet />
+      <div className={styles.container}>
+        <Outlet />
+      </div>
     </div>
   );
 };

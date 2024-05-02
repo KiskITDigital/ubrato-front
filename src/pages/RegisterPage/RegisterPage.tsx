@@ -44,9 +44,7 @@ export const RegisterPage: FC = () => {
 
   const formik = useFormik<RegisterFormValuesT>({
     initialValues: initialValues,
-    onSubmit(values, formikHelpers) {
-      console.log(values);
-      console.log(formikHelpers);
+    onSubmit(values) {
       const parameters = {
         email: values.email,
         phone: values.phone,
@@ -71,7 +69,7 @@ export const RegisterPage: FC = () => {
             }
           }
         } catch (e) {
-          console.log(e);
+          // console.log(e);
         } finally {
           setIsLoading(false);
         }
@@ -84,6 +82,7 @@ export const RegisterPage: FC = () => {
 
   const [isContractor, setIsContractor] = useState(false);
   const [companyName, setCompanyName] = useState('');
+  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4>(1);
   // const [nameConfirm, setNameConfirm] = useState(false);
 
   const checkStyle = {
@@ -95,13 +94,35 @@ export const RegisterPage: FC = () => {
 
   // const phoneRef = useRef(null);
 
-  const { ref, value } = useIMask({ mask: '+{7}(900)000-00-00' });
+  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
 
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       navigate('/profile');
     }
   }, [navigate, userInfoStore.isLoggedIn]);
+
+  useEffect(() => {
+    if (
+      !formik.errors.email &&
+      !formik.errors.password &&
+      !formik.errors.repeatPassword &&
+      formik.values.email.length !== 0 &&
+      formik.values.password.length !== 0 &&
+      formik.values.repeatPassword.length !== 0 &&
+      registrationStep === 1
+    ) {
+      setRegistrationStep(2);
+    }
+  }, [
+    formik.errors.email,
+    formik.errors.password,
+    formik.errors.repeatPassword,
+    formik.values.email.length,
+    formik.values.password.length,
+    formik.values.repeatPassword.length,
+    registrationStep,
+  ]);
 
   if (userInfoStore.isLoggedIn) {
     return <div></div>;
@@ -134,6 +155,13 @@ export const RegisterPage: FC = () => {
               ? 'Если ваша компания выполняет заказы, то добавьте функционал исполнителя. Или выберите эту роль позже.'
               : 'Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.'}
           </p>
+        </div>
+        <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
+          Есть вопросы по регистрации?{' '}
+          <Link to="/" className={styles.link}>
+            Напишите телефон
+          </Link>{' '}
+          и мы перезвоним
         </div>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
           <p className={styles.inputGrHeader}>Создайте учетную запись</p>
@@ -199,166 +227,177 @@ export const RegisterPage: FC = () => {
               classNames={itemClasses}
             />
           </div>
-          <p className={styles.inputGrHeader}>Укажите данные компании</p>
+          {registrationStep > 1 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
           <div className={styles.inputContainer}>
-            <Input
-              id="inn"
-              name="inn"
-              type="text"
-              label="ИНН"
-              value={formik.values.inn}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                if (e.nativeEvent instanceof InputEvent) {
-                  console.log(e.target.value);
-                  if (formik.values.inn.length >= 10 && e.nativeEvent.data) {
+            {registrationStep > 1 && (
+              <Input
+                id="inn"
+                name="inn"
+                type="text"
+                label="ИНН"
+                value={formik.values.inn}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  
+                  if (formik.values.inn.length >= 10 && e.target.value) {
+                    e.target.value = e.target.value.slice(0, 10);
+                    formik.handleChange(e);
                     return;
                   }
-                  if (e.target.value.length === 10) {
+                  if (e.currentTarget.value.length === 10) {
                     (async () => {
-                      setCompanyName(await checkINN(e.target.value));
+                      setCompanyName(await checkINN(e.currentTarget.value));
                     })();
+                    setRegistrationStep(3);
                   }
-                  if (e.nativeEvent.data?.match(/[\d]/) || !e.nativeEvent.data) {
+                  if (e.target.value?.match(/[\d]/) || !e.target.value) {
                     formik.handleChange(e);
                   }
-                }
-              }}
-              placeholder="ИНН"
-              isInvalid={Boolean(formik.errors.inn)}
-              errorMessage={formik.errors.inn}
-              classNames={itemClasses}
-            />
-            <div className={styles.companyName}>
-              <p className={`${styles.label} ${styles.companyText}`}>
-                Это название вашей компании?
-              </p>
-              <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
-              <p className={styles.nameConfirm}>{companyName}</p>
-              <div className={styles.companyBtns}>
-                <button type="button">Да</button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    // setNameConfirm(false);
-                    formik.values.inn = '';
-                    setCompanyName('');
-                  }}
-                >
-                  Нет
-                </button>
+                }}
+                placeholder="ИНН"
+                isInvalid={Boolean(formik.errors.inn)}
+                errorMessage={formik.errors.inn}
+                classNames={itemClasses}
+              />
+            )}
+            {registrationStep > 2 && (
+              <div className={styles.companyName}>
+                <p className={`${styles.label} ${styles.companyText}`}>
+                  Это название вашей компании?
+                </p>
+                <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
+                <p className={styles.nameConfirm}>{companyName}</p>
+                <div className={styles.companyBtns}>
+                  <button
+                    onClick={() => {
+                      setRegistrationStep(4);
+                    }}
+                    type="button"
+                  >
+                    Да
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      // setNameConfirm(false);
+                      formik.values.inn = '';
+                      setRegistrationStep(2);
+                      setCompanyName('');
+                    }}
+                  >
+                    Нет
+                  </button>
+                </div>
+                <p className={styles.infoText}>
+                  В настоящее время сервис Ubrato открыт для юридических лиц
+                </p>
               </div>
-            </div>
+            )}
           </div>
-          <p className={styles.infoText}>
-            В настоящее время сервис Ubrato открыт для юридических лиц
-          </p>
-          <p className={styles.inputGrHeader}>Укажите контактное лицо</p>
-          <p className={`${styles.infoText} ${styles.weCall}`}>
-            Мы свяжемся с Вами для верификации данных
-          </p>
-          <div className={styles.inputContainer}>
-            <Input
-              id="lastName"
-              name="lastName"
-              label="Фамилия"
-              type="text"
-              value={formik.values.lastName}
-              onChange={formik.handleChange}
-              placeholder="Фамилия"
-              isInvalid={Boolean(formik.errors.lastName)}
-              errorMessage={formik.errors.lastName}
-              classNames={itemClasses}
-            />
-          </div>
-          <div className={styles.inputContainer}>
-            <Input
-              id="firstName"
-              name="firstName"
-              label="Имя"
-              type="text"
-              value={formik.values.firstName}
-              onChange={formik.handleChange}
-              placeholder="Имя"
-              isInvalid={Boolean(formik.errors.firstName)}
-              errorMessage={formik.errors.firstName}
-              classNames={itemClasses}
-            />
-          </div>
-          <div className={styles.inputContainer}>
-            <Input
-              id="middleName"
-              name="middleName"
-              label="Отчество"
-              type="text"
-              value={formik.values.middleName}
-              onChange={formik.handleChange}
-              placeholder="Отчество"
-              isInvalid={Boolean(formik.errors.middleName)}
-              errorMessage={formik.errors.middleName}
-              classNames={itemClasses}
-            />
-          </div>
-          {/* <IMaskInput ref={ref}></IMaskInput> */}
-          <div className={styles.inputContainer}>
-            <Input
-              ref={ref as Ref<HTMLInputElement>}
-              id="phone"
-              name="phone"
-              label="Телефон"
-              type="phone"
-              value={value}
-              onInput={(e: FormEvent<HTMLInputElement>) => {
-                formik.handleChange(e);
-              }}
-              placeholder="Телефон"
-              isInvalid={Boolean(formik.errors.phone)}
-              errorMessage={formik.errors.phone}
-              classNames={itemClasses}
-            />
-          </div>
-          <div className={styles.approvalContainer}>
-            <Checkbox
-              id="personalDataApproval"
-              name="personalDataApproval"
-              isSelected={formik.values.personalDataApproval}
-              onChange={formik.handleChange}
-              classNames={checkStyle}
-            >
-              Согласие на передачу и обработку данных, согласно с{' '}
-              <Link className={styles.link} to="/">
-                условиями
-              </Link>{' '}
-              пользования сайтом
-              <p className={`${styles.errorMessage} ${styles.checkErr}`}>
-                {formik.errors.personalDataApproval}
+          {registrationStep > 3 && (
+            <>
+              <p className={styles.inputGrHeader}>Укажите контактное лицо</p>
+              <p className={`${styles.infoText} ${styles.weCall}`}>
+                Мы свяжемся с Вами для верификации данных
               </p>
-            </Checkbox>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="lastName"
+                  name="lastName"
+                  label="Фамилия"
+                  type="text"
+                  value={formik.values.lastName}
+                  onChange={formik.handleChange}
+                  placeholder="Фамилия"
+                  isInvalid={Boolean(formik.errors.lastName)}
+                  errorMessage={formik.errors.lastName}
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="firstName"
+                  name="firstName"
+                  label="Имя"
+                  type="text"
+                  value={formik.values.firstName}
+                  onChange={formik.handleChange}
+                  placeholder="Имя"
+                  isInvalid={Boolean(formik.errors.firstName)}
+                  errorMessage={formik.errors.firstName}
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="middleName"
+                  name="middleName"
+                  label="Отчество"
+                  type="text"
+                  value={formik.values.middleName}
+                  onChange={formik.handleChange}
+                  placeholder="Отчество"
+                  isInvalid={Boolean(formik.errors.middleName)}
+                  errorMessage={formik.errors.middleName}
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  ref={ref as Ref<HTMLInputElement>}
+                  id="phone"
+                  name="phone"
+                  label="Телефон"
+                  type="phone"
+                  value={value}
+                  onChange={formik.handleChange}
+                  onInput={(e: FormEvent<HTMLInputElement>) => {
+                    setValue(e.currentTarget.value);
+                    formik.handleChange(e);
+                  }}
+                  placeholder="Телефон"
+                  isInvalid={Boolean(formik.errors.phone)}
+                  errorMessage={formik.errors.phone}
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.approvalContainer}>
+                <Checkbox
+                  id="personalDataApproval"
+                  name="personalDataApproval"
+                  isSelected={formik.values.personalDataApproval}
+                  onChange={formik.handleChange}
+                  classNames={checkStyle}
+                >
+                  Согласие на передачу и обработку данных, согласно с{' '}
+                  <Link className={styles.link} to="/">
+                    условиями
+                  </Link>{' '}
+                  пользования сайтом
+                  <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+                    {formik.errors.personalDataApproval}
+                  </p>
+                </Checkbox>
 
-            <Checkbox
-              id="callsRecievApproval"
-              name="callsRecievApproval"
-              isSelected={formik.values.callsRecievApproval}
-              onChange={formik.handleChange}
-              classNames={checkStyle}
-            >
-              Соглашаюсь получать маркетинговые звонки и смс от ООО «Интеграция»
-            </Checkbox>
-          </div>
-          <div className={styles.submitContainer}>
-            <input
-              disabled={isLoading}
-              className={styles.submit}
-              type="submit"
-              value="Зарегистрироваться"
-            />
-          </div>
-          <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
-            Есть вопросы по регистрации?{' '}
-            <Link to="/" className={styles.link}>
-              Напишите телефон
-            </Link>{' '}
-            и мы перезвоним
-          </div>
+                <Checkbox
+                  id="callsRecievApproval"
+                  name="callsRecievApproval"
+                  isSelected={formik.values.callsRecievApproval}
+                  onChange={formik.handleChange}
+                  classNames={checkStyle}
+                >
+                  Соглашаюсь получать маркетинговые звонки и смс от ООО «Интеграция»
+                </Checkbox>
+              </div>
+              <div className={styles.submitContainer}>
+                <input
+                  disabled={isLoading}
+                  className={styles.submit}
+                  type="submit"
+                  value="Зарегистрироваться"
+                />
+              </div>
+            </>
+          )}
         </form>
       </div>
     </div>
