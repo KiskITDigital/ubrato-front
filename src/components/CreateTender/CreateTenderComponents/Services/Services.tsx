@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
@@ -17,6 +17,13 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     const [chooseTypesTypesToObjectToChangeService, setChooseTypesTypesToObjectToChangeService] = useState<string[]>([]);
 
     const [isChoosingNewServiceNameMobile, setIsChoosingNewServiceNameMobile] = useState(false);
+
+    const fetchCleaningTypes = cleaningTypeStore.fetchCleaningTypes;
+
+    useEffect(() => {
+        if (!cleaningTypeStore.apiCleaningTypes.length) fetchCleaningTypes();
+    }, [cleaningTypeStore.apiCleaningTypes.length, fetchCleaningTypes]);
+
     return (
         <div className={`${styles.section} ${styles.services}`}>
             <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Услуги:</p>
@@ -63,7 +70,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                 {
                     isChoosingNewServiceNameMobile && <div
                         // onBlur={() => setIsChoosingObjectNameMobile(false)}
-                        className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile}`}>
+                        className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile} ${styles.servicesTypesSelectorMobile}`}>
                         {
                             cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
                                 <p
@@ -106,7 +113,8 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                         className={`${styles.object__types} ${styles.services__types}`}
                                     >
                                         <div
-                                        //  className={styles.object__objects__objects}
+                                            //  className={styles.object__objects__objects}
+                                            className={styles.object__services__mobile}
                                         >
                                             {
                                                 cleaningTypeStore.apiCleaningTypes.map((service) =>

@@ -3,7 +3,7 @@ import { useCreateTenderState } from "@/store/createTenderStore";
 import { useTypesObjectsStore } from "@/store/objectsStore";
 import { FC } from "react";
 import { formatDate } from "../../funcs";
-import { createTender } from "@/api/createTender";
+import { createTender } from "@/api/index"
 import styles from '../../CreateTender.module.css'
 
 const SendButtons: FC = () => {
@@ -11,7 +11,7 @@ const SendButtons: FC = () => {
     const objectsStore = useTypesObjectsStore()
     const cleaningTypeStore = useCleaningTypeStore()
 
-    const submit = () => {
+    const submit = (isDraft?: boolean) => {
         if (createTenderState.validateInputs()) return;
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
@@ -47,7 +47,7 @@ const SendButtons: FC = () => {
         }
         // console.log(objectToSend);
         const token = localStorage.getItem('token');
-        token && city_id && createTender(token, objectToSend)
+        token && city_id && createTender(token, objectToSend, isDraft)
     }
     return (
         <div className={`${styles.section} ${styles.sendButtons}`}>
@@ -55,7 +55,7 @@ const SendButtons: FC = () => {
                 <p className={`${styles.section__block__p}`}></p>
                 <div className={`${styles.section__sendButtons__block}`}>
                     <button onClick={() => { submit() }} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
-                    <button className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
+                    <button onClick={() => { submit(true) }} className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                 </div>
             </div>
         </div>

@@ -1489,6 +1489,10 @@
     margin-bottom: -120px;
 }
 
+.servicesTypesSelectorMobile {
+    margin-bottom: -120px;
+}
+
 .objectTypesSelectorMobile>p {
     min-height: 41px;
 }
