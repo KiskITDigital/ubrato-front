@@ -43,6 +43,10 @@
   min-width: 200px;
 }
 
+.cityConfirm > p {
+  text-align: center;
+}
+
 .cityConfirm > div {
   width: 100%;
   display: flex;

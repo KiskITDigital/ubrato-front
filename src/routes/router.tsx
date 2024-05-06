@@ -15,6 +15,7 @@ import { Page2 } from '@/components/SurveyComponents/Page2/Page2';
 import { Page3 } from '@/components/SurveyComponents/Page3/Page3';
 import { Page4 } from '@/components/SurveyComponents/Page4/Page4';
 import { Page5 } from '@/components/SurveyComponents/Page5/Page5';
+import { ProfileNotifications } from '@/components/ProfilePageComponents/ProfileNotifications/ProfileNotifications';
 
 export const Router = () => {
   return (
@@ -39,13 +40,12 @@ export const Router = () => {
           <Route path="documents" element={<ProfileDocuments />} />
           <Route path="company" element={<div></div>} />
           <Route path="tenders" element={<div></div>} />
-          <Route path="notifications" element={<div></div>} />
+          <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />
           <Route path="help" element={<div></div>} />
         </Route>
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />
-
       </Route>
     </Routes>
   );

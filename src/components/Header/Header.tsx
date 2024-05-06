@@ -7,6 +7,7 @@ import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
 import { updateToken } from '@/api';
 import axios from 'axios';
+import { CityModal } from '../CityModal/CityModal';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -20,6 +21,7 @@ export const Header: FC = () => {
   const handleState = isOrdererState.handleState;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCityModalOpern, setIsCityModalOpern] = useState(false);
   const [confirm, setConfirm] = useState<boolean>(true);
   const [city, setCity] = useState('');
 
@@ -27,6 +29,11 @@ export const Header: FC = () => {
     const { city } = JSON.parse(localStorage.getItem('userCity')!);
     localStorage.setItem('userCity', JSON.stringify({ city: city, confirmed: true }));
     setConfirm(true);
+  };
+
+  const setNewCity = (newCity: string) => {
+    localStorage.setItem('userCity', JSON.stringify({ city: newCity, confirmed: true }));
+    setCity(newCity);
   };
 
   const avatarStyle = {
@@ -79,6 +86,7 @@ export const Header: FC = () => {
 
   return (
     <header className={`${styles.container}`}>
+      {isCityModalOpern && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpern} />}
       {widthR.current && isMenuOpen && (
         <div
           onClick={() => {
@@ -122,13 +130,27 @@ export const Header: FC = () => {
             </Link>
             <div className={styles.location}>
               <img src="/location.svg" alt="location" />
-              <p className={styles.locationText}>{city}</p>
+              <p
+                onClick={() => {
+                  setConfirm(false);
+                }}
+                className={styles.locationText}
+              >
+                {city}
+              </p>
               {!confirm && (
                 <div className={styles.cityConfirm}>
                   <p>Ваш город {city}?</p>
                   <div>
                     <button onClick={() => handleConfirm()}>Да</button>
-                    <button>Нет</button>
+                    <button
+                      onClick={() => {
+                        document.body.style.overflow = 'hidden';
+                        setIsCityModalOpern(true);
+                      }}
+                    >
+                      Нет
+                    </button>
                   </div>
                 </div>
               )}
