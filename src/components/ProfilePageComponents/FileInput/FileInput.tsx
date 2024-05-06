@@ -1,6 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import styles from './fileinput.module.css';
-import { fetchPrivateFile, sendDoc, updateToken, uploadFile } from '@/api';
+import { sendDoc, updateToken, uploadFile } from '@/api';
+import { FileInfo } from '../FileInfo/FileInfo';
 
 interface FileInputProps {
   header: string;
@@ -11,17 +12,7 @@ interface FileInputProps {
 
 export const FileInput: FC<FileInputProps> = ({ header, type, id, link }) => {
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    // console.log(link);
-    if (link) {
-      console.log(link);
-      (async () => {
-        const res = await updateToken<void, string>(fetchPrivateFile, link);
-        console.log(res);
-      })();
-    }
-  }, [link]);
+  const [newLink, setNewLink] = useState<string>();
 
   return (
     <div className={styles.fileContainer}>
@@ -47,6 +38,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link }) => {
                   parameters
                 );
                 console.log(link);
+                setNewLink(link);
                 const res = await updateToken<boolean, { link: string; type: number }>(sendDoc, {
                   link: link,
                   type: type,
@@ -67,6 +59,8 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link }) => {
         />
         {error && <p className={styles.error}>{error}</p>}
       </label>
+      {link && !newLink && <FileInfo link={link} />}
+      {newLink && !link && <FileInfo link={newLink} />}
     </div>
   );
 };

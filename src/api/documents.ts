@@ -42,3 +42,17 @@ export const fetchPrivateFile = async (token: string, link: string) => {
   });
   console.log(res);
 };
+
+export const fetchPrivateFileInfo = async (token: string, link: string) => {
+  const res = await axiosInstanceStore.get<{
+    name: string;
+    format: string;
+    size: number;
+    ctime: string;
+  }>(`/s3${link}/info`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+};
