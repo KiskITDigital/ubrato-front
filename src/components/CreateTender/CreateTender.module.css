@@ -348,9 +348,9 @@
 
 .firstSections__responses__inputs__input1,
 .firstSections__responses__inputs__input2 {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
-    padding: 4px 4px;
+    /* padding: 4px 4px; */
     box-shadow: none;
 }
 
@@ -491,6 +491,12 @@
     box-sizing: border-box;
 }
 
+.firstSections__div__mainWork {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 7px;
+}
+
 @media screen and (max-width: 1050px) {
     .firstSections__div__main {
         border-radius: 6px;
@@ -513,9 +519,9 @@
 
 .firstSections__div__main__block__input {
     width: 100%;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
-    padding: 4px 6px;
+    padding: 5px 8px;
 }
 
 
