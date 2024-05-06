@@ -6,10 +6,6 @@ import {
     // addTwoDots, 
     checkOnlyNumber
 } from "../../funcs";
-// import ReactDatePicker from "react-datepicker";
-// import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import DateRangePickerLocal from "../DateRangePickerLocal/DateRangePickerLocal";
 
 const Dates: FC = () => {
