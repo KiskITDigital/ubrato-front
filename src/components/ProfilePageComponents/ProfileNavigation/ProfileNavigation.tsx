@@ -92,7 +92,7 @@ export const ProfileNavigation: FC = () => {
         </Link>
         <Link
           to="documents"
-          className={`${styles.link} ${page.includes('documents') ? styles.active2 : ''} `}
+          className={`${styles.link} ${page.includes('documents') ? styles.active : ''} `}
         >
           <DocumentsIC />
           Документы

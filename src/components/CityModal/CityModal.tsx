@@ -53,24 +53,26 @@ export const CityModal: FC<{
         )}
         <div className={styles.btns}>
           <button
-            onClick={() => {
-              setModal(false);
-              setConfirm(true);
-            }}
-            className={styles.cancelBtn}
-          >
-            Отмена
-          </button>
-          <button
             disabled={!isListOpen && confirmedCity.length === 0}
             onClick={() => {
               setConfirm(true);
               setModal(false);
               setCity(confirmedCity);
+              document.body.style.overflow = 'scroll';
             }}
             className={styles.btn}
           >
             Подтвердить
+          </button>
+          <button
+            onClick={() => {
+              setModal(false);
+              setConfirm(true);
+              document.body.style.overflow = 'scroll';
+            }}
+            className={styles.cancelBtn}
+          >
+            Отмена
           </button>
         </div>
       </div>
