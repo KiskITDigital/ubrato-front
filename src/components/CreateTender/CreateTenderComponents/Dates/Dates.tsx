@@ -1,15 +1,16 @@
 import { FC } from "react";
 import styles from '../../CreateTender.module.css'
+import datesStyles from './Dates.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { Checkbox, Switch } from "@nextui-org/react";
 import {
-    // addTwoDots, 
+    addTwoDots,
     checkOnlyNumber
 } from "../../funcs";
 // import ReactDatePicker from "react-datepicker";
 // import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+// import "react-datepicker/dist/react-datepicker.css";
+// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import DateRangePickerLocal from "../DateRangePickerLocal/DateRangePickerLocal";
 
 const Dates: FC = () => {
@@ -64,7 +65,7 @@ const Dates: FC = () => {
                         </div>
                     </div>
                 </div> */}
-                <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}>
+                <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork} ${datesStyles.dateTimeContainer}`}>
                     {/* <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                         <DateRangePickerLocal />
@@ -75,10 +76,22 @@ const Dates: FC = () => {
                     <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
                     <DateRangePickerLocal />
-                    {/* <div>
+                    <div className={datesStyles.dateTime}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
-                        <input maxLength={5} value={createTenderState.reception_time_end} onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)} type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
-                    </div> */}
+                        <input
+                            maxLength={5}
+                            value={createTenderState.reception_time_end}
+                            onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)}
+                            type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
+                    </div>
+                    <div className={`${datesStyles.dateTime} ${datesStyles.dateTime2}`}>
+                        <span className={styles.firstSections__responses__inputs__span}></span>
+                        <input
+                            maxLength={5}
+                            value={createTenderState.reception_time_end}
+                            onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)}
+                            type="text" className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`} />
+                    </div>
                 </div>
             </div>
             <div className={`${styles.firstSections__div}`}>
