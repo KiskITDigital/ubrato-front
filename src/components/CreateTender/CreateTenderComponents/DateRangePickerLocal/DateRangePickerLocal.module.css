@@ -1,5 +1,6 @@
 .base {
     /* background-color: pink; */
+    display: block !important;
     grid-column-start: 1;
     grid-column-end: 3;
     width: 100%;
@@ -13,7 +14,7 @@
 }
 
 .inner-wrapper {
-    display: grid !important;
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     grid-column-gap: 10px;
@@ -93,9 +94,16 @@
     margin-bottom: 10px;
 }
 
-.calendar tbody td,
-tr {
+.calendar thead th {
     width: 100% !important;
+    display: flex;
+    justify-content: center;
+}
+
+.calendar tbody td {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
 }
 
 
