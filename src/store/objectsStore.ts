@@ -154,8 +154,8 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
         return { apiObjects: state.apiObjects };
       });
       set((state) => {
-        !!state?.objects?.length && state.objects.forEach((e) => {
-          !!state?.apiObjects?.length && state.apiObjects.forEach((o) => {
+        state.objects.forEach((e) => {
+          state.apiObjects.forEach((o) => {
             if (e.name === 'Спортивные объекты' && o.name === 'Спортивно-оздоровительные объекты') {
               e.count = o.total;
             }
