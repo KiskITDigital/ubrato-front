@@ -10,6 +10,7 @@ import { SurveyPage } from '@/pages/SurveyPage';
 import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
 import { Page1, SurveyStart } from '@/components';
 import { CreateTenderPage } from '@/pages/CreateTenderPage/CreateTenderPage';
+import FindExecutor from '@/pages/FindExecutor/FindExecutor';
 
 export const Router = () => {
   return (
@@ -18,6 +19,7 @@ export const Router = () => {
         <Route path="" element={<HomePage />} />
         <Route path="faq" element={<HomePage />} />
         <Route path="create-tender" element={<CreateTenderPage />} />
+        <Route path="find-executor" element={<FindExecutor />} />
         <Route path="tenders" element={<TendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
