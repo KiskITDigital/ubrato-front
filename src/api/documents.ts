@@ -11,14 +11,14 @@ export const fetchDocumentsTypes = async (): Promise<[{ id: number; name: string
 export const sendDoc = async (
   token: string,
   parameters: { link: string; type: number }
-): Promise<boolean> => {
-  const res = await axiosInstance.post<{ status: boolean }>('/v1/verification/docs', parameters, {
+): Promise<string> => {
+  const res = await axiosInstance.post<{ id: string }>('/v1/verification/docs', parameters, {
     headers: {
       authorization: `Bearer ${token}`,
     },
   });
   console.log(res);
-  return res.data.status;
+  return res.data.id;
 };
 
 export const fetchUserDocs = async (token: string) => {
@@ -55,4 +55,14 @@ export const fetchPrivateFileInfo = async (token: string, link: string) => {
     },
   });
   return res.data;
+};
+
+export const handleFileDelete = async (token: string, id: string) => {
+  console.log(id);
+  const res = await axiosInstance.delete<{ status: boolean }>(`/v1/verification/docs/${id}`, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(res);
 };

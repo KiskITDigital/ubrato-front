@@ -41,7 +41,7 @@ export const AvatarInput: FC = () => {
                 uploadFile,
                 parameters
               );
-              const avatar = `https://store.ubrato.ru/s3${link?.replace('/files', '')}`;
+              const avatar = `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`;
               await updateToken<void, string>(updateAvatar, avatar);
               await updateToken<void, null>(userInfoState.fetchUser, null);
             }

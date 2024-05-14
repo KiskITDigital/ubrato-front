@@ -15,4 +15,5 @@ export {
   fetchUserDocs,
   fetchPrivateFile,
   fetchPrivateFileInfo,
+  handleFileDelete,
 } from './documents';
