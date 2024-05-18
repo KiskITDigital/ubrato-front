@@ -9,6 +9,7 @@
   align-items: center;
   position: relative;
   min-width: 42px;
+  height: fit-content;
 }
 
 .links {

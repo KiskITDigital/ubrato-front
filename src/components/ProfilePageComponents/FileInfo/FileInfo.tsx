@@ -1,7 +1,10 @@
-import { fetchPrivateFileInfo, updateToken } from '@/api';
+import { fetchPrivateFileInfo, handleFileDelete, updateToken } from '@/api';
+import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
 import { FC, useEffect, useState } from 'react';
+import styles from './fileinfo.module.css';
 
-export const FileInfo: FC<{ link: string }> = ({ link }) => {
+export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
+  const fetchDocuments = useProfileDocumentsStore();
   const [fileInfo, setFileInfo] = useState<{
     name: string;
     format: string;
@@ -20,10 +23,27 @@ export const FileInfo: FC<{ link: string }> = ({ link }) => {
   }, [link]);
 
   return (
-    <div>
-      <p>{fileInfo?.format.slice(1)}</p>
-      <p>{fileInfo ? (fileInfo?.size / 1024).toFixed(1) : ''}kb</p>
-      <p>Загружен {fileDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}</p>
+    <div className={styles.container}>
+      <div className={styles.flexText}>
+        <p className={styles.text}>{fileInfo?.format.slice(1)}</p>
+        <p className={styles.text}>{fileInfo ? (fileInfo?.size / 1024).toFixed(1) : ''}kb</p>
+      </div>
+      <p className={styles.text}>
+        Загружен {fileDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
+        {fileDate?.getFullYear()}
+      </p>
+      <button
+        className={styles.btn}
+        onClick={() => {
+          (async () => {
+            await updateToken(handleFileDelete, id);
+            await fetchDocuments.fetchDocuments();
+          })();
+        }}
+      >
+        <img src="/trash-bin.svg" alt="" />
+        Удалить
+      </button>
     </div>
   );
 };

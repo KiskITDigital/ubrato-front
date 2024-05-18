@@ -26,10 +26,13 @@
   padding-bottom: 30px;
   border-bottom: 2px solid #e7e7e7;
   width: 100%;
+  display: flex;
 }
 
 .label {
   position: relative;
+  display: block;
+  width: fit-content;
 }
 
 .error {
@@ -37,4 +40,8 @@
   font-size: 10px;
   position: absolute;
   line-height: 22px;
+}
+
+.inputFile:disabled + .fileBtn {
+  opacity: 0.7;
 }

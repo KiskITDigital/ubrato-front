@@ -16,6 +16,7 @@ import { Page3 } from '@/components/SurveyComponents/Page3/Page3';
 import { Page4 } from '@/components/SurveyComponents/Page4/Page4';
 import { Page5 } from '@/components/SurveyComponents/Page5/Page5';
 import { ProfileNotifications } from '@/components/ProfilePageComponents/ProfileNotifications/ProfileNotifications';
+import { Help } from '@/components/ProfilePageComponents/Help/Help';
 import { AllTendersPage } from '@/pages/AllTendersPage/AllTendersPage';
 
 
@@ -44,7 +45,7 @@ export const Router = () => {
           <Route path="tenders" element={<div></div>} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />
-          <Route path="help" element={<div></div>} />
+          <Route path="help" element={<Help />} />
         </Route>
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />

@@ -1,43 +1,44 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './profiledocuments.module.css';
 import { FileInput } from '../FileInput/FileInput';
-import { fetchDocumentsTypes, fetchUserDocs, updateToken } from '@/api';
-
-interface documentInfo {
-  type: number;
-  header: string;
-  id: string;
-  link?: string;
-}
+import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
+import { Checkbox } from '@nextui-org/react';
+import { Link } from 'react-router-dom';
 
 export const ProfileDocuments: FC = () => {
-  const [documentsList, setDocumentsList] = useState<documentInfo[]>([]);
+  const profileDocuments = useProfileDocumentsStore();
+  const fetchDocuments = profileDocuments.fetchDocuments;
+  const [disabled, setDisabled] = useState(true);
+  const [checkBoxes, setCheckBoxes] = useState({
+    1: false,
+    2: false,
+    3: false,
+  });
+
+  const checkStyle = {
+    base: styles.checkBase,
+    icon: styles.checkIcon,
+    wrapper: styles.checkWrapper,
+    label: `${styles.checkText} ${styles.infoText}`,
+  };
 
   useEffect(() => {
-    const documentsTypes: Record<number, string> = {
-      1: 'egrul',
-      2: 'company_card',
-      3: 'director_order',
-      4: 'company_regulation',
-    };
-    (async () => {
-      const res = await fetchDocumentsTypes();
-      const userDocs = await updateToken<{ id: string; link: string; type: string }[], null>(
-        fetchUserDocs,
-        null
-      );
-      console.log(userDocs);
-      const docsArr: documentInfo[] = res.map((e) => {
-        return {
-          type: e.id,
-          header: e.name,
-          id: documentsTypes[e.id],
-          link: userDocs.find((i) => i.type === e.name)?.link,
-        };
-      });
-      setDocumentsList(docsArr);
-    })();
-  }, []);
+    window.scrollTo(0, 0);
+    fetchDocuments();
+  }, [fetchDocuments]);
+
+  useEffect(() => {
+    if (
+      profileDocuments.documents.length === 4 &&
+      checkBoxes[1] &&
+      checkBoxes[2] &&
+      checkBoxes[3]
+    ) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }, [checkBoxes, profileDocuments.documents.length]);
 
   return (
     <div className={styles.container}>
@@ -49,9 +50,55 @@ export const ProfileDocuments: FC = () => {
           компании.
         </p>
       </div>
-      {documentsList.map((e) => (
-        <FileInput key={e.type} id={e.id} header={e.header} type={e.type} link={e.link} />
+      {profileDocuments.documents.map((e) => (
+        <FileInput
+          key={e.type}
+          id={e.id}
+          header={e.header}
+          type={e.type}
+          link={e.link}
+          idFile={e.idFile}
+        />
       ))}
+      <div className={styles.checkContainer}>
+        <Checkbox
+          isSelected={checkBoxes[1]}
+          onValueChange={() => {
+            setCheckBoxes({ 1: !checkBoxes[1], 2: checkBoxes[2], 3: checkBoxes[3] });
+          }}
+          classNames={checkStyle}
+        >
+          Согласие с Пользовательским соглашением ООО «Интеграция»
+        </Checkbox>
+        <Checkbox
+          isSelected={checkBoxes[2]}
+          onValueChange={() => {
+            setCheckBoxes({ 1: checkBoxes[1], 2: !checkBoxes[2], 3: checkBoxes[3] });
+          }}
+          classNames={checkStyle}
+        >
+          Согласие с “Политикой обработки персональных данных” ООО «Интеграция»
+        </Checkbox>
+        <Checkbox
+          isSelected={checkBoxes[3]}
+          onValueChange={() => {
+            setCheckBoxes({ 1: checkBoxes[1], 2: checkBoxes[2], 3: !checkBoxes[3] });
+          }}
+          classNames={checkStyle}
+        >
+          Согласие на обработку персональных данных
+        </Checkbox>
+        <button disabled={disabled} className={styles.send}>
+          Отправить на верификацию
+        </button>
+        <p className={styles.help}>Есть вопросы по верификации?</p>
+        <p className={styles.help}>
+          <Link to="../help" className={styles.link}>
+            Напишите
+          </Link>{' '}
+          телефон и мы перезвоним.
+        </p>
+      </div>
     </div>
   );
 };
