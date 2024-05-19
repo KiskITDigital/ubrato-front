@@ -17,6 +17,8 @@ import { Page4 } from '@/components/SurveyComponents/Page4/Page4';
 import { Page5 } from '@/components/SurveyComponents/Page5/Page5';
 import { ProfileNotifications } from '@/components/ProfilePageComponents/ProfileNotifications/ProfileNotifications';
 import { Help } from '@/components/ProfilePageComponents/Help/Help';
+import { Company } from '@/components/ProfilePageComponents/Company/Company';
+import { CompanyInfo } from '@/components/ProfilePageComponents/CompanyInfo/CompanyInfo';
 
 export const Router = () => {
   return (
@@ -39,7 +41,11 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<div>Избранное</div>} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="company" element={<div></div>} />
+          <Route path="company" element={<Company />}>
+            <Route path="" element={<CompanyInfo />} />
+            <Route path="contractor" />
+            <Route path="orderer" />
+          </Route>
           <Route path="tenders" element={<div></div>} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />

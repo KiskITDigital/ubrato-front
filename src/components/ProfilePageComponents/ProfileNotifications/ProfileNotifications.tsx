@@ -1,10 +1,14 @@
 import { useNotificationsStore } from '@/store/notificationsStore';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
 
   console.log(notificationsStore.notifications.notifications);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div>

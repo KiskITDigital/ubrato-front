@@ -115,3 +115,7 @@
   display: flex;
   justify-content: center;
 }
+
+.sublink {
+  padding-left: 60px;
+}

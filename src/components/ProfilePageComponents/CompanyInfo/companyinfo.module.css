@@ -1,0 +1,24 @@
+.header {
+  font-size: 28px;
+  font-weight: 700;
+  margin-left: 7px;
+}
+
+.container {
+  margin-top: 17px;
+}
+
+.infoContainer {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  border-radius: 14px;
+}
+
+.infoText {
+  font-size: 14px;
+  color: var(--color-black-50);
+}
