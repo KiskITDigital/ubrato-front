@@ -1,0 +1,22 @@
+.sort{
+    display: flex;
+}
+.rootnigger{
+    display: flex;
+    width: 200px;
+}
+.listnigger{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.listnigger2{
+    display: flex;
+    flex-direction: column;
+    /* align-items: ; */
+    gap: 20px;
+}
+
+.selected_item_pagination{
+    background-color: blue;
+}

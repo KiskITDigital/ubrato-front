@@ -148,6 +148,7 @@
     /* border: 1px solid blue; */
     position: relative;
     width: 42px;
+    display: block;
     padding: 0;
     border-radius: 20px;
     height: 22px;
@@ -160,6 +161,7 @@
     position: absolute;
     /* z-index: 10000000000000000000000; */
     width: 18px;
+    /* width: 42px; */
     height: 18px;
     top: 2px;
     left: 3px;
@@ -168,13 +170,14 @@
   }
 
   .base[data-selected]>.wrapper>.thumb{
-    background-color: white;
+    /* background-color: white; */
+    
     transition: transform 0.3s ease ;
-    transform: translateX(15px);
+    transform: translateX(19px);
   }
 
   .wrapper{
-    width: 42px;
+    /* width: 42px; */
     height: 100%;
   }
 

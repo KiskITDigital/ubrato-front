@@ -18,6 +18,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({isOpen, clos
         thumb: styles.thumb,
       };
     
+      
 
     return(
         <>
@@ -38,9 +39,10 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({isOpen, clos
                 <div>
                 <input type="text"  name="price" className={styles.input_modal} onChange={handleChange} />
                 рублей 
+                
+                </div>
                 <Switch classNames={SwicthStyles} onChange={handleChange}></Switch>
                 <span className={styles.span_nds}>вкл. НДС</span>
-                </div>
               </label>
               <div className={styles.nds_notice}>
                 <div className={styles.circle}></div>
