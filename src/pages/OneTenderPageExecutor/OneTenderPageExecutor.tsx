@@ -1,12 +1,15 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
 import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect, 
+  // useState 
+} from 'react';
 
 // import { savePostDataToLocalStorage, loadPostDataFromLocalStorage } from '@/utils/lsSaveTest';
 import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
-import { PostData } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
+// import { PostData } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
+import { fetchProduct } from '@/api/getTender';
 
 export const OneTenderPageExecutor: FC = () => {
   const testData = {
@@ -42,13 +45,13 @@ export const OneTenderPageExecutor: FC = () => {
   //   files: File[];
   // }
 
-  const handlePostSubmit = () => {
+  // const handlePostSubmit = () => {
     // savePostDataToLocalStorage(activeIndex, postData);
     // console.log('done');
-  };
+  // };
 
   // const post = loadPostDataFromLocalStorage(activeIndex)
-  let post: PostData;
+  // let post: PostData;
 
   let stack: ReactNode;
 
@@ -63,11 +66,29 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = <OneTenderAdd onSubmit={handlePostSubmit} post={post}></OneTenderAdd>;
+      stack = <OneTenderAdd 
+      // onSubmit={handlePostSubmit}
+      ></OneTenderAdd>;
       break;
     default:
       stack = <div>No stack component found</div>;
   }
+
+
+  // interface Product {
+  //   id: string;
+  //   name: string;
+  //   description: string;
+  // }
+  // const [product, setProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      console.log(await fetchProduct(10));
+    })();
+    // const res: Product = fetchProduct(10)
+    // setProduct(res)
+  }, [])
 
   return (
     <div>
@@ -76,6 +97,8 @@ export const OneTenderPageExecutor: FC = () => {
         id={testData.id}
         name={testData.name}
       ></OneTenderHeader>
+
+      {/* <div>{product.name}</div> */}
       <Switchero
         options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
         noticeKnocks={2}

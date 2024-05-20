@@ -47,6 +47,7 @@ export const Router = () => {
           <Route path="settings" element={<div></div>} />
           <Route path="help" element={<Help />} />
         </Route>
+        <Route path="/tender/:id" element={<OneTenderPageExecutor/>}/>
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />
         <Route path="alltenders" element={<AllTendersPage />} />

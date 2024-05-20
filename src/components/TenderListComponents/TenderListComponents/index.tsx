@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from "react"
 import s from './styles.module.css'
-import { Hits, InstantSearch, SearchBox, SortBy } from "react-instantsearch";
+import { Hits, InstantSearch, Pagination, SearchBox, SortBy } from "react-instantsearch";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
-// import { TenderListElem } from "../TenderListElement/inedx";
+import { TenderListElem } from "../TenderListElement/inedx";
+// import { fetchProduct } from "@/api/getTender";
 
 
 
@@ -26,12 +27,14 @@ useEffect(() => {
           ]
       },
       additionalSearchParameters: {
-          query_by: "name",
-          // sort_by: 'region_id:asc',
+          query_by: "description,name",
+          per_page: 4,
       },
   });
   // const searchClient = typesenseInstantsearchAdapter.searchClient
   setSearchClient(typesenseInstantsearchAdapter.searchClient)
+
+  
 }, [])
 
 
@@ -44,19 +47,45 @@ useEffect(() => {
         <InstantSearch indexName='tender_index' searchClient={searchClient}>
             {/* <p className={s.title}>Локации:</p> */}
             <label className={s.inputFilterLabel}>
-                <img className={s.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
+                {/* <img className={s.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" /> */}
                 <SearchBox
                     className={s.inputFilter}
-                    placeholder="Населенный пункт" />
+                    placeholder="Убейте меня" />
             </label>
+            <div className={s.sort}>
             <SortBy items={[
-              {label: "std", value:'city_index'},
+              {label: "std", value:'tender_index'},
               {label: "asc", value:'tender_index/sort/price:asc'},
               {label: "desc", value:'tender_index/sort/price:desc'}
             ]}></SortBy>
+             <SortBy items={[
+              {label: "rcpt", value:'tender_index'},
+              {label: "asc", value:'tender_index/sort/reception_end:asc'},
+              {label: "desc", value:'tender_index/sort/reception_end:desc'}
+            ]}></SortBy>
+             <SortBy items={[
+              {label: "wrk", value:'tender_index'},
+              {label: "asc", value:'tender_index/sort/work_start:asc'},
+              {label: "desc", value:'tender_index/sort/work_start:desc'}
+            ]}></SortBy>
+             <SortBy items={[
+              {label: "wrk", value:'tender_index'},
+              {label: "asc", value:'tender_index/sort/work_end:asc'},
+              {label: "desc", value:'tender_index/sort/work_end:desc'}
+            ]}></SortBy>
+            </div>
             <Hits 
-            // hitComponent={TenderListElem} 
+            classNames={{
+              list: `${s.listnigger2}`
+            }}
+            hitComponent={TenderListElem} 
             />
+            <Pagination classNames={{
+              root: `${s.rootnigger}`,
+              list: `${s.listnigger}`,
+              item: `${s.item}`,
+              selectedItem: `${s.selected_item_pagination}`
+            }}></Pagination>
         </InstantSearch>
     </div>
 }

@@ -1,0 +1,9 @@
+.hit_block{
+    display: flex;
+    width: 800px;
+    height: 55px;
+    border-bottom: 1px solid black;
+
+    justify-content: space-between;
+    align-items: center;
+}
