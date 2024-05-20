@@ -3,31 +3,101 @@ import styles from './executor-list.module.css'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 import { Hits, InstantSearch } from 'react-instantsearch';
+import Typesense from 'typesense'
+
+
+
 
 const ExecutorList: FC = () => {
     const [searchClient, setSearchClient] = useState(null);
 
+    // useEffect(() => {
+    //     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
+    //         server: {
+    //             apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+    //             nodes: [
+    //                 {
+    //                     host: 'search.ubrato.ru',
+    //                     port: 443,
+    //                     protocol: 'https',
+    //                     path: "",
+    //                     // tls:true
+    //                 }
+    //             ]
+    //         },
+    //         additionalSearchParameters: {
+    //             query_by: "name",
+    //             // sort_by: 'price:asc',
+    //         },
+    //     });
+    //     // const searchClient = typesenseInstantsearchAdapter.searchClient
+    //     setSearchClient(typesenseInstantsearchAdapter.searchClient)
+    // }, []);
+
     useEffect(() => {
-        const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
-            server: {
-                apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
-                nodes: [
-                    {
-                        host: 'search.ubrato.ru',
-                        port: 443,
-                        protocol: 'https',
-                        path: "",
-                        // tls:true
-                    }
-                ]
-            },
-            additionalSearchParameters: {
-                query_by: "name",
-                // sort_by: 'price:asc',
-            },
+        const client = new Typesense.Client({
+            apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+            'nodes': [
+                {
+                    host: 'search.ubrato.ru',
+                    port: 443,
+                    protocol: 'https',
+                    path: "",
+                    // tls:true
+                }
+            ],
         });
-        // const searchClient = typesenseInstantsearchAdapter.searchClient
-        setSearchClient(typesenseInstantsearchAdapter.searchClient)
+        const searchParameters = {
+            'q': '',
+            'query_by': 'name',
+        };
+
+        // Execute search query
+        client.collections('city_index').documents().search(searchParameters)
+            .then((response) => {
+                console.log(response); // Process the search results here
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        // const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
+        //     server: {
+        //         apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+        //         nodes: [
+        //             {
+        //                 host: 'search.ubrato.ru',
+        //                 port: 443,
+        //                 protocol: 'https',
+        //                 path: "",
+        //                 // tls:true
+        //             }
+        //         ]
+        //     },
+        //     additionalSearchParameters: {
+        //         query_by: "name",
+        //         limit: 10,
+        //         // sort_by: 'price:asc'
+        //     },
+        // });
+
+        // const client = typesenseInstantsearchAdapter.searchClient;
+
+
+
+
+        // const searchParameters = {
+        //     'query_by': 'city_index',
+        // }
+
+        // const func = async () => {
+        //     // const response = await searchClient.collections('city_index').documents().search(searchParameters)
+
+        //     // // const data = response.hits;
+        //     // console.log(response);
+        //     // client.collections('city_index').documents().search(searchParameters)
+        // }
+
+        // func();
     }, []);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
