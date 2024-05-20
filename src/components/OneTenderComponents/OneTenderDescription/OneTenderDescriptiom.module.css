@@ -18,3 +18,21 @@
     font-size: 18px;
     width: 780px;
 }
+
+
+
+
+@media screen and (width < 450px) {
+    .block_main{
+        width: 358px;
+        margin: 20px auto;
+        flex-direction: column;
+        width: 358px;
+    }
+    .block_add_p{
+        flex-grow: 2;
+        font-size: 18px;
+        width: 358px;
+    }
+   
+   }

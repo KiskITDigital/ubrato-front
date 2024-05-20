@@ -24,13 +24,17 @@ li {
   margin: 0 auto;
 }
 
+.flex {
+  display: flex;
+}
+
 @media screen and (width < 450px) {
   .container {
     width: 100%;
   }
 
   main {
-    margin-top: 65.5px;
+    margin-top: 105px;
   }
 }
 
@@ -44,8 +48,6 @@ input::-webkit-inner-spin-button {
   overflow: hidden;
 } */
 
-
-.react-datepicker__day--selected,
-.react-datepicker__day--in-range {
-  background-color: var(--color-blue-primary) !important;
+input:-webkit-autofill {
+  box-shadow: inset 0 0 0 1000px #fff;
 }

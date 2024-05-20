@@ -40,7 +40,7 @@ export const MainBanner: FC = () => {
 
   return (
     <div className={`container ${styles.mobileContainer}`}>
-      {!(userStore.isLoggedIn && userStore.user.is_contractor) && (
+      {(!(userStore.isLoggedIn && userStore.user.is_contractor) || userStore.passedSurvey) && (
         <div className={` ${styles.container}`}>
           <div>
             <h1 className={styles.header}>
@@ -62,7 +62,7 @@ export const MainBanner: FC = () => {
                 placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
               />
               <button className={styles.createTenderBtn}>
-                {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+                {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
               </button>
             </div>
             <div className={styles.exampleSearchContainer}>
@@ -77,7 +77,7 @@ export const MainBanner: FC = () => {
           <img className={styles.image} src="./banner-image.png" alt="big-man" />
         </div>
       )}
-      {userStore.isLoggedIn && userStore.user.is_contractor && (
+      {userStore.isLoggedIn && userStore.user.is_contractor && !userStore.passedSurvey && (
         <div className={`${styles.embla}`}>
           <div className={`${styles.embla__viewport}`} ref={emblaRef}>
             <div className={styles.embla__container}>

@@ -48,12 +48,27 @@ export interface UserInfoT {
     id: string;
     short_name: string;
     inn: string;
-  }
+  };
 }
 
 export interface QuestionT {
   title: string;
   textComponent: ReactNode;
+}
+
+export interface notificationT {
+  msg: string;
+  href: string | null;
+  id: 0;
+  header: string;
+  read: boolean;
+  href_text: string,
+  href_color: number,
+}
+
+export interface notificationsT {
+  total: number;
+  notifications: notificationT[];
 }
 
 export interface City {

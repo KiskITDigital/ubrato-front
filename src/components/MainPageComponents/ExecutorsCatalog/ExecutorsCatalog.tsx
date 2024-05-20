@@ -31,9 +31,18 @@ export const ExecutorsCatalog: FC = () => {
   const fetchCleaningTypes = typeCleaningStore.fetchCleaningTypes;
 
   useEffect(() => {
-    fetchObjects();
-    fetchCleaningTypes();
-  }, [fetchCleaningTypes, fetchObjects]);
+    if (objectsStore?.apiObjects?.length === 0) {
+      fetchObjects();
+    }
+    if (typeCleaningStore?.apiCleaningTypes?.length === 0) {
+      fetchCleaningTypes();
+    }
+  }, [
+    fetchCleaningTypes,
+    fetchObjects,
+    objectsStore?.apiObjects?.length,
+    typeCleaningStore?.apiCleaningTypes?.length,
+  ]);
 
   const count = 200;
 

@@ -105,12 +105,12 @@
 }
 
 .inputError {
-    border-color: var(--color-red);
+    border-color: var(--color-red-error);
 }
 
 .inputErrorText {
     position: absolute;
-    color: var(--color-red);
+    color: var(--color-red-error);
     margin-top: 140px;
     margin-left: 244px;
     font-size: 10px;
@@ -243,7 +243,7 @@
 .switcher__lastdiv {
     width: 100%;
     flex-shrink: 1;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .switcher__lastdivMobile {
@@ -674,7 +674,7 @@
 }
 
 .section__block__buttonError {
-    border-color: var(--color-red);
+    border-color: var(--color-red-error);
 }
 
 .objectError {
@@ -1089,7 +1089,7 @@
 
 .service__objects {
     width: min-content;
-    justify-self: start;
+    justify-self: flex-start;
     align-self: flex-start;
 }
 
@@ -1496,7 +1496,7 @@
     max-height: 130px;
     overflow-y: scroll;
     bottom: 0;
-    margin-bottom: -130px;
+    margin-bottom: -120px;
 }
 
 .servicesTypesSelectorMobile {

@@ -5,6 +5,9 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
+import { updateToken } from '@/api';
+import axios from 'axios';
+import { CityModal } from '../CityModal/CityModal';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -18,6 +21,20 @@ export const Header: FC = () => {
   const handleState = isOrdererState.handleState;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCityModalOpern, setIsCityModalOpern] = useState(false);
+  const [confirm, setConfirm] = useState<boolean>(true);
+  const [city, setCity] = useState('');
+
+  const handleConfirm = () => {
+    const { city } = JSON.parse(localStorage.getItem('userCity')!);
+    localStorage.setItem('userCity', JSON.stringify({ city: city, confirmed: true }));
+    setConfirm(true);
+  };
+
+  const setNewCity = (newCity: string) => {
+    localStorage.setItem('userCity', JSON.stringify({ city: newCity, confirmed: true }));
+    setCity(newCity);
+  };
 
   const avatarStyle = {
     base: styles.base,
@@ -28,7 +45,7 @@ export const Header: FC = () => {
     const token = localStorage.getItem('token');
     if (token !== null) {
       (async () => {
-        await fetchUser(token);
+        await updateToken<void, undefined>(fetchUser, undefined);
       })();
     }
   }, [fetchUser]);
@@ -41,10 +58,35 @@ export const Header: FC = () => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
+    const localCity = JSON.parse(localStorage.getItem('userCity') ?? '{}');
+    setCity(
+      localCity.city ? (localCity.city != 'undefined' ? localCity.city : 'Не определён') : ''
+    );
+    if (!localCity.confirmed) {
+      (async () => {
+        setConfirm(false);
+        const curAxios = axios.create({ withCredentials: false });
+        const res = await curAxios.get('https://geolocation-db.com/json/');
+        console.log(res);
+        const lat = res.data.latitude;
+        const lon = res.data.longitude;
+        const res2 = await curAxios.get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+          { headers: { 'Accept-language': 'ru-RU' } }
+        );
+        console.log(res2);
+        localStorage.setItem(
+          'userCity',
+          JSON.stringify({ city: res2.data.address.city, confirmed: false })
+        );
+        setCity(res2.data.address.city ?? 'Не определён');
+      })();
+    }
   }, []);
 
   return (
     <header className={`${styles.container}`}>
+      {isCityModalOpern && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpern} />}
       {widthR.current && isMenuOpen && (
         <div
           onClick={() => {
@@ -88,7 +130,30 @@ export const Header: FC = () => {
             </Link>
             <div className={styles.location}>
               <img src="/location.svg" alt="location" />
-              <p className={styles.locationText}>Москва</p>
+              <p
+                onClick={() => {
+                  setConfirm(false);
+                }}
+                className={styles.locationText}
+              >
+                {city}
+              </p>
+              {!confirm && (
+                <div className={styles.cityConfirm}>
+                  <p>Ваш город {city}?</p>
+                  <div>
+                    <button onClick={() => handleConfirm()}>Да</button>
+                    <button
+                      onClick={() => {
+                        document.body.style.overflow = 'hidden';
+                        setIsCityModalOpern(true);
+                      }}
+                    >
+                      Нет
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -155,7 +220,7 @@ export const Header: FC = () => {
                   name={userInfoStorage.user.first_name}
                 />
               </Link>
-              <Notifications count={1} />
+              <Notifications />
             </div>
           )}
         </div>

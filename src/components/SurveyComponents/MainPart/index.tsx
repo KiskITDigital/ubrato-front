@@ -7,18 +7,30 @@ export const SurveyMainPart: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem('token') || userStore.error) {
+    if (
+      !localStorage.getItem('token') ||
+      userStore.error ||
+      (userStore.isLoggedIn && !userStore.user.is_contractor) ||
+      userStore.passedSurvey
+    ) {
       navigate('/');
     }
-  }, [navigate, userStore.error, userStore.isLoggedIn, userStore.loading]);
+  }, [
+    navigate,
+    userStore.error,
+    userStore.isLoggedIn,
+    userStore.loading,
+    userStore.passedSurvey,
+    userStore.user.is_contractor,
+  ]);
 
-  if (!userStore.isLoggedIn) {
+  if (!userStore.isLoggedIn || !userStore.user.is_contractor || userStore.passedSurvey) {
     return <div></div>;
   }
 
   return (
-    <div>
+    <>
       <Outlet />
-    </div>
+    </>
   );
 };

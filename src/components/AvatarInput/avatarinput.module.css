@@ -1,7 +1,7 @@
 .base {
   background-color: var(--color-light-gray);
-  width: 60px;
-  height: 60px;
+  width: 186px;
+  height: 186px;
   border-radius: 100%;
   display: flex;
   align-items: center;
@@ -21,15 +21,6 @@
   height: 100%;
 }
 
-.changeAvatar {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.base:hover ~ .changeAvatar {
-  opacity: 1;
-}
-
 .baseInput {
   display: none;
 }
@@ -37,4 +28,22 @@
 .avatarLabel {
   width: fit-content;
   display: block;
+  position: relative;
+  border-radius: 100%;
+}
+
+.camera {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: var(--color-blue-primary);
+  background-image: url('/camera-ic.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  z-index: 3;
+  cursor: pointer;
+  bottom: 8px;
+  right: 8px;
 }

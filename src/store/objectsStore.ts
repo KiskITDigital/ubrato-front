@@ -159,6 +159,9 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
             if (e.name === 'Спортивные объекты' && o.name === 'Спортивно-оздоровительные объекты') {
               e.count = o.total;
             }
+            if (e.name === 'Объекты здравоохранения' && o.name === 'Объект здравоохранения') {
+              e.count = o.total;
+            }
             if (e.name === o.name) {
               e.count = o.total;
             }

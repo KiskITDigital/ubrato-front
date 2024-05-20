@@ -17,6 +17,14 @@ const MainFilter: FC = () => {
     const [servicesId, setServicesId] = useState<number[]>([]);
     const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
 
+    const reset = () => {
+        setChosenLocation('')
+        setObjectId(null)
+        setobjectTypesId([])
+        setServicesId([])
+        setServicesTypesId([])
+    }
+
     const objectImages = {
         'HoReCa': 'horeca',
         'Транспортная инфраструктура': 'road',
@@ -191,37 +199,15 @@ const MainFilter: FC = () => {
                     </InstantSearch>
                 </div>
             }
-            {/* <div className={styles.block}>
-                <p className={styles.title}>Услуги:</p>
-                <label className={styles.inputFilterLabel}>
-                    <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
-                    <input
-                        className={styles.inputFilter}
-                        type="text"
-                        placeholder="Населенный пункт" />
-                </label>
-            </div> */}
-            {/* {
-                searchClient &&
-                <div className={styles.block}>
-                    <InstantSearch indexName='service_group_index' searchClient={searchClient}>
-                        <p className={styles.title}>Услуги:</p>
-                        <label className={styles.inputFilterLabel}>
-                            <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
-                            <SearchBox
-                                className={styles.inputFilter}
-                                placeholder="Поиск" />
-                        </label>
-                        <Hits hitComponent={CityHit} />
-                    </InstantSearch>
-                </div>
-            } */}
             <div className={styles.block}>
                 <button
                     className={styles.makeFilters}
                 // onClick={search}
                 >Применить фильтры</button>
-                <button className={styles.resetFilters}>Сбросить</button>
+                <button
+                    onClick={reset}
+                    className={styles.resetFilters}
+                >Сбросить</button>
             </div>
         </div>
     );

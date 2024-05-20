@@ -1,6 +1,6 @@
 export { ArrowControl } from './ArrowControl/ArrowControl';
 export { MainBanner } from './MainPageComponents/MainBanner/MainBanner';
-export { ExecutorsCatalog } from './ExecutorsCatalog/ExecutorsCatalog';
+export { ExecutorsCatalog } from './MainPageComponents/ExecutorsCatalog/ExecutorsCatalog';
 export { NewsBlock } from './MainPageComponents/NewsBlock/NewsBlock';
 export { QuestionsBlock } from './MainPageComponents/QuestionsBlock/QuestionsBlock';
 export { Seo } from './MainPageComponents/Seo/seo';
@@ -17,3 +17,5 @@ export { SurveyMainPart } from './SurveyComponents/MainPart/index';
 export { Notifications } from './Notifications/Notifications';
 export { Page1 } from './SurveyComponents/Page1/Page1';
 export { SurveyStart } from './SurveyComponents/SurveyStart/SurveyStart';
+export { ProfileNavigation } from './ProfilePageComponents/ProfileNavigation/ProfileNavigation';
+export { ProfileDocuments } from './ProfilePageComponents/ProfileDocuments/ProfileDocuments'

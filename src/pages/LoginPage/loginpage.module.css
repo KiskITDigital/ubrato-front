@@ -33,6 +33,10 @@
   color: var(--color-black-60);
 }
 
+.helperWrapper {
+  display: block;
+}
+
 .errorMessage {
   color: #f90a0a;
   font-size: 10px;

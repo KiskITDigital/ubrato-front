@@ -42,8 +42,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: var(--color-blue-light);
+  background-color: #f5fafe;
   height: 327px;
+}
+
+.afertaText {
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .laptopImage {
@@ -52,20 +57,43 @@
 }
 
 .regularText {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 400;
 }
 
+.text {
+  width: 1016px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 800;
+}
+
 .boldText {
-  font-size: 16px;
+  font-size: 26px;
   font-weight: 700;
+  margin-top: 60px;
+}
+
+.narrowText {
+  position: relative;
+}
+
+.narrowText::before {
+  content: '';
+  width: 9px;
+  height: 100%;
+  position: absolute;
+  background-color: #f3f3f3;
+  left: -24px;
 }
 
 .link {
   text-decoration: underline;
   font-weight: 700;
-
-  color: var(--color-blue-secondary);
+  color: var(--color-blue-primary);
 }
 
 .part2 {
@@ -78,7 +106,7 @@
 
 .part2 > p,
 ul {
-  max-width: 658px;
+  max-width: 956px;
 }
 
 .dotLi {
@@ -87,7 +115,6 @@ ul {
 }
 
 .numberLi {
-  color: var(--color-blue-secondary);
   font-weight: 700;
 }
 
@@ -102,6 +129,7 @@ ul {
   display: flex;
   justify-content: center;
   margin: 25px 0;
+  margin-bottom: 120px;
 }
 
 .blueBackground {
@@ -113,12 +141,6 @@ ul {
   padding: 28px;
 }
 
-.text {
-  width: 1016px;
-  font-size: 24px;
-  font-weight: 500;
-}
-
 .questionsHeader {
   margin-top: 40px;
 }
@@ -128,6 +150,12 @@ ul {
 }
 .questionItem {
   list-style-type: decimal;
+  margin-bottom: 70px;
+}
+
+.questionItem:not(:first-child) {
+  border-top: 1px dashed var(--color-black-60);
+  padding-top: 50px;
 }
 
 .questionsContainer {
@@ -163,6 +191,188 @@ ul {
   border-radius: 100%;
   align-items: center;
   justify-content: center;
+}
+
+.radioGroupNumbersWrapper {
+  display: flex;
+  gap: 10px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.radioNumberBase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+  background-color: black;
+  width: 18px;
+  height: 18px;
+}
+
+.input {
+  border: 3px solid var(--color-black-30);
+  border-radius: 20px;
+  width: 431px;
+  height: 58px;
+  outline: none;
+  padding: 10px 10px;
+  font-size: 20px;
+}
+
+.input:disabled {
+  opacity: 0.3;
+}
+
+.radioGroupWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 30px;
+  position: relative;
+}
+
+.yourVariant {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nextBtn {
+  margin: 0 auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+}
+
+.nextBtn2 {
+  min-width: 175px;
+  max-width: 220px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+}
+
+.backBtn {
+  background-color: var(--color-light-gray);
+  color: black;
+  width: 175px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.btnsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.errorText {
+  color: var(--color-red-error);
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+}
+
+.comment {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.tableQuestinHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tableQuestinHeader > p {
+  color: var(--color-blue-primary);
+}
+
+.tableQuestinHeader > div {
+  display: flex;
+  width: 320px;
+  justify-content: space-around;
+  margin-right: 18px;
+}
+
+.tableQuestinHeader > div > p {
+  color: var(--color-blue-primary);
+  width: 125px;
+  text-align: center;
+}
+
+.tableRadioGroupWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  position: relative;
+  background-color: var(--color-light-gray);
+  padding: 12px 18px;
+  border-radius: 10px;
+}
+
+.tableRadioGroupWrapper > div {
+  display: flex;
+  width: 320px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.checkBase {
+  display: block;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.checkIcon {
+  width: 80%;
+  height: 80%;
+}
+
+.checkIcon > polyline {
+  stroke: var(--color-blue-primary);
+}
+
+.checkWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-black-10);
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.checkText {
+  margin-left: 10px;
+}
+
+.checkContainer {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-light-gray);
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.checkContainer > p {
+  width: 600px;
+}
+
+.checkGroup {
+  margin-top: 30px;
+  position: relative;
 }
 
 @media screen and (width <=1050px) {
@@ -202,7 +412,7 @@ ul {
 
   .part2 > p,
   ul {
-    max-width: 658px;
+    max-width: 956px;
   }
 
   .survey__button {
@@ -257,13 +467,13 @@ ul {
   }
 }
 
-@media screen and (width <=500px) {
+@media screen and (width <=450px) {
   .container {
     width: 90%;
   }
 
   .title {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .survey__pair__image {
@@ -272,11 +482,12 @@ ul {
   }
 
   .survey__pair__text {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .part1 {
     height: 150px;
+    padding: 0 5px;
   }
 
   .laptopImage {
@@ -285,11 +496,11 @@ ul {
   }
 
   .regularText {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .boldText {
-    font-size: 10px;
+    font-size: 15px;
   }
 
   .part2 > p,
@@ -299,6 +510,85 @@ ul {
 
   .survey__button {
     width: 140px;
-    font-size: 10px;
+    font-size: 15px;
+  }
+
+  .text {
+    font-size: 15px;
+    max-width: 360px;
+  }
+
+  .blueBackground {
+    padding: 20px;
+  }
+
+  .questionsContainer {
+    max-width: 360px;
+  }
+
+  .yourVariant {
+    flex-direction: column;
+  }
+
+  .input {
+    width: 100%;
+    font-size: 15px;
+    border-width: 1px;
+    height: 50px;
+  }
+
+  .radioBase {
+    align-self: self-start;
+  }
+
+  .radioWrapper {
+    width: 24px;
+    height: 24px;
+  }
+
+  .radioBase[data-selected] > .radioWrapper > .radioControl {
+    width: 13px;
+    height: 13px;
+  }
+
+  .radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+    width: 13px;
+    height: 13px;
+  }
+
+  .questionItem {
+    margin-bottom: 30px;
+  }
+
+  .survey__button {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .tableQuestinHeader > div > p {
+    width: 80px;
+  }
+
+  .tableQuestinHeader > div {
+    width: fit-content;
+    margin-right: 14px;
+    gap: 5px;
+  }
+
+  .tableRadioGroupWrapper {
+    padding: 8px 14px;
+  }
+
+  .tableRadioGroupWrapper > div {
+    width: 160px;
+  }
+
+  .tableRadioGroupWrapper > p {
+    max-width: 170px;
+  }
+
+  .checkWrapper {
+    width: 24px;
+    height: 24px;
   }
 }
