@@ -17,17 +17,20 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     return newDate
   } 
 
+
+
+
   return(
     <Link to={`/tender/${hit.id}`}>
     <div 
     className={s.hit_block}
     >
-        <p>покажи мне</p>
+        <p>ч</p>
         <h3>{hit.name}</h3>
         {/* <p>{toDate(hit.reception_start).toLocaleString()}</p> */}
-        <p>але</p>
+        <p>е</p>
         <p>{toDate(hit.reception_end).toLocaleString()}</p>
-        <p>жопа</p>
+        <p>а</p>
         <p>{toDate(hit.work_start).toLocaleString()}</p>
         <p>{toDate(hit.work_end).toLocaleString()}</p>
     </div>
