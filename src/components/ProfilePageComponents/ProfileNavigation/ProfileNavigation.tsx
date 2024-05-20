@@ -68,7 +68,14 @@ export const ProfileNavigation: FC = () => {
           <CompanyProfiveIC />
           Профиль компании
         </Link>
-
+        <Link className={`${styles.link} ${styles.sublink}`} to="company/orderer">
+          Заказчик
+        </Link>
+        {userStore.user.is_contractor && (
+          <Link className={`${styles.link} ${styles.sublink}`} to="company/contractor">
+            Исполнитель
+          </Link>
+        )}
         <Link
           to="tenders"
           className={`${styles.link} ${page.includes('tenders') ? styles.active : ''} `}
@@ -76,6 +83,14 @@ export const ProfileNavigation: FC = () => {
           <TenderIC />
           Мои тендеры
         </Link>
+        <Link className={`${styles.link} ${styles.sublink}`} to="tenders/orderer">
+          Заказчик
+        </Link>
+        {userStore.user.is_contractor && (
+          <Link className={`${styles.link} ${styles.sublink}`} to="tenders/contractor">
+            Исполнитель
+          </Link>
+        )}
         <Link
           to="favourite"
           className={`${styles.link} ${page.includes('favourite') ? styles.active : ''}`}

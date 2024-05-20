@@ -24,7 +24,7 @@ export const NotificationsList: FC<{
             )
         )}
         {notificationsStore.notifications.total === 0 && <p>Новых уведомлений нет</p>}
-        <Link onClick={() => closeList(false)} to="./profile" className={styles.link}>
+        <Link onClick={() => closeList(false)} to="./profile/notifications" className={styles.link}>
           Смотреть все
         </Link>
       </div>

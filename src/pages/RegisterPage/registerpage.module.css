@@ -35,6 +35,10 @@
   font-weight: 500;
 }
 
+.helperWrapper {
+  display: block;
+}
+
 .errorMessage {
   color: #f90a0a;
   font-size: 10px;
