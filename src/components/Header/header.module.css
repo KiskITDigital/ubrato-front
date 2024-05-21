@@ -17,6 +17,11 @@
   z-index: 5;
 }
 
+.logo {
+  width: initial;
+  height: initial;
+}
+
 .locationText {
   color: var(--color-dark-text);
   cursor: pointer;

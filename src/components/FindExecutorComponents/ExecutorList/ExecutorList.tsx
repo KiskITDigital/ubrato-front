@@ -116,7 +116,7 @@ const ExecutorList: FC = () => {
                     classNames={classNames}
                 >
                     <DropdownTrigger>
-                        <Button
+                        <Button disableRipple
                             variant="bordered"
                         >
                             Рекомендуем <img src="/find-executor/drop-down.svg" alt="" />

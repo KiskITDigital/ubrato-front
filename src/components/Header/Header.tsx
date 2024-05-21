@@ -119,7 +119,7 @@ export const Header: FC = () => {
             ''
           )}
           <Link to="/">
-            <img src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
+            <img className={styles.logo} src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/">

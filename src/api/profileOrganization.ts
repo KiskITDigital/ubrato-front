@@ -42,3 +42,24 @@ export const fetchOrganizationInfo = async (token: string) => {
   console.log(res);
   return res.data;
 };
+
+export const fetchOrdererProfile = async (token: string) => {
+  const res = await axiosInstance.get<{
+    description: string;
+    locations: { id: number; name: string }[];
+  }>('/v1/organizations/my/profile/customer', {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  console.log(res.data);
+  return res.data;
+};
+
+export const putOrdererProfile = async (
+  token: string,
+  params: { description: string; locations: number[] }
+) => {
+  const res = await axiosInstance.put('/v1/organizations/my/profile/customer', params, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  console.log(res);
+};

@@ -56,6 +56,7 @@
   width: 490px;
   height: 51px;
   overflow-y: hidden;
+  line-height: 22px;
 }
 
 .description {
@@ -64,4 +65,109 @@
   padding-bottom: 16px;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
   font-size: 16px;
+}
+
+.locations {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.locations > p {
+  margin-top: 15px;
+}
+.inputContainer {
+  width: 490px;
+  position: relative;
+}
+
+.input {
+  border: 1px solid var(--color-light-gray-tertiary);
+  width: 100%;
+  border-radius: 13px;
+  padding: 14px 15px;
+  outline: none;
+  font-size: 16px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.04);
+}
+
+.citiesList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-light-gray-tertiary);
+  border-top: none;
+  border-bottom-left-radius: 13px;
+  border-bottom-right-radius: 13px;
+  padding-top: 10px;
+  margin-top: -10px;
+  position: absolute;
+  top: 53px;
+  background-color: white;
+}
+
+.city {
+  padding: 10px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-black);
+  font-size: 18px;
+  line-height: 21px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.city:hover {
+  background-color: var(--color-blue-primary-6);
+  color: var(--color-blue-primary);
+}
+
+.save {
+  padding: 15px;
+  width: 100%;
+  background-color: var(--color-blue-primary);
+  color: white;
+  border: 1px solid transparent;
+  margin-top: 35px;
+  border-radius: 10px;
+}
+
+.save:disabled {
+  background-color: transparent;
+  color: var(--color-black-60);
+  border: 1px solid var(--color-black-60);
+}
+
+.locationsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.locationItem {
+  padding: 3px 10px;
+  background-color: var(--color-blue-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  gap: 8px;
+  border-radius: 10px;
+}
+
+.deleteBtn {
+  width: 20px;
+  height: 14px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
 }
