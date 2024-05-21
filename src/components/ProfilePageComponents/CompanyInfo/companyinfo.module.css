@@ -49,3 +49,81 @@
   color: var(--color-black-60);
   font-size: 16px;
 }
+
+.brandGrid {
+  display: grid;
+  grid-template-columns: auto 517px;
+  justify-content: space-between;
+  row-gap: 22px;
+}
+
+.gridHeader {
+  font-size: 16px;
+  color: var(--color-black-60);
+  margin-top: 15px;
+}
+
+.input {
+  padding: 14px 15px;
+  border-radius: 13px;
+  border: 1px solid var(--color-light-gray-tertiary);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+
+.brandInfo {
+  padding-bottom: 43px;
+  border-bottom: 1px solid var(--color-black-60);
+  margin-top: 16px;
+}
+
+.base {
+  background-color: var(--color-light-gray);
+  width: 76px;
+  height: 76px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.icon {
+  width: 100%;
+  justify-content: center;
+}
+
+.baseInput {
+  display: none;
+}
+
+.avatarInput {
+  display: flex;
+  gap: 10px;
+  color: var(--color-black-60);
+  font-size: 16px;
+  align-items: center;
+}
+
+.brandBtn {
+  padding: 15px;
+  width: 215px;
+  background-color: var(--color-blue-primary);
+  color: white;
+  border: 1px solid transparent;
+  margin-top: 35px;
+  border-radius: 10px;
+  grid-column: 2;
+}
+
+.brandBtn:disabled {
+  background-color: transparent;
+  color: var(--color-black-60);
+  border: 1px solid var(--color-black-60);
+}

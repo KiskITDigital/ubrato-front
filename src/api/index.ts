@@ -16,5 +16,11 @@ export {
   fetchPrivateFile,
   fetchPrivateFileInfo,
   handleFileDelete,
+  fetchFileInfo
 } from './documents';
-export { fetchOrganizationInfo, fetchOrdererProfile, putOrdererProfile } from './profileOrganization';
+export {
+  fetchOrganizationInfo,
+  fetchOrdererProfile,
+  putOrdererProfile,
+  putBrandData,
+} from './profileOrganization';

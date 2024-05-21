@@ -57,6 +57,16 @@ export const fetchPrivateFileInfo = async (token: string, link: string) => {
   return res.data;
 };
 
+export const fetchFileInfo = async (link: string) => {
+  const res = await axiosInstanceStore.get<{
+    name: string;
+    format: string;
+    size: number;
+    ctime: string;
+  }>(`/s3${link}/info`, {});
+  return res.data;
+};
+
 export const handleFileDelete = async (token: string, id: string) => {
   console.log(id);
   const res = await axiosInstance.delete<{ status: boolean }>(`/v1/verification/docs/${id}`, {
