@@ -17,3 +17,4 @@ export {
   fetchPrivateFileInfo,
   handleFileDelete,
 } from './documents';
+export { fetchOrganizationInfo } from './profileOrganization';
