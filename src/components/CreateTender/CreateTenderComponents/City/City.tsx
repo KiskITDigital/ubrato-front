@@ -18,7 +18,6 @@ const City: FC = () => {
                                 onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
                                 onBlur={() => {
                                     setIsCitiesAutoComplete(false);
-                                    // console.log(createTenderState.cities);
                                     if (!createTenderState.cities.some(el => el.name === createTenderState.city)) {
                                         if (createTenderState.cities.length) {
                                             createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)

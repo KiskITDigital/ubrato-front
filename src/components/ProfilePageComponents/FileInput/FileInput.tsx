@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
 import styles from './fileinput.module.css';
-import { sendDoc, updateToken, uploadFile } from '@/api';
+import { 
+  // sendDoc,
+   updateToken, uploadFile } from '@/api';
 import { FileInfo } from '../FileInfo/FileInfo';
 
 interface FileInputProps {

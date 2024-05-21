@@ -3,6 +3,7 @@
     padding: 0;
     outline: none;
     border: none;
+    display: block !important;
 }
 
 .accordionItem {

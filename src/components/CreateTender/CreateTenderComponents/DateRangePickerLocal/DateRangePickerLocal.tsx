@@ -47,7 +47,7 @@ const DateRangePickerLocal: FC = () => {
             // className="max-w-xs"
             labelPlacement="outside-left"
             onFocus={() => setIsCalendarOpen(true)}
-            onOpenChange={() => setIsCalendarOpen(false)}
+            onOpenChange={() => setIsCalendarOpen(prev => !prev)}
             isOpen={isCalendarOpen}
             value={value}
             onChange={(newVal: RangeValue<CalendarDate>) => { console.log(newVal); createTenderState.handleSimpleInput('work_start', new Date(newVal.start.year, newVal.start.month - 1, newVal.start.day, 3)); createTenderState.handleSimpleInput('work_end', new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day, 3)); setValue(newVal) }}

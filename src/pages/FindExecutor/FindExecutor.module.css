@@ -1,0 +1,6 @@
+.mainBlock {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 30px;
+}
