@@ -19,9 +19,9 @@ import { ProfileNotifications } from '@/components/ProfilePageComponents/Profile
 import { Help } from '@/components/ProfilePageComponents/Help/Help';
 import { Company } from '@/components/ProfilePageComponents/Company/Company';
 import { CompanyInfo } from '@/components/ProfilePageComponents/CompanyInfo/CompanyInfo';
-import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfile/OrdererProfile';
 import { AllTendersPage } from '@/pages/AllTendersPage/AllTendersPage';
 import FindExecutor from '@/pages/FindExecutor/FindExecutor';
+import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfile/OrdererProfile';
 export const Router = () => {
   return (
     <Routes>
