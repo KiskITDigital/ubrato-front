@@ -19,8 +19,9 @@ import { ProfileNotifications } from '@/components/ProfilePageComponents/Profile
 import { Help } from '@/components/ProfilePageComponents/Help/Help';
 import { Company } from '@/components/ProfilePageComponents/Company/Company';
 import { CompanyInfo } from '@/components/ProfilePageComponents/CompanyInfo/CompanyInfo';
+import { AllTendersPage } from '@/pages/AllTendersPage/AllTendersPage';
 import FindExecutor from '@/pages/FindExecutor/FindExecutor';
-
+import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfile/OrdererProfile';
 export const Router = () => {
   return (
     <Routes>
@@ -46,15 +47,17 @@ export const Router = () => {
           <Route path="company" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" />
-            <Route path="orderer" />
+            <Route path="orderer" element={<OrdererProfile />} />
           </Route>
           <Route path="tenders" element={<div></div>} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />
           <Route path="help" element={<Help />} />
         </Route>
+        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="testmytenderexecutor" element={<OneTenderPageExecutor />} />
+        <Route path="alltenders" element={<AllTendersPage />} />
       </Route>
     </Routes>
   );

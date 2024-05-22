@@ -6,7 +6,6 @@ import express from 'express';
 const createServer = async () => {
   const app = express();
   let vite;
-  // console.log(import.meta.env.VITE_NODE_ENV)
 
   const ssrManifest =
     process.env.NODE_ENV === 'development'
@@ -48,8 +47,6 @@ const createServer = async () => {
 
       const appHtml = await render({ path: url }, ssrManifest);
 
-      // console.log(appHtml.head);
-
       const html = template.replace(`<!--ssr-outlet-->`, appHtml);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
@@ -69,3 +66,37 @@ const createServer = async () => {
 createServer().then(() => {
   console.log(`http://localhost:${process.env.PORT}`);
 });
+
+
+
+
+// import express from 'express';
+// import React from 'react';
+// import { renderToString } from 'react-dom/server';
+// import { getServerState } from 'react-instantsearch';
+// import AppServer from './src/entry-server'
+
+
+// const app = express();
+
+// app.get('/', async (req, res) => {
+//   const serverState = await getServerState(<AppServer />, { renderToString });
+//   const html = renderToString(<AppServer serverState={serverState} />);
+
+//   res.send(
+//     `
+//   <!DOCTYPE html>
+//   <html>
+//     <head>
+//       <script>window.__SERVER_STATE__ = ${JSON.stringify(serverState)};</script>
+//     </head>
+//     <body>
+//       <div id="root">${html}</div>
+//     </body>
+//     <script src="/assets/bundle.js"></script>
+//   </html>
+//     `
+//   );
+// });
+
+// app.listen(8080);
