@@ -23,7 +23,7 @@ export const OneTenderOffers: FC<TenderOffers> = ({ offers }) => {
             Уборка <span>{'>'}</span>{' '}
           </p>
         </div>{' '}
-        {offers.map((obj, index) => (
+        {offers?.map((obj, index) => (
           <p className={style.block_add_p} key={index}>
             {obj}
           </p>

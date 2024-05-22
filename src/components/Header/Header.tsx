@@ -97,7 +97,7 @@ export const Header: FC = () => {
           <div className={styles.mobileMenu}>
             <Link to="/create-tender">Создать тендер</Link>
             <Link to="/">Найти исполнителя</Link>
-            <Link to="/">Найти тендер</Link>
+            <Link to="/alltenders">Найти тендер</Link>
             <Link to="/">Мои тендеры</Link>
             <Link to="/">О сервисе</Link>
             <Link to="/">Правовая информация</Link>

@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styles from './OneTenderInfo.module.css';
-// import { Link } from 'react-router-dom';
+
 
 type OneTenderInfo = {
   price: number;
@@ -18,11 +18,25 @@ export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
   timestamp_wrk_end,
   timestamp_wrk_start,
 }) => {
+
+const timestampFormat = (date: string ) => {
+  const res: string = date?.split('T')[0];
+  return res
+}
+
+useEffect(()=>{
+  console.log(timestamp_wrk_start);
+},[timestamp_wrk_start])
+
+
+
   return (
     <div className={styles.infocontainer}>
         <div className={styles.offerings_block}>
           <div className={styles.one_part_grow}><p className={styles.nd_info_accented}>Приём откликов</p> 
-            <div className={styles.date_info}><p className={styles.info_start}>{timestamp_rc_start.split('T')[0]}</p> <p className={styles.info_end}>{timestamp_rc_end.split('T')[0]}</p></div>
+            <div className={styles.date_info}><p className={styles.info_start}>
+            { timestampFormat(timestamp_rc_start)}
+            </p> <p className={styles.info_end}>{timestampFormat(timestamp_rc_end)}</p></div>
           </div>
           <div className={styles.one_part_grow}><p className={styles.nd_info_accented}>Стоимость</p> 
             <div className={styles.date_info}><p>{price} ₽</p></div>
@@ -30,12 +44,11 @@ export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
           <div className={styles.one_part_grow}>
           <p className={styles.nd_info}>Оказание услуг</p>
           <div className={styles.date_info}>
-            <p className={styles.info_start}>{timestamp_wrk_start.split('T')[0]}</p>
-            <p className={styles.info_end}>{timestamp_wrk_end.split('T')[0]}</p>
+            <p className={styles.info_start}>{timestampFormat(timestamp_wrk_start)}</p>
+            <p className={styles.info_end}>{timestampFormat(timestamp_wrk_end)}</p>
           </div>
         </div>
         </div>
-        
       </div>
   );
 };

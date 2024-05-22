@@ -2,7 +2,7 @@
 import { axiosInstance } from "@/utils";
 
 
-export const fetchProduct = async (id: number) => {
+export const fetchProduct = async (id: string | undefined) => {
 const res = await axiosInstance.get(
   `/v1/tenders/tender/${id}`
 );
