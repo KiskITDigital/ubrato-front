@@ -1,10 +1,12 @@
 import { FC, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import styles from './company.module.css';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Company: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const userStore = useUserInfoStore();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,15 +35,17 @@ export const Company: FC = () => {
         >
           Профиль заказчика
         </button>
-        <button
-          onClick={() => {
-            navigate('contractor');
-          }}
-          disabled={location.pathname.includes('contractor')}
-          className={styles.btn}
-        >
-          Профиль Исполнителя
-        </button>
+        {userStore.user.is_contractor && (
+          <button
+            onClick={() => {
+              navigate('contractor');
+            }}
+            disabled={location.pathname.includes('contractor')}
+            className={styles.btn}
+          >
+            Профиль Исполнителя
+          </button>
+        )}
       </div>
       <Outlet />
     </div>

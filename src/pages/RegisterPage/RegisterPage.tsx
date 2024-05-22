@@ -237,7 +237,6 @@ export const RegisterPage: FC = () => {
                 label="ИНН"
                 value={formik.values.inn}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  
                   if (formik.values.inn.length >= 10 && e.target.value) {
                     e.target.value = e.target.value.slice(0, 10);
                     formik.handleChange(e);
@@ -247,7 +246,9 @@ export const RegisterPage: FC = () => {
                     (async () => {
                       setCompanyName(await checkINN(e.currentTarget.value));
                     })();
-                    setRegistrationStep(3);
+                    if (registrationStep !== 4) {
+                      setRegistrationStep(3);
+                    }
                   }
                   if (e.target.value?.match(/[\d]/) || !e.target.value) {
                     formik.handleChange(e);
@@ -280,7 +281,9 @@ export const RegisterPage: FC = () => {
                     onClick={() => {
                       // setNameConfirm(false);
                       formik.values.inn = '';
-                      setRegistrationStep(2);
+                      if (registrationStep !== 4) {
+                        setRegistrationStep(2);
+                      }
                       setCompanyName('');
                     }}
                   >

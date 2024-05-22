@@ -105,12 +105,12 @@
 }
 
 .inputError {
-    border-color: var(--color-red);
+    border-color: var(--color-red-error);
 }
 
 .inputErrorText {
     position: absolute;
-    color: var(--color-red);
+    color: var(--color-red-error);
     margin-top: 140px;
     margin-left: 244px;
     font-size: 10px;
@@ -152,6 +152,10 @@
         margin-left: 0px !important;
         left: 0;
         margin-top: 65px;
+    }
+
+    .inputErrorTextPrice {
+        margin-top: 55px !important;
     }
 }
 
@@ -519,7 +523,7 @@
 
 .firstSections__div__main__block__input {
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     padding: 5px 8px;
 }
@@ -670,7 +674,7 @@
 }
 
 .section__block__buttonError {
-    border-color: var(--color-red);
+    border-color: var(--color-red-error);
 }
 
 .objectError {

@@ -96,7 +96,7 @@ export const Header: FC = () => {
         >
           <div className={styles.mobileMenu}>
             <Link to="/create-tender">Создать тендер</Link>
-            <Link to="/">Найти исполнителя</Link>
+            <Link to="/find-executor">Найти исполнителя</Link>
             <Link to="/alltenders">Найти тендер</Link>
             <Link to="/">Мои тендеры</Link>
             <Link to="/">О сервисе</Link>
@@ -119,7 +119,7 @@ export const Header: FC = () => {
             ''
           )}
           <Link to="/">
-            <img src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
+            <img className={styles.logo} src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/">
@@ -167,14 +167,14 @@ export const Header: FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/" className={styles.navLink}>
+                <Link to="/find-executor" className={styles.navLink}>
                   <img src="/find-executor.svg" alt="find-executor" />
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
               {(userInfoStorage.user.is_contractor || !userInfoStorage.isLoggedIn) && (
                 <li>
-                  <Link to="/" className={styles.navLink}>
+                  <Link to="/alltenders" className={styles.navLink}>
                     <img src="/find-tender.svg" alt="my-tender" />
                     <p>Найти тендер</p>
                   </Link>

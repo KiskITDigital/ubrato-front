@@ -18,8 +18,8 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     const fetchObjects = objectsStore.fetchObjects;
 
     useEffect(() => {
-        if (!objectsStore.apiObjects.length) fetchObjects();
-    }, [objectsStore.apiObjects.length, fetchObjects]);
+        if (!objectsStore?.apiObjects?.length) fetchObjects();
+    }, [objectsStore?.apiObjects?.length, fetchObjects]);
 
     return (
         <div className={`${styles.section} ${styles.object}`}>
@@ -121,7 +121,7 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                     //  className={styles.object__objects__objects}
                     >
                         {
-                            objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) => <p className={`${styles.object__objects__objects__p} ${object.name === isObjectChoosed ? styles.object__objects__objects__pSelected : ''}`} onClick={() => { setChoosingObjectTypes(object.types.map(el => ({ id: el.id, name: el.name, count: 0 }))); setIsObjectChoosed(object.name); setChooseTypesTypesToObjectToAddObject([]) }} key={object.id}>{object.name} {object.name === isObjectChoosed && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
+                            !!objectsStore?.apiObjects?.length && objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) => <p className={`${styles.object__objects__objects__p} ${object.name === isObjectChoosed ? styles.object__objects__objects__pSelected : ''}`} onClick={() => { setChoosingObjectTypes(object.types.map(el => ({ id: el.id, name: el.name, count: 0 }))); setIsObjectChoosed(object.name); setChooseTypesTypesToObjectToAddObject([]) }} key={object.id}>{object.name} {object.name === isObjectChoosed && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
                         }
                     </div>
                     {!!choosingObjectTypes?.length &&

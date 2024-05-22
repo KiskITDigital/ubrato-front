@@ -21,8 +21,8 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     const fetchCleaningTypes = cleaningTypeStore.fetchCleaningTypes;
 
     useEffect(() => {
-        if (!cleaningTypeStore.apiCleaningTypes.length) fetchCleaningTypes();
-    }, [cleaningTypeStore.apiCleaningTypes.length, fetchCleaningTypes]);
+        if (!cleaningTypeStore?.apiCleaningTypes?.length) fetchCleaningTypes();
+    }, [cleaningTypeStore?.apiCleaningTypes?.length, fetchCleaningTypes]);
 
     return (
         <div className={`${styles.section} ${styles.services}`}>
@@ -72,7 +72,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                         // onBlur={() => setIsChoosingObjectNameMobile(false)}
                         className={`${styles.cities__autocomplete} ${styles.objectTypesSelectorMobile} ${styles.servicesTypesSelectorMobile}`}>
                         {
-                            cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
+                            !!cleaningTypeStore?.apiCleaningTypes?.length && cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
                                 <p
                                     onClick={() => { setIsChoosingNewServiceNameMobile(false); createTenderState.addService(service.name, []) }}
                                     className={styles.cities__autocomplete__item}
@@ -176,7 +176,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                             // className={styles.object__objects__objects}
                             >
                                 {
-                                    cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
+                                    !!cleaningTypeStore?.apiCleaningTypes?.length && cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
                                         <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
                                 }
                             </div>

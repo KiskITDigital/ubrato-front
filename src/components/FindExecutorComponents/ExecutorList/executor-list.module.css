@@ -1,0 +1,192 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.amount {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-text-gray-second);
+}
+
+.amount>.number {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.trigger {
+    background-color: inherit;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+    outline: none;
+}
+
+.base {
+    background-color: white;
+    padding: 2px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.base ul {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border-radius: 10px;
+    background-color: var(--color-white);
+}
+
+.base ul>li {
+    /* padding: 5px 8px;
+    border-radius: 6px;
+    outline: none; */
+    padding: 10px 8px;
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 400;
+    border-radius: 10px;
+    outline: none;
+}
+
+.base ul>li>span {
+    color: var(--color-text-gray-second);
+}
+
+.base ul>li:hover {
+    background-color: var(--color-blue-primary-6);
+    cursor: pointer;
+}
+
+.base ul>li:hover>span {
+    color: var(--color-blue-primary);
+}
+
+.executors {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 30px;
+}
+
+.executor {
+    padding-bottom: 30px;
+    border-bottom: 1px dashed var(--color-black-14);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.executorInfo {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.executorInfo>.executorImage {
+    width: 86px;
+    height: 86px;
+    border-radius: 100px;
+}
+
+.executorInfo>.executorTextBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.executorInfo>.executorTextBlock>.executorName {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--color-dark-text);
+}
+
+.executorInfo>.executorTextBlock>.executorText {
+    font-size: 18px;
+    color: var(--color-black-60);
+}
+
+.executorInfo>.executorTextBlock>.executorRegions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.executorInfo>.executorTextBlock>.executorRegions>.executorRegion {
+    padding: 1px 6px;
+    background-color: var(--color-black-30);
+    border-radius: 8px;
+    color: var(--color-white);
+}
+
+.services {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.service {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+    background-color: var(--color-gray);
+    border-radius: 14px;
+    justify-content: center;
+}
+
+.service:hover {
+    cursor: pointer;
+}
+
+.service>.serviceName {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.service>.servicePrice {
+    color: var(--color-blue-primary);
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.executorButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.executorButtons>button {
+    border-radius: 13px;
+    padding: 15px;
+    height: fit-content;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+.executorButtons>button>img {
+    width: 24px;
+    height: 22px;
+}
+
+.executorLoveButton {
+    border: 1px solid var(--color-text-gray-1);
+}
+
+.executorOfferButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: var(--color-blue-primary);
+    color: var(--color-white);
+    width: 100%;
+}
