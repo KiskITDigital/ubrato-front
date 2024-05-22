@@ -7,14 +7,6 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     const createTenderState = useCreateTenderState()
 
     const inputFileRef = useRef<HTMLInputElement>(null);
-
-    // const handleDownload = (dataURL, fileName) => {
-    //     const link = document.createElement('a');
-    //     link.href = dataURL;
-    //     link.download = fileName;
-    //     link.click();
-    // };
-
     const handleButtonFileClick = () => {
         if (inputFileRef.current) inputFileRef.current.click();
     };

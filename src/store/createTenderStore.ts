@@ -147,7 +147,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
                 const fileName = link.slice(link.lastIndexOf('/') + 1)
 
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
-                    newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://store.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
+                    newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
                     if (idToChange) {
                         set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === idToChange ? newFile! : attachment) }))
                     } else {

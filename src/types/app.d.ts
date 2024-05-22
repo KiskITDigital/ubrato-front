@@ -94,3 +94,20 @@ export interface createTenderData {
   city_id: number
   attachments: string[]
 }
+
+export interface executorList {
+  id: number,
+  img: string,
+  name: string,
+  text: string,
+  regions: {
+    id: number,
+    name: string
+  }[],
+  services: {
+    id: number,
+    name: string,
+    price: number
+  }[],
+  areServicesHidden: boolean
+}

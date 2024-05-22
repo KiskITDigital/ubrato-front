@@ -90,7 +90,7 @@ export const ExecutorsCatalog: FC = () => {
         <div className={styles.cleaningTypeGrid}>
           {widthR.current && (
             <div>
-              <Link to="/tenders" className={styles.allTenderLink}>
+              <Link to="/alltenders" className={styles.allTenderLink}>
                 <p className={styles.allTenderHeader}>Все тендеры</p>
                 <p className={styles.allTenderCount}>
                   {count}{' '}

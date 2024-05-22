@@ -21,6 +21,11 @@
     border-bottom: 1px dashed var(--color-black-14);
 }
 
+.block:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
 .title {
     color: var(--color-black-60);
     font-size: 16px;
@@ -181,4 +186,20 @@
 img {
     width: 19px;
     height: 19px;
+}
+
+.showMore {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 5px !important;
+    gap: 5px;
+    background-color: var(--color-back-gray);
+    border-radius: 6px;
+    outline: none;
+}
+
+.showMore>img {
+    width: 20px;
+    height: 20px;
 }

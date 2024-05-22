@@ -2,14 +2,20 @@ import { FC, ReactNode, useEffect, useState } from 'react';
 import styles from './main-filter.module.css'
 import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
 import { generateSearchClient } from '../generateSearchclient';
+import { useFindExecutorState } from '@/store/findExecutorStore';
 
 const MainFilter: FC = () => {
+    const findExecutorState = useFindExecutorState()
     const [isSearchClient, setIsSearchClient] = useState(false);
+
+    const [areAllObjects, setAreAllObjects] = useState(false);
+    const [areAllServices, setAreAllServices] = useState(false);
+
     useEffect(() => {
         setIsSearchClient(true)
-
     }, []);
-    const [chosenLocation, setChosenLocation] = useState('');
+
+    const [chosenLocation, setChosenLocation] = useState<{ id: number, name: string } | null>(null);
 
     const [objectId, setObjectId] = useState<null | number>(null);
     const [objectTypesId, setobjectTypesId] = useState<number[]>([]);
@@ -18,14 +24,26 @@ const MainFilter: FC = () => {
     const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
 
     const reset = () => {
-        setChosenLocation('')
+        setChosenLocation(null)
         setObjectId(null)
         setobjectTypesId([])
         setServicesId([])
         setServicesTypesId([])
+
+        findExecutorState.handleLocation(null)
+        findExecutorState.handleObjectTypesId([])
+        findExecutorState.handleServicesTypesId([])
     }
 
-    const objectImages = {
+    const filter = () => {
+        findExecutorState.handleLocation(chosenLocation?.id || null)
+        findExecutorState.handleObjectTypesId(objectTypesId)
+        findExecutorState.handleServicesTypesId(servicesTypesId)
+    }
+
+    const objectImages: {
+        [key: string]: string;
+    } = {
         'HoReCa': 'horeca',
         'Транспортная инфраструктура': 'road',
         'Транспорт': 'transport',
@@ -48,7 +66,7 @@ const MainFilter: FC = () => {
             {
                 isSearchClient &&
                 <div className={styles.block}>
-                    <InstantSearch indexName={'city_index'} searchClient={generateSearchClient()}>
+                    <InstantSearch indexName={'city_index'} searchClient={generateSearchClient(5)}>
                         <p className={styles.title}>Локации:</p>
                         {
                             chosenLocation ?
@@ -57,8 +75,8 @@ const MainFilter: FC = () => {
                                         <p
                                             className={styles.chosenLocation}
                                         >
-                                            {chosenLocation}
-                                            <img onClick={() => setChosenLocation('')} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
+                                            {chosenLocation.name}
+                                            <img onClick={() => setChosenLocation(null)} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
                                         </p>
                                     </div>
                                 </>
@@ -77,7 +95,7 @@ const MainFilter: FC = () => {
                                         }}
                                         hitComponent={({ hit }) => (
                                             <p
-                                                onClick={() => setChosenLocation(hit.name as string)}>
+                                                onClick={() => { setChosenLocation({ id: hit.id as number, name: hit.name as string }) }}>
                                                 {hit.name as ReactNode}
                                             </p>
                                         )} />
@@ -90,7 +108,7 @@ const MainFilter: FC = () => {
             {
                 isSearchClient &&
                 <div className={styles.block}>
-                    <InstantSearch indexName='object_group_index' searchClient={generateSearchClient(250)}>
+                    <InstantSearch indexName='object_group_index' searchClient={generateSearchClient(areAllObjects ? 250 : 5)}>
                         <p className={styles.title}>Объекты:</p>
                         <label className={styles.inputFilterLabel}>
                             <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
@@ -102,7 +120,7 @@ const MainFilter: FC = () => {
                             classNames={{
                                 list: styles.hitList,
                             }}
-                            hitComponent={({ hit }) => (
+                            hitComponent={({ hit }: { hit: { id: number, name: string } }) => (
                                 <>
                                     <p
                                         className={styles.objectItem}
@@ -116,7 +134,7 @@ const MainFilter: FC = () => {
                                             <Hits
                                                 classNames={{
                                                     list: styles.objectTypeList,
-                                                }} hitComponent={(props) => {
+                                                }} hitComponent={(props: { hit: { id: number, group_id: number, name: string } }) => {
                                                     const { hit: hitType } = props
                                                     return (
                                                         hitType.group_id === hit.id &&
@@ -140,13 +158,22 @@ const MainFilter: FC = () => {
                                 </>
 
                             )} />
+                        {areAllObjects ||
+                            <button
+                                className={styles.showMore}
+                                onClick={() => setAreAllObjects(true)}
+                            >
+                                <img src="/find-executor/arrow-down.svg" alt="" />
+                                Показать все
+                            </button>
+                        }
                     </InstantSearch>
                 </div>
             }
             {
                 isSearchClient &&
                 <div className={styles.block}>
-                    <InstantSearch indexName='service_group_index' searchClient={generateSearchClient(250)}>
+                    <InstantSearch indexName='service_group_index' searchClient={generateSearchClient(areAllServices ? 250 : 5)}>
                         <p className={styles.title}>Услуги:</p>
                         <label className={styles.inputFilterLabel}>
                             <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
@@ -158,7 +185,7 @@ const MainFilter: FC = () => {
                             classNames={{
                                 list: styles.hitList,
                             }}
-                            hitComponent={({ hit }) => (
+                            hitComponent={({ hit }: { hit: { id: number, name: string } }) => (
                                 <>
                                     <p
                                         className={styles.objectItem}
@@ -172,14 +199,13 @@ const MainFilter: FC = () => {
                                             <Hits
                                                 classNames={{
                                                     list: styles.objectTypeList,
-                                                }} hitComponent={(props) => {
+                                                }} hitComponent={(props: { hit: { id: number, group_id: number, name: string } }) => {
                                                     const { hit: hitType } = props
                                                     return (
                                                         hitType.group_id === hit.id &&
                                                         <p
                                                             className={styles.objectTypeItem}
                                                             onClick={() => setServicesTypesId(prev => prev.includes(+hitType.id) ? [...prev.filter(el => el !== +hitType.id)] : [...prev, +hitType.id])}
-                                                        // onClick={(e) => { console.log(objectTypesId, hitType.id, e); setobjectTypesId([+hitType.id]) }}
                                                         >
                                                             {
                                                                 servicesTypesId.includes(+hitType.id) ?
@@ -196,13 +222,22 @@ const MainFilter: FC = () => {
                                 </>
 
                             )} />
+                        {areAllServices ||
+                            <button
+                                className={styles.showMore}
+                                onClick={() => setAreAllServices(true)}
+                            >
+                                <img src="/find-executor/arrow-down.svg" alt="" />
+                                Показать все
+                            </button>
+                        }
                     </InstantSearch>
                 </div>
             }
             <div className={styles.block}>
                 <button
                     className={styles.makeFilters}
-                // onClick={search}
+                    onClick={filter}
                 >Применить фильтры</button>
                 <button
                     onClick={reset}
