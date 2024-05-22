@@ -68,14 +68,16 @@ useEffect(() => {
             </div>
             <Hits 
             classNames={{
-              list: `${s.listnigger2}`
+              list: `${s.hitsList}`,
+              item: `${s.hitsItem}`,
+              root: `${s.hitsRoot}`
             }}
             hitComponent={TenderListElem} 
             />
             <Pagination classNames={{
-              root: `${s.rootnigger}`,
-              list: `${s.listnigger}`,
-              item: `${s.item}`,
+              root: `${s.paginationRoot}`,
+              list: `${s.paginationList}`,
+              item: `${s.paginationItem}`,
               selectedItem: `${s.selected_item_pagination}`
             }}></Pagination>
         </InstantSearch>

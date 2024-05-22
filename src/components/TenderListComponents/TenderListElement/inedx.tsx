@@ -9,6 +9,8 @@ interface Hit {
   reception_end: number;
   work_start: number;
   work_end: number;
+  price: number;
+  city: string
 }
 
 interface CustomHitProps {
@@ -21,7 +23,8 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
   const toDate = (date: number) =>{
     const timestamp = date
     const newDate = new Date(timestamp * 1000);
-    return newDate
+    
+    return newDate.toISOString().slice(0, 10);
   } 
 
 
@@ -32,13 +35,13 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     <div 
     className={s.hit_block}
     >
-        <p>ч</p>
-        <h3>{hit.name}</h3>
-        <p>е</p>
-        <p>{toDate(hit.reception_end).toLocaleString()}</p>
-        <p>а</p>
-        <p>{toDate(hit.work_start).toLocaleString()}</p>
-        <p>{toDate(hit.work_end).toLocaleString()}</p>
+      <div className={s.hit_header}><h3 >{hit.name}</h3></div>  
+      <div className={s.hit_rcp}><p >{toDate(hit.reception_end).toLocaleString()}</p></div>
+      <div className={s.hit_wrk}><p >{toDate(hit.work_start).toLocaleString()}</p></div>
+      <div className={s.hit_arrow}>➔</div>
+      <div className={s.hit_wrkE}><p>{toDate(hit.work_end).toLocaleString()}</p></div>
+      <div className={s.hit_price}><p>{hit.price} ₽</p></div>
+      <div className={s.hit_city}><p>{hit.city}</p></div>
     </div>
     </Link>
   );

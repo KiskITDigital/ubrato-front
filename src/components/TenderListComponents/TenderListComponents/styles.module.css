@@ -1,22 +1,36 @@
 .sort{
     display: flex;
+    margin: 10px 0 0;
 }
-.rootnigger{
+.paginationRoot{
     display: flex;
     width: 200px;
+    margin-top: 20px;
 }
-.listnigger{
+.paginationList{
     display: flex;
     width: 100%;
     justify-content: space-around;
 }
-.listnigger2{
+.hitsList{
     display: flex;
     flex-direction: column;
-    /* align-items: ; */
     gap: 20px;
 }
 
+.paginationItem{
+    width: 41px;
+    height: 41px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hitsRoot{
+    margin: 20px 0 40px;
+}
+
 .selected_item_pagination{
-    background-color: blue;
+    background-color: rgba(89, 89, 95, 0.178);
 }
