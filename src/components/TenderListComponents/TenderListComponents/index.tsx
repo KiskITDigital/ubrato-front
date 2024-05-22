@@ -15,19 +15,13 @@ useEffect(() => {
   const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
       server: {
           apiKey: 
-          // `${import.meta.env.VITE_TYPESENSE_API_KEY}`
-          'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu'
-          ,
+          `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
           nodes: [
               {
                   host: 
-                  // `${import.meta.env.VITE_TYPESENSE_API_URI}`
-                  'search.ubrato.ru'
-                  ,
+                  `${import.meta.env.VITE_TYPESENSE_API_URI}`,
                   port: 
-                  // import.meta.env.VITE_TYPESENSE_API_PORT
-                  443
-                  ,
+                  import.meta.env.VITE_TYPESENSE_API_PORT,
                   protocol: 'https',
                   path: "",
               }
