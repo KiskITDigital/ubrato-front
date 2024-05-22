@@ -14,11 +14,20 @@ const [searchClient, setSearchClient] = useState(null);
 useEffect(() => {
   const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
       server: {
-          apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
+          apiKey: 
+          // `${import.meta.env.VITE_TYPESENSE_API_KEY}`
+          'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu'
+          ,
           nodes: [
               {
-                  host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
-                  port: import.meta.env.VITE_TYPESENSE_API_PORT,
+                  host: 
+                  // `${import.meta.env.VITE_TYPESENSE_API_URI}`
+                  'search.ubrato.ru'
+                  ,
+                  port: 
+                  // import.meta.env.VITE_TYPESENSE_API_PORT
+                  443
+                  ,
                   protocol: 'https',
                   path: "",
               }
