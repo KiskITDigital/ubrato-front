@@ -86,6 +86,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.2);
 }
 
 .img {
@@ -109,6 +110,12 @@
   color: var(--color-black-60);
   font-size: 16px;
   align-items: center;
+  cursor: pointer;
+}
+
+.avatarInput > img {
+  width: 17px;
+  height: 17px;
 }
 
 .brandBtn {
@@ -126,4 +133,29 @@
   background-color: transparent;
   color: var(--color-black-60);
   border: 1px solid var(--color-black-60);
+}
+
+.flexText {
+  display: flex;
+  gap: 5px;
+}
+
+.text {
+  font-size: 14px;
+  color: var(--color-black-60);
+}
+
+.avatarInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.avatarContainer {
+  display: flex;
+  gap: 28px;
+}
+
+.contacts {
+  margin-top: 21px;
 }

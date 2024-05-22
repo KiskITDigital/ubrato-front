@@ -35,6 +35,11 @@ export const CompanyInfo: FC = () => {
     } else {
       setIsBrandEqual(true);
     }
+    (async () => {
+      const avatarInfoRes = await fetchFileInfo(avatar.replace('https://cdn.ubrato.ru/s3', ''));
+      setAvatarDate(new Date(avatarInfoRes.ctime));
+      setAvatarInfo(avatarInfoRes);
+    })();
   }, [avatar, brandName]);
 
   useEffect(() => {
@@ -47,7 +52,6 @@ export const CompanyInfo: FC = () => {
           const avatarInfoRes = await fetchFileInfo(
             res.avatar.replace('https://cdn.ubrato.ru/s3', '')
           );
-          console.log(res);
           setAvatarDate(new Date(avatarInfoRes.ctime));
           setAvatarInfo(avatarInfoRes);
         })();
@@ -80,45 +84,47 @@ export const CompanyInfo: FC = () => {
             type="text"
           />
           <p className={styles.gridHeader}>Логотип компании</p>
-          <div>
+          <div className={styles.avatarContainer}>
             <Avatar src={avatar} classNames={avatarStyle} />
-            <div className={styles.flexText}>
-              <p className={styles.text}>{avatarInfo?.format.slice(1)}</p>
+            <div className={styles.avatarInfo}>
+              <div className={styles.flexText}>
+                <p className={styles.text}>{avatarInfo?.format.slice(1)}</p>
+                <p className={styles.text}>
+                  {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ''}kb
+                </p>
+              </div>
               <p className={styles.text}>
-                {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ''}kb
+                Загружен {avatarDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
+                {avatarDate?.getFullYear()}
               </p>
+              <label htmlFor="brand_avatar">
+                <input
+                  onChange={async (e) => {
+                    const rawData = e.target.files![0];
+                    const token = localStorage.getItem('token');
+                    const parameters = {
+                      file: rawData,
+                      private: false,
+                    };
+                    if (token) {
+                      const link = await updateToken<string, { file: File; private: boolean }>(
+                        uploadFile,
+                        parameters
+                      );
+                      const avatar = `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`;
+                      setAvatar(avatar);
+                    }
+                  }}
+                  className={styles.baseInput}
+                  id="brand_avatar"
+                  accept="image/png, image/jpeg"
+                  type="file"
+                />
+                <p className={styles.avatarInput}>
+                  <img src="/change-ic.svg" alt="" /> Заменить
+                </p>
+              </label>
             </div>
-            <p className={styles.text}>
-              Загружен {avatarDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
-              {avatarDate?.getFullYear()}
-            </p>
-            <label htmlFor="brand_avatar">
-              <input
-                onChange={async (e) => {
-                  const rawData = e.target.files![0];
-                  const token = localStorage.getItem('token');
-                  const parameters = {
-                    file: rawData,
-                    private: false,
-                  };
-                  if (token) {
-                    const link = await updateToken<string, { file: File; private: boolean }>(
-                      uploadFile,
-                      parameters
-                    );
-                    const avatar = `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`;
-                    setAvatar(avatar);
-                  }
-                }}
-                className={styles.baseInput}
-                id="brand_avatar"
-                accept="image/png, image/jpeg"
-                type="file"
-              />
-              <p className={styles.avatarInput}>
-                <img src="/change-ic.svg" alt="" /> Заменить
-              </p>
-            </label>
           </div>
           <button
             onClick={() => {
@@ -139,6 +145,9 @@ export const CompanyInfo: FC = () => {
             Сохранить изменения
           </button>
         </div>
+      </div>
+      <div className={styles.contacts}>
+        <h3 className={styles.blockHeader}>Контакты</h3>
       </div>
       <div className={styles.egrulData}>
         <h3 className={styles.blockHeader}>Данные из ЕГРЮЛ</h3>
