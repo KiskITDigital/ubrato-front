@@ -70,7 +70,6 @@ const ExecutorList: FC = () => {
 
     return (
         <div className={`container ${styles.container}`}>
-            {findExecutorState.locationId}
             <div className={styles.amount}>
                 <p className={styles.number}>Исполнители: {executorList.length}</p>
                 <Dropdown
