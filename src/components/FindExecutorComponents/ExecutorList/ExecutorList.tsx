@@ -1,38 +1,18 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './executor-list.module.css'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
-import { Hits, InstantSearch } from 'react-instantsearch';
 import Typesense from 'typesense'
-
-
-
+import { getExecutor } from '@/api/getExecutor';
+import { executorList } from '@/types/app';
+import { useFindExecutorState } from '@/store/findExecutorStore';
 
 const ExecutorList: FC = () => {
-    const [searchClient, setSearchClient] = useState(null);
+    const findExecutorState = useFindExecutorState()
+    const [executorList, setExecutorList] = useState<executorList[]>([])
 
-    // useEffect(() => {
-    //     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
-    //         server: {
-    //             apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
-    //             nodes: [
-    //                 {
-    //                     host: 'search.ubrato.ru',
-    //                     port: 443,
-    //                     protocol: 'https',
-    //                     path: "",
-    //                     // tls:true
-    //                 }
-    //             ]
-    //         },
-    //         additionalSearchParameters: {
-    //             query_by: "name",
-    //             // sort_by: 'price:asc',
-    //         },
-    //     });
-    //     // const searchClient = typesenseInstantsearchAdapter.searchClient
-    //     setSearchClient(typesenseInstantsearchAdapter.searchClient)
-    // }, []);
+    const showAllExecutorServices = (id: number) => {
+        setExecutorList(prev => prev.map(executor => executor.id === id ? { ...executor, areServicesHidden: false } : executor))
+    }
 
     useEffect(() => {
         const client = new Typesense.Client({
@@ -49,128 +29,38 @@ const ExecutorList: FC = () => {
         });
         const searchParameters = {
             'q': '',
-            'query_by': 'name',
+            'query_by': 'inn',
         };
 
-        // Execute search query
-        client.collections('city_index').documents().search(searchParameters)
-            .then((response) => {
-                console.log(response); // Process the search results here
+        client.collections('contractor_index').documents().search(searchParameters)
+            .then(async (response) => {
+                // console.log(response.hits);
+                const newExecutorList = [] as executorList[];
+                await Promise.all((response.hits || []).map(async (res) => {
+                    const { id } = res.document as { id: number };
+                    if (!id) return;
+                    const data = await getExecutor(id);
+                    const newExecutorData = {
+                        id: data.organizationInfo.id,
+                        img: data.organizationInfo.avatar ? `${data.organizationInfo.avatar?.replace('/files', '')}` : '/avatar-ic.svg',
+                        name: data.organizationInfo.short_name,
+                        text: data.contractorInfo.description,
+                        regions: data.contractorInfo.locations,
+                        services: data.contractorInfo.services,
+                        areServicesHidden: data.contractorInfo.services.length > 5
+                    };
+                    console.log(newExecutorData);
+                    if (
+                        (findExecutorState.locationId ? newExecutorData.regions.some((region: { id: number, name: string }) => region.id === +findExecutorState.locationId!) : true) &&
+                        (findExecutorState.servicesTypesId.length ? newExecutorData.services.some((service: { id: number, name: string, price: number }) => findExecutorState.servicesTypesId.includes(service.id)) : true)
+                    ) newExecutorList.push(newExecutorData);
+                }));
+                setExecutorList(newExecutorList);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-        // const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
-        //     server: {
-        //         apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
-        //         nodes: [
-        //             {
-        //                 host: 'search.ubrato.ru',
-        //                 port: 443,
-        //                 protocol: 'https',
-        //                 path: "",
-        //                 // tls:true
-        //             }
-        //         ]
-        //     },
-        //     additionalSearchParameters: {
-        //         query_by: "name",
-        //         limit: 10,
-        //         // sort_by: 'price:asc'
-        //     },
-        // });
-
-        // const client = typesenseInstantsearchAdapter.searchClient;
-
-
-
-
-        // const searchParameters = {
-        //     'query_by': 'city_index',
-        // }
-
-        // const func = async () => {
-        //     // const response = await searchClient.collections('city_index').documents().search(searchParameters)
-
-        //     // // const data = response.hits;
-        //     // console.log(response);
-        //     // client.collections('city_index').documents().search(searchParameters)
-        // }
-
-        // func();
-    }, []);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [value, setValue] = useState([
-        {
-            img: '/banner-image.png',
-            name: 'OOO name',
-            text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium incidunt voluptatibus dolor eveniet vero! Pariatur laboriosam illum repudiandae nisi maxime, iure consequuntur itaque blanditiis beatae doloribus eaque, inventore aperiam fugit vero libero nesciunt porro fugiat unde quod laudantium id amet. Eos aliquid aliquam cumque maiores fugiat numquam, odit accusamus dolorum!',
-            regions: ['moscow', 'oblast'],
-            services: [
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-            ],
-            areServicesHidden: true,
-            isfavorite: false
-        },
-        {
-            img: '/banner-image.png',
-            name: 'ooo name',
-            text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium incidunt voluptatibus dolor eveniet vero! Pariatur laboriosam illum repudiandae nisi maxime, iure consequuntur itaque blanditiis beatae doloribus eaque, inventore aperiam fugit vero libero nesciunt porro fugiat unde quod laudantium id amet. Eos aliquid aliquam cumque maiores fugiat numquam, odit accusamus dolorum!',
-            regions: ['moscow', 'oblast'],
-            services: [
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-                {
-                    name: 'nameService1',
-                    price: 12
-                },
-                {
-                    name: 'nameService2',
-                    price: 34
-                },
-            ],
-            areServicesHidden: false,
-            isfavorite: true
-        },
-    ]);
+    }, [findExecutorState.locationId, findExecutorState.servicesTypesId, findExecutorState.servicesTypesId.length]);
 
     const classNames = {
         trigger: styles.trigger,
@@ -180,43 +70,29 @@ const ExecutorList: FC = () => {
 
     return (
         <div className={`container ${styles.container}`}>
+            {findExecutorState.locationId}
             <div className={styles.amount}>
-                <p className={styles.number}>Исполнители: {value.length}</p>
+                <p className={styles.number}>Исполнители: {executorList.length}</p>
                 <Dropdown
                     classNames={classNames}
                 >
                     <DropdownTrigger>
                         <Button
+                            disableRipple
                             variant="bordered"
                         >
                             Рекомендуем <img src="/find-executor/drop-down.svg" alt="" />
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem key="new">New fguvfhjvdfjbvdfbjvkjbile</DropdownItem>
-                        <DropdownItem key="copy">Copy link</DropdownItem>
-                        <DropdownItem key="edit">Edit file</DropdownItem>
-                        <DropdownItem key="delete" className="text-danger" color="danger">
-                            Delete file
-                        </DropdownItem>
+                        <DropdownItem >По наименованию</DropdownItem>
+                        <DropdownItem >По популярности</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
-            {/* {
-                searchClient &&
-                <div>
-                    <InstantSearch indexName={'contractor_index'} searchClient={searchClient}>
-                        <Hits hitComponent={({ hit }) => (
-                            <p>
-                                {hit.name}
-                            </p>
-                        )} />
-                    </InstantSearch>
-                </div>
-            } */}
             <div className={styles.executors}>
                 {
-                    value.map((executor, ind) => <div key={ind} className={styles.executor}>
+                    executorList.map((executor) => <div key={executor.id} className={styles.executor}>
                         <div className={styles.executorInfo}>
                             <img className={styles.executorImage} src={executor.img} alt="executor image" />
                             <div className={styles.executorTextBlock}>
@@ -224,15 +100,15 @@ const ExecutorList: FC = () => {
                                 <p className={styles.executorText}>{executor.text}</p>
                                 <div className={styles.executorRegions}>
                                     {
-                                        executor.regions.map((region, ind) => <p key={ind} className={styles.executorRegion}>{region}</p>)
+                                        executor.regions.map((region) => <p key={region.id} className={styles.executorRegion}>{region.name}</p>)
                                     }
                                 </div>
                             </div>
                         </div>
                         <div className={styles.services}>
                             {
-                                executor.services.slice(0, executor.areServicesHidden ? 4 : undefined).map((service, ind) =>
-                                    <div key={ind} className={styles.service}>
+                                executor.services.slice(0, executor.areServicesHidden ? 4 : undefined).map((service) =>
+                                    <div key={service.id} className={styles.service}>
                                         <p className={styles.serviceName}>{service.name}</p>
                                         <p className={styles.servicePrice}>от {service.price} ₽ за ед.
                                             <img src="/find-executor/arrow-right-blue.svg" alt="arrow right blue" />
@@ -241,7 +117,9 @@ const ExecutorList: FC = () => {
                                 )
                             }
                             {
-                                executor.areServicesHidden && <div className={styles.service}>
+                                executor.areServicesHidden && <div
+                                    onClick={() => showAllExecutorServices(executor.id)}
+                                    className={styles.service}>
                                     <p className={styles.serviceName}>Все услуги
                                         <img src="/find-executor/arrow-right-black.svg" alt="arrow right blue" />
                                     </p>
