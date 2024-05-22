@@ -4,6 +4,7 @@ import { fetchOrganizationInfo, fetchFileInfo, updateToken, uploadFile } from '@
 import { Link } from 'react-router-dom';
 import { orgInfoT, putBrandData } from '@/api/profileOrganization';
 import { Avatar } from '@nextui-org/react';
+import { InputPhone } from '../inputPhone/InputPhone';
 
 export const CompanyInfo: FC = () => {
   const [companyInfo, setCompanyInfo] = useState<orgInfoT>();
@@ -17,6 +18,9 @@ export const CompanyInfo: FC = () => {
     size: number;
     ctime: string;
   }>();
+  const [emails, setEmails] = useState<{ contact: string; info: string }[]>([]);
+  const [phones, setPhones] = useState<{ contact: string; info: string }[]>([]);
+  const [messengers, setMessengers] = useState<{ contact: string; info: string }[]>([]);
 
   const initialBrandInfo = useRef<{ brand_name: string; avatar: string }>();
 
@@ -36,9 +40,11 @@ export const CompanyInfo: FC = () => {
       setIsBrandEqual(true);
     }
     (async () => {
-      const avatarInfoRes = await fetchFileInfo(avatar.replace('https://cdn.ubrato.ru/s3', ''));
-      setAvatarDate(new Date(avatarInfoRes.ctime));
-      setAvatarInfo(avatarInfoRes);
+      if (avatar.length > 0) {
+        const avatarInfoRes = await fetchFileInfo(avatar.replace('https://cdn.ubrato.ru/s3', ''));
+        setAvatarDate(new Date(avatarInfoRes.ctime));
+        setAvatarInfo(avatarInfoRes);
+      }
     })();
   }, [avatar, brandName]);
 
@@ -56,6 +62,9 @@ export const CompanyInfo: FC = () => {
           setAvatarInfo(avatarInfoRes);
         })();
       }
+      setEmails(res.email);
+      setPhones(res.phone);
+      setMessengers(res.messager);
       setCompanyInfo(res);
       initialBrandInfo.current = { brand_name: res.brand_name, avatar: res.avatar };
     })();
@@ -148,6 +157,51 @@ export const CompanyInfo: FC = () => {
       </div>
       <div className={styles.contacts}>
         <h3 className={styles.blockHeader}>Контакты</h3>
+        <div className={styles.brandGrid}>
+          <p className={styles.gridHeader}>Номер телефона</p>
+          <div className={styles.inputs}>
+            {phones.length === 0 && <InputPhone phones={phones} setPhones={setPhones} />}
+            {phones.length !== 0 &&
+              phones.map((_, ix) => (
+                <InputPhone
+                  phones={phones}
+                  setPhones={setPhones}
+                  ix={ix}
+                  key={crypto.randomUUID()}
+                />
+              ))}
+            <button
+              onClick={() => {
+                const newPhones = [...phones];
+                newPhones.push({ contact: '', info: '' });
+                setPhones(newPhones);
+              }}
+              className={styles.addContact}
+            >
+              Добавить еще один номер телефона
+            </button>
+          </div>
+          <p className={styles.gridHeader}>Электронная почта</p>
+          <div>
+            <input className={`${styles.contactInput}`} type="text" />
+            <input
+              className={`${styles.contactInput} ${styles.comment}`}
+              type="text"
+              placeholder="Комментарий"
+            />
+            <button className={styles.addContact}>Добавить еще один адрес электронной почты</button>
+          </div>
+          <p className={styles.gridHeader}>Мессенджер</p>
+          <div>
+            <input className={`${styles.contactInput}`} type="text" />
+            <input
+              className={`${styles.contactInput} ${styles.comment}`}
+              type="text"
+              placeholder="Комментарий"
+            />
+            <button className={styles.addContact}>Добавить еще один мессенджер</button>
+          </div>
+        </div>
       </div>
       <div className={styles.egrulData}>
         <h3 className={styles.blockHeader}>Данные из ЕГРЮЛ</h3>

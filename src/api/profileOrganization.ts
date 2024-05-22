@@ -65,7 +65,28 @@ export const putOrdererProfile = async (
 };
 
 export const putBrandData = async (token: string, params: { name: string; avatar: string }) => {
-  const res = await axiosInstance.put('/v1/organizations/my/profile/brand', params, {
+  await axiosInstance.put('/v1/organizations/my/profile/brand', params, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+};
+
+export interface contacntsT {
+  emails: {
+    contact: string;
+    info: string;
+  }[];
+  phones: {
+    contact: string;
+    info: string;
+  }[];
+  messengers: {
+    contact: string;
+    info: string;
+  }[];
+}
+
+export const putBrandContacts = async (token: string, params: contacntsT) => {
+  const res = await axiosInstance.put('/v1/organizations/my/profile/brand/contacts', params, {
     headers: { authorization: `Bearer ${token}` },
   });
   console.log(res);
