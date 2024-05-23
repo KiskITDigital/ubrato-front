@@ -9,10 +9,12 @@ export const OneTenderAttachments: FC<TenderAttachments> = ({ attachment }) => {
   return (
     <div className={style.block_main}>
       <p className={style.block_main_p}>Вложения:</p>
-      {attachment.map((obj, index) => (
-        <p className={style.block_add_p} key={index}>
-          {obj}
-        </p>
+      {attachment?.map((obj, index) => (
+       <p className={style.block_add_p} key={index}>
+       <a href={obj} download>
+         Скачать файл {index + 1}
+       </a>
+     </p>
       ))}
     </div>
   );

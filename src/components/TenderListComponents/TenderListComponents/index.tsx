@@ -3,26 +3,27 @@ import s from './styles.module.css'
 import { Hits, InstantSearch, Pagination, SearchBox, SortBy } from "react-instantsearch";
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import { TenderListElem } from "../TenderListElement/inedx";
-// import { fetchProduct } from "@/api/getTender";
 
 
 
-export const TenderListComp: FC = () => {
-  
+export const TenderListComp: FC = () => { 
 const [searchClient, setSearchClient] = useState(null);
+
 
 
 useEffect(() => {
   const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
       server: {
-          apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+          apiKey: 
+          `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
           nodes: [
               {
-                  host: 'search.ubrato.ru',
-                  port: 443,
+                  host: 
+                  `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+                  port: 
+                  import.meta.env.VITE_TYPESENSE_API_PORT,
                   protocol: 'https',
                   path: "",
-                  // tls:true
               }
           ]
       },
@@ -31,12 +32,8 @@ useEffect(() => {
           per_page: 4,
       },
   });
-  // const searchClient = typesenseInstantsearchAdapter.searchClient
   setSearchClient(typesenseInstantsearchAdapter.searchClient)
-
-  
 }, [])
-
 
 
   return(
@@ -45,12 +42,10 @@ useEffect(() => {
   searchClient &&
     <div className={s.block}>
         <InstantSearch indexName='tender_index' searchClient={searchClient}>
-            {/* <p className={s.title}>Локации:</p> */}
             <label className={s.inputFilterLabel}>
-                {/* <img className={s.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" /> */}
                 <SearchBox
                     className={s.inputFilter}
-                    placeholder="Убейте меня" />
+                    placeholder="Поиск" />
             </label>
             <div className={s.sort}>
             <SortBy items={[
@@ -76,14 +71,16 @@ useEffect(() => {
             </div>
             <Hits 
             classNames={{
-              list: `${s.listnigger2}`
+              list: `${s.hitsList}`,
+              item: `${s.hitsItem}`,
+              root: `${s.hitsRoot}`
             }}
             hitComponent={TenderListElem} 
             />
             <Pagination classNames={{
-              root: `${s.rootnigger}`,
-              list: `${s.listnigger}`,
-              item: `${s.item}`,
+              root: `${s.paginationRoot}`,
+              list: `${s.paginationList}`,
+              item: `${s.paginationItem}`,
               selectedItem: `${s.selected_item_pagination}`
             }}></Pagination>
         </InstantSearch>

@@ -1,63 +1,62 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
 import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
-import { FC, ReactNode, useEffect, 
-  // useState 
-} from 'react';
-
-// import { savePostDataToLocalStorage, loadPostDataFromLocalStorage } from '@/utils/lsSaveTest';
+import { FC, ReactNode, useEffect, useState, } from 'react';
 import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
-// import { PostData } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 import { fetchProduct } from '@/api/getTender';
+import { Params, useParams } from 'react-router-dom';
+
+export interface dataObjectTypes {
+  id: number,
+  name: string,
+  active: boolean,
+  price: number, 
+  object_types: Array<string>,
+  objects_types: Array<string>,
+  location: string,
+  floor_space: number,
+  services_types: Array<string>,
+  description: string,
+  wishes: string,
+  attachments: Array<string>,
+  reception_start: string,
+  reception_end: string,
+  work_start: string,
+  work_end: string,
+  created_at: string
+}
+
 
 export const OneTenderPageExecutor: FC = () => {
-  const testData = {
-    id: 0,
-    name: 'string',
-    price: 0,
-    is_contract_price: true,
-    location: 'string',
-    floor_space: 0,
-    description:
-      'string А также диаграммы связей набирают популярность среди определенных слоев населения, а значит, должны быть объективно рассмотрены соответствующими инстанциями. Прежде всего, существующая теория, в своём классическом представлении, допускает внедрение укрепления моральных ценностей. Как уже неоднократно упомянуто, сделанные на базе интернет-аналитики выводы могут быть рассмотрены исключительно в разрезе маркетинговых и финансовых предпосылок.',
-    wishes: 'string',
-    attachments: ['string'],
-    services_groups: ['string'],
-    services_types: ['string'],
-    reception_start: '2024-04-08T22:48:30.145Z',
-    reception_end: '2024-04-08T22:48:30.145Z',
-    work_start: '2024-04-08T22:48:30.145Z',
-    work_end: '2024-04-08T22:48:30.145Z',
-    object_group_id: 'string',
-    object_type_id: 'string',
-    user_id: 'string',
-    created_at: '2024-04-08T22:48:30.145Z',
-    verified: true,
-    active: true,
-  };
-
+  const { id }: Readonly<Params<string>> = useParams()
   const { activeIndex } = useSwitchStore();
-
-  // interface PostData {
-  //   title: string;
-  //   text: string;
-  //   files: File[];
-  // }
-
-  // const handlePostSubmit = () => {
-    // savePostDataToLocalStorage(activeIndex, postData);
-    // console.log('done');
-  // };
-
-  // const post = loadPostDataFromLocalStorage(activeIndex)
-  // let post: PostData;
+  const [dataState, setData] = useState<dataObjectTypes>({
+    id: 0,
+    name: '',
+    active: false,
+    price: 0,
+    object_types: [],
+    objects_types: [],
+    location: '',
+    floor_space: 0,
+    services_types: [],
+    description: '',
+    wishes: '',
+    attachments: [],
+    reception_start: '',
+    reception_end: '',
+    work_start: '',
+    work_end: '',
+    created_at: ''
+  })
+  const [loading, setLoading] = useState(true);
 
   let stack: ReactNode;
 
   switch (activeIndex) {
     case 0:
-      stack = <OneTenderInfoViewExecutor></OneTenderInfoViewExecutor>;
+      stack = <OneTenderInfoViewExecutor dataQ={dataState} />;
       break;
     case 1:
       stack = <div>tt</div>;
@@ -67,43 +66,43 @@ export const OneTenderPageExecutor: FC = () => {
       break;
     case 3:
       stack = <OneTenderAdd 
-      // onSubmit={handlePostSubmit}
       ></OneTenderAdd>;
       break;
     default:
       stack = <div>No stack component found</div>;
   }
 
-
-  // interface Product {
-  //   id: string;
-  //   name: string;
-  //   description: string;
-  // }
-  // const [product, setProduct] = useState<Product | null>(null);
-
   useEffect(() => {
     (async () => {
-      console.log(await fetchProduct(10));
+     const data = await fetchProduct(id);
+     if (data) {
+      setData(data)
+      setLoading(false)
+     } else {
+      console.log('proizoshla oshibka');}
     })();
-    // const res: Product = fetchProduct(10)
-    // setProduct(res)
-  }, [])
+  }, [id])
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!dataState) {
+    return <div>Failed to load data</div>;
+  }
 
   return (
     <div>
       <OneTenderHeader
-        status={testData.active}
-        id={testData.id}
-        name={testData.name}
+        status={dataState.active}
+        id={dataState.id}
+        name={dataState.name}
       ></OneTenderHeader>
-
-      {/* <div>{product.name}</div> */}
       <Switchero
         options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
         noticeKnocks={2}
         button_text={'Откликнуться на тендер'}
-        price={testData.price}
+        price={dataState.price}
       ></Switchero>
       {stack}
     </div>
