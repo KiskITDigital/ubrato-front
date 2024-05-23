@@ -13,12 +13,12 @@ export const InputPhone: FC<{
       info: string;
     }[]
   ) => void;
-  ix?: number;
+  ix: number;
 }> = ({ phones, setPhones, ix }) => {
   const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
 
   useEffect(() => {
-    if (ix !== undefined) {
+    if (phones[ix] !== undefined) {
       setValue(phones[ix].contact);
     } else {
       setValue(phones[0]?.contact ?? '');
@@ -30,9 +30,20 @@ export const InputPhone: FC<{
       <input
         id={`phone${ix !== undefined ? ix : ''}`}
         ref={ref as Ref<HTMLInputElement>}
-        onChange={(e: FormEvent<HTMLInputElement>) => {
+        // onChange={(e: FormEvent<HTMLInputElement>) => {
+        //   const newPhones = [...phones];
+        //   if (newPhones[ix] !== undefined) {
+        //     newPhones[ix].contact = value;
+        //     setPhones(newPhones);
+        //   } else {
+        //     newPhones.push({ contact: value, info: '' });
+        //     setPhones(newPhones);
+        //   }
+        //   setValue(e.currentTarget.value);
+        // }}
+        onInput={(e: FormEvent<HTMLInputElement>) => {
           const newPhones = [...phones];
-          if (ix !== undefined) {
+          if (newPhones[ix] !== undefined) {
             newPhones[ix].contact = value;
             setPhones(newPhones);
           } else {
@@ -49,7 +60,7 @@ export const InputPhone: FC<{
         id={`phoneComment${ix !== undefined ? ix : ''}`}
         onChange={(e) => {
           const newPhones = [...phones];
-          if (ix !== undefined) {
+          if (newPhones[ix] !== undefined) {
             newPhones[ix].info = e.target.value;
           } else {
             newPhones.push({ contact: '', info: e.target.value });
@@ -59,6 +70,7 @@ export const InputPhone: FC<{
         value={ix ? phones[ix].info : phones[0]?.info}
         className={`${styles.contactInput} ${styles.comment}`}
         type="text"
+        name="text"
         placeholder="Комментарий"
       />
     </div>

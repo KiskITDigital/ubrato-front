@@ -8,7 +8,7 @@ export { getNotifications, setNotificationRead } from './notofications';
 export { updateToken } from './updateToken';
 export { checkINN } from './checkINN';
 export { getCities } from './createTender/getCities';
-export { fetchProduct } from './getTender'
+export { fetchProduct } from './getTender';
 export { createTender } from './createTender/createTender';
 export {
   fetchDocumentsTypes,
@@ -17,11 +17,12 @@ export {
   fetchPrivateFile,
   fetchPrivateFileInfo,
   handleFileDelete,
-  fetchFileInfo
+  fetchFileInfo,
 } from './documents';
 export {
   fetchOrganizationInfo,
   fetchOrdererProfile,
   putOrdererProfile,
   putBrandData,
+  putBrandContacts,
 } from './profileOrganization';

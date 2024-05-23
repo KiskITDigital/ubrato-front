@@ -2,14 +2,15 @@ import { FC, useEffect, useRef, useState } from 'react';
 import styles from './companyinfo.module.css';
 import { fetchOrganizationInfo, fetchFileInfo, updateToken, uploadFile } from '@/api';
 import { Link } from 'react-router-dom';
-import { orgInfoT, putBrandData } from '@/api/profileOrganization';
-import { Avatar } from '@nextui-org/react';
+import { contacntsT, orgInfoT, putBrandContacts, putBrandData } from '@/api/profileOrganization';
+import { Avatar, Checkbox } from '@nextui-org/react';
 import { InputPhone } from '../inputPhone/InputPhone';
+import { InputContact } from '../InputContact/InputContact';
 
 export const CompanyInfo: FC = () => {
   const [companyInfo, setCompanyInfo] = useState<orgInfoT>();
   const [brandName, setBrandName] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState<string | null>(null);
   const [isBrandEqual, setIsBrandEqual] = useState(true);
   const [avatarDate, setAvatarDate] = useState<Date>();
   const [avatarInfo, setAvatarInfo] = useState<{
@@ -21,14 +22,44 @@ export const CompanyInfo: FC = () => {
   const [emails, setEmails] = useState<{ contact: string; info: string }[]>([]);
   const [phones, setPhones] = useState<{ contact: string; info: string }[]>([]);
   const [messengers, setMessengers] = useState<{ contact: string; info: string }[]>([]);
+  const [isContactsEqual, setIsContactsEqual] = useState(true);
+  const [checkValue, setCheckValue] = useState(false);
+  const [error, setError] = useState('');
 
   const initialBrandInfo = useRef<{ brand_name: string; avatar: string }>();
+  const initialContacts = useRef<{
+    phones: { contact: string; info: string }[];
+    emails: { contact: string; info: string }[];
+    messengers: { contact: string; info: string }[];
+  }>();
+
+  const checkStyle = {
+    base: styles.checkBase,
+    icon: styles.checkIcon,
+    wrapper: styles.checkWrapper,
+    label: styles.checkText,
+  };
 
   const avatarStyle = {
     base: styles.base,
     img: styles.img,
     icon: styles.icon,
   };
+
+  useEffect(() => {
+    if (
+      JSON.stringify(phones.filter((e) => e.contact.length !== 0)) !==
+        JSON.stringify(initialContacts.current?.phones) ||
+      JSON.stringify(emails.filter((e) => e.contact.length !== 0)) !==
+        JSON.stringify(initialContacts.current?.emails) ||
+      JSON.stringify(messengers.filter((e) => e.contact.length !== 0)) !==
+        JSON.stringify(initialContacts.current?.messengers)
+    ) {
+      setIsContactsEqual(false);
+    } else {
+      setIsContactsEqual(true);
+    }
+  }, [emails, messengers, phones]);
 
   useEffect(() => {
     if (
@@ -40,7 +71,7 @@ export const CompanyInfo: FC = () => {
       setIsBrandEqual(true);
     }
     (async () => {
-      if (avatar.length > 0) {
+      if (avatar !== null) {
         const avatarInfoRes = await fetchFileInfo(avatar.replace('https://cdn.ubrato.ru/s3', ''));
         setAvatarDate(new Date(avatarInfoRes.ctime));
         setAvatarInfo(avatarInfoRes);
@@ -62,11 +93,28 @@ export const CompanyInfo: FC = () => {
           setAvatarInfo(avatarInfoRes);
         })();
       }
-      setEmails(res.email);
-      setPhones(res.phone);
-      setMessengers(res.messager);
+      if (res.email.length > 0) {
+        setEmails([...res.email]);
+      } else {
+        setEmails([...res.email, { contact: '', info: '' }]);
+      }
+      if (res.phone.length > 0) {
+        setPhones([...res.phone]);
+      } else {
+        setPhones([...res.email, { contact: '', info: '' }]);
+      }
+      if (res.messenger.length > 0) {
+        setMessengers([...res.messenger]);
+      } else {
+        setMessengers([...res.messenger, { contact: '', info: '' }]);
+      }
       setCompanyInfo(res);
       initialBrandInfo.current = { brand_name: res.brand_name, avatar: res.avatar };
+      initialContacts.current = {
+        phones: JSON.parse(JSON.stringify(res.phone)),
+        emails: JSON.parse(JSON.stringify(res.email)),
+        messengers: JSON.parse(JSON.stringify(res.messenger)),
+      };
     })();
   }, []);
 
@@ -94,18 +142,23 @@ export const CompanyInfo: FC = () => {
           />
           <p className={styles.gridHeader}>Логотип компании</p>
           <div className={styles.avatarContainer}>
-            <Avatar src={avatar} classNames={avatarStyle} />
+            <Avatar src={avatar ?? ''} classNames={avatarStyle} />
             <div className={styles.avatarInfo}>
-              <div className={styles.flexText}>
-                <p className={styles.text}>{avatarInfo?.format.slice(1)}</p>
-                <p className={styles.text}>
-                  {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ''}kb
-                </p>
-              </div>
-              <p className={styles.text}>
-                Загружен {avatarDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
-                {avatarDate?.getFullYear()}
-              </p>
+              {avatar && (
+                <>
+                  <div className={styles.flexText}>
+                    <p className={styles.text}>{avatarInfo?.format.slice(1)}</p>
+                    <p className={styles.text}>
+                      {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ''}kb
+                    </p>
+                  </div>
+                  <p className={styles.text}>
+                    Загружен{' '}
+                    {avatarDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
+                    {avatarDate?.getFullYear()}
+                  </p>
+                </>
+              )}
               <label htmlFor="brand_avatar">
                 <input
                   onChange={async (e) => {
@@ -137,7 +190,7 @@ export const CompanyInfo: FC = () => {
           </div>
           <button
             onClick={() => {
-              const params = { name: brandName, avatar: avatar };
+              const params = { name: brandName, avatar: avatar ?? '' };
               (async () => {
                 await updateToken(putBrandData, params);
                 const res = await updateToken(fetchOrganizationInfo, null);
@@ -160,16 +213,9 @@ export const CompanyInfo: FC = () => {
         <div className={styles.brandGrid}>
           <p className={styles.gridHeader}>Номер телефона</p>
           <div className={styles.inputs}>
-            {phones.length === 0 && <InputPhone phones={phones} setPhones={setPhones} />}
-            {phones.length !== 0 &&
-              phones.map((_, ix) => (
-                <InputPhone
-                  phones={phones}
-                  setPhones={setPhones}
-                  ix={ix}
-                  key={crypto.randomUUID()}
-                />
-              ))}
+            {phones.map((_, ix) => (
+              <InputPhone phones={phones} setPhones={setPhones} ix={ix} key={ix} />
+            ))}
             <button
               onClick={() => {
                 const newPhones = [...phones];
@@ -182,25 +228,96 @@ export const CompanyInfo: FC = () => {
             </button>
           </div>
           <p className={styles.gridHeader}>Электронная почта</p>
-          <div>
-            <input className={`${styles.contactInput}`} type="text" />
-            <input
-              className={`${styles.contactInput} ${styles.comment}`}
-              type="text"
-              placeholder="Комментарий"
-            />
-            <button className={styles.addContact}>Добавить еще один адрес электронной почты</button>
+          <div className={styles.inputs}>
+            {emails.map((_, ix) => (
+              <InputContact data={emails} setData={setEmails} ix={ix} id="email" key={ix} />
+            ))}
+            <button
+              onClick={() => {
+                const newMails = [...emails];
+                newMails.push({ contact: '', info: '' });
+                setEmails(newMails);
+              }}
+              className={styles.addContact}
+            >
+              Добавить еще один адрес электронной почты
+            </button>
           </div>
           <p className={styles.gridHeader}>Мессенджер</p>
-          <div>
-            <input className={`${styles.contactInput}`} type="text" />
-            <input
-              className={`${styles.contactInput} ${styles.comment}`}
-              type="text"
-              placeholder="Комментарий"
-            />
-            <button className={styles.addContact}>Добавить еще один мессенджер</button>
+          <div className={styles.inputs}>
+            {messengers.map((_, ix) => (
+              <InputContact
+                data={messengers}
+                setData={setMessengers}
+                ix={ix}
+                id="messanger"
+                key={ix}
+              />
+            ))}
+            <button
+              onClick={() => {
+                const newMessengers = [...messengers];
+                newMessengers.push({ contact: '', info: '' });
+                setMessengers(newMessengers);
+              }}
+              className={styles.addContact}
+            >
+              Добавить еще один мессенджер
+            </button>
           </div>
+          {!isContactsEqual && (
+            <>
+              <div className={`${styles.dataChanged}`}>
+                <img src="/info-blue-ic.svg" alt="" />
+                <p>Вы изменили данные</p>
+              </div>
+              <div>
+                <Checkbox
+                  isSelected={checkValue}
+                  onValueChange={(e) => {
+                    setCheckValue(e);
+                    setError('');
+                  }}
+                  classNames={checkStyle}
+                >
+                  Соглашаюсь с{' '}
+                  <Link className="underline" to="/">
+                    Политикой
+                  </Link>{' '}
+                  обработки персональных данных ООО “ИНТЕГРАЦИЯ” и даю{' '}
+                  <Link className="underline" to="/">
+                    Согласие
+                  </Link>
+                  на обработку персональных данных
+                  <p className={styles.errorMessage}>{error}</p>
+                </Checkbox>
+              </div>
+            </>
+          )}
+          <button
+            onClick={() => {
+              if (checkValue) {
+                (async () => {
+                  const params: contacntsT = {
+                    phones: phones.filter((e) => e.contact.length !== 0),
+                    emails: emails.filter((e) => e.contact.length !== 0),
+                    messengers: messengers.filter((e) => e.contact.length !== 0),
+                  };
+                  await updateToken(putBrandContacts, params);
+                  const res = await updateToken(fetchOrganizationInfo, null);
+                  setEmails([...res.email]);
+                  setPhones([...res.phone]);
+                  setMessengers([...res.messenger]);
+                })();
+              } else {
+                setError('Обязательное поле');
+              }
+            }}
+            className={styles.brandBtn}
+            disabled={isContactsEqual}
+          >
+            Сохранить изменения
+          </button>
         </div>
       </div>
       <div className={styles.egrulData}>

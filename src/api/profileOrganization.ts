@@ -24,7 +24,7 @@ export interface orgInfoT {
       info: string;
     }
   ];
-  messager: [
+  messenger: [
     {
       contact: string;
       info: string;
