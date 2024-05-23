@@ -99,6 +99,7 @@ export interface executorList {
   id: number,
   img: string,
   name: string,
+  inn: string,
   text: string,
   regions: {
     id: number,
@@ -109,5 +110,6 @@ export interface executorList {
     name: string,
     price: number
   }[],
-  areServicesHidden: boolean
+  areServicesHidden: boolean,
+  isFavorite: boolean
 }
