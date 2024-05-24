@@ -1,6 +1,8 @@
 import { FC } from "react"
 import styles from './styles.module.css'
 import { Switch } from '@nextui-org/react';
+import { sendResponse } from "@/api/respondTender";
+
 
 type TenderModalProps = {
     isOpen: boolean;
@@ -8,9 +10,10 @@ type TenderModalProps = {
     handleSubmit: (e: React.FormEvent) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     price: number;
+    id:number,
   };
 
-export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({isOpen, closeModal, handleSubmit, handleChange, price}) => {
+export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, closeModal, handleSubmit, handleChange, price}) => {
 
     const SwicthStyles = {
         base: styles.base,
@@ -18,7 +21,20 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({isOpen, clos
         thumb: styles.thumb,
       };
     
-      
+      const token = localStorage.getItem('token');
+
+    // if (token) {
+    //   try {
+    //     (async () => {
+    //       const res = await sendResponse(token, id);
+    //       if (res === 200) {
+    //         console.log("error")
+    //       }
+    //     })();
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // }
 
     return(
         <>
