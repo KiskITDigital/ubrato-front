@@ -96,7 +96,7 @@ export interface createTenderData {
 }
 
 export interface executorList {
-  id: number,
+  id: string,
   img: string,
   name: string,
   inn: string,
