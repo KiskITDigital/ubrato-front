@@ -1,7 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from './fast-filter.module.css'
+import { useFindExecutorState } from "@/store/findExecutorStore";
 
 const FastFilterBlock: FC = () => {
+    const findExecutorState = useFindExecutorState()
     const [inputFilter, setInputFilter] = useState('');
     const [filters, setFilters] = useState<string[]>([]);
 
@@ -10,6 +12,11 @@ const FastFilterBlock: FC = () => {
         setFilters([...filters, inputFilter])
         setInputFilter('')
     };
+
+    useEffect(() => {
+        findExecutorState.handleFastFilterTexts(filters)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filters.length]);
 
     return (
         <div className={`container ${styles.container}`}>
@@ -23,7 +30,7 @@ const FastFilterBlock: FC = () => {
                     onChange={(e) => setInputFilter(e.target.value)}
                     onKeyDown={handleKeyDown}
                     onBlur={() => setInputFilter('')}
-                    placeholder="Например, наименование или ИНН компании, услуга, регион" />
+                    placeholder="Например, наименование или ИНН компании" />
             </label>
             {!!filters.length && <div className={styles.filters}>
                 {

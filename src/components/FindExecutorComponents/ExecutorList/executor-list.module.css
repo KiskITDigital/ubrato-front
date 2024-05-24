@@ -1,6 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    gap: 23px;
 }
 
 .amount {
@@ -189,4 +190,52 @@
     background-color: var(--color-blue-primary);
     color: var(--color-white);
     width: 100%;
+}
+
+.showMore {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-back-gray);
+    border-radius: 12px;
+}
+
+.showMore>img {
+    width: 20px;
+    height: 20px;
+}
+
+.paginationBase {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.paginationBase>.wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.paginationBase>.wrapper>.cursor {
+    display: none;
+}
+
+.paginationBase>.wrapper>li {
+    border-radius: 12px;
+    padding: 11px 20px;
+    color: var(--color-black-60);
+    outline: none;
+}
+
+.paginationBase>.wrapper>li[aria-current="true"] {
+    background-color: var(--color-back-gray);
+    color: var(--color-black);
+}
+
+.paginationBase>.wrapper>.next {
+    transform: rotate(180deg);
 }

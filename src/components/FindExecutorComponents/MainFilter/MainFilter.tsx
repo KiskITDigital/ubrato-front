@@ -30,6 +30,9 @@ const MainFilter: FC = () => {
         setServicesId([])
         setServicesTypesId([])
 
+        setAreAllObjects(false)
+        setAreAllServices(false)
+
         findExecutorState.handleLocation(null)
         findExecutorState.handleObjectTypesId([])
         findExecutorState.handleServicesTypesId([])
