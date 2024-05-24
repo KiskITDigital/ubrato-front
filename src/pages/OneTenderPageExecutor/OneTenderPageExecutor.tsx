@@ -6,8 +6,6 @@ import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
-import RespondTender from '@/components/MainPageComponents/QustionAnswers/ExecutorQuestions/RespondTender';
-import { sendResponse } from '@/api/respondTender';
 import { isResponded } from '@/api/isResponded';
 
 export interface dataObjectTypes {
@@ -110,6 +108,7 @@ export const OneTenderPageExecutor: FC = () => {
       ></OneTenderHeader>
       <button onClick={testHandler}>test</button>
       <Switchero
+        response={response}
         tenderId={id}
         options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
         noticeKnocks={2}

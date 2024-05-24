@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import styles from './styles.module.css'
 import { Switch } from '@nextui-org/react';
 import { sendResponse } from "@/api/respondTender";
@@ -10,10 +10,13 @@ type TenderModalProps = {
     handleSubmit: (e: React.FormEvent) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     price: number;
-    id:number,
+    id:string | undefined,
+    response: boolean
   };
 
-export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, closeModal, handleSubmit, handleChange, price}) => {
+export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, closeModal, handleSubmit, handleChange, price, response}) => {
+  const [customPrice, setCustomPrice] = useState<number | null>(null);
+  const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
     const SwicthStyles = {
         base: styles.base,
@@ -23,37 +26,72 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, 
     
       const token = localStorage.getItem('token');
 
-    // if (token) {
-    //   try {
-    //     (async () => {
-    //       const res = await sendResponse(token, id);
-    //       if (res === 200) {
-    //         console.log("error")
-    //       }
-    //     })();
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // }
+      const handleResponseOnTender = (token: string, id: string, price: number) => {
+        if (token) {
+          try {
+            (async () => {
+              const res = await sendResponse(token, id, price);
+              if (res === 200) {
+                console.log("eeeeeeeeeeeeeee")
+              }
+            })();
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
+      
+      const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsAgreed(e.target.checked);
+        if (e.target.checked) {
+            setCustomPrice(null);
+          } else {
+            console.log('error occured');
+            
+        }
+      };
+
+      const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputPrice = parseFloat(e.target.value);
+      if (!isNaN(inputPrice)) {
+          setCustomPrice(inputPrice);
+        }
+      };
+
+      const handleFormSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (token && id) {
+          const finalPrice = isAgreed ? price : customPrice;
+          if (finalPrice !== null) {
+              await handleResponseOnTender(token, id, finalPrice);  
+              console.log(token, id, finalPrice);
+              response = !response
+              closeModal()
+          }
+        }
+      };
+      
+    
 
     return(
         <>
         {isOpen && (
             <div className={styles.modalOverlay}>
+        { !response ? (
           <div className={styles.modal}>
             <span className={styles.close} onClick={closeModal}>&times;</span>
             <h2 className={styles.modalHeader}>Откликнуться на тендер</h2>
             <form className={styles.form_modal} onSubmit={handleSubmit}>
               <label className={`${styles.field}`}>
                   <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
-                  <div className={styles.wrap_label}><input type="checkbox" name="" className={styles.input_checkbox}  onChange={handleChange} /> <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
+                  <div className={styles.wrap_label}><input onChange={handleCheckboxChange} type="checkbox" name="" className={styles.input_checkbox} /> <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
                   </div>
     
               </label>
               <label className={`${styles.field}`}>
                 <p className={styles.label_paragraph}>Готовы выполнить работу за</p> 
                 <div>
-                <input type="text"  name="price" className={styles.input_modal} onChange={handleChange} />
+                <input onChange={handleInputChange} disabled={isAgreed} type="text"  name="price" className={styles.input_modal} />
                 рублей 
                 
                 </div>
@@ -66,10 +104,16 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, 
                 Если ваша компания работает по общей системе налогообложения (ОСН), указывайте цену с учетом НДС
                 </p>
               </div>
-              <button className={styles.button_spec} type="submit">Откликнуться</button>
+              <button onClick={handleFormSubmit} className={styles.button_spec} type="submit">Откликнуться</button>
               
             </form>
           </div>
+        ) : (
+          <div className={styles.modal}>
+            <p>Вы уже откликнулись на этот тендер!</p>
+            <button className={styles.button_spec} onClick={closeModal}>Закрыть окно</button>
+          </div>
+        ) }  
         </div>
         )}
     </>

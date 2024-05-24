@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/utils';
 
-export const sendResponse: (token: string, id: number, price: number) => Promise<number> = async (
+export const sendResponse: (token: string, id: string, price: number) => Promise<number> = async (
   token,
   id,
   price

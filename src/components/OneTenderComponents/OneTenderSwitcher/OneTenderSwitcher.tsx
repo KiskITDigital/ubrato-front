@@ -9,13 +9,14 @@ type SwitchProps = {
   noticeKnocks: number;
   button_text: string,
   price: number,
-  tenderId: number
+  tenderId: string | undefined,
+  response: boolean
 }
 
 
 
 
-export const Switchero: React.FC<SwitchProps> = ({ tenderId, options,  button_text, price}) => {
+export const Switchero: React.FC<SwitchProps> = ({ tenderId, options,  button_text, price, response}) => {
   const { activeIndex, setActiveIndex } = useSwitchStore();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({});
@@ -57,7 +58,7 @@ export const Switchero: React.FC<SwitchProps> = ({ tenderId, options,  button_te
       ))}
       <div>
     {button_text == 'Откликнуться на тендер' ? <button onClick={openModal} className={styles.button_modal}>Откликнуться на тендер</button> : <></> }
-        <OneTenderExecutorAcceptModal id={tenderId} isOpen={isOpen} handleChange={handleChange} handleSubmit={handleSubmit} price={price} closeModal={() => closeModal()}></OneTenderExecutorAcceptModal>
+        <OneTenderExecutorAcceptModal response={response} id={tenderId} isOpen={isOpen} handleChange={handleChange} handleSubmit={handleSubmit} price={price} closeModal={() => closeModal()}></OneTenderExecutorAcceptModal>
       </div>
     </div>
   </> 
