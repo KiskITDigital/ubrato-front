@@ -96,9 +96,6 @@ export const OneTenderPageExecutor: FC = () => {
     return <div>Failed to load data</div>;
   }
 
-
-  const testHandler = () => { console.log(response);}
-
   return (
     <div>
       <OneTenderHeader
@@ -106,7 +103,6 @@ export const OneTenderPageExecutor: FC = () => {
         id={dataState.id}
         name={dataState.name}
       ></OneTenderHeader>
-      <button onClick={testHandler}>test</button>
       <Switchero
         response={response}
         tenderId={id}
