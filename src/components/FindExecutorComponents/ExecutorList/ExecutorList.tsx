@@ -5,6 +5,9 @@ import Typesense from 'typesense'
 import { getExecutor, isFavoriteExecutor, addFavoriteExecutor, removeFavoriteExecutor } from '@/api/index'
 import { executorList } from '@/types/app';
 import { useFindExecutorState } from '@/store/findExecutorStore';
+import OfferTender from '../OfferTender/OfferTender';
+// import { Hits, InstantSearch, SortBy } from 'react-instantsearch';
+// import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
 
 const ExecutorList: FC = () => {
     const findExecutorState = useFindExecutorState()
@@ -13,6 +16,8 @@ const ExecutorList: FC = () => {
     const [paginationTotal, setPaginationTotal] = useState(0);
     const [paginationPage, setPaginationPage] = useState(1);
     const [paginationPerPage, setPaginationPerPage] = useState(2);
+
+    const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<null | string>(null);
 
     const dropDownClassNames = {
         trigger: styles.trigger,
@@ -29,7 +34,7 @@ const ExecutorList: FC = () => {
         next: styles.next,
     }
 
-    const showAllExecutorServices = (id: number) => {
+    const showAllExecutorServices = (id: string) => {
         setExecutorList(prev => prev.map(executor => executor.id === id ? { ...executor, areServicesHidden: false } : executor))
     }
 
@@ -63,7 +68,6 @@ const ExecutorList: FC = () => {
             'per_page': paginationPerPage,
             'page': paginationPage,
             'filter_by': filters,
-            // 'sort_by': 'name:acs'
             // 'filter_by': '$contractor_object(object_type_id:=1) && $contractor_object(object_type_id:=2)'
             // 'filter_by': '$contractor_city(city_id:=190)',
             // 'filter_by': 'inn:=*7721546*',
@@ -87,9 +91,10 @@ const ExecutorList: FC = () => {
         client.collections('contractor_index').documents().search(searchParameters)
             .then(async (response) => {
                 const newExecutorList = [] as executorList[];
+                console.log(response.hits);
                 const token = localStorage.getItem('token')
                 await Promise.all((response.hits || []).map(async (res) => {
-                    const { id } = res.document as { id: number };
+                    const { id } = res.document as { id: string };
                     if (!id) return;
                     const data = await getExecutor(id);
                     const isFavorite = !!token && (await isFavoriteExecutor(id, token))?.data?.status || false
@@ -124,8 +129,47 @@ const ExecutorList: FC = () => {
         findExecutorState.fastFilterTexts.length
     ]);
 
+
+    // const [searchClient, setSearchClient] = useState(null);
+
+    // useEffect(() => {
+    //     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
+    //         server: {
+    //             apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+    //             'nodes': [
+    //                 {
+    //                     host: 'search.ubrato.ru',
+    //                     port: 443,
+    //                     protocol: 'https',
+    //                     path: "",
+    //                     // tls:true
+    //                 }
+    //             ],
+    //         },
+    //         additionalSearchParameters: {
+    //             query_by: "name",
+    //         },
+    //     });
+    //     setSearchClient(typesenseInstantsearchAdapter.searchClient)
+    // }, [])
+
     return (
         <div className={`container ${styles.container}`}>
+            {/* {
+                searchClient &&
+                <InstantSearch indexName='contractor_index' searchClient={searchClient}>
+                    <SortBy items={[
+                        { label: "wrk", value: 'contractor_index' },
+                        { label: "asc", value: 'contractor_index/sort/name:asc' },
+                        { label: "desc", value: 'contractor_index/sort/name:desc' }
+                    ]}></SortBy>
+                    <Hits />
+                </InstantSearch>
+            } */}
+            {
+                !!executorIdToOfferTender &&
+                <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} />
+            }
             <div className={styles.amount}>
                 <p className={styles.number}>Исполнители: {allExecutorListLength}</p>
                 <Dropdown
@@ -183,16 +227,23 @@ const ExecutorList: FC = () => {
                         </div>
                         <div className={styles.executorButtons}>
                             <button
-                                onClick={() => {
+                                onClick={async () => {
                                     const token = localStorage.getItem('token')
                                     if (!token) return;
-                                    executor.isFavorite ? removeFavoriteExecutor(executor.id, token) : addFavoriteExecutor(executor.id, token)
+                                    const res = await executor.isFavorite ? removeFavoriteExecutor(executor.id, token) : addFavoriteExecutor(executor.id, token)
+                                    const resStatus = (await res).data.status
+                                    setExecutorList(prev => prev.map(executorItem => executorItem.id === executor.id ? ({ ...executorItem, isFavorite: resStatus ? !executorItem.isFavorite : executorItem.isFavorite }) : executorItem))
                                 }}
                                 className={styles.executorLoveButton}
                             >
                                 <img src={`/find-executor/heart-${executor.isFavorite ? 'active' : 'inactive'}.svg`} alt="heart" />
                             </button>
-                            <button className={styles.executorOfferButton}>
+                            <button
+                                onClick={() => {
+                                    document.body.style.overflow = "hidden";
+                                    setExecutorIdToOfferTender(executor.id)
+                                }}
+                                className={styles.executorOfferButton}>
                                 Предложить тендер
                                 <img src="/find-executor/arrow-right-white.svg" alt="arrow right white" />
                             </button>
