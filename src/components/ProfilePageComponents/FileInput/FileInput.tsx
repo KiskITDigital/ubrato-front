@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import styles from './fileinput.module.css';
 import { 
+  sendDoc,
   // sendDoc,
    updateToken, uploadFile } from '@/api';
 import { FileInfo } from '../FileInfo/FileInfo';
@@ -36,19 +37,16 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
                 )
               ) {
                 const parameters = { file: e.target.files![0], private: true };
-                // console.log(parameters);
                 (async () => {
                   const link = await updateToken<string, { file: File; private: boolean }>(
                     uploadFile,
                     parameters
                   );
-                  console.log(link);
                   setNewLink(link);
                   const res = await updateToken<string, { link: string; type: number }>(sendDoc, {
                     link: link,
                     type: type,
                   });
-                  console.log(res);
                   setNewIdFile(res);
                 })();
               } else {

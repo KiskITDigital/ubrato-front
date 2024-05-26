@@ -1,0 +1,38 @@
+.checkBase {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+  gap: 9px;
+}
+
+.checkBase[data-selected] > .checkWrapper {
+  background-color: var(--color-blue-primary);
+}
+
+.checkIcon {
+  width: 80%;
+  height: 80%;
+}
+
+.checkIcon > polyline {
+  stroke: white;
+}
+
+.checkWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-blue-primary);
+  transition: background-color 0.3s ease;
+  border-radius: 7px;
+  background-color: transparent;
+}
+
+.checkText {
+  color: var(--color-black-60);
+  font-size: 16px;
+  width: fit-content;
+}

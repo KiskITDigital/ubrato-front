@@ -69,7 +69,7 @@ export const RegisterPage: FC = () => {
             }
           }
         } catch (e) {
-          // console.log(e);
+          console.log(e);
         } finally {
           setIsLoading(false);
         }

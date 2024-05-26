@@ -22,6 +22,7 @@ import { CompanyInfo } from '@/components/ProfilePageComponents/CompanyInfo/Comp
 import { AllTendersPage } from '@/pages/AllTendersPage/AllTendersPage';
 import FindExecutor from '@/pages/FindExecutor/FindExecutor';
 import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfile/OrdererProfile';
+import { ContractorProfile } from '@/components/ProfilePageComponents/ContractorProfile/ContractorProfile';
 export const Router = () => {
   return (
     <Routes>
@@ -46,7 +47,7 @@ export const Router = () => {
           <Route path="documents" element={<ProfileDocuments />} />
           <Route path="company" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
-            <Route path="contractor" />
+            <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
           <Route path="notifications" element={<ProfileNotifications />} />

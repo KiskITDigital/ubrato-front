@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { ObjectInfoT } from '@/types/app';
-import axios from 'axios';
+import { axiosInstance } from '@/utils';
 
 type objectT = {
   id: number;
@@ -23,7 +23,7 @@ interface ObjectsState {
   loading: boolean;
   error: null | string;
   handleActive: (ix: number) => void;
-  fetchObjects: () => void;
+  fetchObjects: () => Promise<void>;
 }
 
 export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
@@ -144,9 +144,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
   fetchObjects: async () => {
     set({ loading: true });
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_SERVER_URI}/v1/tenders/objects-types`
-      );
+      const response = await axiosInstance.get('/v1/tenders/objects-types');
       if (response.status !== 200) throw response;
       // console.log(response);
       set((state) => {
@@ -155,17 +153,21 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       });
       set((state) => {
         state.objects.forEach((e) => {
-          !!state?.apiObjects?.length && state.apiObjects.forEach((o) => {
-            if (e.name === 'Спортивные объекты' && o.name === 'Спортивно-оздоровительные объекты') {
-              e.count = o.total;
-            }
-            if (e.name === 'Объекты здравоохранения' && o.name === 'Объект здравоохранения') {
-              e.count = o.total;
-            }
-            if (e.name === o.name) {
-              e.count = o.total;
-            }
-          });
+          !!state?.apiObjects?.length &&
+            state.apiObjects.forEach((o) => {
+              if (
+                e.name === 'Спортивные объекты' &&
+                o.name === 'Спортивно-оздоровительные объекты'
+              ) {
+                e.count = o.total;
+              }
+              if (e.name === 'Объекты здравоохранения' && o.name === 'Объект здравоохранения') {
+                e.count = o.total;
+              }
+              if (e.name === o.name) {
+                e.count = o.total;
+              }
+            });
         });
         return { objects: state.objects };
       });

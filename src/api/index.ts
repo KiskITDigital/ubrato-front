@@ -25,4 +25,5 @@ export {
   putOrdererProfile,
   putBrandData,
   putBrandContacts,
+  fetchContractorProfile
 } from './profileOrganization';

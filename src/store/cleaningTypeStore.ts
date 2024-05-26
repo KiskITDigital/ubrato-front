@@ -22,7 +22,7 @@ interface CleaningTypeState {
   apiCleaningTypes: apiCleaningTypeT;
   loading: boolean;
   error: null | string;
-  fetchCleaningTypes: () => void;
+  fetchCleaningTypes: () => Promise<void>;
 }
 
 export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
