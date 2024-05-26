@@ -12,6 +12,31 @@ export const uploadFile = async (token: string, parameters: parameters): Promise
   return res.data.path;
 };
 
+
+export const downloadFile = async (token: string, link: string) => {
+  const res = await axiosInstanceStore.get(`/s3/private/${link}`,
+   {
+      responseType: 'blob',
+      headers: { 
+        authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  .then((response) => {
+    const blob = new Blob([response.data], { type: response.headers['content-type']});
+    const url = window.URL.createObjectURL(blob);
+    const a: HTMLAnchorElement  = document.createElement('a');
+    a.href = url;
+    a.download = link.split('/').pop() ?? '';
+    a.click();
+    console.log(response.data);
+    
+  })
+  console.log(res);
+  
+};
+
+
 export const updateAvatar = async (token: string, link: string): Promise<void> => {
   const res = await axiosInstance.put(
     '/v1/users/me/avatar',
@@ -22,3 +47,6 @@ export const updateAvatar = async (token: string, link: string): Promise<void> =
   );
   console.log(res);
 };
+
+
+
