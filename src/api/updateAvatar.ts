@@ -29,7 +29,7 @@ export const downloadFile = async (token: string, link: string) => {
     a.href = url;
     a.download = link.split('/').pop() ?? '';
     a.click();
-    console.log(response.data);
+    console.log(response.headers['Content-Type']);
     
   })
   console.log(res);

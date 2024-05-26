@@ -27,7 +27,18 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     return newDate.toISOString().slice(0, 10);
   } 
 
-
+  function truncateString(str: string, maxLength: number): string {
+    if (str.length <= maxLength) return str;
+  
+    const truncatedStr = str.slice(0, maxLength);
+    const lastSpaceIndex = truncatedStr.lastIndexOf(' ');
+  
+    if (lastSpaceIndex !== -1) {
+      return truncatedStr.slice(0, lastSpaceIndex);
+    } else {
+      return truncatedStr;
+    }
+  }
 
 
   return(
@@ -35,7 +46,7 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     <div 
     className={s.hit_block}
     >
-      <div className={s.hit_header}><h3 >{hit.name}</h3></div>  
+      <div className={s.hit_header}><h3 >{truncateString(hit.name, 20)}</h3></div>  
       <div className={s.hit_rcp}><p >{toDate(hit.reception_end).toLocaleString()}</p></div>
       <div className={s.hit_wrk}><p >{toDate(hit.work_start).toLocaleString()}</p></div>
       <div className={s.hit_arrow}>➔</div>
