@@ -11,7 +11,7 @@ const SendButtons: FC = () => {
     const objectsStore = useTypesObjectsStore()
     const cleaningTypeStore = useCleaningTypeStore()
 
-    const submit = (isDraft?: boolean) => {
+    const submit = async (isDraft?: boolean) => {
         if (createTenderState.validateInputs()) return;
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
@@ -45,9 +45,9 @@ const SendButtons: FC = () => {
             city_id,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        // console.log(objectToSend);
         const token = localStorage.getItem('token');
-        token && city_id && createTender(token, objectToSend, isDraft)
+        const res = token && city_id && await createTender(token, objectToSend, isDraft) as { status: number }
+        res && res.status === 200 && createTenderState.clear()
     }
     return (
         <div className={`${styles.section} ${styles.sendButtons}`}>

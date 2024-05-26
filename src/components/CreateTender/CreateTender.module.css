@@ -373,9 +373,10 @@
 }
 
 .firstSections__responses__inputs__input2 {
-    width: 100%;
+    width: calc(100% - 8px);
     border-radius: 0 10px 10px 0;
     border-left: none;
+
 }
 
 .SwitchNextUI>span:first-of-type {
@@ -657,6 +658,10 @@
     background-color: var(--color-light-gray-secondary);
     border: 1px solid var(--color-light-gray-secondary);
     align-items: center;
+}
+
+.section__block__buttonSecond {
+    /* line-height: 18px; */
 }
 
 @media screen and (max-width: 1050px) {
@@ -1140,6 +1145,7 @@
 .services__block__service {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 20px;
     width: 100%;
 }
@@ -1165,16 +1171,19 @@
 }
 
 .services__block__service__remove {
-    height: 28px;
-    width: 28px;
+    height: 32.875px;
+    width: 32.875px;
     min-width: 28px;
     padding: 5px;
     /* margin-left: auto; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .services__block__service__change {
     margin-left: auto;
-    height: 28px;
+    /* height: 28px; */
 }
 
 .services__object__types {
@@ -1262,7 +1271,7 @@
 .section__attachments__block__cardItem__notImageInfo__span {
     color: var(--color-black);
     display: inline-block;
-    max-width: 150px !important;
+    max-width: 120px !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

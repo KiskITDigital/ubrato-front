@@ -49,6 +49,7 @@ interface createTenderState {
     handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId?: number) => void
     changeAttachmentText: (id: number, text: string) => void
     removeAttachment: (id: number) => void
+    clear: () => void
 }
 
 export const useCreateTenderState = create<createTenderState>()((set) => ({
@@ -138,7 +139,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         const token = localStorage.getItem('token');
         const parameters = {
             file,
-            private: true,
+            private: false,
         };
         if (token) {
             try {
@@ -183,5 +184,40 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     },
     removeAttachment: (id: number) => {
         set((state) => ({ ...state, attachments: state.attachments.filter(attachment => attachment.id !== id) }))
+    },
+
+    clear: () => {
+        set(() => ({
+            "name": "",
+            "price": "",
+            "is_contract_price": false,
+            "floor_space": "",
+            "description": "",
+            "wishes": "",
+            "attachments": [],
+            "services_groups": [],
+
+            is_NDS: true,
+
+            city: '',
+
+            objectName: "",
+            objectCategory: [],
+
+            services: [],
+
+            cities: [],
+
+            "reception_start": new Date(),
+            "reception_time_start": "",
+            "reception_end": new Date(),
+            "reception_time_end": "",
+
+            "work_start": new Date(),
+            "work_end": new Date(),
+            "city_id": 0,
+            "object_group_id": 0,
+            "object_type_id": 0,
+        }))
     }
 }));

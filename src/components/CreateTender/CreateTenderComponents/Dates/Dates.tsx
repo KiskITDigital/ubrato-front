@@ -21,7 +21,7 @@ const Dates: FC = () => {
                 <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork} ${datesStyles.dateTimeContainer}`}>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-                    <DateRangePickerLocal />
+                    <DateRangePickerLocal timeToChangeStart="reception_start" timeToChangeEnd="reception_end" />
                     <div className={datesStyles.dateTime}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
                         <input
@@ -74,7 +74,7 @@ const Dates: FC = () => {
                 <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-                    <DateRangePickerLocal />
+                    <DateRangePickerLocal timeToChangeStart="work_start" timeToChangeEnd="work_end" />
                 </div>
             </div>
         </div>

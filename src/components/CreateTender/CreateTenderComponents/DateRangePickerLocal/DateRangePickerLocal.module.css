@@ -184,3 +184,8 @@
 .calendar tbody td span {
     outline: none;
 }
+
+.calendar header {
+    display: flex;
+    justify-content: center;
+}

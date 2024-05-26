@@ -17,6 +17,8 @@ export const addFavoriteExecutor = async (id: string, token: string) => {
                 authorization: `Bearer ${token}`,
             },
         })
+    console.log(res);
+
     return res
 }
 
