@@ -1,0 +1,25 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(2px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.modal {
+    width: 500px;
+    min-height: 200px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 20px var(--color-black-10);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}

@@ -1,12 +1,15 @@
 import { axiosInstance } from '@/utils';
 
-export const sendAnswers: (token: string, answers: string[]) => Promise<number> = async (
+export const sendResponse: (token: string, id: string, price: number) => Promise<number> = async (
   token,
-  answers
+  id,
+  price
 ) => {
   const res = await axiosInstance.post(
-    '/v1/questionnaire/save',
-    { answers: answers },
+    `/v1/tenders/tender/${id}/respond`,
+    {
+        "price": price
+    },
     {
       headers: {
         authorization: `Bearer ${token}`,
