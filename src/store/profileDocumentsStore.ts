@@ -29,7 +29,6 @@ export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) =>
       fetchUserDocs,
       null
     );
-    console.log(userDocs);
     const docsArr: documentInfo[] = res.map((e) => {
       return {
         type: e.id,

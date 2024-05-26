@@ -91,3 +91,36 @@ export const putBrandContacts = async (token: string, params: contacntsT) => {
   });
   console.log(res);
 };
+
+export interface contractorProfileData {
+  description: string;
+  locations: {
+    id: number;
+    name: string;
+  }[];
+  services: {
+    id: number;
+    name: string;
+    price: number;
+  }[];
+  objects: {
+    id: number;
+    name: string;
+  }[];
+  portfolio: {
+    name: string;
+    description: string;
+    links: string[];
+  }[];
+}
+
+export const fetchContractorProfile = async (token: string) => {
+  const res = await axiosInstance.get<contractorProfileData>(
+    '/v1/organizations/my/profile/contractor',
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  );
+
+  return res.data;
+};

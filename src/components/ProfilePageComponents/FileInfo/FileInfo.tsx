@@ -16,7 +16,6 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
   useEffect(() => {
     (async () => {
       const res = await updateToken(fetchPrivateFileInfo, link);
-      console.log(res);
       setFileDate(new Date(res.ctime));
       setFileInfo(res);
     })();

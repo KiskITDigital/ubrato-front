@@ -31,12 +31,14 @@ export const ExecutorsCatalog: FC = () => {
   const fetchCleaningTypes = typeCleaningStore.fetchCleaningTypes;
 
   useEffect(() => {
-    if (objectsStore?.apiObjects?.length === 0) {
-      fetchObjects();
-    }
-    if (typeCleaningStore?.apiCleaningTypes?.length === 0) {
-      fetchCleaningTypes();
-    }
+    (async () => {
+      if (objectsStore?.apiObjects?.length === 0) {
+        await fetchObjects();
+      }
+      if (typeCleaningStore?.apiCleaningTypes?.length === 0) {
+        await fetchCleaningTypes();
+      }
+    })();
   }, [
     fetchCleaningTypes,
     fetchObjects,
@@ -111,7 +113,7 @@ export const ExecutorsCatalog: FC = () => {
           ))}
           {!widthR.current && (
             <div>
-              <Link to="/tenders" className={styles.allTenderLink}>
+              <Link to="/alltenders" className={styles.allTenderLink}>
                 <p className={styles.allTenderHeader}>Все тендеры</p>
                 <p className={styles.allTenderCount}>
                   {count}{' '}

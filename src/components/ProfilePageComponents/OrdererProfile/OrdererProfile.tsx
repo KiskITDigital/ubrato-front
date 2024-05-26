@@ -38,14 +38,12 @@ export const OrdererProfile: FC = () => {
     (async () => {
       const res = await updateToken(fetchOrdererProfile, null);
       setTextareaValue(res.description);
-      console.log(area.current);
       initalData.current = res;
       setTimeout(() => {
         area.current!.style.height = `${
           Math.floor((area.current!.scrollHeight - 29) / 22) * 22 + 51
         }px`;
       }, 10);
-      console.log(area.current!.scrollHeight);
       setLocations(res.locations);
     })();
   }, []);
@@ -70,7 +68,7 @@ export const OrdererProfile: FC = () => {
         </div>
       </div>
       <div className={styles.description}>
-        <p>Описание компании</p>
+        <p className={styles.partHeader}>Описание компании</p>
         <textarea
           className={styles.textarea}
           value={textareaValue ?? ''}
@@ -86,7 +84,7 @@ export const OrdererProfile: FC = () => {
         ></textarea>
       </div>
       <div className={styles.locations}>
-        <p>Локации</p>
+        <p className={styles.partHeader}>Локации</p>
         <div className={styles.inputContainer}>
           <input
             className={styles.input}

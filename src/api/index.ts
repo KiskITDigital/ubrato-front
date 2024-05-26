@@ -25,6 +25,7 @@ export {
   putOrdererProfile,
   putBrandData,
   putBrandContacts,
+  fetchContractorProfile
 } from './profileOrganization';
 export { getExecutor } from './findExecutor/getExecutor'
 export { isFavoriteExecutor, addFavoriteExecutor, removeFavoriteExecutor } from './findExecutor/favoriteExecutors'
