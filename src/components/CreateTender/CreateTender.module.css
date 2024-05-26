@@ -660,10 +660,6 @@
     align-items: center;
 }
 
-.section__block__buttonSecond {
-    /* line-height: 18px; */
-}
-
 @media screen and (max-width: 1050px) {
     .section__block__button {
         width: 100%;
