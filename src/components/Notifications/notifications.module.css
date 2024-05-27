@@ -47,6 +47,9 @@
   position: relative;
 }
 
+.content {
+  position: absolute;
+}
 @media screen and (width < 450px) {
   .container {
     gap: 5px;

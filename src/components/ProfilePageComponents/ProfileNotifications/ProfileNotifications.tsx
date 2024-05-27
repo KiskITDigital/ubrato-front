@@ -13,7 +13,12 @@ export const ProfileNotifications: FC = () => {
   return (
     <div>
       {notificationsStore.notifications.notifications.map((e) => (
-        <div key={e.id}>{e.header}</div>
+        <div key={e.id}>
+          {e.header}
+          <div>{e.msg}</div>
+          <div>{e.href_text}</div>
+          <div>{e.href}</div>
+        </div>
       ))}
     </div>
   );
