@@ -45,7 +45,7 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<div>Избранное</div>} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="company" element={<Company />}>
+          <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />

@@ -5,7 +5,6 @@ import { NotificationsList } from '../NotificationsList/NotificationsList';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import { updateToken } from '@/api';
 
-
 export const Notifications: FC = () => {
   const notificationsStore = useNotificationsStore();
 
@@ -13,6 +12,7 @@ export const Notifications: FC = () => {
   const [isDisplayed, setIsDisplayed] = useState(false);
 
   const listRef = useRef<HTMLDivElement>(null);
+  const protalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     updateToken<void, null>(fetchNotifications, null);
@@ -20,13 +20,18 @@ export const Notifications: FC = () => {
 
   return (
     <div className={styles.container}>
-      <Popover isOpen={isDisplayed} onOpenChange={(open) => setIsDisplayed(open)}>
+      <Popover
+        isOpen={isDisplayed}
+        onOpenChange={(open) => setIsDisplayed(open)}
+        portalContainer={protalRef.current ?? document.body}
+      >
         <PopoverTrigger>
           <div className={styles.trigger}>
             <button>
               <img className={styles.img} src="/bell.svg" alt="" />
             </button>
             <div className={styles.count}>{notificationsStore.notifications.total}</div>
+            <div className={styles.content} ref={protalRef}></div>
           </div>
         </PopoverTrigger>
         <PopoverContent>
