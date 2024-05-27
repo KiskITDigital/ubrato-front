@@ -129,5 +129,6 @@ export interface tenderData {
   work_end: number
   city_id: string
   crated_at: number
-  verified: boolean
+  verified: boolean,
+  status: boolean,
 }

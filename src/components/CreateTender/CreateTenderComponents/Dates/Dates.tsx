@@ -25,6 +25,7 @@ const Dates: FC = () => {
                     <div className={datesStyles.dateTime}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
                         <input
+                            placeholder="00:00"
                             maxLength={5}
                             value={createTenderState.reception_time_start}
                             onChange={(e) => createTenderState.handleSimpleInput('reception_time_start', e.currentTarget.value, addTwoDots)}
@@ -33,6 +34,7 @@ const Dates: FC = () => {
                     <div className={`${datesStyles.dateTime} ${datesStyles.dateTime2}`}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
                         <input
+                            placeholder="00:00"
                             maxLength={5}
                             value={createTenderState.reception_time_end}
                             onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)}
