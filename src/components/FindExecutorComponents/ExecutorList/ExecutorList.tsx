@@ -6,8 +6,8 @@ import { getExecutor, isFavoriteExecutor, addFavoriteExecutor, removeFavoriteExe
 import { executorList } from '@/types/app';
 import { useFindExecutorState } from '@/store/findExecutorStore';
 import OfferTender from '../OfferTender/OfferTender';
-// import { Hits, InstantSearch, SortBy } from 'react-instantsearch';
-// import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
+import { useNavigate } from 'react-router-dom';
+import Modal from '@/components/Modal';
 
 const ExecutorList: FC = () => {
     const findExecutorState = useFindExecutorState()
@@ -16,7 +16,8 @@ const ExecutorList: FC = () => {
     const [paginationTotal, setPaginationTotal] = useState(0);
     const [paginationPage, setPaginationPage] = useState(1);
     const [paginationPerPage, setPaginationPerPage] = useState(2);
-
+    const navigate = useNavigate();
+    const [sortingValue, setSortingValue] = useState<'' | 'name:asc' | 'name:desc'>('');
     const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<null | string>(null);
 
     const dropDownClassNames = {
@@ -40,7 +41,7 @@ const ExecutorList: FC = () => {
 
     useEffect(() => {
         const client = new Typesense.Client({
-            apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
             'nodes': [
                 {
                     host: 'search.ubrato.ru',
@@ -52,7 +53,6 @@ const ExecutorList: FC = () => {
             ],
         });
 
-        // console.log(findExecutorState.locationId, findExecutorState.fastFilterTexts, findExecutorState.objectTypesId, findExecutorState.servicesTypesId);
         const filters = (() => {
             const filters = []
             if (findExecutorState.locationId) filters.push(`$contractor_city(city_id:=${findExecutorState.locationId})`)
@@ -61,16 +61,14 @@ const ExecutorList: FC = () => {
             if (findExecutorState.fastFilterTexts) findExecutorState.fastFilterTexts.forEach(filter => filters.push(`(inn:=*${filter}* || name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`))
             return filters.join(' && ')
         })()
-        // console.log(filters);
+
         const searchParameters = {
             'q': '',
             'query_by': 'name',
             'per_page': paginationPerPage,
             'page': paginationPage,
             'filter_by': filters,
-            // 'filter_by': '$contractor_object(object_type_id:=1) && $contractor_object(object_type_id:=2)'
-            // 'filter_by': '$contractor_city(city_id:=190)',
-            // 'filter_by': 'inn:=*7721546*',
+            'sort_by': sortingValue
         };
 
         const getAllExecutorListLengthSearchParameters = {
@@ -80,7 +78,7 @@ const ExecutorList: FC = () => {
         }
 
         client.collections('contractor_index').documents().search(getAllExecutorListLengthSearchParameters)
-            .then(response => {
+            .then(async response => {
                 setAllExecutorListLength(response?.hits?.length || 0)
                 setPaginationTotal((response?.hits?.length ? Math.ceil(response.hits.length / paginationPerPage) : 0))
             })
@@ -91,28 +89,39 @@ const ExecutorList: FC = () => {
         client.collections('contractor_index').documents().search(searchParameters)
             .then(async (response) => {
                 const newExecutorList = [] as executorList[];
-                console.log(response.hits);
-                const token = localStorage.getItem('token')
-                await Promise.all((response.hits || []).map(async (res) => {
+                const token = localStorage.getItem('token');
+
+                const promises = (response.hits || []).map((res, index) => {
                     const { id } = res.document as { id: string };
-                    if (!id) return;
-                    const data = await getExecutor(id);
-                    const isFavorite = !!token && (await isFavoriteExecutor(id, token))?.data?.status || false
-                    // console.log(isFavorite);
-                    // console.log(data);
-                    const newExecutorData = {
-                        id: data.organizationInfo.id,
-                        img: data.organizationInfo.avatar ? `${data.organizationInfo.avatar?.replace('/files', '')}` : '/avatar-ic.svg',
-                        name: data.organizationInfo.short_name,
-                        inn: data.organizationInfo.inn,
-                        text: data.contractorInfo.description,
-                        regions: data.contractorInfo.locations,
-                        services: data.contractorInfo.services,
-                        areServicesHidden: data.contractorInfo.services.length > 5,
-                        isFavorite: isFavorite
-                    } as executorList;
-                    newExecutorList.push(newExecutorData);
-                }));
+                    if (!id) return null;
+
+                    return (async () => {
+                        const data = await getExecutor(id);
+                        const isFavorite = !!token && (await isFavoriteExecutor(id, token))?.data?.status || false;
+
+                        return {
+                            index,
+                            executorData: {
+                                id: data.organizationInfo.id,
+                                img: data.organizationInfo.avatar ? `${data.organizationInfo.avatar?.replace('/files', '')}` : '/avatar-ic.svg',
+                                name: data.organizationInfo.short_name,
+                                inn: data.organizationInfo.inn,
+                                text: data.contractorInfo.description,
+                                regions: data.contractorInfo.locations,
+                                services: data.contractorInfo.services,
+                                areServicesHidden: data.contractorInfo.services.length > 5,
+                                isFavorite: isFavorite
+                            }
+                        } as { index: number, executorData: executorList };
+                    })();
+                }).filter(promise => promise !== null);
+
+                const results = await Promise.all(promises);
+
+                results.sort((a, b) => a!.index - b!.index).forEach(result => {
+                    newExecutorList.push(result!.executorData);
+                });
+
                 setExecutorList(newExecutorList);
             })
             .catch((error) => {
@@ -122,6 +131,7 @@ const ExecutorList: FC = () => {
         findExecutorState.objectTypesId,
         paginationPage,
         paginationPerPage,
+        sortingValue,
         findExecutorState.locationId,
         findExecutorState.servicesTypesId,
         findExecutorState.servicesTypesId.length,
@@ -129,47 +139,21 @@ const ExecutorList: FC = () => {
         findExecutorState.fastFilterTexts.length
     ]);
 
-
-    // const [searchClient, setSearchClient] = useState(null);
-
-    // useEffect(() => {
-    //     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
-    //         server: {
-    //             apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
-    //             'nodes': [
-    //                 {
-    //                     host: 'search.ubrato.ru',
-    //                     port: 443,
-    //                     protocol: 'https',
-    //                     path: "",
-    //                     // tls:true
-    //                 }
-    //             ],
-    //         },
-    //         additionalSearchParameters: {
-    //             query_by: "name",
-    //         },
-    //     });
-    //     setSearchClient(typesenseInstantsearchAdapter.searchClient)
-    // }, [])
-
     return (
         <div className={`container ${styles.container}`}>
-            {/* {
-                searchClient &&
-                <InstantSearch indexName='contractor_index' searchClient={searchClient}>
-                    <SortBy items={[
-                        { label: "wrk", value: 'contractor_index' },
-                        { label: "asc", value: 'contractor_index/sort/name:asc' },
-                        { label: "desc", value: 'contractor_index/sort/name:desc' }
-                    ]}></SortBy>
-                    <Hits />
-                </InstantSearch>
-            } */}
             {
+                !!executorIdToOfferTender && <Modal isOpen={!!executorIdToOfferTender}>
+                    {/* <p
+                        onClick={() => setExecutorIdToOfferTender(null)}
+                    >{executorIdToOfferTender}</p> */}
+                    <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} />
+
+                </Modal>
+            }
+            {/* {
                 !!executorIdToOfferTender &&
                 <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} />
-            }
+            } */}
             <div className={styles.amount}>
                 <p className={styles.number}>Исполнители: {allExecutorListLength}</p>
                 <Dropdown
@@ -184,8 +168,8 @@ const ExecutorList: FC = () => {
                         </Button>
                     </DropdownTrigger>
                     <DropdownMenu aria-label="Static Actions">
-                        <DropdownItem >По наименованию</DropdownItem>
-                        <DropdownItem >По популярности</DropdownItem>
+                        <DropdownItem onClick={() => setSortingValue('name:asc')}>По наименованию</DropdownItem>
+                        <DropdownItem onClick={() => setSortingValue('name:desc')}>По популярности</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -229,10 +213,13 @@ const ExecutorList: FC = () => {
                             <button
                                 onClick={async () => {
                                     const token = localStorage.getItem('token')
-                                    if (!token) return;
-                                    const res = await executor.isFavorite ? removeFavoriteExecutor(executor.id, token) : addFavoriteExecutor(executor.id, token)
-                                    const resStatus = (await res).data.status
-                                    setExecutorList(prev => prev.map(executorItem => executorItem.id === executor.id ? ({ ...executorItem, isFavorite: resStatus ? !executorItem.isFavorite : executorItem.isFavorite }) : executorItem))
+                                    if (!token) {
+                                        navigate('/login')
+                                    } else {
+                                        const res = await executor.isFavorite ? removeFavoriteExecutor(executor.id, token) : addFavoriteExecutor(executor.id, token)
+                                        const resStatus = (await res).data.status
+                                        setExecutorList(prev => prev.map(executorItem => executorItem.id === executor.id ? ({ ...executorItem, isFavorite: resStatus ? !executorItem.isFavorite : executorItem.isFavorite }) : executorItem))
+                                    }
                                 }}
                                 className={styles.executorLoveButton}
                             >
@@ -240,8 +227,13 @@ const ExecutorList: FC = () => {
                             </button>
                             <button
                                 onClick={() => {
-                                    document.body.style.overflow = "hidden";
-                                    setExecutorIdToOfferTender(executor.id)
+                                    const token = localStorage.getItem('token')
+                                    if (!token) {
+                                        navigate('/login')
+                                    } else {
+                                        document.body.style.overflow = "hidden";
+                                        setExecutorIdToOfferTender(executor.id)
+                                    }
                                 }}
                                 className={styles.executorOfferButton}>
                                 Предложить тендер
@@ -251,15 +243,20 @@ const ExecutorList: FC = () => {
                     </div>)
                 }
             </div>
-            <button
-                onClick={() => setPaginationPerPage(prev => prev + 2)}
-                className={styles.showMore}>
-                Показать еще
-                <img src="/find-executor/arrow-down.svg" alt="" />
-            </button>
             {
-                !!paginationTotal &&
-                <Pagination classNames={paginationClassNames} total={paginationTotal} showControls initialPage={1} page={paginationPage} onChange={setPaginationPage} />
+                allExecutorListLength > executorList.length &&
+                <>
+                    <button
+                        onClick={() => setPaginationPerPage(prev => prev + 2)}
+                        className={styles.showMore}>
+                        Показать еще
+                        <img src="/find-executor/arrow-down.svg" alt="" />
+                    </button>
+                    {
+                        !!paginationTotal &&
+                        <Pagination classNames={paginationClassNames} total={paginationTotal} showControls initialPage={1} page={paginationPage} onChange={setPaginationPage} />
+                    }
+                </>
             }
         </div>
     );

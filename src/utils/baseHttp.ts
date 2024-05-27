@@ -12,3 +12,5 @@ export const axiosInstanceStore = axios.create({
     "Content-Type": 'multipart/form-data'
   }
 })
+
+

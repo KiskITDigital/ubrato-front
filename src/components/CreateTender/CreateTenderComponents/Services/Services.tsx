@@ -104,7 +104,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                         </div>
                                         <button
                                             onClick={() => { setIsChoosingServiceToChange(service.id); setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService(service.types.map(type => type.name)) }}
-                                            className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__change}`}>Изменить</button>
+                                            className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__change} ${styles.textRegular}`}>Изменить</button>
                                         <button onClick={() => createTenderState.removeService(service.id)} className={`${styles.section__block__button} ${styles.service__button} ${styles.services__block__service__remove}`}><img src='/create-tender/create-tender-close.svg' alt="" /></button>
                                     </div>
 

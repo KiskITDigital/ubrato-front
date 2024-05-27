@@ -5,6 +5,7 @@ import { sendResponse } from "@/api/respondTender";
 
 
 type TenderModalProps = {
+    setResponse: () => void;
     isOpen: boolean;
     closeModal: () => void;
     handleSubmit: (e: React.FormEvent) => void;
@@ -14,7 +15,7 @@ type TenderModalProps = {
     response: boolean
   };
 
-export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, closeModal, handleSubmit, handleChange, price, response}) => {
+export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({setResponse, id, isOpen, closeModal, handleSubmit, handleChange, price, response}) => {
   const [customPrice, setCustomPrice] = useState<number | null>(null);
   const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
@@ -64,8 +65,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({id, isOpen, 
           const finalPrice = isAgreed ? price : customPrice;
           if (finalPrice !== null) {
               await handleResponseOnTender(token, id, finalPrice);  
-              console.log(token, id, finalPrice);
-              response = !response
+              setResponse()
               closeModal()
           }
         }

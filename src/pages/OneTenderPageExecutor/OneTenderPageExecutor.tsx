@@ -96,6 +96,10 @@ export const OneTenderPageExecutor: FC = () => {
     return <div>Failed to load data</div>;
   }
 
+  const changeResponseStatus = () => {
+    setResponse(true)
+  }
+
   return (
     <div>
       <OneTenderHeader
@@ -104,6 +108,7 @@ export const OneTenderPageExecutor: FC = () => {
         name={dataState.name}
       ></OneTenderHeader>
       <Switchero
+        setResponse={()=>changeResponseStatus()}
         response={response}
         tenderId={id}
         options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
