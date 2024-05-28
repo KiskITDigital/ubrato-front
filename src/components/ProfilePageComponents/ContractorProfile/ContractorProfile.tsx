@@ -31,12 +31,15 @@ export const ContractorProfile: FC = () => {
   const [services, setServices] = useState<services>([]);
   const [isServicesShown, setIsServicesShown] = useState(false);
   const [isObjectsShown, setIsObjectsShown] = useState(false);
+  const [isDataEqual, setIsDataEqual] = useState(true);
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<contractorProfileData>();
 
   const objectsStore = useTypesObjectsStore();
   const servicesStore = useCleaningTypeStore();
+  const fetchCleaningTypes = servicesStore.fetchCleaningTypes;
+  const fetchObjects = objectsStore.fetchObjects;
 
   const itemClasses = {
     base: `${styles.accordionItem}`,
@@ -71,6 +74,28 @@ export const ContractorProfile: FC = () => {
     setServices(newServices);
   };
 
+  const handleObjectsCheckbox = (id: number) => {
+    let newObjects = [...objectsList];
+    newObjects = newObjects.map((e) => {
+      return {
+        name: e.name,
+        id: e.id,
+        types: e.types.map((t) => {
+          if (t.id === id) {
+            return {
+              isChecked: !t.isChecked,
+              name: t.name,
+              id: t.id,
+            };
+          } else {
+            return t;
+          }
+        }),
+      };
+    });
+    setObjectsList(newObjects);
+  };
+
   const handleServicePrice = (id: number, price: string) => {
     let newServices = [...services];
     newServices = newServices.map((e) => {
@@ -95,15 +120,45 @@ export const ContractorProfile: FC = () => {
   };
 
   useEffect(() => {
+    const newObjects: { id: number; name: string }[] = [];
+    const newServices: { id: number; name: string; price: number }[] = [];
+    objectsList.forEach((e) => {
+      e.types
+        .filter((t) => t.isChecked)
+        .forEach((t) => {
+          newObjects.push({ id: t.id, name: t.name });
+        });
+    });
+    services.forEach((e) => {
+      e.types
+        .filter((t) => t.isChecked)
+        .forEach((t) => {
+          newServices.push({ id: t.id, name: t.name, price: t.price ?? 0 });
+        });
+    });
+    if (
+      JSON.stringify(newServices) !== JSON.stringify(initalData.current?.services) ||
+      JSON.stringify(newObjects) !== JSON.stringify(initalData.current?.objects) ||
+      textareaValue !== initalData.current?.description ||
+      JSON.stringify(locations) !== JSON.stringify(initalData.current.locations)
+    ) {
+      setIsDataEqual(false);
+    } else {
+      setIsDataEqual(true);
+    }
+  }, [locations, objectsList, services, textareaValue]);
+
+  useEffect(() => {
     (async () => {
       const res = await updateToken(fetchContractorProfile, null);
+      // console.log(res);
       setLocations(res.locations);
       setTextareaValue(res.description);
       if (objectsStore.apiObjects.length === 0) {
-        await objectsStore.fetchObjects();
+        await fetchObjects();
       }
       if (servicesStore.apiCleaningTypes.length === 0) {
-        await servicesStore.fetchCleaningTypes();
+        await fetchCleaningTypes();
       }
       const newServices = servicesStore.apiCleaningTypes.map((e) => {
         return {
@@ -129,7 +184,8 @@ export const ContractorProfile: FC = () => {
       setObjectsList(newObjects);
       initalData.current = res;
     })();
-  }, [objectsStore, servicesStore]);
+    console.log(1);
+  }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
 
   return (
     <div className={styles.container}>
@@ -157,10 +213,12 @@ export const ContractorProfile: FC = () => {
           value={textareaValue ?? ''}
           ref={area}
           onChange={(e) => {
-            setTextareaValue(e.target.value);
-            console.log(e.target.scrollHeight);
+            if (e.target.value.length === 0) {
+              setTextareaValue(null);
+            } else {
+              setTextareaValue(e.target.value);
+            }
             e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
-            console.log(e.target.scrollHeight);
           }}
           name="description"
           id="description"
@@ -229,7 +287,9 @@ export const ContractorProfile: FC = () => {
           <p className={styles.infoText}>Укажите услуги, которые оказывает ваша компания</p>
         </div>
         <div className={styles.listContainer}>
-          <h3 className={styles.partHeader}>Услуги</h3>
+          <h3 className="text-[16px] text-[var(--color-black-60)] h-[40px] flex items-center">
+            Услуги
+          </h3>
           <div className={styles.wrapper}>
             <Accordion
               showDivider={false}
@@ -264,7 +324,7 @@ export const ContractorProfile: FC = () => {
               onClick={() => setIsServicesShown(!isServicesShown)}
               className="underline py-2 px-[15px] bg-[var(--color-gray)] rounded-[13px] w-full text-left"
             >
-              {isServicesShown ? 'Скрыть часть объектов' : 'Показать все объекты'}
+              {isServicesShown ? 'Скрыть часть услуги' : 'Показать все услуги'}
             </button>
           </div>
         </div>
@@ -277,7 +337,9 @@ export const ContractorProfile: FC = () => {
           </p>
         </div>
         <div className={styles.listContainer}>
-          <h3 className={styles.partHeader}>Объекты</h3>
+          <h3 className="text-[16px] text-[var(--color-black-60)] h-[40px] flex items-center">
+            Объекты
+          </h3>
           <div className={styles.wrapper}>
             <Accordion
               showDivider={false}
@@ -297,8 +359,7 @@ export const ContractorProfile: FC = () => {
                       <ServiceCard
                         isChecked={o.isChecked}
                         name={o.name}
-                        setCheacked={handleServiceCheckbox}
-                        setPrice={handleServicePrice}
+                        setCheacked={handleObjectsCheckbox}
                         id={o.id}
                         key={o.id}
                       />
@@ -316,6 +377,7 @@ export const ContractorProfile: FC = () => {
           </div>
         </div>
       </div>
+      <h1 className="text-red-600 text-5xl fixed top-[200px]">{String(isDataEqual)}</h1>
     </div>
   );
 };

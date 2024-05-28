@@ -6,8 +6,8 @@ export const ServiceCard: FC<{
   isChecked: boolean;
   name: string;
   setCheacked: (id: number) => void;
-  setPrice: (id: number, price: string) => void;
   id: number;
+  setPrice?: (id: number, price: string) => void;
   price?: number | null;
 }> = ({ isChecked, name, setCheacked, id, price, setPrice }) => {
   const checkStyle = {
@@ -28,7 +28,7 @@ export const ServiceCard: FC<{
       >
         {name}
       </Checkbox>
-      {price !== undefined && (
+      {price !== undefined && setPrice !== undefined && (
         <input
           type="number"
           value={price ?? ''}
@@ -37,7 +37,9 @@ export const ServiceCard: FC<{
             console.log(e.nativeEvent instanceof InputEvent);
             if (e.nativeEvent instanceof InputEvent) {
               if (e.nativeEvent.data !== '.') {
-                setPrice(id, e.target.value);
+                if (setPrice !== undefined) {
+                  setPrice(id, e.target.value);
+                }
               }
             }
           }}
