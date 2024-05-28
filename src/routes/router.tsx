@@ -50,6 +50,7 @@ export const Router = () => {
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
+          <Route path="tenders" element={<div></div>} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />
           <Route path="help" element={<Help />} />

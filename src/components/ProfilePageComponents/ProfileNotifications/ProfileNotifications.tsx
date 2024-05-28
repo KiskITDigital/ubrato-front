@@ -1,5 +1,6 @@
 import { useNotificationsStore } from '@/store/notificationsStore';
 import { FC, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
@@ -16,7 +17,11 @@ export const ProfileNotifications: FC = () => {
         <div key={e.id}>
           {e.header}
           <div>{e.msg}</div>
-          <div>{e.href_text}</div>
+          {e.href && (
+            <Link className="underline text-red-400" to={e.href.replace('https://ubrato.ru', '')}>
+              {e.href_text}
+            </Link>
+          )}
           <div>{e.href}</div>
         </div>
       ))}
