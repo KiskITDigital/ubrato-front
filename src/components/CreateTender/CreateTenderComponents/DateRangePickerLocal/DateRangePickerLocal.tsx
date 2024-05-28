@@ -2,9 +2,9 @@ import { FC, useState } from "react";
 import { DateRangePicker } from "@nextui-org/date-picker";
 import styles from './DateRangePickerLocal.module.css'
 // import {useDateFormatter} from "@react-aria/i18n";
-import { parseDate } from "@internationalized/date";
 import { RangeValue, CalendarDate } from "@nextui-org/react";
 import { useCreateTenderState } from "@/store/createTenderStore";
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
 
 const DateRangePickerLocal: FC<{
     timeToChangeStart: 'reception_start' | 'work_start',
@@ -44,11 +44,10 @@ const DateRangePickerLocal: FC<{
         end: parseDate(new Date().toISOString().split('T')[0])
     });
 
-    //   let formatter = useDateFormatter({dateStyle: "long"});
-    //
     return (
         <DateRangePicker
             // className="max-w-xs"
+            minValue={today(getLocalTimeZone())}
             labelPlacement="outside-left"
             onFocus={() => setIsCalendarOpen(true)}
             onOpenChange={() => setIsCalendarOpen(prev => !prev)}
