@@ -69,7 +69,8 @@
 }
 
 .tenders .tender__receptionTime {
-    color: var(--color-black-60);
+    /* color: var(--color-black-60); */
+    color: var(--color-text-gray);
 }
 
 .tenders .tender__name {
@@ -89,9 +90,13 @@
     align-items: center;
 }
 
-/* .radioWrapper>label>div:last-of-type {
-    border-bottom: 1px dashed var(--color-black-10);
-} */
+.radioWrapper>label:hover {
+    cursor: pointer;
+}
+
+.radioWrapper>label[data-disabled="true"]:hover {
+    cursor: not-allowed;
+}
 
 .radioWrapper>label>span:first-of-type {
     display: block;
@@ -104,6 +109,10 @@
     justify-content: center;
     align-items: center;
     transition: all .15s ease-in-out;
+}
+
+.radioWrapper>label[data-disabled="true"]>span:first-of-type {
+    border-color: var(--color-black-10);
 }
 
 .radioWrapper>label>span:first-of-type>span {
@@ -122,4 +131,12 @@
     width: 10px;
     height: 10px;
     background-color: var(--color-blue-primary);
+}
+
+.radioWrapper>label[data-disabled="true"] .tender__receptionTime {
+    color: var(--color-black-30);
+}
+
+.radioWrapper>label[data-disabled="true"] .tender__name {
+    color: var(--color-black-30);
 }

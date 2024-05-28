@@ -29,3 +29,5 @@ export {
 } from './profileOrganization';
 export { getExecutor } from './findExecutor/getExecutor'
 export { isFavoriteExecutor, addFavoriteExecutor, removeFavoriteExecutor } from './findExecutor/favoriteExecutors'
+export { offerTender } from './findExecutor/offerTender'
+export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded'
