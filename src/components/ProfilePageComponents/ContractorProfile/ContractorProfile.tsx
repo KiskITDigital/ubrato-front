@@ -9,10 +9,11 @@ import { Accordion, AccordionItem } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
 
-// type locations = {
-//   id: number;
-//   name: string;
-// }[];
+type locations = {
+  id: number;
+  name: string;
+  types: { isChecked: boolean; id: number; name: string }[];
+}[];
 
 type services = {
   id: number;
@@ -26,8 +27,10 @@ export const ContractorProfile: FC = () => {
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
-  // const [objectsList, setObjectsList] = useState<locations>([]);
+  const [objectsList, setObjectsList] = useState<locations>([]);
   const [services, setServices] = useState<services>([]);
+  const [isServicesShown, setIsServicesShown] = useState(false);
+  const [isObjectsShown, setIsObjectsShown] = useState(false);
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<contractorProfileData>();
@@ -112,7 +115,18 @@ export const ContractorProfile: FC = () => {
           }),
         };
       });
+      const newObjects = objectsStore.apiObjects.map((e) => {
+        return {
+          name: e.name,
+          id: e.id,
+          types: e.types.map((t) => {
+            const isChecked = res.objects.find((i) => i.id === t.id);
+            return { isChecked: isChecked ? true : false, name: t.name, id: t.id };
+          }),
+        };
+      });
       setServices(newServices);
+      setObjectsList(newObjects);
       initalData.current = res;
     })();
   }, [objectsStore, servicesStore]);
@@ -209,7 +223,7 @@ export const ContractorProfile: FC = () => {
           )}
         </div>
       </div>
-      <div>
+      <div className="border-b border-dashed border-[rgba(0,0,0,0.15)] pb-[16px]">
         <div className={styles.infoContainer}>
           <img src="/info-blue-ic.svg" alt="" />
           <p className={styles.infoText}>Укажите услуги, которые оказывает ваша компания</p>
@@ -223,8 +237,13 @@ export const ContractorProfile: FC = () => {
               selectionMode="multiple"
               itemClasses={itemClasses}
             >
-              {services.map((e) => (
-                <AccordionItem indicator={<ArrowIC />} title={e.name} key={e.id}>
+              {services.map((e, ix) => (
+                <AccordionItem
+                  className={`${ix < 9 || isServicesShown ? 'flex' : 'hidden'}`}
+                  indicator={<ArrowIC />}
+                  title={e.name}
+                  key={e.id}
+                >
                   <div className={styles.subList}>
                     {e.types.map((o) => (
                       <ServiceCard
@@ -241,6 +260,59 @@ export const ContractorProfile: FC = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+            <button
+              onClick={() => setIsServicesShown(!isServicesShown)}
+              className="underline py-2 px-[15px] bg-[var(--color-gray)] rounded-[13px] w-full text-left"
+            >
+              {isServicesShown ? 'Скрыть часть объектов' : 'Показать все объекты'}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="border-b border-dashed border-[rgba(0,0,0,0.15)] pb-[30px]">
+        <div className={styles.infoContainer}>
+          <img src="/info-blue-ic.svg" alt="" />
+          <p className={styles.infoText}>
+            Укажите объекты, на которых оказывает услуги ваша компания
+          </p>
+        </div>
+        <div className={styles.listContainer}>
+          <h3 className={styles.partHeader}>Объекты</h3>
+          <div className={styles.wrapper}>
+            <Accordion
+              showDivider={false}
+              className={styles.accordionWrapper}
+              selectionMode="multiple"
+              itemClasses={itemClasses}
+            >
+              {objectsList.map((e, ix) => (
+                <AccordionItem
+                  className={`${ix < 9 || isObjectsShown ? 'flex' : 'hidden'}`}
+                  indicator={<ArrowIC />}
+                  title={e.name}
+                  key={e.id}
+                >
+                  <div className={styles.subList}>
+                    {e.types.map((o) => (
+                      <ServiceCard
+                        isChecked={o.isChecked}
+                        name={o.name}
+                        setCheacked={handleServiceCheckbox}
+                        setPrice={handleServicePrice}
+                        id={o.id}
+                        key={o.id}
+                      />
+                    ))}
+                  </div>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            <button
+              onClick={() => setIsObjectsShown(!isObjectsShown)}
+              className="underline py-2 px-[15px] bg-[var(--color-gray)] rounded-[13px] w-full text-left"
+            >
+              {isObjectsShown ? 'Скрыть часть объектов' : 'Показать все объекты'}
+            </button>
           </div>
         </div>
       </div>
