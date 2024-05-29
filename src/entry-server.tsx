@@ -9,7 +9,7 @@ interface IRenderProps {
 
 export const render = ({ path }: IRenderProps) => {
   return ReactDOMServer.renderToString(
-    <NextUIProvider>
+    <NextUIProvider locale="RU-ru">
       <StaticRouter location={path}>
         <Router />
       </StaticRouter>

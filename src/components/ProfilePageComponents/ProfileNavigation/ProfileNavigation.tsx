@@ -62,17 +62,17 @@ export const ProfileNavigation: FC = () => {
           </Link>
         )}
         <Link
-          to="company"
-          className={`${styles.link} ${page.includes('company') ? styles.active : ''} `}
+          to=""
+          className={`${styles.link} ${!page.includes('profile/') ? styles.active : ''} `}
         >
           <CompanyProfiveIC />
           Профиль компании
         </Link>
-        <Link className={`${styles.link} ${styles.sublink}`} to="company/orderer">
+        <Link className={`${styles.link} ${styles.sublink}`} to="orderer">
           Заказчик
         </Link>
         {userStore.user.is_contractor && (
-          <Link className={`${styles.link} ${styles.sublink}`} to="company/contractor">
+          <Link className={`${styles.link} ${styles.sublink}`} to="contractor">
             Исполнитель
           </Link>
         )}

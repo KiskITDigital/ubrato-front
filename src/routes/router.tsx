@@ -45,11 +45,12 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<div>Избранное</div>} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="company" element={<Company />}>
+          <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
+          <Route path="tenders" element={<div></div>} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<div></div>} />
           <Route path="help" element={<Help />} />

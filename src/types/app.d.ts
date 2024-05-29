@@ -59,11 +59,11 @@ export interface QuestionT {
 export interface notificationT {
   msg: string;
   href: string | null;
-  id: 0;
+  id: number;
   header: string;
   read: boolean;
-  href_text: string,
-  href_color: number,
+  href_text: string;
+  href_color: number;
 }
 
 export interface notificationsT {
@@ -72,14 +72,50 @@ export interface notificationsT {
 }
 
 export interface City {
-  "id": number,
-  "name": string,
-  "region": string
+  id: number;
+  name: string;
+  region: string;
 }
 
 export interface createTenderData {
-  objects_types: number[]
-  services_types: number[]
+  objects_types: number[];
+  services_types: number[];
+  name: string;
+  price: number;
+  is_contract_price: boolean;
+  is_nds_price: boolean;
+  floor_space: number;
+  wishes: string;
+  description: string;
+  reception_start: string;
+  reception_end: string;
+  work_start: string;
+  work_end: string;
+  city_id: number;
+  attachments: string[];
+}
+
+export interface executorList {
+  id: string;
+  img: string;
+  name: string;
+  inn: string;
+  text: string;
+  regions: {
+    id: number;
+    name: string;
+  }[];
+  services: {
+    id: number;
+    name: string;
+    price: number;
+  }[];
+  areServicesHidden: boolean;
+  isFavorite: boolean;
+}
+
+export interface tenderData {
+  id: string
   name: string
   price: number
   is_contract_price: boolean
@@ -87,29 +123,12 @@ export interface createTenderData {
   floor_space: number
   wishes: string
   description: string
-  reception_start: string
-  reception_end: string
-  work_start: string
-  work_end: string
-  city_id: number
-  attachments: string[]
-}
-
-export interface executorList {
-  id: string,
-  img: string,
-  name: string,
-  inn: string,
-  text: string,
-  regions: {
-    id: number,
-    name: string
-  }[],
-  services: {
-    id: number,
-    name: string,
-    price: number
-  }[],
-  areServicesHidden: boolean,
-  isFavorite: boolean
+  reception_start: number
+  reception_end: number
+  work_start: number
+  work_end: number
+  city_id: string
+  crated_at: number
+  verified: boolean,
+  status: boolean,
 }

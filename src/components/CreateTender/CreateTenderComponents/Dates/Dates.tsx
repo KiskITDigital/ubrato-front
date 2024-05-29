@@ -21,10 +21,11 @@ const Dates: FC = () => {
                 <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork} ${datesStyles.dateTimeContainer}`}>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-                    <DateRangePickerLocal />
+                    <DateRangePickerLocal timeToChangeStart="reception_start" timeToChangeEnd="reception_end" />
                     <div className={datesStyles.dateTime}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
                         <input
+                            placeholder="00:00"
                             maxLength={5}
                             value={createTenderState.reception_time_start}
                             onChange={(e) => createTenderState.handleSimpleInput('reception_time_start', e.currentTarget.value, addTwoDots)}
@@ -33,6 +34,7 @@ const Dates: FC = () => {
                     <div className={`${datesStyles.dateTime} ${datesStyles.dateTime2}`}>
                         <span className={styles.firstSections__responses__inputs__span}></span>
                         <input
+                            placeholder="00:00"
                             maxLength={5}
                             value={createTenderState.reception_time_end}
                             onChange={(e) => createTenderState.handleSimpleInput('reception_time_end', e.currentTarget.value, addTwoDots)}
@@ -74,7 +76,7 @@ const Dates: FC = () => {
                 <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
                     <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-                    <DateRangePickerLocal />
+                    <DateRangePickerLocal timeToChangeStart="work_start" timeToChangeEnd="work_end" />
                 </div>
             </div>
         </div>

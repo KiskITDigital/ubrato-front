@@ -1,4 +1,4 @@
-import { FC, RefObject } from 'react';
+import { FC, RefObject, useEffect } from 'react';
 import styles from './notificationslist.module.css';
 import { useNotificationsStore } from '@/store/notificationsStore';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,10 @@ export const NotificationsList: FC<{
   listRef: RefObject<HTMLDivElement>;
 }> = ({ closeList, listRef }) => {
   const notificationsStore = useNotificationsStore();
+
+  useEffect(() => {
+    console.log(self);
+  }, []);
 
   return (
     <div tabIndex={1} ref={listRef} className={`${styles.container} `}>

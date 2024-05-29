@@ -9,10 +9,11 @@ import { Accordion, AccordionItem } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
 
-// type locations = {
-//   id: number;
-//   name: string;
-// }[];
+type locations = {
+  id: number;
+  name: string;
+  types: { isChecked: boolean; id: number; name: string }[];
+}[];
 
 type services = {
   id: number;
@@ -26,14 +27,19 @@ export const ContractorProfile: FC = () => {
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
-  // const [objectsList, setObjectsList] = useState<locations>([]);
+  const [objectsList, setObjectsList] = useState<locations>([]);
   const [services, setServices] = useState<services>([]);
+  const [isServicesShown, setIsServicesShown] = useState(false);
+  const [isObjectsShown, setIsObjectsShown] = useState(false);
+  const [isDataEqual, setIsDataEqual] = useState(true);
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<contractorProfileData>();
 
   const objectsStore = useTypesObjectsStore();
   const servicesStore = useCleaningTypeStore();
+  const fetchCleaningTypes = servicesStore.fetchCleaningTypes;
+  const fetchObjects = objectsStore.fetchObjects;
 
   const itemClasses = {
     base: `${styles.accordionItem}`,
@@ -68,6 +74,28 @@ export const ContractorProfile: FC = () => {
     setServices(newServices);
   };
 
+  const handleObjectsCheckbox = (id: number) => {
+    let newObjects = [...objectsList];
+    newObjects = newObjects.map((e) => {
+      return {
+        name: e.name,
+        id: e.id,
+        types: e.types.map((t) => {
+          if (t.id === id) {
+            return {
+              isChecked: !t.isChecked,
+              name: t.name,
+              id: t.id,
+            };
+          } else {
+            return t;
+          }
+        }),
+      };
+    });
+    setObjectsList(newObjects);
+  };
+
   const handleServicePrice = (id: number, price: string) => {
     let newServices = [...services];
     newServices = newServices.map((e) => {
@@ -92,15 +120,45 @@ export const ContractorProfile: FC = () => {
   };
 
   useEffect(() => {
+    const newObjects: { id: number; name: string }[] = [];
+    const newServices: { id: number; name: string; price: number }[] = [];
+    objectsList.forEach((e) => {
+      e.types
+        .filter((t) => t.isChecked)
+        .forEach((t) => {
+          newObjects.push({ id: t.id, name: t.name });
+        });
+    });
+    services.forEach((e) => {
+      e.types
+        .filter((t) => t.isChecked)
+        .forEach((t) => {
+          newServices.push({ id: t.id, name: t.name, price: t.price ?? 0 });
+        });
+    });
+    if (
+      JSON.stringify(newServices) !== JSON.stringify(initalData.current?.services) ||
+      JSON.stringify(newObjects) !== JSON.stringify(initalData.current?.objects) ||
+      textareaValue !== initalData.current?.description ||
+      JSON.stringify(locations) !== JSON.stringify(initalData.current.locations)
+    ) {
+      setIsDataEqual(false);
+    } else {
+      setIsDataEqual(true);
+    }
+  }, [locations, objectsList, services, textareaValue]);
+
+  useEffect(() => {
     (async () => {
       const res = await updateToken(fetchContractorProfile, null);
+      // console.log(res);
       setLocations(res.locations);
       setTextareaValue(res.description);
       if (objectsStore.apiObjects.length === 0) {
-        await objectsStore.fetchObjects();
+        await fetchObjects();
       }
       if (servicesStore.apiCleaningTypes.length === 0) {
-        await servicesStore.fetchCleaningTypes();
+        await fetchCleaningTypes();
       }
       const newServices = servicesStore.apiCleaningTypes.map((e) => {
         return {
@@ -112,10 +170,22 @@ export const ContractorProfile: FC = () => {
           }),
         };
       });
+      const newObjects = objectsStore.apiObjects.map((e) => {
+        return {
+          name: e.name,
+          id: e.id,
+          types: e.types.map((t) => {
+            const isChecked = res.objects.find((i) => i.id === t.id);
+            return { isChecked: isChecked ? true : false, name: t.name, id: t.id };
+          }),
+        };
+      });
       setServices(newServices);
+      setObjectsList(newObjects);
       initalData.current = res;
     })();
-  }, [objectsStore, servicesStore]);
+    console.log(1);
+  }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
 
   return (
     <div className={styles.container}>
@@ -143,10 +213,12 @@ export const ContractorProfile: FC = () => {
           value={textareaValue ?? ''}
           ref={area}
           onChange={(e) => {
-            setTextareaValue(e.target.value);
-            console.log(e.target.scrollHeight);
+            if (e.target.value.length === 0) {
+              setTextareaValue(null);
+            } else {
+              setTextareaValue(e.target.value);
+            }
             e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
-            console.log(e.target.scrollHeight);
           }}
           name="description"
           id="description"
@@ -209,13 +281,15 @@ export const ContractorProfile: FC = () => {
           )}
         </div>
       </div>
-      <div>
+      <div className="border-b border-dashed border-[rgba(0,0,0,0.15)] pb-[16px]">
         <div className={styles.infoContainer}>
           <img src="/info-blue-ic.svg" alt="" />
           <p className={styles.infoText}>Укажите услуги, которые оказывает ваша компания</p>
         </div>
         <div className={styles.listContainer}>
-          <h3 className={styles.partHeader}>Услуги</h3>
+          <h3 className="text-[16px] text-[var(--color-black-60)] h-[40px] flex items-center">
+            Услуги
+          </h3>
           <div className={styles.wrapper}>
             <Accordion
               showDivider={false}
@@ -223,8 +297,13 @@ export const ContractorProfile: FC = () => {
               selectionMode="multiple"
               itemClasses={itemClasses}
             >
-              {services.map((e) => (
-                <AccordionItem indicator={<ArrowIC />} title={e.name} key={e.id}>
+              {services.map((e, ix) => (
+                <AccordionItem
+                  className={`${ix < 9 || isServicesShown ? 'flex' : 'hidden'}`}
+                  indicator={<ArrowIC />}
+                  title={e.name}
+                  key={e.id}
+                >
                   <div className={styles.subList}>
                     {e.types.map((o) => (
                       <ServiceCard
@@ -241,9 +320,64 @@ export const ContractorProfile: FC = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+            <button
+              onClick={() => setIsServicesShown(!isServicesShown)}
+              className="underline py-2 px-[15px] bg-[var(--color-gray)] rounded-[13px] w-full text-left"
+            >
+              {isServicesShown ? 'Скрыть часть услуги' : 'Показать все услуги'}
+            </button>
           </div>
         </div>
       </div>
+      <div className="border-b border-dashed border-[rgba(0,0,0,0.15)] pb-[30px]">
+        <div className={styles.infoContainer}>
+          <img src="/info-blue-ic.svg" alt="" />
+          <p className={styles.infoText}>
+            Укажите объекты, на которых оказывает услуги ваша компания
+          </p>
+        </div>
+        <div className={styles.listContainer}>
+          <h3 className="text-[16px] text-[var(--color-black-60)] h-[40px] flex items-center">
+            Объекты
+          </h3>
+          <div className={styles.wrapper}>
+            <Accordion
+              showDivider={false}
+              className={styles.accordionWrapper}
+              selectionMode="multiple"
+              itemClasses={itemClasses}
+            >
+              {objectsList.map((e, ix) => (
+                <AccordionItem
+                  className={`${ix < 9 || isObjectsShown ? 'flex' : 'hidden'}`}
+                  indicator={<ArrowIC />}
+                  title={e.name}
+                  key={e.id}
+                >
+                  <div className={styles.subList}>
+                    {e.types.map((o) => (
+                      <ServiceCard
+                        isChecked={o.isChecked}
+                        name={o.name}
+                        setCheacked={handleObjectsCheckbox}
+                        id={o.id}
+                        key={o.id}
+                      />
+                    ))}
+                  </div>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            <button
+              onClick={() => setIsObjectsShown(!isObjectsShown)}
+              className="underline py-2 px-[15px] bg-[var(--color-gray)] rounded-[13px] w-full text-left"
+            >
+              {isObjectsShown ? 'Скрыть часть объектов' : 'Показать все объекты'}
+            </button>
+          </div>
+        </div>
+      </div>
+      <h1 className="text-red-600 text-5xl fixed top-[200px]">{String(isDataEqual)}</h1>
     </div>
   );
 };

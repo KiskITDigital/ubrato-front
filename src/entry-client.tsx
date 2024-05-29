@@ -5,14 +5,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { Router } from './routes/router.tsx';
 import { NextUIProvider } from '@nextui-org/react';
 
-
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
 
-  <NextUIProvider>
+  <NextUIProvider locale="RU-ru">
     <BrowserRouter>
       <Router />
     </BrowserRouter>
   </NextUIProvider>
 );
-

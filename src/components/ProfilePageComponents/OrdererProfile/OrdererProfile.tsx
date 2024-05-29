@@ -74,7 +74,11 @@ export const OrdererProfile: FC = () => {
           value={textareaValue ?? ''}
           ref={area}
           onChange={(e) => {
-            setTextareaValue(e.target.value);
+            if (e.target.value.length === 0) {
+              setTextareaValue(null);
+            } else {
+              setTextareaValue(e.target.value);
+            }
             console.log(e.target.scrollHeight);
             e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
             console.log(e.target.scrollHeight);

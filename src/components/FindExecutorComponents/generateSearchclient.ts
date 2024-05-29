@@ -3,7 +3,7 @@ import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 export const generateSearchClient = (limit: number = 10) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
-            apiKey: 'R5PQLVrGuPubEcLIdGIJhjip5kvdXbFu',
+            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
             nodes: [
                 {
                     host: 'search.ubrato.ru',
