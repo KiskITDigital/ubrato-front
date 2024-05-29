@@ -41,7 +41,7 @@ const DateRangePickerLocal: FC<{
     useEffect(() => {
         if (createTenderState.work_start.getTime() < createTenderState.reception_end.getTime()) {
             createTenderState.handleSimpleInput('work_start', createTenderState.reception_end)
-            createTenderState.handleSimpleInput('work_end', createTenderState.reception_end)
+            if (createTenderState.work_end.getTime() < createTenderState.reception_end.getTime()) createTenderState.handleSimpleInput('work_end', createTenderState.reception_end)
         }
     }, [createTenderState, createTenderState.reception_end]);
 

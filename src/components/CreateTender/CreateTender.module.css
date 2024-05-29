@@ -306,6 +306,7 @@
 }
 
 .firstSections__div__title {
+    height: 24px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -537,7 +538,12 @@
     padding: 5px 8px;
 }
 
-
+@media screen and (max-width: 1280px) {
+    .firstSections__div__main__block__input {
+        font-size: 14px;
+        line-height: 16px;
+    }
+}
 
 
 .CheckboxNextUI__block {
