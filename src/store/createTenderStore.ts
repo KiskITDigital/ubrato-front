@@ -42,13 +42,15 @@ interface createTenderState {
     removeService: (id: number) => void
     removeServiceType: (serviceId: number, typeId: number) => void
     cities: City[]
+    attachmentIdToChange: number | null
     getCities: (query: string) => void
     addError: (newError: string) => void
     removeError: (errorToRemove: string) => void
     validateInputs: () => boolean
-    handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId?: number) => void
+    handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId: number | null) => void
     changeAttachmentText: (id: number, text: string) => void
     removeAttachment: (id: number) => void
+    changeAttachmentIdToChange: (newVal: number | null) => void
     clear: () => void
 }
 
@@ -76,15 +78,16 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     cities: [],
 
     "reception_start": new Date(),
-    "reception_time_start": "",
+    "reception_time_start": "00:00",
     "reception_end": new Date(),
-    "reception_time_end": "",
+    "reception_time_end": "00:00",
 
     "work_start": new Date(),
     "work_end": new Date(),
     "city_id": 0,
     "object_group_id": 0,
     "object_type_id": 0,
+    attachmentIdToChange: null,
     handleSimpleInput: (whatToChange: 'name' | 'reception_time_start' | 'reception_time_end' | 'price' | 'is_contract_price' | 'is_NDS' | 'description' | 'wishes' | 'floor_space' | 'objectName' | 'objectCategory' | 'city' | 'reception_start' | 'reception_end' | 'work_start' | 'work_end', newVal: string | boolean | Date, mask?: (value: string) => string) => {
         set((state) => ({ ...state, [whatToChange]: (mask && typeof newVal === 'string') ? mask(newVal) : newVal }))
     },
@@ -131,7 +134,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         set((state) => ({ ...state, errors: [...state.errors.filter(error => error !== errorToRemove)] }))
     },
 
-    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>, idToChange?: number) => {
+    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>, idToChange: number | null) => {
         const files = event.target.files;
         const file = files![files!.length - 1];
 
@@ -177,6 +180,10 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             return { ...state, errors: [...newErrors] }
         })
         return !!newErrors.length
+    },
+
+    changeAttachmentIdToChange: (newVal: number | null) => {
+        set((state) => ({ ...state, attachmentIdToChange: newVal }))
     },
 
     changeAttachmentText: (id: number, newText: string) => {

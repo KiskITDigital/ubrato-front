@@ -5,13 +5,18 @@ import { FC } from "react";
 import { formatDate } from "../../funcs";
 import { createTender } from "@/api/index"
 import styles from '../../CreateTender.module.css'
+import { useNavigate } from "react-router-dom";
 
 const SendButtons: FC = () => {
     const createTenderState = useCreateTenderState()
     const objectsStore = useTypesObjectsStore()
     const cleaningTypeStore = useCleaningTypeStore()
 
+    const navigate = useNavigate()
+
     const submit = async (isDraft?: boolean) => {
+        const token = localStorage.getItem('token')
+        if (!token) { navigate('/login'); return; }
         if (createTenderState.validateInputs()) return;
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
@@ -45,8 +50,7 @@ const SendButtons: FC = () => {
             city_id,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        const token = localStorage.getItem('token');
-        const res = token && city_id && await createTender(token, objectToSend, isDraft) as { status: number }
+        const res = city_id && await createTender(token, objectToSend, isDraft) as { status: number }
         res && res.status === 200 && createTenderState.clear()
     }
     return (

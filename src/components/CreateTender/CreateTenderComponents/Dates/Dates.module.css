@@ -20,10 +20,22 @@
 
 @media screen and (min-width: 1050px) {
     .dateTime {
-        width: 48px;
+        width: 60px;
         left: 0;
         max-width: none;
-        margin-left: 114px;
+        margin-left: 106px;
+    }
+
+    .dateTime2 {
+        margin-left: calc(50% + 102px);
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .dateTime {
+        margin-left: 122px;
+        font-size: 14px;
+        line-height: 16px;
     }
 
     .dateTime2 {

@@ -1,7 +1,6 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { DateRangePicker } from "@nextui-org/date-picker";
 import styles from './DateRangePickerLocal.module.css'
-// import {useDateFormatter} from "@react-aria/i18n";
 import { RangeValue, CalendarDate } from "@nextui-org/react";
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { getLocalTimeZone, parseDate, today } from "@internationalized/date";
@@ -39,21 +38,25 @@ const DateRangePickerLocal: FC<{
     }
     const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
-    const [value, setValue] = useState<RangeValue<CalendarDate>>({
-        start: parseDate(new Date().toISOString().split('T')[0]),
-        end: parseDate(new Date().toISOString().split('T')[0])
-    });
+    useEffect(() => {
+        if (createTenderState.work_start.getTime() < createTenderState.reception_end.getTime()) {
+            createTenderState.handleSimpleInput('work_start', createTenderState.reception_end)
+            createTenderState.handleSimpleInput('work_end', createTenderState.reception_end)
+        }
+    }, [createTenderState, createTenderState.reception_end]);
 
     return (
         <DateRangePicker
-            // className="max-w-xs"
-            minValue={today(getLocalTimeZone())}
+            minValue={timeToChangeStart === 'work_start' ? parseDate(createTenderState.reception_end.toISOString().split('T')[0]) : today(getLocalTimeZone())}
             labelPlacement="outside-left"
             onFocus={() => setIsCalendarOpen(true)}
             onOpenChange={() => setIsCalendarOpen(prev => !prev)}
             isOpen={isCalendarOpen}
-            value={value}
-            onChange={(newVal: RangeValue<CalendarDate>) => { console.log(newVal); createTenderState.handleSimpleInput(timeToChangeStart, new Date(newVal.start.year, newVal.start.month - 1, newVal.start.day, 3)); createTenderState.handleSimpleInput(timeToChangeEnd, new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day, 3)); setValue(newVal) }}
+            value={{
+                start: parseDate(createTenderState[timeToChangeStart].toISOString().split('T')[0]),
+                end: parseDate(createTenderState[timeToChangeEnd].toISOString().split('T')[0])
+            }}
+            onChange={(newVal: RangeValue<CalendarDate>) => { createTenderState.handleSimpleInput(timeToChangeStart, new Date(newVal.start.year, newVal.start.month - 1, newVal.start.day, 3)); createTenderState.handleSimpleInput(timeToChangeEnd, new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day, 3)) }}
             classNames={classNames}
         />
     );

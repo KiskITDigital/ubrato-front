@@ -358,6 +358,15 @@
     box-shadow: none;
 }
 
+@media screen and (max-width: 1280px) {
+
+    .firstSections__responses__inputs__input1,
+    .firstSections__responses__inputs__input2 {
+        font-size: 14px !important;
+        line-height: 16px !important;
+    }
+}
+
 .firstSections__responses__inputs__input1 {
     text-align: center;
     width: 90px;

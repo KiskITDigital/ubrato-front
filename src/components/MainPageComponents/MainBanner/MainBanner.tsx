@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { useCreateTenderState } from '@/store/createTenderStore';
 
 export const MainBanner: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
@@ -38,6 +39,10 @@ export const MainBanner: FC = () => {
     }
   }, [emblaApi, isPlaying]);
 
+  const [newTenderName, setNewTenderName] = useState('');
+
+  const createTenderState = useCreateTenderState()
+
   return (
     <div className={`container ${styles.mobileContainer}`}>
       {(!(userStore.isLoggedIn && userStore.user.is_contractor) || userStore.passedSurvey) && (
@@ -55,15 +60,19 @@ export const MainBanner: FC = () => {
                 onBlur={() => {
                   setIsPlaying(true);
                 }}
+                value={newTenderName}
+                onChange={(e) => setNewTenderName(e.currentTarget.value)}
                 className={styles.createTenderInput}
                 id="tender_text"
                 type="text"
                 name="tender_text"
                 placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
               />
-              <button className={styles.createTenderBtn}>
-                {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
-              </button>
+              <Link onClick={() => { createTenderState.handleSimpleInput('name', newTenderName); setNewTenderName('') }} to="/create-tender">
+                <button className={styles.createTenderBtn}>
+                  {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+                </button>
+              </Link>
             </div>
             <div className={styles.exampleSearchContainer}>
               <p className={styles.exampleSearch}>Например, </p>
@@ -95,15 +104,19 @@ export const MainBanner: FC = () => {
                       onBlur={() => {
                         setIsPlaying(true);
                       }}
+                      value={newTenderName}
+                      onChange={(e) => setNewTenderName(e.currentTarget.value)}
                       className={styles.createTenderInput}
                       type="text"
                       id="tender_text"
                       name="tender_text"
                       placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
                     />
-                    <button className={styles.createTenderBtn}>
-                      {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
-                    </button>
+                    <Link onClick={() => { createTenderState.handleSimpleInput('name', newTenderName); setNewTenderName('') }} to="/create-tender">
+                      <button className={styles.createTenderBtn}>
+                        {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+                      </button>
+                    </Link>
                   </div>
                   <div className={styles.exampleSearchContainer}>
                     <p className={styles.exampleSearch}>Например, </p>

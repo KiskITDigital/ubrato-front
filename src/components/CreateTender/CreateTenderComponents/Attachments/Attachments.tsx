@@ -40,17 +40,17 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                             </div>
                                     }
                                     {windowWidth > 1050 && <>
-                                        <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName}</p>
+                                        <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName} - {img.id}</p>
                                         <div className={`${styles.section__attachments__block__cardItem__changes}`}>
                                             <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
                                                 src='/create-tender/create-tender-change-attachment.svg' alt=""
-                                                onClick={handleButtonChangeFileClick}
+                                                onClick={() => { handleButtonChangeFileClick(); createTenderState.changeAttachmentIdToChange(img.id) }}
                                             />
                                             <input
                                                 type="file"
                                                 multiple
                                                 accept="image/*,.pdf,.xml"
-                                                onChange={(e) => createTenderState.handleFileUpload(e, img.id)}
+                                                onChange={(e) => { createTenderState.handleFileUpload(e, createTenderState.attachmentIdToChange); createTenderState.changeAttachmentIdToChange(null) }}
                                                 ref={inputChangeFileRef}
                                                 style={{ display: 'none' }}
                                             />
@@ -68,7 +68,7 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                         type="file"
                         multiple
                         accept="image/*,.pdf,.xml"
-                        onChange={createTenderState.handleFileUpload}
+                        onChange={(e) => createTenderState.handleFileUpload(e, null)}
                         ref={inputFileRef}
                         style={{ display: 'none' }}
                     />
