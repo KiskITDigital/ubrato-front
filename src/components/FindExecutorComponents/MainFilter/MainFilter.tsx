@@ -161,15 +161,13 @@ const MainFilter: FC = () => {
                                 </>
 
                             )} />
-                        {areAllObjects ||
-                            <button
-                                className={styles.showMore}
-                                onClick={() => setAreAllObjects(true)}
-                            >
-                                <img src="/find-executor/arrow-down.svg" alt="" />
-                                Показать все
-                            </button>
-                        }
+                        <button
+                            className={`${styles.showMore} ${areAllObjects ? styles.showLess : ''}`}
+                            onClick={() => setAreAllObjects(prev => !prev)}
+                        >
+                            <img src="/find-executor/arrow-down.svg" alt="" />
+                            Показать {areAllObjects ? 'меньше' : 'все'}
+                        </button>
                     </InstantSearch>
                 </div>
             }
@@ -225,15 +223,13 @@ const MainFilter: FC = () => {
                                 </>
 
                             )} />
-                        {areAllServices ||
-                            <button
-                                className={styles.showMore}
-                                onClick={() => setAreAllServices(true)}
-                            >
-                                <img src="/find-executor/arrow-down.svg" alt="" />
-                                Показать все
-                            </button>
-                        }
+                        <button
+                            className={`${styles.showMore} ${areAllServices ? styles.showLess : ''}`}
+                            onClick={() => setAreAllServices(prev => !prev)}
+                        >
+                            <img src="/find-executor/arrow-down.svg" alt="" />
+                            Показать {areAllServices ? 'меньше' : 'все'}
+                        </button>
                     </InstantSearch>
                 </div>
             }

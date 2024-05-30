@@ -25,6 +25,20 @@
     line-height: 20.88px;
 }
 
+.textGray {
+    color: var(--color-black-60);
+}
+
+.cleaningTZText {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1050px) {
+    .cleaningTZText {
+        margin-right: auto;
+    }
+}
+
 @media screen and (max-width: 1050px) {
 
     .textRegular,
@@ -1285,6 +1299,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.section__attachments__block__cardItem__notImageInfo__span+span {
+    width: fit-content;
+    text-wrap: nowrap;
 }
 
 .section__attachments__block__cardItem__notImageInfo__img {

@@ -1,13 +1,21 @@
-import { FC, useRef } from "react";
+import { FC, forwardRef, useRef } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { formatFileSize } from "../../funcs";
+import { useNavigate } from "react-router-dom";
 
-const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const Attachments: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, Omit<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }, 'ref'>>((props, ref) => {
+    const { windowWidth } = props
     const createTenderState = useCreateTenderState()
+    const navigate = useNavigate()
 
     const inputFileRef = useRef<HTMLInputElement>(null);
     const handleButtonFileClick = () => {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            navigate('/register');
+            return;
+        }
         if (inputFileRef.current) inputFileRef.current.click();
     };
 
@@ -18,7 +26,7 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     };
 
     return (
-        <div className={`${styles.section} ${styles.attachments}`}>
+        <div ref={ref} className={`${styles.section} ${styles.attachments}`}>
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Вложения:</p>
                 <div className={`${styles.section__attachments__block}`}>
@@ -34,7 +42,7 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                                 <div className={styles.section__attachments__block__cardItem__notImageInfo}>
                                                     <p>
                                                         <span className={styles.section__attachments__block__cardItem__notImageInfo__span}>{img.fileName}</span>
-                                                        , {formatFileSize(img.fileSize)}</p>
+                                                        <span>, {formatFileSize(img.fileSize)}</span></p>
                                                     {windowWidth <= 1050 && <img onClick={() => createTenderState.removeAttachment(img.id)} src='/create-tender/create-tender-close-gray.svg' alt="" />}
                                                 </div>
                                             </div>
@@ -77,6 +85,6 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
             </div>
         </div>
     );
-}
+})
 
 export default Attachments;

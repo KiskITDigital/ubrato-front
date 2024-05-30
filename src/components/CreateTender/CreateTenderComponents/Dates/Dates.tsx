@@ -1,4 +1,5 @@
-import { FC } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { FC, forwardRef } from "react";
 import styles from '../../CreateTender.module.css'
 import datesStyles from './Dates.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
@@ -9,11 +10,11 @@ import {
 } from "../../funcs";
 import DateRangePickerLocal from "../DateRangePickerLocal/DateRangePickerLocal";
 
-const Dates: FC = () => {
+const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, { ref?: React.LegacyRef<HTMLDivElement>; }>((_, ref) => {
     const createTenderState = useCreateTenderState()
 
     return (
-        <div className={`${styles.firstSections}`}>
+        <div ref={ref} className={`${styles.firstSections}`}>
             <div className={`${styles.firstSections__div} ${styles.firstSections__responses}`}>
                 <div className={`${styles.firstSections__div__title}`}>
                     <p className={`${styles.firstSections__div__title__p}`}>Прием откликов</p>
@@ -81,6 +82,6 @@ const Dates: FC = () => {
             </div>
         </div>
     );
-}
+})
 
 export default Dates;
