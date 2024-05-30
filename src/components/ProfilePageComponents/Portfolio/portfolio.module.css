@@ -1,0 +1,92 @@
+.container {
+  margin-top: 22px;
+}
+
+.header {
+  font-size: 16px;
+  color: var(--color-black-60);
+  margin-left: 14px;
+  margin-bottom: 22px;
+}
+
+.infoContainer {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-radius: 14px;
+}
+
+.infoTextBig {
+  font-size: 16px;
+  color: black;
+  font-weight: 600;
+}
+
+.btnText {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: flex-start;
+}
+
+.btnTextBig {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.count {
+  font-size: 14px;
+  color: var(--color-black-60);
+  font-weight: 600;
+}
+
+.btn {
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 22px;
+  height: 76px;
+  border: 1px dashed rgba(0, 132, 255, 0.5);
+  border-radius: 14px;
+  gap: 40px;
+}
+
+.btnImg {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.btnText::before {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  position: absolute;
+  background: #ddd;
+  left: -20px;
+  top: 11.5px;
+}
+
+.form {
+  width: 811px;
+  height: 537px;
+  background-color: white;
+  position: absolute;
+  top: -250px;
+  border: 1px solid red;
+  left: -550px;
+}
+
+.btnText > div > div:first-of-type {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(2px);
+  left: 0;
+  top: 0;
+  position: fixed;
+}

@@ -9,6 +9,7 @@ import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
 import { useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { Portfolio } from '../Portfolio/Portfolio';
 
 type locations = {
   id: number;
@@ -453,6 +454,7 @@ export const ContractorProfile: FC = () => {
           Сохранить изменения
         </button>
       </div>
+      <Portfolio />
     </div>
   );
 };
