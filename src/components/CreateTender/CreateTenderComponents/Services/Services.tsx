@@ -1,10 +1,11 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, forwardRef, useEffect, useState } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
 import { Checkbox, CheckboxGroup } from "@nextui-org/react";
 
-const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const Services: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, Omit<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }, 'ref'>>((props, ref) => {
+    const { windowWidth } = props
     const createTenderState = useCreateTenderState()
     const cleaningTypeStore = useCleaningTypeStore()
 
@@ -25,7 +26,7 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     }, [cleaningTypeStore?.apiCleaningTypes?.length, fetchCleaningTypes]);
 
     return (
-        <div className={`${styles.section} ${styles.services}`}>
+        <div ref={ref} className={`${styles.section} ${styles.services}`}>
             <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Услуги:</p>
             {windowWidth <= 1050 ? (<>
                 {
@@ -218,6 +219,6 @@ const Services: FC<{ windowWidth: number }> = ({ windowWidth }) => {
             }
         </div>
     );
-}
+})
 
 export default Services;

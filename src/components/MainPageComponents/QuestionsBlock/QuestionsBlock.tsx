@@ -40,9 +40,9 @@ export const QuestionsBlock: FC = () => {
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       if (isOrdererState.role === 'orderer') {
-        setPageNumber('3');
-      } else {
         setPageNumber('2');
+      } else {
+        setPageNumber('3');
       }
     }
   }, [isOrdererState.role, userInfoStore.isLoggedIn]);

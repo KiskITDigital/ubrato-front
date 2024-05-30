@@ -1,11 +1,12 @@
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { useTypesObjectsStore } from "@/store/objectsStore";
-import { FC, useEffect, useState } from "react";
+import { FC, forwardRef, useEffect, useState } from "react";
 import { CheckboxGroup, Checkbox } from "@nextui-org/react";
 import styles from '../../CreateTender.module.css'
 import { checkFloorSpace } from "../../funcs";
 
-const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const Object: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, Omit<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }, 'ref'>>((props, ref) => {
+    const { windowWidth } = props
     const createTenderState = useCreateTenderState()
     const objectsStore = useTypesObjectsStore()
 
@@ -22,7 +23,7 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     }, [objectsStore?.apiObjects?.length, fetchObjects]);
 
     return (
-        <div className={`${styles.section} ${styles.object}`}>
+        <div ref={ref} className={`${styles.section} ${styles.object}`}>
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Объект:</p>
                 {
@@ -175,6 +176,6 @@ const Object: FC<{ windowWidth: number }> = ({ windowWidth }) => {
             </div>
         </div>
     );
-}
+})
 
 export default Object;

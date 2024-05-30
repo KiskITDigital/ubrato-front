@@ -17,7 +17,9 @@ const SendButtons: FC = () => {
     const submit = async (isDraft?: boolean) => {
         const token = localStorage.getItem('token')
         if (!token) { navigate('/login'); return; }
-        if (createTenderState.validateInputs()) return;
+        if (createTenderState.validateInputs()) {
+            return;
+        }
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
             .filter(el => createTenderState.objectCategory.includes(el.name))
