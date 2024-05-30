@@ -202,4 +202,9 @@ img {
 .showMore>img {
     width: 20px;
     height: 20px;
+    transition: all ease-in-out .15s;
+}
+
+.showLess>img {
+    transform: rotate(180deg);
 }

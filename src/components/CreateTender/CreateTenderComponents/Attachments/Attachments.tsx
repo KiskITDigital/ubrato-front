@@ -1,13 +1,21 @@
-import { FC, useRef } from "react";
+import { FC, forwardRef, useRef } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { formatFileSize } from "../../funcs";
+import { useNavigate } from "react-router-dom";
 
-const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
+const Attachments: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, Omit<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }, 'ref'>>((props, ref) => {
+    const { windowWidth } = props
     const createTenderState = useCreateTenderState()
+    const navigate = useNavigate()
 
     const inputFileRef = useRef<HTMLInputElement>(null);
     const handleButtonFileClick = () => {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            navigate('/register');
+            return;
+        }
         if (inputFileRef.current) inputFileRef.current.click();
     };
 
@@ -18,7 +26,7 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
     };
 
     return (
-        <div className={`${styles.section} ${styles.attachments}`}>
+        <div ref={ref} className={`${styles.section} ${styles.attachments}`}>
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Вложения:</p>
                 <div className={`${styles.section__attachments__block}`}>
@@ -34,23 +42,23 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                                                 <div className={styles.section__attachments__block__cardItem__notImageInfo}>
                                                     <p>
                                                         <span className={styles.section__attachments__block__cardItem__notImageInfo__span}>{img.fileName}</span>
-                                                        , {formatFileSize(img.fileSize)}</p>
+                                                        <span>, {formatFileSize(img.fileSize)}</span></p>
                                                     {windowWidth <= 1050 && <img onClick={() => createTenderState.removeAttachment(img.id)} src='/create-tender/create-tender-close-gray.svg' alt="" />}
                                                 </div>
                                             </div>
                                     }
                                     {windowWidth > 1050 && <>
-                                        <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName}</p>
+                                        <p className={`${styles.section__attachments__block__cardItem__text}`}>{img.fileName} - {img.id}</p>
                                         <div className={`${styles.section__attachments__block__cardItem__changes}`}>
                                             <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
                                                 src='/create-tender/create-tender-change-attachment.svg' alt=""
-                                                onClick={handleButtonChangeFileClick}
+                                                onClick={() => { handleButtonChangeFileClick(); createTenderState.changeAttachmentIdToChange(img.id) }}
                                             />
                                             <input
                                                 type="file"
                                                 multiple
                                                 accept="image/*,.pdf,.xml"
-                                                onChange={(e) => createTenderState.handleFileUpload(e, img.id)}
+                                                onChange={(e) => { createTenderState.handleFileUpload(e, createTenderState.attachmentIdToChange); createTenderState.changeAttachmentIdToChange(null) }}
                                                 ref={inputChangeFileRef}
                                                 style={{ display: 'none' }}
                                             />
@@ -68,7 +76,7 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
                         type="file"
                         multiple
                         accept="image/*,.pdf,.xml"
-                        onChange={createTenderState.handleFileUpload}
+                        onChange={(e) => createTenderState.handleFileUpload(e, null)}
                         ref={inputFileRef}
                         style={{ display: 'none' }}
                     />
@@ -77,6 +85,6 @@ const Attachments: FC<{ windowWidth: number }> = ({ windowWidth }) => {
             </div>
         </div>
     );
-}
+})
 
 export default Attachments;

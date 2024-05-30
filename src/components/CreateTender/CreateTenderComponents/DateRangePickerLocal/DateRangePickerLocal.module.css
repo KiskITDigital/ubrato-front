@@ -83,12 +83,12 @@
   margin-right: auto;
 }
 
-.calendar > div:nth-child(2) > div {
+.calendar>div:nth-child(2)>div {
   display: flex;
   flex-direction: column;
 }
 
-.calendar > div:nth-child(2) > div > div:first-child {
+.calendar>div:nth-child(2)>div>div:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -192,4 +192,11 @@
 .calendar header {
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 1280px) {
+  .segment {
+    font-size: 14px;
+    line-height: 16px;
+  }
 }

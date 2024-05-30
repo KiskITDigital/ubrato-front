@@ -25,6 +25,20 @@
     line-height: 20.88px;
 }
 
+.textGray {
+    color: var(--color-black-60);
+}
+
+.cleaningTZText {
+    margin-right: 10px;
+}
+
+@media screen and (max-width: 1050px) {
+    .cleaningTZText {
+        margin-right: auto;
+    }
+}
+
 @media screen and (max-width: 1050px) {
 
     .textRegular,
@@ -306,6 +320,7 @@
 }
 
 .firstSections__div__title {
+    height: 24px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -356,6 +371,15 @@
     font-weight: 400;
     /* padding: 4px 4px; */
     box-shadow: none;
+}
+
+@media screen and (max-width: 1280px) {
+
+    .firstSections__responses__inputs__input1,
+    .firstSections__responses__inputs__input2 {
+        font-size: 14px !important;
+        line-height: 16px !important;
+    }
 }
 
 .firstSections__responses__inputs__input1 {
@@ -528,7 +552,12 @@
     padding: 5px 8px;
 }
 
-
+@media screen and (max-width: 1280px) {
+    .firstSections__div__main__block__input {
+        font-size: 14px;
+        line-height: 16px;
+    }
+}
 
 
 .CheckboxNextUI__block {
@@ -1270,6 +1299,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.section__attachments__block__cardItem__notImageInfo__span+span {
+    width: fit-content;
+    text-wrap: nowrap;
 }
 
 .section__attachments__block__cardItem__notImageInfo__img {

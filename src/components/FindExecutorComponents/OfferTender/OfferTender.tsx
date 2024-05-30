@@ -13,7 +13,7 @@ const OfferTender: FC<{
 }> = ({ closeModal, executorId }) => {
 
     const [tenderId, setTenderId] = useState('');
-    const [tenderList, setTenderList] = useState<tenderData[]>([]);
+    const [tenderList, setTenderList] = useState<tenderData[] | null>(null);
 
     useEffect(() => {
         const client = new Typesense.Client({
@@ -49,7 +49,6 @@ const OfferTender: FC<{
                 }) || [];
 
                 const newTenderList = await Promise.all(tenderListPromises);
-
                 setTenderList(newTenderList);
             })
     }, [executorId]);
@@ -70,26 +69,44 @@ const OfferTender: FC<{
     return (
         <div className={styles.container}>
             <p className={styles.title}>Предложите тендер исполнителю <img className={styles.title__closeIcon} onClick={() => closeModal(null)} src="/x-icon.svg" alt="" /></p>
-            <div className={styles.tenders}>
-                <p className={styles.description}>Мои тендеры</p>
-                <RadioGroup
-                    value={tenderId}
-                    onValueChange={setTenderId}
-                    classNames={radioStyle}>
-                    {
-                        tenderList.map(tender => <Radio isDisabled={tender.status} key={tender.id} value={tender.id}>
-                            <p className={styles.tender__receptionTime}>Прием откликов до {new Date(tender.reception_end * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                            <p className={styles.tender__name}>{tender.name}</p>
-                        </Radio>)
-                    }
-                </RadioGroup>
-            </div>
-            <div className={styles.buttons}>
-                <Link to="/create-tender">
-                    <button className={styles.button}>Создать тендер</button>
-                </Link>
-                <button onClick={submit} disabled={tenderId ? false : true} className={styles.button}>Предложить</button>
-            </div>
+            {
+                tenderList ?
+                    tenderList.length ?
+                        <>
+                            <div className={styles.tenders}>
+                                <p className={styles.description}>Мои тендеры</p>
+                                <RadioGroup
+                                    value={tenderId}
+                                    onValueChange={setTenderId}
+                                    classNames={radioStyle}>
+                                    {
+                                        tenderList.map(tender => <Radio isDisabled={tender.status} key={tender.id} value={tender.id}>
+                                            <p className={styles.tender__receptionTime}>Прием откликов до {new Date(tender.reception_end * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                            <p className={styles.tender__name}>{tender.name}</p>
+                                        </Radio>)
+                                    }
+                                </RadioGroup>
+                            </div>
+                            <div className={styles.buttons}>
+                                <Link to="/create-tender">
+                                    <button className={styles.button}>Создать тендер</button>
+                                </Link>
+                                <button onClick={submit} disabled={tenderId ? false : true} className={styles.button}>Предложить</button>
+                            </div>
+                        </>
+                        :
+                        <div className={styles.noTenders}>
+                            <p className={styles.description}>У вас пока нет опубликованных тендеров</p>
+                            <p className={styles.action}>Создайте тендер и предложите его потенциальным исполнителям</p>
+                            <Link to="/create-tender">
+                                <button className={styles.button}>Создать тендер</button>
+                            </Link>
+                        </div>
+                    :
+                    <>
+                        <p className={styles.spinner}>🌀</p>
+                    </>
+            }
         </div>
     );
 }

@@ -41,7 +41,7 @@
     justify-content: flex-end;
 }
 
-.buttons .button {
+.button {
     border-radius: 13px;
     padding: 10px 15px;
     height: fit-content;
@@ -139,4 +139,46 @@
 
 .radioWrapper>label[data-disabled="true"] .tender__name {
     color: var(--color-black-30);
+}
+
+
+
+.noTenders {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.noTenders>.description {
+    text-align: center;
+}
+
+.noTenders>.action {
+    color: var(--color-text-gray);
+    text-align: center;
+    width: 80%;
+}
+
+.noTenders .button {
+    margin-top: 10px;
+}
+
+
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    margin: auto 0;
+    text-align: center;
+    font-size: 32px;
+    animation: spin 1s linear infinite;
 }
