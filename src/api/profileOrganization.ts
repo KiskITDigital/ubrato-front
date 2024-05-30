@@ -124,3 +124,21 @@ export const fetchContractorProfile = async (token: string) => {
 
   return res.data;
 };
+
+export const putContractorProfile = async (
+  token: string,
+  params: {
+    description: string;
+    locations: number[];
+    services: {
+      id: number;
+      price: number;
+    }[];
+    objects: number[];
+  }
+) => {
+  const res = await axiosInstance.put('/v1/organizations/my/profile/contractor', params, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  console.log(res);
+};

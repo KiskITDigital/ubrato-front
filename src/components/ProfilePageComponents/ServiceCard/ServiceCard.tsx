@@ -18,7 +18,7 @@ export const ServiceCard: FC<{
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Checkbox
         onChange={() => {
           setCheacked(id);
@@ -29,21 +29,24 @@ export const ServiceCard: FC<{
         {name}
       </Checkbox>
       {price !== undefined && setPrice !== undefined && (
-        <input
-          type="number"
-          value={price ?? ''}
-          onChange={(e) => {
-            console.log(e);
-            console.log(e.nativeEvent instanceof InputEvent);
-            if (e.nativeEvent instanceof InputEvent) {
-              if (e.nativeEvent.data !== '.') {
-                if (setPrice !== undefined) {
-                  setPrice(id, e.target.value);
+        <div className={styles.inpContainer}>
+          <input
+            className={styles.input}
+            type="number"
+            value={price ?? ''}
+            onChange={(e) => {
+              if (e.nativeEvent instanceof InputEvent) {
+                if (e.nativeEvent.data !== '.') {
+                  if (setPrice !== undefined) {
+                    setPrice(id, e.target.value);
+                  }
                 }
               }
-            }
-          }}
-        />
+            }}
+          />
+          <p className={styles.rub}>₽</p>
+          <p className={styles.area}>кв. м.</p>
+        </div>
       )}
     </div>
   );

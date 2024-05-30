@@ -111,6 +111,7 @@
   font-size: 16px;
   align-items: center;
   cursor: pointer;
+  width: fit-content;
 }
 
 .avatarInput > img {
@@ -150,6 +151,12 @@
   flex-direction: column;
   justify-content: flex-end;
   gap: 5px;
+  position: relative;
+}
+
+.deleteAvatar {
+  position: absolute;
+  left: 110px;
 }
 
 .avatarContainer {

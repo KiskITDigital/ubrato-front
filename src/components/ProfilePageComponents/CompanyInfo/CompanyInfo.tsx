@@ -25,6 +25,7 @@ export const CompanyInfo: FC = () => {
   const [isContactsEqual, setIsContactsEqual] = useState(true);
   const [checkValue, setCheckValue] = useState(false);
   const [error, setError] = useState('');
+  const [dataChanged, setDataChanged] = useState(false);
 
   const initialBrandInfo = useRef<{ brand_name: string; avatar: string }>();
   const initialContacts = useRef<{
@@ -59,7 +60,7 @@ export const CompanyInfo: FC = () => {
     } else {
       setIsContactsEqual(true);
     }
-  }, [emails, messengers, phones]);
+  }, [emails, messengers, phones, dataChanged]);
 
   useEffect(() => {
     if (
@@ -77,7 +78,7 @@ export const CompanyInfo: FC = () => {
         setAvatarInfo(avatarInfoRes);
       }
     })();
-  }, [avatar, brandName]);
+  }, [avatar, brandName, dataChanged]);
 
   useEffect(() => {
     (async () => {
@@ -186,6 +187,17 @@ export const CompanyInfo: FC = () => {
                   <img src="/change-ic.svg" alt="" /> Заменить
                 </p>
               </label>
+              {avatar && (
+                <p
+                  onClick={() => {
+                    setAvatar('');
+                  }}
+                  className={`${styles.avatarInput} ${styles.deleteAvatar}`}
+                >
+                  <img src="/trash-bin.svg" alt="" />
+                  Удалить
+                </p>
+              )}
             </div>
           </div>
           <button
@@ -198,7 +210,7 @@ export const CompanyInfo: FC = () => {
                 setBrandName(res.brand_name);
                 setAvatar(res.avatar);
                 setCompanyInfo(res);
-                setIsBrandEqual(true);
+                setDataChanged(!dataChanged);
               })();
             }}
             className={styles.brandBtn}
@@ -308,6 +320,12 @@ export const CompanyInfo: FC = () => {
                   setEmails([...res.email]);
                   setPhones([...res.phone]);
                   setMessengers([...res.messenger]);
+                  initialContacts.current = {
+                    phones: JSON.parse(JSON.stringify(res.phone)),
+                    emails: JSON.parse(JSON.stringify(res.email)),
+                    messengers: JSON.parse(JSON.stringify(res.messenger)),
+                  };
+                  setDataChanged(!dataChanged);
                 })();
               } else {
                 setError('Обязательное поле');
