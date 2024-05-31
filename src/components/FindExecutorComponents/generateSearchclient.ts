@@ -1,6 +1,6 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 
-export const generateSearchClient = (limit: number = 10) => {
+export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
             apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
@@ -17,6 +17,7 @@ export const generateSearchClient = (limit: number = 10) => {
         additionalSearchParameters: {
             query_by: "name",
             limit: limit,
+            ...parameters
             // sort_by: 'price:asc',
         },
     });

@@ -19,6 +19,7 @@ const ExecutorList: FC = () => {
     const navigate = useNavigate();
     const [sortingValue, setSortingValue] = useState<'' | 'name:asc' | 'name:desc'>('');
     const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<null | string>(null);
+    const [executorNameToOfferTender, setExecutorNameToOfferTender] = useState<null | string>(null);
 
     const dropDownClassNames = {
         trigger: styles.trigger,
@@ -142,18 +143,10 @@ const ExecutorList: FC = () => {
     return (
         <div className={`container ${styles.container}`}>
             {
-                !!executorIdToOfferTender && <Modal isOpen={!!executorIdToOfferTender}>
-                    {/* <p
-                        onClick={() => setExecutorIdToOfferTender(null)}
-                    >{executorIdToOfferTender}</p> */}
-                    <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} />
-
+                !!executorIdToOfferTender && !!executorNameToOfferTender && <Modal isOpen={!!executorIdToOfferTender}>
+                    <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} executorName={executorNameToOfferTender} />
                 </Modal>
             }
-            {/* {
-                !!executorIdToOfferTender &&
-                <OfferTender closeModal={setExecutorIdToOfferTender} executorId={executorIdToOfferTender} />
-            } */}
             <div className={styles.amount}>
                 <p className={styles.number}>Исполнители: {allExecutorListLength}</p>
                 <Dropdown
@@ -233,6 +226,7 @@ const ExecutorList: FC = () => {
                                     } else {
                                         document.body.style.overflow = "hidden";
                                         setExecutorIdToOfferTender(executor.id)
+                                        setExecutorNameToOfferTender(executor.name)
                                     }
                                 }}
                                 className={styles.executorOfferButton}>

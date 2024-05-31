@@ -1,18 +1,19 @@
-import { FC, useRef } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { FC, forwardRef, useRef } from "react";
 import styles from '../../CreateTender.module.css'
+import cleaningTZStyles from './cleaning-tz.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { formatFileSize } from "../../funcs";
-// import { useNavigate } from "react-router-dom";
 
-const CleaningTZ: FC = () => {
+const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, { ref?: React.LegacyRef<HTMLDivElement>; }>((_, ref) => {
+
     const inputFileRef = useRef<HTMLInputElement>(null);
     const createTenderState = useCreateTenderState()
-    // const navigate = useNavigate()
     const handleButtonFileClick = () => {
         if (inputFileRef.current) inputFileRef.current.click();
     };
     return (
-        <div className={`${styles.section} ${styles.cleaningTZ}`}>
+        <div ref={ref} className={`${styles.section} ${styles.cleaningTZ}`}>
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>ТЗ на уборку:</p>
                 {
@@ -20,15 +21,11 @@ const CleaningTZ: FC = () => {
                     <p className={`${styles.textMedium} ${styles.cleaningTZText}`}>{createTenderState.cleaningTZ.fileName}<span className={styles.textGray}>, {formatFileSize(createTenderState.cleaningTZ.fileSize)}</span></p>
                 }
                 <button onClick={() => {
-                    // const token = localStorage.getItem('token')
-                    // if (!token) {
-                    //     navigate('/register');
-                    //     return;
-                    // }
                     createTenderState.cleaningTZ ?
                         createTenderState.removeCleaningTZ() :
                         handleButtonFileClick()
-                }} className={`${styles.section__block__button} ${styles.textRegular}`}>
+                    createTenderState.removeError('tz')
+                }} className={`${styles.section__block__button} ${styles.textRegular} ${createTenderState.errors.includes('tz') ? cleaningTZStyles.cleaningTZError : ''}`}>
                     {
                         createTenderState.cleaningTZ ?
                             <img className={styles.removeTZ} src='/create-tender/create-tender-remove-attachment.svg' alt="" />
@@ -38,6 +35,7 @@ const CleaningTZ: FC = () => {
                             </>
                     }
                 </button>
+                {createTenderState.errors.includes('tz') && <p className={`${styles.inputErrorText} ${cleaningTZStyles.cleaningTZErrorText}`}>Обязательно для заполнения</p>}
                 <input
                     type="file"
                     multiple
@@ -49,6 +47,6 @@ const CleaningTZ: FC = () => {
             </div>
         </div>
     );
-}
+})
 
 export default CleaningTZ;
