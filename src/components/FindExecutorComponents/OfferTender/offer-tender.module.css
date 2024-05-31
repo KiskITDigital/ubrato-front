@@ -19,13 +19,17 @@
     font-size: 20px;
 }
 
-.title>.title__closeIcon {
-    width: 24px;
-    height: 24px;
+.title__closeIcon {
+    padding: 4px 5px;
+    border-radius: 10px;
+    background-color: var(--color-light-gray-secondary);
+    height: fit-content;
 }
 
-.title>.title__closeIcon:hover {
-    cursor: pointer;
+.title__closeIcon>img {
+    width: 24px;
+    max-width: none;
+    height: 24px;
 }
 
 .description {

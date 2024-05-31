@@ -5,6 +5,7 @@ import { ChangeEvent } from "react";
 import { create } from "zustand";
 
 interface createTenderState {
+    executorToSend: { id: string, name: string } | null
     errors: string[]
     name: string
     price: string
@@ -35,6 +36,7 @@ interface createTenderState {
     city_id: number
     object_group_id: number
     object_type_id: number
+    changeExecutorToSend: (id?: string, name?: string) => void
     changeIsValidating: (newVal: boolean) => void
     cleaningTZ: { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number; } | null
     handleSimpleInput: (whatToChange: 'name' | 'reception_time_start' | 'reception_time_end' | 'price' | 'is_contract_price' | 'is_NDS' | 'description' | 'wishes' | 'floor_space' | 'objectName' | 'objectCategory' | 'city' | 'reception_start' | 'reception_end' | 'work_start' | 'work_end', newVal: string | boolean | Date, mask?: (value: string) => string) => void
@@ -59,6 +61,7 @@ interface createTenderState {
 }
 
 export const useCreateTenderState = create<createTenderState>()((set) => ({
+    executorToSend: null,
     isValidating: false,
     errors: [],
     cleaningTZ: null,
@@ -93,6 +96,10 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     "object_group_id": 0,
     "object_type_id": 0,
     attachmentIdToChange: null,
+    changeExecutorToSend: (id?: string, name?: string) => {
+        if (!id || !name) set((state) => ({ ...state, executorToSend: null }))
+        else set((state) => ({ ...state, executorToSend: { id, name } }))
+    },
     handleSimpleInput: (whatToChange: 'name' | 'reception_time_start' | 'reception_time_end' | 'price' | 'is_contract_price' | 'is_NDS' | 'description' | 'wishes' | 'floor_space' | 'objectName' | 'objectCategory' | 'city' | 'reception_start' | 'reception_end' | 'work_start' | 'work_end', newVal: string | boolean | Date, mask?: (value: string) => string) => {
         set((state) => ({ ...state, [whatToChange]: (mask && typeof newVal === 'string') ? mask(newVal) : newVal }))
     },
@@ -187,6 +194,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         set((state) => {
             if (!state.name) newErrors.push('name')
             if (!state.price) newErrors.push('price')
+            if (!state.cleaningTZ) newErrors.push('tz')
             if (!state.city) newErrors.push('city')
             if (!state.objectName) newErrors.push('object')
             if (!state.floor_space) newErrors.push('floor_space')
@@ -221,6 +229,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             "wishes": "",
             "attachments": [],
             "services_groups": [],
+            cleaningTZ: null,
 
             is_NDS: true,
 
