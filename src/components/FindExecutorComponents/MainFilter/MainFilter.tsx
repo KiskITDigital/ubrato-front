@@ -81,7 +81,7 @@ const MainFilter: FC = () => {
                                             className={styles.chosenLocation}
                                         >
                                             {chosenLocation.name}
-                                            <img onClick={() => setChosenLocation(null)} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
+                                            <img onClick={() => { setChosenLocation(null); setSearchCityParam('') }} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
                                         </p>
                                     </div>
                                 </>
