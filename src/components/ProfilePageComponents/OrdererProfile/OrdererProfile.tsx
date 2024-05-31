@@ -1,12 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './ordererprofile.module.css';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { useNavigate } from 'react-router-dom';
 import { fetchOrdererProfile, getCities, putOrdererProfile, updateToken } from '@/api';
 
 export const OrdererProfile: FC = () => {
-  const navigate = useNavigate();
-  const userStore = useUserInfoStore();
   const [textareaValue, setTextareaValue] = useState<string | null>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
@@ -16,12 +12,6 @@ export const OrdererProfile: FC = () => {
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<{ description: string; locations: { id: number; name: string }[] }>();
-
-  useEffect(() => {
-    if (!userStore.user.is_contractor) {
-      navigate('../');
-    }
-  }, [navigate, userStore.user.is_contractor]);
 
   useEffect(() => {
     if (

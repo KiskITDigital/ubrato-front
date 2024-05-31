@@ -1,13 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from '../OrdererProfile/ordererprofile.module.css';
-import { getCities, updateToken } from '@/api';
-import { fetchContractorProfile } from '@/api';
+import { getCities, updateToken, putContractorProfile, fetchContractorProfile } from '@/api';
 import { contractorProfileData } from '@/api/profileOrganization';
 import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { useTypesObjectsStore } from '@/store/objectsStore';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
+import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from '@/store/userInfoStore';
+import { Portfolio } from '../Portfolio/Portfolio';
 
 type locations = {
   id: number;
@@ -32,6 +34,10 @@ export const ContractorProfile: FC = () => {
   const [isServicesShown, setIsServicesShown] = useState(false);
   const [isObjectsShown, setIsObjectsShown] = useState(false);
   const [isDataEqual, setIsDataEqual] = useState(true);
+  const [dataChanged, setDataChanged] = useState(false);
+
+  const navigate = useNavigate();
+  const userStore = useUserInfoStore();
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<contractorProfileData>();
@@ -120,6 +126,12 @@ export const ContractorProfile: FC = () => {
   };
 
   useEffect(() => {
+    if (!userStore.user.is_contractor) {
+      navigate('..');
+    }
+  }, [navigate, userStore.user.is_contractor]);
+
+  useEffect(() => {
     const newObjects: { id: number; name: string }[] = [];
     const newServices: { id: number; name: string; price: number }[] = [];
     objectsList.forEach((e) => {
@@ -146,7 +158,7 @@ export const ContractorProfile: FC = () => {
     } else {
       setIsDataEqual(true);
     }
-  }, [locations, objectsList, services, textareaValue]);
+  }, [locations, objectsList, services, textareaValue, dataChanged]);
 
   useEffect(() => {
     (async () => {
@@ -184,7 +196,6 @@ export const ContractorProfile: FC = () => {
       setObjectsList(newObjects);
       initalData.current = res;
     })();
-    console.log(1);
   }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
 
   return (
@@ -376,8 +387,74 @@ export const ContractorProfile: FC = () => {
             </button>
           </div>
         </div>
+        <button
+          disabled={isDataEqual}
+          onClick={() => {
+            (async () => {
+              const newObjects: number[] = [];
+              const newServices: { id: number; price: number }[] = [];
+              objectsList.forEach((e) => {
+                e.types
+                  .filter((t) => t.isChecked)
+                  .forEach((t) => {
+                    newObjects.push(t.id);
+                  });
+              });
+              services.forEach((e) => {
+                e.types
+                  .filter((t) => t.isChecked)
+                  .forEach((t) => {
+                    newServices.push({ id: t.id, price: t.price ?? 0 });
+                  });
+              });
+              const params = {
+                description: textareaValue ?? '',
+                locations: locations.map((e) => e.id),
+                services: newServices,
+                objects: newObjects,
+              };
+              await updateToken(putContractorProfile, params);
+              const res = await updateToken(fetchContractorProfile, null);
+              setLocations(res.locations);
+              setTextareaValue(res.description);
+              initalData.current = res;
+              const newServices2 = servicesStore.apiCleaningTypes.map((e) => {
+                return {
+                  name: e.name,
+                  id: e.id,
+                  types: e.types.map((t) => {
+                    const price = res.services.find((i) => i.id === t.id);
+                    return {
+                      isChecked: price ? true : false,
+                      name: t.name,
+                      id: t.id,
+                      price: price?.price,
+                    };
+                  }),
+                };
+              });
+              const newObjects2 = objectsStore.apiObjects.map((e) => {
+                return {
+                  name: e.name,
+                  id: e.id,
+                  types: e.types.map((t) => {
+                    const isChecked = res.objects.find((i) => i.id === t.id);
+                    return { isChecked: isChecked ? true : false, name: t.name, id: t.id };
+                  }),
+                };
+              });
+
+              setServices(newServices2);
+              setObjectsList(newObjects2);
+              setDataChanged(!dataChanged);
+            })();
+          }}
+          className={styles.save}
+        >
+          Сохранить изменения
+        </button>
       </div>
-      <h1 className="text-red-600 text-5xl fixed top-[200px]">{String(isDataEqual)}</h1>
+      <Portfolio />
     </div>
   );
 };

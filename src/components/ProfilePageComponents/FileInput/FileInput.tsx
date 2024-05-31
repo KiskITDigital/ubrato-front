@@ -24,7 +24,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
       <div>
         <h3 className={styles.fileHeader}>{header}</h3>
         <p className={styles.fileText}>
-          Форматы: pdf, jpg, png, xml, размер одного файла не должен превышать 5 Мб.
+          Форматы: pdf, jpg, png, размер одного файла не должен превышать 5 Мб.
         </p>
         <label className={styles.label} htmlFor={id}>
           <input
@@ -32,7 +32,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
             onChange={(e) => {
               console.log(e.target.files);
               if (
-                ['image/png', 'image/jpeg', 'application/pdf', 'text/xml'].includes(
+                ['image/png', 'image/jpeg', 'application/pdf'].includes(
                   e.target.files![0].type
                 )
               ) {

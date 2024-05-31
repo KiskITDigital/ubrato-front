@@ -68,26 +68,48 @@ export const ProfileNavigation: FC = () => {
           <CompanyProfiveIC />
           Профиль компании
         </Link>
-        <Link className={`${styles.link} ${styles.sublink}`} to="orderer">
+        <Link
+          className={`${styles.link} ${styles.sublink} ${
+            page.includes('orderer') && !page.includes('tenders') ? styles.active : ''
+          }`}
+          to="orderer"
+        >
           Заказчик
         </Link>
         {userStore.user.is_contractor && (
-          <Link className={`${styles.link} ${styles.sublink}`} to="contractor">
+          <Link
+            className={`${styles.link} ${styles.sublink} ${
+              page.includes('contractor') && !page.includes('tenders') ? styles.active : ''
+            }`}
+            to="contractor"
+          >
             Исполнитель
           </Link>
         )}
         <Link
           to="tenders"
-          className={`${styles.link} ${page.includes('tenders') ? styles.active : ''} `}
+          className={`${styles.link} ${
+            page.includes('tenders') && !page.includes('tenders/') ? styles.active : ''
+          } `}
         >
           <TenderIC />
           Мои тендеры
         </Link>
-        <Link className={`${styles.link} ${styles.sublink}`} to="tenders/orderer">
+        <Link
+          className={`${styles.link} ${styles.sublink} ${
+            page.includes('tenders/orderer') ? styles.active : ''
+          }`}
+          to="tenders/orderer"
+        >
           Заказчик
         </Link>
         {userStore.user.is_contractor && (
-          <Link className={`${styles.link} ${styles.sublink}`} to="tenders/contractor">
+          <Link
+            className={`${styles.link} ${styles.sublink} ${
+              page.includes('tenders/contractor') ? styles.active : ''
+            }`}
+            to="tenders/contractor"
+          >
             Исполнитель
           </Link>
         )}
