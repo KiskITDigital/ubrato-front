@@ -1,7 +1,6 @@
 .checkBase {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
   position: relative;
   gap: 9px;
 }
@@ -35,4 +34,50 @@
   color: var(--color-black-60);
   font-size: 16px;
   width: fit-content;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  height: 30px;
+}
+
+.input {
+  padding: 4px 8px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border: 1px solid var(--color-light-gray-tertiary);
+  outline: none;
+  font-size: 16px;
+  height: 30px;
+  width: 90px;
+}
+
+.inpContainer {
+  position: relative;
+  display: flex;
+}
+
+.rub {
+  position: absolute;
+  color: var(--color-black-50);
+  font-size: 16px;
+  right: 76px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.area {
+  background-color: #ecf0f3;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border: 1px solid var(--color-light-gray-tertiary);
+  padding-left: 8px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  font-size: 13px;
 }

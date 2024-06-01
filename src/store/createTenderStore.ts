@@ -5,6 +5,7 @@ import { ChangeEvent } from "react";
 import { create } from "zustand";
 
 interface createTenderState {
+    executorToSend: { id: string, name: string } | null
     errors: string[]
     name: string
     price: string
@@ -19,6 +20,7 @@ interface createTenderState {
         fileSize: number
         fileName: string
     }[]
+    isValidating: boolean
     services_groups: number[]
     city: string
     is_NDS: boolean
@@ -34,6 +36,9 @@ interface createTenderState {
     city_id: number
     object_group_id: number
     object_type_id: number
+    changeExecutorToSend: (id?: string, name?: string) => void
+    changeIsValidating: (newVal: boolean) => void
+    cleaningTZ: { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number; } | null
     handleSimpleInput: (whatToChange: 'name' | 'reception_time_start' | 'reception_time_end' | 'price' | 'is_contract_price' | 'is_NDS' | 'description' | 'wishes' | 'floor_space' | 'objectName' | 'objectCategory' | 'city' | 'reception_start' | 'reception_end' | 'work_start' | 'work_end', newVal: string | boolean | Date, mask?: (value: string) => string) => void
     addObject: (newObjectName: string, newObjectTypes: string[]) => void
     changeService: (serviceToChangeId: number, newServiceName: string, newServiceTypes: string[]) => void
@@ -47,16 +52,19 @@ interface createTenderState {
     addError: (newError: string) => void
     removeError: (errorToRemove: string) => void
     validateInputs: () => boolean
-    handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId: number | null) => void
+    handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId: number | null, isClaeningTZ?: 'upload-tz') => void
     changeAttachmentText: (id: number, text: string) => void
     removeAttachment: (id: number) => void
     changeAttachmentIdToChange: (newVal: number | null) => void
+    removeCleaningTZ: () => void
     clear: () => void
 }
 
 export const useCreateTenderState = create<createTenderState>()((set) => ({
+    executorToSend: null,
+    isValidating: false,
     errors: [],
-
+    cleaningTZ: null,
     "name": "",
     "price": "",
     "is_contract_price": false,
@@ -88,6 +96,10 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     "object_group_id": 0,
     "object_type_id": 0,
     attachmentIdToChange: null,
+    changeExecutorToSend: (id?: string, name?: string) => {
+        if (!id || !name) set((state) => ({ ...state, executorToSend: null }))
+        else set((state) => ({ ...state, executorToSend: { id, name } }))
+    },
     handleSimpleInput: (whatToChange: 'name' | 'reception_time_start' | 'reception_time_end' | 'price' | 'is_contract_price' | 'is_NDS' | 'description' | 'wishes' | 'floor_space' | 'objectName' | 'objectCategory' | 'city' | 'reception_start' | 'reception_end' | 'work_start' | 'work_end', newVal: string | boolean | Date, mask?: (value: string) => string) => {
         set((state) => ({ ...state, [whatToChange]: (mask && typeof newVal === 'string') ? mask(newVal) : newVal }))
     },
@@ -134,7 +146,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         set((state) => ({ ...state, errors: [...state.errors.filter(error => error !== errorToRemove)] }))
     },
 
-    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>, idToChange: number | null) => {
+    handleFileUpload: async (event: ChangeEvent<HTMLInputElement>, idToChange: number | null, isClaeningTZ?: 'upload-tz') => {
         const files = event.target.files;
         const file = files![files!.length - 1];
 
@@ -152,6 +164,14 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
 
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
                     newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
+                    if (isClaeningTZ) {
+                        if (isClaeningTZ === 'upload-tz') {
+                            set((state) => ({ ...state, cleaningTZ: newFile }))
+                        } else {
+                            set((state) => ({ ...state, cleaningTZ: null }))
+                        }
+                        return;
+                    }
                     if (idToChange) {
                         set((state) => ({ ...state, attachments: state.attachments.map(attachment => attachment.id === idToChange ? newFile! : attachment) }))
                     } else {
@@ -163,21 +183,27 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             }
         }
     },
-
+    removeCleaningTZ: () => {
+        set((state) => ({ ...state, cleaningTZ: null }))
+    },
+    changeIsValidating: (newVal: boolean) => {
+        set((state) => ({ ...state, isValidating: newVal }))
+    },
     validateInputs: () => {
         const newErrors: string[] = []
         set((state) => {
             if (!state.name) newErrors.push('name')
             if (!state.price) newErrors.push('price')
+            if (!state.cleaningTZ) newErrors.push('tz')
             if (!state.city) newErrors.push('city')
+            if (!state.objectName) newErrors.push('object')
             if (!state.floor_space) newErrors.push('floor_space')
+            if (!state.services.length) newErrors.push('services')
             if (!state.description) newErrors.push('description')
             if (!state.wishes) newErrors.push('wishes')
-            if (!state.objectName) newErrors.push('object')
-            if (!state.services.length) newErrors.push('services')
             if (!state.attachments.length) newErrors.push('attachments')
 
-            return { ...state, errors: [...newErrors] }
+            return { ...state, errors: [...newErrors], isValidating: true }
         })
         return !!newErrors.length
     },
@@ -203,6 +229,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             "wishes": "",
             "attachments": [],
             "services_groups": [],
+            cleaningTZ: null,
 
             is_NDS: true,
 

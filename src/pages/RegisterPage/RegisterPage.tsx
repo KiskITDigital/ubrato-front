@@ -29,8 +29,9 @@ export const RegisterPage: FC = () => {
     firstName: '',
     lastName: '',
     middleName: '',
-    personalDataApproval: false,
-    callsRecievApproval: false,
+    userAgreement: false,
+    personalDataAgreement: false,
+    personalDataPolicy: false,
   };
 
   const itemClasses = {
@@ -76,7 +77,7 @@ export const RegisterPage: FC = () => {
       })();
     },
     validationSchema: registerSchema,
-    validateOnBlur: false,
+    validateOnBlur: true,
     validateOnMount: false,
   });
 
@@ -124,6 +125,10 @@ export const RegisterPage: FC = () => {
     registrationStep,
   ]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (userInfoStore.isLoggedIn) {
     return <div></div>;
   }
@@ -132,6 +137,12 @@ export const RegisterPage: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
+        <p className={`${styles.infoText} pt-[10px]`}>
+          Уже есть аккунт?{' '}
+          <Link className={styles.link} to="/login">
+            Войти
+          </Link>
+        </p>
         <div className={styles.createInfo}>
           <p className={styles.create}>Выберите Вашу роль</p>
           <img className={styles.info} src="./info-ic.svg" alt="info" />
@@ -172,8 +183,13 @@ export const RegisterPage: FC = () => {
               type="email"
               label="Логин (Email)"
               value={formik.values.email}
-              onChange={formik.handleChange}
-              // onValueChange={formik.handleChange}
+              onChange={(e) => {
+                formik.handleChange(e);
+                if (e.target.value.endsWith(' ')) {
+                  formik.setErrors({ email: 'Некорректный e-mail' });
+                }
+                console.log(e.target.value);
+              }}
               variant="bordered"
               placeholder="Электронная почта"
               isInvalid={Boolean(formik.errors.email)}
@@ -212,7 +228,7 @@ export const RegisterPage: FC = () => {
               label="Пароль (не менее 6 знаков)"
               value={formik.values.repeatPassword}
               onChange={formik.handleChange}
-              placeholder="Придумайте пароль"
+              placeholder="Повторите пароль"
               isInvalid={Boolean(formik.errors.repeatPassword)}
               errorMessage={formik.errors.repeatPassword}
               endContent={
@@ -228,6 +244,11 @@ export const RegisterPage: FC = () => {
             />
           </div>
           {registrationStep > 1 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
+          {registrationStep > 1 && (
+            <p className={`${styles.infoText} py-[10px] w-full max-w-full text-center`}>
+              В настоящее время сервис Ubrato открыт для юридических лиц
+            </p>
+          )}
           <div className={styles.inputContainer}>
             {registrationStep > 1 && (
               <Input
@@ -244,7 +265,19 @@ export const RegisterPage: FC = () => {
                   }
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
-                      setCompanyName(await checkINN(e.currentTarget.value));
+                      const res = await checkINN(e.currentTarget.value).catch((e) => {
+                        console.log(e);
+                        return 'err';
+                      });
+                      if (res === 'Неверный ИНН') {
+                        formik.setErrors({ inn: 'Неверный ИНН' });
+                        setCompanyName('');
+                      } else if (res === 'err') {
+                        formik.setErrors({ inn: 'Что-то не так' });
+                        setCompanyName('');
+                      } else {
+                        setCompanyName(res);
+                      }
                     })();
                     if (registrationStep !== 4) {
                       setRegistrationStep(3);
@@ -290,9 +323,6 @@ export const RegisterPage: FC = () => {
                     Нет
                   </button>
                 </div>
-                <p className={styles.infoText}>
-                  В настоящее время сервис Ubrato открыт для юридических лиц
-                </p>
               </div>
             )}
           </div>
@@ -365,30 +395,48 @@ export const RegisterPage: FC = () => {
               </div>
               <div className={styles.approvalContainer}>
                 <Checkbox
-                  id="personalDataApproval"
-                  name="personalDataApproval"
-                  isSelected={formik.values.personalDataApproval}
+                  id="userAgreement"
+                  name="userAgreement"
+                  isSelected={formik.values.userAgreement}
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Согласие на передачу и обработку данных, согласно с{' '}
+                  Согласие с{' '}
                   <Link className={styles.link} to="/">
-                    условиями
-                  </Link>{' '}
-                  пользования сайтом
+                    Пользовательским соглашением ООО «Интеграция»
+                  </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
-                    {formik.errors.personalDataApproval}
+                    {formik.errors.userAgreement}
                   </p>
                 </Checkbox>
-
                 <Checkbox
-                  id="callsRecievApproval"
-                  name="callsRecievApproval"
-                  isSelected={formik.values.callsRecievApproval}
+                  id="personalDataPolicy"
+                  name="personalDataPolicy"
+                  isSelected={formik.values.personalDataPolicy}
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Соглашаюсь получать маркетинговые звонки и смс от ООО «Интеграция»
+                  Согласие с{' '}
+                  <Link className={styles.link} to="/">
+                    “Политикой обработки персональных данных” ООО «Интеграция»
+                  </Link>
+                  <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+                    {formik.errors.personalDataPolicy}
+                  </p>
+                </Checkbox>
+                <Checkbox
+                  id="personalDataAgreement"
+                  name="personalDataAgreement"
+                  isSelected={formik.values.personalDataAgreement}
+                  onChange={formik.handleChange}
+                  classNames={checkStyle}
+                >
+                  <Link className={styles.link} to="/">
+                    Согласие на обработку персональных данных
+                  </Link>
+                  <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+                    {formik.errors.personalDataAgreement}
+                  </p>
                 </Checkbox>
               </div>
               <div className={styles.submitContainer}>

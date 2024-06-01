@@ -1,12 +1,19 @@
 import { FC } from 'react';
 import styles from './footer.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
+  const navigate = useNavigate();
 
   const location = useLocation();
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    userInfoStorage.setLoggedIn(false);
+    navigate('/');
+  };
 
   return (
     <footer className={`container ${styles.container}`}>
@@ -27,9 +34,14 @@ export const Footer: FC = () => {
           </div>
         )}
         {userInfoStorage.isLoggedIn && !location.pathname.includes('profile') && (
-          <Link to="/profile" className={styles.registrationLink}>
-            <p className={styles.registrationText}>Личный кабинет</p>
-          </Link>
+          <div className="flex gap-[20px]">
+            <Link to="/profile" className={styles.registrationLink}>
+              <p className={styles.registrationText}>Личный кабинет</p>
+            </Link>
+            <button className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]" onClick={handleLogOut}>
+              Выйти
+            </button>
+          </div>
         )}
       </div>
       <div className={styles.footerUnder}>

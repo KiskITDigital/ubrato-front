@@ -1,14 +1,15 @@
-import { FC, useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { FC, forwardRef, useState } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 
 
-const City: FC = () => {
+const City: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, { ref?: React.LegacyRef<HTMLDivElement>; }>((_, ref) => {
     const createTenderState = useCreateTenderState()
     const [isCitiesAutoComplete, setIsCitiesAutoComplete] = useState(false);
 
     return (
-        <div className={`${styles.section}`}>
+        <div ref={ref} className={`${styles.section}`}>
             <div className={`${styles.section__block} ${styles.city}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Город и регион:</p>
                 <div className={`${styles.services__block} ${styles.services__cities}`}>
@@ -58,6 +59,6 @@ const City: FC = () => {
             </div>
         </div>
     );
-}
+})
 
 export default City;

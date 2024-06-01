@@ -3,7 +3,12 @@ import { RegisterFormValuesT } from '../types/app';
 
 export const registerSchema = object().shape<Record<keyof RegisterFormValuesT, AnySchema>>({
   inn: string().length(10, 'ИНН должен состоять из 10 символов').required('ИНН обязательно!'),
-  email: string().email('Некорректный e-mail').required('E-mail обязателен!'),
+  email: string()
+    .matches(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      { message: 'Некорректный e-mail' }
+    )
+    .required('E-mail обязателен!'),
   phone: string().required('Телефон обязателен!'),
   password: string().min(6, 'Пароль слишком короткий').required('Введите пароль!'),
   repeatPassword: string()
@@ -12,6 +17,7 @@ export const registerSchema = object().shape<Record<keyof RegisterFormValuesT, A
   firstName: string().required('Введите имя'),
   lastName: string().required('Введите фамилию'),
   middleName: string(),
-  personalDataApproval: boolean().oneOf([true], 'Обязательное поле'),
-  callsRecievApproval: boolean(),
+  userAgreement: boolean().oneOf([true], 'Обязательное поле'),
+  personalDataAgreement: boolean().oneOf([true], 'Обязательное поле'),
+  personalDataPolicy: boolean().oneOf([true], 'Обязательное поле'),
 });

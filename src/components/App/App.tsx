@@ -4,7 +4,6 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from '@/components';
 
 export const App: FC = () => {
-
   return (
     <>
       <Header />

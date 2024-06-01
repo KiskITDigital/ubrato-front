@@ -6,7 +6,7 @@ import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { loginSchema } from '@/validation/loginSchema';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '@/api';
 
 axios.defaults.withCredentials = true;
@@ -79,6 +79,10 @@ export const LoginPage: FC = () => {
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (userInfoStore.isLoggedIn) {
     return <div></div>;
   }
@@ -87,6 +91,12 @@ export const LoginPage: FC = () => {
     <div className={`container ${styles.container}`}>
       <div>
         <h1 className={styles.header}>Вход</h1>
+        <p className={'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'}>
+          Ещё нет аккунта?{' '}
+          <Link className="text-[var(--color-blue-primary)] underline" to="/register">
+            Зарегистрироваться
+          </Link>
+        </p>
         <form onSubmit={formik.handleSubmit}>
           <div className={styles.inputContainer}>
             <Input

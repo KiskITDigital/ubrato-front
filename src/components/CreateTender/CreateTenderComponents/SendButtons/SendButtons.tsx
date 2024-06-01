@@ -1,23 +1,28 @@
 import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
 import { useCreateTenderState } from "@/store/createTenderStore";
 import { useTypesObjectsStore } from "@/store/objectsStore";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { formatDate } from "../../funcs";
-import { createTender } from "@/api/index"
+import { createTender, offerTender } from "@/api/index"
 import styles from '../../CreateTender.module.css'
 import { useNavigate } from "react-router-dom";
+import Modal from "@/components/Modal";
+import AfterSendInfo from "../AfterSendInfo/AfterSendInfo";
 
 const SendButtons: FC = () => {
     const createTenderState = useCreateTenderState()
     const objectsStore = useTypesObjectsStore()
     const cleaningTypeStore = useCleaningTypeStore()
 
+    const [isModal, setIsModal] = useState(false);
     const navigate = useNavigate()
 
     const submit = async (isDraft?: boolean) => {
         const token = localStorage.getItem('token')
-        if (!token) { navigate('/login'); return; }
-        if (createTenderState.validateInputs()) return;
+        if (!token) { navigate('/register'); return; }
+        if (createTenderState.validateInputs()) {
+            return;
+        }
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
             .filter(el => createTenderState.objectCategory.includes(el.name))
@@ -36,6 +41,7 @@ const SendButtons: FC = () => {
         const objectToSend = {
             objects_types: arrToSearchObjectTypes,
             services_types: arrToSearchServicesTypes,
+            specification: createTenderState.cleaningTZ!.linkToSend,
             name: createTenderState.name,
             price: +createTenderState.price,
             is_contract_price: createTenderState.is_contract_price,
@@ -51,12 +57,20 @@ const SendButtons: FC = () => {
             specification: "string",
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        const res = city_id && await createTender(token, objectToSend, isDraft) as { status: number }
-        res && res.status === 200 && createTenderState.clear()
-        
+        const res = city_id && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
+        if (res && res.status === 200) {
+            if (createTenderState.executorToSend) offerTender(token, createTenderState.executorToSend.id, res.data.id)
+            createTenderState.clear()
+            setIsModal(true)
+        }
     }
     return (
         <div className={`${styles.section} ${styles.sendButtons}`}>
+            {
+                isModal && <Modal isOpen={isModal}>
+                    <AfterSendInfo closeModal={() => { setIsModal(false); createTenderState.changeExecutorToSend() }} executorName={createTenderState.executorToSend?.name || null} />
+                </Modal>
+            }
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p}`}></p>
                 <div className={`${styles.section__sendButtons__block}`}>

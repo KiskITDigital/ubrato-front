@@ -24,8 +24,9 @@ export interface RegisterFormValuesT {
   firstName: string;
   middleName: string;
   lastName: string;
-  personalDataApproval: boolean;
-  callsRecievApproval: boolean;
+  userAgreement: boolean;
+  personalDataPolicy: boolean;
+  personalDataAgreement: boolean;
 }
 
 export interface LoginFormValuesT {
@@ -135,20 +136,20 @@ export interface executorList {
 
 
 export interface tenderData {
-  id: string
-  name: string
-  price: number
-  is_contract_price: boolean
-  is_nds_price: boolean
-  floor_space: number
-  wishes: string
-  description: string
-  reception_start: number
-  reception_end: number
-  work_start: number
-  work_end: number
-  city_id: string
-  crated_at: number
-  verified: boolean,
-  status: boolean,
+  id: string;
+  name: string;
+  price: number;
+  is_contract_price: boolean;
+  is_nds_price: boolean;
+  floor_space: number;
+  wishes: string;
+  description: string;
+  reception_start: number;
+  reception_end: number;
+  work_start: number;
+  work_end: number;
+  city_id: string;
+  crated_at: number;
+  verified: boolean;
+  status: boolean;
 }

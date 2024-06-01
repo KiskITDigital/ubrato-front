@@ -11,6 +11,7 @@ export const AvatarInput: FC = () => {
     name: styles.name,
     base: styles.base,
     img: styles.img,
+    icon: styles.icon,
   };
 
   return (
@@ -19,7 +20,6 @@ export const AvatarInput: FC = () => {
         <Avatar
           src={userInfoState.user.avatar}
           classNames={avatarStyle}
-          name={userInfoState.user.first_name}
         />
         <div className={styles.camera}></div>
         <input

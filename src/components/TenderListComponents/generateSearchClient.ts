@@ -3,14 +3,13 @@ import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
-            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
+            apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
             nodes: [
                 {
-                    host: 'search.ubrato.ru',
-                    port: 443,
+                    host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+                    port: import.meta.env.VITE_TYPESENSE_API_PORT,
                     protocol: 'https',
                     path: "",
-                    // tls:true
                 }
             ]
         },
@@ -18,7 +17,6 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
             query_by: "name",
             limit: limit,
             ...parameters
-            // sort_by: 'price:asc',
         },
     });
 

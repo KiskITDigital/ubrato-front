@@ -1,12 +1,12 @@
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import styles from '../../CreateTender.module.css'
 import { useCreateTenderState } from "@/store/createTenderStore";
 
-const Wishes: FC = () => {
+const Wishes: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivElement, { ref?: React.LegacyRef<HTMLDivElement>; }>((_, ref) => {
     const createTenderState = useCreateTenderState()
 
     return (
-        <div className={`${styles.section} ${styles.wishes}`}>
+        <div ref={ref} className={`${styles.section} ${styles.wishes}`}>
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Пожелания:</p>
                 <textarea
@@ -21,6 +21,6 @@ const Wishes: FC = () => {
             </div>
         </div>
     );
-}
+})
 
 export default Wishes;
