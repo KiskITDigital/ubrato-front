@@ -47,10 +47,10 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     className={s.hit_block}
     >
       <div className={s.hit_header}><h3 >{truncateString(hit.name, 20)}</h3></div>  
-      <div className={s.hit_rcp}><p >{toDate(hit.reception_end).toLocaleString()}</p></div>
-      <div className={s.hit_wrk}><p >{toDate(hit.work_start).toLocaleString()}</p></div>
+      <div className={s.hit_rcp}><p >{hit.reception_end}</p></div>
+      <div className={s.hit_wrk}><p >{hit.work_start}</p></div>
       <div className={s.hit_arrow}>➔</div>
-      <div className={s.hit_wrkE}><p>{toDate(hit.work_end).toLocaleString()}</p></div>
+      <div className={s.hit_wrkE}><p>{hit.work_end}</p></div>
       <div className={s.hit_price}><p>{hit.price} ₽</p></div>
       <div className={s.hit_city}><p>{hit.city}</p></div>
     </div>

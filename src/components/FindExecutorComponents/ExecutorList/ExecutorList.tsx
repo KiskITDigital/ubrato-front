@@ -68,6 +68,7 @@ const ExecutorList: FC = () => {
             'per_page': paginationPerPage,
             'page': paginationPage,
             'filter_by': filters,
+            // 'filter_by': `contractor_city(city:=${findExecutorState.locationId})`,
             'sort_by': sortingValue
         };
 
@@ -89,6 +90,8 @@ const ExecutorList: FC = () => {
         client.collections('contractor_index').documents().search(searchParameters)
             .then(async (response) => {
                 const newExecutorList = [] as executorList[];
+                
+                
                 const token = localStorage.getItem('token');
 
                 const promises = (response.hits || []).map((res, index) => {
@@ -123,6 +126,7 @@ const ExecutorList: FC = () => {
                 });
 
                 setExecutorList(newExecutorList);
+                
             })
             .catch((error) => {
                 console.error('Error:', error);

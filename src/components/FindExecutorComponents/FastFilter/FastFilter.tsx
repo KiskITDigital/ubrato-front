@@ -17,7 +17,7 @@ const FastFilterBlock: FC = () => {
         findExecutorState.handleFastFilterTexts(filters)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filters.length]);
-
+ 
     return (
         <div className={`container ${styles.container}`}>
             <h1 className={styles.title}><span>Поиск</span> исполнителя</h1>
