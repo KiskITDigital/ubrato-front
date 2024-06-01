@@ -250,3 +250,45 @@
 .paginationBase>.wrapper>.next {
     transform: rotate(180deg);
 }
+.sortingBlock {
+    padding: 0 5px 5px 5px;
+    display: grid;
+    grid-template-columns: 150px 150px 100px 100px 100px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 13px;
+    height: 65px;
+  }
+  
+  .sorting_label_field{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .sortingButton {
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+    display: flex;
+  }
+  
+  .sortingButton:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .sortingButton:active {
+    background-color: #ccc;
+  }
+  
+  .asc {
+    transform: rotate(0deg);
+  }
+  
+  .desc {
+    transform: rotate(180deg);
+  }

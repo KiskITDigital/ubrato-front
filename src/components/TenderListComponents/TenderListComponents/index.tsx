@@ -21,6 +21,10 @@ interface TenderList {
   work_end: string;
   price: number;
 }
+interface SortingOption {
+  label: string;
+  field: string;
+}
 
 export const TenderListComp: FC = () => {
   const findExecutorState = useFindExecutorState();
@@ -29,6 +33,7 @@ export const TenderListComp: FC = () => {
   const [paginationPage, setPaginationPage] = useState(1);
   const [paginationPerPage, setPaginationPerPage] = useState(8);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
+  const [sortingValue, setSortingValue] = useState('')
   // const findExecutorState = useFindExecutorState()
 
   const paginationClassNames = {
@@ -80,6 +85,7 @@ export const TenderListComp: FC = () => {
       per_page: paginationPerPage,
       page: paginationPage,
       filter_by: filters,
+      sort_by: sortingValue
     };
 
     const getAllExecutorListLengthSearchParameters = {
@@ -154,15 +160,41 @@ export const TenderListComp: FC = () => {
     findExecutorState.objectTypesId,
     findExecutorState.locationId,
     findExecutorState.servicesTypesId,
+    sortingValue
   ]);
 
   const list = tenderList;
+  const sortingOptions: SortingOption[] = [
+    { label: "Название", field: "name" },
+    { label: "Дата приема заявок", field: "reception_end" },
+    { label: "Дата начала работ", field: "work_start" },
+    { label: "Дата окончания работ", field: "work_end" },
+    { label: "Цена", field: "price" },
+  ];
 
+  const handleSortingChange = (field: string) => {
+    const direction = sortingValue === `${field}:asc`? 'desc' : 'asc';
+    setSortingValue(`${field}:${direction}`);
+  };
   return (
     <div>
       <div className={s.counter_tender}>
         Найдено тендеров: {allExecutorListLength}
       </div>
+      <div className={s.sortingBlock}>
+      {sortingOptions.map((option) => (
+        <div className={s.sorting_label_field}>
+          <p>{option.label}</p>
+        <button
+          key={option.field}
+          onClick={() => handleSortingChange(option.field)}
+          className={`${s.sortingButton} ${sortingValue === `${option.field}:asc`? s.asc : s.desc}`}
+        >
+          {sortingValue === `${option.field}:asc`? '↑' : '↑'}
+        </button>
+        </div>
+      ))}
+    </div>
       {list.map((item) => (
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}
