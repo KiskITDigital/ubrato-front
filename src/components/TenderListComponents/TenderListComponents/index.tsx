@@ -68,7 +68,7 @@ export const TenderListComp: FC = () => {
       if (findExecutorState.fastFilterTexts)
         findExecutorState.fastFilterTexts.forEach((filter) =>
           filters.push(
-            `(name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
+            `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
         );
       return filters.join(" && ");
