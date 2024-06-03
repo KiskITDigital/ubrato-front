@@ -7,6 +7,7 @@ import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTen
 import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
+import { getMe } from '@/api/getMe';
 
 export interface dataObjectTypes {
   id: number,
@@ -33,6 +34,7 @@ export const OneTenderPageExecutor: FC = () => {
   const { id }: Readonly<Params<string>> = useParams()
   const { activeIndex } = useSwitchStore();
   const [response, setResponse] = useState(false)
+  const [me, setMe] = useState()
   const [dataState, setData] = useState<dataObjectTypes>({
     id: 0,
     name: '',
@@ -76,13 +78,16 @@ export const OneTenderPageExecutor: FC = () => {
 
   useEffect(() => {
     (async () => {
+      
       const token = localStorage.getItem('token');
       const responded = await isResponded(token, id)
-     const data = await fetchProduct(id);
+      const data = await fetchProduct(id);
      if (data) {
       setResponse(responded.status)
       setData(data)
       setLoading(false)
+      console.log(responded);
+      
      } else {
       console.log('proizoshla oshibka');}
     })();

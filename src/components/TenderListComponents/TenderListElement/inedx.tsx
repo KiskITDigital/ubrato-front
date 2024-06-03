@@ -1,5 +1,5 @@
-import { FC } from "react"
-import s from './styles.module.css'
+import { FC } from "react";
+import s from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { BaseHit } from "instantsearch.js";
 
@@ -10,29 +10,31 @@ interface Hit {
   work_start: number;
   work_end: number;
   price: number;
-  city: string
+  city: string;
 }
 
 interface CustomHitProps {
-    hit: Hit & BaseHit;
+  hit: Hit & BaseHit;
 }
 
-export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
+export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   console.log(hit);
 
-  const toDate = (date: number) =>{
-    const timestamp = date
-    const newDate = new Date(timestamp * 1000);
-    
-    return newDate.toISOString().slice(0, 10);
-  } 
+  const toDate = (date: number) => {
+    const timestamp = date;
+    const newDate = new Date(Date.parse(timestamp));
+    newDate.setHours(0, 0, 0, 0);
+    const formattedDate = newDate.toISOString().split("T")[0];
+    // return newDate.toString().slice(0, 10);
+    return formattedDate;
+  };
 
   function truncateString(str: string, maxLength: number): string {
     if (str.length <= maxLength) return str;
-  
+
     const truncatedStr = str.slice(0, maxLength);
-    const lastSpaceIndex = truncatedStr.lastIndexOf(' ');
-  
+    const lastSpaceIndex = truncatedStr.lastIndexOf(" ");
+
     if (lastSpaceIndex !== -1) {
       return truncatedStr.slice(0, lastSpaceIndex);
     } else {
@@ -40,20 +42,32 @@ export const TenderListElem: FC<CustomHitProps> = ({hit}) => {
     }
   }
 
-
-  return(
+  return (
     <Link to={`/tender/${hit.id}`}>
-    <div 
-    className={s.hit_block}
-    >
-      <div className={s.hit_header}><h3 >{truncateString(hit.name, 20)}</h3></div>  
-      <div className={s.hit_rcp}><p >{toDate(hit.reception_end).toLocaleString()}</p></div>
-      <div className={s.hit_wrk}><p >{toDate(hit.work_start).toLocaleString()}</p></div>
-      <div className={s.hit_arrow}>➔</div>
-      <div className={s.hit_wrkE}><p>{toDate(hit.work_end).toLocaleString()}</p></div>
-      <div className={s.hit_price}><p>{hit.price} ₽</p></div>
-      <div className={s.hit_city}><p>{hit.city}</p></div>
-    </div>
+      <div className={s.hit_block}>
+        <div className={s.hit_header}>
+          <h3>{truncateString(hit.name, 20)}</h3>
+        </div>
+        <div className={s.hit_rcp}>
+          <p>{toDate(hit.reception_end)}</p>
+        </div>
+        <div className={s.hit_wrk}>
+          <p>{toDate(hit.work_start)}</p>
+        </div>
+        <div className={s.hit_arrow}>➔</div>
+        <div className={s.hit_wrkE}>
+          <p>{toDate(hit.work_end)}</p>
+        </div>
+        <div className={s.hit_price}>
+          <p>{hit.price} ₽</p>
+        </div>
+        <div className={s.hit_city}>
+          <p>{hit.city}</p>
+          {/* {
+                                        hit.city.map((region) => <p key={region.id} className={styles.executorRegion}>{region.name}</p>)
+                                    } */}
+        </div>
+      </div>
     </Link>
   );
 };

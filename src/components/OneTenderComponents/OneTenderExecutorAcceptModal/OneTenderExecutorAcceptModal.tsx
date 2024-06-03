@@ -25,7 +25,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({setResponse,
         thumb: styles.thumb,
       };
     
-      // const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
       const handleResponseOnTender = (token: string, id: string, price: number) => {
         if (token) {
