@@ -18,14 +18,13 @@ interface CustomHitProps {
 }
 
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
-  console.log(hit);
+  // console.log(hit);
 
   const toDate = (date: number) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
     newDate.setHours(0, 0, 0, 0);
     const formattedDate = newDate.toISOString().split("T")[0];
-    // return newDate.toString().slice(0, 10);
     return formattedDate;
   };
 

@@ -23,6 +23,7 @@ import { AllTendersPage } from '@/pages/AllTendersPage/AllTendersPage';
 import FindExecutor from '@/pages/FindExecutor/FindExecutor';
 import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfile/OrdererProfile';
 import { ContractorProfile } from '@/components/ProfilePageComponents/ContractorProfile/ContractorProfile';
+import { MyTendersPage } from '@/pages/MyTendersPage/MyTendersPage';
 import FavoritePage from '@/pages/FavoritePage/FavoritePage';
 import SettingsPage from '@/pages/SettingsPage/SettingsPage';
 export const Router = () => {
@@ -47,7 +48,8 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="tenders" element={<AllTendersPage />} />
+          <Route path="tenders" element={<MyTendersPage/>}/>
+          <Route path="tenders" element={<AllTendersPage/>}/>
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />

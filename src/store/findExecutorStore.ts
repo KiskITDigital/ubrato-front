@@ -5,11 +5,13 @@ interface findExecutor {
     objectTypesId: number[]
     servicesTypesId: number[]
     fastFilterTexts: string[]
+    userID: number | null
 
     handleLocation: (newLocationId: number | null) => void
     handleObjectTypesId: (newObjectTypesId: number[]) => void
     handleServicesTypesId: (newServicesTypesId: number[]) => void
     handleFastFilterTexts: (newFastFilterTexts: string[]) => void
+    handleUserID: ( newUserID: number | null) =>  void
 }
 
 export const useFindExecutorState = create<findExecutor>()((set) => ({
@@ -17,6 +19,7 @@ export const useFindExecutorState = create<findExecutor>()((set) => ({
     objectTypesId: [],
     servicesTypesId: [],
     fastFilterTexts: [],
+    userID: null,
     handleLocation: (newLocationId: number | null) => {
         set((state) => ({ ...state, locationId: newLocationId }))
     },
@@ -28,5 +31,8 @@ export const useFindExecutorState = create<findExecutor>()((set) => ({
     },
     handleFastFilterTexts: (newFastFilterTexts: string[]) => {
         set((state) => ({ ...state, fastFilterTexts: newFastFilterTexts }))
+    },
+    handleUserID: (newUserID: number | null) => {
+        set((state) => ({ ...state, userID: newUserID }))
     },
 }))

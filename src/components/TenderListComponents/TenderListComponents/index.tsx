@@ -12,6 +12,7 @@ import { Pagination } from "@nextui-org/react";
 
 import s from "./styles.module.css";
 import { useFindExecutorState } from "@/store/findExecutorStore";
+import { getMe } from "@/api/getMe";
 
 interface TenderList {
   id: string;
@@ -34,7 +35,7 @@ export const TenderListComp: FC = () => {
   const [paginationPerPage, setPaginationPerPage] = useState(8);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
-  // const findExecutorState = useFindExecutorState()
+  const [meData, setMe ] = useState([])
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -46,6 +47,13 @@ export const TenderListComp: FC = () => {
   };
 
   useEffect(() => {
+    (async () => {
+      const token = localStorage.getItem('token');
+      const me = await getMe(token)
+      setMe(me.id)
+    })();
+  
+    
     const client = new Typesense.Client({
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
@@ -76,6 +84,9 @@ export const TenderListComp: FC = () => {
             `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
         );
+        // if (findExecutorState.locationId)
+        //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
+        // filters.push( `( user_id:=${meData})`)
       return filters.join(" && ");
     })();
 
@@ -118,6 +129,8 @@ export const TenderListComp: FC = () => {
       .search(searchParameters)
       .then(async (response) => {
         const tenders = [] as TenderList[];
+        console.log(response.hits);
+        
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -135,6 +148,7 @@ export const TenderListComp: FC = () => {
                   work_start: data.work_start,
                   work_end: data.work_end,
                   price: data.price,
+                  user: data.user_id
                 },
               } as { index: number; tenderData: TenderList };
             })();
@@ -160,6 +174,7 @@ export const TenderListComp: FC = () => {
     findExecutorState.objectTypesId,
     findExecutorState.locationId,
     findExecutorState.servicesTypesId,
+    
     sortingValue
   ]);
 
@@ -180,6 +195,9 @@ export const TenderListComp: FC = () => {
     <div>
       <div className={s.counter_tender}>
         Найдено тендеров: {allExecutorListLength}
+      </div>
+      <div>
+        {meData}
       </div>
       <div className={s.sortingBlock}>
       {sortingOptions.map((option) => (
