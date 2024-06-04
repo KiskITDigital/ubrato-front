@@ -2,7 +2,7 @@ import FastFilter from "@/components/FindExecutorComponents/FastFilter/FastFilte
 import styles from './FindExecutor.module.css'
 import { FC } from "react";
 import MainFilter from "@/components/FindExecutorComponents/MainFilter/MainFilter";
-import ExecutorList from "@/components/FindExecutorComponents/ExecutorList/ExecutorList";
+import Executors from "@/components/FindExecutorComponents/Executors/Executors";
 import { QuestionsBlock, Seo } from "@/components";
 
 const FindExecutor: FC = () => {
@@ -11,7 +11,7 @@ const FindExecutor: FC = () => {
             <FastFilter />
             <div className={`container ${styles.mainBlock}`}>
                 <MainFilter />
-                <ExecutorList />
+                <Executors />
             </div>
             <QuestionsBlock />
             <Seo />
