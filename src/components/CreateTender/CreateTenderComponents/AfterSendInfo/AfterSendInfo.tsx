@@ -35,7 +35,7 @@ const AfterSendInfo: FC<{ executorName: string | null, closeModal: () => void }>
                 </p>
             </div>
             <div className={styles.buttons}>
-                <Link onClick={closeModal} to="/alltenders"><button className={styles.buttons__myTendersButton}>Мои тендеры</button></Link>
+                <Link onClick={closeModal} to="/profile/tenders"><button className={styles.buttons__myTendersButton}>Мои тендеры</button></Link>
                 <button onClick={closeModal} className={styles.buttons__createTenderButton}>Создать</button>
             </div>
         </div>

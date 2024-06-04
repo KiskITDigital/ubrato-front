@@ -7,7 +7,7 @@ import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTen
 import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
-import { getMe } from '@/api/getMe';
+
 
 export interface dataObjectTypes {
   id: number,
@@ -34,7 +34,6 @@ export const OneTenderPageExecutor: FC = () => {
   const { id }: Readonly<Params<string>> = useParams()
   const { activeIndex } = useSwitchStore();
   const [response, setResponse] = useState(false)
-  const [me, setMe] = useState()
   const [dataState, setData] = useState<dataObjectTypes>({
     id: 0,
     name: '',
