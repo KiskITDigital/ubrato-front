@@ -27,6 +27,9 @@ export {
   putBrandContacts,
   fetchContractorProfile,
   putContractorProfile,
+  postPortfolio,
+  deletePortfolio,
+  putPortfolio
 } from './profileOrganization';
 export { getExecutor } from './findExecutor/getExecutor';
 export {
