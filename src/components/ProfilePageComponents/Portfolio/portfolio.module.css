@@ -228,4 +228,5 @@
 .changeData {
   display: flex;
   gap: 10px;
+  outline: none;
 }
