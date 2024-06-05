@@ -17,8 +17,6 @@ export const addFavoriteExecutor = async (id: string, token: string) => {
                 authorization: `Bearer ${token}`,
             },
         })
-    console.log(res);
-
     return res
 }
 
@@ -30,5 +28,16 @@ export const removeFavoriteExecutor = async (id: string, token: string) => {
                 authorization: `Bearer ${token}`,
             },
         })
+    console.log(res);
+
+    return res
+}
+
+export const getAllFavoriteExecutors = async (token: string) => {
+    const res = await axiosInstance.get("/v1/users/me/favorite_contractors", {
+        headers: {
+            authorization: `Bearer ${token}`,
+        }
+    })
     return res
 }

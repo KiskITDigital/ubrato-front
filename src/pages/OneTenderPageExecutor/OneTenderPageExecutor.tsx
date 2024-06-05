@@ -8,6 +8,7 @@ import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
 
+
 export interface dataObjectTypes {
   id: number,
   name: string,
@@ -76,13 +77,16 @@ export const OneTenderPageExecutor: FC = () => {
 
   useEffect(() => {
     (async () => {
+      
       const token = localStorage.getItem('token');
       const responded = await isResponded(token, id)
-     const data = await fetchProduct(id);
+      const data = await fetchProduct(id);
      if (data) {
       setResponse(responded.status)
       setData(data)
       setLoading(false)
+      console.log(responded);
+      
      } else {
       console.log('proizoshla oshibka');}
     })();

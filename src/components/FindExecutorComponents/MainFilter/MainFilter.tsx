@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { ChangeEvent, FC, ReactNode, useEffect, useState } from 'react';
 import styles from './main-filter.module.css'
 import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
 import { generateSearchClient } from '../generateSearchclient';
@@ -22,6 +22,8 @@ const MainFilter: FC = () => {
 
     const [servicesId, setServicesId] = useState<number[]>([]);
     const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
+
+    const [searchCityParam, setSearchCityParam] = useState('');
 
     const reset = () => {
         setChosenLocation(null)
@@ -69,7 +71,7 @@ const MainFilter: FC = () => {
             {
                 isSearchClient &&
                 <div className={styles.block}>
-                    <InstantSearch indexName={'city_index'} searchClient={generateSearchClient(5)}>
+                    <InstantSearch indexName={'city_index'} searchClient={searchCityParam.trim() ? generateSearchClient(5) : generateSearchClient(5, { filter_by: 'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"' })}>
                         <p className={styles.title}>Локации:</p>
                         {
                             chosenLocation ?
@@ -79,7 +81,7 @@ const MainFilter: FC = () => {
                                             className={styles.chosenLocation}
                                         >
                                             {chosenLocation.name}
-                                            <img onClick={() => setChosenLocation(null)} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
+                                            <img onClick={() => { setChosenLocation(null); setSearchCityParam('') }} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
                                         </p>
                                     </div>
                                 </>
@@ -89,6 +91,7 @@ const MainFilter: FC = () => {
                                         <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
                                         <SearchBox
                                             className={styles.inputFilter}
+                                            onChangeCapture={(e: ChangeEvent<HTMLInputElement>) => setSearchCityParam(e.target.value)}
                                             placeholder="Населенный пункт" />
                                     </label>
                                     <Hits

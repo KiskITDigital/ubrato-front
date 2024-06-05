@@ -6,14 +6,16 @@ import { Radio, RadioGroup } from '@nextui-org/react';
 import { offerTender } from '@/api/index'
 import { tenderData } from '@/types/app';
 import { isRespondedOfferTender } from '@/api/index';
+import { useCreateTenderState } from '@/store/createTenderStore';
 
 const OfferTender: FC<{
     closeModal: (newState: null) => void
-    executorId: string
-}> = ({ closeModal, executorId }) => {
-
+    executorId: string,
+    executorName: string,
+}> = ({ closeModal, executorId, executorName }) => {
     const [tenderId, setTenderId] = useState('');
     const [tenderList, setTenderList] = useState<tenderData[] | null>(null);
+    const createTenderState = useCreateTenderState()
 
     useEffect(() => {
         const client = new Typesense.Client({
@@ -68,7 +70,10 @@ const OfferTender: FC<{
 
     return (
         <div className={styles.container}>
-            <p className={styles.title}>Предложите тендер исполнителю <img className={styles.title__closeIcon} onClick={() => closeModal(null)} src="/x-icon.svg" alt="" /></p>
+            {/* <p className={styles.title}>Предложите тендер исполнителю <img className={styles.title__closeIcon} onClick={() => closeModal(null)} src="/x-icon.svg" alt="" /></p> */}
+            <p className={styles.title}>Предложите тендер исполнителю <button className={styles.title__closeIcon}>
+                <img onClick={() => closeModal(null)} src="/x-icon.svg" alt="" />
+            </button></p>
             {
                 tenderList ?
                     tenderList.length ?
@@ -88,7 +93,7 @@ const OfferTender: FC<{
                                 </RadioGroup>
                             </div>
                             <div className={styles.buttons}>
-                                <Link to="/create-tender">
+                                <Link onClick={() => createTenderState.changeExecutorToSend(executorId, executorName)} to="/create-tender">
                                     <button className={styles.button}>Создать тендер</button>
                                 </Link>
                                 <button onClick={submit} disabled={tenderId ? false : true} className={styles.button}>Предложить</button>
@@ -98,7 +103,7 @@ const OfferTender: FC<{
                         <div className={styles.noTenders}>
                             <p className={styles.description}>У вас пока нет опубликованных тендеров</p>
                             <p className={styles.action}>Создайте тендер и предложите его потенциальным исполнителям</p>
-                            <Link to="/create-tender">
+                            <Link onClick={() => createTenderState.changeExecutorToSend(executorId, executorName)} to="/create-tender">
                                 <button className={styles.button}>Создать тендер</button>
                             </Link>
                         </div>

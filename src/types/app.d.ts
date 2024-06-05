@@ -65,6 +65,7 @@ export interface notificationT {
   read: boolean;
   href_text: string;
   href_color: number;
+  created_at: number;
 }
 
 export interface notificationsT {
@@ -114,6 +115,26 @@ export interface executorList {
   areServicesHidden: boolean;
   isFavorite: boolean;
 }
+
+// export interface tenderList {
+//   id: string;
+//   img: string;
+//   name: string;
+//   inn: string;
+//   text: string;
+//   regions: {
+//     id: number;
+//     name: string;
+//   }[];
+//   services: {
+//     id: number;
+//     name: string;
+//     price: number;
+//   }[];
+//   areServicesHidden: boolean;
+//   isFavorite: boolean;
+// }
+
 
 export interface tenderData {
   id: string;

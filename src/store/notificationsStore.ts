@@ -4,8 +4,10 @@ import { create } from 'zustand';
 
 interface notificationsStore {
   notifications: notificationsT;
+  expandedIds: number[];
   fetchNotifications: (token: string) => Promise<void>;
   setNotificationRead: (id: number) => void;
+  toggleNotificationExpansion: (id: number) => void;
 }
 
 export const useNotificationsStore = create<notificationsStore>()((set) => ({
@@ -13,9 +15,12 @@ export const useNotificationsStore = create<notificationsStore>()((set) => ({
     total: 0,
     notifications: [],
   },
+  expandedIds: [],
   fetchNotifications: async (token) => {
     const res = await getNotifications(token);
     set({ notifications: res });
+    console.log(res);
+    
   },
   setNotificationRead(id) {
     let newTotal = this.notifications.total;
@@ -34,4 +39,17 @@ export const useNotificationsStore = create<notificationsStore>()((set) => ({
       notifications: { total: newTotal, notifications: newNotificationsList },
     });
   },
+  
+  toggleNotificationExpansion: (id) => {
+    if (isExpanded(id)) {
+      set((state) => ({ expandedIds: state.expandedIds.filter((e) => e !== id) }));
+    } else {
+      set((state) => ({ expandedIds: [...state.expandedIds, id] }));
+    }
+  },
 }));
+
+
+const isExpanded = (id: number) => {
+  return useNotificationsStore.getState().expandedIds.includes(id);
+};

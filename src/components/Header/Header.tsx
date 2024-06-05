@@ -87,7 +87,7 @@ export const Header: FC = () => {
   return (
     <header className={`${styles.container}`}>
       {isCityModalOpern && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpern} />}
-      {widthR.current && isMenuOpen && (
+      {!!widthR.current && isMenuOpen && (
         <div
           onClick={() => {
             setIsMenuOpen(false);

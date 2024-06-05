@@ -36,6 +36,7 @@ export {
   isFavoriteExecutor,
   addFavoriteExecutor,
   removeFavoriteExecutor,
+  getAllFavoriteExecutors
 } from './findExecutor/favoriteExecutors';
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';

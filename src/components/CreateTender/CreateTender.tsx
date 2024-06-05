@@ -78,7 +78,7 @@ export const CreateTender: FC = () => {
         (
           <>
             <Dates ref={createTenderState.errors[0] === 'price' ? errorRef : undefined} />
-            <CleaningTZ />
+            <CleaningTZ ref={createTenderState.errors[0] === 'tz' ? errorRef : undefined} />
             <City ref={createTenderState.errors[0] === 'city' ? errorRef : undefined} />
             <Object ref={createTenderState.errors[0] === 'floor_space' || createTenderState.errors[0] === 'object' ? errorRef : undefined} windowWidth={windowWidth} />
             <Services ref={createTenderState.errors[0] === 'services' ? errorRef : undefined} windowWidth={windowWidth} />
