@@ -10,7 +10,7 @@ import {
 export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
-            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
+            apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
             nodes: [
                 {
                     host: 'search.ubrato.ru',
@@ -33,7 +33,7 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
 export const generateTypesenseClient = async (collection: string, parameters?: { per_page?: number, page?: number, filter_by?: string, sort_by?: "" | "name:asc" | "name:desc" }) => {
     try {
         const client = new Typesense.Client({
-            apiKey: "Ii388RgSrBidU2XYjSDNElyzDfrZyMnM",
+            apiKey: "Lwiy87ndh1SKllepXzu4CBIApJeDcnbw",
             nodes: [
                 {
                     host: "search.ubrato.ru",

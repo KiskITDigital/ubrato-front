@@ -29,7 +29,6 @@ export const LoginPage: FC = () => {
   const formik = useFormik<LoginFormValuesT>({
     initialValues: initialValues,
     onSubmit(values) {
-      console.log(values);
       const parameters = {
         email: values.email,
         password: values.password,

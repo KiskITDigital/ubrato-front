@@ -35,7 +35,7 @@ export const TenderListComp: FC = () => {
   const [paginationPerPage, setPaginationPerPage] = useState(8);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
-  const [meData, setMe ] = useState([])
+  const [meData, setMe] = useState([])
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -52,8 +52,8 @@ export const TenderListComp: FC = () => {
       const me = await getMe(token)
       setMe(me.id)
     })();
-  
-    
+
+
     const client = new Typesense.Client({
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
@@ -84,9 +84,9 @@ export const TenderListComp: FC = () => {
             `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
         );
-        // if (findExecutorState.locationId)
-        //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
-        // filters.push( `( user_id:=${meData})`)
+      // if (findExecutorState.locationId)
+      //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
+      // filters.push( `( user_id:=${meData})`)
       return filters.join(" && ");
     })();
 
@@ -130,7 +130,7 @@ export const TenderListComp: FC = () => {
       .then(async (response) => {
         const tenders = [] as TenderList[];
         console.log(response.hits);
-        
+
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -174,7 +174,7 @@ export const TenderListComp: FC = () => {
     findExecutorState.objectTypesId,
     findExecutorState.locationId,
     findExecutorState.servicesTypesId,
-    
+
     sortingValue
   ]);
 
@@ -188,7 +188,7 @@ export const TenderListComp: FC = () => {
   ];
 
   const handleSortingChange = (field: string) => {
-    const direction = sortingValue === `${field}:asc`? 'desc' : 'asc';
+    const direction = sortingValue === `${field}:asc` ? 'desc' : 'asc';
     setSortingValue(`${field}:${direction}`);
   };
   return (
@@ -200,19 +200,19 @@ export const TenderListComp: FC = () => {
         {meData}
       </div>
       <div className={s.sortingBlock}>
-      {sortingOptions.map((option) => (
-        <div className={s.sorting_label_field}>
-          <p>{option.label}</p>
-        <button
-          key={option.field}
-          onClick={() => handleSortingChange(option.field)}
-          className={`${s.sortingButton} ${sortingValue === `${option.field}:asc`? s.asc : s.desc}`}
-        >
-          {sortingValue === `${option.field}:asc`? '↑' : '↑'}
-        </button>
-        </div>
-      ))}
-    </div>
+        {sortingOptions.map((option) => (
+          <div className={s.sorting_label_field}>
+            <p>{option.label}</p>
+            <button
+              key={option.field}
+              onClick={() => handleSortingChange(option.field)}
+              className={`${s.sortingButton} ${sortingValue === `${option.field}:asc` ? s.asc : s.desc}`}
+            >
+              {sortingValue === `${option.field}:asc` ? '↑' : '↑'}
+            </button>
+          </div>
+        ))}
+      </div>
       {list.map((item) => (
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}
