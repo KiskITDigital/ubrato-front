@@ -116,24 +116,24 @@ export interface executorList {
   isFavorite: boolean;
 }
 
-// export interface tenderList {
-//   id: string;
-//   img: string;
-//   name: string;
-//   inn: string;
-//   text: string;
-//   regions: {
-//     id: number;
-//     name: string;
-//   }[];
-//   services: {
-//     id: number;
-//     name: string;
-//     price: number;
-//   }[];
-//   areServicesHidden: boolean;
-//   isFavorite: boolean;
-// }
+export interface tenderList {
+  id: string;
+  img: string;
+  name: string;
+  inn: string;
+  text: string;
+  regions: {
+    id: number;
+    name: string;
+  }[];
+  services: {
+    id: number;
+    name: string;
+    price: number;
+  }[];
+  areServicesHidden: boolean;
+  isFavorite: boolean;
+}
 
 
 export interface tenderData {

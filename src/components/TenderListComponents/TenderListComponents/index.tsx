@@ -36,7 +36,7 @@ interface myTenderToogle {
   myTender: boolean
 }
 
-export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
+export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const findExecutorState = useFindExecutorState();
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
@@ -61,8 +61,8 @@ export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
       const me = await getMe(token)
       setMe(me.id)
     })();
-  
-    
+
+
     const client = new Typesense.Client({
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
@@ -93,9 +93,9 @@ export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
             `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
         );
-        if(myTender){
-          filters.push( `( user_id:=${meData})`)
-        }
+      if (myTender) {
+        filters.push(`( user_id:=${meData})`)
+      }
       return filters.join(" && ");
     })();
 
@@ -139,7 +139,7 @@ export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
       .then(async (response) => {
         const tenders = [] as TenderList[];
         console.log(response.hits);
-        
+
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -198,7 +198,7 @@ export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
   ];
 
   const handleSortingChange = (field: string) => {
-    const direction = sortingValue === `${field}:asc`? 'desc' : 'asc';
+    const direction = sortingValue === `${field}:asc` ? 'desc' : 'asc';
     setSortingValue(`${field}:${direction}`);
   };
   return (
@@ -207,19 +207,19 @@ export const TenderListComp: FC<myTenderToogle> = ({myTender}) => {
         Найдено тендеров: {list.length}
       </div>
       <div className={s.sortingBlock}>
-      {sortingOptions.map((option) => (
-        <div className={s.sorting_label_field}>
-          <p>{option.label}</p>
-        <button
-          key={option.field}
-          onClick={() => handleSortingChange(option.field)}
-          className={`${s.sortingButton} ${sortingValue === `${option.field}:asc`? s.asc : s.desc}`}
-        >
-          {sortingValue === `${option.field}:asc`? '↑' : '↑'}
-        </button>
-        </div>
-      ))}
-    </div>
+        {sortingOptions.map((option) => (
+          <div className={s.sorting_label_field}>
+            <p>{option.label}</p>
+            <button
+              key={option.field}
+              onClick={() => handleSortingChange(option.field)}
+              className={`${s.sortingButton} ${sortingValue === `${option.field}:asc` ? s.asc : s.desc}`}
+            >
+              {sortingValue === `${option.field}:asc` ? '↑' : '↑'}
+            </button>
+          </div>
+        ))}
+      </div>
       {list.map((item) => (
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}

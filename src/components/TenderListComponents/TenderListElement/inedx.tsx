@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { BaseHit } from "instantsearch.js";
+import { divider } from "@nextui-org/react";
+import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
 
 interface Hit {
   id: number;
@@ -19,6 +21,24 @@ interface CustomHitProps {
 
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
+  const [fav, setFav] = useState(false)
+  const [tokenOuter, setToken] = useState('')
+
+  const tenderId = hit.id
+
+  useEffect(()=>{
+    (async() => {
+      const token = localStorage.getItem('token');
+      setToken(token)
+      const isFav = await isFavoriteTender(tenderId, token)
+      const isFavStatus = isFav.data.status
+      setFav(isFavStatus)
+      
+    })()
+
+
+    
+  },[])
 
   const toDate = (date: string) => {
     const timestamp = date;
@@ -41,11 +61,33 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
     }
   }
 
+  const handleFavClick = async () => {
+    if (!fav) {
+      await addFavouriteTender(tenderId, tokenOuter);
+      setFav(true);
+    } else {
+      await removeFavoriteTender(tenderId, tokenOuter);
+      setFav(false);
+    }
+  };
+  
   return (
-    <Link to={`/tender/${hit.id}`}>
       <div className={s.hit_block}>
+        <button
+              onClick={handleFavClick}
+              className={s.executorLoveButton}
+            >
+              <img
+                src={`/find-executor/heart-${
+                  fav ? "active" : "inactive"
+                }.svg`}
+                alt="heart"
+              />
+            </button>
         <div className={s.hit_header}>
+        <Link to={`/tender/${hit.id}`}>
           <h3>{truncateString(hit.name, 20)}</h3>
+        </Link>
         </div>
         <div className={s.hit_rcp}>
           <p>{toDate(hit.reception_end)}</p>
@@ -62,11 +104,7 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
         </div>
         <div className={s.hit_city}>
           <p>{hit.city}</p>
-          {/* {
-                                        hit.city.map((region) => <p key={region.id} className={styles.executorRegion}>{region.name}</p>)
-                                    } */}
         </div>
       </div>
-    </Link>
   );
 };

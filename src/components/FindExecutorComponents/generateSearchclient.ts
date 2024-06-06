@@ -1,16 +1,18 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import Typesense from "typesense";
-import { executorList } from "@/types/app";
+import { executorList, tenderData, tenderList } from "@/types/app";
 import { SearchResponseHit } from "typesense/lib/Typesense/Documents";
 import {
+    fetchProduct,
     getExecutor,
     isFavoriteExecutor,
 } from "@/api/index";
+import { isFavoriteTender } from "@/api/favouriteTenders";
 
 export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
-            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
+            apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
             nodes: [
                 {
                     host: 'search.ubrato.ru',
@@ -33,7 +35,7 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
 export const generateTypesenseClient = async (collection: string, parameters?: { per_page?: number, page?: number, filter_by?: string, sort_by?: "" | "name:asc" | "name:desc" }) => {
     try {
         const client = new Typesense.Client({
-            apiKey: "Ii388RgSrBidU2XYjSDNElyzDfrZyMnM",
+            apiKey: "Lwiy87ndh1SKllepXzu4CBIApJeDcnbw",
             nodes: [
                 {
                     host: "search.ubrato.ru",
@@ -106,3 +108,48 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
 
     return newExecutorList
 }
+
+
+
+// export const getTenderList = async (hits: SearchResponseHit<object>[] | undefined) => {
+//     const newTenderList = [] as tenderList[];
+//     const token = localStorage.getItem("token");
+
+//     const promises = (hits || [])
+//         .map((res, index) => {
+//             const { id } = res.document as { id: string };
+//             if (!id) return null;
+
+//             return (async () => {
+//                 const data = await fetchProduct(id);
+//                 const isFavorite =
+//                     (!!token &&
+//                         (await isFavoriteTender(id, token))?.data?.status) ||
+//                     false;
+//                 return {
+//                     index,
+//                     tenderData: {
+//                         id: data.id,
+//                         name: data.name,
+//                         reception_end: data.reception_end,
+//                         work_start: data.work_start,
+//                         work_end: data.work_end,
+//                         price: data.price,
+//                         user: data.user_id,
+//                         is_favorite: isFavorite
+//                       } as tenderData,
+//                 } as { index: number; tenderData: tenderData };
+//             })();
+//         })
+//         .filter((promise) => promise !== null);
+
+//     const results = await Promise.all(promises);
+
+//     results
+//         .sort((a, b) => a!.index - b!.index)
+//         .forEach((result) => {
+//             newExecutorList.push(result!.executorData);
+//         });
+
+//     return newExecutorList
+// }

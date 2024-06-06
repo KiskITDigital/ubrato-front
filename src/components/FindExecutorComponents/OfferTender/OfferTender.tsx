@@ -19,7 +19,7 @@ const OfferTender: FC<{
 
     useEffect(() => {
         const client = new Typesense.Client({
-            apiKey: 'Ii388RgSrBidU2XYjSDNElyzDfrZyMnM',
+            apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
             'nodes': [
                 {
                     host: 'search.ubrato.ru',

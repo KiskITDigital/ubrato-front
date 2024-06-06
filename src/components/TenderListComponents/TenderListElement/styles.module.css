@@ -1,29 +1,28 @@
 .hit_block{
     display: grid;
     grid-template-areas: 
-    'title rcp wrk arrow wrkE price'
-    'city rcp wrk arrow wrkE price'
+    'button title rcp wrk arrow wrkE price'
+    'button city rcp wrk arrow wrkE price'
     ;
     width: 800px;
     height: 55px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.199);
-    grid-template-columns: 100px 200px 100px 10px 100px 100px;
+    grid-template-columns: 20px 100px 200px 100px 10px 100px 100px;
 
     justify-content: space-between;
     align-items: center;
 }
 
+.hit_block > button {
+    grid-area: button;
+}
+
 .hit_header{
     grid-area: title;
     height: 100%;
-    /* white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%; */
-
 }
 
-.hit_header > h3{
+.hit_header > a> h3{
     font-weight: 700;
     text-decoration: underline;
 }
