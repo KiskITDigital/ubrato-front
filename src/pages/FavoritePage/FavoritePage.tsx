@@ -8,6 +8,7 @@ import ExecutorList from "@/components/FindExecutorComponents/ExecutorList/Execu
 import OfferTender from "@/components/FindExecutorComponents/OfferTender/OfferTender";
 import Modal from "@/components/Modal";
 import { useNavigate } from "react-router-dom";
+import { FavouriteTendersList } from "@/components/FavouriteTenders/FavouriteTendersList/FavouriteTendersList";
 
 const FavoritePage: FC = () => {
     const startRef = useRef<HTMLHeadingElement>(null)
@@ -68,7 +69,7 @@ const FavoritePage: FC = () => {
             <Switcher state={switcher} setState={setSwitcher} />
             {
                 switcher === 'Тендеры' ?
-                    'але саня ну как с тендерами то там?' :
+                    <FavouriteTendersList/> :
                     executorList.length ?
                         <ExecutorList
                             executorList={executorList}
