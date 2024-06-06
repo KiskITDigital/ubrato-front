@@ -108,10 +108,21 @@ export interface contractorProfileData {
     name: string;
   }[];
   portfolio: {
+    id: string;
     name: string;
     description: string;
     links: string[];
   }[];
+}
+
+interface IPortfolio {
+  name: string;
+  description: string;
+  imgs: string[];
+}
+interface IPortfolioPut {
+  id: string;
+  params: { name: string; description: string; imgs: string[] };
 }
 
 export const fetchContractorProfile = async (token: string) => {
@@ -138,6 +149,31 @@ export const putContractorProfile = async (
   }
 ) => {
   const res = await axiosInstance.put('/v1/organizations/my/profile/contractor', params, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  console.log(res);
+};
+
+export const postPortfolio = async (token: string, params: IPortfolio) => {
+  const res = await axiosInstance.post<{ id: string }>('/v1/organizations/my/profile/cv', params, {
+    headers: { authorization: `Bearer ${token}` },
+  });
+  return res.data.id;
+};
+
+export const putPortfolio = async (token: string, params: IPortfolioPut) => {
+  const res = await axiosInstance.put(
+    `/v1/organizations/my/profile/cv/${params.id}`,
+    params.params,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  );
+  console.log(res)
+};
+
+export const deletePortfolio = async (token: string, id: string) => {
+  const res = await axiosInstance.delete(`/v1/organizations/my/profile/cv/${id}`, {
     headers: { authorization: `Bearer ${token}` },
   });
   console.log(res);

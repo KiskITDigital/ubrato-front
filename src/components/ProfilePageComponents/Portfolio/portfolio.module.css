@@ -77,16 +77,156 @@
   height: 537px;
   background-color: white;
   position: absolute;
-  top: -250px;
-  border: 1px solid red;
-  left: -550px;
+  top: calc(50vh - 268.5px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  left: calc(50vw - 405.5px);
+  border-radius: 20px;
 }
 
-.btnText > div > div:first-of-type {
+.popOverPortal > div > div:first-of-type {
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(2px);
   left: 0;
   top: 0;
   position: fixed;
+}
+
+.popOverPortal > div {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+
+.popOverPortal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 5px 8px;
+  width: 39px;
+  height: 34px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkBase {
+  display: block;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.checkBase[data-selected] > .checkWrapper {
+  background-color: var(--color-light-gray);
+}
+
+.checkIcon {
+  width: 80%;
+  height: 80%;
+}
+
+.checkIcon > polyline {
+  stroke: var(--color-blue-primary);
+}
+
+.checkWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--color-black-10);
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  background-color: transparent;
+  box-shadow: 0 1px 4px 0 var(--color-black-10);
+  margin-right: 10px;
+}
+
+.checkText {
+  color: var(--color-blue-primary);
+}
+
+.delete {
+  color: var(--color-red-error);
+  display: flex;
+  gap: 10px;
+  padding-left: 24px;
+  border-left: 1px solid #ddd;
+  align-items: center;
+}
+
+.delete > svg > path {
+  fill: var(--color-red-error);
+}
+
+.controls {
+  display: flex;
+  margin: 23px 0;
+  gap: 20px;
+}
+
+.portfolioImg {
+  height: 75px;
+  width: auto;
+  border-radius: 10px;
+}
+
+.imagesContainer {
+  display: flex;
+  gap: 16px;
+  overflow-x: scroll;
+}
+
+.imagesContainer::-webkit-scrollbar {
+  width: 5px;
+}
+.imagesContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+.imagesContainer::-webkit-scrollbar-thumb {
+  background-color: var(--color-blue-primary);
+  border-radius: 20px;
+  border: 6px solid white;
+}
+
+.itemContainer {
+  padding-top: 22px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+}
+
+.description {
+  margin-left: 32px;
+}
+
+.descriptionText {
+  font-size: 16px;
+  color: var(--color-black-60);
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.deleteOne {
+  color: var(--color-black-60);
+  display: flex;
+  gap: 10px;
+  padding-left: 24px;
+  border-left: 1px solid #ddd;
+  align-items: center;
+}
+
+.changeData {
+  display: flex;
+  gap: 10px;
+  outline: none;
 }

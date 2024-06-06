@@ -27,7 +27,16 @@ interface SortingOption {
   field: string;
 }
 
-export const TenderListComp: FC = () => {
+interface Me {
+  id: number;
+}
+
+
+interface myTenderToogle {
+  myTender: boolean
+}
+
+export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const findExecutorState = useFindExecutorState();
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
@@ -35,7 +44,7 @@ export const TenderListComp: FC = () => {
   const [paginationPerPage, setPaginationPerPage] = useState(8);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
-  const [meData, setMe] = useState([])
+  const [meData, setMe] = useState<Me | null>(null);
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -84,9 +93,9 @@ export const TenderListComp: FC = () => {
             `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
         );
-      // if (findExecutorState.locationId)
-      //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
-      // filters.push( `( user_id:=${meData})`)
+      if (myTender) {
+        filters.push(`( user_id:=${meData})`)
+      }
       return filters.join(" && ");
     })();
 
@@ -174,8 +183,9 @@ export const TenderListComp: FC = () => {
     findExecutorState.objectTypesId,
     findExecutorState.locationId,
     findExecutorState.servicesTypesId,
-
-    sortingValue
+    meData,
+    sortingValue,
+    myTender
   ]);
 
   const list = tenderList;
@@ -194,10 +204,7 @@ export const TenderListComp: FC = () => {
   return (
     <div>
       <div className={s.counter_tender}>
-        Найдено тендеров: {allExecutorListLength}
-      </div>
-      <div>
-        {meData}
+        Найдено тендеров: {list.length}
       </div>
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (

@@ -8,7 +8,7 @@ export const MyTendersPage: FC = () => {
   return (
     <div className={s.main_blokkk}>
     <TenderListCustomSearch></TenderListCustomSearch>
-        <TenderListComp></TenderListComp>
+        <TenderListComp myTender={true}></TenderListComp>
     </div>
   );
 };

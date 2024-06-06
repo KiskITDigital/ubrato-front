@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import useEmblaCarousel from 'embla-carousel-react';
 
 export const TendersAdvice: FC = () => {
-  const isOrdererState = useIsOrdererState();
+  const ordererState = useIsOrdererState();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
 
@@ -21,6 +21,16 @@ export const TendersAdvice: FC = () => {
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
+  function handleInfo() {
+    if (ordererState.role === 'orderer') {
+      ordererState.handleState('contractor');
+      // setInfo(Executor);
+    } else {
+      ordererState.handleState('orderer');
+      // setInfo(Orderer);
+    }
+  }
+
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
@@ -31,14 +41,34 @@ export const TendersAdvice: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
         <h2 className={styles.header}>
-          {isOrdererState.role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
+          {ordererState.role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
           <span className={styles.blueText}>Ubrato</span>
         </h2>
         <p className={styles.headerText}>
-          {isOrdererState.role === 'orderer'
+          {ordererState.role === 'orderer'
             ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками по итогам выполнения тендеров'
             : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
         </p>
+      </div>
+      <div className={styles.btnsContainer}>
+        <button
+          onClick={() => {
+            handleInfo();
+          }}
+          disabled={ordererState.role === 'orderer'}
+          className={`${styles.button}`}
+        >
+          Для заказчика
+        </button>
+        <button
+          onClick={() => {
+            handleInfo();
+          }}
+          disabled={ordererState.role === 'contractor'}
+          className={`${styles.button}`}
+        >
+          Для исполнителя
+        </button>
       </div>
       <div className={styles.carouselContainer}>
         {!widthR.current && (
@@ -47,30 +77,30 @@ export const TendersAdvice: FC = () => {
               <div className={styles.embla__container}>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
                   </div>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
                   </div>
                 </div>
               </div>
@@ -89,42 +119,42 @@ export const TendersAdvice: FC = () => {
               <div className={styles.embla__container}>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
                   </div>
                 </div>
                 <div className={styles.embla__slide}>
                   <div className={styles.slide_item}>
-                    {isOrdererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
+                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
                   </div>
                 </div>
               </div>
@@ -135,7 +165,7 @@ export const TendersAdvice: FC = () => {
       <div className={styles.btnContainer}>
         <Link to="/tenders" className={styles.btn}>
           <p className={styles.btnText}>
-            {isOrdererState.role === 'orderer' ? 'Найти исполнителя' : 'Найти тендер'}
+            {ordererState.role === 'orderer' ? 'Найти исполнителя' : 'Найти тендер'}
           </p>
           <img src="./arrow-with-line-right-white.svg" alt="arrow" />
         </Link>
