@@ -6,9 +6,9 @@ import { BaseHit } from "instantsearch.js";
 interface Hit {
   id: number;
   name: string;
-  reception_end: number;
-  work_start: number;
-  work_end: number;
+  reception_end: string;
+  work_start: string;
+  work_end: string;
   price: number;
   city: string;
 }
@@ -20,7 +20,7 @@ interface CustomHitProps {
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
 
-  const toDate = (date: number) => {
+  const toDate = (date: string) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
     newDate.setHours(0, 0, 0, 0);

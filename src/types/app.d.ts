@@ -65,7 +65,7 @@ export interface notificationT {
   read: boolean;
   href_text: string;
   href_color: number;
-  created_at: number;
+  created_at: string;
 }
 
 export interface notificationsT {

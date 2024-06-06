@@ -13,7 +13,7 @@ export const AllTendersPage: FC = () => {
     <TenderListCustomSearch></TenderListCustomSearch>
     <div className={s.block_container}>
         <MainFilterTender></MainFilterTender>
-        <TenderListComp></TenderListComp>
+        <TenderListComp myTender={false}></TenderListComp>
     </div>
     </div>
   );
