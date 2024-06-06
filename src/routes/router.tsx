@@ -25,6 +25,7 @@ import { OrdererProfile } from '@/components/ProfilePageComponents/OrdererProfil
 import { ContractorProfile } from '@/components/ProfilePageComponents/ContractorProfile/ContractorProfile';
 import { MyTendersPage } from '@/pages/MyTendersPage/MyTendersPage';
 import FavoritePage from '@/pages/FavoritePage/FavoritePage';
+import SettingsPage from '@/pages/SettingsPage/SettingsPage';
 export const Router = () => {
   return (
     <Routes>
@@ -59,7 +60,7 @@ export const Router = () => {
             <Route path="orderer" element={<div></div>} />
           </Route>
           <Route path="notifications" element={<ProfileNotifications />} />
-          <Route path="settings" element={<div></div>} />
+          <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
         </Route>
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />

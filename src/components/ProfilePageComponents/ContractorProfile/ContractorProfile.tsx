@@ -35,6 +35,9 @@ export const ContractorProfile: FC = () => {
   const [isObjectsShown, setIsObjectsShown] = useState(false);
   const [isDataEqual, setIsDataEqual] = useState(true);
   const [dataChanged, setDataChanged] = useState(false);
+  const [portfolioList, setPortfolioList] = useState<
+    { id: string; name: string; description: string; links: string[]; selected: boolean }[]
+  >([]);
 
   const navigate = useNavigate();
   const userStore = useUserInfoStore();
@@ -46,6 +49,16 @@ export const ContractorProfile: FC = () => {
   const servicesStore = useCleaningTypeStore();
   const fetchCleaningTypes = servicesStore.fetchCleaningTypes;
   const fetchObjects = objectsStore.fetchObjects;
+
+  const addNewPortfolio = (portfolio: {
+    id: string;
+    name: string;
+    description: string;
+    links: string[];
+    selected: boolean;
+  }) => {
+    setPortfolioList([...portfolioList, portfolio]);
+  };
 
   const itemClasses = {
     base: `${styles.accordionItem}`,
@@ -194,6 +207,11 @@ export const ContractorProfile: FC = () => {
       });
       setServices(newServices);
       setObjectsList(newObjects);
+      setPortfolioList(
+        res.portfolio.map((e) => {
+          return { ...e, selected: false };
+        })
+      );
       initalData.current = res;
     })();
   }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
@@ -454,7 +472,11 @@ export const ContractorProfile: FC = () => {
           Сохранить изменения
         </button>
       </div>
-      <Portfolio />
+      <Portfolio
+        setPortfolio={addNewPortfolio}
+        portfolio={portfolioList}
+        setPortfolioList={setPortfolioList}
+      />
     </div>
   );
 };
