@@ -84,6 +84,7 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
                 alt="heart"
               />
             </button>
+
         <div className={s.hit_header}>
         <Link to={`/tender/${hit.id}`}>
           <h3>{truncateString(hit.name, 20)}</h3>
