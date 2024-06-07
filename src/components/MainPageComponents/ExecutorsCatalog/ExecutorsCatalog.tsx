@@ -128,11 +128,13 @@ export const ExecutorsCatalog: FC = () => {
       </div>
       <div className={styles.findExecutor}>
         <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
-        <button className={styles.findExecutorBtn}>
-          Найти исполнителя
-          {widthR.current ? <p className={styles.countExecutorsText}> 2485</p> : ''}
-          <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
-        </button>
+        <Link to="/find-executor">
+          <button className={styles.findExecutorBtn}>
+            Найти исполнителя
+            {widthR.current ? <p className={styles.countExecutorsText}> 2485</p> : ''}
+            <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
+          </button>
+        </Link>
       </div>
     </div>
   );

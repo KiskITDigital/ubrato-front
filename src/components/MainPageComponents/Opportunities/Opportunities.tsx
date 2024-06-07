@@ -65,6 +65,7 @@ export const Opportunities: FC = () => {
             text={e.text}
             image={e.image}
             btnText={e.btnText}
+            link={e.link}
           />
         ))}
       </div>

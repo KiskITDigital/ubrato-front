@@ -3,11 +3,11 @@ import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.mo
 import { Link } from "react-router-dom";
 
 const RespondTender: FC = () => {
-    
+
     return (
         <div className={qstyles.container}>
             <ul className={qstyles.mt20}>
-                <li className={qstyles.li}>На странице <Link to="/" className={qstyles.link}>“Найти тендер”</Link> отфильтруйте тендеры по параметрам, соответствующим профилю и возможностям вашей компании. Использование фильтров обеспечит выдачу точных результатов.</li>
+                <li className={qstyles.li}>На странице <Link to="/alltenders" className={qstyles.link}>“Найти тендер”</Link> отфильтруйте тендеры по параметрам, соответствующим профилю и возможностям вашей компании. Использование фильтров обеспечит выдачу точных результатов.</li>
                 <li className={qstyles.li}>Ознакомьтесь с условиями тендера.</li>
                 <li className={qstyles.li}>Обсудите возникшие вопросы с заказчиком в чате.</li>
                 <li className={qstyles.li}>Нажмите на кнопку “Откликнуться на тендер”.</li>

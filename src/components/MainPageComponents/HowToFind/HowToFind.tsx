@@ -20,14 +20,14 @@ export const HowToFind: FC = () => {
       <div className={styles.cards}>
         {isOrdererStore.role === 'orderer'
           ? ordererCardList.map((e, ix) => (
-              <HowToFindCard key={ix} img={e.img} title={e.title} text={e.text} />
-            ))
+            <HowToFindCard key={ix} img={e.img} title={e.title} text={e.text} />
+          ))
           : executorCardList.map((e, ix) => (
-              <HowToFindCard key={ix} img={e.img} title={e.title} text={e.text} />
-            ))}
+            <HowToFindCard key={ix} img={e.img} title={e.title} text={e.text} />
+          ))}
       </div>
       <div className={styles.btnContainer}>
-        <Link to="/tenders" className={styles.btn}>
+        <Link to={isOrdererStore.role === 'orderer' ? "/create-tender" : "/alltenders"} className={styles.btn}>
           <p className={styles.btnText}>
             {isOrdererStore.role === 'orderer' ? 'Опубликуйте тендер' : 'Найти тендер'}
           </p>
