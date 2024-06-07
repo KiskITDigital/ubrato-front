@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
 import { Link } from "react-router-dom";
 import { BaseHit } from "instantsearch.js";
-import { divider } from "@nextui-org/react";
 import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
 
 interface Hit {

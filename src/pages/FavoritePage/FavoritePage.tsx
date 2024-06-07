@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import styles from './favorite-page.module.css'
 import { getAllFavoriteExecutors, removeFavoriteExecutor } from "@/api";
 import { generateTypesenseClient, getExecutorList } from "@/components/FindExecutorComponents/generateSearchclient";
-import { executorList, tenderList } from "@/types/app";
+import { executorList} from "@/types/app";
 import ExecutorList from "@/components/FindExecutorComponents/ExecutorList/ExecutorList";
 import OfferTender from "@/components/FindExecutorComponents/OfferTender/OfferTender";
 import Modal from "@/components/Modal";
@@ -19,7 +19,7 @@ const FavoritePage: FC = () => {
 
     const [switcher, setSwitcher] = useState<'Тендеры' | 'Исполнители'>('Тендеры');
     const [executorList, setExecutorList] = useState<executorList[]>([]);
-    const [tenderList, setTenderList] = useState<tenderList[]>([]);
+
 
     const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<
         null | string
@@ -106,21 +106,6 @@ const FavoritePage: FC = () => {
                 switcher === 'Тендеры' ?
                     <>
                     <FavouriteTendersList/>
-                    {!!paginationTotal && (
-                                <div className={styles.paginationBlock}>
-                                    {(paginationPerPage < 250 && paginationPerPage < paginationTotal) &&
-                                        <Pagination
-                                            classNames={paginationClassNames}
-                                            total={Math.ceil(paginationTotal / paginationPerPage)}
-                                            showControls
-                                            initialPage={1}
-                                            page={paginationPage}
-                                            onChange={setPaginationPage}
-                                        />
-                                    }
-                                    {paginationTotal > 2 && <button onClick={() => { paginationPerPage < 250 ? setPaginationPerPage(250) : setPaginationPerPage(2); setPaginationPage(1) }} className={styles.paginationPerPageButton}>{paginationPerPage < 250 ? 'Показать все' : 'Показать меньше'}</button>}
-                                </div>
-                            )}
                      </>
                      :
                     executorList.length ?
