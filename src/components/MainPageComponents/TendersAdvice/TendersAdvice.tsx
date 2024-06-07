@@ -163,7 +163,7 @@ export const TendersAdvice: FC = () => {
         )}
       </div>
       <div className={styles.btnContainer}>
-        <Link to="/tenders" className={styles.btn}>
+        <Link to={ordererState.role === 'orderer' ? "/find-executor" : "/alltenders"} className={styles.btn}>
           <p className={styles.btnText}>
             {ordererState.role === 'orderer' ? 'Найти исполнителя' : 'Найти тендер'}
           </p>

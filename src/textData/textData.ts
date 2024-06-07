@@ -3,6 +3,7 @@ export type OpportunitiesInfoT = {
   image: string;
   text: string;
   btnText: string;
+  link: string;
 };
 
 export type HowToFindCardT = {
@@ -17,12 +18,14 @@ export const Executor: OpportunitiesInfoT[] = [
     text: 'Откликайтесь на тендеры, обсуждайте условия, предлагайте свою цену',
     image: './respond-for-tender.svg',
     btnText: 'Найти тендер',
+    link: '/alltenders',
   },
   {
     title: 'Портфолио',
     text: 'Расскажите о возможностях и преимуществах вашей компании, получайте предложения от заказчиков',
     image: './portfolio.svg',
     btnText: 'Создать портфолио',
+    link: '/',
   },
 ];
 
@@ -32,12 +35,14 @@ export const Orderer: OpportunitiesInfoT[] = [
     text: 'Создайте тендер, если хотите выбрать лучшее предложение среди откликов на вашу задачу',
     image: './tender.svg',
     btnText: 'Создать тендер',
+    link: '/create-tender',
   },
   {
     title: 'Каталог',
     text: 'Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям',
     image: './catalog-ic.svg',
     btnText: 'Найти исполнителя',
+    link: '/find-executor',
   },
 ];
 

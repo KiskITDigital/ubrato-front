@@ -7,9 +7,10 @@ type PropsT = {
   title: string;
   text: string;
   btnText: string;
+  link: string;
 };
 
-export const OpportunitiesCard: FC<PropsT> = ({ image, title, text, btnText }) => {
+export const OpportunitiesCard: FC<PropsT> = ({ image, title, text, btnText, link }) => {
   return (
     <div className={styles.container}>
       <div className={styles.cardContent}>
@@ -19,7 +20,7 @@ export const OpportunitiesCard: FC<PropsT> = ({ image, title, text, btnText }) =
         </div>
         <p className={styles.cardText}>{text}</p>
       </div>
-      <Link to="/" className={styles.btn}>
+      <Link to={link} className={styles.btn}>
         <p className={styles.btnText}>{btnText}</p>
         <img src="./arrow-with-line-right.svg" alt="arrow" />
       </Link>
