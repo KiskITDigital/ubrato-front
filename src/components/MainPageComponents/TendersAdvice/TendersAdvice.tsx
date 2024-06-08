@@ -4,6 +4,8 @@ import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../../store/isOrdererStore';
 import { Link } from 'react-router-dom';
 import useEmblaCarousel from 'embla-carousel-react';
+import TendersAdviceExecutors from '../TendersAdviceExecutors';
+import TendersAdvicesTenders from '../TendersAdviceTenders';
 
 export const TendersAdvice: FC = () => {
   const ordererState = useIsOrdererState();
@@ -11,7 +13,9 @@ export const TendersAdvice: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
+    if (emblaApi) {
+      emblaApi.scrollPrev();
+    }
   }, [emblaApi]);
 
   const scrollNext = useCallback(() => {
@@ -31,11 +35,15 @@ export const TendersAdvice: FC = () => {
     }
   }
 
+
+
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
   }, []);
+
+
 
   return (
     <div className={`container ${styles.container}`}>
@@ -74,36 +82,11 @@ export const TendersAdvice: FC = () => {
         {!widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
-              <div className={styles.embla__container}>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
-                  </div>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
-                  </div>
-                </div>
-              </div>
+              {ordererState.role === 'orderer' ?
+                <TendersAdviceExecutors />
+                :
+                <TendersAdvicesTenders />
+              }
             </div>
             <button className={styles.embla__prev} onClick={scrollPrev}>
               <ArrowControl image="./arrow-left.svg" />
@@ -116,48 +99,16 @@ export const TendersAdvice: FC = () => {
         {widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
-              <div className={styles.embla__container}>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}1
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}2
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}3
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}4
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}5
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}6
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}7
-                  </div>
-                </div>
-                <div className={styles.embla__slide}>
-                  <div className={styles.slide_item}>
-                    {ordererState.role === 'orderer' ? 'Исполнитель ' : 'Тендер '}8
-                  </div>
-                </div>
-              </div>
+              {ordererState.role === 'orderer' ?
+                <TendersAdviceExecutors isMobile={true} /> :
+                <TendersAdvicesTenders />
+              }
+              <button className={styles.embla__prev} onClick={scrollPrev}>
+                <ArrowControl image="./arrow-left.svg" />
+              </button>
+              <button className={styles.embla__next} onClick={scrollNext}>
+                <ArrowControl image="./arrow-right.svg" />
+              </button>
             </div>
           </div>
         )}

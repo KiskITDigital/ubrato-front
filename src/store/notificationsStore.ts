@@ -19,8 +19,6 @@ export const useNotificationsStore = create<notificationsStore>()((set) => ({
   fetchNotifications: async (token) => {
     const res = await getNotifications(token);
     set({ notifications: res });
-    console.log(res);
-    
   },
   setNotificationRead(id) {
     let newTotal = this.notifications.total;
@@ -39,7 +37,7 @@ export const useNotificationsStore = create<notificationsStore>()((set) => ({
       notifications: { total: newTotal, notifications: newNotificationsList },
     });
   },
-  
+
   toggleNotificationExpansion: (id) => {
     if (isExpanded(id)) {
       set((state) => ({ expandedIds: state.expandedIds.filter((e) => e !== id) }));

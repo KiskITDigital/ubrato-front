@@ -3,7 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import styles from './favorite-page.module.css'
 import { getAllFavoriteExecutors, removeFavoriteExecutor } from "@/api";
 import { generateTypesenseClient, getExecutorList } from "@/components/FindExecutorComponents/generateSearchclient";
-import { executorList} from "@/types/app";
+import { executorList } from "@/types/app";
 import ExecutorList from "@/components/FindExecutorComponents/ExecutorList/ExecutorList";
 import OfferTender from "@/components/FindExecutorComponents/OfferTender/OfferTender";
 import Modal from "@/components/Modal";
@@ -11,14 +11,17 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "@nextui-org/react";
 import { FavouriteTendersList } from "@/components/FavouriteTenders/FavouriteTendersList/FavouriteTendersList";
 import { getAllFavoriteTenders } from "@/api/favouriteTenders";
+import { useFindExecutorState } from "@/store/findExecutorStore";
 
 const FavoritePage: FC = () => {
+    const findExecutorState = useFindExecutorState();
+
     const startRef = useRef<HTMLHeadingElement>(null)
 
     const navigate = useNavigate();
 
     const [switcher, setSwitcher] = useState<'Тендеры' | 'Исполнители'>('Тендеры');
-    const [executorList, setExecutorList] = useState<executorList[]>([]);
+    // const [executorList, setExecutorList] = useState<executorList[]>([]);
 
 
     const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<
@@ -52,7 +55,7 @@ const FavoritePage: FC = () => {
         const totalHits = await generateTypesenseClient("contractor_index", { filter_by: filters })
         const newExecutorList = await getExecutorList(hits)
         setPaginationTotal(totalHits?.length || 0)
-        setExecutorList(newExecutorList)
+        findExecutorState.handleExecutorList(newExecutorList)
         // setTenderList(new)
     }
 
@@ -65,7 +68,7 @@ const FavoritePage: FC = () => {
         const totalHits = await generateTypesenseClient("contractor_index", { filter_by: filters })
         const newExecutorList = await getExecutorList(hits)
         setPaginationTotal(totalHits?.length || 0)
-        setExecutorList(newExecutorList)
+        findExecutorState.handleExecutorList(newExecutorList)
     }
 
     useEffect(() => {
@@ -105,14 +108,14 @@ const FavoritePage: FC = () => {
             {
                 switcher === 'Тендеры' ?
                     <>
-                    <FavouriteTendersList/>
-                     </>
-                     :
-                    executorList.length ?
+                        <FavouriteTendersList />
+                    </>
+                    :
+                    findExecutorState.executorList.length ?
                         <>
                             <ExecutorList
-                                executorList={executorList}
-                                setExecutorList={setExecutorList}
+                                executorList={findExecutorState.executorList}
+                                setExecutorList={findExecutorState.handleExecutorList}
                                 setExecutorIdToOfferTender={setExecutorIdToOfferTender}
                                 setExecutorNameToOfferTender={setExecutorNameToOfferTender}
                                 favoriteExecutorsHandler={favoriteExecutorsHandler}

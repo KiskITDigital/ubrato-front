@@ -9,9 +9,9 @@ export const NotificationsList: FC<{
 }> = ({ closeList, listRef }) => {
   const notificationsStore = useNotificationsStore();
 
-  useEffect(() => {
-    console.log(self);
-  }, []);
+  // useEffect(() => {
+  //   console.log(self);
+  // }, []);
 
   return (
     <div tabIndex={1} ref={listRef} className={`${styles.container} `}>
