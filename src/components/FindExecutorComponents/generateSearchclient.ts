@@ -1,13 +1,11 @@
 import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
 import Typesense from "typesense";
-import { executorList, tenderData, tenderList } from "@/types/app";
+import { executorList } from "@/types/app";
 import { SearchResponseHit } from "typesense/lib/Typesense/Documents";
 import {
-    fetchProduct,
     getExecutor,
     isFavoriteExecutor,
 } from "@/api/index";
-import { isFavoriteTender } from "@/api/favouriteTenders";
 
 export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
@@ -92,6 +90,7 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
                         services: data.contractorInfo.services,
                         areServicesHidden: data.contractorInfo.services.length > 5,
                         isFavorite: isFavorite,
+                        isTextHidden: true
                     },
                 } as { index: number; executorData: executorList };
             })();

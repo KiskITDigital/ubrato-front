@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 
 const Executors: FC = () => {
   const findExecutorState = useFindExecutorState();
-  const [executorList, setExecutorList] = useState<executorList[]>([]);
+  // const [executorList, setExecutorList] = useState<executorList[]>([]);
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
@@ -88,17 +88,16 @@ const Executors: FC = () => {
         ? removeFavoriteExecutor(executor.id, token)
         : addFavoriteExecutor(executor.id, token);
       const resStatus = (await res).data.status;
-      setExecutorList((prev) =>
-        prev.map((executorItem) =>
-          executorItem.id === executor.id
-            ? {
-              ...executorItem,
-              isFavorite: resStatus
-                ? !executorItem.isFavorite
-                : executorItem.isFavorite,
-            }
-            : executorItem
-        )
+      findExecutorState.handleExecutorList(findExecutorState.executorList.map((executorItem) =>
+        executorItem.id === executor.id
+          ? {
+            ...executorItem,
+            isFavorite: resStatus
+              ? !executorItem.isFavorite
+              : executorItem.isFavorite,
+          }
+          : executorItem
+      )
       );
     }
   }
@@ -118,7 +117,7 @@ const Executors: FC = () => {
       const hits = await generateTypesenseClient("contractor_index", { per_page: paginationPerPage, page: paginationPage, filter_by: filters, sort_by: sortingValue })
       const newExecutorList = await getExecutorList(hits)
 
-      setExecutorList(newExecutorList);
+      findExecutorState.handleExecutorList(newExecutorList);
     })()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -181,13 +180,13 @@ const Executors: FC = () => {
         </Dropdown>
       </div>
       <ExecutorList
-        executorList={executorList}
-        setExecutorList={setExecutorList}
+        executorList={findExecutorState.executorList}
+        setExecutorList={findExecutorState.handleExecutorList}
         setExecutorIdToOfferTender={setExecutorIdToOfferTender}
         setExecutorNameToOfferTender={setExecutorNameToOfferTender}
         favoriteExecutorsHandler={favoriteExecutorsHandler}
       />
-      {allExecutorListLength > executorList.length && (
+      {allExecutorListLength > findExecutorState.executorList.length && (
         <>
           <button
             onClick={() => setPaginationPerPage((prev) => prev + 2)}

@@ -67,14 +67,12 @@ export const Header: FC = () => {
         setConfirm(false);
         const curAxios = axios.create({ withCredentials: false });
         const res = await curAxios.get('https://geolocation-db.com/json/');
-        console.log(res);
         const lat = res.data.latitude;
         const lon = res.data.longitude;
         const res2 = await curAxios.get(
           `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
           { headers: { 'Accept-language': 'ru-RU' } }
         );
-        console.log(res2);
         localStorage.setItem(
           'userCity',
           JSON.stringify({ city: res2.data.address.city, confirmed: false })
