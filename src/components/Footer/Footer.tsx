@@ -114,7 +114,7 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Об Ubrato</p>
           <ul>
             <li>
-              <Link to="/">
+              <Link to="/about">
                 <p className={styles.point}>О сервисе</p>
               </Link>
             </li>

@@ -26,12 +26,14 @@ import { ContractorProfile } from '@/components/ProfilePageComponents/Contractor
 import { MyTendersPage } from '@/pages/MyTendersPage/MyTendersPage';
 import FavoritePage from '@/pages/FavoritePage/FavoritePage';
 import SettingsPage from '@/pages/SettingsPage/SettingsPage';
+import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
 export const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<App />}>
         <Route path="" element={<HomePage />} />
         <Route path="faq" element={<HomePage />} />
+        <Route path='about' element={<AboutServicePage/>}/>
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="tenders" element={<TendersPage />} />

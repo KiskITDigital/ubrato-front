@@ -97,7 +97,7 @@ export const Header: FC = () => {
             <Link to="/find-executor">Найти исполнителя</Link>
             <Link to="/alltenders">Найти тендер</Link>
             <Link to="/">Мои тендеры</Link>
-            <Link to="/">О сервисе</Link>
+            <Link to="/about">О сервисе</Link>
             <Link to="/">Правовая информация</Link>
           </div>
         </div>
@@ -120,7 +120,7 @@ export const Header: FC = () => {
             <img className={styles.logo} src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
           </Link>
           <div className={styles.headerTopLinks}>
-            <Link to="/">
+            <Link to="/about">
               <p className={styles.text}>О сервисе</p>
             </Link>
             <Link to="/">
