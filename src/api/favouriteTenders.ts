@@ -11,13 +11,13 @@ export const isFavoriteTender = async (id: string, token: string) => {
 
 
 export const addFavouriteTender = async (id: number, token: string) => {
-    const res = await axiosInstance.post(`/v1/tenders/tender/${id}/favorite`, 
-    {},
-    {
-        headers: {
-            authorization: `Bearer ${token}`,
-        },
-    })
+    const res = await axiosInstance.post(`/v1/tenders/tender/${id}/favorite`,
+        {},
+        {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
     return res
 }
 
@@ -39,7 +39,5 @@ export const getAllFavoriteTenders = async (token: string | null) => {
             authorization: `Bearer ${token}`,
         }
     })
-    console.log(res);
-    
     return res
 }

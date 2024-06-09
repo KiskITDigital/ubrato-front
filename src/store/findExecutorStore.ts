@@ -1,3 +1,4 @@
+import { executorList } from "@/types/app";
 import { create } from "zustand";
 
 interface findExecutor {
@@ -7,11 +8,15 @@ interface findExecutor {
     fastFilterTexts: string[]
     userID: number | null
 
+    executorList: executorList[]
+
     handleLocation: (newLocationId: number | null) => void
     handleObjectTypesId: (newObjectTypesId: number[]) => void
     handleServicesTypesId: (newServicesTypesId: number[]) => void
     handleFastFilterTexts: (newFastFilterTexts: string[]) => void
-    handleUserID: ( newUserID: number | null) =>  void
+    handleUserID: (newUserID: number | null) => void
+
+    handleExecutorList: (newExecutorList: executorList[]) => void
 }
 
 export const useFindExecutorState = create<findExecutor>()((set) => ({
@@ -20,6 +25,9 @@ export const useFindExecutorState = create<findExecutor>()((set) => ({
     servicesTypesId: [],
     fastFilterTexts: [],
     userID: null,
+
+    executorList: [],
+
     handleLocation: (newLocationId: number | null) => {
         set((state) => ({ ...state, locationId: newLocationId }))
     },
@@ -35,4 +43,8 @@ export const useFindExecutorState = create<findExecutor>()((set) => ({
     handleUserID: (newUserID: number | null) => {
         set((state) => ({ ...state, userID: newUserID }))
     },
+
+    handleExecutorList: (newExecutorList: executorList[]) => {
+        set((state) => ({ ...state, executorList: newExecutorList }))
+    }
 }))

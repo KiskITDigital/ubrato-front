@@ -114,6 +114,7 @@ export interface executorList {
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
+  isTextHidden: boolean
 }
 
 export interface tenderList {
