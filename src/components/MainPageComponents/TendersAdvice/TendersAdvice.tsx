@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowControl } from '@/components';
 import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../../store/isOrdererStore';
@@ -11,6 +11,8 @@ export const TendersAdvice: FC = () => {
   const ordererState = useIsOrdererState();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
+
+  const [role, setRole] = useState<'orderer' | 'contractor'>('orderer');
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
@@ -28,19 +30,24 @@ export const TendersAdvice: FC = () => {
   function handleInfo() {
     if (ordererState.role === 'orderer') {
       ordererState.handleState('contractor');
-      // setInfo(Executor);
-    } else {
+      setRole('contractor')
+    } else if (ordererState.role === 'contractor') {
       ordererState.handleState('orderer');
-      // setInfo(Orderer);
+      setRole('orderer')
     }
   }
 
-
+  useEffect(() => {
+    console.log(emblaApi);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [emblaApi]);
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
+    setTimeout(() => { handleInfo() }, 1500)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
@@ -49,31 +56,27 @@ export const TendersAdvice: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
         <h2 className={styles.header}>
-          {ordererState.role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
+          {role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
           <span className={styles.blueText}>Ubrato</span>
         </h2>
         <p className={styles.headerText}>
-          {ordererState.role === 'orderer'
+          {role === 'orderer'
             ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками по итогам выполнения тендеров'
             : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
         </p>
       </div>
       <div className={styles.btnsContainer}>
         <button
-          onClick={() => {
-            handleInfo();
-          }}
-          disabled={ordererState.role === 'orderer'}
-          className={`${styles.button}`}
+          onClick={handleInfo}
+          disabled={role === 'orderer'}
+          className={styles.button}
         >
           Для заказчика
         </button>
         <button
-          onClick={() => {
-            handleInfo();
-          }}
-          disabled={ordererState.role === 'contractor'}
-          className={`${styles.button}`}
+          onClick={handleInfo}
+          disabled={role === 'contractor'}
+          className={styles.button}
         >
           Для исполнителя
         </button>
@@ -82,10 +85,11 @@ export const TendersAdvice: FC = () => {
         {!widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
-              {ordererState.role === 'orderer' ?
-                <TendersAdviceExecutors />
-                :
-                <TendersAdvicesTenders />
+              {
+                role === 'orderer' ?
+                  <TendersAdviceExecutors />
+                  :
+                  <TendersAdvicesTenders />
               }
             </div>
             <button className={styles.embla__prev} onClick={scrollPrev}>
@@ -100,16 +104,17 @@ export const TendersAdvice: FC = () => {
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
               {ordererState.role === 'orderer' ?
-                <TendersAdviceExecutors isMobile={true} /> :
+                <TendersAdviceExecutors isMobile={true} />
+                :
                 <TendersAdvicesTenders />
               }
-              <button className={styles.embla__prev} onClick={scrollPrev}>
-                <ArrowControl image="./arrow-left.svg" />
-              </button>
-              <button className={styles.embla__next} onClick={scrollNext}>
-                <ArrowControl image="./arrow-right.svg" />
-              </button>
             </div>
+            <button className={styles.embla__prev} onClick={scrollPrev}>
+              <ArrowControl image="./arrow-left.svg" />
+            </button>
+            <button className={styles.embla__next} onClick={scrollNext}>
+              <ArrowControl image="./arrow-right.svg" />
+            </button>
           </div>
         )}
       </div>
