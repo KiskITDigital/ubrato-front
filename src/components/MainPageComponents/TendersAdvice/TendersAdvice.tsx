@@ -106,7 +106,7 @@ export const TendersAdvice: FC = () => {
               {ordererState.role === 'orderer' ?
                 <TendersAdviceExecutors isMobile={true} />
                 :
-                <TendersAdvicesTenders />
+                <TendersAdvicesTenders isMobile={true} />
               }
             </div>
             <button className={styles.embla__prev} onClick={scrollPrev}>

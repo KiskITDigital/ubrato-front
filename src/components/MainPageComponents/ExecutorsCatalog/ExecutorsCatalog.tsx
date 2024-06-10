@@ -6,11 +6,14 @@ import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { Link } from 'react-router-dom';
 import { countTransformTender, countTransformService } from '@/utils';
 import { useIsOrdererState } from '@/store/isOrdererStore';
+import { useFindExecutorState } from '@/store/findExecutorStore';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();
   const typeCleaningStore = useCleaningTypeStore();
   const isOrdererState = useIsOrdererState();
+
+  const findExecutorState = useFindExecutorState()
 
   const listRef = useRef<HTMLDivElement>(null);
   const [isShown, setIsShown] = useState(false);
@@ -127,11 +130,11 @@ export const ExecutorsCatalog: FC = () => {
         </div>
       </div>
       <div className={styles.findExecutor}>
-        <p className={styles.executorsCount}>Найдено исполнителей: 2 485</p>
+        <p className={styles.executorsCount}>Найдено исполнителей: {findExecutorState.executorList.length}</p>
         <Link to="/find-executor">
           <button className={styles.findExecutorBtn}>
             Найти исполнителя
-            {widthR.current ? <p className={styles.countExecutorsText}> 2485</p> : ''}
+            {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorList.length}</p> : ''}
             <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
           </button>
         </Link>

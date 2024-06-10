@@ -13,7 +13,7 @@ export interface dataObjectTypes {
   id: number,
   name: string,
   active: boolean,
-  price: number, 
+  price: number,
   object_types: Array<string>,
   objects_types: Array<string>,
   location: string,
@@ -68,7 +68,7 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = <OneTenderAdd 
+      stack = <OneTenderAdd
       ></OneTenderAdd>;
       break;
     default:
@@ -77,18 +77,20 @@ export const OneTenderPageExecutor: FC = () => {
 
   useEffect(() => {
     (async () => {
-      
+
       const token = localStorage.getItem('token');
       const responded = await isResponded(token, id)
       const data = await fetchProduct(id);
-     if (data) {
-      setResponse(responded.status)
-      setData(data)
-      setLoading(false)
-      console.log(responded);
-      
-     } else {
-      console.log('proizoshla oshibka');}
+      if (data) {
+        setResponse(responded.status)
+        setData(data)
+        setLoading(false)
+        console.log(responded);
+        console.log(data);
+
+      } else {
+        console.log('proizoshla oshibka');
+      }
     })();
   }, [id])
 
@@ -112,7 +114,7 @@ export const OneTenderPageExecutor: FC = () => {
         name={dataState.name}
       ></OneTenderHeader>
       <Switchero
-        setResponse={()=>changeResponseStatus()}
+        setResponse={() => changeResponseStatus()}
         response={response}
         tenderId={id}
         options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
