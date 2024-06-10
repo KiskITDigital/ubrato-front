@@ -1,9 +1,170 @@
 import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
-import { FC, useEffect } from "react";
+import { tenderList } from "@/types/app";
+import { FC, useEffect, useState } from "react";
+import { fetchProduct as getTender } from '@/api/getTender';
+import styles from './tenders-advice-tenders.module.css'
+import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import { Link, useNavigate } from "react-router-dom";
 
-const TendersAdvicesTenders: FC = () => {
+interface modifiedTenderList extends tenderList {
+    price: number,
+    reception_end: number,
+    description: string,
+    location: string,
+    isFavorite: boolean
+    isTextHidden: boolean
+}
+
+const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
+    const [tenderList, setTenderList] = useState<modifiedTenderList[][]>([]);
+
+    const navigate = useNavigate();
+
+    const favoriteExecutorsHandler = async (tender: modifiedTenderList) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login");
+        } else {
+            const res = tender.isFavorite
+                ? removeFavoriteTender(+tender.id, token)
+                : addFavouriteTender(+tender.id, token);
+            const resStatus = (await res).data.status;
+            if (!resStatus) return;
+            const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[]
+
+            updateTenderList(tenderListToFormat.map((tenderItem) =>
+                tenderItem.id === tender.id
+                    ? {
+                        ...tenderItem,
+                        isFavorite: resStatus
+                            ? !tenderItem.isFavorite
+                            : tenderItem.isFavorite,
+                    }
+                    : tenderItem
+            ))
+            // setTenderList(prev => prev.map((tenderItemBlock: modifiedTenderList[]) =>
+            //     tenderItemBlock.some(tenderItem => tenderItem.id === tender.id)
+            //         ? 
+            //         tenderItemBlock.map(tenderItem => tenderItem.id === )
+            //         // {
+            //         //     ...tenderItemBlock,
+            //         //     isFavorite: resStatus
+            //         //         ? !tenderItemBlock.isFavorite
+            //         //         : tenderItemBlock.isFavorite,
+            //         // }
+            //         : tenderItemBlock
+            // )
+            // );
+        }
+    }
+
+    const transformPrice = (value: number | string, currencySymbol: string = '₽'): string => {
+        const stringValue = String(value);
+        const parts = stringValue.split('.');
+        const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+        if (parts.length === 2) {
+            return integerPart + ' ' + parts[1] + ' ' + currencySymbol;
+        } else {
+            return integerPart + ' ' + currencySymbol;
+        }
+    }
+
+    const updateTenderList = async (newTenderList: modifiedTenderList[]) => {
+        const changedNewExecutorList: modifiedTenderList[][] = []
+        for (let i = 0; i < newTenderList.length; i += (isMobile ? 1 : 4)) {
+            const chunk = newTenderList.slice(i, i + (isMobile ? 1 : 4));
+            changedNewExecutorList.push(chunk);
+        }
+        setTenderList(changedNewExecutorList)
+    }
+
+    const showAllExecutorText = (id: string) => {
+        const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[]
+        const newTenderList = tenderListToFormat.map((tender) =>
+            tender.id === id
+                ? { ...tender, isTextHidden: false }
+                : tender
+        )
+        updateTenderList(newTenderList);
+    }
+
+    const getShorterText = (text: string) => {
+        return text.split(' ').slice(0, 10).join(' ')
+    }
+
+    useEffect(() => {
+        (async () => {
+            const hits = await generateTypesenseClient("tender_index")
+            // console.log(hits);
+            const tenderListPromises = hits?.map(async (hit) => {
+                const { id: tenderId } = hit.document as { id: string }
+                const tender = await getTender(tenderId) as modifiedTenderList;
+                const token = localStorage.getItem('token')
+                const isFavorite = token ? (await isFavoriteTender(tenderId, token)).data.status : false
+                // const region = await generateTypesenseClient("city_index", { filter_by: `id:=${tender.city_id}` })
+                // console.log(tender);
+                return { ...tender, isFavorite, isTextHidden: true } as modifiedTenderList;
+            }) || [];
+
+            const newTenderList = await Promise.all(tenderListPromises);
+
+            updateTenderList(newTenderList)
+        })()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
-        <h1>tenders hz</h1>
+        <div className={styles.embla__container}>
+            {/* {JSON.stringify(tenders)} */}
+            {
+                tenderList.map((tenderBlock: modifiedTenderList[], ind: number) => (
+                    <div key={ind} className={styles.embla__slide}>
+                        {
+                            tenderBlock.map((tender) => (
+                                <div key={tender.id} className={styles.tenderForCarousel}>
+                                    {/* {JSON.stringify(executor)} */}
+                                    <div>
+                                        <p className={styles.tenderName}>{tender.name}</p>
+                                        {/* <p className={styles.tenderText}>{tender.description}</p> */}
+                                        <p className={styles.tenderText}>
+                                            {tender.isTextHidden && tender.description.split(' ').length > 10 ? getShorterText(tender.description) : tender.description}
+                                            {tender.isTextHidden && tender.description.split(' ').length > 10 && <img onClick={() => showAllExecutorText(tender.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
+                                        </p>
+                                        <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
+                                        <p className={styles.tenderTime}>Прием откликов до {new Date(new Date(tender.reception_end).getTime() * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                    </div>
+                                    {/* <div>{!!tender.regions?.length && tender.regions?.map(region => <p key={region.id}>{region.name}</p>)}</div> */}
+                                    {isMobile || <div>
+                                        <p className={styles.tenderLocation}>{tender.location}</p>
+                                        <div className={`${styles.executorButtons}`}>
+                                            <button
+                                                onClick={() => favoriteExecutorsHandler(tender)}
+                                                className={styles.executorLoveButton}
+                                            >
+                                                <img
+                                                    src={`/find-executor/heart-${tender.isFavorite ? "active" : "inactive"}.svg`}
+                                                    alt="+"
+                                                />
+                                            </button>
+                                            <Link to={`/tender/${tender.id}`}>
+                                                <button className={`${styles.executorOfferButton}`}>
+                                                    Перейти к тендеру
+                                                    <img
+                                                        src={"/find-executor/arrow-right-black.svg"}
+                                                        alt="->"
+                                                    />
+                                                </button>
+                                            </Link>
+                                        </div>
+                                    </div>}
+                                </div>
+                            ))
+                        }
+                    </div>
+                ))
+            }
+        </div>
     );
 }
 
