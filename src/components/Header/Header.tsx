@@ -179,7 +179,7 @@ export const Header: FC = () => {
                 </li>
               )}
               <li>
-                <Link to="/" className={styles.navLink}>
+                <Link to="/profile/tenders" className={styles.navLink}>
                   <img src="/my-tenders.svg" alt="my-tenders" />
                   <p>Мои тендеры</p>
                 </Link>

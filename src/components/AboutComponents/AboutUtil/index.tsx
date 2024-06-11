@@ -25,7 +25,7 @@ export const AboutUtils: FC = () => {
       {ordererState.role === "orderer" && (
         <div className={styles.develop_container}>
           <h2 className={styles.develop_header_modded}>
-            На <span className={styles.blueText}>Ubrato</span> собраны клининговые компании разного профиля и масштаба,
+            На <span className={styles.blue}>Ubrato</span> собраны клининговые компании разного профиля и масштаба,
             например, здесь можно найти исполнителей для 
           </h2>
           <div className={styles.develop_list}>
@@ -167,7 +167,7 @@ export const AboutUtils: FC = () => {
                     <img src="./notepad.png" alt="" />
                     <h3>Опубликуйте тендер, если хотите выбрать лучшее предложение среди откликов</h3>
                 </div>
-                <Link className={styles.link_button} to={''}>
+                <Link className={styles.link_button} to={'create-tender'}>
                 <p>Опубликовать тендер</p>
                     <div>➜</div>
                 </Link>
@@ -177,7 +177,7 @@ export const AboutUtils: FC = () => {
                     <img src="./profile.png" alt="" />
                     <h3>Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям</h3>
                 </div>
-                <Link className={styles.link_button} to={''}>
+                <Link className={styles.link_button} to={'/find-executor'}>
                 <p>Kаталог исполнителей</p>
                     <div>➜</div>
                 </Link>
@@ -205,7 +205,7 @@ export const AboutUtils: FC = () => {
                     <img src="./notepad_checked.png" alt="" />
                     <h3>Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену</h3>
                 </div>
-                <Link className={styles.link_button} to={''}>
+                <Link className={styles.link_button} to={'/alltenders'}>
                     <p>Найти тендеры</p>
                     <div>➜</div>
                 </Link>
