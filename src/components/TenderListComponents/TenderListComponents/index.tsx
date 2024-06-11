@@ -11,8 +11,8 @@ import { TenderListElem } from "../TenderListElement/inedx";
 import { Pagination } from "@nextui-org/react";
 
 import s from "./styles.module.css";
-import { useFindExecutorState } from "@/store/findExecutorStore";
 import { getMe } from "@/api/getMe";
+import { useTenderListState } from "@/store/tendersListStore";
 
 interface TenderList {
   id: string;
@@ -37,7 +37,8 @@ interface myTenderToogle {
 }
 
 export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
-  const findExecutorState = useFindExecutorState();
+  const tenderListState = useTenderListState()
+
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
@@ -77,18 +78,18 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
 
     const filters = (() => {
       const filters = [];
-      if (findExecutorState.locationId)
-        filters.push(`$city_index(id:=${findExecutorState.locationId})`);
-      if (findExecutorState.objectTypesId.length)
-        findExecutorState.objectTypesId.forEach((object) =>
+      if (tenderListState.locationId)
+        filters.push(`$city_index(id:=${tenderListState.locationId})`);
+      if (tenderListState.objectTypesId.length)
+        tenderListState.objectTypesId.forEach((object) =>
           filters.push(`$tender_object(object_type_id:=${object})`)
         );
-      if (findExecutorState.servicesTypesId.length)
-        findExecutorState.servicesTypesId.forEach((service) =>
+      if (tenderListState.servicesTypesId.length)
+        tenderListState.servicesTypesId.forEach((service) =>
           filters.push(`$tender_service(service_type_id:=${service})`)
         );
-      if (findExecutorState.fastFilterTexts)
-        findExecutorState.fastFilterTexts.forEach((filter) =>
+      if (tenderListState.fastFilterTexts)
+        tenderListState.fastFilterTexts.forEach((filter) =>
           filters.push(
             `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
           )
@@ -179,10 +180,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   }, [
     paginationPage,
     paginationPerPage,
-    findExecutorState.fastFilterTexts,
-    findExecutorState.objectTypesId,
-    findExecutorState.locationId,
-    findExecutorState.servicesTypesId,
+    tenderListState.fastFilterTexts,
+    tenderListState.objectTypesId,
+    tenderListState.locationId,
+    tenderListState.servicesTypesId,
     meData,
     sortingValue,
     myTender

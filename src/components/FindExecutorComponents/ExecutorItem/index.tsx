@@ -27,8 +27,8 @@ const ExecutorItem: FC<{
                     <p className={styles.executorName}>{executor.name}</p>
                     {executor.text &&
                         <p className={styles.executorText}>
-                            {executor.isTextHidden ? getShorterText(executor.text) : executor.text}
-                            {executor.isTextHidden && <img onClick={() => showAllExecutorText(executor.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
+                            {executor.isTextHidden && executor.text.split(' ').length > 10 ? getShorterText(executor.text) : executor.text}
+                            {executor.isTextHidden && executor.text.split(' ').length > 10 && <img onClick={() => showAllExecutorText(executor.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
                         </p>}
                     <div className={styles.executorRegions}>
                         {executor.regions.map((region) => (
