@@ -5,7 +5,7 @@ import { MainFilterTender } from '@/components/TenderListComponents/TenderListCu
 // import { TenderListCustomSearch } from '@/components/TenderListComponents/TenderListCustomSearch';
 import FastFilterBlock from '@/components/FindExecutorComponents/FastFilter/FastFilter';
 import { useTenderListState } from '@/store/tendersListStore';
-
+import { useNavigate } from 'react-router-dom';
 
 export const AllTendersPage: FC = () => {
   const tenderListState = useTenderListState()
@@ -19,6 +19,15 @@ export const AllTendersPage: FC = () => {
       window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
   }, []);
+
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) navigate('/register')
+  }, [navigate]);
+
 
   return (
     <div ref={startRef} className={s.main_blokkk}>

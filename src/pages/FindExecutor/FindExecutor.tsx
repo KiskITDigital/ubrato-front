@@ -1,13 +1,21 @@
 import FastFilter from "@/components/FindExecutorComponents/FastFilter/FastFilter";
 import styles from './FindExecutor.module.css'
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import MainFilter from "@/components/FindExecutorComponents/MainFilter/MainFilter";
 import Executors from "@/components/FindExecutorComponents/Executors/Executors";
 import { QuestionsBlock, Seo } from "@/components";
 import { useFindExecutorState } from "@/store/findExecutorStore";
 
+import { useNavigate } from "react-router-dom";
+
 const FindExecutor: FC = () => {
     const findExecutorState = useFindExecutorState()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (!token) navigate('/register')
+    }, [navigate]);
     return (
         <section>
             <FastFilter title="исполнителя" values={findExecutorState.fastFilterTexts} setValues={findExecutorState.handleFastFilterTexts} />

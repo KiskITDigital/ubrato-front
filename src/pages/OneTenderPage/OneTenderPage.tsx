@@ -1,8 +1,9 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import { useSwitchStore } from '@/store/switchStore';
 import { OneTenderInfoView } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoView/OneTenderInfoView';
+import { useNavigate } from 'react-router-dom';
 
 export const OneTenderPage: FC = () => {
   const testData = {
@@ -29,6 +30,13 @@ export const OneTenderPage: FC = () => {
     verified: true,
     active: true,
   };
+
+  const navigate = useNavigate()
+
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (!token) navigate('/register')
+    }, [navigate]);
 
   const { activeIndex } = useSwitchStore();
 

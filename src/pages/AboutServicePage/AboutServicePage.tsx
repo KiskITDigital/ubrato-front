@@ -5,9 +5,6 @@ import {
   NewsBlock,
   QuestionsBlock,
   Seo,
-  Opportunities,
-  HowToFind,
-  TendersAdvice
 } from '@/components';
 import { AboutHeader } from '@/components/AboutComponents/AboutHeader';
 import { AboutDeveloping } from '@/components/AboutComponents/AboutDeveloping';
@@ -30,7 +27,7 @@ export const AboutServicePage: FC = () => {
       {/* <TendersAdvice /> */}
       {/* <NewsBlock /> */}
       {/* <QuestionsBlock /> */}
-      <Seo />
+      {/* <Seo /> */}
     </div>
   );
 };
