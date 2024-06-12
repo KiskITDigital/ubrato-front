@@ -27,13 +27,14 @@ import { MyTendersPage } from '@/pages/MyTendersPage/MyTendersPage';
 import FavoritePage from '@/pages/FavoritePage/FavoritePage';
 import SettingsPage from '@/pages/SettingsPage/SettingsPage';
 import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
+import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
 export const Router = () => {
   return (
     <Routes>
       <Route path="/" element={<App />}>
         <Route path="" element={<HomePage />} />
         <Route path="faq" element={<HomePage />} />
-        <Route path='about' element={<AboutServicePage/>}/>
+        <Route path='about' element={<AboutServicePage />} />
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="tenders" element={<TendersPage />} />
@@ -50,8 +51,8 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="tenders" element={<MyTendersPage/>}/>
-          <Route path="tenders" element={<AllTendersPage/>}/>
+          <Route path="tenders" element={<MyTendersPage />} />
+          <Route path="tenders" element={<AllTendersPage />} />
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
@@ -68,6 +69,7 @@ export const Router = () => {
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="alltenders" element={<AllTendersPage />} />
+        <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
       </Route>
     </Routes>
   );

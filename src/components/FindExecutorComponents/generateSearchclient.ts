@@ -30,7 +30,7 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
     return typesenseInstantsearchAdapter.searchClient
 }
 
-export const generateTypesenseClient = async (collection: string, parameters?: { per_page?: number, page?: number, filter_by?: string, sort_by?: "" | "name:asc" | "name:desc" }) => {
+export const generateTypesenseClient = async (collection: string, parameters?: { per_page?: number, page?: number, filter_by?: string, sort_by?: "" | "name:asc" | "name:desc", include_fields?: string }) => {
     try {
         const client = new Typesense.Client({
             apiKey: "Lwiy87ndh1SKllepXzu4CBIApJeDcnbw",

@@ -155,3 +155,71 @@ export interface tenderData {
   verified: boolean;
   status: boolean;
 }
+
+
+
+
+
+
+interface Organization {
+  id: string;
+  brand_name: string;
+  short_name: string;
+  inn: string;
+  okpo: string;
+  ogrn: string;
+  kpp: string;
+  avatar: string;
+}
+
+export interface Location {
+  id: number;
+  name: string;
+}
+
+interface Orderer {
+  description: string;
+  locations: Location[];
+}
+
+interface Service {
+  id: number;
+  name: string;
+  price: number;
+}
+
+interface ObjectV {
+  id: number;
+  name: string;
+}
+
+interface PortfolioItem {
+  id: string;
+  name: string;
+  description: string;
+  links: string[];
+}
+
+interface Executor {
+  description: string;
+  locations: Location[];
+  services: Service[];
+  objects: ObjectV[];
+  portfolio: PortfolioItem[];
+}
+
+export interface OrdererProfileInfo {
+  org: Organization;
+  orderer: Orderer;
+  isFavorite: boolean;
+}
+
+export interface ExecutorProfileInfo {
+  org: Organization;
+  executor: Executor;
+  isFavorite: boolean;
+}
+
+export interface ErrorInfo {
+  msg: string;
+}

@@ -32,4 +32,6 @@
   --color-red-secondary: #F42C50;
   --color-green: #0BA35A;
   --color-green-secondary: #E1FFF1;
+  --color-purple-primary: #7B42F3;
+  --color-purple-primary-10: rgba(123, 66, 243, 0.1);
 }
