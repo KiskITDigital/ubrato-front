@@ -177,12 +177,19 @@ export interface Location {
   name: string;
 }
 
+export interface Portfolio {
+  id: string;
+  name: string;
+  description: string;
+  links: string[]
+}
+
 interface Orderer {
   description: string;
   locations: Location[];
 }
 
-interface Service {
+export interface Service {
   id: number;
   name: string;
   price: number;

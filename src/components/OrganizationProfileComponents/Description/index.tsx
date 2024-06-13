@@ -1,12 +1,13 @@
 import { FC, useState } from 'react';
 import styles from './description.module.css'
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const getShorterText = (text: string) => {
+    return text.split(' ').slice(0, 10).join(' ')
+}
+
 const Description: FC<{ text: string }> = ({ text }) => {
     const [isShorterText, setIsShorterText] = useState(text.split(' ').length > 10);
-
-    const getShorterText = (text: string) => {
-        return text.split(' ').slice(0, 10).join(' ')
-    }
 
     return (
         <div className={styles.container}>

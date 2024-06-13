@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './offer-tender.module.css'
 import { Link } from 'react-router-dom';
-import Typesense from 'typesense'
 import { Radio, RadioGroup } from '@nextui-org/react';
 import { offerTender } from '@/api/index'
 import { tenderData } from '@/types/app';
 import { isRespondedOfferTender } from '@/api/index';
 import { useCreateTenderState } from '@/store/createTenderStore';
+import { generateTypesenseClient } from '../generateSearchclient';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 const OfferTender: FC<{
     closeModal: (newState: null) => void
@@ -15,44 +16,65 @@ const OfferTender: FC<{
 }> = ({ closeModal, executorId, executorName }) => {
     const [tenderId, setTenderId] = useState('');
     const [tenderList, setTenderList] = useState<tenderData[] | null>(null);
+
     const createTenderState = useCreateTenderState()
+    const userInfoState = useUserInfoStore()
 
     useEffect(() => {
-        const client = new Typesense.Client({
-            apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
-            'nodes': [
-                {
-                    host: 'search.ubrato.ru',
-                    port: 443,
-                    protocol: 'https',
-                    path: "",
-                    // tls:true
-                }
-            ],
-        });
-        const searchParameters = {
-            'q': '',
-            'query_by': 'name',
-            'per_page': 5,
-            'sort_by': 'created_at:desc',
-        }
-        client.collections('tender_index').documents().search(searchParameters)
-            .then(async response => {
-                const token = localStorage.getItem('token');
-                if (!token) return;
-                const tenderListPromises = response.hits?.map(async (hit) => {
-                    const { id: tenderId } = hit.document as { id: string }
-                    const statusResponse = await isRespondedOfferTender(token, tenderId, executorId);
-                    const status = statusResponse.data.status;
-                    return {
-                        ...hit.document,
-                        status
-                    } as tenderData;
-                }) || [];
+        // const client = new Typesense.Client({
+        //     apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
+        //     'nodes': [
+        //         {
+        //             host: 'search.ubrato.ru',
+        //             port: 443,
+        //             protocol: 'https',
+        //             path: "",
+        //             // tls:true
+        //         }
+        //     ],
+        // });
+        // const searchParameters = {
+        //     'q': '',
+        //     'query_by': 'name',
+        //     'per_page': 5,
+        //     'sort_by': 'created_at:desc',
+        // }
+        // client.collections('tender_index').documents().search(searchParameters)
+        //     .then(async response => {
+        //         const token = localStorage.getItem('token');
+        //         if (!token) return;
+        //         const tenderListPromises = response.hits?.map(async (hit) => {
+        //             console.log(hit);
 
-                const newTenderList = await Promise.all(tenderListPromises);
-                setTenderList(newTenderList);
-            })
+        //             const { id: tenderId } = hit.document as { id: string }
+        //             const statusResponse = await isRespondedOfferTender(token, tenderId, executorId);
+        //             const status = statusResponse.data.status;
+        //             return {
+        //                 ...hit.document,
+        //                 status
+        //             } as tenderData;
+        //         }) || [];
+
+        //         const newTenderList = await Promise.all(tenderListPromises);
+        //         setTenderList(newTenderList);
+        //     })
+        (async () => {
+            const hits = await generateTypesenseClient("tender_index", { per_page: 5, sort_by: "created_at:desc", filter_by: `user_id:=${userInfoState.user.id}` })
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            const tenderListPromises = hits?.map(async (hit) => {
+                const { id: tenderId } = hit.document as { id: string }
+                const statusResponse = await isRespondedOfferTender(token, tenderId, executorId);
+                const status = statusResponse.data.status;
+                return {
+                    ...hit.document,
+                    status
+                } as tenderData;
+            }) || [];
+
+            const newTenderList = await Promise.all(tenderListPromises);
+            setTenderList(newTenderList);
+        })()
     }, [executorId]);
 
     const radioStyle = {

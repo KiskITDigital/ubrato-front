@@ -10,13 +10,14 @@
     margin: 0 30px;
 }
 
-.locations {
+
+.objects {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.location {
+.objectGroup {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -24,17 +25,17 @@
     border-radius: 20px;
 }
 
-.location:nth-child(odd) {
+.objectGroup:nth-child(odd) {
     background-color: var(--color-black-2);
 }
 
-.region {
+.objectGroupName {
     width: 30%;
     font-weight: 700;
     font-size: 18px;
 }
 
-.cities {
+.objectTypes {
     width: 70%;
     display: flex;
     flex-direction: row;
@@ -42,7 +43,7 @@
     flex-wrap: wrap;
 }
 
-.city {
+.objectType {
     color: var(--color-black-60);
     font-size: 18px;
     font-weight: 500;
@@ -53,7 +54,7 @@
     text-decoration: underline;
 }
 
-.city:last-of-type {
+.objectType:last-of-type {
     padding-right: 0;
     border-right: none;
 }

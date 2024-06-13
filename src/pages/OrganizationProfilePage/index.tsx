@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Link, Params, useNavigate, useParams } from "react-router-dom";
 import { addFavoriteExecutor, getOtherProfilesOrganizations, isFavoriteExecutor, removeFavoriteExecutor } from "@/api";
 import Info from "@/components/OrganizationProfileComponents/Info";
@@ -6,10 +6,25 @@ import styles from './organization-profile-page.module.css';
 import { ErrorInfo, ExecutorProfileInfo, OrdererProfileInfo } from "@/types/app";
 import Description from "@/components/OrganizationProfileComponents/Description";
 import Locations from "@/components/OrganizationProfileComponents/Locations";
+import Services from "@/components/OrganizationProfileComponents/Services";
+import Objects from "@/components/OrganizationProfileComponents/Objects";
+import Portfolio from "@/components/OrganizationProfileComponents/Portfolio";
 
-const OrganizationProfilePage = () => {
+// eslint-disable-next-line react-refresh/only-export-components
+export function groupBy<T>(iterable: Iterable<T>, fn: (item: T) => string | number) {
+    return [...iterable].reduce<Record<string, T[]>>((groups, curr) => {
+        const key = fn(curr);
+        const group = groups[key] ?? [];
+        group.push(curr);
+        return { ...groups, [key]: group };
+    }, {});
+}
+
+const OrganizationProfilePage: FC = () => {
     const { org_id }: Readonly<Params<string>> = useParams();
     const navigate = useNavigate();
+
+    const startRef = useRef<HTMLHeadingElement>(null)
 
     const [data, setData] = useState<ErrorInfo | ExecutorProfileInfo | OrdererProfileInfo | null>(null);
 
@@ -35,13 +50,17 @@ const OrganizationProfilePage = () => {
     };
 
     useEffect(() => {
+        startRef.current!.scrollIntoView({ behavior: "smooth" })
+        setTimeout(() => {
+            const elementTop = startRef.current!.getBoundingClientRect().top;
+            window.scrollBy({ top: elementTop - 300, behavior: "smooth" });
+        }, 0);
+
         if (org_id) {
             (async () => {
                 const fetchedData = await getOtherProfilesOrganizations(org_id);
                 const token = localStorage.getItem('token');
                 const isFavorite = !!token && (await isFavoriteExecutor(org_id, token))?.data?.status || false;
-                console.log(fetchedData);
-
                 setData({
                     ...fetchedData,
                     isFavorite
@@ -51,7 +70,7 @@ const OrganizationProfilePage = () => {
     }, [org_id]);
 
     return (
-        <div className={`container ${styles.container}`}>
+        <div className={`container ${styles.container}`} ref={startRef}>
             {
                 data ? (
                     'msg' in data ?
@@ -72,15 +91,20 @@ const OrganizationProfilePage = () => {
                                 inn={data.org.inn}
                             />
                             {'orderer' in data ? (
-                                <Description text={data.orderer.description} />
+                                !!data.orderer.description && <Description text={data.orderer.description} />
                             ) : (
-                                <Description text={data.executor.description} />
+                                !!data.executor.description && <Description text={data.executor.description} />
                             )}
                             {'orderer' in data ? (
-                                <Locations status="orderer" loactions={data.orderer.locations} />
+                                !!data.orderer.locations.length && <Locations status="orderer" loactions={data.orderer.locations} />
                             ) : (
-                                <Locations status="executor" loactions={data.executor.locations} />
+                                !!data.executor.locations.length && <Locations status="executor" loactions={data.executor.locations} />
                             )}
+                            {'executor' in data && (<>
+                                {!!data.executor.services.length && <Services services={data.executor.services} />}
+                                {!!data.executor.objects.length && <Objects objects={data.executor.objects} />}
+                                {!!data.executor.portfolio.length && <Portfolio portfolio={data.executor.portfolio} />}
+                            </>)}
                         </>
                 ) : <p className={styles.spinner}>🌀</p>
             }

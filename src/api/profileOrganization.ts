@@ -155,16 +155,26 @@ export const putContractorProfile = async (
 };
 
 export const postPortfolio = async (token: string, params: IPortfolio) => {
-  const res = await axiosInstance.post<{ id: string }>('/v1/organizations/my/profile/cv', params, {
+  const newParams = {
+    name: params.name,
+    description: params.description,
+    links: params.imgs
+  }
+  const res = await axiosInstance.post<{ id: string }>('/v1/organizations/my/profile/cv', newParams, {
     headers: { authorization: `Bearer ${token}` },
   });
   return res.data.id;
 };
 
 export const putPortfolio = async (token: string, params: IPortfolioPut) => {
+  const newParams = {
+    name: params.params.name,
+    description: params.params.description,
+    links: params.params.imgs
+  }
   const res = await axiosInstance.put(
     `/v1/organizations/my/profile/cv/${params.id}`,
-    params.params,
+    newParams,
     {
       headers: { authorization: `Bearer ${token}` },
     }
