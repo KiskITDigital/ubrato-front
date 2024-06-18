@@ -18,7 +18,7 @@ const FindExecutor: FC = () => {
     }, [navigate]);
     return (
         <section>
-            <FastFilter values={findExecutorState.fastFilterTexts} setValues={findExecutorState.handleFastFilterTexts} />
+            <FastFilter title="исполнителя" values={findExecutorState.fastFilterTexts} setValues={findExecutorState.handleFastFilterTexts} />
             <div className={`container ${styles.mainBlock}`}>
                 <MainFilter />
                 <Executors />

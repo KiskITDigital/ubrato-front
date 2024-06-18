@@ -40,3 +40,4 @@ export {
 } from './findExecutor/favoriteExecutors';
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';
+export { getOtherProfilesOrganizations } from './otherProfilesOrganizations'

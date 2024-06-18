@@ -50,11 +50,11 @@ export const CompanyInfo: FC = () => {
   useEffect(() => {
     if (
       JSON.stringify(phones.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.phones) ||
+      JSON.stringify(initialContacts.current?.phones) ||
       JSON.stringify(emails.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.emails) ||
+      JSON.stringify(initialContacts.current?.emails) ||
       JSON.stringify(messengers.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.messengers)
+      JSON.stringify(initialContacts.current?.messengers)
     ) {
       setIsContactsEqual(false);
     } else {

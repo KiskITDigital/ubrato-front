@@ -38,11 +38,6 @@ export const TendersAdvice: FC = () => {
   }
 
   useEffect(() => {
-    console.log(emblaApi);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [emblaApi]);
-
-  useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }

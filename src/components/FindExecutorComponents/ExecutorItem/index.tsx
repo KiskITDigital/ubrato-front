@@ -1,7 +1,20 @@
 import { executorList } from "@/types/app";
 import { Dispatch, FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from './executor-item.module.css'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const modifyPrice = (value: number | string, currencySymbol: string = '₽'): string => {
+    const stringValue = String(value);
+    const parts = stringValue.split('.');
+    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    if (parts.length === 2) {
+        return integerPart + ' ' + parts[1] + ' ' + currencySymbol;
+    } else {
+        return integerPart + ' ' + currencySymbol;
+    }
+}
 
 const ExecutorItem: FC<{
     executor: executorList,
@@ -22,9 +35,13 @@ const ExecutorItem: FC<{
     return (
         <div key={executor.id} className={`${styles.executor} ${additionalStyles ? additionalStyles.executorForCarousel : ''}`}>
             <div className={styles.executorInfo}>
-                <img className={styles.executorImage} src={executor.img} alt="" />
+                <Link to={`/organization/${executor.id}`}>
+                    <img className={styles.executorImage} src={executor.img} alt="" />
+                </Link>
                 <div className={styles.executorTextBlock}>
-                    <p className={styles.executorName}>{executor.name}</p>
+                    <Link to={`/organization/${executor.id}`}>
+                        <p className={styles.executorName}>{executor.name}</p>
+                    </Link>
                     {executor.text &&
                         <p className={styles.executorText}>
                             {executor.isTextHidden && executor.text.split(' ').length > 10 ? getShorterText(executor.text) : executor.text}
@@ -47,7 +64,7 @@ const ExecutorItem: FC<{
                             <div key={service.id} className={`${styles.service} ${additionalStyles ? additionalStyles.serviceForCarousel : ''}`}>
                                 <p className={styles.serviceName}>{service.name}</p>
                                 <p className={styles.servicePrice}>
-                                    от {service.price} ₽ за ед.
+                                    от {modifyPrice(service.price)} за ед.
                                     <img
                                         src="/find-executor/arrow-right-blue.svg"
                                         alt="arrow right blue"

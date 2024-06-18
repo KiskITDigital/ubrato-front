@@ -54,7 +54,6 @@ const SendButtons: FC = () => {
             work_start: formatDate(createTenderState.work_start),
             work_end: formatDate(createTenderState.work_end),
             city_id,
-            specification: "string",
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
         const res = city_id && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }

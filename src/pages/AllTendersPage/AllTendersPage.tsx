@@ -1,5 +1,4 @@
-import { TenderListHedaerComp } from '@/components/TenderListComponents/TenderHeaderComponent';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import s from './styles.module.css'
 import { TenderListComp } from '@/components/TenderListComponents/TenderListComponents';
 import { MainFilterTender } from '@/components/TenderListComponents/TenderListCustomFilter';
@@ -11,20 +10,30 @@ import { useNavigate } from 'react-router-dom';
 export const AllTendersPage: FC = () => {
   const tenderListState = useTenderListState()
 
-  
+  const startRef = useRef<HTMLHeadingElement>(null)
+
+  useEffect(() => {
+    startRef.current!.scrollIntoView({ behavior: "smooth" })
+    setTimeout(() => {
+      const elementTop = startRef.current!.getBoundingClientRect().top;
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
+    }, 0);
+  }, []);
+
+
   const navigate = useNavigate()
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (!token) navigate('/register')
-    }, [navigate]);
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) navigate('/register')
+  }, [navigate]);
 
 
   return (
-    <div className={s.main_blokkk}>
-      <TenderListHedaerComp></TenderListHedaerComp>
+    <div ref={startRef} className={s.main_blokkk}>
+      {/* <TenderListHedaerComp></TenderListHedaerComp> */}
       {/* <TenderListCustomSearch></TenderListCustomSearch> */}
-      <FastFilterBlock values={tenderListState.fastFilterTexts} setValues={tenderListState.handleFastFilterTexts} />
+      <FastFilterBlock title='тендера' values={tenderListState.fastFilterTexts} setValues={tenderListState.handleFastFilterTexts} />
       <div className={s.block_container}>
         <MainFilterTender></MainFilterTender>
         <TenderListComp myTender={false}></TenderListComp>

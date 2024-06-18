@@ -2,7 +2,7 @@ import { FC, Fragment, useEffect, useState } from "react";
 import styles from './fast-filter.module.css'
 import { useLocation, useNavigate } from "react-router-dom";
 
-const FastFilterBlock: FC<{ values: string[], setValues: (newFastFilterTexts: string[]) => void }> = ({ values, setValues }) => {
+const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFastFilterTexts: string[]) => void }> = ({ title, values, setValues }) => {
 
     const [inputFilter, setInputFilter] = useState('');
 
@@ -30,7 +30,7 @@ const FastFilterBlock: FC<{ values: string[], setValues: (newFastFilterTexts: st
 
     return (
         <div className={`container ${styles.container}`}>
-            <h1 className={styles.title}><span>Поиск</span> исполнителя</h1>
+            <h1 className={styles.title}><span>Поиск</span> {title}</h1>
             <label className={styles.inputFilterLabel}>
                 <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
                 <input
