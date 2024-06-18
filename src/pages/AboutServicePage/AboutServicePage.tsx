@@ -15,19 +15,11 @@ import { AboutUtils } from '@/components/AboutComponents/AboutUtil';
 export const AboutServicePage: FC = () => {
   return (
     <div>
-      {/* <MainBanner /> */}
       <AboutHeader/>
-      {/* <ExecutorsCatalog /> */}
       <AboutDeveloping/>
-      {/* <Opportunities /> */}
       <AboutTasks/>
       <AboutOpportunities/>
       <AboutUtils/>
-      {/* <HowToFind /> */}
-      {/* <TendersAdvice /> */}
-      {/* <NewsBlock /> */}
-      {/* <QuestionsBlock /> */}
-      {/* <Seo /> */}
     </div>
   );
 };

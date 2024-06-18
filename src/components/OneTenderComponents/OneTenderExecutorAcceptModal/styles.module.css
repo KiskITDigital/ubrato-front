@@ -29,6 +29,7 @@
   .form_modal{
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-around;
     height: 400px;
   }
@@ -67,13 +68,16 @@
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.082) ;
   }
 
-  .input_checkbox{
-    width: 22px;
-    height: 22px;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.082) ;
-    border: none;
-    outline: none;
+
+  .input_checkobx{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #cccccc68;
+    border-radius: 13px;
+    cursor: pointer;
   }
+  
 
   .close {
     cursor: pointer;
@@ -128,7 +132,7 @@
     color: #fff;
     border: none;
     padding: 8px 16px;
-    border-radius: 5px;
+    border-radius: 13px;
     cursor: pointer;
     
   }

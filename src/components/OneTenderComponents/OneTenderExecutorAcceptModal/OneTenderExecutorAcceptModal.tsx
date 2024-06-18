@@ -81,7 +81,10 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
               <form className={styles.form_modal} onSubmit={handleSubmit}>
                 <label className={`${styles.field}`}>
                   <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
-                  <div className={styles.wrap_label}><input onChange={handleCheckboxChange} type="checkbox" name="" className={styles.input_checkbox} /> <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
+                  <div className={styles.wrap_label}> 
+                  {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
+                  <input type="checkbox" className={styles.input_checkobx} />
+                  <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
                   </div>
 
                 </label>

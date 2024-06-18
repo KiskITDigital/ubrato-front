@@ -14,9 +14,6 @@ type SwitchProps = {
   response: boolean
 }
 
-
-
-
 export const Switchero: React.FC<SwitchProps> = ({ setResponse, tenderId, options,  button_text, price, response}) => {
   const { activeIndex, setActiveIndex } = useSwitchStore();
   const [isOpen, setIsOpen] = useState(false);

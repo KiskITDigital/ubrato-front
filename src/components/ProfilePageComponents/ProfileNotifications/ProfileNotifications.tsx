@@ -42,9 +42,8 @@ export const ProfileNotifications: FC = () => {
             <div className={s.content}>
               
             <h2 className={`${s.notification_header} ${isExpanded(e.id) ? s.notification_header_expanded : ''}`}>{e.header}</h2>
-              {isExpanded(e.id) && <div className={s.message}>{e.msg}</div>}
-            </div>
-            {e.href && (
+              {isExpanded(e.id) && <div className={s.message}>{e.msg}
+              {e.href && (
               <Link
                 className="underline text-red-400"
                 to={e.href.replace("https://ubrato.ru", "")}
@@ -52,7 +51,9 @@ export const ProfileNotifications: FC = () => {
                 {e.href_text}
               </Link>
             )}
-            <div>{e.href}</div>
+              </div>}
+            </div>
+           
           </div>
         </div>
       ))}

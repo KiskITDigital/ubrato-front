@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./style.module.css";
 import { useIsOrdererState } from "@/store/isOrdererStore";
 import { Executor, OpportunitiesInfoT, Orderer } from "@/textData/textData";
