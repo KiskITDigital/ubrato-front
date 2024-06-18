@@ -27,12 +27,12 @@ export const AboutServicePage: FC = () => {
   }, [location.state]);
 
   return (
-    <div>
-      <AboutHeader/>
-      <AboutDeveloping/>
-      <AboutTasks/>
-      <AboutOpportunities/>
-      <AboutUtils/>
+    <div ref={startRef}>
+      <AboutHeader />
+      <AboutDeveloping />
+      <AboutTasks />
+      <AboutOpportunities />
+      <AboutUtils />
     </div>
   );
 };
