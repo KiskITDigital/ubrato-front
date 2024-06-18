@@ -9,7 +9,6 @@ export const Footer: FC = () => {
   const ordererState = useIsOrdererState();
 
   const navigate = useNavigate();
-
   const location = useLocation();
 
   const handleLogOut = () => {
