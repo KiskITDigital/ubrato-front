@@ -106,7 +106,7 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/knowledge-base">
                 <p className={styles.point}>База знаний</p>
               </Link>
             </li>

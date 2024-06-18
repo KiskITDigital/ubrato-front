@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 import styles from './styles.module.css'
 import { Switch } from '@nextui-org/react';
 import { sendResponse } from "@/api/respondTender";
-
+// import notion from ''
 
 type TenderModalProps = {
   setResponse: () => void;
@@ -83,7 +83,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
                   <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
                   <div className={styles.wrap_label}> 
                   {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
-                  <input type="checkbox" className={styles.input_checkobx} />
+                  <input type="checkbox" onChange={handleCheckboxChange} className={styles.input_checkobx} />
                   <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
                   </div>
 
@@ -109,8 +109,13 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
               </form>
             </div>
           ) : (
-            <div className={styles.modal}>
-              <p>Вы уже откликнулись на этот тендер!</p>
+            <div className={styles.modal_new}>
+              <p className={styles.notion}>Вы уже откликнулись на этот тендер!</p>
+              <div className={styles.nds_notice}>
+              {/* <div className={styles.circle}></div> */}
+              {/* <img src="./notion.svg" alt="" /> */}
+              <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
+              </div>
               <button className={styles.button_spec} onClick={closeModal}>Закрыть окно</button>
             </div>
           )}

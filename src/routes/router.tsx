@@ -29,6 +29,7 @@ import SettingsPage from '@/pages/SettingsPage/SettingsPage';
 import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
 import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
 import ContactsPage from '@/pages/ContactsPage';
+import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
 export const Router = () => {
   return (
     <Routes>
@@ -68,6 +69,8 @@ export const Router = () => {
           <Route path="help" element={<Help />} />
         </Route>
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
+        {/* know-base */}
+        <Route path="knowledge-base" element={<KnowledgeBasePage/>} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
