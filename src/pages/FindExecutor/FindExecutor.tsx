@@ -7,14 +7,18 @@ import { QuestionsBlock, Seo } from "@/components";
 import { useFindExecutorState } from "@/store/findExecutorStore";
 
 import { useNavigate } from "react-router-dom";
+import { useUserInfoStore } from "@/store/userInfoStore";
 
 const FindExecutor: FC = () => {
     const findExecutorState = useFindExecutorState()
+    const userInfoStore = useUserInfoStore();
+    useUserInfoStore
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (!token) navigate('/register')
+        if (!userInfoStore.isLoggedIn) {
+            navigate('/register');
+          }
     }, [navigate]);
     return (
         <section>

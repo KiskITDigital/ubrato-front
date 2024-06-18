@@ -6,10 +6,11 @@ import { MainFilterTender } from '@/components/TenderListComponents/TenderListCu
 import FastFilterBlock from '@/components/FindExecutorComponents/FastFilter/FastFilter';
 import { useTenderListState } from '@/store/tendersListStore';
 import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const AllTendersPage: FC = () => {
   const tenderListState = useTenderListState()
-
+  const userInfoStore = useUserInfoStore()
   const startRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -24,9 +25,10 @@ export const AllTendersPage: FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) navigate('/register')
-  }, [navigate]);
+    if (!userInfoStore.isLoggedIn) {
+        navigate('/register');
+      }
+}, [navigate]);
 
 
   return (

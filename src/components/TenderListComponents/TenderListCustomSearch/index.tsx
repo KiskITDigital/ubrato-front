@@ -19,7 +19,7 @@ export const TenderListCustomSearch: FC = () => {
     }, [filters.length]);
  
     return (
-        <div className={`container ${s.container}`}>
+        <div className={`${s.container}`}>
             <label className={s.inputFilterLabel}>
                 <img className={s.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
                 <input

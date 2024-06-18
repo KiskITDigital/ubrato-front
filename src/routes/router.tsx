@@ -39,7 +39,7 @@ export const Router = () => {
         <Route path='about' element={<AboutServicePage />} />
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
-        <Route path="tenders" element={<TendersPage />} />
+        {/* <Route path="tenders" element={<TendersPage />} /> */}
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="survey" element={<SurveyPage />}>
@@ -68,8 +68,7 @@ export const Router = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
         </Route>
-        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
-        {/* know-base */}
+        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />  
         <Route path="knowledge-base" element={<KnowledgeBasePage/>} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="alltenders" element={<AllTendersPage />} />
