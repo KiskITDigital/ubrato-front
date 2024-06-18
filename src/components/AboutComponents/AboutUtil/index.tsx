@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import styles from "./style.module.css";
 import { useIsOrdererState } from "@/store/isOrdererStore";
 import { Executor, OpportunitiesInfoT, Orderer } from "@/textData/textData";
@@ -20,13 +20,14 @@ export const AboutUtils: FC = () => {
       setInfo(Orderer);
     }
   }
+
   return (
     <div className={styles.develop_container}>
       {ordererState.role === "orderer" && (
         <div className={styles.develop_container}>
           <h2 className={styles.develop_header_modded}>
             На <span className={styles.blue}>Ubrato</span> собраны клининговые компании разного профиля и масштаба,
-            например, здесь можно найти исполнителей для 
+            например, здесь можно найти исполнителей для
           </h2>
           <div className={styles.develop_list}>
             <div className={styles.service_line}>
@@ -59,7 +60,7 @@ export const AboutUtils: FC = () => {
           {" "}
           <h2 className={styles.develop_header_modded}>
             Ubrato используют заказчики клининговых услуг разного профиля и
-            масштаба, например, здесь можно найти тендеры на услуги: 
+            масштаба, например, здесь можно найти тендеры на услуги:
           </h2>
           <div className={styles.develop_list}>
             <div className={styles.service_line}>
@@ -164,22 +165,22 @@ export const AboutUtils: FC = () => {
             <div className={styles.link_container}>
               <div className={styles.link_container_block}>
                 <div className={styles.link_header}>
-                    <img src="./notepad.png" alt="" />
-                    <h3>Опубликуйте тендер, если хотите выбрать лучшее предложение среди откликов</h3>
+                  <img src="./notepad.png" alt="" />
+                  <h3>Опубликуйте тендер, если хотите выбрать лучшее предложение среди откликов</h3>
                 </div>
                 <Link className={styles.link_button} to={'create-tender'}>
-                <p>Опубликовать тендер</p>
-                    <div>➜</div>
+                  <p>Опубликовать тендер</p>
+                  <div>➜</div>
                 </Link>
               </div>
               <div className={styles.link_container_block}>
                 <div className={styles.link_header}>
-                    <img src="./profile.png" alt="" />
-                    <h3>Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям</h3>
+                  <img src="./profile.png" alt="" />
+                  <h3>Выберите исполнителя по профилю работ, портфолио, надежности и другим критериям</h3>
                 </div>
                 <Link className={styles.link_button} to={'/find-executor'}>
-                <p>Kаталог исполнителей</p>
-                    <div>➜</div>
+                  <p>Kаталог исполнителей</p>
+                  <div>➜</div>
                 </Link>
               </div>
             </div>
@@ -192,22 +193,22 @@ export const AboutUtils: FC = () => {
             <div className={styles.link_container}>
               <div className={styles.link_container_block}>
                 <div className={styles.link_header}>
-                    <img src="./images.png" alt="" />
-                    <h3>Расскажите о возможностях и преимуществах вашей компании</h3>
+                  <img src="./images.png" alt="" />
+                  <h3>Расскажите о возможностях и преимуществах вашей компании</h3>
                 </div>
                 <Link className={styles.link_button} to={''}>
-                <p>Создать портфолио</p>
-                    <div>➜</div>
+                  <p>Создать портфолио</p>
+                  <div>➜</div>
                 </Link>
               </div>
               <div className={styles.link_container_block}>
                 <div className={styles.link_header}>
-                    <img src="./notepad_checked.png" alt="" />
-                    <h3>Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену</h3>
+                  <img src="./notepad_checked.png" alt="" />
+                  <h3>Откликайтесь на тендеры, обсуждайте условия в чате, предлагайте свою цену</h3>
                 </div>
                 <Link className={styles.link_button} to={'/alltenders'}>
-                    <p>Найти тендеры</p>
-                    <div>➜</div>
+                  <p>Найти тендеры</p>
+                  <div>➜</div>
                 </Link>
               </div>
             </div>

@@ -2,9 +2,12 @@ import { FC } from 'react';
 import styles from './footer.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { useIsOrdererState } from '@/store/isOrdererStore';
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
+  const ordererState = useIsOrdererState();
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -49,27 +52,27 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Возможности</p>
           <ul>
             <li>
-              <Link to="/">
+              <Link to="/register">
                 <p className={styles.point}>Стать заказчиком</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/register">
                 <p className={styles.point}>Стать исполнителем</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/create-tender">
                 <p className={styles.point}>Создать тендер</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/alltenders">
                 <p className={styles.point}>Найти тендер</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/find-executor">
                 <p className={styles.point}>Найти исполнителя</p>
               </Link>
             </li>
@@ -79,27 +82,27 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Информация</p>
           <ul>
             <li>
-              <Link to="/">
-                <p className={styles.point}>Каталог услуг</p>
+              <Link to="/" state={{ to: "catalog" }}>
+                <p className={styles.point}>Каталог</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/about" onClick={() => ordererState.handleState('orderer')} state={{ toReload: null }}>
                 <p className={styles.point}>Заказчикам</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                 <p className={styles.point}>Исполнтелям</p>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/">
                 <p className={styles.point}>Отзывы об исполнителях</p>
               </Link>
-            </li>
+            </li> */}
             <li>
-              <Link to="/">
+              <Link to="/" state={{ to: "questions" }}>
                 <p className={styles.point}>Частые вопросы</p>
               </Link>
             </li>
@@ -119,19 +122,21 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/contacts" state={{ isHelp: false }}>
                 <p className={styles.point}>Контакты</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              <Link to="/contacts" state={{ isHelp: true }}>
                 <p className={styles.point}>Помощь</p>
               </Link>
             </li>
             <li>
-              <Link to="/">
+              {/* <Link to="/"> */}
+              <a target="_blank" href='https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15'>
                 <p className={styles.point}>Карта сайта</p>
-              </Link>
+              </a>
+              {/* </Link> */}
             </li>
           </ul>
         </div>

@@ -28,6 +28,7 @@ import FavoritePage from '@/pages/FavoritePage/FavoritePage';
 import SettingsPage from '@/pages/SettingsPage/SettingsPage';
 import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
 import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
+import ContactsPage from '@/pages/ContactsPage';
 export const Router = () => {
   return (
     <Routes>
@@ -70,6 +71,7 @@ export const Router = () => {
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
+        <Route path='contacts' element={<ContactsPage />} />
       </Route>
     </Routes>
   );
