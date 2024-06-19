@@ -277,6 +277,7 @@ export const ContractorProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
+            placeholder='введите город'
             onChange={(e) => {
               (async () => {
                 setInputValue(e.target.value);
@@ -288,7 +289,6 @@ export const ContractorProfile: FC = () => {
           />
           {locations.length !== 0 && (
             <div className={styles.locationsList} ref={locationsListRef}>
-              {locations.length}
               {locations.map((e) => (
                 <div className={styles.locationItem} key={e.id}>
                   {e.name}

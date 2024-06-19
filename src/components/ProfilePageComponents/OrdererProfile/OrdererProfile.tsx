@@ -98,6 +98,7 @@ export const OrdererProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
+            placeholder='введите город'
             onChange={(e) => {
               (async () => {
                 setInputValue(e.target.value);
