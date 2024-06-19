@@ -14,16 +14,18 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
   const [fileDate, setFileDate] = useState<Date>();
 
   useEffect(() => {
-    (async () => {
-      const res = await updateToken(fetchPrivateFileInfo, link);
-      // const token = localStorage.getItem('token') 
-      // const res = await fetchPrivateFileInfo(token, link)
-      setFileDate(new Date(res.ctime));
-      setFileInfo(res);
-    })();
+    
+    // if (!link) {
+      (async () => {
+        const res = await updateToken(fetchPrivateFileInfo, link);
+        setFileDate(new Date(res.ctime));
+        setFileInfo(res);
+      })();
+    // }
   }, [link]);
 
   return (
+    // if (!documentId) return null;
     <div className={styles.container}>
       <div className={styles.flexText}>
         <p className={styles.text}>{fileInfo?.format.slice(1)}</p>

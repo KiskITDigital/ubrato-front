@@ -1,6 +1,7 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './fileinput.module.css';
 import { 
+  fetchUserDocs,
   sendDoc,
   // sendDoc,
    updateToken, uploadFile } from '@/api';
@@ -18,7 +19,6 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
   const [error, setError] = useState('');
   const [newLink, setNewLink] = useState<string>();
   const [newIdFile, setNewIdFile] = useState(idFile ?? '');
-
   return (
     <div className={styles.fileContainer}>
       <div>
@@ -65,8 +65,10 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>
+      
       {link && !newLink && <FileInfo link={link} id={newIdFile} />}
       {newLink && !link && <FileInfo link={newLink} id={newIdFile} />}
+      
     </div>
   );
 };

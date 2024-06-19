@@ -22,6 +22,7 @@ const documentsTypes: Record<number, string> = {
 };
 
 export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) => ({
+    
   documents: [],
   async fetchDocuments() {
     const res = await fetchDocumentsTypes();
@@ -36,6 +37,7 @@ export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) =>
         id: documentsTypes[e.id],
         link: userDocs.find((i) => i.type === e.name)?.link,
         idFile: userDocs.find((i) => i.type === e.name)?.id,
+        // fileId: userDocs?.id
       };
     });
     set({ documents: docsArr });

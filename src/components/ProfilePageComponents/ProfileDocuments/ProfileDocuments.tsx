@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom';
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
-  
+  // const [documents, setDocuments] = useState([]);
+
   const [disabled, setDisabled] = useState(true);
   const [checkBoxes, setCheckBoxes] = useState({
     1: false,
@@ -39,6 +40,8 @@ export const ProfileDocuments: FC = () => {
     } else {
       setDisabled(true);
     }
+    console.log(profileDocuments.documents);
+    
   }, [checkBoxes, profileDocuments.documents.length]);
 
   return (
@@ -53,7 +56,7 @@ export const ProfileDocuments: FC = () => {
       </div>
       {profileDocuments.documents.map((e) => (
         <FileInput
-          key={e.type}
+          key={e.id}
           id={e.id}
           header={e.header}
           type={e.type}
