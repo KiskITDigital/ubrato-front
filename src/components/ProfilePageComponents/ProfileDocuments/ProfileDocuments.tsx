@@ -30,7 +30,7 @@ export const ProfileDocuments: FC = () => {
 
   useEffect(() => {
     if (
-      profileDocuments.documents.length === 4 &&
+      profileDocuments.documents.every(document => document.idFile && document.link) &&
       checkBoxes[1] &&
       checkBoxes[2] &&
       checkBoxes[3]
@@ -39,7 +39,7 @@ export const ProfileDocuments: FC = () => {
     } else {
       setDisabled(true);
     }
-  }, [checkBoxes, profileDocuments.documents.length]);
+  }, [checkBoxes, profileDocuments.documents]);
 
   return (
     <div className={styles.container}>
