@@ -39,16 +39,21 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
         className={styles.btn}
         onClick={() => {
           (async () => {
+            // console.log(id);
             await updateToken(handleFileDelete, id);
             // const token = localStorage.getItem('token') 
             // await handleFileDelete( token, id)
             await fetchDocuments.fetchDocuments();
+            try {
+              fetchDocuments.removeDocument(id)
+            } catch (e) {
+              fetchDocuments.removeDocument(id)
+            }
           })();
         }}
       >
         <img src="/trash-bin.svg" alt="" />
         Удалить <br />
-        {id}
       </button>
     </div>
   );

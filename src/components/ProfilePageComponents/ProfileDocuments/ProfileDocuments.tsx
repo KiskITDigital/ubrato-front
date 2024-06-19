@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
-  // const [documents, setDocuments] = useState([]);
 
   const [disabled, setDisabled] = useState(true);
   const [checkBoxes, setCheckBoxes] = useState({
@@ -31,7 +30,7 @@ export const ProfileDocuments: FC = () => {
 
   useEffect(() => {
     if (
-      profileDocuments.documents.length === 4 &&
+      profileDocuments.documents.every(document => document.idFile && document.link) &&
       checkBoxes[1] &&
       checkBoxes[2] &&
       checkBoxes[3]
@@ -40,9 +39,7 @@ export const ProfileDocuments: FC = () => {
     } else {
       setDisabled(true);
     }
-    console.log(profileDocuments.documents);
-    
-  }, [checkBoxes, profileDocuments.documents.length]);
+  }, [checkBoxes, profileDocuments.documents]);
 
   return (
     <div className={styles.container}>

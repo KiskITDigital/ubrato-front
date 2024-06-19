@@ -69,11 +69,12 @@ export const fetchFileInfo = async (link: string) => {
 };
 
 export const handleFileDelete = async (token: string, id: string) => {
-  console.log(id);
+  // console.log(id);
   const res = await axiosInstance.delete<{ status: boolean }>(`/v1/verification/docs/${id}`, {
     headers: {
       authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
+  // console.log(res);
+  return res
 };

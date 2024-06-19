@@ -12,6 +12,7 @@ interface documentInfo {
 interface profileDocumentsStore {
   documents: documentInfo[];
   fetchDocuments: () => Promise<void>;
+  removeDocument: (id: string) => void
 }
 
 const documentsTypes: Record<number, string> = {
@@ -30,16 +31,45 @@ export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) =>
       fetchUserDocs,
       null
     );
-    const docsArr: documentInfo[] = res.map((e) => {
-      return {
+    // console.log(res);
+    // console.log(userDocs);
+
+
+    const docsArr: documentInfo[] = []
+    res.forEach((e) => {
+      // const link = userDocs.find((i) => i.type === e.name)?.id
+      // console.log(link);
+
+      // if (!link) {
+      //   docsArr.push({
+      //     type: e.id,
+      //     header: e.name,
+      //     id: documentsTypes[e.id]
+      //   })
+      // } else {
+      docsArr.push({
         type: e.id,
         header: e.name,
         id: documentsTypes[e.id],
         link: userDocs.find((i) => i.type === e.name)?.link,
         idFile: userDocs.find((i) => i.type === e.name)?.id,
-        // fileId: userDocs?.id
-      };
-    });
+      });
+      // }
+    })
+    // console.log(docsArr);
+
     set({ documents: docsArr });
   },
+  removeDocument(id: string) {
+    // console.log(id);
+
+    const newDocs = this.documents.map(el => el.idFile === id ? {
+      type: el.type,
+      header: el.header,
+      id: el.id
+    } : el)
+    // console.log('_', newDocs);
+
+    set({ documents: newDocs })
+  }
 }));

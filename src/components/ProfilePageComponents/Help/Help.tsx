@@ -4,6 +4,7 @@ import { FC, FormEvent, Ref, useEffect } from 'react';
 import useIMask from 'react-imask/esm/hook';
 import styles from './help.module.css';
 import { helpSchema } from '@/validation/helpSchema';
+import { Link } from 'react-router-dom';
 
 interface HelpFormValuesT {
   name: string;
@@ -100,10 +101,11 @@ export const Help: FC = () => {
             onChange={formik.handleChange}
             classNames={checkStyle}
           >
-            Согласие на обработку персональных данных
+            Соглашаюсь с <Link className={styles.links} to={''}> Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и <Link className={styles.links} to={''}>даю Согласие на обработку персональных данных</Link>
             <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
           </Checkbox>
           <input type="submit" className={styles.submit} value="Заказать звонок" />
+          {/* <Link></Link> */}
         </form>
       </div>
     </div>
