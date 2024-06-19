@@ -7,17 +7,17 @@ import { useUserInfoStore } from '@/store/userInfoStore';
 
 
 export const MyTendersPage: FC = () => {
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
   const userInfoStore = useUserInfoStore()
   useEffect(() => {
     if (!userInfoStore.isLoggedIn) {
-        navigate('/register');
-      }
-}, [navigate]);
+      navigate('/register');
+    }
+  }, [navigate, userInfoStore.isLoggedIn]);
   return (
     <div className={s.main_blokkk}>
-    <TenderListCustomSearch></TenderListCustomSearch>
-        <TenderListComp myTender={true}></TenderListComp>
+      <TenderListCustomSearch></TenderListCustomSearch>
+      <TenderListComp myTender={true}></TenderListComp>
     </div>
   );
 };

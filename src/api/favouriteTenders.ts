@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/utils"
 
-export const isFavoriteTender = async (id: string, token: string) => {
+export const isFavoriteTender = async (id: number, token: string) => {
     const res = await axiosInstance.get(`/v1/tenders/tender/${id}/is_favorite`, {
         headers: {
             authorization: `Bearer ${token}`,

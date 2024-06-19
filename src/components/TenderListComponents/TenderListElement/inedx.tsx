@@ -25,19 +25,17 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
 
   const tenderId = hit.id
 
-  useEffect(()=>{
-    (async() => {
+  useEffect(() => {
+    (async () => {
       const token = localStorage.getItem('token');
+      if (!token) return;
       setToken(token)
       const isFav = await isFavoriteTender(tenderId, token)
       const isFavStatus = isFav.data.status
       setFav(isFavStatus)
-      
+
     })()
-
-
-    
-  },[])
+  }, [tenderId])
 
   const toDate = (date: string) => {
     const timestamp = date;
@@ -69,42 +67,41 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
       setFav(false);
     }
   };
-  
-  return (
-      <div className={s.hit_block}>
-        <button
-              onClick={handleFavClick}
-              className={s.executorLoveButton}
-            >
-              <img
-                src={`/find-executor/heart-${
-                  fav ? "active" : "inactive"
-                }.svg`}
-                alt="heart"
-              />
-            </button>
 
-        <div className={s.hit_header}>
+  return (
+    <div className={s.hit_block}>
+      <button
+        onClick={handleFavClick}
+        className={s.executorLoveButton}
+      >
+        <img
+          src={`/find-executor/heart-${fav ? "active" : "inactive"
+            }.svg`}
+          alt="heart"
+        />
+      </button>
+
+      <div className={s.hit_header}>
         <Link to={`/tender/${hit.id}`}>
           <h3>{truncateString(hit.name, 20)}</h3>
         </Link>
-        </div>
-        <div className={s.hit_rcp}>
-          <p>{toDate(hit.reception_end)}</p>
-        </div>
-        <div className={s.hit_wrk}>
-          <p>{toDate(hit.work_start)}</p>
-        </div>
-        <div className={s.hit_arrow}>➔</div>
-        <div className={s.hit_wrkE}>
-          <p>{toDate(hit.work_end)}</p>
-        </div>
-        <div className={s.hit_price}>
-          <p>{hit.price} ₽</p>
-        </div>
-        <div className={s.hit_city}>
-          <p>{hit.city}</p>
-        </div>
       </div>
+      <div className={s.hit_rcp}>
+        <p>{toDate(hit.reception_end)}</p>
+      </div>
+      <div className={s.hit_wrk}>
+        <p>{toDate(hit.work_start)}</p>
+      </div>
+      <div className={s.hit_arrow}>➔</div>
+      <div className={s.hit_wrkE}>
+        <p>{toDate(hit.work_end)}</p>
+      </div>
+      <div className={s.hit_price}>
+        <p>{hit.price} ₽</p>
+      </div>
+      <div className={s.hit_city}>
+        <p>{hit.city}</p>
+      </div>
+    </div>
   );
 };
