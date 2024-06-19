@@ -220,6 +220,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
             Показать еще
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
+          
           {!!paginationTotal && (
             <Pagination
               classNames={paginationClassNames}

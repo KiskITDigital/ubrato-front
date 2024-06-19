@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
+  
   const [disabled, setDisabled] = useState(true);
   const [checkBoxes, setCheckBoxes] = useState({
     1: false,
