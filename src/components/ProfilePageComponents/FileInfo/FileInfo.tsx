@@ -16,6 +16,8 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
   useEffect(() => {
     (async () => {
       const res = await updateToken(fetchPrivateFileInfo, link);
+      // const token = localStorage.getItem('token') 
+      // const res = await fetchPrivateFileInfo(token, link)
       setFileDate(new Date(res.ctime));
       setFileInfo(res);
     })();
@@ -36,12 +38,15 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
         onClick={() => {
           (async () => {
             await updateToken(handleFileDelete, id);
+            // const token = localStorage.getItem('token') 
+            // await handleFileDelete( token, id)
             await fetchDocuments.fetchDocuments();
           })();
         }}
       >
         <img src="/trash-bin.svg" alt="" />
-        Удалить
+        Удалить <br />
+        {id}
       </button>
     </div>
   );

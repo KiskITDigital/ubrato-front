@@ -13,6 +13,7 @@ import { getMe } from "@/api/getMe";
 
 import { TenderListElem } from "@/components/TenderListComponents/TenderListElement/inedx";
 import { getAllFavoriteTenders } from "@/api/favouriteTenders";
+import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
 
 interface TenderList {
   id: string;
@@ -40,7 +41,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(8);
+  const [paginationPerPage, setPaginationPerPage] = useState(4);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState("");
   const [meData, setMe] = useState<Me | null>(null);
@@ -66,6 +67,10 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       const favoriteTenders = favoriteTendersResponse.data;
       const favoriteIds = favoriteTenders.map((tender: TenderList) => tender.id);
       setFavoriteTenderIds(favoriteIds);
+      setFavoriteTenderIds(favoriteIds);
+      setAllExecutorListLength(favoriteIds.length);
+      setPaginationTotal(Math.ceil(favoriteIds.length / paginationPerPage));
+
     })();
 
     const client = new Typesense.Client({
@@ -113,34 +118,24 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       sort_by: sortingValue,
     };
 
-    const getAllExecutorListLengthSearchParameters = {
-      q: "",
-      query_by: "name",
-      filter_by: filters,
-      limit: 250,
-    };
+    // const getAllExecutorListLengthSearchParameters = {
+    //   q: "",
+    //   query_by: "name",
+    //   filter_by: filters,
+    //   limit: 250,
+    // };
+      
 
-    client
-      .collections("tender_index")
-      .documents()
-      .search(getAllExecutorListLengthSearchParameters)
-      .then(async (response) => {
-        // const matchingIds = response?.hits?.filter(tender => favoriteTenderIds.includes(tender.id))?.length;
-        const matchingIds = (response?.hits || []).filter(tender => favoriteTenderIds.includes(tender.id)).length;
-        console.log(matchingIds);
-        
-        setAllExecutorListLength(matchingIds);
-        setPaginationTotal(
-          response?.hits?.length
-            ? Math.ceil(favoriteTenderIds.length / paginationPerPage)
-            : 0
-        );
-        console.log(paginationTotal, allExecutorListLength);
-        
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // setAllExecutorListLength(favoriteTenderIds.length)
+    //   setPaginationTotal(
+    //     favoriteTenderIds.length
+    //       ? Math.ceil(favoriteTenderIds.length / paginationPerPage)
+    //       : 0
+    //   );
+      
+      console.log(paginationTotal, favoriteTenderIds.length);
+       
+  
 
     client
       .collections("tender_index")

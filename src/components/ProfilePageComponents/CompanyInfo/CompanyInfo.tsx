@@ -302,8 +302,8 @@ export const CompanyInfo: FC = () => {
                   обработки персональных данных ООО “ИНТЕГРАЦИЯ” и даю{' '}
                   <Link className="underline" to="/">
                     Согласие
-                  </Link>
-                  на обработку персональных данных
+                  </Link> 
+                  {' '}на обработку персональных данных
                   <p className={styles.errorMessage}>{error}</p>
                 </Checkbox>
               </div>

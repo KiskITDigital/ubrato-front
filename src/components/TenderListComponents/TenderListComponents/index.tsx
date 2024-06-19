@@ -13,14 +13,16 @@ import { Pagination } from "@nextui-org/react";
 import s from "./styles.module.css";
 import { getMe } from "@/api/getMe";
 import { useTenderListState } from "@/store/tendersListStore";
+import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
 
 interface TenderList {
-  id: string;
+  id: number;
   name: string;
   reception_end: string;
   work_start: string;
   work_end: string;
   price: number;
+  city: string;
 }
 interface SortingOption {
   label: string;
@@ -28,7 +30,7 @@ interface SortingOption {
 }
 
 interface Me {
-  id: number;
+  id: string;
 }
 
 
@@ -42,7 +44,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(8);
+  const [paginationPerPage, setPaginationPerPage] = useState(5);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
@@ -60,7 +62,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     (async () => {
       const token = localStorage.getItem('token');
       const me = await getMe(token)
-      setMe(me.id)
+      if (me && "id" in me) setMe(me.id as Me);
     })();
 
 
@@ -109,31 +111,15 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       sort_by: sortingValue
     };
 
-    const getAllExecutorListLengthSearchParameters = {
-      q: "",
-      query_by: "name",
-      limit: 250,
-    };
-
-    client
-      .collections("tender_index")
-      .documents()
-      .search(getAllExecutorListLengthSearchParameters)
-      .then(async (response) => {
-        setAllExecutorListLength(response?.hits?.length || 0);
-        console.log(allExecutorListLength);
-         
-        setPaginationTotal(
-          response?.hits?.length
-            ? Math.ceil(response.hits.length / paginationPerPage)
-            : 0
-        );
-        
-        // console.log(response.hits);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    (async () => {
+      const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filters })
+      setAllExecutorListLength(hitsWithoutPagination?.length || 0)
+      setPaginationTotal(
+        hitsWithoutPagination?.length
+          ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
+          : 0
+      );
+    })()
 
     client
       .collections("tender_index")
@@ -141,22 +127,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .search(searchParameters)
       .then(async (response) => {
         const tenders = [] as TenderList[];
-        console.log(response.hits);
-        // setAllExecutorListLength(response?.hits?.length || 0);
-        // console.log(allExecutorListLength);
-
-        // setPaginationTotal(
-        //   response?.hits?.length
-        //     ? Math.ceil(response.hits.length / paginationPerPage)
-        //     : 0
-        // );
-
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
             if (!id) return null;
-            console.log(response.hits);
-
             return (async () => {
               const data = await fetchProduct(id);
               return {
@@ -168,7 +142,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
                   work_start: data.work_start,
                   work_end: data.work_end,
                   price: data.price,
-                  user: data.user_id
+                  user: data.user_id,
+                  city: data.location
                 },
               } as { index: number; tenderData: TenderList };
             })();
@@ -179,9 +154,9 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
         results
           .sort((a, b) => a!.index - b!.index)
           .forEach((result) => {
+            console.log(result?.tenderData);
             tenders.push(result!.tenderData);
           });
-
         setTenderList(tenders);
       })
       .catch((error) => {
@@ -199,7 +174,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     myTender
   ]);
 
-  const list = tenderList;
+  // const list = tenderList;
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },
     { label: "Дата приема заявок", field: "reception_end" },
@@ -215,8 +190,9 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   return (
     <div>
       <div className={s.counter_tender}>
-        Найдено тендеров: {allExecutorListLength}
+        Найдено тендеров: {tenderList.length}
       </div>
+      {/* {JSON.stringify(tenderList, null, 4)} */}
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (
           <div className={s.sorting_label_field}>
@@ -231,7 +207,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
           </div>
         ))}
       </div>
-      {list.map((item) => (
+      {tenderList.map((item) => (
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}
 
