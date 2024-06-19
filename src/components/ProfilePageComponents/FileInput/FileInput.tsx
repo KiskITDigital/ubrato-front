@@ -57,7 +57,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
               } else {
                 setError('Неверный тип файла');
                 e.target.value = '';
-                console.log(e.target.files);
+                // console.log(e.target.files);
               }
             }}
             className={styles.inputFile}

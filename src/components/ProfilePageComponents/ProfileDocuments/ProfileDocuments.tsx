@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
-  
+
   const [disabled, setDisabled] = useState(true);
   const [checkBoxes, setCheckBoxes] = useState({
     1: false,
@@ -50,7 +50,6 @@ export const ProfileDocuments: FC = () => {
           Загрузите выписку из ЕГРЮЛ, приказ о назначении генерального директора, карточку и устав
           компании.
         </p>
-        {JSON.stringify(profileDocuments.documents)}
       </div>
       {profileDocuments.documents.map((e) => (
         <FileInput

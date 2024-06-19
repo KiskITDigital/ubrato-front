@@ -73,5 +73,6 @@ export const handleFileDelete = async (token: string, id: string) => {
       authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
+  // console.log(res);
+  return res
 };

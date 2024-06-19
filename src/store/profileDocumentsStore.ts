@@ -60,14 +60,14 @@ export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) =>
     set({ documents: docsArr });
   },
   removeDocument(id: string) {
-    console.log(id);
+    // console.log(id);
 
     const newDocs = this.documents.map(el => el.idFile === id ? {
       type: el.type,
       header: el.header,
       id: el.id
     } : el)
-    console.log('_', newDocs);
+    // console.log('_', newDocs);
 
     set({ documents: newDocs })
   }
