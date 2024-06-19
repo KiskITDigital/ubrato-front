@@ -1,5 +1,6 @@
 import {
   FC,
+  SetStateAction,
   useEffect,
   useState,
 } from "react";
@@ -115,6 +116,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
     const getAllExecutorListLengthSearchParameters = {
       q: "",
       query_by: "name",
+      filter_by: filters,
       limit: 250,
     };
 
@@ -123,12 +125,18 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       .documents()
       .search(getAllExecutorListLengthSearchParameters)
       .then(async (response) => {
-        setAllExecutorListLength(response?.hits?.length || 0);
+        // const matchingIds = response?.hits?.filter(tender => favoriteTenderIds.includes(tender.id))?.length;
+        const matchingIds = (response?.hits || []).filter(tender => favoriteTenderIds.includes(tender.id)).length;
+        console.log(matchingIds);
+        
+        setAllExecutorListLength(matchingIds);
         setPaginationTotal(
           response?.hits?.length
-            ? Math.ceil(response.hits.length / paginationPerPage)
+            ? Math.ceil(favoriteTenderIds.length / paginationPerPage)
             : 0
         );
+        console.log(paginationTotal, allExecutorListLength);
+        
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -170,6 +178,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
           });
 
         setTenderList(tenders);
+        console.log(tenderList);
+        
       })
       .catch((error) => {
         console.error("Ошибка:", error);
@@ -202,7 +212,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
 
   return (
     <div>
-      <div className={s.counter_tender}>Найдено тендеров: {list.length}</div>
+      <div className={s.counter_tender}>Найдено тендеров: {allExecutorListLength}</div>
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (
           <div className={s.sorting_label_field}>
@@ -222,7 +232,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}
 
-      {allExecutorListLength > tenderList.length && (
+      {allExecutorListLength > list.length && (
         <>
           <button
             onClick={() => setPaginationPerPage((prev) => prev + 2)}

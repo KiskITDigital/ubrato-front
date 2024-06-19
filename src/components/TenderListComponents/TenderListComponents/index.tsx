@@ -121,13 +121,15 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .search(getAllExecutorListLengthSearchParameters)
       .then(async (response) => {
         setAllExecutorListLength(response?.hits?.length || 0);
+        console.log(allExecutorListLength);
+         
         setPaginationTotal(
           response?.hits?.length
             ? Math.ceil(response.hits.length / paginationPerPage)
             : 0
         );
-
-        console.log(response.hits);
+        
+        // console.log(response.hits);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -140,6 +142,14 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .then(async (response) => {
         const tenders = [] as TenderList[];
         console.log(response.hits);
+        // setAllExecutorListLength(response?.hits?.length || 0);
+        // console.log(allExecutorListLength);
+
+        // setPaginationTotal(
+        //   response?.hits?.length
+        //     ? Math.ceil(response.hits.length / paginationPerPage)
+        //     : 0
+        // );
 
         const promises = (response.hits || [])
           .map((res, index) => {
@@ -205,7 +215,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   return (
     <div>
       <div className={s.counter_tender}>
-        Найдено тендеров: {list.length}
+        Найдено тендеров: {allExecutorListLength}
       </div>
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (
@@ -234,6 +244,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
             Показать еще
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
+          
           {!!paginationTotal && (
             <Pagination
               classNames={paginationClassNames}

@@ -13,12 +13,14 @@ export const CompanyInfo: FC = () => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [isBrandEqual, setIsBrandEqual] = useState(true);
   const [avatarDate, setAvatarDate] = useState<Date>();
-  const [avatarInfo, setAvatarInfo] = useState<{
-    name: string;
-    format: string;
-    size: number;
-    ctime: string;
-  }>();
+  // const [avatarInfo, setAvatarInfo] = useState<{
+  //   name: string;
+  //   format: string;
+  //   size: number;
+  //   ctime: string;
+  // }>(null);
+  const [avatarInfo, setAvatarInfo] = useState<null | { name: string; format: string; size: number; ctime: string; }>(null);
+
   const [emails, setEmails] = useState<{ contact: string; info: string }[]>([]);
   const [phones, setPhones] = useState<{ contact: string; info: string }[]>([]);
   const [messengers, setMessengers] = useState<{ contact: string; info: string }[]>([]);
@@ -191,6 +193,7 @@ export const CompanyInfo: FC = () => {
                 <p
                   onClick={() => {
                     setAvatar('');
+                    setAvatarInfo(null); 
                   }}
                   className={`${styles.avatarInput} ${styles.deleteAvatar}`}
                 >

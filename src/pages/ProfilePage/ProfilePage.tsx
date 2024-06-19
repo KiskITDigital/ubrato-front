@@ -16,12 +16,12 @@ export const ProfilePage: FC = () => {
     })();
   }, [setPassedSurvey]);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (!token || userStore.error) {
-  //     navigate('/');
-  //   }
-  // }, [navigate, userStore.error]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token || userStore.error) {
+      navigate('/');
+    }
+  }, [navigate, userStore.error]);
 
   useEffect(() => {
     if (!userStore.isLoggedIn) {
