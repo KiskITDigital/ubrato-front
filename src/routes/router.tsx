@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { App } from '../components/App/App';
 import { HomePage } from '../pages/HomePage/HomePage';
-import { TendersPage } from '../pages/TendersPage/TendersPage';
+// import { TendersPage } from '../pages/TendersPage/TendersPage';
 import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
@@ -68,8 +68,8 @@ export const Router = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
         </Route>
-        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />  
-        <Route path="knowledge-base" element={<KnowledgeBasePage/>} />
+        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
+        <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />

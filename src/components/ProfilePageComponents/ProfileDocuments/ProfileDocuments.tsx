@@ -49,6 +49,7 @@ export const ProfileDocuments: FC = () => {
           Загрузите выписку из ЕГРЮЛ, приказ о назначении генерального директора, карточку и устав
           компании.
         </p>
+        {JSON.stringify(profileDocuments.documents)}
       </div>
       {profileDocuments.documents.map((e) => (
         <FileInput

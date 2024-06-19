@@ -35,8 +35,10 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
         className={styles.btn}
         onClick={() => {
           (async () => {
+            // console.log(id);
             await updateToken(handleFileDelete, id);
             await fetchDocuments.fetchDocuments();
+            fetchDocuments.removeDocument(id)
           })();
         }}
       >

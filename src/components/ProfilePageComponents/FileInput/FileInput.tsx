@@ -1,10 +1,12 @@
 import { FC, useState } from 'react';
 import styles from './fileinput.module.css';
-import { 
+import {
   sendDoc,
   // sendDoc,
-   updateToken, uploadFile } from '@/api';
+  updateToken, uploadFile
+} from '@/api';
 import { FileInfo } from '../FileInfo/FileInfo';
+import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
 
 interface FileInputProps {
   header: string;
@@ -15,8 +17,10 @@ interface FileInputProps {
 }
 
 export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }) => {
+  const fetchDocuments = useProfileDocumentsStore();
+
   const [error, setError] = useState('');
-  const [newLink, setNewLink] = useState<string>();
+  // const [newLink, setNewLink] = useState<string>();
   const [newIdFile, setNewIdFile] = useState(idFile ?? '');
 
   return (
@@ -28,9 +32,9 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
         </p>
         <label className={styles.label} htmlFor={id}>
           <input
-            disabled={Boolean(link || newLink)}
+            disabled={Boolean(link)}
             onChange={(e) => {
-              console.log(e.target.files);
+              // console.log(e.target.files);
               if (
                 ['image/png', 'image/jpeg', 'application/pdf'].includes(
                   e.target.files![0].type
@@ -42,12 +46,13 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
                     uploadFile,
                     parameters
                   );
-                  setNewLink(link);
+                  // setNewLink(link);
                   const res = await updateToken<string, { link: string; type: number }>(sendDoc, {
                     link: link,
                     type: type,
                   });
                   setNewIdFile(res);
+                  fetchDocuments.fetchDocuments();
                 })();
               } else {
                 setError('Неверный тип файла');
@@ -65,8 +70,8 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>
-      {link && !newLink && <FileInfo link={link} id={newIdFile} />}
-      {newLink && !link && <FileInfo link={newLink} id={newIdFile} />}
+      {link && <FileInfo link={link} id={newIdFile} />}
+      {/* {newLink && !link && <FileInfo link={newLink} id={newIdFile} />} */}
     </div>
   );
 };
