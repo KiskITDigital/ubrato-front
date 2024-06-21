@@ -105,6 +105,8 @@
   position: absolute;
   top: 53px;
   background-color: white;
+  /* overflow-y: scroll;
+  max-height: 500px; */
 }
 
 .city {
@@ -147,8 +149,10 @@
 .locationsList {
   display: flex;
   flex-wrap: wrap;
+  /* height: 100px; */
   gap: 10px;
   margin-top: 16px;
+  /* overflow-y: scroll; */
 }
 
 .locationItem {

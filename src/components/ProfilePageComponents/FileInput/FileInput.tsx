@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './fileinput.module.css';
 import {
   sendDoc,
@@ -22,7 +22,6 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
   const [error, setError] = useState('');
   // const [newLink, setNewLink] = useState<string>();
   const [newIdFile, setNewIdFile] = useState(idFile ?? '');
-
   return (
     <div className={styles.fileContainer}>
       <div>

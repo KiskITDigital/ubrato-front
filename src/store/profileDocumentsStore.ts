@@ -23,6 +23,7 @@ const documentsTypes: Record<number, string> = {
 };
 
 export const useProfileDocumentsStore = create<profileDocumentsStore>()((set) => ({
+    
   documents: [],
   async fetchDocuments() {
     const res = await fetchDocumentsTypes();

@@ -110,7 +110,7 @@ export const ProfileNavigation: FC = () => {
         >
           Заказчик
         </Link>
-        {userStore.user.is_contractor ? (
+        {userStore.user.is_contractor && (
           <Link
             className={`${styles.link} ${styles.sublink} ${
               page.includes('tenders/contractor') ? styles.active : ''
@@ -119,14 +119,16 @@ export const ProfileNavigation: FC = () => {
           >
             Исполнитель
           </Link>
-        ) : (
-          <Link
-            className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
-            to="documents"
-          >
-            <p className={styles.become_link}>Стать исполнителем</p> 
-          </Link>
-        )}
+        ) 
+        // : (
+        //   <Link
+        //     className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
+        //     to="documents"
+        //   >
+        //     <p className={styles.become_link}>Стать исполнителем</p> 
+        //   </Link>
+        // )
+        }
         <Link
           to="favourite"
           className={`${styles.link} ${page.includes('favourite') ? styles.active : ''}`}

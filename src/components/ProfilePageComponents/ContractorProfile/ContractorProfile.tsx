@@ -35,6 +35,7 @@ export const ContractorProfile: FC = () => {
   const [isObjectsShown, setIsObjectsShown] = useState(false);
   const [isDataEqual, setIsDataEqual] = useState(true);
   const [dataChanged, setDataChanged] = useState(false);
+  const locationsListRef = useRef<HTMLDivElement>(null);
   const [portfolioList, setPortfolioList] = useState<
     { id: string; name: string; description: string; links: string[]; selected: boolean }[]
   >([]);
@@ -215,6 +216,22 @@ export const ContractorProfile: FC = () => {
       initalData.current = res;
     })();
   }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        locationsListRef.current &&
+        !locationsListRef.current.contains(event.target as Node)
+      ) {
+        setIsListOpen(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [locationsListRef]);
 
   return (
     <div className={styles.container}>
@@ -260,6 +277,7 @@ export const ContractorProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
+            placeholder='введите город'
             onChange={(e) => {
               (async () => {
                 setInputValue(e.target.value);
@@ -270,7 +288,7 @@ export const ContractorProfile: FC = () => {
             }}
           />
           {locations.length !== 0 && (
-            <div className={styles.locationsList}>
+            <div className={styles.locationsList} ref={locationsListRef}>
               {locations.map((e) => (
                 <div className={styles.locationItem} key={e.id}>
                   {e.name}

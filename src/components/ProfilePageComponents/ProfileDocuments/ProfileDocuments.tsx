@@ -53,7 +53,7 @@ export const ProfileDocuments: FC = () => {
       </div>
       {profileDocuments.documents.map((e) => (
         <FileInput
-          key={e.type}
+          key={e.id}
           id={e.id}
           header={e.header}
           type={e.type}

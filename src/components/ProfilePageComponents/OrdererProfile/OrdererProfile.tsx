@@ -9,6 +9,7 @@ export const OrdererProfile: FC = () => {
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isEqual, setIsEqual] = useState(true);
+  // const [isOpen, setOpen] = useState(false);
 
   const area = useRef<HTMLTextAreaElement>(null);
   const initalData = useRef<{ description: string; locations: { id: number; name: string }[] }>();
@@ -38,6 +39,19 @@ export const OrdererProfile: FC = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if (!event.target.closest('.dropdown')) {
+        setIsListOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isListOpen]);
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>Профиль Заказчика</h2>
@@ -84,19 +98,22 @@ export const OrdererProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
+            placeholder='введите город'
             onChange={(e) => {
               (async () => {
                 setInputValue(e.target.value);
                 const res = await getCities(e.target.value);
+                console.log(res.data);
                 setSitiesArr(res.data);
                 setIsListOpen(true);
               })();
             }}
           />
+          
           {locations.length !== 0 && (
-            <div className={styles.locationsList}>
+            <div className={styles.locationsList} >
               {locations.map((e) => (
-                <div className={styles.locationItem} key={e.id}>
+                <div className={styles.locationItem} key={e.id} >
                   {e.name}
                   <button
                     onClick={() => {

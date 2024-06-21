@@ -1,3 +1,8 @@
+.links{
+  color: #0084FF;
+  text-decoration: underline;
+} 
+
 .infoText {
   color: var(--color-black-60);
   font-size: 16px;

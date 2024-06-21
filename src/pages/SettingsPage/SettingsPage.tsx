@@ -84,7 +84,7 @@ const SettingsPage: FC = () => {
             <div className={styles.section}>
                 <p className={styles.section__name}>Статус</p>
                 <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
-                    <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верефицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p>
+                    <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p>
                     {status === 'unverified' &&
                         <div className={styles.statusVerifyBlock}>
                             <button

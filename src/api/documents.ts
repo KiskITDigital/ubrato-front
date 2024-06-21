@@ -30,7 +30,9 @@ export const fetchUserDocs = async (token: string) => {
       },
     }
   );
+  console.log(res.data)
   return res.data;
+  
 };
 
 export const fetchPrivateFile = async (token: string, link: string) => {
