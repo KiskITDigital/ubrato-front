@@ -77,7 +77,7 @@ const ExecutorItem: FC<{
                             onClick={() => showAllExecutorServices(executor.id)}
                             className={styles.service}
                         >
-                            <p className={styles.serviceName}>
+                            <p className={`${styles.serviceName} ${styles.showMore}`}>
                                 Все услуги
                                 <img
                                     src="/find-executor/arrow-right-black.svg"

@@ -128,6 +128,10 @@
     gap: 5px;
 }
 
+.showMore {
+    align-items: center;
+}
+
 .executorButtons {
     display: flex;
     flex-direction: row;
