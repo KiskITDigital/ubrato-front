@@ -90,7 +90,7 @@ const ContactsPage: FC = () => {
             </div>
             <div style={{ overflow: "hidden", position: "relative" }}><a href="https://yandex.ru/maps/213/moscow/?utm_medium=mapframe&utm_source=maps" style={{ color: "#eee", fontSize: 12, position: "absolute", top: 0 }}></a><a href="https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&utm_medium=mapframe&utm_source=maps&z=15.93" style={{ color: "#eee", fontSize: 12, position: "absolute", top: 14 }}></a><iframe src="https://yandex.ru/map-widget/v1/?ll=37.627860%2C55.685608&masstransit%5BstopId%5D=station__9858857&mode=masstransit&tab=overview&z=15.93" width="100%" height="380" allowFullScreen={true} style={{ position: "relative", borderRadius: 20, marginTop: 20 }}></iframe></div>
             <div ref={helpRef} className={styles.contact}>
-                <p className={styles.contactTitle}>Свяжитесь с нами</p>
+                {/* <p className={styles.contactTitle}>Свяжитесь с нами</p> */}
                 <p className={styles.contactText}>Нашли ошибку или у вас есть предложение?
                     Напишите нам</p>
                 <form className={styles.from} onSubmit={formik.handleSubmit}>
