@@ -96,39 +96,90 @@
 
 .cleaningTypeGrid {
   display: grid;
-  grid-template-columns: repeat(6, 183.5px);
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-areas:
+    "g g g g g e e e e e s s s s s i i i i i"
+    "b b b b o o o o tc tc tc tc st st st st ter ter ter ter"
+    "tr tr tr tr tr bt bt bt bt bt wi wi wi wi wi al al al al al";
   padding: 0 14.5px;
   row-gap: 20px;
+  column-gap: 20px;
 }
 
-.cleaningTypeGrid > div:nth-child(5n - 4) {
-  grid-column: 1/3;
-  width: 353.67px;
+.cleaningTypeGrid > div:nth-child(1) {
+  grid-area: g;
+
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(5n - 3) {
-  grid-column: 3/5;
-  width: 353.67px;
-  justify-self: center;
-}
+.cleaningTypeGrid > div:nth-child(2) {
+  grid-area: e;
 
-.cleaningTypeGrid > div:nth-child(5n - 2) {
-  grid-column: 5/7;
-  width: 353.67px;
-  justify-self: flex-end;
-}
-
-.cleaningTypeGrid > div:nth-child(5n - 1) {
-  grid-column: 1/4;
-  width: 540.5px;
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(5n) {
-  grid-column: 4/7;
-  width: 540.5px;
-  justify-self: flex-end;
+.cleaningTypeGrid > div:nth-child(3) {
+  grid-area: s;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(4) {
+  grid-area: i;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(5) {
+  grid-area: b;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(6) {
+  grid-area: o;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(7) {
+  grid-area: tc;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(8) {
+  grid-area: st;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(9) {
+  grid-area: ter;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(10) {
+  grid-area: tr;
+
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(11) {
+  grid-area: bt;
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(12) {
+  grid-area: wi;
+  justify-self: flex-start;
+}
+
+.cleaningTypeGrid > div:nth-child(13) {
+  grid-area: al;
+  justify-self: flex-start;
+  width: 100%;
 }
 
 .allTenderLink {
