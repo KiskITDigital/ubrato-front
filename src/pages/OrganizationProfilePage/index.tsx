@@ -9,6 +9,7 @@ import Locations from "@/components/OrganizationProfileComponents/Locations";
 import Services from "@/components/OrganizationProfileComponents/Services";
 import Objects from "@/components/OrganizationProfileComponents/Objects";
 import Portfolio from "@/components/OrganizationProfileComponents/Portfolio";
+import { useUserInfoStore } from "@/store/userInfoStore";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function groupBy<T>(iterable: Iterable<T>, fn: (item: T) => string | number) {
@@ -21,12 +22,21 @@ export function groupBy<T>(iterable: Iterable<T>, fn: (item: T) => string | numb
 }
 
 const OrganizationProfilePage: FC = () => {
+
+
     const { org_id }: Readonly<Params<string>> = useParams();
     const navigate = useNavigate();
+    const userInfoStore = useUserInfoStore()
 
     const startRef = useRef<HTMLHeadingElement>(null)
 
     const [data, setData] = useState<ErrorInfo | ExecutorProfileInfo | OrdererProfileInfo | null>(null);
+
+    useEffect(() => {
+        if (!userInfoStore.isLoggedIn) {
+          navigate("/login");
+        }
+      }, [navigate]);
 
     const favoriteExecutorsHandler = async (organization: { id: string, isFavorite: boolean }) => {
         const token = localStorage.getItem("token");

@@ -1,8 +1,13 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { BaseHit } from "instantsearch.js";
-import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import {
+  addFavouriteTender,
+  isFavoriteTender,
+  removeFavoriteTender,
+} from "@/api/favouriteTenders";
+import { useUserInfoStore } from "@/store/userInfoStore";
 
 interface Hit {
   id: number;
@@ -20,22 +25,30 @@ interface CustomHitProps {
 
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
-  const [fav, setFav] = useState(false)
-  const [tokenOuter, setToken] = useState('')
+  const [fav, setFav] = useState(false);
+  const [tokenOuter, setToken] = useState("");
+  const userInfoStore = useUserInfoStore()
 
-  const tenderId = hit.id
+
+  const navigate = useNavigate()
+  const tenderId = hit.id;
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) return;
-      setToken(token)
-      const isFav = await isFavoriteTender(tenderId, token)
-      const isFavStatus = isFav.data.status
-      setFav(isFavStatus)
+      setToken(token);
+      const isFav = await isFavoriteTender(tenderId, token);
+      const isFavStatus = isFav.data.status;
+      setFav(isFavStatus);
+    })();
+  }, [tenderId]);
 
-    })()
-  }, [tenderId])
+  useEffect(() => {
+    if (!userInfoStore.isLoggedIn) {
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const toDate = (date: string) => {
     const timestamp = date;
@@ -70,13 +83,9 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
 
   return (
     <div className={s.hit_block}>
-      <button
-        onClick={handleFavClick}
-        className={s.executorLoveButton}
-      >
+      <button onClick={handleFavClick} className={s.executorLoveButton}>
         <img
-          src={`/find-executor/heart-${fav ? "active" : "inactive"
-            }.svg`}
+          src={`/find-executor/heart-${fav ? "active" : "inactive"}.svg`}
           alt="heart"
         />
       </button>

@@ -40,6 +40,7 @@ export const Router = () => {
         <Route path='about' element={<AboutServicePage />} />
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
+        <Route path="alltenders" element={<AllTendersPage />} />
         {/* <Route path="tenders" element={<TendersPage />} /> */}
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
@@ -61,10 +62,10 @@ export const Router = () => {
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
-          <Route path="tenders" element={<div></div>}>
+          {/* <Route path="tenders" element={<div></div>}>
             <Route path="contractor" element={<div></div>} />
             <Route path="orderer" element={<div></div>} />
-          </Route>
+          </Route> */}
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
@@ -72,7 +73,6 @@ export const Router = () => {
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="testmytender" element={<OneTenderPage />} />
-        <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
         <Route path='contacts' element={<ContactsPage />} />
         <Route path='rights' element={<RightsPage />} />
