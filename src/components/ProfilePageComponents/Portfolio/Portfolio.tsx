@@ -155,7 +155,7 @@ export const Portfolio: FC<{
             >
               {e.name}
             </Checkbox>
-            {}
+            { }
           </div>
           <div className={styles.description}>
             <p className={styles.descriptionText}>{e.description}</p>

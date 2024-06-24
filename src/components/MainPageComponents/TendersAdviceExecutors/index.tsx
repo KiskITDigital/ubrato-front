@@ -98,16 +98,17 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                     <div key={ind} className={styles.embla__slide}>
                         {
                             executorBlock.map((executor: executorList) => (
-                                <ExecutorItem
-                                    key={executor.id}
-                                    executor={executor}
-                                    additionalStyles={itemStyles}
-                                    favoriteExecutorsHandler={favoriteExecutorsHandler}
-                                    setExecutorIdToOfferTender={setExecutorIdToOfferTender}
-                                    setExecutorNameToOfferTender={setExecutorNameToOfferTender}
-                                    servicesNumber={3}
-                                    showAllExecutorText={showAllExecutorText}
-                                />
+                                <div key={executor.id}>
+                                    <ExecutorItem
+                                        executor={executor}
+                                        additionalStyles={itemStyles}
+                                        favoriteExecutorsHandler={favoriteExecutorsHandler}
+                                        setExecutorIdToOfferTender={setExecutorIdToOfferTender}
+                                        setExecutorNameToOfferTender={setExecutorNameToOfferTender}
+                                        servicesNumber={3}
+                                        showAllExecutorText={showAllExecutorText}
+                                    />
+                                </div>
                             ))
                         }
                     </div>

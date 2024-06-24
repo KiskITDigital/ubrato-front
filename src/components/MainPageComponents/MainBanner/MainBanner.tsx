@@ -76,11 +76,12 @@ export const MainBanner: FC = () => {
             </div>
             <div className={styles.exampleSearchContainer}>
               <p className={styles.exampleSearch}>Например, </p>
-              <Link to="/">
-                <p className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}>
-                  генеральная уборка
-                </p>
-              </Link>
+              {/* <Link to="/"> */}
+              {/* <p className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}> */}
+              <p className={`${styles.exampleSearch}`}>
+                генеральная уборка
+              </p>
+              {/* </Link> */}
             </div>
           </div>
           <img className={styles.image} src="./banner-image.png" alt="big-man" />
@@ -120,11 +121,11 @@ export const MainBanner: FC = () => {
                   </div>
                   <div className={styles.exampleSearchContainer}>
                     <p className={styles.exampleSearch}>Например, </p>
-                    <Link to="/">
-                      <p className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}>
-                        генеральная уборка
-                      </p>
-                    </Link>
+                    {/* <Link to="/"> */}
+                    <p className={`${styles.exampleSearch}`}>
+                      генеральная уборка
+                    </p>
+                    {/* </Link> */}
                   </div>
                 </div>
                 <img className={styles.image} src="./banner-image.png" alt="big-man" />

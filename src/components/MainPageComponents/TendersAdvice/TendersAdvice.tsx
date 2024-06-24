@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { ArrowControl } from '@/components';
 import styles from './tendersadvice.module.css';
 import { useIsOrdererState } from '../../../store/isOrdererStore';
@@ -12,7 +12,7 @@ export const TendersAdvice: FC = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
 
-  const [role, setRole] = useState<'orderer' | 'contractor'>('orderer');
+  // const [role, setRole] = useState<'orderer' | 'contractor'>('orderer');
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
@@ -30,10 +30,10 @@ export const TendersAdvice: FC = () => {
   function handleInfo() {
     if (ordererState.role === 'orderer') {
       ordererState.handleState('contractor');
-      setRole('contractor')
+      // setRole('contractor')
     } else if (ordererState.role === 'contractor') {
       ordererState.handleState('orderer');
-      setRole('orderer')
+      // setRole('orderer')
     }
   }
 
@@ -41,7 +41,8 @@ export const TendersAdvice: FC = () => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    setTimeout(() => { handleInfo() }, 1500)
+    handleInfo()
+    // setTimeout(() => { handleInfo() }, 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,16 +52,17 @@ export const TendersAdvice: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
         <h2 className={styles.header}>
-          {role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
+          {/* {role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '} */}
+          {ordererState.role === 'orderer' ? 'Исполнители' : 'Тендеры'}{' '}
           <span className={styles.blueText}>Ubrato</span>
         </h2>
         <p className={styles.headerText}>
-          {role === 'orderer'
+          {ordererState.role === 'orderer'
             ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками по итогам выполнения тендеров'
             : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
         </p>
       </div>
-      <div className={styles.btnsContainer}>
+      {/* <div className={styles.btnsContainer}>
         <button
           onClick={handleInfo}
           disabled={role === 'orderer'}
@@ -75,13 +77,13 @@ export const TendersAdvice: FC = () => {
         >
           Для исполнителя
         </button>
-      </div>
+      </div> */}
       <div className={styles.carouselContainer}>
         {!widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
               {
-                role === 'orderer' ?
+                ordererState.role === 'orderer' ?
                   <TendersAdviceExecutors />
                   :
                   <TendersAdvicesTenders />

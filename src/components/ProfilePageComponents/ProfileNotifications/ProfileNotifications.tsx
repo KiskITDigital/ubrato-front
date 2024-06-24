@@ -31,6 +31,7 @@ export const ProfileNotifications: FC = () => {
 
   return (
     <div>
+      <h1 className={s.title}>Уведомления</h1>
       {notificationsStore.notifications.notifications.map((e) => (
         <div
           className={s.notification_container}
@@ -38,22 +39,22 @@ export const ProfileNotifications: FC = () => {
           key={e.id}
         >
           <div className={s.header_line}>
-          <div className={s.created_at}>{toDate(e.created_at)}</div>
+            <div className={s.created_at}>{toDate(e.created_at)}</div>
             <div className={s.content}>
-              
-            <h2 className={`${s.notification_header} ${isExpanded(e.id) ? s.notification_header_expanded : ''}`}>{e.header}</h2>
+
+              <h2 className={`${s.notification_header} ${isExpanded(e.id) ? s.notification_header_expanded : ''}`}>{e.header}</h2>
               {isExpanded(e.id) && <div className={s.message}>{e.msg}
-              {e.href && (
-              <Link
-                className="underline text-red-400"
-                to={e.href.replace("https://ubrato.ru", "")}
-              >
-                {e.href_text}
-              </Link>
-            )}
+                {e.href && (
+                  <Link
+                    className="underline text-red-400"
+                    to={e.href.replace("https://ubrato.ru", "")}
+                  >
+                    {e.href_text}
+                  </Link>
+                )}
               </div>}
             </div>
-           
+
           </div>
         </div>
       ))}

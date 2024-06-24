@@ -92,7 +92,7 @@ export const Footer: FC = () => {
             </li>
             <li>
               <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
-                <p className={styles.point}>Исполнтелям</p>
+                <p className={styles.point}>Исполнителям</p>
               </Link>
             </li>
             {/* <li>
@@ -136,6 +136,11 @@ export const Footer: FC = () => {
                 <p className={styles.point}>Карта сайта</p>
               </a>
               {/* </Link> */}
+            </li>
+            <li>
+              <Link to="/rights" state={{ document: "Пользовательское соглашение" }}>
+                <p className={styles.point}>Правовая информация</p>
+              </Link>
             </li>
           </ul>
         </div>

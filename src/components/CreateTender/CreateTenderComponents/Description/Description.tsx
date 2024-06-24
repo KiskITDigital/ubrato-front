@@ -10,8 +10,8 @@ const Description: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<H
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Описание тендера:</p>
                 <textarea
-                    onFocus={() => createTenderState.removeError('description')}
-                    onBlur={() => !createTenderState.description && createTenderState.addError('description')}
+                    // onFocus={() => createTenderState.removeError('description')}
+                    // onBlur={() => !createTenderState.description && createTenderState.addError('description')}
                     value={createTenderState.description}
                     onChange={(e) => createTenderState.handleSimpleInput('description', e.currentTarget.value)}
                     name="" id="" rows={5}

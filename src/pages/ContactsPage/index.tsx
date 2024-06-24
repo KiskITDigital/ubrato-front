@@ -84,7 +84,7 @@ const ContactsPage: FC = () => {
                     <p className={styles.infoText}>Электронная почта</p>
                 </div>
                 <div className={styles.info}>
-                    <p className={styles.infoTitle}>Москва, метро Нагатинская</p>
+                    <p className={styles.infoTitle}>Москва, метро Румянцево</p>
                     <p className={styles.infoText}>Адрес</p>
                 </div>
             </div>

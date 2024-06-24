@@ -25,7 +25,7 @@ export const Executor: OpportunitiesInfoT[] = [
     text: 'Расскажите о возможностях и преимуществах вашей компании, получайте предложения от заказчиков',
     image: './portfolio.svg',
     btnText: 'Создать портфолио',
-    link: '/',
+    link: '/profile/contractor',
   },
 ];
 

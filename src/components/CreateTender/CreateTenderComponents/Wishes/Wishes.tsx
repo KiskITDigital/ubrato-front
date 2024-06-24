@@ -10,8 +10,8 @@ const Wishes: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDi
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Пожелания:</p>
                 <textarea
-                    onFocus={() => createTenderState.removeError('wishes')}
-                    onBlur={() => !createTenderState.wishes && createTenderState.addError('wishes')}
+                    // onFocus={() => createTenderState.removeError('wishes')}
+                    // onBlur={() => !createTenderState.wishes && createTenderState.addError('wishes')}
                     value={createTenderState.wishes}
                     onChange={(e) => createTenderState.handleSimpleInput('wishes', e.currentTarget.value)}
                     name="" id="" rows={5}
