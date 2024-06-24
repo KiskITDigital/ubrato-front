@@ -9,7 +9,7 @@ export const CreateTenderPage: FC = () => {
 
     useEffect(() => {
         if (!userInfoStore.isLoggedIn) {
-            navigate('/register');
+            navigate('/login');
           }
     }, [navigate]);
 

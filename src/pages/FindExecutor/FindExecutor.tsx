@@ -13,13 +13,13 @@ const FindExecutor: FC = () => {
     const findExecutorState = useFindExecutorState()
     const userInfoStore = useUserInfoStore();
     useUserInfoStore
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
-    useEffect(() => {
-        if (!userInfoStore.isLoggedIn) {
-            navigate('/register');
-          }
-    }, [navigate]);
+    // useEffect(() => {
+    //     if (!userInfoStore.isLoggedIn) {
+    //         navigate('/register');
+    //       }
+    // }, [navigate]);
     return (
         <section>
             <FastFilter title="исполнителя" values={findExecutorState.fastFilterTexts} setValues={findExecutorState.handleFastFilterTexts} />

@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './mainbanner.module.css';
-import styles2 from './mainbanner2.module.css';
-import { Link } from 'react-router-dom';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { useCreateTenderState } from '@/store/createTenderStore';
+import { FC, useEffect, useState } from "react";
+import styles from "./mainbanner.module.css";
+import styles2 from "./mainbanner2.module.css";
+import { Link } from "react-router-dom";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { useCreateTenderState } from "@/store/createTenderStore";
 
 export const MainBanner: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
@@ -18,6 +18,8 @@ export const MainBanner: FC = () => {
 
   const [mobile, setMobile] = useState(false);
 
+  const [showNotification, setShowNotification] = useState(false);
+
   useEffect(() => {
     if (window.outerWidth <= 450) {
       setMobile(true);
@@ -29,33 +31,36 @@ export const MainBanner: FC = () => {
     if (!autoplay) return;
 
     if (isPlaying) {
-      if (typeof autoplay.play === 'function') {
+      if (typeof autoplay.play === "function") {
         autoplay.play();
       }
     } else {
-      if (typeof autoplay.stop === 'function') {
+      if (typeof autoplay.stop === "function") {
         autoplay.stop();
       }
     }
   }, [emblaApi, isPlaying]);
 
-  const [newTenderName, setNewTenderName] = useState('');
+  const [newTenderName, setNewTenderName] = useState("");
 
-  const createTenderState = useCreateTenderState()
+  const createTenderState = useCreateTenderState();
 
   return (
     <div className={`container ${styles.mobileContainer}`}>
-      {(!(userStore.isLoggedIn && userStore.user.is_contractor) || userStore.passedSurvey) && (
+      {(!(userStore.isLoggedIn && userStore.user.is_contractor) ||
+        userStore.passedSurvey) && (
         <div className={` ${styles.container}`}>
           <div>
             <h1 className={styles.header}>
-              <span className={styles.blueText}>Весь рынок</span> клининга на одной площадке
+              <span className={styles.blueText}>Весь рынок</span> клининга на
+              одной площадке
             </h1>
             <p className={styles.agregator}>Агрегатор клининга</p>
             <div className={styles.createTender}>
               <input
                 onFocus={() => {
                   setIsPlaying(false);
+                  setShowNotification(true);
                 }}
                 onBlur={() => {
                   setIsPlaying(true);
@@ -66,111 +71,181 @@ export const MainBanner: FC = () => {
                 id="tender_text"
                 type="text"
                 name="tender_text"
-                placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
+                placeholder={
+                  mobile ? "Создать тендер" : "Опишите задачу или объект"
+                }
               />
-              <Link onClick={() => { createTenderState.handleSimpleInput('name', newTenderName); setNewTenderName('') }} to="/create-tender">
-                <button className={styles.createTenderBtn}>
-                  {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+              <Link
+                onClick={() => {
+                  createTenderState.handleSimpleInput("name", newTenderName);
+                  setNewTenderName("");
+                }}
+                to="/create-tender"
+              >
+                <button onClick={() => setShowNotification(true)} className={styles.createTenderBtn}>
+                  {mobile ? (
+                    <img src="/arrow-with-line-right-white.svg" />
+                  ) : (
+                    "Создать тендер"
+                  )}
                 </button>
               </Link>
+              <div className={`${styles.notification} ${showNotification ? `${styles.show}` : ""}`}>
+                <p>
+                  Вы не авторизированы. Пожалуйста, авторизуйтесь чтобы создать
+                  тендер.
+                </p>
+                <button onClick={() => setShowNotification(false)}>OK</button>
+              </div>
             </div>
             <div className={styles.exampleSearchContainer}>
               <p className={styles.exampleSearch}>Например, </p>
               <Link to="/">
-                <p className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}>
+                <p
+                  className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}
+                >
                   генеральная уборка
                 </p>
               </Link>
             </div>
           </div>
-          <img className={styles.image} src="./banner-image.png" alt="big-man" />
+          <img
+            className={styles.image}
+            src="./banner-image.png"
+            alt="big-man"
+          />
         </div>
       )}
-      {userStore.isLoggedIn && userStore.user.is_contractor && !userStore.passedSurvey && (
-        <div className={`${styles.embla}`}>
-          <div className={`${styles.embla__viewport}`} ref={emblaRef}>
-            <div className={styles.embla__container}>
-              <div className={`${styles.embla__slide} ${styles.container}`}>
-                <div>
-                  <h1 className={styles.header}>
-                    <span className={styles.blueText}>Весь рынок</span> клининга на одной площадке
-                  </h1>
-                  <p className={styles.agregator}>Агрегатор клининга</p>
-                  <div className={styles.createTender}>
-                    <input
-                      onFocus={() => {
-                        setIsPlaying(false);
-                      }}
-                      onBlur={() => {
-                        setIsPlaying(true);
-                      }}
-                      value={newTenderName}
-                      onChange={(e) => setNewTenderName(e.currentTarget.value)}
-                      className={styles.createTenderInput}
-                      type="text"
-                      id="tender_text"
-                      name="tender_text"
-                      placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
-                    />
-                    <Link onClick={() => { createTenderState.handleSimpleInput('name', newTenderName); setNewTenderName('') }} to="/create-tender">
-                      <button className={styles.createTenderBtn}>
-                        {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+      {userStore.isLoggedIn &&
+        userStore.user.is_contractor &&
+        !userStore.passedSurvey && (
+          <div className={`${styles.embla}`}>
+            <div className={`${styles.embla__viewport}`} ref={emblaRef}>
+              <div className={styles.embla__container}>
+                <div className={`${styles.embla__slide} ${styles.container}`}>
+                  <div>
+                    <h1 className={styles.header}>
+                      <span className={styles.blueText}>Весь рынок</span>{" "}
+                      клининга на одной площадке
+                    </h1>
+                    <p className={styles.agregator}>Агрегатор клининга</p>
+                    <div className={styles.createTender}>
+                      <input
+                        onFocus={() => {
+                          setIsPlaying(false);
+                        }}
+                        onBlur={() => {
+                          setIsPlaying(true);
+                        }}
+                        value={newTenderName}
+                        onChange={(e) =>
+                          setNewTenderName(e.currentTarget.value)
+                        }
+                        className={styles.createTenderInput}
+                        type="text"
+                        id="tender_text"
+                        name="tender_text"
+                        placeholder={
+                          mobile
+                            ? "Создать тендер"
+                            : "Опишите задачу или объект"
+                        }
+                      />
+                      <Link
+                        onClick={() => {
+                          createTenderState.handleSimpleInput(
+                            "name",
+                            newTenderName
+                          );
+                          setNewTenderName("");
+                        }}
+                        to="/create-tender"
+                      >
+                        <button className={styles.createTenderBtn}>
+                          {mobile ? (
+                            <img src="./arrow-with-line-right-white.svg" />
+                          ) : (
+                            "Создать тендер"
+                          )}
+                        </button>
+                      </Link>
+                    </div>
+                    <div className={styles.exampleSearchContainer}>
+                      <p className={styles.exampleSearch}>Например, </p>
+                      <Link to="/">
+                        <p
+                          className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}
+                        >
+                          генеральная уборка
+                        </p>
+                      </Link>
+                    </div>
+                  </div>
+                  <img
+                    className={styles.image}
+                    src="./banner-image.png"
+                    alt="big-man"
+                  />
+                </div>
+                <div className={`${styles.embla__slide} ${styles2.slide2}`}>
+                  <div className={styles2.textBlock}>
+                    <h2
+                      className={`${styles2.surveyTitle} ${styles2.blueText}`}
+                    >
+                      Онлайн опрос
+                    </h2>
+                    <div className={styles2.survey__pair}>
+                      <img
+                        className={styles2.survey__pair__image}
+                        src="./survey/check-mark.svg"
+                        alt=""
+                      />
+                      <p className={styles2.survey__pair__text}>
+                        Примите участие в опросе
+                      </p>
+                    </div>
+                    <div className={styles2.survey__pair}>
+                      <img
+                        className={styles2.survey__pair__image}
+                        src="./survey/arrow-down.svg"
+                        alt=""
+                      />
+                      <p className={styles2.survey__pair__text}>
+                        Получите исследование в подарок
+                      </p>
+                    </div>
+                    <div className={styles2.survey__pair}>
+                      <img
+                        className={styles2.survey__pair__image}
+                        src="./survey/heart.svg"
+                        alt=""
+                      />
+                      <p className={styles2.survey__pair__text}>
+                        Давайте улучшим{" "}
+                        <span className={styles2.blueText}>Ubrato</span> вместе
+                      </p>
+                    </div>
+                    <Link to="survey">
+                      <button className={styles2.survey__button}>
+                        Участвовать!{" "}
+                        <img
+                          className={styles2.survey__button__image}
+                          src="./survey/arrow-right.svg"
+                          alt=""
+                        />
                       </button>
                     </Link>
                   </div>
-                  <div className={styles.exampleSearchContainer}>
-                    <p className={styles.exampleSearch}>Например, </p>
-                    <Link to="/">
-                      <p className={`${styles.exampleSearch} ${styles.exampleSearchLink}`}>
-                        генеральная уборка
-                      </p>
-                    </Link>
-                  </div>
+                  <img
+                    className={styles2.image}
+                    src="./survey/laptop.png"
+                    alt="laptop"
+                  />
                 </div>
-                <img className={styles.image} src="./banner-image.png" alt="big-man" />
-              </div>
-              <div className={`${styles.embla__slide} ${styles2.slide2}`}>
-                <div className={styles2.textBlock}>
-                  <h2 className={`${styles2.surveyTitle} ${styles2.blueText}`}>Онлайн опрос</h2>
-                  <div className={styles2.survey__pair}>
-                    <img
-                      className={styles2.survey__pair__image}
-                      src="./survey/check-mark.svg"
-                      alt=""
-                    />
-                    <p className={styles2.survey__pair__text}>Примите участие в опросе</p>
-                  </div>
-                  <div className={styles2.survey__pair}>
-                    <img
-                      className={styles2.survey__pair__image}
-                      src="./survey/arrow-down.svg"
-                      alt=""
-                    />
-                    <p className={styles2.survey__pair__text}>Получите исследование в подарок</p>
-                  </div>
-                  <div className={styles2.survey__pair}>
-                    <img className={styles2.survey__pair__image} src="./survey/heart.svg" alt="" />
-                    <p className={styles2.survey__pair__text}>
-                      Давайте улучшим <span className={styles2.blueText}>Ubrato</span> вместе
-                    </p>
-                  </div>
-                  <Link to="survey">
-                    <button className={styles2.survey__button}>
-                      Участвовать!{' '}
-                      <img
-                        className={styles2.survey__button__image}
-                        src="./survey/arrow-right.svg"
-                        alt=""
-                      />
-                    </button>
-                  </Link>
-                </div>
-                <img className={styles2.image} src="./survey/laptop.png" alt="laptop" />
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 };

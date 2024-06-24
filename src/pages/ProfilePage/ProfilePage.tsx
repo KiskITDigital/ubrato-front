@@ -25,7 +25,7 @@ export const ProfilePage: FC = () => {
 
   useEffect(() => {
     if (!userStore.isLoggedIn) {
-        navigate('/register');
+        navigate('/login');
       }
 }, [navigate]);
 

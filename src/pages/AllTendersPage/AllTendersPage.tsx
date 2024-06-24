@@ -22,13 +22,13 @@ export const AllTendersPage: FC = () => {
   }, []);
 
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!userInfoStore.isLoggedIn) {
-        navigate('/register');
-      }
-}, [navigate]);
+//   useEffect(() => {
+//     if (!userInfoStore.isLoggedIn) {
+//         navigate('/login');
+//       }
+// }, [navigate]);
 
 
   return (

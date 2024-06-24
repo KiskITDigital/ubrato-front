@@ -92,7 +92,7 @@ export const Footer: FC = () => {
             </li>
             <li>
               <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
-                <p className={styles.point}>Исполнтелям</p>
+                <p className={styles.point}>Исполнителям</p>
               </Link>
             </li>
             {/* <li>

@@ -5,12 +5,13 @@
     'button city rcp wrk arrow wrkE price'
     ;
     width: 800px;
-    height: 55px;
+    height: 75px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.199);
-    grid-template-columns: 20px 100px 200px 100px 10px 100px 100px;
+    grid-template-columns: 20px 150px 150px 100px 10px 100px 100px;
 
     justify-content: space-between;
     align-items: center;
+    margin: 10px 0px;
 }
 
 .hit_block > button {
@@ -22,8 +23,13 @@
     height: 100%;
 }
 
+.hit_header > a{
+    height: 100%;
+}
+
 .hit_header > a> h3{
     font-weight: 700;
+    height: 24px;
     text-decoration: underline;
 }
 
@@ -80,4 +86,6 @@
     color: #0084FF;
 }
 
-.hit_city{}
+.hit_city{
+    margin: 10px 0px 0px;
+}
