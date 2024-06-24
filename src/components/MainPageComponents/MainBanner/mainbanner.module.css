@@ -45,6 +45,10 @@
   font-weight: 500;
 }
 
+.createTenderInput:focus::placeholder {
+  color: transparent;
+}
+
 .createTenderInput::placeholder {
   color: var(--color-dark-text);
 }
@@ -200,7 +204,7 @@
   .mobileContainer {
     width: 100vw;
   }
-  
+
 
   .agregator {
     font-size: 16px;
