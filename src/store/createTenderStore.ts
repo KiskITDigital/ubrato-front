@@ -51,7 +51,7 @@ interface createTenderState {
     getCities: (query: string) => void
     addError: (newError: string) => void
     removeError: (errorToRemove: string) => void
-    validateInputs: () => boolean
+    validateInputs: (isDraft: boolean) => boolean
     handleFileUpload: (event: ChangeEvent<HTMLInputElement>, newId: number | null, isClaeningTZ?: 'upload-tz') => void
     changeAttachmentText: (id: number, text: string) => void
     removeAttachment: (id: number) => void
@@ -189,21 +189,24 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     changeIsValidating: (newVal: boolean) => {
         set((state) => ({ ...state, isValidating: newVal }))
     },
-    validateInputs: () => {
+    validateInputs: (isDraft: boolean) => {
         const newErrors: string[] = []
         set((state) => {
+            let new_is_contract_price = state.is_contract_price
             if (!state.name) newErrors.push('name')
-            if (!state.price) newErrors.push('price')
-            if (!state.cleaningTZ) newErrors.push('tz')
-            if (!state.city) newErrors.push('city')
-            if (!state.objectName) newErrors.push('object')
-            if (!state.floor_space) newErrors.push('floor_space')
-            if (!state.services.length) newErrors.push('services')
-            if (!state.description) newErrors.push('description')
-            if (!state.wishes) newErrors.push('wishes')
-            if (!state.attachments.length) newErrors.push('attachments')
-
-            return { ...state, errors: [...newErrors], isValidating: true }
+            if (!isDraft) {
+                // if (!state.price) newErrors.push('price')
+                if (!state.price) new_is_contract_price = true
+                // if (!state.cleaningTZ) newErrors.push('tz')
+                if (!state.city) newErrors.push('city')
+                // if (!state.objectName) newErrors.push('object')
+                // if (!state.floor_space) newErrors.push('floor_space')
+                // if (!state.services.length) newErrors.push('services')
+                // if (!state.description) newErrors.push('description')
+                // if (!state.wishes) newErrors.push('wishes')
+                // if (!state.attachments.length) newErrors.push('attachments')
+            }
+            return { ...state, errors: [...newErrors], isValidating: true, is_contract_price: new_is_contract_price }
         })
         return !!newErrors.length
     },

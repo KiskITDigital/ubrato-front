@@ -19,9 +19,9 @@ const RightsPage: FC = () => {
             window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
         }, 0);
 
-        if (location.state.document === "Пользовательское соглашение") setSwitcher("Пользовательское соглашение")
-        else if (location.state.document === "Согласие на обработку персональных данных") setSwitcher("Согласие на обработку персональных данных")
-        else if (location.state.document === "Политика обработки персональных данных") setSwitcher("Политика обработки персональных данных")
+        if (location.state?.document === "Согласие на обработку персональных данных") setSwitcher("Согласие на обработку персональных данных")
+        else if (location.state?.document === "Политика обработки персональных данных") setSwitcher("Политика обработки персональных данных")
+        else setSwitcher("Пользовательское соглашение")
     }, [location.state]);
 
     return (

@@ -7,7 +7,7 @@ import { useTypesObjectsStore } from '@/store/objectsStore';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Portfolio } from '../Portfolio/Portfolio';
 
@@ -39,6 +39,10 @@ export const ContractorProfile: FC = () => {
   const [portfolioList, setPortfolioList] = useState<
     { id: string; name: string; description: string; links: string[]; selected: boolean }[]
   >([]);
+
+  const portfolioRef = useRef<HTMLHeadingElement>(null)
+
+  const location = useLocation();
 
   const navigate = useNavigate();
   const userStore = useUserInfoStore();
@@ -225,13 +229,23 @@ export const ContractorProfile: FC = () => {
         setIsListOpen(false);
       }
     };
-  
+
     document.addEventListener('mousedown', handleClickOutside);
-  
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [locationsListRef]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (location.state?.refTo === "portfolio" && portfolioRef.current) {
+        portfolioRef.current.scrollIntoView({ behavior: "smooth" })
+        const elementTop = portfolioRef.current!.getBoundingClientRect().top;
+        window.scrollBy({ top: elementTop - 100, behavior: "smooth" });
+      }
+    }, 300);
+  }, [location.state?.refTo, portfolioRef]);
 
   return (
     <div className={styles.container}>
@@ -490,6 +504,7 @@ export const ContractorProfile: FC = () => {
           Сохранить изменения
         </button>
       </div>
+      <span ref={location.state?.refTo === "portfolio" ? portfolioRef : undefined}></span>
       <Portfolio
         setPortfolio={addNewPortfolio}
         portfolio={portfolioList}

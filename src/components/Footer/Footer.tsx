@@ -137,6 +137,11 @@ export const Footer: FC = () => {
               </a>
               {/* </Link> */}
             </li>
+            <li>
+              <Link to="/rights" state={{ document: "Пользовательское соглашение" }}>
+                <p className={styles.point}>Правовая информация</p>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className={`${styles.column} ${styles.supportService}`}>

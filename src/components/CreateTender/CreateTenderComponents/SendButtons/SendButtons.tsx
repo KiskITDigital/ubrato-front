@@ -17,12 +17,10 @@ const SendButtons: FC = () => {
     const [isModal, setIsModal] = useState(false);
     const navigate = useNavigate()
 
-    const submit = async (isDraft?: boolean) => {
+    const submit = async (isDraft: boolean) => {
         const token = localStorage.getItem('token')
         if (!token) { navigate('/register'); return; }
-        if (createTenderState.validateInputs()) {
-            return;
-        }
+        if (createTenderState.validateInputs(isDraft)) return;
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
             .filter(el => createTenderState.objectCategory.includes(el.name))
@@ -41,10 +39,10 @@ const SendButtons: FC = () => {
         const objectToSend = {
             objects_types: arrToSearchObjectTypes,
             services_types: arrToSearchServicesTypes,
-            specification: createTenderState.cleaningTZ!.linkToSend,
+            specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : "",
             name: createTenderState.name,
             price: +createTenderState.price,
-            is_contract_price: createTenderState.is_contract_price,
+            is_contract_price: +createTenderState.price ? createTenderState.is_contract_price : true,
             is_nds_price: createTenderState.is_NDS,
             floor_space: +createTenderState.floor_space,
             wishes: createTenderState.wishes,
@@ -56,7 +54,10 @@ const SendButtons: FC = () => {
             city_id,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        const res = city_id && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
+        // console.log(objectToSend);
+
+        const res = (isDraft || city_id) && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
+        // console.log(res);
         if (res && res.status === 200) {
             if (createTenderState.executorToSend) offerTender(token, createTenderState.executorToSend.id, res.data.id)
             createTenderState.clear()
@@ -73,7 +74,7 @@ const SendButtons: FC = () => {
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p}`}></p>
                 <div className={`${styles.section__sendButtons__block}`}>
-                    <button onClick={() => { submit() }} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
+                    <button onClick={() => { submit(false) }} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
                     <button onClick={() => { submit(true) }} className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                 </div>
             </div>

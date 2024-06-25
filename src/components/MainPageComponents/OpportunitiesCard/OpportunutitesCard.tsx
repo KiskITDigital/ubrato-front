@@ -20,7 +20,7 @@ export const OpportunitiesCard: FC<PropsT> = ({ image, title, text, btnText, lin
         </div>
         <p className={styles.cardText}>{text}</p>
       </div>
-      <Link to={link} className={styles.btn}>
+      <Link to={link} className={styles.btn} state={link === "/profile/contractor" ? { refTo: "portfolio" } : undefined}>
         <p className={styles.btnText}>{btnText}</p>
         <img src="./arrow-with-line-right.svg" alt="arrow" />
       </Link>
