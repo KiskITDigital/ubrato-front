@@ -96,11 +96,11 @@
 
 .cleaningTypeGrid {
   display: grid;
-  grid-template-columns: repeat(20, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   grid-template-areas:
-    "g g g g g e e e e e s s s s s i i i i i"
-    "b b b b o o o o tc tc tc tc st st st st ter ter ter ter"
-    "tr tr tr tr tr bt bt bt bt bt wi wi wi wi wi al al al al al";
+    "g g g g r r r r s s s s"
+    "c c c b b b o o o tc tc tc"
+    "ter ter ter ter cr cr cr cr e e e e";
   padding: 0 14.5px;
   row-gap: 20px;
   column-gap: 20px;
@@ -113,7 +113,7 @@
 }
 
 .cleaningTypeGrid > div:nth-child(2) {
-  grid-area: e;
+  grid-area: r;
 
   justify-self: flex-start;
 }
@@ -125,7 +125,7 @@
 }
 
 .cleaningTypeGrid > div:nth-child(4) {
-  grid-area: i;
+  grid-area: c;
 
   justify-self: flex-start;
 }
@@ -149,37 +149,21 @@
 }
 
 .cleaningTypeGrid > div:nth-child(8) {
-  grid-area: st;
-
-  justify-self: flex-start;
-}
-
-.cleaningTypeGrid > div:nth-child(9) {
   grid-area: ter;
 
   justify-self: flex-start;
 }
 
+.cleaningTypeGrid > div:nth-child(9) {
+  grid-area: cr;
+
+  justify-self: flex-start;
+}
+
 .cleaningTypeGrid > div:nth-child(10) {
-  grid-area: tr;
-
+  grid-area: e;
+  width: 353.67px;
   justify-self: flex-start;
-}
-
-.cleaningTypeGrid > div:nth-child(11) {
-  grid-area: bt;
-  justify-self: flex-start;
-}
-
-.cleaningTypeGrid > div:nth-child(12) {
-  grid-area: wi;
-  justify-self: flex-start;
-}
-
-.cleaningTypeGrid > div:nth-child(13) {
-  grid-area: al;
-  justify-self: flex-start;
-  width: 100%;
 }
 
 .allTenderLink {

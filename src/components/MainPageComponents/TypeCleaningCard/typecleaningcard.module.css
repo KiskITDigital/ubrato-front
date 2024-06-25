@@ -13,7 +13,7 @@
   /* background-size: 50px; */
   background-origin: content-box;
   background-repeat: no-repeat;
-  background-position-x: calc(150%);
+  background-position-x: calc(100%);
   border: 1px solid var(--color-black-10);
   transition: border 0.3s ease;
   transition: box-shadow 0.3s ease;

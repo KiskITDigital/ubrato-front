@@ -5,7 +5,8 @@ import { TenderListComp } from "@/components/TenderListComponents/TenderListComp
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
 // import { set } from "date-fns";
-// import { DraftTenderComponent } from "@/components/DraftTenderComp";
+import { DraftTenderComponent } from "@/components/DraftTenderComp";
+import { TenderListCustomSearch } from "@/components/TenderListComponents/TenderListCustomSearch";
 
 export const MyTendersPage: FC = () => {
   const [draftSwitch, setDraftSwitch] = useState(false);
@@ -31,15 +32,14 @@ export const MyTendersPage: FC = () => {
   return (
     <div className={s.main_blokkk}>
       <h1 className={s.title}>Мои тендеры</h1>
-      {/* <TenderListCustomSearch></TenderListCustomSearch> */}
-
-      {/* <div onClick={switchDraft}>drafts</div>
+      <TenderListCustomSearch></TenderListCustomSearch>
+      <div onClick={switchDraft}>drafts</div>
       {!draftSwitch ? (
         <TenderListComp myTender={true}></TenderListComp>
       ) : (
         <DraftTenderComponent></DraftTenderComponent>
-      )} */}
-      <TenderListComp myTender={true}></TenderListComp>
+      )}
+      {/* <TenderListComp myTender={true}></TenderListComp> */}
     </div>
   );
 };

@@ -30,11 +30,11 @@ export const DraftTenderComponent: FC = () => {
                 {tender.name}
             </div>
         ))} */}
-        {/* {drafts.map((tender) => (
+        {drafts.map((tender) => (
         <div key={tender.id}>
           {tender.name}
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };

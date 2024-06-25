@@ -155,7 +155,7 @@ export const ProfileNavigation: FC = () => {
           className={`${styles.link} ${page.includes('settings') ? styles.active : ''} `}
         >
           <SettingsIC />
-          Настройки
+          Настройки аккаунта
         </Link>
         <Link to="help" className={`${styles.link} ${page.includes('help') ? styles.active : ''} `}>
           <HelpIC />

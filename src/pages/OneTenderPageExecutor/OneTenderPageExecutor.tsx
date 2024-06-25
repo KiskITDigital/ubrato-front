@@ -68,8 +68,10 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = <OneTenderAdd
-      ></OneTenderAdd>;
+      stack = 
+      // <OneTenderAdd
+      // ></OneTenderAdd>
+      <div>пусто</div>;
       break;
     default:
       stack = <div>No stack component found</div>;
