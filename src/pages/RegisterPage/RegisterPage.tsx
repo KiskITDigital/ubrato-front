@@ -402,7 +402,7 @@ export const RegisterPage: FC = () => {
                   classNames={checkStyle}
                 >
                   Согласие с{' '}
-                  <Link className={styles.link} to="/rights" state={{ document: "Пользовательское соглашение" }}>
+                  <Link target="_blank" className={styles.link} to="/rights?document=2">
                     Пользовательским соглашением ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
@@ -417,7 +417,7 @@ export const RegisterPage: FC = () => {
                   classNames={checkStyle}
                 >
                   Согласие с{' '}
-                  <Link className={styles.link} to="/rights" state={{ document: "Политика обработки персональных данных" }}>
+                  <Link target="_blank" className={styles.link} to="/rights?document=1">
                     “Политикой обработки персональных данных” ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
@@ -431,7 +431,7 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  <Link className={styles.link} to="/rights" state={{ document: "Согласие на обработку персональных данных" }}>
+                  <Link target="_blank" className={styles.link} to="/rights?document=3">
                     Согласие на обработку персональных данных
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>

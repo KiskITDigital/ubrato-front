@@ -138,7 +138,7 @@ export const Footer: FC = () => {
               {/* </Link> */}
             </li>
             <li>
-              <Link to="/rights" state={{ document: "Пользовательское соглашение" }}>
+              <Link to="/rights?document=1">
                 <p className={styles.point}>Правовая информация</p>
               </Link>
             </li>
@@ -163,13 +163,13 @@ export const Footer: FC = () => {
         </div>
       </div>
       <div className={styles.line}>
-        <Link to="/rights" state={{ document: "Политика обработки персональных данных" }}>
+        <Link to="/rights?document=1">
           <p className={styles.confidental}>Политика обработки персональных данных</p>
         </Link>
-        <Link to="/rights" state={{ document: "Пользовательское соглашение" }}>
+        <Link to="/rights?document=2">
           <p className={styles.confidental}>Пользовательское соглашение</p>
         </Link>
-        <Link to="/rights" state={{ document: "Согласие на обработку персональных данных" }}>
+        <Link to="/rights?document=3">
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
         </Link>
       </div>

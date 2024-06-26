@@ -3,10 +3,13 @@ import styles from './rights-page.module.css'
 import FirstText from "./FirstText";
 import SecondText from "./SecondText";
 import ThirdText from "./ThirdText";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const RightsPage: FC = () => {
     const location = useLocation()
+    const searchParams = new URLSearchParams(location.search);
+
+    const navigate = useNavigate()
 
     const startRef = useRef<HTMLHeadingElement>(null)
 
@@ -19,10 +22,13 @@ const RightsPage: FC = () => {
             window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
         }, 0);
 
-        if (location.state?.document === "Согласие на обработку персональных данных") setSwitcher("Согласие на обработку персональных данных")
-        else if (location.state?.document === "Политика обработки персональных данных") setSwitcher("Политика обработки персональных данных")
-        else setSwitcher("Пользовательское соглашение")
-    }, [location.state]);
+        const documentParam = searchParams.get("document");
+        if (documentParam === "1") setSwitcher("Политика обработки персональных данных")
+        else if (documentParam === "2") setSwitcher("Пользовательское соглашение")
+        else if (documentParam === "3") setSwitcher("Согласие на обработку персональных данных")
+        else navigate('/rights?document=1')
+
+    }, [searchParams]);
 
     return (
         <section ref={startRef} className={styles.container}>
@@ -31,25 +37,25 @@ const RightsPage: FC = () => {
                 <p className={styles.underTitle}>Список соглашений и документов, применяемых на сайте <span>Ubrato</span></p>
                 <div className={styles.btnsContainer}>
                     <button
+                        disabled={switcher === "Политика обработки персональных данных"}
+                        onClick={() => navigate('/rights?document=1')}
+                        className={styles.btn}
+                    >
+                        Политика обработки персональных данных
+                    </button>
+                    <button
                         disabled={switcher === "Пользовательское соглашение"}
                         className={styles.btn}
-                        onClick={() => setSwitcher("Пользовательское соглашение")}
+                        onClick={() => navigate('/rights?document=2')}
                     >
                         Пользовательское соглашение
                     </button>
                     <button
                         disabled={switcher === "Согласие на обработку персональных данных"}
-                        onClick={() => setSwitcher("Согласие на обработку персональных данных")}
+                        onClick={() => navigate('/rights?document=3')}
                         className={styles.btn}
                     >
                         Согласие на обработку персональных данных
-                    </button>
-                    <button
-                        disabled={switcher === "Политика обработки персональных данных"}
-                        onClick={() => setSwitcher("Политика обработки персональных данных")}
-                        className={styles.btn}
-                    >
-                        Политика обработки персональных данных
                     </button>
                 </div>
                 <div className={styles.info}>
