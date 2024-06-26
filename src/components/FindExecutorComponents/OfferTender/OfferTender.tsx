@@ -21,43 +21,6 @@ const OfferTender: FC<{
     const userInfoState = useUserInfoStore()
 
     useEffect(() => {
-        // const client = new Typesense.Client({
-        //     apiKey: 'Lwiy87ndh1SKllepXzu4CBIApJeDcnbw',
-        //     'nodes': [
-        //         {
-        //             host: 'search.ubrato.ru',
-        //             port: 443,
-        //             protocol: 'https',
-        //             path: "",
-        //             // tls:true
-        //         }
-        //     ],
-        // });
-        // const searchParameters = {
-        //     'q': '',
-        //     'query_by': 'name',
-        //     'per_page': 5,
-        //     'sort_by': 'created_at:desc',
-        // }
-        // client.collections('tender_index').documents().search(searchParameters)
-        //     .then(async response => {
-        //         const token = localStorage.getItem('token');
-        //         if (!token) return;
-        //         const tenderListPromises = response.hits?.map(async (hit) => {
-        //             console.log(hit);
-
-        //             const { id: tenderId } = hit.document as { id: string }
-        //             const statusResponse = await isRespondedOfferTender(token, tenderId, executorId);
-        //             const status = statusResponse.data.status;
-        //             return {
-        //                 ...hit.document,
-        //                 status
-        //             } as tenderData;
-        //         }) || [];
-
-        //         const newTenderList = await Promise.all(tenderListPromises);
-        //         setTenderList(newTenderList);
-        //     })
         (async () => {
             const hits = await generateTypesenseClient("tender_index", { per_page: 5, sort_by: "created_at:desc", filter_by: `user_id:=${userInfoState.user.id}` })
             const token = localStorage.getItem('token');
@@ -75,7 +38,7 @@ const OfferTender: FC<{
             const newTenderList = await Promise.all(tenderListPromises);
             setTenderList(newTenderList);
         })()
-    }, [executorId]);
+    }, [executorId, userInfoState.user.id]);
 
     const radioStyle = {
         base: styles.radioBase,
