@@ -26,7 +26,7 @@ const Executors: FC = () => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(1);
+  const [paginationPerPage, setPaginationPerPage] = useState(2);
   const [sortingValue, setSortingValue] = useState<
     "" | "name:asc" | "name:desc"
   >("");
@@ -107,7 +107,7 @@ const Executors: FC = () => {
 
     (async () => {
       const hitsWithoutPagination = await generateTypesenseClient("contractor_index", { filter_by: filters })
-      // console.log(hitsWithoutPagination);
+      console.log(hitsWithoutPagination);
 
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(

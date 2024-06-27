@@ -27,7 +27,7 @@ const RightsPage: FC = () => {
         else if (documentParam === "2") setSwitcher("Пользовательское соглашение")
         else if (documentParam === "3") setSwitcher("Согласие на обработку персональных данных")
         else navigate('/rights?document=1')
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
     return (

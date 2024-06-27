@@ -10,7 +10,7 @@ import {
 export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
     const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
         server: {
-            apiKey: 't0ZsZjW8gPe8nvFcQfFCs6dY8IpIsG5b',
+            apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
             nodes: [
                 {
                     host: 'search.ubrato.ru',
@@ -33,7 +33,7 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
 export const generateTypesenseClient = async (collection: string, parameters?: { per_page?: number, page?: number, filter_by?: string, sort_by?: "" | "name:asc" | "name:desc" | "created_at:asc" | "created_at:desc", include_fields?: string }) => {
     try {
         const client = new Typesense.Client({
-            apiKey: "t0ZsZjW8gPe8nvFcQfFCs6dY8IpIsG5b",
+            apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
             nodes: [
                 {
                     host: "search.ubrato.ru",

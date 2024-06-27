@@ -220,22 +220,22 @@ export const ContractorProfile: FC = () => {
       initalData.current = res;
     })();
   }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        locationsListRef.current &&
-        !locationsListRef.current.contains(event.target as Node)
-      ) {
-        setIsListOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     // if (
+  //     //   locationsListRef.current
+  //     //   // !locationsListRef.current.contains(event.target as Node)
+  //     // ) {
+  //     //   setIsListOpen(false);
+  //     // }
+  //   };
 
-    document.addEventListener('mousedown', handleClickOutside);
+  //   document.addEventListener('mousedown', handleClickOutside);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [locationsListRef]);
+  //   // return () => {
+  //   //   document.removeEventListener('mousedown', handleClickOutside);
+  //   // };
+  // }, [locationsListRef]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -322,15 +322,22 @@ export const ContractorProfile: FC = () => {
             <div className={styles.citiesList}>
               {citiesArr.map((e) => (
                 <div
+                  onMouseEnter={() => console.log("in city ", e.name)}
                   className={styles.city}
                   onClick={() => {
-                    setIsListOpen(false);
-                    setInputValue('');
+                    console.log('click!');
                     const newLocations = [...locations];
-                    if (!newLocations.find((i) => i.name === e.name)) {
+                    if (!newLocations.find((i) => {
+                      console.log(i.name, e.name, i.name === e.name);
+                      return i.name === e.name
+                    })) {
                       newLocations.push({ id: e.id, name: e.name });
                     }
+                    console.log(newLocations);
+
                     setLocations(newLocations);
+                    setIsListOpen(false);
+                    setInputValue('');
                   }}
                   key={e.id}
                 >

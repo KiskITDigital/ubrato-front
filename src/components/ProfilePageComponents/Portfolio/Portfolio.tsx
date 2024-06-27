@@ -69,6 +69,13 @@ export const Portfolio: FC<{
     label: styles.checkText,
   };
 
+  const propoverSlots = {
+    base: styles.base,
+    backdrop: styles.backdrop,
+    trigger: styles.trigger,
+    content: styles.content
+  }
+
   return (
     <div className={styles.container}>
       <div ref={windowRef} className={styles.popOverPortal}></div>
@@ -81,12 +88,13 @@ export const Portfolio: FC<{
       </div>
       <Popover
         isOpen={isFormOpen}
-        onOpenChange={(e) => setIsFormOpen(e)}
+        // onOpenChange={(e) => setIsFormOpen(e)}
         portalContainer={windowRef.current ?? document.body}
         shouldBlockScroll
-        backdrop="blur"
+        backdrop="opaque"
+        classNames={propoverSlots}
       >
-        <PopoverTrigger>
+        <PopoverTrigger onClick={() => setIsFormOpen(true)}>
           <button className={styles.btn}>
             <img className={styles.btnImg} src="/add-file-ic.svg" alt="" />
             <div className={styles.btnText}>
