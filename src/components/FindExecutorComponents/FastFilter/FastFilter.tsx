@@ -56,7 +56,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
             {!!breadCrumbs.length &&
                 <div className={styles.breadCrumbs}>
                     {breadCrumbs.map((crumb: { name: string, onClick?: () => void }, ind: number, breadCrumbsArr: { name: string, onClick?: () => void }[]) => (<Fragment key={ind}>
-                        <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb.name}</p>
+                        <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb?.name}</p>
                         {ind < breadCrumbsArr.length - 1 &&
                             <img className={`${styles.breadCrumbImg} ${crumb.onClick ? '' : styles.breadCrumbImgInActive}`} src="/find-executor/arrow-right-black.svg" alt="->" />}
                     </Fragment>))}
