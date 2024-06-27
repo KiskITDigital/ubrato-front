@@ -44,7 +44,7 @@ export const MyTendersPage: FC = () => {
     <div ref={startRef} className={s.main_blokkk}>
       <h1 className={s.title}>Мои тендеры</h1>
       <TenderListCustomSearch></TenderListCustomSearch>
-      <div onClick={switchDraft}>{draftSwitch ? 'Созданные тендеры' : 'Черновики' }</div>
+      <div onClick={switchDraft}>{draftSwitch ? 'Черновики' : 'Созданные тендеры' }</div>
       {!draftSwitch ? (
         <TenderListComp myTender={true}></TenderListComp>
       ) : (
