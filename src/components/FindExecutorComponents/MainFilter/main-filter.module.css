@@ -137,10 +137,45 @@
 .block .hitList>.location:hover {
     cursor: pointer;
     background-color: var(--color-blue-primary-6);
+    color: var(--color-blue-primary) !important;
 }
 
+/* 
 .block .hitList>.location:hover>p {
     color: var(--color-blue-primary) !important;
+} */
+
+.inputFilterLabel {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+}
+
+.inputFilterLabel>.inputFilterLabelImg {
+    position: absolute;
+    bottom: 10px;
+    left: 8px;
+}
+
+.inputFilterLabel>.inputFilter {
+    width: 100%;
+    padding: 8px 8px 8px 30px;
+    border-radius: 9px;
+    color: var(--color-text-gray);
+    outline: none;
+    border: 1px solid var(--color-text-gray-6);
+    transition: all 0.15s ease-in-out;
+    font-weight: 600;
+}
+
+.inputFilterLabel>.inputFilter:focus {
+    border-color: var(--color-blue-primary);
+}
+
+.inputFilterLabel>.inputFilter::placeholder {
+    color: var(--color-text-gray);
 }
 
 .block .hitList .objectItem {
@@ -148,7 +183,7 @@
     flex-direction: row;
     align-items: center;
     gap: 6px;
-    padding: 4px 7px;
+    padding: 0px 7px;
 }
 
 .block .hitList .objectItem:hover {
