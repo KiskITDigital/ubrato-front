@@ -55,12 +55,12 @@ const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDiv
                         <p className={`${styles.firstSections__div__main__block__p}`}>Стоимость в рублях</p>
                         <input
                             onFocus={() => createTenderState.removeError('price')}
-                            onBlur={() => !createTenderState.price && createTenderState.addError('price')}
+                            onBlur={() => { !+createTenderState.price && createTenderState.addError('price'); +createTenderState.price === 0 && createTenderState.handleSimpleInput("price", "") }}
                             value={createTenderState.price}
                             onChange={(e) => createTenderState.handleSimpleInput('price', e.currentTarget.value, checkOnlyNumber)}
-                            className={`${styles.input} ${styles.firstSections__div__main__block__input} ${createTenderState.errors.includes('price') ? styles.inputError : ''}`}
+                            className={`${styles.input} ${styles.firstSections__div__main__block__input} ${createTenderState.errors.includes('price') && !createTenderState.is_contract_price ? styles.inputError : ''}`}
                             type="text" />
-                        {createTenderState.errors.includes('price') && <p className={`${styles.inputErrorText} ${styles.inputErrorTextPrice} ${styles.inputErrorTenderPrice}`}>Обязательно для заполнения</p>}
+                        {createTenderState.errors.includes('price') && !createTenderState.is_contract_price && <p className={`${styles.inputErrorText} ${styles.inputErrorTextPrice} ${styles.inputErrorTenderPrice}`}>Обязательно для заполнения</p>}
                     </div>
                     <div className={`${styles.firstSections__div__main__block} ${styles.CheckboxNextUI__block}`}>
                         <span className={`${styles.CheckboxNextUI__block__span}`}></span>

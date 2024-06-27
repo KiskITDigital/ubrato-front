@@ -54,7 +54,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
                     </>
                 }
             </div>}
-            {!!breadCrumbs.length &&
+            {breadCrumbs.length > 1 &&
                 <div className={styles.breadCrumbs}>
                     {breadCrumbs.map((crumb: { name: string, onClick?: () => void }, ind: number, breadCrumbsArr: { name: string, onClick?: () => void }[]) => (<Fragment key={ind}>
                         <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb?.name}</p>

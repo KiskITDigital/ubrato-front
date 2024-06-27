@@ -123,9 +123,9 @@ export const Header: FC = () => {
             <Link to="/about">
               <p className={styles.text}>О сервисе</p>
             </Link>
-            <Link to="/">
+            <a href="tel:88007756757">
               <p className={styles.text}>8 800-775-67-57</p>
-            </Link>
+            </a>
             <div className={styles.location}>
               <img src="/location.svg" alt="location" />
               <p
