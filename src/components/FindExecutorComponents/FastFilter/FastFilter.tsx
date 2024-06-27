@@ -3,7 +3,6 @@ import styles from './fast-filter.module.css'
 import { useLocation, useNavigate } from "react-router-dom";
 
 const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFastFilterTexts: string[]) => void }> = ({ title, values, setValues }) => {
-
     const [inputFilter, setInputFilter] = useState('');
 
     const location = useLocation()

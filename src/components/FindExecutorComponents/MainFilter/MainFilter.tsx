@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import styles from './main-filter.module.css'
 import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
-import { generateSearchClient } from '../generateSearchclient';
+import { generateSearchClient, generateTypesenseClient } from '../generateSearchclient';
 import { useFindExecutorState } from '@/store/findExecutorStore';
+import { getCities } from '@/api';
 
 const MainFilter: FC = () => {
     const findExecutorState = useFindExecutorState()
@@ -11,11 +12,7 @@ const MainFilter: FC = () => {
     const [areAllObjects, setAreAllObjects] = useState(false);
     const [areAllServices, setAreAllServices] = useState(false);
 
-    useEffect(() => {
-        setIsSearchClient(true)
-    }, []);
-
-    const [chosenLocation, setChosenLocation] = useState<{ id: number, name: string } | null>(null);
+    const [chosenLocation, setChosenLocation] = useState<{ id: string, name: string, region_id: string } | null>(null);
 
     const [objectId, setObjectId] = useState<null | number>(null);
     const [objectTypesId, setobjectTypesId] = useState<number[]>([]);
@@ -23,7 +20,7 @@ const MainFilter: FC = () => {
     const [servicesId, setServicesId] = useState<number[]>([]);
     const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
 
-    const [searchCityParam, setSearchCityParam] = useState('');
+    // const [searchCityParam, setSearchCityParam] = useState('');
 
     const reset = () => {
         setChosenLocation(null)
@@ -41,7 +38,7 @@ const MainFilter: FC = () => {
     }
 
     const filter = () => {
-        findExecutorState.handleLocation(chosenLocation?.id || null)
+        findExecutorState.handleLocation(chosenLocation ? +chosenLocation.id : null)
         findExecutorState.handleObjectTypesId(objectTypesId)
         findExecutorState.handleServicesTypesId(servicesTypesId)
     }
@@ -65,13 +62,66 @@ const MainFilter: FC = () => {
         'Жилая недвижимость': 'living-building',
     }
 
+    const [cityList, setCityList] = useState<{ id: string, name: string, region_id: string }[]>([]);
+
+    const getLocalCities = async (query: string) => {
+        let cities: { id: string, name: string, region_id: string }[] = []
+        if (query.trim()) {
+            cities = (await getCities(query)).data.slice(0, 5) as { id: string, name: string, region_id: string }[]
+        } else {
+            const documents = await generateTypesenseClient('city_index', { filter_by: 'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"' })
+            const newCities = documents ? documents.map(document => document.document) as { id: string, name: string, region_id: string }[] : []
+            newCities.forEach((city) => {
+                if (!("name" in city)) return;
+                if (city.name === "Москва") cities[0] = city
+                else if (city.name === "Санкт-Петербург") cities[1] = city
+                else if (city.name === "Нижний Новгород") cities[2] = city
+                else if (city.name === "Казань") cities[3] = city
+                else if (city.name === "Екатеринбург") cities[4] = city
+            })
+        }
+        setCityList(cities)
+    }
+
+    useEffect(() => {
+        setIsSearchClient(true)
+        getLocalCities("")
+    }, []);
+
     return (
         <div className={`container ${styles.container}`}>
             <p className={styles.mainTitle}>Фильтры</p>
-            {
-                isSearchClient &&
-                <div className={styles.block}>
-                    <InstantSearch indexName={'city_index'} searchClient={searchCityParam.trim() ? generateSearchClient(5) : generateSearchClient(5, { filter_by: 'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"' })}>
+            <div className={styles.block}>
+                <p className={styles.title}>Локации:</p>
+                {
+                    chosenLocation ?
+                        <div className={styles.chosenLocations}>
+                            <p
+                                className={styles.chosenLocation}
+                            >
+                                {chosenLocation.name}
+                                <img onClick={() => { setChosenLocation(null); }} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
+                            </p>
+                        </div>
+                        :
+                        <>
+                            <label className={styles.inputFilterLabel}>
+                                <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
+                                <input
+                                    className={styles.inputFilter}
+                                    type="text"
+                                    onChange={(e) => getLocalCities(e.currentTarget.value)}
+                                    placeholder="Поиск" />
+                            </label>
+                            {
+                                cityList.map(city => <div className={styles.hitList} onClick={() => setChosenLocation(city)}>
+                                    <p className={styles.location} key={city.id}>{city.name}</p>
+                                </div>)
+                            }
+                        </>
+                }
+            </div>
+            {/* <InstantSearch indexName={'city_index'} searchClient={searchCityParam.trim() ? generateSearchClient(5) : generateFiveMainCities()}>
                         <p className={styles.title}>Локации:</p>
                         {
                             chosenLocation ?
@@ -107,10 +157,10 @@ const MainFilter: FC = () => {
                                         )} />
                                 </>
                         }
-
-                    </InstantSearch>
+                    </InstantSearch> */}
+            {/* 
                 </div>
-            }
+            } */}
             {
                 isSearchClient &&
                 <div className={styles.block}>
