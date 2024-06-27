@@ -119,7 +119,7 @@ export const OneTenderPageExecutor: FC = () => {
         setResponse={() => changeResponseStatus()}
         response={response}
         tenderId={id}
-        options={['Tender', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
+        options={['Тендер', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
         noticeKnocks={2}
         button_text={'Откликнуться на тендер'}
         price={dataState.price}

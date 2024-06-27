@@ -73,7 +73,7 @@ export const MainBanner: FC = () => {
               name="tender_text"
               placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
             />
-            {/* <Link
+            {userStore.isLoggedIn ?( <Link
               onClick={() => {
                 createTenderState.handleSimpleInput('name', newTenderName);
                 setNewTenderName('');
@@ -83,7 +83,7 @@ export const MainBanner: FC = () => {
               <button className={styles.createTenderBtn}>
                 {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
               </button>
-            </Link> */}
+            </Link>) : (
             <button 
                     onClick={() => {
                     if (!userStore.isLoggedIn) {
@@ -91,7 +91,7 @@ export const MainBanner: FC = () => {
                     }}}
                     className={styles.createTenderBtn}>
                       {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
-                    </button>
+                    </button>)}
             {showNotification && (
               <div className={styles.notification}>
                  <p>Чтобы создать тендер, <Link to={'/login'}><span className={`${styles.blueText} ${styles.text_underline} `}>войдите на сайт.</span></Link></p>
@@ -144,22 +144,26 @@ export const MainBanner: FC = () => {
                     name="tender_text"
                     placeholder={mobile ? 'Создать тендер' : 'Опишите задачу или объект'}
                   />
-                  {/* <Link
-                    onClick={() => {
-                      createTenderState.handleSimpleInput('name', newTenderName);
-                      setNewTenderName('');
-                    }}
-                    to="/create-tender"
-                  > */}
-                    <button 
+                  
+                  {userStore.isLoggedIn ?( <Link
+              onClick={() => {
+                createTenderState.handleSimpleInput('name', newTenderName);
+                setNewTenderName('');
+              }}
+              to="/create-tender"
+            >
+              <button className={styles.createTenderBtn}>
+                {mobile ? <img src="/arrow-with-line-right-white.svg" /> : 'Создать тендер'}
+              </button>
+            </Link>) : (
+            <button 
                     onClick={() => {
                     if (!userStore.isLoggedIn) {
                       setShowNotification(true);
                     }}}
                     className={styles.createTenderBtn}>
                       {mobile ? <img src="./arrow-with-line-right-white.svg" /> : 'Создать тендер'}
-                    </button>
-                  {/* </Link> */}
+                    </button>)}
                   {showNotification && (
                     <div className={styles.notification}>
                      <Link to={'/login'}> <p>Чтобы создать тендер, <span className={`${styles.blueText} ${styles.text_underline} `}>войдите на сайт.</span></p></Link>
