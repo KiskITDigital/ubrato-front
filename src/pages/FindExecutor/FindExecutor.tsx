@@ -1,17 +1,17 @@
 import FastFilter from "@/components/FindExecutorComponents/FastFilter/FastFilter";
 import styles from './FindExecutor.module.css'
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import MainFilter from "@/components/FindExecutorComponents/MainFilter/MainFilter";
 import Executors from "@/components/FindExecutorComponents/Executors/Executors";
 import { QuestionsBlock, Seo } from "@/components";
 import { useFindExecutorState } from "@/store/findExecutorStore";
 
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 const FindExecutor: FC = () => {
     const findExecutorState = useFindExecutorState()
-    const userInfoStore = useUserInfoStore();
+    // const userInfoStore = useUserInfoStore();
     useUserInfoStore
     // const navigate = useNavigate()
 
