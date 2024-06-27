@@ -25,8 +25,8 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
     useEffect(() => {
         if (location.pathname === '/find-executor') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти исполнителя', onClick: () => { setValues([]) } } : crumb))
         if (location.pathname === '/alltenders') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти тендер', onClick: () => { setValues([]) } } : crumb))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.pathname]);
+
+    }, [location.pathname, setValues]);
 
     return (
         <div className={`container ${styles.container}`}>
@@ -53,7 +53,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
                     </>
                 }
             </div>}
-            {!!breadCrumbs.length &&
+            {breadCrumbs.length > 1 &&
                 <div className={styles.breadCrumbs}>
                     {breadCrumbs.map((crumb: { name: string, onClick?: () => void }, ind: number, breadCrumbsArr: { name: string, onClick?: () => void }[]) => (<Fragment key={ind}>
                         <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb?.name}</p>
