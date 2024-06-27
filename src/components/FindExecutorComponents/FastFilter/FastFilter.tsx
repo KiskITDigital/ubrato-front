@@ -19,12 +19,13 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
 
     useEffect(() => {
         setBreadCrumbs(prev => [prev[0], prev[1], ...values.map(filter => ({ name: filter }))])
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [values.length]);
+
+    }, [values.length, values]);
 
     useEffect(() => {
         if (location.pathname === '/find-executor') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти исполнителя', onClick: () => { setValues([]) } } : crumb))
         if (location.pathname === '/alltenders') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти тендер', onClick: () => { setValues([]) } } : crumb))
+        else navigate('/find-executor')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.pathname]);
 
@@ -56,7 +57,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
             {!!breadCrumbs.length &&
                 <div className={styles.breadCrumbs}>
                     {breadCrumbs.map((crumb: { name: string, onClick?: () => void }, ind: number, breadCrumbsArr: { name: string, onClick?: () => void }[]) => (<Fragment key={ind}>
-                        <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb.name}</p>
+                        <p className={`${styles.breadCrumb} ${crumb?.onClick ? '' : styles.breadCrumbInActive}`} onClick={() => crumb?.onClick && crumb.onClick()}>{crumb?.name}</p>
                         {ind < breadCrumbsArr.length - 1 &&
                             <img className={`${styles.breadCrumbImg} ${crumb.onClick ? '' : styles.breadCrumbImgInActive}`} src="/find-executor/arrow-right-black.svg" alt="->" />}
                     </Fragment>))}

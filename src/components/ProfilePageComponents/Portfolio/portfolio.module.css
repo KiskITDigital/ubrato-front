@@ -83,7 +83,7 @@
   border-radius: 20px;
 }
 
-.popOverPortal > div > div:first-of-type {
+.popOverPortal>div>div:first-of-type {
   width: 100vw;
   height: 100vh;
   backdrop-filter: blur(2px);
@@ -92,7 +92,7 @@
   position: fixed;
 }
 
-.popOverPortal > div {
+.popOverPortal>div {
   position: fixed !important;
   left: 0 !important;
   top: 0 !important;
@@ -126,7 +126,7 @@
   position: relative;
 }
 
-.checkBase[data-selected] > .checkWrapper {
+.checkBase[data-selected]>.checkWrapper {
   background-color: var(--color-light-gray);
 }
 
@@ -135,7 +135,7 @@
   height: 80%;
 }
 
-.checkIcon > polyline {
+.checkIcon>polyline {
   stroke: var(--color-blue-primary);
 }
 
@@ -166,7 +166,7 @@
   align-items: center;
 }
 
-.delete > svg > path {
+.delete>svg>path {
   fill: var(--color-red-error);
 }
 
@@ -191,9 +191,11 @@
 .imagesContainer::-webkit-scrollbar {
   width: 5px;
 }
+
 .imagesContainer::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .imagesContainer::-webkit-scrollbar-thumb {
   background-color: var(--color-blue-primary);
   border-radius: 20px;
