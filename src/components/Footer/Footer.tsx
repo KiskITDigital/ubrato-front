@@ -148,15 +148,15 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Служба поддержки</p>
           <ul>
             <li>
-              <Link to="/">
-                <p className={styles.bluetext}>8 800-775-67-57</p>
-              </Link>
+              <a className={styles.bluetext} href='tel:88007756757'>
+                8 800-775-67-57
+              </a>
               <p className={styles.pointtwo}>Время работы с 9:00 до 21:00 по Московскому времени</p>
             </li>
             <li>
-              <Link to="/">
-                <p className={styles.bluetext}>info@urbato.ru</p>
-              </Link>
+              <a href="mailto:info@ubrato.ru">
+                <p className={styles.bluetext}>info@ubrato.ru</p>
+              </a>
               <p className={styles.pointtwo}>Вопросы и предложения по работе сервиса</p>
             </li>
           </ul>
