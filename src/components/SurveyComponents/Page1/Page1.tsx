@@ -43,7 +43,7 @@ export const Page1: FC = () => {
       <div className={styles.blueBackground}>
         <p className={`${styles.text} ${styles.bold}`}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
+          качестве <Link to="/knowledge-base" className={styles.blueText}>Исполнителей</Link>, принять участие в
           тест-драйве площадки. Условия участия по{' '}
           <Link className={styles.blueText} to="/">
             ссылке
