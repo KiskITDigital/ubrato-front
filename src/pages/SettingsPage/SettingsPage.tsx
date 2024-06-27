@@ -162,9 +162,9 @@ const SettingsPage: FC = () => {
             <div className={styles.section}>
                 <p className={styles.section__name}>Правовые документы</p>
                 <div className={styles.section__container}>
-                    <Link className={styles.sectionLink} to="/">Политика обработки персональных данных</Link>
-                    <Link className={styles.sectionLink} to="/">Пользовательское соглашение</Link>
-                    <Link className={styles.sectionLink} to="/">Согласие на обработку персональных данных</Link>
+                    <Link target="_blank" to="/rights?document=1" className={styles.sectionLink}>Политика обработки персональных данных</Link>
+                    <Link target="_blank" to="/rights?document=2" className={styles.sectionLink}>Пользовательское соглашение</Link>
+                    <Link target="_blank" to="/rights?document=3" className={styles.sectionLink}>Согласие на обработку персональных данных</Link>
                 </div>
             </div>
             <div className={styles.section}>

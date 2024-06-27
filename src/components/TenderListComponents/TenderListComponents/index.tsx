@@ -126,6 +126,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .documents()
       .search(searchParameters)
       .then(async (response) => {
+        // console.log(response.hits);
+
         const tenders = [] as TenderList[];
         const promises = (response.hits || [])
           .map((res, index) => {
@@ -220,7 +222,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
             Показать еще
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
-          
+
           {!!paginationTotal && (
             <Pagination
               classNames={paginationClassNames}
