@@ -165,6 +165,7 @@ const Object: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }
             <div className={`${styles.section__block} ${styles.square}`}>
                 <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>Площадь:</p>
                 <input
+                    onBlur={() => +createTenderState.floor_space === 0 && createTenderState.handleSimpleInput("floor_space", "")}
                     // onFocus={() => createTenderState.removeError('floor_space')}
                     // onBlur={() => !createTenderState.floor_space && createTenderState.addError('floor_space')}
                     value={createTenderState.floor_space}

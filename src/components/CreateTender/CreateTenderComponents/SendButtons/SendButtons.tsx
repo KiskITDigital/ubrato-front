@@ -51,7 +51,7 @@ const SendButtons: FC = () => {
             reception_end: formatDate(createTenderState.reception_end, createTenderState.reception_time_end),
             work_start: formatDate(createTenderState.work_start),
             work_end: formatDate(createTenderState.work_end),
-            city_id,
+            city_id: city_id || null,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
         // console.log(objectToSend);

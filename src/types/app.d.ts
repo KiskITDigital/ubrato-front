@@ -93,7 +93,7 @@ export interface createTenderData {
   reception_end: string;
   work_start: string;
   work_end: string;
-  city_id: number;
+  city_id: number | null;
   attachments: string[];
 }
 
