@@ -1,40 +1,34 @@
 import { FC, useEffect, useState } from 'react';
 import s from './style.module.css'
 import { fetchDrafts } from '@/api/getTender';
+import { TenderListElem } from '../TenderListComponents/TenderListElement/inedx';
 
 export const DraftTenderComponent: FC = () => {
     const [drafts, setDrafts] = useState([])
     useEffect(()=>{
-        (async () => {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            fetchDrafts(token)
-            .then((response) => {
-              setDrafts(response.data);
-            })
-            .catch((error) => {
-              console.log((error.message))
-            });   
-            console.log(drafts);
-            setDrafts(drafts)
-
-
-          })()
-        
-    }, [])
+      const fetchDraftsAsync = async () => {
+          const token = localStorage.getItem('token');
+          if (!token) return;
+          try {
+              const res = await fetchDrafts(token);
+              setDrafts(res);
+              console.log(res);
+              
+          } catch (error) {
+              console.log('');
+          }
+      };
+      fetchDraftsAsync();
+  }, [])
 
   return (
     <div className={s.draft_tender_container}>
-        {/* {drafts.map((tender)=>(
-            <div>
-                {tender.name}
-            </div>
-        ))} */}
-        {drafts.map((tender) => (
-        <div key={tender.id}>
-          {tender.name}
-        </div>
-      ))}
+
+        {drafts?.length > 0 && (
+         drafts.map((tender) => (
+          <TenderListElem hit={tender}></TenderListElem>
+        ))
+      )}
     </div>
   );
 };

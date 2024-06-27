@@ -43,7 +43,7 @@ export const Company: FC = () => {
             disabled={location.pathname.includes('contractor')}
             className={styles.btn}
           >
-            Профиль Исполнителя
+            Профиль исполнителя
           </button>
         )}
       </div>

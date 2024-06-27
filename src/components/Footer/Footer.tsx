@@ -7,7 +7,7 @@ import { useIsOrdererState } from '@/store/isOrdererStore';
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
   const ordererState = useIsOrdererState();
-
+  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,16 +50,21 @@ export const Footer: FC = () => {
         <div className={styles.column}>
           <p className={styles.footercolumn}>Возможности</p>
           <ul>
+            {/* {userInfoStorage.user} */}
+            {!userInfoStorage.isLoggedIn && (
             <li>
-              <Link to="/register">
+              <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                 <p className={styles.point}>Стать заказчиком</p>
               </Link>
-            </li>
+            </li>)
+            }
+            {!userInfoStorage.user.is_contractor && (
             <li>
-              <Link to="/register">
+              <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                 <p className={styles.point}>Стать исполнителем</p>
               </Link>
-            </li>
+            </li>)
+            }
             <li>
               <Link to="/create-tender">
                 <p className={styles.point}>Создать тендер</p>
@@ -131,11 +136,9 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              {/* <Link to="/"> */}
               <a target="_blank" href='https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15'>
                 <p className={styles.point}>Карта сайта</p>
               </a>
-              {/* </Link> */}
             </li>
             <li>
               <Link to="/rights?document=1">
