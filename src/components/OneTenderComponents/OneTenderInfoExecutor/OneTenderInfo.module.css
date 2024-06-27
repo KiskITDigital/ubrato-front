@@ -41,15 +41,37 @@
 
 }
 
+.nds_block{
+    background-color:#0084FF1A;
+    color: #0084FF;
+    /* padding: 5px; */
+    height: 25px;
+    width: 150px;
+    text-align: center;
+    border-radius: 6px;
+}
 
 .one_part_grow{
     flex-grow: 1;
 }
 
+
+.flex{
+    display: flex;
+}
+
 .date_info{
     display: flex;
     gap: 30px;
-    padding-top: 14px;
+    padding-top: 14px;    
+}
+
+.nds_field{
+    display: flex;
+    gap: 30px;
+    padding-top: 14px;  
+    justify-content: space-around;
+    /* align-items: center; */
 }
 
 .info_start{

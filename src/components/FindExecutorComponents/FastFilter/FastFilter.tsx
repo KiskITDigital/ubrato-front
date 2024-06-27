@@ -19,14 +19,15 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
 
     useEffect(() => {
         setBreadCrumbs(prev => [prev[0], prev[1], ...values.map(filter => ({ name: filter }))])
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [values.length]);
+
+    }, [values.length, values]);
 
     useEffect(() => {
         if (location.pathname === '/find-executor') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти исполнителя', onClick: () => { setValues([]) } } : crumb))
         if (location.pathname === '/alltenders') setBreadCrumbs(prev => prev.map((crumb: { name: string, onClick?: () => void }, ind: number) => ind === 1 ? { name: 'найти тендер', onClick: () => { setValues([]) } } : crumb))
-
-    }, [location.pathname, setValues]);
+        else navigate('/find-executor')
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location.pathname]);
 
     return (
         <div className={`container ${styles.container}`}>
