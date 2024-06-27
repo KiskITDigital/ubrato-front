@@ -9,6 +9,7 @@ type OneTenderInfo = {
   timestamp_wrk_start: string;
   timestamp_wrk_end: string;
   timestamp_crtd: string;
+  // is_nds: boolean
 };
 
 export const OneTenderInfo: FC<OneTenderInfo> = ({
@@ -17,6 +18,7 @@ export const OneTenderInfo: FC<OneTenderInfo> = ({
   // timestamp_rc_end,
   timestamp_wrk_end,
   timestamp_wrk_start,
+  // is_nds,
 }) => {
   return (
     <div className={styles.infocontainer}>

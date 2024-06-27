@@ -9,6 +9,7 @@ type OneTenderInfo = {
   timestamp_wrk_start: string;
   timestamp_wrk_end: string;
   timestamp_crtd: string;
+  is_nds: boolean
 };
 
 export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
@@ -17,6 +18,7 @@ export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
   timestamp_rc_start,
   timestamp_wrk_end,
   timestamp_wrk_start,
+  is_nds
 }) => {
 
 const timestampFormat = (date: string ) => {
@@ -38,8 +40,12 @@ useEffect(()=>{
             { timestampFormat(timestamp_rc_start)}
             </p> <p className={styles.info_end}>{timestampFormat(timestamp_rc_end)}</p></div>
           </div>
-          <div className={styles.one_part_grow}><p className={styles.nd_info_accented}>Стоимость</p> 
-            <div className={styles.date_info}><p>{price} ₽</p></div>
+          <div className={styles.one_part_grow}>
+            <div>
+            <p className={styles.nd_info_accented}>Стоимость</p> 
+            <div className={styles.nds_field}><p>{price} ₽</p>  {is_nds ? <p className={styles.nds_block}>включая ндс</p> : ''}</div>
+            </div>
+           
           </div>
           <div className={styles.one_part_grow}>
           <p className={styles.nd_info}>Оказание услуг</p>

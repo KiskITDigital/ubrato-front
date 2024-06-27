@@ -27,6 +27,7 @@ export interface dataObjectTypes {
   work_start: string,
   work_end: string,
   created_at: string
+  is_nds_price: boolean
 }
 
 
@@ -51,7 +52,8 @@ export const OneTenderPageExecutor: FC = () => {
     reception_end: '',
     work_start: '',
     work_end: '',
-    created_at: ''
+    created_at: '',
+    is_nds_price: false
   })
   const [loading, setLoading] = useState(true);
 

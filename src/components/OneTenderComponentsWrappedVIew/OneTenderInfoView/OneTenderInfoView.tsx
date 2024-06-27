@@ -52,7 +52,7 @@ const Otzyv = {
 
   return (
     <div>
-        <OneTenderInfo price={testData.price} timestamp_rc_start={testData.reception_start} timestamp_rc_end={testData.reception_end} timestamp_wrk_start={testData.work_start} timestamp_wrk_end={testData.work_end} timestamp_crtd={testData.created_at}></OneTenderInfo>
+        <OneTenderInfo  price={testData.price} timestamp_rc_start={testData.reception_start} timestamp_rc_end={testData.reception_end} timestamp_wrk_start={testData.work_start} timestamp_wrk_end={testData.work_end} timestamp_crtd={testData.created_at}></OneTenderInfo>
         <OneTenderMainBlock gg={Otzyv.text} rate={Otzyv.rating} compName={Otzyv.compName}></OneTenderMainBlock>
         <OneTenderCity city={testData.location}></OneTenderCity>
         <OneTenderObject building={testData.services_groups}></OneTenderObject>
