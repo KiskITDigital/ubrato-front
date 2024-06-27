@@ -30,7 +30,7 @@ export const SurveyStart: FC = () => {
       <div className={`${styles.part2} ${styles.container}`}>
         <p className={styles.boldText}>
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <span className={styles.link}>Исполнителей</span>, принять участие в тест-драйве
+          качестве <Link to="/knowledge-base" className={styles.link}>Исполнителей</Link>, принять участие в тест-драйве
           сайта.
         </p>
         <p className={`${styles.regularText} ${styles.narrowText}`}>

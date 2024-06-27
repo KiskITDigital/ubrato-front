@@ -54,10 +54,10 @@ const SendButtons: FC = () => {
             city_id: city_id || null,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        // console.log(objectToSend);
+        console.log(objectToSend);
 
         const res = (isDraft || city_id) && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
-        // console.log(res);
+        console.log(res);
         if (res && res.status === 200) {
             if (createTenderState.executorToSend) offerTender(token, createTenderState.executorToSend.id, res.data.id)
             createTenderState.clear()
