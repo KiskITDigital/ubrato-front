@@ -1,8 +1,12 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './ordererprofile.module.css';
 import { fetchOrdererProfile, getCities, putOrdererProfile, updateToken } from '@/api';
+import { useUserInfoStore } from '@/store/userInfoStore';
+import { Link } from 'react-router-dom';
 
 export const OrdererProfile: FC = () => {
+  const userInfoState = useUserInfoStore()
+
   const [textareaValue, setTextareaValue] = useState<string | null>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
@@ -31,9 +35,8 @@ export const OrdererProfile: FC = () => {
       setTextareaValue(res.description);
       initalData.current = res;
       setTimeout(() => {
-        area.current!.style.height = `${
-          Math.floor((area.current!.scrollHeight - 29) / 22) * 22 + 51
-        }px`;
+        area.current!.style.height = `${Math.floor((area.current!.scrollHeight - 29) / 22) * 22 + 51
+          }px`;
       }, 10);
       setLocations(res.locations);
     })();
@@ -63,7 +66,7 @@ export const OrdererProfile: FC = () => {
         </p>
       </div>
       <p className={styles.text}>
-        Нажмите на кнопку “Смотреть”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
+        Нажмите на кнопку “<Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}`}>Смотреть</Link>”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
       </p>
       <div className={styles.borderedContainer}>
         <div className={styles.infoContainer}>
@@ -109,7 +112,7 @@ export const OrdererProfile: FC = () => {
               })();
             }}
           />
-          
+
           {locations.length !== 0 && (
             <div className={styles.locationsList} >
               {locations.map((e) => (

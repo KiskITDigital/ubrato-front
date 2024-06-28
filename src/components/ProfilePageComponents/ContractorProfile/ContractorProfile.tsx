@@ -7,7 +7,7 @@ import { useTypesObjectsStore } from '@/store/objectsStore';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Portfolio } from '../Portfolio/Portfolio';
 
@@ -24,6 +24,8 @@ type services = {
 }[];
 
 export const ContractorProfile: FC = () => {
+  const userInfoState = useUserInfoStore()
+
   const [textareaValue, setTextareaValue] = useState<string | null>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
@@ -270,7 +272,7 @@ export const ContractorProfile: FC = () => {
         </p>
       </div>
       <p className={styles.text}>
-        Нажмите на кнопку “Смотреть”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
+        Нажмите на кнопку “<Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}`}>Смотреть</Link>”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
       </p>
       <div className={styles.borderedContainer}>
         <div className={styles.infoContainer}>

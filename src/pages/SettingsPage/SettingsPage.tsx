@@ -37,11 +37,11 @@ const SettingsPage: FC = () => {
                 setIsLoading(true);
                 try {
                     await login(parameters);
-                    const token = localStorage.getItem('token');
-                    if (token) {
-                        // await userInfoStore.fetchUser(token);
-                        console.log('smth');
-                    }
+                    // const token = localStorage.getItem('token');
+                    // if (token) {
+                    //     // await userInfoStore.fetchUser(token);
+                    //     console.log('smth');
+                    // }
                 } catch (e) {
                     console.log(e, '1');
                     if (e instanceof AxiosError) {

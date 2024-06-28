@@ -44,7 +44,7 @@ export const useTenderListState = create<tenderListState>()((set) => ({
         set((state) => ({ ...state, userID: newUserID }))
     },
 
-    handleTenderList: (newExecutorList: tenderList[]) => {
-        set((state) => ({ ...state, executorList: newExecutorList }))
+    handleTenderList: (newTenderList: tenderList[]) => {
+        set((state) => ({ ...state, tenderList: newTenderList }))
     }
 }))
