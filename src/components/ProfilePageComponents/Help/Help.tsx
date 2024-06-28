@@ -101,7 +101,7 @@ export const Help: FC = () => {
             onChange={formik.handleChange}
             classNames={checkStyle}
           >
-            Соглашаюсь с <Link className={styles.links} to={''}> Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и <Link className={styles.links} to={''}>даю Согласие на обработку персональных данных</Link>
+            Соглашаюсь с <Link className={styles.links} to={'/rights?document=1'}>Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю <Link className={styles.links} to={'/rights?document=3'}>Согласие на обработку персональных данных</Link>
             <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
           </Checkbox>
           <input type="submit" className={styles.submit} value="Заказать звонок" />
