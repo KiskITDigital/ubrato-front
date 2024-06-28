@@ -212,6 +212,10 @@
     padding: 4px 7px;
 }
 
+.block .hitList .objectTypeList .objectTypeItem:hover {
+    cursor: pointer;
+}
+
 .block .hitList .objectTypeList .objectTypeItem:has(img) {
     background-color: var(--color-back-gray);
     color: var(--color-black);
@@ -221,6 +225,7 @@
 img {
     width: 19px;
     height: 19px;
+    min-width: 19px;
 }
 
 .showMore {
