@@ -74,9 +74,10 @@
   border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
 }
 
-.locations > p {
+.locations>p {
   margin-top: 15px;
 }
+
 .inputContainer {
   width: 490px;
   position: relative;
@@ -128,6 +129,7 @@
 .city:hover {
   background-color: var(--color-blue-primary-6);
   color: var(--color-blue-primary);
+  cursor: pointer;
 }
 
 .save {
@@ -241,11 +243,11 @@
   outline: none;
 }
 
-.accordionIndicator > svg {
+.accordionIndicator>svg {
   transition: 0.3s ease transform;
 }
 
-.accordionHeading[data-open] > .accordionTrigger > .accordionIndicator > svg {
+.accordionHeading[data-open]>.accordionTrigger>.accordionIndicator>svg {
   transform: rotate(180deg);
 }
 

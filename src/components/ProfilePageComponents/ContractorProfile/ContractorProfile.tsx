@@ -247,6 +247,18 @@ export const ContractorProfile: FC = () => {
     }, 300);
   }, [location.state?.refTo, portfolioRef]);
 
+  // useEffect(() => {
+  //   if (!inputValue) setTimeout(() => setIsListOpen(false), 0)
+  // }, [inputValue]);
+
+  const changeCities = async (text: string) => {
+    setInputValue(text);
+    const res = await getCities(text);
+    setSitiesArr(res.data);
+    text ? setIsListOpen(true) : setIsListOpen(false)
+
+  }
+
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>Профиль исполнителя</h2>
@@ -286,20 +298,13 @@ export const ContractorProfile: FC = () => {
       </div>
       <div className={styles.locations}>
         <p>Локации</p>
-        <div className={styles.inputContainer}>
+        <div onBlur={() => { changeCities("") }} className={styles.inputContainer}>
           <input
             className={styles.input}
             type="text"
             value={inputValue}
             placeholder='введите город'
-            onChange={(e) => {
-              (async () => {
-                setInputValue(e.target.value);
-                const res = await getCities(e.target.value);
-                setSitiesArr(res.data);
-                setIsListOpen(true);
-              })();
-            }}
+            onChange={(e) => changeCities(e.target.value)}
           />
           {locations.length !== 0 && (
             <div className={styles.locationsList} ref={locationsListRef}>
@@ -322,19 +327,10 @@ export const ContractorProfile: FC = () => {
             <div className={styles.citiesList}>
               {citiesArr.map((e) => (
                 <div
-                  onMouseEnter={() => console.log("in city ", e.name)}
                   className={styles.city}
                   onClick={() => {
-                    console.log('click!');
                     const newLocations = [...locations];
-                    if (!newLocations.find((i) => {
-                      console.log(i.name, e.name, i.name === e.name);
-                      return i.name === e.name
-                    })) {
-                      newLocations.push({ id: e.id, name: e.name });
-                    }
-                    console.log(newLocations);
-
+                    if (!newLocations.find((i) => i.name === e.name)) newLocations.push({ id: e.id, name: e.name })
                     setLocations(newLocations);
                     setIsListOpen(false);
                     setInputValue('');

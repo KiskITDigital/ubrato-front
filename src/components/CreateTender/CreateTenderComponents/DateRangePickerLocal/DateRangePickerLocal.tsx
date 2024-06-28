@@ -48,6 +48,7 @@ const DateRangePickerLocal: FC<{
     return (
         <DateRangePicker
             minValue={timeToChangeStart === 'work_start' ? parseDate(createTenderState.reception_end.toISOString().split('T')[0]) : today(getLocalTimeZone())}
+            maxValue={parseDate("2030-01-01")}
             labelPlacement="outside-left"
             onFocus={() => setIsCalendarOpen(true)}
             onOpenChange={() => setIsCalendarOpen(prev => !prev)}
@@ -56,7 +57,12 @@ const DateRangePickerLocal: FC<{
                 start: parseDate(createTenderState[timeToChangeStart].toISOString().split('T')[0]),
                 end: parseDate(createTenderState[timeToChangeEnd].toISOString().split('T')[0])
             }}
-            onChange={(newVal: RangeValue<CalendarDate>) => { createTenderState.handleSimpleInput(timeToChangeStart, new Date(newVal.start.year, newVal.start.month - 1, newVal.start.day, 3)); createTenderState.handleSimpleInput(timeToChangeEnd, new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day, 3)) }}
+            onChange={(newVal: RangeValue<CalendarDate>) => {
+                const firstDate = new Date(newVal.start.year, newVal.start.month - 1, newVal.start.day, 3)
+                const secondDate = new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day, 3)
+                if (firstDate.getFullYear() > 2030 || firstDate.getFullYear() < new Date().getFullYear() || secondDate.getFullYear() > 2030 || secondDate.getFullYear() < new Date().getFullYear()) return;
+                createTenderState.handleSimpleInput(timeToChangeStart, firstDate); createTenderState.handleSimpleInput(timeToChangeEnd, secondDate)
+            }}
             classNames={classNames}
         />
     );
