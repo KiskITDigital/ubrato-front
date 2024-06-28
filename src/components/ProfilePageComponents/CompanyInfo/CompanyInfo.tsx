@@ -193,7 +193,7 @@ export const CompanyInfo: FC = () => {
                 <p
                   onClick={() => {
                     setAvatar('');
-                    setAvatarInfo(null); 
+                    setAvatarInfo(null);
                   }}
                   className={`${styles.avatarInput} ${styles.deleteAvatar}`}
                 >
@@ -296,14 +296,8 @@ export const CompanyInfo: FC = () => {
                   classNames={checkStyle}
                 >
                   Соглашаюсь с{' '}
-                  <Link className="underline" to="/">
-                    Политикой
-                  </Link>{' '}
-                  обработки персональных данных ООО “ИНТЕГРАЦИЯ” и даю{' '}
-                  <Link className="underline" to="/">
-                    Согласие
-                  </Link> 
-                  {' '}на обработку персональных данных
+                  <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю{' '}
+                  <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку персональных данных</Link>
                   <p className={styles.errorMessage}>{error}</p>
                 </Checkbox>
               </div>

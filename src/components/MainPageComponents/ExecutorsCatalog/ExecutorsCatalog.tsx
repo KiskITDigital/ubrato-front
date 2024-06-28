@@ -4,16 +4,25 @@ import { TypeObjectCard, TypeCleaningCard } from '@/components';
 import { useTypesObjectsStore } from '@/store/objectsStore';
 import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { Link } from 'react-router-dom';
-import { countTransformTender, countTransformService } from '@/utils';
+import {
+  countTransformTender,
+  countTransformService
+} from '@/utils';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { useFindExecutorState } from '@/store/findExecutorStore';
+import { useTenderListState } from '@/store/tendersListStore';
+// import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const ExecutorsCatalog: FC = () => {
   const objectsStore = useTypesObjectsStore();
   const typeCleaningStore = useCleaningTypeStore();
   const isOrdererState = useIsOrdererState();
 
+  // const userInfoStore = useUserInfoStore()
+
   const findExecutorState = useFindExecutorState()
+
+  const tenderListStore = useTenderListState()
 
   const listRef = useRef<HTMLDivElement>(null);
   const [isShown, setIsShown] = useState(false);
@@ -60,11 +69,17 @@ export const ExecutorsCatalog: FC = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   console.log(userInfoStore.is_contractor);
+
+  //   isOrdererState.handleState(userInfoStore.is_contractor ? "contractor" : "orderer")
+  // }, [userInfoStore.is_contractor]);
+
   return (
     <div className={`container ${styles.container}`}>
       <div className={`${styles.dasshedBorder} ${styles.container}`}>
         <h2 className={styles.header}>
-          <span className={styles.blueText}>Каталог</span> исполнителей
+          <span className={styles.blueText}>Каталог</span> {isOrdererState.role === 'contractor' ? "тендеров" : "исполнителей"}
         </h2>
         <p className={styles.text}>
           Выбирайте исполнителей из каталога Ubrato в зависимости от объекта, которым вы управляете,
@@ -95,8 +110,8 @@ export const ExecutorsCatalog: FC = () => {
         <div className={styles.cleaningTypeGrid}>
           {widthR.current && (
             <div>
-              <Link to="/alltenders" className={styles.allTenderLink}>
-                <p className={styles.allTenderHeader}>Все тендеры</p>
+              <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"} className={styles.allTenderLink}>
+                <p className={styles.allTenderHeader}>{isOrdererState.role === 'contractor' ? "Все тендеры" : "Все исполнители"}</p>
                 <p className={styles.allTenderCount}>
                   {count}{' '}
                   {isOrdererState.role === 'contractor'
@@ -116,8 +131,8 @@ export const ExecutorsCatalog: FC = () => {
           ))}
           {!widthR.current && (
             <div>
-              <Link to="/alltenders" className={styles.allTenderLink}>
-                <p className={styles.allTenderHeader}>Все тендеры</p>
+              <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"} className={styles.allTenderLink}>
+                <p className={styles.allTenderHeader}>{isOrdererState.role === 'contractor' ? "Все тендеры" : "Все исполнители"}</p>
                 <p className={styles.allTenderCount}>
                   {count}{' '}
                   {isOrdererState.role === 'contractor'
@@ -130,12 +145,28 @@ export const ExecutorsCatalog: FC = () => {
         </div>
       </div>
       <div className={styles.findExecutor}>
-        <p className={styles.executorsCount}>Найдено исполнителей: {findExecutorState.executorList.length}</p>
-        <Link to="/find-executor">
+        <p className={styles.executorsCount}>
+          {
+            isOrdererState.role === 'contractor' ?
+              `Найдено тендеров: ${tenderListStore.tenderList.length}`
+              :
+              `Найдено исполнителей: ${findExecutorState.executorList.length}`
+          }
+        </p>
+        <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"}>
           <button className={styles.findExecutorBtn}>
-            Найти исполнителя
-            {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorList.length}</p> : ''}
-            <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
+            {
+              isOrdererState.role === 'contractor' ? <>
+                Найти тендеры
+                {widthR.current ? <p className={styles.countExecutorsText}> {tenderListStore.tenderList.length}</p> : ''}
+                <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
+              </> :
+                <>
+                  Найти исполнителя
+                  {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorList.length}</p> : ''}
+                  <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
+                </>
+            }
           </button>
         </Link>
       </div>

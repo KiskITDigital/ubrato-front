@@ -5,6 +5,7 @@ import { fetchProduct as getTender } from '@/api/getTender';
 import styles from './tenders-advice-tenders.module.css'
 import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
 import { Link, useNavigate } from "react-router-dom";
+import { useTenderListState } from "@/store/tendersListStore";
 
 interface modifiedTenderList extends tenderList {
     price: number,
@@ -17,6 +18,8 @@ interface modifiedTenderList extends tenderList {
 
 const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     const [tenderList, setTenderList] = useState<modifiedTenderList[][]>([]);
+
+    const tenderListStore = useTenderListState()
 
     const navigate = useNavigate();
 
@@ -101,7 +104,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                 const { id: tenderId } = hit.document as { id: string }
                 const tender = await getTender(tenderId) as modifiedTenderList;
                 const token = localStorage.getItem('token')
-                const isFavorite = token ? (await isFavoriteTender(tenderId, token)).data.status : false
+                const isFavorite = token ? (await isFavoriteTender(+tenderId, token)).data.status : false
                 // const region = await generateTypesenseClient("city_index", { filter_by: `id:=${tender.city_id}` })
                 // console.log(tender);
                 return { ...tender, isFavorite, isTextHidden: true } as modifiedTenderList;
@@ -110,6 +113,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
             const newTenderList = await Promise.all(tenderListPromises);
 
             updateTenderList(newTenderList)
+            tenderListStore.handleTenderList(newTenderList)
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
