@@ -39,7 +39,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
     },
     {
       name: 'Офисная недвижимость',
-      count: -1,
+      count: 1000,
       image: './office.svg',
       isActive: false,
     },
@@ -173,12 +173,6 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
       });
     } catch (e) {
       console.log(e);
-      // let error = e
-      // // custom error
-      // if (e.status === 400) {
-      //   error = await e.json()
-      // }
-      // set({ error })
     } finally {
       set({ loading: false });
     }

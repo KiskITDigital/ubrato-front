@@ -117,6 +117,7 @@ const Executors: FC = () => {
       );
 
       const hits = await generateTypesenseClient("contractor_index", { per_page: paginationPerPage, page: paginationPage, filter_by: filters, sort_by: sortingValue })
+
       const newExecutorList = await getExecutorList(hits)
       findExecutorState.handleExecutorList(newExecutorList);
     })()
