@@ -105,5 +105,7 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
             newExecutorList.push(result!.executorData);
         });
 
+    console.log(newExecutorList);
+
     return newExecutorList
 }

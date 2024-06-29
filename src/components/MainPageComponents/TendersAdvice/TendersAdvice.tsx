@@ -27,21 +27,21 @@ export const TendersAdvice: FC = () => {
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
-  function handleInfo() {
-    if (ordererState.role === 'orderer') {
-      ordererState.handleState('contractor');
-      // setRole('contractor')
-    } else if (ordererState.role === 'contractor') {
-      ordererState.handleState('orderer');
-      // setRole('orderer')
-    }
-  }
+  // function handleInfo() {
+  //   if (ordererState.role === 'orderer') {
+  //     // ordererState.handleState('contractor');
+  //     // setRole('contractor')
+  //   } else if (ordererState.role === 'contractor') {
+  //     // ordererState.handleState('orderer');
+  //     // setRole('orderer')
+  //   }
+  // }
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    handleInfo()
+    // handleInfo()
     // setTimeout(() => { handleInfo() }, 2000)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

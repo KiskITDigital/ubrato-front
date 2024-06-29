@@ -58,7 +58,7 @@ export const ExecutorsCatalog: FC = () => {
     typeCleaningStore?.apiCleaningTypes?.length,
   ]);
 
-  const count = 200;
+  const count = isOrdererState.role === 'contractor' ? tenderListStore.tenderList.length : findExecutorState.executorList.length
 
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
@@ -68,12 +68,6 @@ export const ExecutorsCatalog: FC = () => {
       widthR.current = window.outerHeight;
     }
   }, []);
-
-  // useEffect(() => {
-  //   console.log(userInfoStore.is_contractor);
-
-  //   isOrdererState.handleState(userInfoStore.is_contractor ? "contractor" : "orderer")
-  // }, [userInfoStore.is_contractor]);
 
   return (
     <div className={`container ${styles.container}`}>

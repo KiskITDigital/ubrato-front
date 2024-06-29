@@ -12,6 +12,7 @@ type PropsT = {
 
 export const TypeObjectCard: FC<PropsT> = ({ changeActive, info, ix }) => {
   const isOrdererState = useIsOrdererState();
+  console.log(info);
 
   return (
     <div
@@ -24,11 +25,10 @@ export const TypeObjectCard: FC<PropsT> = ({ changeActive, info, ix }) => {
         <p className={styles.text}>
           {info.count === -1
             ? ''
-            : `${info.count} ${
-                isOrdererState.role === 'contractor'
-                  ? countTransformTender(info.count)
-                  : countTransformService(info.count)
-              }`}
+            : `${info.count} ${isOrdererState.role === 'contractor'
+              ? countTransformTender(info.count)
+              : countTransformService(info.count)
+            }`}
         </p>
       </div>
     </div>

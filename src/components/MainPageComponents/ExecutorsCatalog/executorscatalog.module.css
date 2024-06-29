@@ -73,11 +73,11 @@
   font-weight: 500;
 }
 
-.btn > img {
+.btn>img {
   transition: transform 0.5s ease-in-out;
 }
 
-.btn > p {
+.btn>p {
   width: 197px;
   text-align: center;
 }
@@ -106,61 +106,61 @@
   column-gap: 20px;
 }
 
-.cleaningTypeGrid > div:nth-child(1) {
+.cleaningTypeGrid>div:nth-child(1) {
   grid-area: g;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(2) {
+.cleaningTypeGrid>div:nth-child(2) {
   grid-area: r;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(3) {
+.cleaningTypeGrid>div:nth-child(3) {
   grid-area: s;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(4) {
+.cleaningTypeGrid>div:nth-child(4) {
   grid-area: c;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(5) {
+.cleaningTypeGrid>div:nth-child(5) {
   grid-area: b;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(6) {
+.cleaningTypeGrid>div:nth-child(6) {
   grid-area: o;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(7) {
+.cleaningTypeGrid>div:nth-child(7) {
   grid-area: tc;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(8) {
+.cleaningTypeGrid>div:nth-child(8) {
   grid-area: ter;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(9) {
+.cleaningTypeGrid>div:nth-child(9) {
   grid-area: cr;
 
   justify-self: flex-start;
 }
 
-.cleaningTypeGrid > div:nth-child(10) {
+.cleaningTypeGrid>div:nth-child(10) {
   grid-area: e;
   width: 353.67px;
   justify-self: flex-start;
@@ -217,7 +217,7 @@
   outline: none;
 }
 
-.findExecutorBtn > img {
+.findExecutorBtn>img {
   width: 24px;
   height: 24px;
 }
