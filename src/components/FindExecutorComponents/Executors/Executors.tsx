@@ -107,7 +107,6 @@ const Executors: FC = () => {
 
     (async () => {
       const hitsWithoutPagination = await generateTypesenseClient("contractor_index", { filter_by: filters })
-      console.log(hitsWithoutPagination);
 
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(

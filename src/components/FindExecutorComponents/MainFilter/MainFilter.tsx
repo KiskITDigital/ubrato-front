@@ -114,8 +114,8 @@ const MainFilter: FC = () => {
                                     placeholder="Поиск" />
                             </label>
                             {
-                                cityList.map(city => <div className={styles.hitList} onClick={() => setChosenLocation(city)}>
-                                    <p className={styles.location} key={city.id}>{city.name}</p>
+                                cityList.map(city => <div className={styles.hitList} key={city.id} onClick={() => setChosenLocation(city)}>
+                                    <p className={styles.location}>{city.name}</p>
                                 </div>)
                             }
                         </>

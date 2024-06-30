@@ -62,7 +62,7 @@ const ExecutorItem: FC<{
                         .slice(0, servicesNumber ? servicesNumber : (executor.areServicesHidden ? 4 : undefined))
                         .map((service) => (
                             <div key={service.id} className={`${styles.service} ${additionalStyles ? additionalStyles.serviceForCarousel : ''}`}>
-                                <p className={styles.serviceName}>{service.name}</p>
+                                <p className={styles.serviceName}>{service.group_name} {service.name}</p>
                                 <p className={styles.servicePrice}>
                                     от {modifyPrice(service.price)} за ед.
                                     <img

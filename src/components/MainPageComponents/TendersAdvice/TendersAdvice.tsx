@@ -12,8 +12,6 @@ export const TendersAdvice: FC = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 22 });
 
-  // const [role, setRole] = useState<'orderer' | 'contractor'>('orderer');
-
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
       emblaApi.scrollPrev();
@@ -27,23 +25,10 @@ export const TendersAdvice: FC = () => {
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
-  // function handleInfo() {
-  //   if (ordererState.role === 'orderer') {
-  //     // ordererState.handleState('contractor');
-  //     // setRole('contractor')
-  //   } else if (ordererState.role === 'contractor') {
-  //     // ordererState.handleState('orderer');
-  //     // setRole('orderer')
-  //   }
-  // }
-
   useEffect(() => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    // handleInfo()
-    // setTimeout(() => { handleInfo() }, 2000)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
