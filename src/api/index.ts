@@ -41,3 +41,4 @@ export {
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';
 export { getOtherProfilesOrganizations } from './otherProfilesOrganizations'
+export { isVerificated, verify } from './verification'

@@ -1,15 +1,17 @@
 import { FC, useEffect, useRef, useState } from "react";
 import styles from './settings-page.module.css'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { LoginFormValuesT } from "@/types/app";
 import { useFormik } from "formik";
-import { login } from "@/api";
+import { isVerificated, login, verify } from "@/api";
 import { loginSchema } from '@/validation/loginSchema';
 import { AxiosError } from "axios";
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 const SettingsPage: FC = () => {
+    const navigate = useNavigate()
+
     const startRef = useRef<HTMLHeadingElement>(null)
 
     const userInfoStore = useUserInfoStore()
@@ -37,11 +39,6 @@ const SettingsPage: FC = () => {
                 setIsLoading(true);
                 try {
                     await login(parameters);
-                    // const token = localStorage.getItem('token');
-                    // if (token) {
-                    //     // await userInfoStore.fetchUser(token);
-                    //     console.log('smth');
-                    // }
                 } catch (e) {
                     console.log(e, '1');
                     if (e instanceof AxiosError) {
@@ -61,12 +58,29 @@ const SettingsPage: FC = () => {
         validationSchema: loginSchema,
     });
 
+    const verification = () => {
+        const token = localStorage.getItem('token')
+        if (!token) {
+            navigate("/login")
+            return;
+        }
+        verify(token)
+    }
+
     useEffect(() => {
         startRef.current!.scrollIntoView({ behavior: "smooth" })
         setTimeout(() => {
             const elementTop = startRef.current!.getBoundingClientRect().top;
             window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
         }, 0);
+
+        const token = localStorage.getItem('token')
+        if (!token) {
+            navigate("/login")
+            return;
+        }
+        isVerificated(token)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const itemClasses = {
@@ -88,7 +102,7 @@ const SettingsPage: FC = () => {
                     {status === 'unverified' &&
                         <div className={styles.statusVerifyBlock}>
                             <button
-                                onClick={() => setStatus('success')}
+                                onClick={() => { verification(); setStatus("success") }}
                                 className={styles.sendMessage}>Отправить письмо</button>
                             <div className={styles.info}>
                                 <img className={styles.info__img} src="/info-ic.svg" alt="i" />
