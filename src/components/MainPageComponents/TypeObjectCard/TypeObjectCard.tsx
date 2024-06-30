@@ -12,7 +12,6 @@ type PropsT = {
 
 export const TypeObjectCard: FC<PropsT> = ({ changeActive, info, ix }) => {
   const isOrdererState = useIsOrdererState();
-  console.log(info);
 
   return (
     <div
