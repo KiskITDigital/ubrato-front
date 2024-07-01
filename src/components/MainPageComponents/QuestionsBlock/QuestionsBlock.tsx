@@ -14,6 +14,8 @@ export const QuestionsBlock: FC = () => {
 
   const location = useLocation();
 
+  const questionsRef = useRef(null);
+
   const [qusetionNumber, setQuestionNumber] = useState('');
   const [pageNumber, setPageNumber] = useState('1');
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
@@ -127,7 +129,9 @@ export const QuestionsBlock: FC = () => {
           Заказчику
         </button>
       </div>
-      <div id="hey" className={styles.pageQuestion}>
+      <div  id="hey" className={styles.pageQuestion}>
+        {/* ССЫЛКА ВОТ НА ЭТОТ АККОРДЕОН */}
+
         <Accordion
           showDivider={false}
           className={styles.accordionWrapper}

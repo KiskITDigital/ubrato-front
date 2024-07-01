@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import styles from './mainbanner.module.css';
 import styles2 from './mainbanner2.module.css';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,8 @@ export const MainBanner: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
     Autoplay({ playOnInit: false, delay: 3000 }),
   ]);
+
+  const questionsRef = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
 
@@ -95,7 +97,9 @@ export const MainBanner: FC = () => {
             {showNotification && (
               <div className={styles.notification}>
                  <p>Чтобы создать тендер, <Link to={'/login'}><span className={`${styles.blueText} ${styles.text_underline} `}>войдите на сайт.</span></Link></p>
-                <Link to={'/'}><p className={`${styles.blueText} ${styles.text_underline} `}>Узнать, как создать тендер</p></Link>
+                <p 
+                 className={`${styles.blueText} ${styles.text_underline} `}>Узнать, как создать тендер</p>
+                  
                 <button
                   className={styles.closeButton}
                   onClick={() => setShowNotification(false)}
