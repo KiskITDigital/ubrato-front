@@ -16,7 +16,7 @@
 .block {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
     padding-bottom: 16px;
     border-bottom: 1px dashed var(--color-black-14);
 }
@@ -37,6 +37,7 @@
     flex-direction: row;
     position: relative;
     align-items: center;
+    margin-bottom: 6px;
 }
 
 .inputFilterLabel>.inputFilterLabelImg {
@@ -140,13 +141,8 @@
     color: var(--color-blue-primary) !important;
 }
 
-/* 
-.block .hitList>.location:hover>p {
-    color: var(--color-blue-primary) !important;
-} */
-
 .inputFilterLabel {
-    margin-top: 15px;
+    margin-top: 6px;
     display: flex;
     flex-direction: row;
     position: relative;
@@ -183,7 +179,7 @@
     flex-direction: row;
     align-items: center;
     gap: 6px;
-    padding: 0px 7px;
+    padding: 4px 7px;
 }
 
 .block .hitList .objectItem:hover {

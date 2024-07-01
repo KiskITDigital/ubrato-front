@@ -674,6 +674,7 @@
 .section__block__add__object {
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: 100%;
 }
 
@@ -1025,6 +1026,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .object__objects__objects__p>img {
@@ -1575,4 +1577,10 @@
 .typesToAdd>div {
     display: flex;
     flex-direction: column !important;
+}
+
+
+.arrowRightImg {
+    width: 14px;
+    height: 14px;
 }

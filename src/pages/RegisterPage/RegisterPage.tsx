@@ -401,9 +401,9 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Согласие с{' '}
+                  Принимаю{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=2">
-                    Пользовательским соглашением ООО «Интеграция»
+                    Пользовательское соглашение ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
                     {formik.errors.userAgreement}
@@ -416,9 +416,9 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Согласие с{' '}
+                  Соглашаюсь с{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=1">
-                    “Политикой обработки персональных данных” ООО «Интеграция»
+                    Политикой обработки персональных данных ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
                     {formik.errors.personalDataPolicy}
@@ -431,6 +431,7 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
+                  Даю{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=3">
                     Согласие на обработку персональных данных
                   </Link>
