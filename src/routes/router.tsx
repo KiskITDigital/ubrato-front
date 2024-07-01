@@ -1,13 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import { App } from '../components/App/App';
 import { HomePage } from '../pages/HomePage/HomePage';
-// import { TendersPage } from '../pages/TendersPage/TendersPage';
 import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
 import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
-
 import { CreateTenderPage } from '@/pages/CreateTenderPage/CreateTenderPage';
 import { OneTenderPageExecutor } from '@/pages/OneTenderPageExecutor/OneTenderPageExecutor';
 import { Page1, ProfileDocuments, SurveyStart } from '@/components';
@@ -31,6 +29,8 @@ import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
 import ContactsPage from '@/pages/ContactsPage';
 import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
 import RightsPage from '@/pages/RightsPage';
+import ForgotPasswordPage from '@/pages/ForgotPasswordPage';
+
 export const Router = () => {
   return (
     <Routes>
@@ -41,9 +41,9 @@ export const Router = () => {
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="alltenders" element={<AllTendersPage />} />
-        {/* <Route path="tenders" element={<TendersPage />} /> */}
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route path="survey" element={<SurveyPage />}>
           <Route path="" element={<SurveyStart />} />
           <Route path="1" element={<Page1 />} />
@@ -56,16 +56,11 @@ export const Router = () => {
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
           <Route path="tenders" element={<MyTendersPage />} />
-          {/* <Route path="tenders" element={<AllTendersPage />} /> */}
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
-          {/* <Route path="tenders" element={<div></div>}>
-            <Route path="contractor" element={<div></div>} />
-            <Route path="orderer" element={<div></div>} />
-          </Route> */}
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />

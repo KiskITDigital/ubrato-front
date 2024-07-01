@@ -75,7 +75,7 @@ const Object: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }
                         <div className={`${styles.section__block__add__object}`}>
                             {!!createTenderState.objectCategory.length && <div className={`${styles.services__block__service} ${styles.object__block__service}`}>
                                 <p className={`${styles.service__name}`}>{createTenderState.objectName}</p>
-                                <img className={styles.service__name__img} src="/create-tender/create-tender-arrow-right.svg" alt="" />
+                                <img className={`${styles.service__name__img} ${styles.arrowRightImg}`} src="/create-tender/create-tender-arrow-right.svg" alt="" />
                                 <div className={`${styles.services__block__service__types}`}>
                                     {
                                         createTenderState.objectCategory.map((type, ind) => <p key={ind} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
@@ -122,7 +122,17 @@ const Object: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>; }
                     //  className={styles.object__objects__objects}
                     >
                         {
-                            !!objectsStore?.apiObjects?.length && objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) => <p className={`${styles.object__objects__objects__p} ${object.name === isObjectChoosed ? styles.object__objects__objects__pSelected : ''}`} onClick={() => { setChoosingObjectTypes(object.types.map(el => ({ id: el.id, name: el.name, count: 0 }))); setIsObjectChoosed(object.name); setChooseTypesTypesToObjectToAddObject([]) }} key={object.id}>{object.name} {object.name === isObjectChoosed && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
+                            !!objectsStore?.apiObjects?.length &&
+                            objectsStore.apiObjects.map((object: { id: number, name: string, total: number, types: { id: number, name: string }[] }) =>
+                                <p
+                                    className={`${styles.object__objects__objects__p} ${object.name === isObjectChoosed ? styles.object__objects__objects__pSelected : ''}`}
+                                    onClick={() => {
+                                        setChoosingObjectTypes(object.types.map(el => ({ id: el.id, name: el.name, count: 0 })));
+                                        setIsObjectChoosed(object.name);
+                                        setChooseTypesTypesToObjectToAddObject([])
+                                    }}
+                                    key={object.id}
+                                >{object.name} {object.name === isObjectChoosed && <img className={styles.arrowRightImg} src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
                         }
                     </div>
                     {!!choosingObjectTypes?.length &&

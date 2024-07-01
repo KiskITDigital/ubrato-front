@@ -24,7 +24,7 @@ const SendButtons: FC = () => {
         const arrToSearchObjectTypes = objectsStore.apiObjects
             .flatMap(type => type.types)
             .filter(el => createTenderState.objectCategory.includes(el.name))
-            .map(el => el.id);
+            .map(el => el.id)
         const servicesToCheck = createTenderState.services
             .map(el => el.types)
             .reduce((acc, el) => [...acc, ...el], [])
@@ -37,8 +37,8 @@ const SendButtons: FC = () => {
         const city_id = createTenderState.cities.find(el => el.name === createTenderState.city)?.id || 0
 
         const objectToSend = {
-            objects_types: arrToSearchObjectTypes,
-            services_types: arrToSearchServicesTypes,
+            objects_types: arrToSearchObjectTypes.length ? arrToSearchObjectTypes : [1],
+            services_types: arrToSearchServicesTypes.length ? arrToSearchServicesTypes : [1],
             specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : "",
             name: createTenderState.name,
             price: +createTenderState.price,

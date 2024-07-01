@@ -121,46 +121,6 @@ const MainFilter: FC = () => {
                         </>
                 }
             </div>
-            {/* <InstantSearch indexName={'city_index'} searchClient={searchCityParam.trim() ? generateSearchClient(5) : generateFiveMainCities()}>
-                        <p className={styles.title}>Локации:</p>
-                        {
-                            chosenLocation ?
-                                <>
-                                    <div className={styles.chosenLocations}>
-                                        <p
-                                            className={styles.chosenLocation}
-                                        >
-                                            {chosenLocation.name}
-                                            <img onClick={() => { setChosenLocation(null); setSearchCityParam('') }} className={styles.removeChosenLocation} src="/create-tender/create-tender-close.svg" alt="delete icon" />
-                                        </p>
-                                    </div>
-                                </>
-                                :
-                                <>
-                                    <label className={styles.inputFilterLabel}>
-                                        <img className={styles.inputFilterLabelImg} src="/find-executor/loupe.svg" alt="loupe" />
-                                        <SearchBox
-                                            className={styles.inputFilter}
-                                            onChangeCapture={(e: ChangeEvent<HTMLInputElement>) => setSearchCityParam(e.target.value)}
-                                            placeholder="Населенный пункт" />
-                                    </label>
-                                    <Hits
-                                        classNames={{
-                                            list: styles.hitList,
-                                            item: styles.location
-                                        }}
-                                        hitComponent={({ hit }) => (
-                                            <p
-                                                onClick={() => { setChosenLocation({ id: hit.id as number, name: hit.name as string }) }}>
-                                                {hit.name as ReactNode}
-                                            </p>
-                                        )} />
-                                </>
-                        }
-                    </InstantSearch> */}
-            {/* 
-                </div>
-            } */}
             {
                 isSearchClient &&
                 <div className={styles.block}>

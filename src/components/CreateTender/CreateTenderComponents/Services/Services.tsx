@@ -93,7 +93,7 @@ const Services: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>;
                                 <div className={styles.services__block__serviceToChange} key={service.id}>
                                     <div key={service.id} className={`${styles.services__block__service}`}>
                                         <p className={`${styles.service__name}`}>{service.name}</p>
-                                        <img className={styles.service__name__img} src="/create-tender/create-tender-arrow-right.svg" alt="" />
+                                        <img className={`${styles.service__name__img} ${styles.arrowRightImg}`} src="/create-tender/create-tender-arrow-right.svg" alt="" />
                                         <div className={`${styles.services__block__service__types}`}>
                                             {
                                                 service.types.map(type => <p key={type.id} className={`${styles.services__block__service__type} ${styles.section__block__add__object__objectCategory}`}>
@@ -119,7 +119,7 @@ const Services: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>;
                                         >
                                             {
                                                 cleaningTypeStore.apiCleaningTypes.map((service) =>
-                                                    <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
+                                                    <p onClick={() => { setChooseTypesNameToObjectToChangeService(service.name); setChooseTypesTypesToObjectToChangeService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToChangeService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToChangeService && <img className={styles.arrowRightImg} src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
                                             }
                                         </div>
                                         <div
@@ -178,7 +178,7 @@ const Services: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElement>;
                             >
                                 {
                                     !!cleaningTypeStore?.apiCleaningTypes?.length && cleaningTypeStore.apiCleaningTypes.map((service) => !createTenderState.services.some(el => el.name === service.name) &&
-                                        <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
+                                        <p onClick={() => { setChooseTypesNameToObjectToAddService(service.name); setChooseTypesTypesToObjectToAddService([]) }} className={`${styles.object__objects__objects__p} ${service.name === chooseTypesNameToObjectToAddService ? styles.object__objects__objects__pSelected : ''}`} key={service.id}>{service.name} {service.name === chooseTypesNameToObjectToAddService && <img className={styles.arrowRightImg} src="/create-tender/create-tender-arrow-right.svg" alt="" />}</p>)
                                 }
                             </div>
                             {
