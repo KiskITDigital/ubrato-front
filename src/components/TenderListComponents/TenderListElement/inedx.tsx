@@ -17,6 +17,7 @@ interface Hit {
   work_end: string;
   price: number;
   city: string;
+  
 }
 
 interface CustomHitProps {
