@@ -16,7 +16,7 @@ const SettingsPage: FC = () => {
 
     const userInfoStore = useUserInfoStore()
 
-    const [status, setStatus] = useState<'unverified' | 'success' | 'blocked'>('unverified');
+    const [status, setStatus] = useState<'unverified' | 'success' | 'blocked'>(userInfoStore.user.verified ? "success" : "unverified");
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -58,13 +58,15 @@ const SettingsPage: FC = () => {
         validationSchema: loginSchema,
     });
 
-    const verification = () => {
+    const verification = async () => {
         const token = localStorage.getItem('token')
         if (!token) {
             navigate("/login")
             return;
         }
-        verify(token)
+        const res = await verify(token)
+        console.log(res);
+
     }
 
     useEffect(() => {
@@ -79,7 +81,7 @@ const SettingsPage: FC = () => {
             navigate("/login")
             return;
         }
-        isVerificated(token)
+        // isVerificated(token)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -102,7 +104,7 @@ const SettingsPage: FC = () => {
                     {status === 'unverified' &&
                         <div className={styles.statusVerifyBlock}>
                             <button
-                                onClick={() => { verification(); setStatus("success") }}
+                                onClick={() => { setStatus("success") }}
                                 className={styles.sendMessage}>Отправить письмо</button>
                             <div className={styles.info}>
                                 <img className={styles.info__img} src="/info-ic.svg" alt="i" />
@@ -129,6 +131,7 @@ const SettingsPage: FC = () => {
                             id="email"
                             name="email"
                             type="email"
+                            readOnly={true}
                             // label="Логин (Email)"
                             value={formik.values.email}
                             onChange={formik.handleChange}

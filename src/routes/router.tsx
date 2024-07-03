@@ -43,7 +43,7 @@ export const Router = () => {
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="reset-password" element={<ForgotPasswordPage />} />
         <Route path="survey" element={<SurveyPage />}>
           <Route path="" element={<SurveyStart />} />
           <Route path="1" element={<Page1 />} />

@@ -142,7 +142,7 @@ export const LoginPage: FC = () => {
               }}
             />
           </div>
-          <Link className={styles.forgotPassword} to="/forgot-password">Забыли пароль?</Link>
+          <Link className={styles.forgotPassword} to="/reset-password">Забыли пароль?</Link>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
             {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
