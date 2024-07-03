@@ -9,9 +9,7 @@ export const isVerificated = async (token: string) => {
 }
 
 export const verify = async (token: string) => {
-    console.log(token);
-
-    // const res = await axiosInstance.post(`v1/auth/confirm-email?token=${token}`)
-    // console.log(res);
-    // return res
+    const res = await axiosInstance.post(`v1/auth/confirm-email?token=${token}`)
+    console.log(res);
+    return res.data
 }
