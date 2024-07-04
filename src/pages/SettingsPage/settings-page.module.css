@@ -57,6 +57,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
+    position: relative;
 }
 
 .inputBlock__name {
@@ -90,6 +91,15 @@
     font-size: 16px;
     font-weight: 600;
     width: fit-content;
+}
+
+.updateAccaunt:disabled {
+    background-color: var(--color-light-gray);
+    color: var(--color-dark-text);
+}
+
+.updateAccaunt:disabled:hover {
+    cursor: not-allowed;
 }
 
 .section__containerStatus {
@@ -182,6 +192,7 @@
     right: 15px;
     bottom: 0;
     line-height: 22px;
+    margin-top: 2px;
 }
 
 
@@ -229,4 +240,13 @@
 
 .base[data-invalid] {
     border: 1px solid #f90a0a;
+}
+
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+    gap: 3px;
 }

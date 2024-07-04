@@ -2,12 +2,13 @@ import { FC, useEffect, useRef, useState } from "react";
 import styles from './settings-page.module.css'
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
-import { LoginFormValuesT } from "@/types/app";
-import { useFormik } from "formik";
-import { askForVerification, login } from "@/api";
-import { loginSchema } from '@/validation/loginSchema';
-import { AxiosError } from "axios";
+// import { LoginFormValuesT } from "@/types/app";
+// import { useFormik } from "formik";
+import { askForVerification, askResetPassword, login } from "@/api";
+// import { loginSchema } from '@/validation/loginSchema';
+// import { AxiosError } from "axios";
 import { useUserInfoStore } from "@/store/userInfoStore";
+import { AxiosError } from "axios";
 
 const SettingsPage: FC = () => {
     const navigate = useNavigate()
@@ -21,44 +22,42 @@ const SettingsPage: FC = () => {
     const [buttonText, setButtonText] = useState<"Отправить письмо" | "Письмо было отправлено на почту">("Отправить письмо");
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    const initialValues: LoginFormValuesT = {
-        email: userInfoStore.user.email,
-        password: '',
-    };
+    const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState<"" | "Пароль некорректен" | "allowed" | "Ссылка была отправлена на почту">("");
 
-    const formik = useFormik<LoginFormValuesT>({
-        initialValues: initialValues,
-        onSubmit(values) {
-            console.log(values);
-            const parameters = {
-                email: values.email,
-                password: values.password,
-            };
-            (async () => {
-                setIsLoading(true);
-                try {
-                    await login(parameters);
-                } catch (e) {
-                    console.log(e, '1');
-                    if (e instanceof AxiosError) {
-                        if (e.response?.status === 401) {
-                            setErrorMsg('Неверный пароль');
-                        } else if (e.response?.status === 404) {
-                            setErrorMsg('Пользователя с таким e-mail не существует');
-                        } else {
-                            setErrorMsg('Что-то пошло не так');
-                        }
+    // const initialValues: LoginFormValuesT = {
+    //     email: userInfoStore.user.email,
+    //     password: '',
+    // };
+
+    // const formik = useFormik<LoginFormValuesT>({
+    //     initialValues: initialValues,
+    //     onSubmit() { },
+    //     validationSchema: loginSchema,
+    // });
+
+    const handlePassword = async (newVal: string) => {
+        setPassword(newVal)
+        // if (password.length > 0 && password.length < 6) setPasswordError("Пароль слишком короткий")
+        // else setPasswordError("")
+        if (newVal.length > 0) {
+            try {
+                await login({ email: userInfoStore.user.email, password: newVal })
+                setPasswordError("allowed")
+            } catch (e) {
+                if (e instanceof AxiosError) {
+                    if (e.response?.status === 401) {
+                        setPasswordError("Пароль некорректен")
+                    } else {
+                        setErrorMsg('Что-то пошло не так');
                     }
-                } finally {
-                    setIsLoading(false);
                 }
-            })();
-        },
-        validationSchema: loginSchema,
-    });
+            }
+        } else setPasswordError("")
+    }
 
     const verification = async () => {
         const token = localStorage.getItem('token')
@@ -89,9 +88,19 @@ const SettingsPage: FC = () => {
             navigate("/login")
             return;
         }
-        // isVerificated(token)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const askToResetPassword = async () => {
+        const { status } = await askResetPassword(userInfoStore.user.email)
+        if (status) {
+            setPassword("")
+            setPasswordError("Ссылка была отправлена на почту")
+            setTimeout(() => {
+                setPasswordError("")
+            }, 3000)
+        }
+    }
 
     const itemClasses = {
         input: styles.input,
@@ -146,13 +155,10 @@ const SettingsPage: FC = () => {
                             name="email"
                             type="email"
                             readOnly={true}
-                            // label="Логин (Email)"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
+                            maxLength={250}
+                            value={userInfoStore.user.email}
                             variant="bordered"
                             placeholder="Электронная почта"
-                            isInvalid={Boolean(formik.errors.email)}
-                            errorMessage={formik.errors.email}
                             classNames={itemClasses}
                             onFocus={() => {
                                 setErrorMsg('');
@@ -162,15 +168,11 @@ const SettingsPage: FC = () => {
                     <div className={styles.inputBlock}>
                         <p className={styles.inputBlock__name}>Пароль</p>
                         <Input
-                            id="password"
-                            name="password"
                             type={isPasswordVisible ? 'text' : 'password'}
-                            // label="Пароль"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
+                            maxLength={250}
+                            value={password}
+                            onChange={(e) => handlePassword(e.currentTarget.value)}
                             placeholder="Введите пароль"
-                            isInvalid={Boolean(formik.errors.password)}
-                            errorMessage={formik.errors.password}
                             endContent={
                                 <button onClick={() => setIsPasswordVisible(prev => !prev)} type="button">
                                     {isPasswordVisible ? (
@@ -185,8 +187,13 @@ const SettingsPage: FC = () => {
                                 setErrorMsg('');
                             }}
                         />
+                        {(passwordError !== "allowed" && passwordError !== "Ссылка была отправлена на почту") && <p className={styles.errorMessage}>{passwordError}</p>}
                     </div>
-                    <button disabled={isLoading} className={styles.updateAccaunt}>Изменить</button>
+                    <button
+                        disabled={passwordError !== "allowed"}
+                        className={styles.updateAccaunt}
+                        onClick={() => askToResetPassword()}
+                    >{passwordError === "Ссылка была отправлена на почту" ? "Ссылка была отправлена на почту" : "Изменить"}</button>
                     {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
                 </div>
             </div>
