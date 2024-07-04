@@ -45,7 +45,7 @@ useEffect(()=>{
           <div className={styles.one_part_grow}>
             <div>
             <p className={styles.nd_info_accented}>Стоимость</p> 
-            {!is_contract_price ? (<div className={styles.nds_field}><p>{price} ₽</p>  {is_nds ? <p className={styles.nds_block}>включая ндс</p> : <p className={`${styles.nds_block} ${styles.silenced}`}></p>}</div>) : (<div className={styles.nds_field}><p>Договорная</p>  {is_nds ? <p className={styles.nds_block}>включая ндс</p> : <p className={`${styles.nds_block} ${styles.silenced}`}></p>}</div>)}
+            {!is_contract_price ? (<div className={styles.nds_field}><p>{price} ₽</p>  {is_nds ? <p className={styles.nds_block}>включая ндс</p> : <p className={`${styles.nds_block} ${styles.silenced}`}>без ндс</p>}</div>) : (<div className={styles.nds_field}><p>Договорная</p>  {is_nds ? <p className={styles.nds_block}>включая ндс</p> : <p className={`${styles.nds_block} ${styles.silenced}`}>без ндс</p>}</div>)}
             </div>
            
           </div>
