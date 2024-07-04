@@ -17,7 +17,7 @@ const ForgotPasswordPage = () => {
 
     const [email, setEmail] = useState("");
 
-    const [buttonText, setButtonText] = useState<"Получить ссылку по почте" | "Создать новый пароль" | "Ссылка была отправлена на почту" | "что-то пошло не так">((emailParams && codeParams) ? "Создать новый пароль" : "Получить ссылку по почте");
+    const [buttonText, setButtonText] = useState<"Получить ссылку по почте" | "Создать новый пароль" | "Письмо было отправлено на почту" | "что-то пошло не так">((emailParams && codeParams) ? "Создать новый пароль" : "Получить ссылку по почте");
 
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
@@ -55,7 +55,7 @@ const ForgotPasswordPage = () => {
         if (!email) return;
         const { status } = await askResetPassword(email)
         if (status === true) {
-            setButtonText("Ссылка была отправлена на почту")
+            setButtonText("Письмо было отправлено на почту")
         }
     }
 
@@ -159,7 +159,7 @@ const ForgotPasswordPage = () => {
             }
             <button
                 className={localStyles.sendButton}
-                disabled={(emailParams && codeParams) ? ((!password1 || !password2 || password1 !== password2) || buttonText === "что-то пошло не так") : (errorMsg !== "allowed" || buttonText === "Ссылка была отправлена на почту")}
+                disabled={(emailParams && codeParams) ? ((!password1 || !password2 || password1 !== password2) || buttonText === "что-то пошло не так") : (errorMsg !== "allowed" || buttonText === "Письмо было отправлено на почту")}
                 onClick={() => (emailParams && codeParams) ? sendNewResetPassword() : askToResetPassword()}
             >{buttonText}</button>
         </div>

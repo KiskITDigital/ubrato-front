@@ -26,7 +26,7 @@ const SettingsPage: FC = () => {
     const [errorMsg, setErrorMsg] = useState('');
 
     const [password, setPassword] = useState("");
-    const [passwordError, setPasswordError] = useState<"" | "Пароль некорректен" | "allowed" | "Ссылка была отправлена на почту">("");
+    const [passwordError, setPasswordError] = useState<"" | "Пароль некорректен" | "allowed" | "Письмо было отправлено на почту">("");
 
     // const initialValues: LoginFormValuesT = {
     //     email: userInfoStore.user.email,
@@ -95,7 +95,7 @@ const SettingsPage: FC = () => {
         const { status } = await askResetPassword(userInfoStore.user.email)
         if (status) {
             setPassword("")
-            setPasswordError("Ссылка была отправлена на почту")
+            setPasswordError("Письмо было отправлено на почту")
             setTimeout(() => {
                 setPasswordError("")
             }, 3000)
@@ -187,13 +187,13 @@ const SettingsPage: FC = () => {
                                 setErrorMsg('');
                             }}
                         />
-                        {(passwordError !== "allowed" && passwordError !== "Ссылка была отправлена на почту") && <p className={styles.errorMessage}>{passwordError}</p>}
+                        {(passwordError !== "allowed" && passwordError !== "Письмо было отправлено на почту") && <p className={styles.errorMessage}>{passwordError}</p>}
                     </div>
                     <button
                         disabled={passwordError !== "allowed"}
                         className={styles.updateAccaunt}
                         onClick={() => askToResetPassword()}
-                    >{passwordError === "Ссылка была отправлена на почту" ? "Ссылка была отправлена на почту" : "Изменить"}</button>
+                    >{passwordError === "Письмо было отправлено на почту" ? "Письмо было отправлено на почту" : "Изменить"}</button>
                     {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
                 </div>
             </div>
