@@ -24,6 +24,11 @@
   margin-top: 43px;
   border-radius: 10px;
   width: 478px;
+  transition: all ease-in-out .15s;
+}
+
+.base:has(.input:focus) {
+  border-color: var(--color-blue-primary) !important;
 }
 
 .label {
@@ -38,7 +43,7 @@
 }
 
 .errorMessage {
-  color: #f90a0a;
+  color: var(--color-red-error);
   font-size: 10px;
   position: absolute;
   left: 15px;
@@ -46,7 +51,7 @@
 }
 
 .base[data-invalid] {
-  border: 1px solid #f90a0a;
+  border: 1px solid var(--color-red-error);
 }
 
 .inputContainer {
@@ -73,6 +78,7 @@
 .submit:disabled {
   opacity: 0.8;
 }
+
 .submitContainer {
   display: flex;
   justify-content: center;
@@ -93,4 +99,11 @@
     text-align: center;
     font-size: 22px;
   }
+}
+
+
+.forgotPassword {
+  margin-left: 15px;
+  color: var(--color-blue-primary);
+  text-decoration: underline;
 }

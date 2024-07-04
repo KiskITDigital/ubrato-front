@@ -70,6 +70,7 @@ export const LoginPage: FC = () => {
     label: styles.label,
     errorMessage: styles.errorMessage,
     helperWrapper: styles.helperWrapper,
+    inputWrapper: styles.inputWrapper
   };
 
   useEffect(() => {
@@ -141,6 +142,7 @@ export const LoginPage: FC = () => {
               }}
             />
           </div>
+          <Link className={styles.forgotPassword} to="/reset-password">Забыли пароль?</Link>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
             {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}

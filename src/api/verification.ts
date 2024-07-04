@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/utils"
 
-export const isVerificated = async (token: string) => {
+export const askForVerification = async (token: string) => {
     const res = await axiosInstance.get("v1/auth/confirm-email", {
         headers: { authorization: `Bearer ${token}` }
     })
@@ -9,9 +9,6 @@ export const isVerificated = async (token: string) => {
 }
 
 export const verify = async (token: string) => {
-    console.log(token);
-
-    // const res = await axiosInstance.post(`v1/auth/confirm-email?token=${token}`)
-    // console.log(res);
-    // return res
+    const res = await axiosInstance.post(`v1/auth/confirm-email?token=${token}`)
+    return res.data
 }

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { ChangeEvent, FC, FormEvent, Ref, useEffect, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, Ref, useEffect, useRef, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
 import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
@@ -93,7 +93,15 @@ export const RegisterPage: FC = () => {
     label: `${styles.checkText} ${styles.infoText}`,
   };
 
-  // const phoneRef = useRef(null);
+  const surnameRef = useRef<HTMLInputElement>(null)
+
+  const scrollTosurnameRef = () => {
+    surnameRef.current!.scrollIntoView({ behavior: "smooth" })
+    setTimeout(() => {
+      const elementTop = surnameRef.current!.getBoundingClientRect().top;
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
+    }, 0);
+  }
 
   const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
 
@@ -303,6 +311,11 @@ export const RegisterPage: FC = () => {
                 <div className={styles.companyBtns}>
                   <button
                     onClick={() => {
+                      setTimeout(() => {
+                        if (registrationStep !== 4) {
+                          scrollTosurnameRef();
+                        }
+                      }, 5)
                       setRegistrationStep(4);
                     }}
                     type="button"
@@ -338,6 +351,8 @@ export const RegisterPage: FC = () => {
                   name="lastName"
                   label="Фамилия"
                   type="text"
+                  autoFocus
+                  ref={surnameRef}
                   value={formik.values.lastName}
                   onChange={formik.handleChange}
                   placeholder="Фамилия"
@@ -401,9 +416,9 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Согласие с{' '}
+                  Принимаю{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=2">
-                    Пользовательским соглашением ООО «Интеграция»
+                    Пользовательское соглашение ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
                     {formik.errors.userAgreement}
@@ -416,9 +431,9 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Согласие с{' '}
+                  Соглашаюсь с{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=1">
-                    “Политикой обработки персональных данных” ООО «Интеграция»
+                    Политикой обработки персональных данных ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
                     {formik.errors.personalDataPolicy}
@@ -431,6 +446,7 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
+                  Даю{' '}
                   <Link target="_blank" className={styles.link} to="/rights?document=3">
                     Согласие на обработку персональных данных
                   </Link>

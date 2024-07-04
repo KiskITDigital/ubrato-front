@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@nextui-org/react";
 import { LoginFormValuesT } from "@/types/app";
 import { useFormik } from "formik";
-import { isVerificated, login, verify } from "@/api";
+import { askForVerification, login } from "@/api";
 import { loginSchema } from '@/validation/loginSchema';
 import { AxiosError } from "axios";
 import { useUserInfoStore } from "@/store/userInfoStore";
@@ -16,7 +16,9 @@ const SettingsPage: FC = () => {
 
     const userInfoStore = useUserInfoStore()
 
-    const [status, setStatus] = useState<'unverified' | 'success' | 'blocked'>('unverified');
+    const status: 'unverified' | 'success' = userInfoStore.user.verified ? "success" : "unverified"
+
+    const [buttonText, setButtonText] = useState<"Отправить письмо" | "Письмо было отправлено на почту">("Отправить письмо");
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -58,13 +60,21 @@ const SettingsPage: FC = () => {
         validationSchema: loginSchema,
     });
 
-    const verification = () => {
+    const verification = async () => {
         const token = localStorage.getItem('token')
         if (!token) {
             navigate("/login")
             return;
         }
-        verify(token)
+        try {
+            await askForVerification(token)
+            setButtonText("Письмо было отправлено на почту")
+            setTimeout(() => {
+                setButtonText("Отправить письмо")
+            }, 3000)
+        } catch (e) {
+            navigate("/login")
+        }
     }
 
     useEffect(() => {
@@ -79,7 +89,7 @@ const SettingsPage: FC = () => {
             navigate("/login")
             return;
         }
-        isVerificated(token)
+        // isVerificated(token)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -98,25 +108,31 @@ const SettingsPage: FC = () => {
             <div className={styles.section}>
                 <p className={styles.section__name}>Статус</p>
                 <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
-                    <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p>
+                    {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
+                    <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : 'Подтвердите почту'}</p>
                     {status === 'unverified' &&
                         <div className={styles.statusVerifyBlock}>
                             <button
-                                onClick={() => { verification(); setStatus("success") }}
-                                className={styles.sendMessage}>Отправить письмо</button>
-                            <div className={styles.info}>
-                                <img className={styles.info__img} src="/info-ic.svg" alt="i" />
-                                <p className={styles.info__text}>Чтобы начать работу с тендерами пройдите верификацию</p>
-                            </div>
+                                onClick={() => verification()}
+                                className={styles.sendMessage}
+                                disabled={buttonText === "Письмо было отправлено на почту"}
+                            >{buttonText}</button>
+                            {
+                                buttonText !== "Письмо было отправлено на почту" &&
+                                <div className={styles.info}>
+                                    <img className={styles.info__img} src="/info-ic.svg" alt="i" />
+                                    <p className={styles.info__text}>Чтобы начать работу с тендерами пройдите верификацию</p>
+                                </div>
+                            }
                         </div>
                     }
-                    {status === 'blocked' &&
+                    {/* {status === 'blocked' &&
                         <>
                             <p className={styles.statusBlockedText}>Описание причины (текст из Админки отправляет Админ)</p>
                             <p className={styles.statusBlockedAction}>Не поняли причину?<br /><Link className={styles.sectionLink} to="/profile/help">Напишите телефон</Link> и мы перезвоним</p>
                             <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
                         </>
-                    }
+                    } */}
                 </div>
             </div>
             <div className={`${styles.section} ${styles.sectionUserData}`}>
@@ -129,6 +145,7 @@ const SettingsPage: FC = () => {
                             id="email"
                             name="email"
                             type="email"
+                            readOnly={true}
                             // label="Логин (Email)"
                             value={formik.values.email}
                             onChange={formik.handleChange}
@@ -187,7 +204,8 @@ const SettingsPage: FC = () => {
                     <p className={styles.sectionText}>Есть вопросы по настройке аккаунта? <Link className={styles.sectionLink} to="/profile/help">Напишите телефон</Link> и мы перезвоним</p>
                 </div>
             </div>
-            {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>}
+            {/* {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>} */}
+            <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
         </section>
     );
 }

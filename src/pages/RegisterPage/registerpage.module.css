@@ -24,6 +24,11 @@
   border-radius: 10px;
   width: 478px;
   flex-direction: column;
+  transition: all ease-in-out .15s;
+}
+
+.base:has(.input:focus) {
+  border-color: var(--color-blue-primary) !important;
 }
 
 .label {
@@ -64,7 +69,7 @@
   position: relative;
 }
 
-.checkBase[data-selected] > .checkWrapper {
+.checkBase[data-selected]>.checkWrapper {
   background-color: var(--color-light-gray);
 }
 
@@ -73,7 +78,7 @@
   height: 80%;
 }
 
-.checkIcon > polyline {
+.checkIcon>polyline {
   stroke: var(--color-blue-primary);
 }
 
@@ -192,6 +197,7 @@
 .submit:disabled {
   opacity: 0.8;
 }
+
 .submitContainer {
   display: flex;
   justify-content: center;
@@ -273,7 +279,7 @@
   margin-bottom: 20px;
 }
 
-.companyBtns > button {
+.companyBtns>button {
   width: 200px;
   padding: 10px 15px;
   background-color: var(--color-blue-light);
@@ -334,7 +340,7 @@
     max-width: 360px;
   }
 
-  .companyBtns > button {
+  .companyBtns>button {
     padding: 10px;
     max-width: 45%;
   }
