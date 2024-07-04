@@ -131,6 +131,15 @@
     text-wrap: nowrap;
 }
 
+.sendMessage:disabled {
+    background-color: var(--color-light-gray);
+    color: var(--color-dark-text);
+}
+
+.sendMessage:disabled:hover {
+    cursor: not-allowed;
+}
+
 .info {
     background-color: var(--color-light-gray-secondary);
     border-radius: 13px;

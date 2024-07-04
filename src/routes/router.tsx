@@ -30,6 +30,7 @@ import ContactsPage from '@/pages/ContactsPage';
 import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
 import RightsPage from '@/pages/RightsPage';
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage';
+import ConfirmEmailPage from '@/pages/ConfirmEmailPage';
 
 export const Router = () => {
   return (
@@ -43,6 +44,7 @@ export const Router = () => {
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
+        <Route path="confirm-email" element={<ConfirmEmailPage />} />
         <Route path="reset-password" element={<ForgotPasswordPage />} />
         <Route path="survey" element={<SurveyPage />}>
           <Route path="" element={<SurveyStart />} />
