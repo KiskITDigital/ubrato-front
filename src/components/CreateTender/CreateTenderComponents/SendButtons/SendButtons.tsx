@@ -8,13 +8,14 @@ import styles from '../../CreateTender.module.css'
 import { useNavigate } from "react-router-dom";
 import Modal from "@/components/Modal";
 import AfterSendInfo from "../AfterSendInfo/AfterSendInfo";
+import { AxiosError } from "axios";
 
 const SendButtons: FC = () => {
     const createTenderState = useCreateTenderState()
     const objectsStore = useTypesObjectsStore()
     const cleaningTypeStore = useCleaningTypeStore()
 
-    const [isModal, setIsModal] = useState(false);
+    const [isModal, setIsModal] = useState<"" | "tender" | "draft">("");
     const navigate = useNavigate()
 
     const submit = async (isDraft: boolean) => {
@@ -37,8 +38,8 @@ const SendButtons: FC = () => {
         const city_id = createTenderState.cities.find(el => el.name === createTenderState.city)?.id || 0
 
         const objectToSend = {
-            objects_types: arrToSearchObjectTypes.length ? arrToSearchObjectTypes : [1],
-            services_types: arrToSearchServicesTypes.length ? arrToSearchServicesTypes : [1],
+            objects_types: arrToSearchObjectTypes.length ? arrToSearchObjectTypes : [],
+            services_types: arrToSearchServicesTypes.length ? arrToSearchServicesTypes : [],
             specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : "",
             name: createTenderState.name,
             price: +createTenderState.price,
@@ -54,28 +55,34 @@ const SendButtons: FC = () => {
             city_id: city_id || null,
             attachments: createTenderState.attachments.map(attachment => attachment.linkToSend)
         }
-        console.log(objectToSend);
+        // console.log(objectToSend);
 
-        const res = (isDraft || city_id) && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
-        console.log(res);
-        if (res && res.status === 200) {
-            if (createTenderState.executorToSend) offerTender(token, createTenderState.executorToSend.id, res.data.id)
-            createTenderState.clear()
-            setIsModal(true)
+        try {
+            const res = (isDraft || city_id) && await createTender(token, objectToSend, isDraft) as { status: number, data: { id: number } }
+            console.log(res);
+            if (res && res.status === 200) {
+                if (createTenderState.executorToSend) offerTender(token, createTenderState.executorToSend.id, res.data.id)
+                createTenderState.clear()
+                setIsModal(isDraft ? "draft" : "tender")
+            }
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                navigate("/login")
+            }
         }
     }
     return (
         <div className={`${styles.section} ${styles.sendButtons}`}>
             {
-                isModal && <Modal isOpen={isModal}>
-                    <AfterSendInfo closeModal={() => { setIsModal(false); createTenderState.changeExecutorToSend() }} executorName={createTenderState.executorToSend?.name || null} />
+                !!isModal && <Modal isOpen={!!isModal}>
+                    <AfterSendInfo isDraft={isModal === "draft"} closeModal={() => { setIsModal(""); createTenderState.changeExecutorToSend() }} executorName={createTenderState.executorToSend?.name || null} />
                 </Modal>
             }
             <div className={`${styles.section__block}`}>
                 <p className={`${styles.section__block__p}`}></p>
                 <div className={`${styles.section__sendButtons__block}`}>
                     <button onClick={() => { submit(false) }} className={styles.section__sendButtons__block__moderationButton}>Отправить на модерацию</button>
-                    <button onClick={() => { submit(true) }} className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
+                    <button disabled={!!createTenderState.executorToSend?.name} onClick={() => { submit(true) }} className={styles.section__sendButtons__block__templateButton}>Сохранить как черновик</button>
                 </div>
             </div>
         </div>

@@ -199,9 +199,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
                 if (!state.price) new_is_contract_price = true
                 // if (!state.cleaningTZ) newErrors.push('tz')
                 if (!state.city) newErrors.push('city')
-                // if (!state.objectName) newErrors.push('object')
+                if (!state.objectName) newErrors.push('object')
                 // if (!state.floor_space) newErrors.push('floor_space')
-                // if (!state.services.length) newErrors.push('services')
+                if (!state.services.length) newErrors.push('services')
                 // if (!state.description) newErrors.push('description')
                 // if (!state.wishes) newErrors.push('wishes')
                 // if (!state.attachments.length) newErrors.push('attachments')

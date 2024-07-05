@@ -1483,6 +1483,9 @@
     background-color: var(--color-back-gray);
 }
 
+.section__sendButtons__block__templateButton:disabled:hover {
+    cursor: not-allowed;
+}
 
 
 
