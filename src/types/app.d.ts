@@ -120,7 +120,9 @@ export interface executorList {
 
 export interface tenderList {
   id: string;
+  img: string;
   name: string;
+  inn: string;
   text: string;
   regions: {
     id: number;
@@ -130,9 +132,11 @@ export interface tenderList {
     id: number;
     name: string;
     price: number;
+    group_name: string;
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
+  isTextHidden: boolean
 }
 
 
