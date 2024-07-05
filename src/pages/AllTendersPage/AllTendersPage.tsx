@@ -1,9 +1,10 @@
 import { FC, useEffect, useRef } from 'react';
 import s from './styles.module.css'
 import { TenderListComp } from '@/components/TenderListComponents/TenderListComponents';
-import { MainFilterTender } from '@/components/TenderListComponents/TenderListCustomFilter';
+// import { MainFilterTender } from '@/components/TenderListComponents/TenderListCustomFilter';
 import FastFilterBlock from '@/components/FindExecutorComponents/FastFilter/FastFilter';
 import { useTenderListState } from '@/store/tendersListStore';
+import MainFilterTender from '@/components/TenderListComponents/TenderListCustomFilter';
 
 export const AllTendersPage: FC = () => {
   const tenderListState = useTenderListState()

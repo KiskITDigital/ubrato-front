@@ -120,9 +120,7 @@ export interface executorList {
 
 export interface tenderList {
   id: string;
-  img: string;
   name: string;
-  inn: string;
   text: string;
   regions: {
     id: number;
