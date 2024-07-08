@@ -19,14 +19,14 @@ const SettingsPage: FC = () => {
 
     const status: 'unverified' | 'success' = userInfoStore.user.verified ? "success" : "unverified"
 
-    const [buttonText, setButtonText] = useState<"Отправить письмо" | "Письмо было отправлено на почту">("Отправить письмо");
+    const [buttonText, setButtonText] = useState<"Отправить письмо" | "На указанную вами электронную почту отправлена ссылка для создания нового пароля.">("Отправить письмо");
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
     const [password, setPassword] = useState("");
-    const [passwordError, setPasswordError] = useState<"" | "Пароль некорректен" | "allowed" | "Письмо было отправлено на почту">("");
+    const [passwordError, setPasswordError] = useState<"" | "Пароль некорректен" | "allowed" | "На указанную вами электронную почту отправлена ссылка для создания нового пароля.">("");
 
     // const initialValues: LoginFormValuesT = {
     //     email: userInfoStore.user.email,
@@ -67,7 +67,7 @@ const SettingsPage: FC = () => {
         }
         try {
             await askForVerification(token)
-            setButtonText("Письмо было отправлено на почту")
+            setButtonText("На указанную вами электронную почту отправлена ссылка для создания нового пароля.")
             setTimeout(() => {
                 setButtonText("Отправить письмо")
             }, 3000)
@@ -95,7 +95,7 @@ const SettingsPage: FC = () => {
         const { status } = await askResetPassword(userInfoStore.user.email)
         if (status) {
             setPassword("")
-            setPasswordError("Письмо было отправлено на почту")
+            setPasswordError("На указанную вами электронную почту отправлена ссылка для создания нового пароля.")
             setTimeout(() => {
                 setPasswordError("")
             }, 3000)
@@ -124,10 +124,10 @@ const SettingsPage: FC = () => {
                             <button
                                 onClick={() => verification()}
                                 className={styles.sendMessage}
-                                disabled={buttonText === "Письмо было отправлено на почту"}
+                                disabled={buttonText === "На указанную вами электронную почту отправлена ссылка для создания нового пароля."}
                             >{buttonText}</button>
                             {
-                                buttonText !== "Письмо было отправлено на почту" &&
+                                buttonText !== "На указанную вами электронную почту отправлена ссылка для создания нового пароля." &&
                                 <div className={styles.info}>
                                     <img className={styles.info__img} src="/info-ic.svg" alt="i" />
                                     <p className={styles.info__text}>Чтобы начать работу с тендерами пройдите верификацию</p>
@@ -187,13 +187,13 @@ const SettingsPage: FC = () => {
                                 setErrorMsg('');
                             }}
                         />
-                        {(passwordError !== "allowed" && passwordError !== "Письмо было отправлено на почту") && <p className={styles.errorMessage}>{passwordError}</p>}
+                        {(passwordError !== "allowed" && passwordError !== "На указанную вами электронную почту отправлена ссылка для создания нового пароля.") && <p className={styles.errorMessage}>{passwordError}</p>}
                     </div>
                     <button
                         disabled={passwordError !== "allowed"}
                         className={styles.updateAccaunt}
                         onClick={() => askToResetPassword()}
-                    >{passwordError === "Письмо было отправлено на почту" ? "Письмо было отправлено на почту" : "Изменить"}</button>
+                    >{passwordError === "На указанную вами электронную почту отправлена ссылка для создания нового пароля." ? "На указанную вами электронную почту отправлена ссылка для создания нового пароля." : "Изменить"}</button>
                     {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
                 </div>
             </div>
