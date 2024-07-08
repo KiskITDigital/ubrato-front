@@ -25,7 +25,7 @@ export const useTenderListState = create<tenderListState>()((set) => ({
     servicesTypesId: [],
     fastFilterTexts: [],
     userID: null,
-
+    
     tenderList: [],
 
     handleLocation: (newLocationId: number | null) => {

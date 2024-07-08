@@ -132,9 +132,11 @@ export interface tenderList {
     id: number;
     name: string;
     price: number;
+    group_name: string;
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
+  isTextHidden: boolean
 }
 
 
