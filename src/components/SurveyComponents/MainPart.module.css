@@ -59,6 +59,7 @@
 .regularText {
   font-size: 26px;
   font-weight: 400;
+  align-self: flex-start;
 }
 
 .text {
@@ -71,10 +72,15 @@
   font-weight: 800;
 }
 
+.list{
+  align-self: flex-start;
+}
+
 .boldText {
   font-size: 26px;
   font-weight: 700;
   margin-top: 60px;
+  align-self: flex-start;
 }
 
 .narrowText {

@@ -43,8 +43,7 @@ export const SurveyStart: FC = () => {
         <p className={styles.boldText}>Преимущества участникам</p>
         <p className={styles.regularText}>
           За ответы на вопросы анкеты Ubrato предоставит доступ к исследованию рынка клининговых
-          услуг, созданному на основе опроса более 150 представителей клининговых компаний России в
-          2023 году.
+          услуг, созданному на основе опроса более 150 представителей клининговых компаний России в период 2023-2024 года.
         </p>
         <p className={styles.regularText}>
           Участники анкетирования станут ключевым партнерами площадки.
@@ -62,7 +61,7 @@ export const SurveyStart: FC = () => {
           Уже есть вопросы? <span className={styles.link}>Напишите телефон</span> и мы перезвоним.{' '}
         </p>
         <p className={styles.boldText}>Как принять участие</p>
-        <ul>
+        <ul className={styles.list}>
           <li className={`${styles.regularText}`}>
             <span className={styles.numberLi}>1. </span>
             <span className={styles.link}>Зарегистрируйтесь</span> на площадке Ubrato в качестве
