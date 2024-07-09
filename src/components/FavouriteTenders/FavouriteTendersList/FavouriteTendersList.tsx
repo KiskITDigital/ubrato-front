@@ -11,6 +11,7 @@ import { useFindExecutorState } from "@/store/findExecutorStore";
 import { TenderListElem } from "@/components/TenderListComponents/TenderListElement/inedx";
 import { getAllFavoriteTenders } from "@/api/favouriteTenders";
 import { useUserInfoStore } from "@/store/userInfoStore";
+import { generateTypesenseClient } from "@/components/TenderListComponents/generateSearchClient";
 
 
 
@@ -41,12 +42,13 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(5);
+  const [paginationPerPage, setPaginationPerPage] = useState(250);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState("");
   const [meData, setMe] = useState<string | null>();
   const userInfo = useUserInfoStore()
   const [favoriteTenderIds, setFavoriteTenderIds] = useState<string[]>([]);
+  const [filterFav, setFilter] = useState('')
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -58,6 +60,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   };
 
   useEffect(() => {
+    
     (async () => {
       const token = localStorage.getItem("token");
       // const me = await getMe(token);
@@ -67,12 +70,23 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       const favoriteTendersResponse = await getAllFavoriteTenders(token);
       const favoriteTenders = favoriteTendersResponse.data;
       const favoriteIds = favoriteTenders.map((tender: TenderList) => tender.id);
-      setFavoriteTenderIds(favoriteIds);
+      console.log(favoriteIds);
       setFavoriteTenderIds(favoriteIds);
       setAllExecutorListLength(favoriteIds.length);
-      setPaginationTotal(Math.ceil(favoriteIds.length / paginationPerPage));
-      console.log(favoriteTenders);
+      // console.log(favoriteTenders);
+     const filters = `id:=[${favoriteIds.map((executor: { id: string }) => executor.id)}]`
+      console.log(filters);
       
+      setFilter(filters)
+      const totalHits = await generateTypesenseClient("tender_index", { filter_by: filterFav })
+        console.log(totalHits);
+        console.log(filterFav);
+        
+      // setAllExecutorListLength(totalHits)
+      const hits = await generateTypesenseClient("tender_index", { filter_by: filterFav, page: paginationPage, per_page: 250 })
+      console.log(hits);
+      
+      // setPaginationTotal(hits)
     })();
 
     const client = new Typesense.Client({
@@ -86,10 +100,6 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
         },
       ],
     });
-
-
-      const filters = favoriteTenderIds.map((id) => `id:=${id}`).join(' && ');
-      
       // if (findExecutorState.locationId)
       //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
       // if (findExecutorState.objectTypesId.length)
@@ -116,12 +126,24 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       query_by: "name",
       per_page: paginationPerPage,
       page: paginationPage,
-      filter_by: filters,
+      filter_by: filterFav,
       sort_by: sortingValue,
     };
     console.log(paginationTotal, favoriteTenderIds.length);
        
-  
+    
+    // (async () => {
+    //   const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filterFav, per_page: 250 })
+    //   setAllExecutorListLength(hitsWithoutPagination?.length || 0)
+    //   setPaginationTotal(
+    //     hitsWithoutPagination?.length
+    //       ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
+    //       : 0
+    //   );
+    //   console.log(allExecutorListLength);
+      
+    // })()
+
 
     client
       .collections("tender_index")

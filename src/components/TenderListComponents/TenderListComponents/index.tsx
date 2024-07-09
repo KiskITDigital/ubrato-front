@@ -44,7 +44,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(33);
+  const [paginationPerPage, setPaginationPerPage] = useState(5);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
@@ -113,8 +113,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     };
 
     (async () => {
-      const hitsWithoutPagination = await generateTypesenseClient("tender_index")
-      console.log(hitsWithoutPagination);
+      const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filters, per_page: 250 })
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(
         hitsWithoutPagination?.length
@@ -197,7 +196,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   return (
     <div>
       <div className={s.counter_tender}>
-        Найдено тендеров: {tenderList.length}
+        Найдено тендеров: {allExecutorListLength}
       </div>
       {/* {JSON.stringify(tenderList, null, 4)} */}
       <div className={s.sortingBlock}>
