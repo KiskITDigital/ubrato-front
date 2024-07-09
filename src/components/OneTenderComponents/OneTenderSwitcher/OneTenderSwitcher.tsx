@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSwitchStore } from "@/store/switchStore";
 import styles from "./OneTenderSwitcher.module.css";
 import { OneTenderExecutorAcceptModal } from "../OneTenderExecutorAcceptModal/OneTenderExecutorAcceptModal";
+import { useUserInfoStore } from "@/store/userInfoStore";
 
 type SwitchProps = {
   setResponse: () => void;
@@ -21,6 +22,8 @@ export const Switchero: React.FC<SwitchProps> = ({
   price,
   response,
 }) => {
+  const userInfoStore = useUserInfoStore()
+
   const { activeIndex, setActiveIndex } = useSwitchStore();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({});
@@ -61,9 +64,8 @@ export const Switchero: React.FC<SwitchProps> = ({
           {options.map((option, index) => (
             <button
               key={index}
-              className={`${styles.switch_btn} ${
-                activeIndex === index ? styles.active : ""
-              }`}
+              className={`${styles.switch_btn} ${activeIndex === index ? styles.active : ""
+                }`}
               onClick={() => handleSwitch(index)}
             >
               {option}
@@ -71,7 +73,7 @@ export const Switchero: React.FC<SwitchProps> = ({
           ))}
         </div>
         <div>
-          {button_text == "Откликнуться на тендер" ? (
+          {(userInfoStore.is_contractor && button_text == "Откликнуться на тендер") ? (
             <button onClick={openModal} className={styles.button_modal}>
               Откликнуться на тендер
             </button>

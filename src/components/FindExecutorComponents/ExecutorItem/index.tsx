@@ -19,7 +19,7 @@ export const modifyPrice = (value: number | string, currencySymbol: string = 'â‚
 const ExecutorItem: FC<{
     executor: executorList,
     showAllExecutorServices?: (id: string) => void,
-    showAllExecutorText: (id: string) => void
+    showAllExecutorText?: (id: string) => void
     favoriteExecutorsHandler: (executor: executorList) => void,
     setExecutorIdToOfferTender: Dispatch<React.SetStateAction<string | null>>,
     setExecutorNameToOfferTender: Dispatch<React.SetStateAction<string | null>>,
@@ -43,9 +43,9 @@ const ExecutorItem: FC<{
                         <p className={styles.executorName}>{executor.name}</p>
                     </Link>
                     {executor.text &&
-                        <p className={styles.executorText}>
-                            {executor.isTextHidden && executor.text.split(' ').length > 10 ? getShorterText(executor.text) : executor.text}
-                            {executor.isTextHidden && executor.text.split(' ').length > 10 && <img onClick={() => showAllExecutorText(executor.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
+                        <p className={`${styles.executorText} ${additionalStyles ? additionalStyles.executorTextForCarousel : ""}`}>
+                            {executor.isTextHidden && (showAllExecutorText || executor.text.split(' ').length > 10) ? getShorterText(executor.text) : executor.text}
+                            {executor.isTextHidden && executor.text.split(' ').length > 10 && <img onClick={() => showAllExecutorText && showAllExecutorText(executor.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
                         </p>}
                     <div className={styles.executorRegions}>
                         {executor.regions.map((region) => (

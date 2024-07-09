@@ -106,7 +106,7 @@ const Executors: FC = () => {
     const filters = generateTypesenseFilters();
 
     (async () => {
-      const hitsWithoutPagination = await generateTypesenseClient("contractor_index", { filter_by: filters })
+      const hitsWithoutPagination = await generateTypesenseClient("contractor_index", { filter_by: filters, per_page: 250 })
 
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(
@@ -116,6 +116,10 @@ const Executors: FC = () => {
       );
       console.log(allExecutorListLength);
       const hits = await generateTypesenseClient("contractor_index", { per_page: paginationPerPage, page: paginationPage, filter_by: filters, sort_by: sortingValue })
+      if (hits?.length === 0 && paginationPage > 1) {
+        setPaginationPage(1)
+        return;
+      }
 
       const newExecutorList = await getExecutorList(hits)
       findExecutorState.handleExecutorList(newExecutorList);
@@ -188,7 +192,7 @@ const Executors: FC = () => {
         setExecutorNameToOfferTender={setExecutorNameToOfferTender}
         favoriteExecutorsHandler={favoriteExecutorsHandler}
       />
-      {allExecutorListLength > findExecutorState.executorList.length && (
+      {allExecutorListLength > findExecutorState.executorList.length ? (
         <>
           <button
             onClick={() => setPaginationPerPage((prev) => prev + 2)}
@@ -208,7 +212,13 @@ const Executors: FC = () => {
             />
           )}
         </>
-      )}
+      ) : <button
+        onClick={() => setPaginationPerPage((prev) => prev - 2)}
+        className={styles.showMore}
+      >
+        Показать меньше
+        <img className="rotate-180" src="/find-executor/arrow-down.svg" alt="" />
+      </button>}
     </div>
   );
 };

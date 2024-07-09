@@ -4,7 +4,7 @@ import { Checkbox, Input } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { helpSchema } from "@/validation/helpSchema";
 import { useIMask } from "react-imask";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface HelpFormValuesT {
     name: string;
@@ -138,7 +138,7 @@ const ContactsPage: FC = () => {
                         onChange={formik.handleChange}
                         classNames={checkStyle}
                     >
-                        Согласие на обработку персональных данных
+                        Соглашаюсь с <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку персональных данных</Link>.
                         <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
                     </Checkbox>
                     <input type="submit" className={styles.submit} value="Заказать звонок" />

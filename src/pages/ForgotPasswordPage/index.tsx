@@ -17,7 +17,7 @@ const ForgotPasswordPage = () => {
 
     const [email, setEmail] = useState("");
 
-    const [buttonText, setButtonText] = useState<"Получить ссылку по почте" | "Создать новый пароль" | "Письмо было отправлено на почту" | "что-то пошло не так">((emailParams && codeParams) ? "Создать новый пароль" : "Получить ссылку по почте");
+    const [buttonText, setButtonText] = useState<"Получить ссылку по почте" | "Создать новый пароль" | "На указанную вами электронную почту отправлена ссылка для создания нового пароля." | "что-то пошло не так">((emailParams && codeParams) ? "Создать новый пароль" : "Получить ссылку по почте");
 
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
@@ -55,7 +55,7 @@ const ForgotPasswordPage = () => {
         if (!email) return;
         const { status } = await askResetPassword(email)
         if (status === true) {
-            setButtonText("Письмо было отправлено на почту")
+            setButtonText("На указанную вами электронную почту отправлена ссылка для создания нового пароля.")
         }
     }
 
@@ -102,7 +102,7 @@ const ForgotPasswordPage = () => {
 
     return (
         <div className={`container ${localStyles.container}`}>
-            <h1 className={localStyles.header}>Вход</h1>
+            <h1 className={localStyles.header}>Забыли пароль?</h1>
             <p className={'ml-[15px] text-[var(--color-black-60)] font-[600]'}>
                 Введите электронную почту, указанную при регистрации
             </p>
@@ -159,7 +159,7 @@ const ForgotPasswordPage = () => {
             }
             <button
                 className={localStyles.sendButton}
-                disabled={(emailParams && codeParams) ? ((!password1 || !password2 || password1 !== password2) || buttonText === "что-то пошло не так") : (errorMsg !== "allowed" || buttonText === "Письмо было отправлено на почту")}
+                disabled={(emailParams && codeParams) ? ((!password1 || !password2 || password1 !== password2) || buttonText === "что-то пошло не так") : (errorMsg !== "allowed" || buttonText === "На указанную вами электронную почту отправлена ссылка для создания нового пароля.")}
                 onClick={() => (emailParams && codeParams) ? sendNewResetPassword() : askToResetPassword()}
             >{buttonText}</button>
         </div>
