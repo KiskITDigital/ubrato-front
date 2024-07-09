@@ -1,5 +1,5 @@
 import { useSurveyStore } from '@/store/surveyStore';
-import { CheckboxGroup, Checkbox } from '@nextui-org/react';
+import { CheckboxGroup, Checkbox, Textarea } from '@nextui-org/react';
 import { FC, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from '../MainPart.module.css';
@@ -368,13 +368,15 @@ export const Page5: FC = () => {
             <p className={styles.text}>
               Что еще вы хотели бы улучшить или добавить на сайте Ubrato?
             </p>
-            <input
-              type="text"
+            <Textarea
               value={surveyStore.question15}
               onChange={(e) => {
                 surveyStore.setQuestion15(e.target.value);
               }}
-              className={styles.input}
+              variant='faded'
+              disableAutosize
+              disableAnimation
+              className={styles.textarea + ' border-4 rounded-3xl '}
             />
           </div>
         </li>
