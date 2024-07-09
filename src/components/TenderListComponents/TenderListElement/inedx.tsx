@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { BaseHit } from "instantsearch.js";
+import { Link, useNavigate } from "react-router-dom";
 import {
   addFavouriteTender,
   isFavoriteTender,

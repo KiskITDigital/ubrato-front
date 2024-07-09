@@ -16,7 +16,7 @@ import { useTenderListState } from "@/store/tendersListStore";
 import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
 
 interface TenderList {
-  id: number;
+  id: string;
   name: string;
   reception_end: string;
   work_start: string;
@@ -103,6 +103,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       return filters.join(" && ");
     })();
 
+    
+    
     const searchParameters = {
       q: "",
       query_by: "name",
@@ -159,7 +161,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
         results
           .sort((a, b) => a!.index - b!.index)
           .forEach((result) => {
-            console.log(result?.tenderData);
+            console.log(result?.tenderData); 
             tenders.push(result!.tenderData);
           });
         setTenderList(tenders);
@@ -168,6 +170,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
         console.error("Ошибка:", error);
       });
       console.log(allExecutorListLength);
+      
   }, [
     paginationPage,
     paginationPerPage,
@@ -179,7 +182,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     sortingValue,
     myTender
   ]);
-
+  
   // const list = tenderList;
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },

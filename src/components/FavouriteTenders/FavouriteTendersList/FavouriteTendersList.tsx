@@ -11,7 +11,6 @@ import { useFindExecutorState } from "@/store/findExecutorStore";
 import { TenderListElem } from "@/components/TenderListComponents/TenderListElement/inedx";
 import { getAllFavoriteTenders } from "@/api/favouriteTenders";
 import { useUserInfoStore } from "@/store/userInfoStore";
-import { generateTypesenseClient } from "@/components/TenderListComponents/generateSearchClient";
 
 
 
@@ -42,13 +41,12 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(250);
+  const [paginationPerPage, setPaginationPerPage] = useState(5);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState("");
   const [meData, setMe] = useState<string | null>();
   const userInfo = useUserInfoStore()
   const [favoriteTenderIds, setFavoriteTenderIds] = useState<string[]>([]);
-  const [filterFav, setFilter] = useState('')
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -72,21 +70,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       const favoriteIds = favoriteTenders.map((tender: TenderList) => tender.id);
       console.log(favoriteIds);
       setFavoriteTenderIds(favoriteIds);
+      setPaginationTotal(Math.ceil(favoriteIds.length / paginationPerPage));
       setAllExecutorListLength(favoriteIds.length);
-      // console.log(favoriteTenders);
-     const filters = `id:=[${favoriteIds.map((executor: { id: string }) => executor.id)}]`
-      console.log(filters);
-      
-      setFilter(filters)
-      const totalHits = await generateTypesenseClient("tender_index", { filter_by: filterFav })
-        console.log(totalHits);
-        console.log(filterFav);
-        
-      // setAllExecutorListLength(totalHits)
-      const hits = await generateTypesenseClient("tender_index", { filter_by: filterFav, page: paginationPage, per_page: 250 })
-      console.log(hits);
-      
-      // setPaginationTotal(hits)
     })();
 
     const client = new Typesense.Client({
@@ -100,50 +85,18 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
         },
       ],
     });
-      // if (findExecutorState.locationId)
-      //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
-      // if (findExecutorState.objectTypesId.length)
-      //   findExecutorState.objectTypesId.forEach((object) =>
-      //     filters.push(`$tender_object(object_type_id:=${object})`)
-      //   );
-      // if (findExecutorState.servicesTypesId.length)
-      //   findExecutorState.servicesTypesId.forEach((service) =>
-      //     filters.push(`$tender_service(service_type_id:=${service})`)
-      //   );
-      // if (findExecutorState.fastFilterTexts)
-      //   findExecutorState.fastFilterTexts.forEach((filter) =>
-      //     filters.push(
-      //       `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
-      //     )
-      //   ); 
-      // if (myTender) {
-      //   filters.push(`( user_id:=${meData})`);
-      // }
-      // return filters.join(" && ");
+    const filters = `id:=[${favoriteTenderIds}]`
+    console.log(filters);      
 
     const searchParameters = {
       q: "",
       query_by: "name",
       per_page: paginationPerPage,
       page: paginationPage,
-      filter_by: filterFav,
+      filter_by: filters,
       sort_by: sortingValue,
     };
     console.log(paginationTotal, favoriteTenderIds.length);
-       
-    
-    // (async () => {
-    //   const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filterFav, per_page: 250 })
-    //   setAllExecutorListLength(hitsWithoutPagination?.length || 0)
-    //   setPaginationTotal(
-    //     hitsWithoutPagination?.length
-    //       ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
-    //       : 0
-    //   );
-    //   console.log(allExecutorListLength);
-      
-    // })()
-
 
     client
       .collections("tender_index")
@@ -200,9 +153,10 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
     meData,
     sortingValue,
     myTender,
+    favoriteTenderIds
   ]);
 
-  const list = tenderList.filter(tender => favoriteTenderIds.includes(tender.id));
+  const list = tenderList
   console.log(list);
   
   const sortingOptions: SortingOption[] = [
