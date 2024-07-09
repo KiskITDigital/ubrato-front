@@ -3,7 +3,6 @@ import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/On
 import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 import { FC, ReactNode, useEffect, useState, } from 'react';
 import { useSwitchStore } from '@/store/switchStore';
-import { OneTenderAdd } from '@/components/OneTenderComponentsWrappedVIew/OneTenderAdd/OneTenderAdd';
 import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
@@ -72,10 +71,10 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = 
-      // <OneTenderAdd
-      // ></OneTenderAdd>
-      <div>пусто</div>;
+      stack =
+        // <OneTenderAdd
+        // ></OneTenderAdd>
+        <div>пусто</div>;
       break;
     default:
       stack = <div>No stack component found</div>;

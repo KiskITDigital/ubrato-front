@@ -42,6 +42,8 @@ export const ContractorProfile: FC = () => {
     { id: string; name: string; description: string; links: string[]; selected: boolean }[]
   >([]);
 
+  const [areAllLocations, setAreAllLocations] = useState(true);
+
   const portfolioRef = useRef<HTMLHeadingElement>(null)
 
   const location = useLocation();
@@ -310,7 +312,7 @@ export const ContractorProfile: FC = () => {
           />
           {locations.length !== 0 && (
             <div className={styles.locationsList} ref={locationsListRef}>
-              {locations.map((e) => (
+              {(areAllLocations && locations.length > 6 ? locations.slice(0, 6) : locations).map((e) => (
                 <div className={styles.locationItem} key={e.id}>
                   {e.name}
                   <button
@@ -323,6 +325,10 @@ export const ContractorProfile: FC = () => {
                   </button>
                 </div>
               ))}
+              {locations.length > 6 && <>
+                {!areAllLocations && <br />}
+                <button onClick={() => setAreAllLocations(prev => !prev)} className={styles.areAllLocationsButton}>Показать {areAllLocations ? "все локации" : "меньше"}</button>
+              </>}
             </div>
           )}
           {citiesArr.length !== 0 && isListOpen && (

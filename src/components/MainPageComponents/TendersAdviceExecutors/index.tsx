@@ -6,17 +6,22 @@ import ExecutorItem from '@/components/FindExecutorComponents/ExecutorItem';
 import itemStyles from './tender-advice-item.module.css'
 import {
     addFavoriteExecutor,
+    fetchContractorProfile,
     removeFavoriteExecutor,
+    updateToken,
 } from "@/api/index";
 import { executorList } from '@/types/app';
 import { generateTypesenseClient, getExecutorList } from '@/components/FindExecutorComponents/generateSearchclient';
 import { useFindExecutorState } from '@/store/findExecutorStore';
 import styles from './tenders-advice-executors.module.css'
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     const navigate = useNavigate();
 
     const findExecutorState = useFindExecutorState();
+
+    const userInfoState = useUserInfoStore()
 
     const [executorList, setExecutorList] = useState<executorList[][]>([]);
 
@@ -50,22 +55,32 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     }
 
     const updateExecutorList = async (newExecutorList: executorList[]) => {
+        // console.log(newExecutorList);
+
+        newExecutorList = newExecutorList.map(executor => ({ ...executor, text: executor.text ? executor.text.length > 103 ? executor.text.slice(0, 100) + "..." : executor.text : "", isTextHidden: false }))
+        if (localStorage.getItem("token") && userInfoState.is_contractor) {
+            const res = await updateToken(fetchContractorProfile, null);
+            console.log(res.locations);
+        }
+
+
         const changedNewExecutorList: executorList[][] = []
         for (let i = 0; i < newExecutorList.length; i += (isMobile ? 1 : 4)) {
             const chunk = newExecutorList.slice(i, i + (isMobile ? 1 : 4));
             changedNewExecutorList.push(chunk);
         }
+
         setExecutorList(changedNewExecutorList)
     }
 
-    const showAllExecutorText = (id: string) => {
-        const newExecutorList = findExecutorState.executorList.map((executor) =>
-            executor.id === id
-                ? { ...executor, isTextHidden: false }
-                : executor
-        )
-        updateExecutorList(newExecutorList);
-    }
+    // const showAllExecutorText = (id: string) => {
+    //     const newExecutorList = findExecutorState.executorList.map((executor) =>
+    //         executor.id === id
+    //             ? { ...executor, isTextHidden: false }
+    //             : executor
+    //     )
+    //     updateExecutorList(newExecutorList);
+    // }
 
     useEffect(() => {
         (async () => {
@@ -106,7 +121,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                                         setExecutorIdToOfferTender={setExecutorIdToOfferTender}
                                         setExecutorNameToOfferTender={setExecutorNameToOfferTender}
                                         servicesNumber={3}
-                                        showAllExecutorText={showAllExecutorText}
+                                    // showAllExecutorText={showAllExecutorText}
                                     />
                                 </div>
                             ))

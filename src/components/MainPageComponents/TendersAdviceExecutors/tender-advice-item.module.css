@@ -52,3 +52,13 @@
     background-color: var(--color-back-gray);
     color: var(--color-black);
 }
+
+/* .executorTextForCarousel {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 2.6em;
+    line-height: 1.3em;
+} */
