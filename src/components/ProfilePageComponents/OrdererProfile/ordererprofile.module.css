@@ -275,3 +275,10 @@
 .link:hover {
   text-decoration: underline;
 }
+
+.areAllLocationsButton {
+  color: var(--color-blue-primary);
+  text-decoration: underline;
+  font-weight: 600;
+  outline: none;
+}

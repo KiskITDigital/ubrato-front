@@ -109,7 +109,3 @@
     background-color: var(--color-back-gray);
     color: var(--color-black);
 }
-
-.paginationBase>.wrapper>.next {
-    transform: rotate(180deg);
-}
