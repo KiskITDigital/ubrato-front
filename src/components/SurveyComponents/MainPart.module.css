@@ -240,6 +240,24 @@ ul {
   opacity: 0.3;
 }
 
+.textarea {
+  border: 3px solid var(--color-black-30);
+  font-size: 20px;
+  width: 431px;
+
+  >div {
+    padding: 8px 5px;
+    border-radius: 50%;
+    width: 431px;
+
+    >div {
+      textarea {
+        outline: none;
+      }
+    }
+  }
+}
+
 .radioGroupWrapper {
   display: flex;
   flex-direction: column;
@@ -330,11 +348,16 @@ ul {
   background-color: var(--color-light-gray);
   padding: 12px 18px;
   border-radius: 10px;
+  width: 100%;
+}
+
+.tableRadioGroupWrapper>p {
+  width: 65%;
 }
 
 .tableRadioGroupWrapper>div {
   display: flex;
-  width: 320px;
+  width: 33%;
   justify-content: space-around;
   align-items: center;
 }
@@ -387,6 +410,12 @@ ul {
 .checkGroup {
   margin-top: 30px;
   position: relative;
+
+  >div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 @media screen and (width <=1050px) {

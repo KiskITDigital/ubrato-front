@@ -80,8 +80,9 @@ export const OrdererProfile: FC = () => {
           className={styles.textarea}
           value={textareaValue ?? ''}
           ref={area}
+          maxLength={600}
           onChange={(e) => {
-            if (e.target.value.length === 0) {
+            if (e.target.value.length === 0 || e.target.value.length === 600) {
               setTextareaValue(null);
             } else {
               setTextareaValue(e.target.value);

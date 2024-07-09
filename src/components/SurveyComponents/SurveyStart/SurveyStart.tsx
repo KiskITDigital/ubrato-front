@@ -61,7 +61,7 @@ export const SurveyStart: FC = () => {
           </li>
         </ul>
         <p className={styles.regularText}>
-          Уже есть вопросы? <span className={styles.link}>Напишите телефон</span> и мы перезвоним.{' '}
+          Уже есть вопросы? <Link to={'/contacts'} className={styles.link}>Напишите телефон</Link> и мы перезвоним.{' '}
         </p>
         <p className={styles.boldText}>Как принять участие</p>
         <ul className={styles.list}>
