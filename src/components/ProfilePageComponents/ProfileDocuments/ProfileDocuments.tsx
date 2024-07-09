@@ -69,7 +69,7 @@ export const ProfileDocuments: FC = () => {
           }}
           classNames={checkStyle}
         >
-          Принимаю <Link className={styles.link} to="/rights?document=2">Пользовательское соглашение ООО «ИНТЕГРАЦИЯ»</Link>
+          Принимаю <Link className={styles.link} target="_blank" to="/rights?document=2">Пользовательское соглашение ООО «ИНТЕГРАЦИЯ»</Link>
         </Checkbox>
         <Checkbox
           isSelected={checkBoxes[2]}
@@ -78,7 +78,7 @@ export const ProfileDocuments: FC = () => {
           }}
           classNames={checkStyle}
         >
-          Соглашаюсь с <Link className={styles.link} to="/rights?document=1">Политикой обработки персональных данных ООО «ИНТЕГРАЦИЯ»</Link>
+          Соглашаюсь с <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО «ИНТЕГРАЦИЯ»</Link>
         </Checkbox>
         <Checkbox
           isSelected={checkBoxes[3]}
@@ -87,7 +87,7 @@ export const ProfileDocuments: FC = () => {
           }}
           classNames={checkStyle}
         >
-          Даю <Link className={styles.link} to="/rights?document=3">Согласие на обработку Персональных данных</Link>
+          Даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку Персональных данных</Link>
         </Checkbox>
         <button disabled={disabled} className={styles.send}>
           Отправить на верификацию

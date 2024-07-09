@@ -71,7 +71,6 @@
 }
 
 .checkBase {
-    display: block;
     display: flex;
     flex-direction: row;
     gap: 6px;
@@ -79,8 +78,7 @@
     position: relative;
     padding-top: 20px;
     border-top: 1px solid var(--color-black-10);
-    width: 100%;
-
+    width: 614px;
 }
 
 .checkBase[data-selected]>.checkWrapper {
@@ -102,6 +100,7 @@
     justify-content: center;
     width: 26px;
     height: 26px;
+    min-width: 26px;
     border: 2px solid var(--color-black-10);
     transition: background-color 0.3s ease;
     border-radius: 6px;
@@ -240,4 +239,9 @@
     font-weight: 500;
     font-size: 20px;
     width: 100%;
+}
+
+.link {
+    color: var(--color-blue-primary);
+    text-decoration: underline;
 }
