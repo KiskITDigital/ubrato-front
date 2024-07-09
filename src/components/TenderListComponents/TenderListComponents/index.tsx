@@ -44,7 +44,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(5);
+  const [paginationPerPage, setPaginationPerPage] = useState(33);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
@@ -63,6 +63,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       const token = localStorage.getItem('token');
       const me = await getMe(token)
       if (me && "id" in me) setMe(me.id as Me);
+
     })();
 
 
@@ -112,13 +113,16 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     };
 
     (async () => {
-      const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filters })
+      const hitsWithoutPagination = await generateTypesenseClient("tender_index")
+      console.log(hitsWithoutPagination);
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(
         hitsWithoutPagination?.length
           ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
           : 0
       );
+      console.log(allExecutorListLength);
+      
     })()
 
     client
@@ -164,6 +168,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .catch((error) => {
         console.error("Ошибка:", error);
       });
+      console.log(allExecutorListLength);
   }, [
     paginationPage,
     paginationPerPage,

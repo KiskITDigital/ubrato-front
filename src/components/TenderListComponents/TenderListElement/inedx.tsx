@@ -10,20 +10,18 @@ import {
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 interface Hit {
-  id: number;
+  id: string;
   name: string;
   reception_end: string;
   work_start: string;
   work_end: string;
   price: number;
-  city: string;
-  
+  city: string;  
 }
 
 interface CustomHitProps {
-  hit: Hit & BaseHit;
+  hit: Hit 
 }
-
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
   const [fav, setFav] = useState(false);

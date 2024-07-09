@@ -1,6 +1,5 @@
 import {
   FC,
-  SetStateAction,
   useEffect,
   useState,
 } from "react";
@@ -9,11 +8,11 @@ import { fetchProduct } from "@/api";
 import { Pagination } from "@nextui-org/react";
 import s from "./styles.module.css";
 import { useFindExecutorState } from "@/store/findExecutorStore";
-import { getMe } from "@/api/getMe";
-
 import { TenderListElem } from "@/components/TenderListComponents/TenderListElement/inedx";
 import { getAllFavoriteTenders } from "@/api/favouriteTenders";
-import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
+import { useUserInfoStore } from "@/store/userInfoStore";
+
+
 
 interface TenderList {
   id: string;
@@ -22,15 +21,16 @@ interface TenderList {
   work_start: string;
   work_end: string;
   price: number;
+  city: string;
 }
+
+
+
 interface SortingOption {
   label: string;
   field: string;
 }
 
-interface Me {
-  id: number;
-}
 
 interface myTenderToggle {
   myTender: boolean;
@@ -41,10 +41,11 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(4);
+  const [paginationPerPage, setPaginationPerPage] = useState(5);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState("");
-  const [meData, setMe] = useState<Me | null>(null);
+  const [meData, setMe] = useState<string | null>();
+  const userInfo = useUserInfoStore()
   const [favoriteTenderIds, setFavoriteTenderIds] = useState<string[]>([]);
 
   const paginationClassNames = {
@@ -59,8 +60,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem("token");
-      const me = await getMe(token);
-      setMe(me.id);
+      // const me = await getMe(token);
+      setMe(userInfo.user.id);
 
       // Получаем избранные тендеры
       const favoriteTendersResponse = await getAllFavoriteTenders(token);
@@ -70,7 +71,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       setFavoriteTenderIds(favoriteIds);
       setAllExecutorListLength(favoriteIds.length);
       setPaginationTotal(Math.ceil(favoriteIds.length / paginationPerPage));
-
+      console.log(favoriteTenders);
+      
     })();
 
     const client = new Typesense.Client({
@@ -85,29 +87,29 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       ],
     });
 
-    const filters = (() => {
-      const filters = [];
-      if (findExecutorState.locationId)
-        filters.push(`$city_index(id:=${findExecutorState.locationId})`);
-      if (findExecutorState.objectTypesId.length)
-        findExecutorState.objectTypesId.forEach((object) =>
-          filters.push(`$tender_object(object_type_id:=${object})`)
-        );
-      if (findExecutorState.servicesTypesId.length)
-        findExecutorState.servicesTypesId.forEach((service) =>
-          filters.push(`$tender_service(service_type_id:=${service})`)
-        );
-      if (findExecutorState.fastFilterTexts)
-        findExecutorState.fastFilterTexts.forEach((filter) =>
-          filters.push(
-            `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
-          )
-        );
-      if (myTender) {
-        filters.push(`( user_id:=${meData})`);
-      }
-      return filters.join(" && ");
-    })();
+
+      const filters = favoriteTenderIds.map((id) => `id:=${id}`).join(' && ');
+      
+      // if (findExecutorState.locationId)
+      //   filters.push(`$city_index(id:=${findExecutorState.locationId})`);
+      // if (findExecutorState.objectTypesId.length)
+      //   findExecutorState.objectTypesId.forEach((object) =>
+      //     filters.push(`$tender_object(object_type_id:=${object})`)
+      //   );
+      // if (findExecutorState.servicesTypesId.length)
+      //   findExecutorState.servicesTypesId.forEach((service) =>
+      //     filters.push(`$tender_service(service_type_id:=${service})`)
+      //   );
+      // if (findExecutorState.fastFilterTexts)
+      //   findExecutorState.fastFilterTexts.forEach((filter) =>
+      //     filters.push(
+      //       `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
+      //     )
+      //   ); 
+      // if (myTender) {
+      //   filters.push(`( user_id:=${meData})`);
+      // }
+      // return filters.join(" && ");
 
     const searchParameters = {
       q: "",
@@ -117,23 +119,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       filter_by: filters,
       sort_by: sortingValue,
     };
-
-    // const getAllExecutorListLengthSearchParameters = {
-    //   q: "",
-    //   query_by: "name",
-    //   filter_by: filters,
-    //   limit: 250,
-    // };
-      
-
-    // setAllExecutorListLength(favoriteTenderIds.length)
-    //   setPaginationTotal(
-    //     favoriteTenderIds.length
-    //       ? Math.ceil(favoriteTenderIds.length / paginationPerPage)
-    //       : 0
-    //   );
-      
-      console.log(paginationTotal, favoriteTenderIds.length);
+    console.log(paginationTotal, favoriteTenderIds.length);
        
   
 
@@ -143,6 +129,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       .search(searchParameters)
       .then(async (response) => {
         const tenders = [] as TenderList[];
+        console.log(tenders);
+        
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -159,6 +147,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
                   work_end: data.work_end,
                   price: data.price,
                   user: data.user_id,
+                  city: data.city
                 },
               } as { index: number; tenderData: TenderList };
             })();
@@ -192,6 +181,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   ]);
 
   const list = tenderList.filter(tender => favoriteTenderIds.includes(tender.id));
+  console.log(list);
+  
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },
     { label: "Дата приема заявок", field: "reception_end" },
@@ -210,7 +201,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       <div className={s.counter_tender}>Найдено тендеров: {allExecutorListLength}</div>
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (
-          <div className={s.sorting_label_field}>
+          <div key={option.field} className={s.sorting_label_field}>
             <p>{option.label}</p>
             <button
               key={option.field}
@@ -223,7 +214,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
           </div>
         ))}
       </div>
-      {list.map((item) => (
+      {list.map((item: TenderList) => (
         <TenderListElem key={item.id} hit={item}></TenderListElem>
       ))}
 
