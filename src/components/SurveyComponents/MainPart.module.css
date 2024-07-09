@@ -20,6 +20,13 @@
   justify-content: center;
 }
 
+.surveyTitle {
+  font-size: 80px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--color-blue-secondary);
+}
+
 .survey__pair {
   display: flex;
   flex-direction: row;
@@ -72,7 +79,7 @@
   font-weight: 800;
 }
 
-.list{
+.list {
   align-self: flex-start;
 }
 
@@ -110,7 +117,7 @@
   gap: 15px;
 }
 
-.part2 > p,
+.part2>p,
 ul {
   max-width: 956px;
 }
@@ -154,6 +161,7 @@ ul {
 .italic {
   font-style: italic;
 }
+
 .questionItem {
   list-style-type: decimal;
   margin-bottom: 70px;
@@ -183,7 +191,7 @@ ul {
   transition: all 0.3s ease;
 }
 
-.radioBase[data-selected] > .radioWrapper > .radioControl {
+.radioBase[data-selected]>.radioWrapper>.radioControl {
   background-color: black;
   width: 18px;
   height: 18px;
@@ -212,7 +220,7 @@ ul {
   align-items: center;
 }
 
-.radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+.radioNumberBase[data-selected]>.radioWrapper>.radioControl {
   background-color: black;
   width: 18px;
   height: 18px;
@@ -296,18 +304,18 @@ ul {
   justify-content: space-between;
 }
 
-.tableQuestinHeader > p {
+.tableQuestinHeader>p {
   color: var(--color-blue-primary);
 }
 
-.tableQuestinHeader > div {
+.tableQuestinHeader>div {
   display: flex;
   width: 320px;
   justify-content: space-around;
   margin-right: 18px;
 }
 
-.tableQuestinHeader > div > p {
+.tableQuestinHeader>div>p {
   color: var(--color-blue-primary);
   width: 125px;
   text-align: center;
@@ -324,7 +332,7 @@ ul {
   border-radius: 10px;
 }
 
-.tableRadioGroupWrapper > div {
+.tableRadioGroupWrapper>div {
   display: flex;
   width: 320px;
   justify-content: space-around;
@@ -343,7 +351,7 @@ ul {
   height: 80%;
 }
 
-.checkIcon > polyline {
+.checkIcon>polyline {
   stroke: var(--color-blue-primary);
 }
 
@@ -372,7 +380,7 @@ ul {
   margin-bottom: 20px;
 }
 
-.checkContainer > p {
+.checkContainer>p {
   width: 600px;
 }
 
@@ -416,9 +424,13 @@ ul {
     font-size: 12px;
   }
 
-  .part2 > p,
+  .part2>p,
   ul {
     max-width: 956px;
+  }
+
+  .surveyTitle {
+    font-size: 60px;
   }
 
   .survey__button {
@@ -462,9 +474,13 @@ ul {
     font-size: 12px;
   }
 
-  .part2 > p,
+  .part2>p,
   ul {
     max-width: 458px;
+  }
+
+  .surveyTitle {
+    font-size: 45px;
   }
 
   .survey__button {
@@ -509,9 +525,13 @@ ul {
     font-size: 15px;
   }
 
-  .part2 > p,
+  .part2>p,
   ul {
     max-width: 90%;
+  }
+
+  .surveyTitle {
+    font-size: 30px;
   }
 
   .survey__button {
@@ -552,12 +572,12 @@ ul {
     height: 24px;
   }
 
-  .radioBase[data-selected] > .radioWrapper > .radioControl {
+  .radioBase[data-selected]>.radioWrapper>.radioControl {
     width: 13px;
     height: 13px;
   }
 
-  .radioNumberBase[data-selected] > .radioWrapper > .radioControl {
+  .radioNumberBase[data-selected]>.radioWrapper>.radioControl {
     width: 13px;
     height: 13px;
   }
@@ -570,12 +590,12 @@ ul {
     margin-top: 0;
     margin-bottom: 0;
   }
-  
-  .tableQuestinHeader > div > p {
+
+  .tableQuestinHeader>div>p {
     width: 80px;
   }
 
-  .tableQuestinHeader > div {
+  .tableQuestinHeader>div {
     width: fit-content;
     margin-right: 14px;
     gap: 5px;
@@ -585,11 +605,11 @@ ul {
     padding: 8px 14px;
   }
 
-  .tableRadioGroupWrapper > div {
+  .tableRadioGroupWrapper>div {
     width: 160px;
   }
 
-  .tableRadioGroupWrapper > p {
+  .tableRadioGroupWrapper>p {
     max-width: 170px;
   }
 

@@ -11,6 +11,9 @@ export const SurveyStart: FC = () => {
       <div className={`${styles.part1}`}>
         <div className={`${styles.textBlock}`}>
           <div className={styles.survey__pair}>
+            <h1 className={styles.surveyTitle}>Онлайн опрос</h1>
+          </div>
+          <div className={styles.survey__pair}>
             <img className={styles.survey__pair__image} src="/survey/check-mark.svg" alt="" />
             <p className={styles.survey__pair__text}>Примите участие в опросе</p>
           </div>
@@ -21,7 +24,7 @@ export const SurveyStart: FC = () => {
           <div className={styles.survey__pair}>
             <img className={styles.survey__pair__image} src="/survey/heart.svg" alt="" />
             <p className={styles.survey__pair__text}>
-              Давайте улучшим <span className={styles.blueText}>Ubrato</span> вместе
+              Давайте улучшим <span className={styles.blueText}>Ubrato</span> вместе!
             </p>
           </div>
         </div>
