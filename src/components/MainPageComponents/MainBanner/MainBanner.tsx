@@ -212,7 +212,7 @@ export const MainBanner: FC = () => {
                 <div className={styles2.survey__pair}>
                   <img className={styles2.survey__pair__image} src="./survey/heart.svg" alt="" />
                   <p className={styles2.survey__pair__text}>
-                    Давайте улучшим <span className={styles2.blueText}>Ubrato</span> вместе
+                    Давайте улучшим <span className={styles2.blueText}>Ubrato</span> вместе!
                   </p>
                 </div>
                 <Link to="survey">
