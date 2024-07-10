@@ -28,6 +28,7 @@ export interface dataObjectTypes {
   created_at: string,
   is_nds_price: boolean,
   is_contract_price: boolean,
+  user_id: string
 }
 
 
@@ -54,7 +55,8 @@ export const OneTenderPageExecutor: FC = () => {
     work_end: '',
     created_at: '',
     is_nds_price: false,
-    is_contract_price: false
+    is_contract_price: false,
+    user_id: ''
   })
   const [loading, setLoading] = useState(true);
 
@@ -126,6 +128,7 @@ export const OneTenderPageExecutor: FC = () => {
         noticeKnocks={2}
         button_text={'Откликнуться на тендер'}
         price={dataState.price}
+        user_id={dataState.user_id}
       ></Switchero>
       {stack}
     </div>
