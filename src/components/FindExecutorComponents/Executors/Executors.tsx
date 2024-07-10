@@ -120,6 +120,8 @@ const Executors: FC = () => {
         setPaginationPage(1)
         return;
       }
+      console.log(hits);
+
 
       const newExecutorList = await getExecutorList(hits)
       findExecutorState.handleExecutorList(newExecutorList);

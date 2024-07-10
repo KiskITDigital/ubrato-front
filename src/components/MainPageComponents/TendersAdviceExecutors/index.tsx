@@ -63,7 +63,6 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
             console.log(res.locations);
         }
 
-
         const changedNewExecutorList: executorList[][] = []
         for (let i = 0; i < newExecutorList.length; i += (isMobile ? 1 : 4)) {
             const chunk = newExecutorList.slice(i, i + (isMobile ? 1 : 4));
@@ -73,22 +72,12 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
         setExecutorList(changedNewExecutorList)
     }
 
-    // const showAllExecutorText = (id: string) => {
-    //     const newExecutorList = findExecutorState.executorList.map((executor) =>
-    //         executor.id === id
-    //             ? { ...executor, isTextHidden: false }
-    //             : executor
-    //     )
-    //     updateExecutorList(newExecutorList);
-    // }
-
     useEffect(() => {
         (async () => {
-            const hits = await generateTypesenseClient("contractor_index")
+            const hits = await generateTypesenseClient("contractor_index", { per_page: 250 })
             const newExecutorList = await getExecutorList(hits)
             findExecutorState.handleExecutorList(newExecutorList)
         })()
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -121,7 +110,6 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                                         setExecutorIdToOfferTender={setExecutorIdToOfferTender}
                                         setExecutorNameToOfferTender={setExecutorNameToOfferTender}
                                         servicesNumber={3}
-                                    // showAllExecutorText={showAllExecutorText}
                                     />
                                 </div>
                             ))

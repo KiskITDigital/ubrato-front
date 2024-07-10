@@ -1,24 +1,27 @@
-.sort{
+.sort {
     display: flex;
     margin: 10px 0 0;
 }
-.paginationRoot{
+
+.paginationRoot {
     display: flex;
     width: 200px;
     margin-top: 20px;
 }
-.paginationList{
+
+.paginationList {
     display: flex;
     width: 100%;
     justify-content: space-around;
 }
-.hitsList{
+
+.hitsList {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.paginationItem{
+.paginationItem {
     width: 41px;
     height: 41px;
     border-radius: 12px;
@@ -27,16 +30,16 @@
     align-items: center;
 }
 
-.hitsRoot{
+.hitsRoot {
     margin: 20px 0 40px;
 }
 
-.selected_item_pagination{
+.selected_item_pagination {
     background-color: rgba(89, 89, 95, 0.178);
 }
 
 
-.counter_tender{
+.counter_tender {
     width: 763px;
     font-size: 24px;
 }
@@ -247,9 +250,10 @@
     color: var(--color-black);
 }
 
-.paginationBase>.wrapper>.next {
+/* .paginationBase>.wrapper>.next {
     transform: rotate(180deg);
-}
+} */
+
 .sortingBlock {
     padding: 0 5px 5px 5px;
     display: grid;
@@ -259,15 +263,15 @@
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 13px;
     height: 65px;
-  }
-  
-  .sorting_label_field{
+}
+
+.sorting_label_field {
     display: flex;
     align-items: center;
     font-size: 14px;
-  }
+}
 
-  .sortingButton {
+.sortingButton {
     background-color: transparent;
     border: none;
     padding: 10px 20px;
@@ -275,25 +279,20 @@
     cursor: pointer;
     margin-right: 10px;
     display: flex;
-  }
-  
-  .sortingButton:hover {
+}
+
+.sortingButton:hover {
     background-color: #f0f0f0;
-  }
-  
-  .sortingButton:active {
+}
+
+.sortingButton:active {
     background-color: #ccc;
-  }
-  
-  .asc {
+}
+
+.asc {
     transform: rotate(0deg);
-  }
-  
-  .desc {
+}
+
+.desc {
     transform: rotate(180deg);
-  }
-
-
-
-
-  
+}

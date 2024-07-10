@@ -48,9 +48,9 @@
     color: var(--color-black);
 }
 
-.paginationBase>.wrapper>.next {
+/* .paginationBase>.wrapper>.next {
     transform: rotate(180deg);
-}
+} */
 
 .paginationPerPageButton {
     padding: 12px 18px;
