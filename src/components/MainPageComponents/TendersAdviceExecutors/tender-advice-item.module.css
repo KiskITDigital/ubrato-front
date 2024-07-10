@@ -4,6 +4,7 @@
     padding: 30px;
     border-radius: 30px;
     border-bottom: 0;
+    gap: 10px;
     /* height: min-content; */
     /* margin-bottom: auto; */
     /* width: calc(50% - 30px);
@@ -20,7 +21,7 @@
 }
 
 .servicesForCarousel {
-    padding-top: 30px;
+    /* padding-top: 30px; */
     border-top: 1px dashed var(--color-black-10);
     flex-wrap: nowrap;
     gap: 14px;
@@ -31,6 +32,10 @@
     justify-content: flex-start;
     border-radius: 0;
     background-color: white;
+}
+
+.executorButtonsForCarousel {
+    margin-top: auto;
 }
 
 @media screen and (max-width: 450px) {

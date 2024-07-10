@@ -339,7 +339,7 @@ export const ContractorProfile: FC = () => {
                   className={styles.city}
                   onClick={() => {
                     const newLocations = [...locations];
-                    if (!newLocations.find((i) => i.name === e.name)) newLocations.push({ id: e.id, name: e.name })
+                    if (!newLocations.find((i) => i.name === e.name)) newLocations.unshift({ id: e.id, name: e.name })
                     setLocations(newLocations);
                     setIsListOpen(false);
                     setInputValue('');

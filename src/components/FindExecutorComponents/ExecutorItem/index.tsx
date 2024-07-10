@@ -48,11 +48,15 @@ const ExecutorItem: FC<{
                             {executor.isTextHidden && executor.text.split(' ').length > 10 && <img onClick={() => showAllExecutorText && showAllExecutorText(executor.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
                         </p>}
                     <div className={styles.executorRegions}>
-                        {executor.regions.map((region) => (
-                            <p key={region.id} className={styles.executorRegion}>
-                                {region.name}
-                            </p>
-                        ))}
+                        {executor.regions.map((region) => {
+                            console.log(region, executor);
+
+                            return (
+                                <p key={region.id} className={styles.executorRegion}>
+                                    {region.name}
+                                </p>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
