@@ -92,11 +92,11 @@ export const OneTenderPageExecutor: FC = () => {
         setResponse(responded.status)
         setData(data)
         setLoading(false)
-        console.log(responded);
+        // console.log(responded);
         console.log(data);
 
       } else {
-        console.log('proizoshla oshibka');
+        // console.log('proizoshla oshibka');
       }
     })();
   }, [id])

@@ -5,7 +5,7 @@ import s from "./styles.module.css";
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
-  console.log(notificationsStore.notifications.notifications);
+  // console.log(notificationsStore.notifications.notifications);
 
   const handleNotificationClick = (id: number) => {
     notificationsStore.setNotificationRead(id);

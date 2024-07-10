@@ -131,7 +131,7 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
         return { types: state.types };
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       // let error = e
       // // custom error
       // if (e.status === 400) {

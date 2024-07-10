@@ -8,7 +8,7 @@ interface OrdererState {
 export const useIsOrdererState = create<OrdererState>()((set) => ({
   role: 'orderer',
   handleState: (role: string) => {
-    console.log(role);
+    // console.log(role);
 
     set(() => ({ role: role }));
   },

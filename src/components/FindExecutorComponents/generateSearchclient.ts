@@ -74,22 +74,19 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
 
             return (async () => {
                 const data = await getExecutor(id);
-                const isFavorite =
-                    (!!token &&
-                        (await isFavoriteExecutor(id, token))?.data?.status) ||
-                    false;
+                const isFavorite = (!!token && (await isFavoriteExecutor(id, token))?.data?.status) || false;
 
-                const serviceTypesFilter = data.contractorInfo.services.map((service: { id: number, name: string, price: number }) => service.id).reduce((acc: string, serviceId: number) => acc + serviceId + ", ", "")
-                console.log(serviceTypesFilter);
+                // const serviceTypesFilter = data.contractorInfo.services.map((service: { id: number, name: string, price: number }) => service.id).reduce((acc: string, serviceId: number) => acc + serviceId + ", ", "")
+                // console.log(serviceTypesFilter);
 
 
-                const serviceGroupHits = (await generateTypesenseClient("service_type_index", { filter_by: `id:[${serviceTypesFilter}]`, per_page: 250, include_fields: "$service_group_index(id, name)" }))?.map(document => document.document).forEach((service: typesenseService | object) => {
+                (await generateTypesenseClient("service_type_index", { filter_by: `id:[${data.contractorInfo.services.map((service: { id: number, name: string, price: number }) => service.id).reduce((acc: string, serviceId: number) => acc + serviceId + ", ", "")}]`, per_page: 250, include_fields: "$service_group_index(id, name)" }))?.map(document => document.document).forEach((service: typesenseService | object) => {
                     if (!("id" in service)) return;
                     const serviceToFind = data.contractorInfo.services.find((serviceFromData: { id: number }) => +service.id === serviceFromData.id)
                     serviceToFind.group_name = service.service_group_index.name
                     serviceToFind.name = service.name.slice(0, 1).toLocaleLowerCase() + service.name.slice(1)
                 })
-                console.log(serviceGroupHits);
+                // console.log(serviceGroupHits);
 
                 return {
                     index,

@@ -74,7 +74,7 @@ export const PortfolioForm: FC<{
             <input
               className={styles.inputFile}
               onChange={(e) => {
-                console.log(e.target.files);
+                // console.log(e.target.files);
                 if (
                   ['image/png', 'image/jpeg', 'application/pdf'].includes(e.target.files![0].type)
                 ) {
@@ -105,7 +105,7 @@ export const PortfolioForm: FC<{
                 } else {
                   setError('Неверный тип файла');
                   e.target.value = '';
-                  console.log(e.target.files);
+                  // console.log(e.target.files);
                 }
               }}
               id="portfolioFile"
@@ -130,11 +130,11 @@ export const PortfolioForm: FC<{
                 onClick={(e) => {
                   const name = e.currentTarget.parentElement?.innerText;
                   const newNewLinks = newLinks.filter((i) => !i.includes(name!));
-                  console.log(linksInfo);
+                  // console.log(linksInfo);
                   const newLinksInfo = linksInfo.filter(
                     (i) => !i.name.includes(name!.split('.')[0])
                   );
-                  console.log(newLinksInfo);
+                  // console.log(newLinksInfo);
                   setNewLinks(newNewLinks);
                   setLinksInfo(newLinksInfo);
                 }}

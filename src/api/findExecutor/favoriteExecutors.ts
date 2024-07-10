@@ -1,12 +1,16 @@
 import { axiosInstance } from "@/utils"
 
 export const isFavoriteExecutor = async (id: string, token: string) => {
-    const res = await axiosInstance.get(`/v1/users/${id}/is_favorite`, {
-        headers: {
-            authorization: `Bearer ${token}`,
-        },
-    })
-    return res
+    try {
+        const res = await axiosInstance.get(`/v1/users/${id}/is_favorite`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        })
+        return res
+    } catch (e) {
+        console.error(e);
+    }
 }
 
 export const addFavoriteExecutor = async (id: string, token: string) => {

@@ -45,7 +45,7 @@ export const LoginPage: FC = () => {
             }
           }
         } catch (e) {
-          console.log(e, '1');
+          // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
               setErrorMsg('Неверный пароль');

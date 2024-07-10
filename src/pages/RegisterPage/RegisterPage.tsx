@@ -70,7 +70,7 @@ export const RegisterPage: FC = () => {
             }
           }
         } catch (e) {
-          console.log(e);
+          // console.log(e);
         } finally {
           setIsLoading(false);
         }
@@ -196,7 +196,7 @@ export const RegisterPage: FC = () => {
                 if (e.target.value.endsWith(' ')) {
                   formik.setErrors({ email: 'Некорректный e-mail' });
                 }
-                console.log(e.target.value);
+                // console.log(e.target.value);
               }}
               variant="bordered"
               placeholder="Электронная почта"

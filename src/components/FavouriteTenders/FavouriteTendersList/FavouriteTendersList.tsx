@@ -58,7 +58,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   };
 
   useEffect(() => {
-    
+
     (async () => {
       const token = localStorage.getItem("token");
       // const me = await getMe(token);
@@ -68,7 +68,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       const favoriteTendersResponse = await getAllFavoriteTenders(token);
       const favoriteTenders = favoriteTendersResponse.data;
       const favoriteIds = favoriteTenders.map((tender: TenderList) => tender.id);
-      console.log(favoriteIds);
+      // console.log(favoriteIds);
       setFavoriteTenderIds(favoriteIds);
       setPaginationTotal(Math.ceil(favoriteIds.length / paginationPerPage));
       setAllExecutorListLength(favoriteIds.length);
@@ -86,7 +86,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       ],
     });
     const filters = `id:=[${favoriteTenderIds}]`
-    console.log(filters);      
+    // console.log(filters);      
 
     const searchParameters = {
       q: "",
@@ -96,7 +96,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       filter_by: filters,
       sort_by: sortingValue,
     };
-    console.log(paginationTotal, favoriteTenderIds.length);
+    // console.log(paginationTotal, favoriteTenderIds.length);
 
     client
       .collections("tender_index")
@@ -104,8 +104,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       .search(searchParameters)
       .then(async (response) => {
         const tenders = [] as TenderList[];
-        console.log(tenders);
-        
+        // console.log(tenders);
+
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -137,12 +137,13 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
           });
 
         setTenderList(tenders);
-        console.log(tenderList);
-        
+        // console.log(tenderList);
+
       })
       .catch((error) => {
         console.error("Ошибка:", error);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     paginationPage,
     paginationPerPage,
@@ -157,8 +158,8 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   ]);
 
   const list = tenderList
-  console.log(list);
-  
+  // console.log(list);
+
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },
     { label: "Дата приема заявок", field: "reception_end" },

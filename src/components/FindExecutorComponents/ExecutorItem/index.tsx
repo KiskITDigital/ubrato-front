@@ -49,7 +49,7 @@ const ExecutorItem: FC<{
                         </p>}
                     <div className={styles.executorRegions}>
                         {executor.regions.map((region) => {
-                            console.log(region, executor);
+                            // console.log(region, executor);
 
                             return (
                                 <p key={region.id} className={styles.executorRegion}>

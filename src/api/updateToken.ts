@@ -13,7 +13,7 @@ export const updateToken: <T, C>(
       throw 'no token';
     }
   } catch (e) {
-    console.log();
+    // console.log();
     await refreshToken();
     const newToken = localStorage.getItem('token');
     const res = await callback(newToken!, callbackArgs);

@@ -103,8 +103,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       return filters.join(" && ");
     })();
 
-    
-    
+
+
     const searchParameters = {
       q: "",
       query_by: "name",
@@ -122,8 +122,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
           ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
           : 0
       );
-      console.log(allExecutorListLength);
-      
+      // console.log(allExecutorListLength);
+
     })()
 
     client
@@ -161,7 +161,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
         results
           .sort((a, b) => a!.index - b!.index)
           .forEach((result) => {
-            console.log(result?.tenderData); 
+            // console.log(result?.tenderData); 
             tenders.push(result!.tenderData);
           });
         setTenderList(tenders);
@@ -169,8 +169,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .catch((error) => {
         console.error("Ошибка:", error);
       });
-      console.log(allExecutorListLength);
-      
+    // console.log(allExecutorListLength);
+
   }, [
     paginationPage,
     paginationPerPage,
@@ -182,7 +182,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     sortingValue,
     myTender
   ]);
-  
+
   // const list = tenderList;
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },
@@ -204,7 +204,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       {/* {JSON.stringify(tenderList, null, 4)} */}
       <div className={s.sortingBlock}>
         {sortingOptions.map((option) => (
-          <div className={s.sorting_label_field}>
+          <div key={option.field} className={s.sorting_label_field}>
             <p>{option.label}</p>
             <button
               key={option.field}
