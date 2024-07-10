@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { BaseHit } from "instantsearch.js";
+import { Link, useNavigate } from "react-router-dom";
 import {
   addFavouriteTender,
   isFavoriteTender,
@@ -10,20 +9,18 @@ import {
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 interface Hit {
-  id: number;
+  id: string;
   name: string;
   reception_end: string;
   work_start: string;
   work_end: string;
   price: number;
-  city: string;
-  
+  city: string;  
 }
 
 interface CustomHitProps {
-  hit: Hit & BaseHit;
+  hit: Hit 
 }
-
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
   const [fav, setFav] = useState(false);

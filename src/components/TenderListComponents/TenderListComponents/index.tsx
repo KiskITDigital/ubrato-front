@@ -16,7 +16,7 @@ import { useTenderListState } from "@/store/tendersListStore";
 import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
 
 interface TenderList {
-  id: number;
+  id: string;
   name: string;
   reception_end: string;
   work_start: string;
@@ -63,6 +63,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       const token = localStorage.getItem('token');
       const me = await getMe(token)
       if (me && "id" in me) setMe(me.id as Me);
+
     })();
 
 
@@ -102,6 +103,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       return filters.join(" && ");
     })();
 
+    
+    
     const searchParameters = {
       q: "",
       query_by: "name",
@@ -112,13 +115,15 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     };
 
     (async () => {
-      const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filters })
+      const hitsWithoutPagination = await generateTypesenseClient("tender_index", { filter_by: filters, per_page: 250 })
       setAllExecutorListLength(hitsWithoutPagination?.length || 0)
       setPaginationTotal(
         hitsWithoutPagination?.length
           ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
           : 0
       );
+      console.log(allExecutorListLength);
+      
     })()
 
     client
@@ -156,7 +161,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
         results
           .sort((a, b) => a!.index - b!.index)
           .forEach((result) => {
-            console.log(result?.tenderData);
+            console.log(result?.tenderData); 
             tenders.push(result!.tenderData);
           });
         setTenderList(tenders);
@@ -164,6 +169,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       .catch((error) => {
         console.error("Ошибка:", error);
       });
+      console.log(allExecutorListLength);
+      
   }, [
     paginationPage,
     paginationPerPage,
@@ -175,7 +182,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     sortingValue,
     myTender
   ]);
-
+  
   // const list = tenderList;
   const sortingOptions: SortingOption[] = [
     { label: "Название", field: "name" },
@@ -192,7 +199,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   return (
     <div>
       <div className={s.counter_tender}>
-        Найдено тендеров: {tenderList.length}
+        Найдено тендеров: {allExecutorListLength}
       </div>
       {/* {JSON.stringify(tenderList, null, 4)} */}
       <div className={s.sortingBlock}>

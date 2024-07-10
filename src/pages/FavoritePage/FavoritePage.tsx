@@ -108,7 +108,7 @@ const FavoritePage: FC = () => {
             {
                 switcher === 'Тендеры' ?
                     <>
-                        <FavouriteTendersList />
+                        <FavouriteTendersList myTender={false}/>
                     </>
                     :
                     findExecutorState.executorList.length ?
