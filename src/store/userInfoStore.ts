@@ -44,7 +44,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
         headers: { authorization: `Bearer ${token}` },
       });
       if (response.status !== 200) throw response;
-      console.log(response.data);
+      // console.log(response.data);
 
       const surveyPass = await surveyCheck(token);
       set({

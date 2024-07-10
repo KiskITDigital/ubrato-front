@@ -11,7 +11,7 @@ const ConfirmEmailPage: FC = () => {
     const [text, setText] = useState("Запрос на верефикацию отправлен");
 
     useEffect(() => {
-        console.log(codeParams);
+        // console.log(codeParams);
         if (codeParams) {
             (async () => {
                 try {

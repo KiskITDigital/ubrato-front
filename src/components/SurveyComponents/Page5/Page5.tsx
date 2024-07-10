@@ -54,7 +54,7 @@ export const Page5: FC = () => {
       JSON.stringify(surveyStore.question14.answers),
       surveyStore.question15,
     ];
-    console.log(answers);
+    // console.log(answers);
     const token = localStorage.getItem('token');
     if (token) {
       try {
@@ -65,7 +65,7 @@ export const Page5: FC = () => {
           }
         })();
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   };

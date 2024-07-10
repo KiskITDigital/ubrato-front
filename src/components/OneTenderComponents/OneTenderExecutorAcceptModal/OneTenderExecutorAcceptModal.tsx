@@ -34,7 +34,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
           await sendResponse(token, id, price);
         })();
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     }
   }
@@ -44,7 +44,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
     if (e.target.checked) {
       setCustomPrice(null);
     } else {
-      console.log('error occured');
+      // console.log('error occured');
 
     }
   };
@@ -81,10 +81,10 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
               <form className={styles.form_modal} onSubmit={handleSubmit}>
                 <label className={`${styles.field}`}>
                   <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
-                  <div className={styles.wrap_label}> 
-                  {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
-                  <input type="checkbox" onChange={handleCheckboxChange} className={styles.input_checkobx} />
-                  <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
+                  <div className={styles.wrap_label}>
+                    {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
+                    <input type="checkbox" onChange={handleCheckboxChange} className={styles.input_checkobx} />
+                    <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
                   </div>
 
                 </label>
@@ -112,9 +112,9 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
             <div className={styles.modal_new}>
               <p className={styles.notion}>Вы уже откликнулись на этот тендер!</p>
               <div className={styles.nds_notice}>
-              {/* <div className={styles.circle}></div> */}
-              {/* <img src="./notion.svg" alt="" /> */}
-              <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
+                {/* <div className={styles.circle}></div> */}
+                {/* <img src="./notion.svg" alt="" /> */}
+                <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
               </div>
               <button className={styles.button_spec} onClick={closeModal}>Закрыть окно</button>
             </div>

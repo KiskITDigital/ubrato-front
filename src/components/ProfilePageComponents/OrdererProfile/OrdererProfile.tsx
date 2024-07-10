@@ -87,9 +87,9 @@ export const OrdererProfile: FC = () => {
             } else {
               setTextareaValue(e.target.value);
             }
-            console.log(e.target.scrollHeight);
+            // console.log(e.target.scrollHeight);
             e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
-            console.log(e.target.scrollHeight);
+            // console.log(e.target.scrollHeight);
           }}
           name="description"
           id="description"
@@ -107,7 +107,7 @@ export const OrdererProfile: FC = () => {
               (async () => {
                 setInputValue(e.target.value);
                 const res = await getCities(e.target.value);
-                console.log(res.data);
+                // console.log(res.data);
                 setSitiesArr(res.data);
                 setIsListOpen(true);
               })();

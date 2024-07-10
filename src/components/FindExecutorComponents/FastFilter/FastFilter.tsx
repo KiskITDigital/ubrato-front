@@ -33,7 +33,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
 
     useEffect(() => {
         setBreadCrumbs(prev => [prev[0], prev[1], ...values.map(filter => ({ name: filter }))])
-        console.log(values)
+        // console.log(values)
     }, [values.length, values]);
 
     useEffect(() => {

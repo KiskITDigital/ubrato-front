@@ -4,7 +4,7 @@ export const askForVerification = async (token: string) => {
     const res = await axiosInstance.get("v1/auth/confirm-email", {
         headers: { authorization: `Bearer ${token}` }
     })
-    console.log(res);
+    // console.log(res);
     return res
 }
 

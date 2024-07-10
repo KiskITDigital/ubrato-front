@@ -24,7 +24,7 @@ export const CityModal: FC<{
             (async () => {
               setInputValue(e.target.value);
               const res = await getCities(e.target.value);
-              console.log(res);
+              // console.log(res);
               setSitiesArr(res.data);
               setIsListOpen(true);
             })();

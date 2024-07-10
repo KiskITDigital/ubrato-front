@@ -114,13 +114,13 @@ const Executors: FC = () => {
           ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
           : 0
       );
-      console.log(allExecutorListLength);
+      // console.log(allExecutorListLength);
       const hits = await generateTypesenseClient("contractor_index", { per_page: paginationPerPage, page: paginationPage, filter_by: filters, sort_by: sortingValue })
       if (hits?.length === 0 && paginationPage > 1) {
         setPaginationPage(1)
         return;
       }
-      console.log(hits);
+      // console.log(hits);
 
 
       const newExecutorList = await getExecutorList(hits)
@@ -146,7 +146,7 @@ const Executors: FC = () => {
       const elementTop = startRef.current!.getBoundingClientRect().top;
       window.scrollBy({ top: elementTop - 300, behavior: "smooth" });
     }, 0);
-    
+
   }, [
     findExecutorState.objectTypesId,
     paginationPage,

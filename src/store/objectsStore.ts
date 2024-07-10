@@ -172,7 +172,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
         return { objects: state.objects };
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     } finally {
       set({ loading: false });
     }

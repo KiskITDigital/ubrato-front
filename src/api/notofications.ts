@@ -13,12 +13,12 @@ export const setNotificationRead: (token: string, id: number) => Promise<void> =
   token,
   id
 ) => {
-  const res = await axiosInstance.put<notificationsT>(
+  await axiosInstance.put<notificationsT>(
     `/v1/users/me/notice/read?ids_str=${id}`,
     {},
     {
       headers: { authorization: `Bearer ${token}` },
     }
   );
-  console.log(res);
+  // console.log(res);
 };

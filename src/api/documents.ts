@@ -17,7 +17,7 @@ export const sendDoc = async (
       authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
+  // console.log(res);
   return res.data.id;
 };
 
@@ -30,18 +30,18 @@ export const fetchUserDocs = async (token: string) => {
       },
     }
   );
-  console.log(res.data)
+  // console.log(res.data)
   return res.data;
-  
+
 };
 
 export const fetchPrivateFile = async (token: string, link: string) => {
-  const res = await axiosInstanceStore.get(`/s3${link}`, {
+  await axiosInstanceStore.get(`/s3${link}`, {
     headers: {
       authorization: `Bearer ${token}`,
     },
   });
-  console.log(res);
+  // console.log(res);
 };
 
 export const fetchPrivateFileInfo = async (token: string, link: string) => {

@@ -56,7 +56,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
     const updateExecutorList = async (newExecutorList: executorList[]) => {
         // console.log(newExecutorList);
-        const city = JSON.parse(localStorage.getItem("userCity") || "")?.city
+        const city = JSON.parse(localStorage.getItem("userCity") || "{}")?.city
 
         newExecutorList = newExecutorList.map(executor => ({
             ...executor, text: executor.text ? executor.text.length > 63 ? executor.text.slice(0, 60) + "..." : executor.text : "", isTextHidden: false, regions: (
@@ -65,7 +65,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                     : []
             )
         }))
-        console.log(newExecutorList);
+        // console.log(newExecutorList);
 
         // if (localStorage.getItem("token") && userInfoState.is_contractor) {
         //     const res = await updateToken(fetchContractorProfile, null);
@@ -126,7 +126,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                     .map((executorBlock: (executorList | true)[], ind: number) => (
                         <div key={ind} className={styles.embla__slide}>
                             {
-                                executorBlock.map((executor: executorList | true) => (
+                                executorBlock.map((executor: executorList | true, ind) => (
                                     executor !== true ?
                                         <ExecutorItem
                                             key={executor.id}
@@ -137,7 +137,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                                             setExecutorNameToOfferTender={setExecutorNameToOfferTender}
                                             servicesNumber={1}
                                         /> :
-                                        <div></div>
+                                        <div key={ind}></div>
                                 ))
                             }
                         </div>
