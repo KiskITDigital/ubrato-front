@@ -28,7 +28,7 @@ export interface dataObjectTypes {
   created_at: string,
   is_nds_price: boolean,
   is_contract_price: boolean,
-  user_id: string,
+  user_id: string
 }
 
 
@@ -56,7 +56,7 @@ export const OneTenderPageExecutor: FC = () => {
     created_at: '',
     is_nds_price: false,
     is_contract_price: false,
-    user_id: "",
+    user_id: ''
   })
   const [loading, setLoading] = useState(true);
 
