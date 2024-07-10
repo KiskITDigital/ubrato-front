@@ -29,8 +29,8 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
             navigate("/login");
         } else {
             const res = tender.isFavorite
-                ? removeFavoriteTender(+tender.id, token)
-                : addFavouriteTender(+tender.id, token);
+                ? removeFavoriteTender(tender.id, token)
+                : addFavouriteTender(tender.id, token);
             const resStatus = (await res).data.status;
             if (!resStatus) return;
             const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[]
@@ -98,13 +98,13 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
     useEffect(() => {
         (async () => {
-            const hits = await generateTypesenseClient("tender_index")
+            const hits = await generateTypesenseClient("tender_index", { per_page: 250 })
             // console.log(hits);
             const tenderListPromises = hits?.map(async (hit) => {
                 const { id: tenderId } = hit.document as { id: string }
                 const tender = await getTender(tenderId) as modifiedTenderList;
                 const token = localStorage.getItem('token')
-                const isFavorite = token ? (await isFavoriteTender(+tenderId, token)).data.status : false
+                const isFavorite = token ? (await isFavoriteTender(tenderId, token)).data.status : false
                 // const region = await generateTypesenseClient("city_index", { filter_by: `id:=${tender.city_id}` })
                 // console.log(tender);
                 return { ...tender, isFavorite, isTextHidden: true } as modifiedTenderList;
