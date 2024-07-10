@@ -6,24 +6,24 @@ import ExecutorItem from '@/components/FindExecutorComponents/ExecutorItem';
 import itemStyles from './tender-advice-item.module.css'
 import {
     addFavoriteExecutor,
-    fetchContractorProfile,
+    // fetchContractorProfile,
     removeFavoriteExecutor,
-    updateToken,
+    // updateToken,
 } from "@/api/index";
 import { executorList } from '@/types/app';
 import { generateTypesenseClient, getExecutorList } from '@/components/FindExecutorComponents/generateSearchclient';
 import { useFindExecutorState } from '@/store/findExecutorStore';
 import styles from './tenders-advice-executors.module.css'
-import { useUserInfoStore } from '@/store/userInfoStore';
+// import { useUserInfoStore } from '@/store/userInfoStore';
 
 const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     const navigate = useNavigate();
 
     const findExecutorState = useFindExecutorState();
 
-    const userInfoState = useUserInfoStore()
+    // const userInfoState = useUserInfoStore()
 
-    const [executorList, setExecutorList] = useState<executorList[][]>([]);
+    const [executorList, setExecutorList] = useState<(executorList | true)[][]>([]);
 
     const [executorIdToOfferTender, setExecutorIdToOfferTender] = useState<
         null | string
@@ -56,16 +56,39 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
     const updateExecutorList = async (newExecutorList: executorList[]) => {
         // console.log(newExecutorList);
+        const city = JSON.parse(localStorage.getItem("userCity") || "")?.city
 
-        newExecutorList = newExecutorList.map(executor => ({ ...executor, text: executor.text ? executor.text.length > 103 ? executor.text.slice(0, 100) + "..." : executor.text : "", isTextHidden: false }))
-        if (localStorage.getItem("token") && userInfoState.is_contractor) {
-            const res = await updateToken(fetchContractorProfile, null);
-            console.log(res.locations);
-        }
+        newExecutorList = newExecutorList.map(executor => ({
+            ...executor, text: executor.text ? executor.text.length > 63 ? executor.text.slice(0, 60) + "..." : executor.text : "", isTextHidden: false, regions: (
+                executor.regions.length ?
+                    city ? [executor.regions.find(region => region.name === city) || executor.regions[0]] : [executor.regions[0]]
+                    : []
+            )
+        }))
+        console.log(newExecutorList);
 
-        const changedNewExecutorList: executorList[][] = []
+        // if (localStorage.getItem("token") && userInfoState.is_contractor) {
+        //     const res = await updateToken(fetchContractorProfile, null);
+        //     console.log(res.locations);
+        // }
+        // newExecutorList = newExecutorList.map(executor => {
+        //     console.log(" ");
+
+        //     console.log(executor.regions.length, city);
+        //     console.log(executor.regions);
+        //     console.log([executor.regions.find(region => region.name === city) || executor.regions[0] || []])
+        //     return executor
+        // })
+
+
+        const changedNewExecutorList: (executorList | true)[][] = []
         for (let i = 0; i < newExecutorList.length; i += (isMobile ? 1 : 4)) {
-            const chunk = newExecutorList.slice(i, i + (isMobile ? 1 : 4));
+            const chunk: (executorList | true)[] = newExecutorList.slice(i, i + (isMobile ? 1 : 4));
+            if (chunk.length < 4) {
+                for (let i = 0; i < 4 - chunk.length; i++) {
+                    chunk.push(true)
+                }
+            }
             changedNewExecutorList.push(chunk);
         }
 
@@ -98,26 +121,29 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                 </Modal>
             )}
             {
-                executorList.map((executorBlock: executorList[], ind: number) => (
-                    <div key={ind} className={styles.embla__slide}>
-                        {
-                            executorBlock.map((executor: executorList) => (
-                                <div key={executor.id}>
-                                    <ExecutorItem
-                                        executor={executor}
-                                        additionalStyles={itemStyles}
-                                        favoriteExecutorsHandler={favoriteExecutorsHandler}
-                                        setExecutorIdToOfferTender={setExecutorIdToOfferTender}
-                                        setExecutorNameToOfferTender={setExecutorNameToOfferTender}
-                                        servicesNumber={3}
-                                    />
-                                </div>
-                            ))
-                        }
-                    </div>
-                ))
+                executorList
+                    // .map(executorBlock => executorBlock.length < 4 ? executorBlock.map((executorList: executorList) => new Array(4).fill(true).map((_, ind: number) => executorList[ind] ? executorList : true)) : executorBlock)
+                    .map((executorBlock: (executorList | true)[], ind: number) => (
+                        <div key={ind} className={styles.embla__slide}>
+                            {
+                                executorBlock.map((executor: executorList | true) => (
+                                    executor !== true ?
+                                        <ExecutorItem
+                                            key={executor.id}
+                                            executor={executor}
+                                            additionalStyles={itemStyles}
+                                            favoriteExecutorsHandler={favoriteExecutorsHandler}
+                                            setExecutorIdToOfferTender={setExecutorIdToOfferTender}
+                                            setExecutorNameToOfferTender={setExecutorNameToOfferTender}
+                                            servicesNumber={1}
+                                        /> :
+                                        <div></div>
+                                ))
+                            }
+                        </div>
+                    ))
             }
-        </div>
+        </div >
     );
 }
 
