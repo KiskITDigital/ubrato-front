@@ -12,6 +12,7 @@ type SwitchProps = {
   price: number;
   tenderId: string | undefined;
   response: boolean;
+  user_id: string;
 };
 
 export const Switchero: React.FC<SwitchProps> = ({
@@ -21,6 +22,7 @@ export const Switchero: React.FC<SwitchProps> = ({
   button_text,
   price,
   response,
+  user_id,
 }) => {
   const userInfoStore = useUserInfoStore()
 
@@ -73,7 +75,7 @@ export const Switchero: React.FC<SwitchProps> = ({
           ))}
         </div>
         <div>
-          {(userInfoStore.is_contractor && button_text == "Откликнуться на тендер") ? (
+          {(userInfoStore.is_contractor && user_id !== userInfoStore.user.id && button_text == "Откликнуться на тендер") ? (
             <button onClick={openModal} className={styles.button_modal}>
               Откликнуться на тендер
             </button>
