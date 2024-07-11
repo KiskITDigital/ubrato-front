@@ -17,7 +17,7 @@ interface modifiedTenderList extends tenderList {
 }
 
 const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
-    const [tenderList, setTenderList] = useState<modifiedTenderList[][]>([]);
+    const [tenderList, setTenderList] = useState<(modifiedTenderList | true)[][]>([]);
 
     const tenderListStore = useTenderListState()
 
@@ -33,7 +33,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                 : addFavouriteTender(tender.id, token);
             const resStatus = (await res).data.status;
             if (!resStatus) return;
-            const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[]
+            const tenderListToFormat = tenderList.flat(Infinity) as (modifiedTenderList)[]
 
             updateTenderList(tenderListToFormat.map((tenderItem) =>
                 tenderItem.id === tender.id
@@ -73,10 +73,15 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
         }
     }
 
-    const updateTenderList = async (newTenderList: modifiedTenderList[]) => {
-        const changedNewExecutorList: modifiedTenderList[][] = []
+    const updateTenderList = async (newTenderList: (modifiedTenderList | true)[]) => {
+        const changedNewExecutorList: (modifiedTenderList | true)[][] = []
         for (let i = 0; i < newTenderList.length; i += (isMobile ? 1 : 4)) {
             const chunk = newTenderList.slice(i, i + (isMobile ? 1 : 4));
+            if (chunk.length < 4) {
+                for (let i = 0; i < 4 - chunk.length; i++) {
+                    chunk.push(true)
+                }
+            }
             changedNewExecutorList.push(chunk);
         }
         setTenderList(changedNewExecutorList)
@@ -122,47 +127,49 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
         <div className={styles.embla__container}>
             {/* {JSON.stringify(tenders)} */}
             {
-                tenderList.map((tenderBlock: modifiedTenderList[], ind: number) => (
+                tenderList.map((tenderBlock: (modifiedTenderList | true)[], ind: number) => (
                     <div key={ind} className={styles.embla__slide}>
                         {
-                            tenderBlock.map((tender) => (
-                                <div key={tender.id} className={styles.tenderForCarousel}>
-                                    {/* {JSON.stringify(executor)} */}
-                                    <div>
-                                        <p className={styles.tenderName}>{tender.name}</p>
-                                        {/* <p className={styles.tenderText}>{tender.description}</p> */}
-                                        <p className={styles.tenderText}>
-                                            {tender.isTextHidden && tender.description.split(' ').length > 10 ? getShorterText(tender.description) : tender.description}
-                                            {tender.isTextHidden && tender.description.split(' ').length > 10 && <img onClick={() => showAllExecutorText(tender.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
-                                        </p>
-                                        <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
-                                        <p className={styles.tenderTime}>Прием откликов до {new Date(new Date(tender.reception_end).getTime() * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                    </div>
-                                    {/* <div>{!!tender.regions?.length && tender.regions?.map(region => <p key={region.id}>{region.name}</p>)}</div> */}
-                                    {isMobile || <div>
-                                        <p className={styles.tenderLocation}>{tender.location}</p>
-                                        <div className={`${styles.executorButtons}`}>
-                                            <button
-                                                onClick={() => favoriteExecutorsHandler(tender)}
-                                                className={styles.executorLoveButton}
-                                            >
-                                                <img
-                                                    src={`/find-executor/heart-${tender.isFavorite ? "active" : "inactive"}.svg`}
-                                                    alt="+"
-                                                />
-                                            </button>
-                                            <Link to={`/tender/${tender.id}`}>
-                                                <button className={`${styles.executorOfferButton}`}>
-                                                    Перейти к тендеру
+                            tenderBlock.map((tender, ind) => (
+                                tender !== true ?
+                                    <div key={tender.id} className={styles.tenderForCarousel}>
+                                        {/* {JSON.stringify(executor)} */}
+                                        <div>
+                                            <p className={styles.tenderName}>{tender.name}</p>
+                                            {/* <p className={styles.tenderText}>{tender.description}</p> */}
+                                            <p className={styles.tenderText}>
+                                                {tender.isTextHidden && tender.description.split(' ').length > 10 ? getShorterText(tender.description) : tender.description}
+                                                {tender.isTextHidden && tender.description.split(' ').length > 10 && <img onClick={() => showAllExecutorText(tender.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
+                                            </p>
+                                            <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
+                                            <p className={styles.tenderTime}>Прием откликов до {new Date(new Date(tender.reception_end).getTime() * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                        </div>
+                                        {/* <div>{!!tender.regions?.length && tender.regions?.map(region => <p key={region.id}>{region.name}</p>)}</div> */}
+                                        {isMobile || <div className={styles.locationsAndLinkBlock}>
+                                            <p className={styles.tenderLocation}>{tender.location}</p>
+                                            <div className={`${styles.executorButtons}`}>
+                                                <button
+                                                    onClick={() => favoriteExecutorsHandler(tender)}
+                                                    className={styles.executorLoveButton}
+                                                >
                                                     <img
-                                                        src={"/find-executor/arrow-right-black.svg"}
-                                                        alt="->"
+                                                        src={`/find-executor/heart-${tender.isFavorite ? "active" : "inactive"}.svg`}
+                                                        alt="+"
                                                     />
                                                 </button>
-                                            </Link>
-                                        </div>
-                                    </div>}
-                                </div>
+                                                <Link to={`/tender/${tender.id}`}>
+                                                    <button className={`${styles.executorOfferButton}`}>
+                                                        Перейти к тендеру
+                                                        <img
+                                                            src={"/find-executor/arrow-right-black.svg"}
+                                                            alt="->"
+                                                        />
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </div>}
+                                    </div>
+                                    : <div key={ind + Math.random()}></div>
                             ))
                         }
                     </div>
