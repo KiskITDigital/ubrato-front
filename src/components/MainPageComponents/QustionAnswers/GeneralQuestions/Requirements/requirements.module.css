@@ -19,6 +19,7 @@
 .accordionItem>h2>button {
     display: flex;
     flex-direction: row-reverse;
+    width: fit-content;
     align-items: center;
     gap: 10px;
     outline: none;
