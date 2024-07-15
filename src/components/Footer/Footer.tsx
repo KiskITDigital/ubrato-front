@@ -126,12 +126,12 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/contacts" state={{ isHelp: false }}>
+              <Link to="/contacts" state={{ isHelp: false, previousPage: location.pathname }}>
                 <p className={styles.point}>Контакты</p>
               </Link>
             </li>
             <li>
-              <Link to="/contacts" state={{ isHelp: true }}>
+              <Link to="/contacts" state={{ isHelp: true, previousPage: location.pathname }}>
                 <p className={styles.point}>Помощь</p>
               </Link>
             </li>

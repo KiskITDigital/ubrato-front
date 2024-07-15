@@ -45,11 +45,11 @@ export const HowToRegister: FC = () => {
       </div>
       <p className={`${qstyles.text}`}>
         Остались вопросы?{' '}
-        <span onClick={() => alert('smth?')} className={`${qstyles.link}`}>
+        <Link to="/contacts" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>
           Напишите телефон
-        </span>{' '}
+        </Link>{' '}
         и мы перезвоним.
       </p>
-    </div>
+    </div >
   );
 };

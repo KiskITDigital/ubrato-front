@@ -24,7 +24,7 @@ const Differences: FC = () => {
                 <Link to='/faq?page=3&number=5#q3_5' className={`${qstyles.link} ${qstyles.ml20}`}>
                     Как найти и выбрать исполнителя?
                 </Link>
-                <Link to="/" className={qstyles.link}>Правовая информация</Link>
+                <Link to="/rights?document=1" className={qstyles.link}>Правовая информация</Link>
             </div>
         </div>
     );
