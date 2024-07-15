@@ -83,9 +83,16 @@ const MainFilter: FC = () => {
         setCityList(cities)
     }
 
+    // const getObjects = async () => {
+    //     const objects = (await generateTypesenseClient("object_group_index", { per_page: 250 }))?.map(hit => hit.document)
+    //     console.log(objects)
+    //     return objects
+    // }
+
     useEffect(() => {
         setIsSearchClient(true)
         getLocalCities("")
+        // getObjects()
     }, []);
 
     return (
