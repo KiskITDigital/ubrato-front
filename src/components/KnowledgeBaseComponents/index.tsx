@@ -1,10 +1,20 @@
-import { FC } from "react";
+import { FC, useEffect, useRef } from "react";
 import s from "./styles.module.css";
 import { Link } from "react-router-dom";
 
 export const KnowledgeBaseComponent: FC = () => {
+  const startRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    startRef.current!.scrollIntoView({ behavior: "smooth" })
+    setTimeout(() => {
+      const elementTop = startRef.current!.getBoundingClientRect().top;
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
+    }, 0);
+  }, []);
+
   return (
-    <div className={s.main_bgc}>
+    <div ref={startRef} className={s.main_bgc}>
       <div className={s.main_content}>
         <div className={s.main_header}>
           <h1 className={s.main_header__text}>База знаний <span className={s.accent}>Ubrato</span></h1>
