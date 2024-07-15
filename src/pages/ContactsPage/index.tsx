@@ -11,6 +11,7 @@ interface HelpFormValuesT {
     phone: string;
     question: string;
     confirm: boolean;
+    previousPage: string;
 }
 
 
@@ -38,6 +39,7 @@ const ContactsPage: FC = () => {
         phone: '',
         question: '',
         confirm: false,
+        previousPage: location.state.previousPage
     };
 
     const formik = useFormik<HelpFormValuesT>({
