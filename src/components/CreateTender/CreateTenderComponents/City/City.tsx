@@ -16,9 +16,11 @@ const City: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivE
                     {
                         (isCitiesAutoComplete || !createTenderState.city) ? <>
                             <input
+                                // onClick={(e) => e.stopPropagation()}
                                 onFocus={() => { createTenderState.removeError('city'); setIsCitiesAutoComplete(true) }}
                                 onBlur={() => {
                                     setIsCitiesAutoComplete(false);
+                                    if (!createTenderState.city) return;
                                     if (!createTenderState.cities.some(el => el.name === createTenderState.city)) {
                                         if (createTenderState.cities.length) {
                                             createTenderState.handleSimpleInput('city', createTenderState.cities[0].name)
@@ -39,7 +41,10 @@ const City: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDivE
                                         createTenderState.cities.map((city) =>
                                             <p className={styles.cities__autocomplete__item}
                                                 key={city.id}
-                                                onMouseDown={(e) => { e.stopPropagation(); createTenderState.handleSimpleInput('city', city.name) }}
+                                                onMouseDown={(e) => {
+                                                    e.stopPropagation();
+                                                    createTenderState.handleSimpleInput('city', city.name)
+                                                }}
                                             >
                                                 {city.name}
                                                 <span>{city.region}</span>

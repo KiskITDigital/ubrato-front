@@ -10,24 +10,13 @@ const NameTender: React.FC<{
 }>((_, ref) => {
     const createTenderState = useCreateTenderState();
 
-    // const errorRef = useRef<HTMLHeadingElement>(null);
-
-    // useEffect(() => {
-    //   if (createTenderState.errors.includes('name')) {
-    //     errorRef.current!.scrollIntoView({ behavior: "smooth" });
-    //     setTimeout(() => {
-    //       const elementTop = errorRef.current!.getBoundingClientRect().top;
-    //       window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
-    //     }, 0);
-    //   }
-    // }, [createTenderState]);
-
     return (
         <div ref={ref} className={`${styles.nameTender}`}>
             <label className={`${styles.nameTender__label} ${styles.textBlack60} ${styles.textRegular}`}>
                 Название тендера:
             </label>
             <input
+                // onClick={(e) => e.stopPropagation()}
                 onFocus={() => createTenderState.removeError('name')}
                 onBlur={() => !createTenderState.name && createTenderState.addError('name')}
                 type="text"

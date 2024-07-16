@@ -52,9 +52,14 @@ const Attachments: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElemen
                                         <div className={`${styles.section__attachments__block__cardItem__changes}`}>
                                             <img className={`${styles.section__attachments__block__cardItem__changes__img}`}
                                                 src='/create-tender/create-tender-change-attachment.svg' alt=""
-                                                onClick={() => { handleButtonChangeFileClick(); createTenderState.changeAttachmentIdToChange(img.id) }}
+                                                onClick={() => {
+                                                    // e.stopPropagation();
+                                                    handleButtonChangeFileClick();
+                                                    createTenderState.changeAttachmentIdToChange(img.id)
+                                                }}
                                             />
                                             <input
+                                                // onClick={(e) => e.stopPropagation()}
                                                 type="file"
                                                 multiple
                                                 accept="image/*,.pdf,.xml"
@@ -63,16 +68,26 @@ const Attachments: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElemen
                                                 style={{ display: 'none' }}
                                             />
                                             <span className={`${styles.section__attachments__block__cardItem__changes__span}`}></span>
-                                            <img onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__img}`} src='/create-tender/create-tender-remove-attachment.svg' alt="" />
-                                            <p onClick={() => createTenderState.removeAttachment(img.id)} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
+                                            <img onClick={() => {
+                                                // e.stopPropagation(); 
+                                                createTenderState.removeAttachment(img.id)
+                                            }} className={`${styles.section__attachments__block__cardItem__changes__img}`} src='/create-tender/create-tender-remove-attachment.svg' alt="" />
+                                            <p onClick={() => {
+                                                // e.stopPropagation(); 
+                                                createTenderState.removeAttachment(img.id)
+                                            }} className={`${styles.section__attachments__block__cardItem__changes__text}`}>Удалить</p>
                                         </div>
                                     </>}
                                 </div>)
                             }
                         </div>
                     }
-                    <button onClick={() => { createTenderState.attachments.length < 8 && handleButtonFileClick() }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src='/create-tender/create-tender-plus.svg' alt="plus" />Добавить вложения (до 8 шт.)</button>
+                    <button onClick={() => {
+                        // e.stopPropagation();
+                        createTenderState.attachments.length < 8 && handleButtonFileClick()
+                    }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src='/create-tender/create-tender-plus.svg' alt="plus" />Добавить вложения (до 8 шт.)</button>
                     <input
+                        // onClick={(e) => e.stopPropagation()}
                         type="file"
                         multiple
                         accept="image/*,.pdf,.xml"

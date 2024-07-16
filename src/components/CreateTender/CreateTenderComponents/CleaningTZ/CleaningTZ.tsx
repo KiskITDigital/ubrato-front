@@ -21,6 +21,7 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
                     <p className={`${styles.textMedium} ${styles.cleaningTZText}`}>{createTenderState.cleaningTZ.fileName}<span className={styles.textGray}>, {formatFileSize(createTenderState.cleaningTZ.fileSize)}</span></p>
                 }
                 <button onClick={() => {
+                    // e.stopPropagation()
                     createTenderState.cleaningTZ ?
                         createTenderState.removeCleaningTZ() :
                         handleButtonFileClick()
