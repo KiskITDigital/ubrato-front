@@ -177,12 +177,12 @@ const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDiv
                 if (calendarRef1.current && !calendarRef1.current.contains(target)) {
                     // calendarRef2.current && calendarRef2.current.contains(target) && calendarRef2.current.focus()
                     setCalendar1(false);
-                    spanRef.current?.focus();
+                    calendar1 && spanRef.current?.focus();
                 }
                 if (calendarRef2.current && !calendarRef2.current.contains(target)) {
                     // calendarRef1.current && calendarRef1.current.contains(target) && calendarRef1.current.focus()
                     setCalendar2(false);
-                    spanRef.current?.focus();
+                    calendar2 && spanRef.current?.focus();
                 }
             }
         };
@@ -192,7 +192,7 @@ const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDiv
         return () => {
             window.removeEventListener("click", handleClickOutside);
         };
-    }, []);
+    }, [calendar1, calendar2]);
 
 
     return (
@@ -252,6 +252,7 @@ const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDiv
                     <div className={`${styles.firstSections__div__main__block}`}>
                         <p className={`${styles.firstSections__div__main__block__p}`}>Стоимость в рублях</p>
                         <input
+                            onClick={(e) => e.stopPropagation()}
                             onFocus={() => createTenderState.removeError('price')}
                             onBlur={() => { !+createTenderState.price && createTenderState.addError('price'); +createTenderState.price === 0 && createTenderState.handleSimpleInput("price", "") }}
                             value={createTenderState.price}
