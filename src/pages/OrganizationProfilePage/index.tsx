@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Link, Params, useNavigate, useParams } from "react-router-dom";
+import { Link, Params, useNavigate, useNavigationType, useParams } from "react-router-dom";
 import { addFavoriteExecutor, getOtherProfilesOrganizations, isFavoriteExecutor, removeFavoriteExecutor } from "@/api";
 import Info from "@/components/OrganizationProfileComponents/Info";
 import styles from './organization-profile-page.module.css';
@@ -26,6 +26,7 @@ const OrganizationProfilePage: FC = () => {
 
     const { org_id }: Readonly<Params<string>> = useParams();
     const navigate = useNavigate();
+    const navigationType = useNavigationType()
     const userInfoStore = useUserInfoStore()
 
     const startRef = useRef<HTMLHeadingElement>(null)
@@ -34,7 +35,10 @@ const OrganizationProfilePage: FC = () => {
 
     useEffect(() => {
         if (!userInfoStore.isLoggedIn) {
-          navigate("/login");
+          if (navigationType === "POP")
+            navigate(-1)
+          else
+            navigate('/login');
         }
       }, [navigate]);
 

@@ -75,7 +75,7 @@ export const LoginPage: FC = () => {
 
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
-      navigate('/profile');
+      navigate(-1);
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 

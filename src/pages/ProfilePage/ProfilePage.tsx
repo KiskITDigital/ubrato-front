@@ -2,7 +2,7 @@ import { updateToken, surveyCheck } from '@/api';
 import { ProfileNavigation } from '@/components';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { FC, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useNavigationType } from 'react-router-dom';
 import styles from './proflepage.module.css'
 
 export const ProfilePage: FC = () => {
@@ -16,18 +16,16 @@ export const ProfilePage: FC = () => {
     })();
   }, [setPassedSurvey]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token || userStore.error) {
-      navigate('/');
-    }
-  }, [navigate, userStore.error]);
+  const navigationType = useNavigationType();
 
   useEffect(() => {
     if (!userStore.isLoggedIn) {
+      if (navigationType === "POP")
+        navigate(-1)
+      else
         navigate('/login');
-      }
-}, [navigate]);
+    }
+  }, [navigate]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

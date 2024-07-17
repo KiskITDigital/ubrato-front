@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import s from './styles.module.css'
 import { TenderListComp } from '@/components/TenderListComponents/TenderListComponents';
 // import { TenderListCustomSearch } from '@/components/TenderListComponents/TenderListCustomSearch';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useNavigationType } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
 // import { set } from "date-fns";
 import { DraftTenderComponent } from "@/components/DraftTenderComp";
@@ -10,6 +10,7 @@ import { TenderListCustomSearch } from "@/components/TenderListComponents/Tender
 
 export const MyTendersPage: FC = () => {
   const navigate = useNavigate()
+  const navigationType = useNavigationType()
   const userInfoStore = useUserInfoStore()
   const [draftSwitch, setDraftSwitch] = useState(false);
 
@@ -17,7 +18,10 @@ export const MyTendersPage: FC = () => {
 
   useEffect(() => {
     if (!userInfoStore.isLoggedIn) {
-      navigate("/login");
+      if (navigationType === "POP")
+        navigate(-1)
+      else
+        navigate('/login');
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 

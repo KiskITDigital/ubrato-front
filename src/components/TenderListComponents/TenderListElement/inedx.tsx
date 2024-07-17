@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigationType } from "react-router-dom";
 import {
   addFavouriteTender,
   isFavoriteTender,
@@ -15,11 +15,11 @@ interface Hit {
   work_start: string;
   work_end: string;
   price: number;
-  city: string;  
+  city: string;
 }
 
 interface CustomHitProps {
-  hit: Hit 
+  hit: Hit
 }
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
@@ -42,9 +42,14 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
     })();
   }, [tenderId]);
 
+  const navigationType = useNavigationType()
+
   useEffect(() => {
     if (!userInfoStore.isLoggedIn) {
-      navigate("/login");
+      if (navigationType === "POP")
+        navigate(-1)
+      else
+        navigate('/login');
     }
   }, [navigate]);
 
