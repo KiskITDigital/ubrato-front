@@ -6,8 +6,8 @@ import { Avatar } from '@nextui-org/react';
 import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
 import { updateToken } from '@/api';
-import axios from 'axios';
 import { CityModal } from '../CityModal/CityModal';
+import axios from "axios";
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -17,22 +17,23 @@ export const Header: FC = () => {
   const widthR = useRef<number | null>(width);
 
   const fetchUser = userInfoStorage.fetchUser;
-
   const handleState = isOrdererState.handleState;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCityModalOpern, setIsCityModalOpern] = useState(false);
-  const [confirm, setConfirm] = useState<boolean>(true);
-  const [city, setCity] = useState('');
+  const [isCityModalOpen, setIsCityModalOpen] = useState(false);
+  const [confirm, setConfirm] = useState<boolean>(false);
+  const [city, setCity] = useState<string | undefined>('');
+  const [geolocation, setGeolocation] = useState<{ lat: number, lon: number }>()
 
   const handleConfirm = () => {
-    const { city } = JSON.parse(localStorage.getItem('userCity')!);
-    localStorage.setItem('userCity', JSON.stringify({ city: city, confirmed: true }));
-    setConfirm(true);
+    if (city) {
+      localStorage.setItem('userCity', city);
+      setConfirm(true);
+    }
   };
 
   const setNewCity = (newCity: string) => {
-    localStorage.setItem('userCity', JSON.stringify({ city: newCity, confirmed: true }));
+    localStorage.setItem('userCity', newCity);
     setCity(newCity);
   };
 
@@ -58,33 +59,30 @@ export const Header: FC = () => {
     if (window.outerWidth <= 450) {
       widthR.current = window.outerHeight;
     }
-    const localCity = JSON.parse(localStorage.getItem('userCity') ?? '{}');
-    setCity(
-      localCity.city ? (localCity.city != 'undefined' ? localCity.city : 'Не определён') : ''
-    );
-    if (!localCity.confirmed) {
-      (async () => {
-        setConfirm(false);
-        const curAxios = axios.create({ withCredentials: false });
-        const res = await curAxios.get('https://geolocation-db.com/json/');
-        const lat = res.data.latitude;
-        const lon = res.data.longitude;
-        const res2 = await curAxios.get(
-          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-          { headers: { 'Accept-language': 'ru-RU' } }
-        );
-        localStorage.setItem(
-          'userCity',
-          JSON.stringify({ city: res2.data.address.city, confirmed: false })
-        );
-        setCity(res2.data.address.city ?? 'Не определён');
-      })();
+
+    if (localStorage.getItem('userCity')) {
+      setCity(localStorage.getItem('userCity') || "")
+      setConfirm(true)
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setGeolocation({ lat: position.coords.latitude, lon: position.coords.longitude })
+      })
     }
   }, []);
 
+  useEffect(() => {
+    if (geolocation)
+      axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${geolocation.lat}&lon=${geolocation.lon}&format=json`, {
+        withCredentials: false
+      }).then(response => {
+        if (response.data?.address?.city)
+          setCity(response.data?.address?.city)
+      })
+  }, [geolocation]);
+
   return (
     <header className={`${styles.container}`}>
-      {isCityModalOpern && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpern} />}
+      {isCityModalOpen && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpen} />}
       {!!widthR.current && isMenuOpen && (
         <div
           onClick={() => {
@@ -127,7 +125,7 @@ export const Header: FC = () => {
               <p className={styles.text}>8 800-775-67-57</p>
             </a>
             <div className={styles.location}>
-              <img src="/location.svg" alt="location" />
+              <img src="/location.svg" alt="location" className="cursor-pointer" onClick={() => setIsCityModalOpen(true)} />
               <p
                 onClick={() => {
                   setConfirm(false);
@@ -136,7 +134,7 @@ export const Header: FC = () => {
               >
                 {city}
               </p>
-              {!confirm && (
+              {!confirm && city && (
                 <div className={styles.cityConfirm}>
                   <p>Ваш город {city}?</p>
                   <div>
@@ -144,7 +142,7 @@ export const Header: FC = () => {
                     <button
                       onClick={() => {
                         document.body.style.overflow = 'hidden';
-                        setIsCityModalOpern(true);
+                        setIsCityModalOpen(true);
                       }}
                     >
                       Нет

@@ -42,7 +42,7 @@
   border-bottom-right-radius: 12px;
   padding-top: 10px;
   margin-top: -10px;
-  min-height: 410px;
+  max-height: 410px;
 }
 
 .btn {
@@ -74,6 +74,7 @@
   align-items: center;
   gap: 10px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .city:hover {

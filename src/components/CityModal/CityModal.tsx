@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styles from './citymodal.module.css';
 import { getCities } from '@/api';
 
@@ -7,10 +7,17 @@ export const CityModal: FC<{
   setModal: (a: boolean) => void;
   setCity: (newCity: string) => void;
 }> = ({ setConfirm, setModal, setCity }) => {
-  const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
+  const [citiesArr, setCitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [confirmedCity, setConfirmedCity] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    getCities("").then(response => {
+      setCitiesArr(response.data)
+      setIsListOpen(true)
+    })
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -25,30 +32,30 @@ export const CityModal: FC<{
               setInputValue(e.target.value);
               const res = await getCities(e.target.value);
               // console.log(res);
-              setSitiesArr(res.data);
+              setCitiesArr(res.data);
               setIsListOpen(true);
             })();
           }}
         />
         {citiesArr.length !== 0 && isListOpen && (
           <div className={styles.citiesList}>
-            {citiesArr.map((e) => (
+            {citiesArr?.map((city) => (
               <div
                 className={styles.city}
                 onClick={() => {
                   setIsListOpen(false);
-                  setConfirmedCity(e.name);
+                  setConfirmedCity(city.name);
                   setInputValue('');
                 }}
-                key={e.id}
+                key={city.id}
               >
-                {e.name}
-                <span className={styles.region}>{e.region}</span>
+                {city.name}
+                <span className={styles.region}>{city.region}</span>
               </div>
             ))}
           </div>
         )}
-        {!isListOpen && confirmedCity.length !== 0 && (
+        {confirmedCity && (
           <p className={styles.newCity}>{confirmedCity}</p>
         )}
         <div className={styles.btns}>
