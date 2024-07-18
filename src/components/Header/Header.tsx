@@ -27,13 +27,13 @@ export const Header: FC = () => {
 
   const handleConfirm = () => {
     if (city) {
-      localStorage.setItem('userCity', city);
+      localStorage.setItem('city', city);
       setConfirm(true);
     }
   };
 
   const setNewCity = (newCity: string) => {
-    localStorage.setItem('userCity', newCity);
+    localStorage.setItem('city', newCity);
     setCity(newCity);
   };
 
@@ -60,8 +60,8 @@ export const Header: FC = () => {
       widthR.current = window.outerHeight;
     }
 
-    if (localStorage.getItem('userCity')) {
-      setCity(localStorage.getItem('userCity') || "")
+    if (localStorage.getItem('city')) {
+      setCity(localStorage.getItem('city') || "")
       setConfirm(true)
     } else {
       navigator.geolocation.getCurrentPosition((position) => {

@@ -6,7 +6,7 @@ import styles from './loginpage.module.css';
 import { Input } from '@nextui-org/react';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { loginSchema } from '@/validation/loginSchema';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useNavigationType } from 'react-router-dom';
 import { login } from '@/api';
 
 axios.defaults.withCredentials = true;
@@ -73,10 +73,14 @@ export const LoginPage: FC = () => {
     inputWrapper: styles.inputWrapper
   };
 
+  const navigationType = useNavigationType()
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       navigate(-1);
     }
+    else
+      if (navigationType === "POP")
+        navigate(-1)
   }, [navigate, userInfoStore.isLoggedIn]);
 
   useEffect(() => {

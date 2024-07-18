@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import s from "./styles.module.css";
-import { Link, useNavigate, useNavigationType } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   addFavouriteTender,
   isFavoriteTender,
@@ -25,10 +25,10 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
   const [fav, setFav] = useState(false);
   const [tokenOuter, setToken] = useState("");
-  const userInfoStore = useUserInfoStore()
+  // const userInfoStore = useUserInfoStore()
 
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const tenderId = hit.id;
 
   useEffect(() => {
@@ -42,16 +42,16 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
     })();
   }, [tenderId]);
 
-  const navigationType = useNavigationType()
+  // const navigationType = useNavigationType()
 
-  useEffect(() => {
-    if (!userInfoStore.isLoggedIn) {
-      if (navigationType === "POP")
-        navigate(-1)
-      else
-        navigate('/login');
-    }
-  }, [navigate]);
+  // useEffect(() => {
+  //   if (!userInfoStore.isLoggedIn) {
+  //     if (navigationType === "POP")
+  //       navigate(-1)
+  //     else
+  //       navigate('/login');
+  //   }
+  // }, [navigate]);
 
   const toDate = (date: string) => {
     const timestamp = date;
