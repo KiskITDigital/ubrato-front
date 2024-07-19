@@ -161,7 +161,6 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
                 const link = await uploadFile(token, parameters);
                 const fileType = file.type.split('/')[0];
                 const fileName = link.slice(link.lastIndexOf('/') + 1)
-
                 if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
                     newFile = { id: idToChange || Date.now(), fileName, linkToSend: `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`, fileType, fileSize: file.size }
                     if (isClaeningTZ) {

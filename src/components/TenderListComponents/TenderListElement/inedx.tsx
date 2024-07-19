@@ -6,7 +6,6 @@ import {
   isFavoriteTender,
   removeFavoriteTender,
 } from "@/api/favouriteTenders";
-import { useUserInfoStore } from "@/store/userInfoStore";
 
 interface Hit {
   id: string;
