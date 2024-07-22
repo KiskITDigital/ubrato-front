@@ -47,12 +47,12 @@ export const MyTendersPage: FC = () => {
   return (
     <div ref={startRef} className={s.main_blokkk}>
       <h1 className={s.title}>Мои тендеры</h1>
-      <TenderListCustomSearch></TenderListCustomSearch>
-      <div onClick={switchDraft}>{draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}</div>
+      <TenderListCustomSearch />
+      <p onClick={switchDraft} className="cursor-pointer">{draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}</p>
       {!draftSwitch ? (
-        <TenderListComp myTender={true}></TenderListComp>
+        <TenderListComp myTender={true} />
       ) : (
-        <DraftTenderComponent></DraftTenderComponent>
+        <DraftTenderComponent />
       )}
       {/* <TenderListComp myTender={true}></TenderListComp> */}
     </div>

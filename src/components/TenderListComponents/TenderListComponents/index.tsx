@@ -5,17 +5,32 @@ import {
   useState,
 } from "react";
 import Typesense from "typesense";
-// import { useFindExecutorState } from "@/store/findExecutorStore";
 import { fetchProduct } from "@/api";
-import { TenderListElem } from "../TenderListElement/inedx";
 import { Pagination } from "@nextui-org/react";
 
 import s from "./styles.module.css";
 import { getMe } from "@/api/getMe";
 import { useTenderListState } from "@/store/tendersListStore";
 import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/Table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  GlobalFilterTableState,
+  SortingState,
+  useReactTable
+} from '@tanstack/react-table';
 
-interface TenderList {
+export interface TenderList {
   id: string;
   name: string;
   reception_end: string;
@@ -24,11 +39,6 @@ interface TenderList {
   price: number;
   city: string;
 }
-interface SortingOption {
-  label: string;
-  field: string;
-}
-
 interface Me {
   id: string;
 }
@@ -183,42 +193,162 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     myTender
   ]);
 
-  // const list = tenderList;
-  const sortingOptions: SortingOption[] = [
-    { label: "Название", field: "name" },
-    { label: "Дата приема заявок", field: "reception_end" },
-    { label: "Дата начала работ", field: "work_start" },
-    { label: "Дата окончания работ", field: "work_end" },
-    { label: "Цена", field: "price" },
-  ];
-
-  const handleSortingChange = (field: string) => {
-    const direction = sortingValue === `${field}:asc` ? 'desc' : 'asc';
-    setSortingValue(`${field}:${direction}`);
+  const toDate = (date: string) => {
+    const timestamp = date;
+    const newDate = new Date(Date.parse(timestamp));
+    newDate.setHours(0, 0, 0, 0);
+    const formattedDate = newDate.toISOString().split("T")[0];
+    return formattedDate;
   };
+
+  const columns: ColumnDef<TenderList>[] = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Название скрипта
+            <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
+          </button>
+        )
+      },
+    },
+    {
+      accessorKey: "reception_end",
+      header: ({ column }) => {
+        return (
+          <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Дата приема заявок
+            <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
+          </button>
+        )
+      },
+      cell: ({ row }) => {
+        return (
+          <p>
+            {toDate(row.getValue("reception_end"))}
+          </p>
+        )
+      },
+    },
+    {
+      accessorKey: "work_start",
+      header: ({ column }) => {
+        return (
+          <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Дата начала работ
+            <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
+          </button>
+        )
+      },
+      cell: ({ row }) => {
+        return (
+          <p>
+            {toDate(row.getValue("work_start"))}
+          </p>
+        )
+      },
+    },
+    {
+      accessorKey: "work_end",
+      header: ({ column }) => {
+        return (
+          <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Дата окончания работ
+            <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
+          </button>
+        )
+      },
+      cell: ({ row }) => {
+        return (
+          <p>
+            {toDate(row.getValue("work_end"))}
+          </p>
+        )
+      },
+    },
+    {
+      accessorKey: "price",
+      size: 70,
+      header: ({ column }) => {
+        return (
+          <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Цена
+            <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
+          </button>
+        )
+      },
+    },
+  ]
+
+  const fallbackData: Array<TenderList> = []
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState<GlobalFilterTableState>()
+  const table = useReactTable({
+    data: tenderList || fallbackData,
+    columns: columns,
+    enableMultiSort: true,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setGlobalFilter,
+    state: {
+      sorting: sorting,
+      globalFilter: globalFilter
+    }
+  })
+
   return (
-    <div>
+    <div className="w-full">
       <div className={s.counter_tender}>
         Найдено тендеров: {allExecutorListLength}
       </div>
-      {/* {JSON.stringify(tenderList, null, 4)} */}
-      <div className={s.sortingBlock}>
-        {sortingOptions.map((option) => (
-          <div key={option.field} className={s.sorting_label_field}>
-            <p>{option.label}</p>
-            <button
-              key={option.field}
-              onClick={() => handleSortingChange(option.field)}
-              className={`${s.sortingButton} ${sortingValue === `${option.field}:asc` ? s.asc : s.desc}`}
-            >
-              {sortingValue === `${option.field}:asc` ? '↑' : '↑'}
-            </button>
-          </div>
-        ))}
+
+      <div className="mt-[20px]">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
+              <TableRow key={"h-group-" + headerGroupIndex} className="bg-slate-200/40 hover:bg-slate-200/40">
+                {headerGroup.headers.map((header, headerIndex) => {
+                  return (
+                    <TableHead key={"h-" + headerGroupIndex + headerIndex} style={{ width: header.getSize() }}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row, rowIndex) => (
+                <TableRow
+                  key={"row" + rowIndex}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={rowIndex % 2 !== 0 ? "bg-slate-200/40" : ""}
+                >
+                  {row.getVisibleCells().map((cell, cellIndex) => (
+                    <TableCell key={"cell-" + rowIndex + cellIndex} style={{ width: cell.column.getSize() }}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center">
+                  Ничего не найдено.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
-      {tenderList.map((item) => (
-        <TenderListElem key={item.id} hit={item}></TenderListElem>
-      ))}
 
       {allExecutorListLength > tenderList.length && (
         <>
