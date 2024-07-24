@@ -14,11 +14,7 @@ export const Page4: FC = () => {
   const radioGroupStyle = {
     wrapper: styles.radioGroupNumbersWrapper,
   };
-
-  const tableRadioGroupStyle = {
-    wrapper: styles.tableRadioGroupWrapper,
-  };
-
+  
   const rateArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const surveyStore = useSurveyStore();
@@ -104,30 +100,37 @@ export const Page4: FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className={styles.title}>
-        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
+    <div className="text-[26px] font-medium w-full">
+      <h1 className="font-black text-[60px] text-center">
+        Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
-      <div className={styles.blueBackground}>
-        <p className={`${styles.text} ${styles.bold}`}>
-          Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
-          тест-драйве площадки. Условия участия по{' '}
-          <Link className={styles.blueText} to="/">
-            ссылке
-          </Link>
-          .
-        </p>
-        <p className={styles.text}>
-          <span className={styles.bold}>
-            Пожалуйста, ответьте на вопросы анкеты. <br /> *
-          </span>{' '}
-          Звездочкой отмечены обязательные для ответов
-        </p>
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[40px]">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
+          <p className="font-extrabold">
+            Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
+            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
+            сайта.
+          </p>
+          <div className="flex flex-col">
+            <p className="font-extrabold">
+              Пожалуйста, ответьте на вопросы анкеты.
+            </p>
+            <p>
+              * Звездочкой отмечены обязательные для ответов
+            </p>
+          </div>
+        </div>
       </div>
-      <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={`${styles.text} ${styles.bold}`}>Оцените удобство работы с тендерами</p>
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
+          <p className="font-extrabold">
+            Оцените удобство работы с тендерами
+          </p>
+        </div>
       </div>
+
       <ol className={styles.questionsContainer}>
         <li className={`${styles.questionItem} ${styles.text}`}>
           <p className={styles.bold}>Пожалуйста, оцените удобства поиска тендеров *</p>
@@ -140,13 +143,15 @@ export const Page4: FC = () => {
             }}
             classNames={radioGroupStyle}
           >
-            {rateArr.map((e) => {
-              return (
-                <Radio key={e} classNames={radioStyle} value={e.toString()}>
-                  {e}
-                </Radio>
-              );
-            })}
+            <div className="flex gap-3">
+              {rateArr.map((e) => {
+                return (
+                  <Radio key={e} classNames={radioStyle} value={e.toString()}>
+                    {e}
+                  </Radio>
+                );
+              })}
+            </div>
             {error1 && <p className={styles.errorText}>{error1}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
@@ -175,13 +180,15 @@ export const Page4: FC = () => {
             }}
             classNames={radioGroupStyle}
           >
-            {rateArr.map((e) => {
-              return (
-                <Radio key={e} classNames={radioStyle} value={e.toString()}>
-                  {e}
-                </Radio>
-              );
-            })}
+            <div className="flex gap-3">
+              {rateArr.map((e) => {
+                return (
+                  <Radio key={e} classNames={radioStyle} value={e.toString()}>
+                    {e}
+                  </Radio>
+                );
+              })}
+            </div>
             {error2 && <p className={styles.errorText}>{error2}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
@@ -197,66 +204,71 @@ export const Page4: FC = () => {
           </div>
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
-          <div className={styles.tableQuestinHeader}>
-            <p>Элементы</p>
-            <div>
-              <p>Удобно</p>
-              <p>Не удобно</p>
+          <div className="font-bold flex justify-between mb-5">
+            <p className="text-accent">Элементы</p>
+            <div className="flex gap-10 mr-10">
+              <p className="text-accent">Удобно</p>
+              <p className="text-accent">Не удобно</p>
             </div>
           </div>
           <RadioGroup
             value={surveyStore.question11.response}
             onValueChange={(v) => surveyStore.setQuestion11response(v)}
-            classNames={tableRadioGroupStyle}
           >
-            <p>Отклик в целом</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+            <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
+              <p>Отклик в целом</p>
+              <div className="flex gap-[120px] mr-16">
+                <Radio classNames={radioStyle} value={'Удобно'}></Radio>
+                <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+              </div>
             </div>
           </RadioGroup>
           <RadioGroup
             value={surveyStore.question11.priceNDS}
             onValueChange={(v) => surveyStore.setQuestion11priceNDS(v)}
-            classNames={tableRadioGroupStyle}
           >
-            <p>Указание в отклике стоимости и работы с НДС</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+            <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
+              <p>Указание в отклике стоимости и работы с НДС</p>
+              <div className="flex gap-[120px] mr-16">
+                <Radio classNames={radioStyle} value={'Удобно'}></Radio>
+                <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+              </div>
             </div>
           </RadioGroup>
           <RadioGroup
             value={surveyStore.question11.chat}
             onValueChange={(v) => surveyStore.setQusetion11chat(v)}
-            classNames={tableRadioGroupStyle}
           >
-            <p>Чат с заказчиком</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+            <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
+              <p>Чат с заказчиком</p>
+              <div className="flex gap-[120px] mr-16">
+                <Radio classNames={radioStyle} value={'Удобно'}></Radio>
+                <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+              </div>
             </div>
           </RadioGroup>
           <RadioGroup
             value={surveyStore.question11.winnerInfo}
             onValueChange={(v) => surveyStore.setQuestion11winnerInfo(v)}
-            classNames={tableRadioGroupStyle}
           >
-            <p>Информирование о выборе победителя</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+            <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
+              <p>Информирование о выборе победителя</p>
+              <div className="flex gap-[120px] mr-16">
+                <Radio classNames={radioStyle} value={'Удобно'}></Radio>
+                <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+              </div>
             </div>
           </RadioGroup>
           <RadioGroup
             value={surveyStore.question11.readyConfirm}
             onValueChange={(v) => surveyStore.setQuestion11readyConfirm(v)}
-            classNames={tableRadioGroupStyle}
           >
-            <p>Процедура подтверждения готовности выполнить работы</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+            <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
+              <p>Процедура подтверждения готовности выполнить работы</p>
+              <div className="flex gap-[120px] mr-16">
+                <Radio classNames={radioStyle} value={'Удобно'}></Radio>
+                <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
+              </div>
             </div>
             {error3 && <p className={styles.errorText}>{error3}</p>}
           </RadioGroup>

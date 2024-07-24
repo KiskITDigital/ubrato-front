@@ -11,10 +11,6 @@ export const Page1: FC = () => {
     control: styles.radioControl,
   };
 
-  const radioGroupStyle = {
-    wrapper: styles.radioGroupWrapper,
-  };
-
   const [error, setError] = useState('');
   const surveyStore = useSurveyStore();
   const navigate = useNavigate();
@@ -36,80 +32,82 @@ export const Page1: FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className={styles.title}>
-        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
+    <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
+      <h1 className="font-black text-[60px]">
+        Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
-      <div className={styles.blueBackground}>
-        <p className={`${styles.text} ${styles.bold}`}>
-          Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <Link to="/knowledge-base" className={styles.blueText}>Исполнителей</Link>, принять участие в
-          тест-драйве площадки. Условия участия по{' '}
-          <Link className={styles.blueText} to="/">
-            ссылке
-          </Link>
-          .
-        </p>
-        <p className={styles.text}>
-          <span className={styles.bold}>
-            Пожалуйста, ответьте на вопросы анкеты. <br /> *
-          </span>{' '}
-          Звездочкой отмечены обязательные для ответов
-        </p>
-      </div>
-      <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={`${styles.text} ${styles.bold}`}>
-          Полезен ли <span className={styles.blueText}>Ubrato</span> для бизнеса вашей компании?{' '}
-        </p>
-      </div>
-      <ol className={styles.questionsContainer}>
-        <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>
-            <span className={styles.bold}>
-              Помогает ли профильный агрегатор Ubrato в решении задач вашего бизнеса? *<br />
-            </span>
-            Чем полезен сайт Ubrato - смотрите на странице{' '}
-            <Link to="/" target="_blank">
-              “<span className={styles.blueText}>О сервисе</span>”
-            </Link>
-            .
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
+          <p className="font-extrabold">
+            Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
+            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
+            сайта.
           </p>
-          <RadioGroup
-            value={surveyStore.question1.answer}
-            onValueChange={(v) => {
-              surveyStore.setQuestion1(v);
-              setError('');
-            }}
-            classNames={radioGroupStyle}
-          >
-            <Radio classNames={radioStyle} value="да">
-              Да
+          <div className="flex flex-col">
+            <p className="font-extrabold">
+              Пожалуйста, ответьте на вопросы анкеты.
+            </p>
+            <p>
+              * Звездочкой отмечены обязательные для ответов
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
+          <p className="font-extrabold">
+            Полезен ли <span className="text-accent">Ubrato</span> для бизнеса вашей компании?
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
+        <p className="font-extrabold">
+          1. Помогает ли профильный агрегатор Ubrato в решении задач вашего бизнеса? *
+        </p>
+        <p>
+          Чем полезен сайт Ubrato - смотрите на странице “<Link to="/" className="text-accent">О сервисе</Link>”.
+        </p>
+      </div>
+
+      <div className="max-w-[1130px] w-full px-[40px] xl:px-0">
+        <RadioGroup
+          value={surveyStore.question1.answer}
+          onValueChange={(v) => {
+            surveyStore.setQuestion1(v);
+            setError('');
+          }}
+        >
+          <Radio classNames={radioStyle} value="да">
+            Да
+          </Radio>
+          <Radio classNames={radioStyle} value="нет">
+            Нет
+          </Radio>
+          <Radio classNames={radioStyle} value="не решил">
+            Ещё не решил
+          </Radio>
+          <div className={styles.yourVariant}>
+            <Radio classNames={radioStyle} value="свой вариант">
+              Ваш комментарий
             </Radio>
-            <Radio classNames={radioStyle} value="нет">
-              Нет
-            </Radio>
-            <Radio classNames={radioStyle} value="не решил">
-              Ещё не решил
-            </Radio>
-            <div className={styles.yourVariant}>
-              <Radio classNames={radioStyle} value="свой вариант">
-                Ваш комментарий
-              </Radio>
-              <input
-                value={surveyStore.question1.comment}
-                onChange={(e) => {
-                  surveyStore.setQuestion1comment(e.target.value);
-                }}
-                disabled={surveyStore.question1.answer !== 'свой вариант'}
-                type="text"
-                className={styles.input}
-              />
-            </div>
-            {error && <p className={styles.errorText}>{error}</p>}
-          </RadioGroup>
-        </li>
-      </ol>
-      <button className={`${styles.survey__button} ${styles.nextBtn}`} onClick={handleGoNext}>
+            <input
+              value={surveyStore.question1.comment}
+              onChange={(e) => {
+                surveyStore.setQuestion1comment(e.target.value);
+              }}
+              disabled={surveyStore.question1.answer !== 'свой вариант'}
+              type="text"
+              className={styles.input}
+            />
+          </div>
+          {error && <p className={styles.errorText}>{error}</p>}
+        </RadioGroup>
+      </div>
+
+      <button className="w-[220px] flex justify-between items-center h-[54px] bg-accent text-white px-4 rounded-2xl font-extrabold" onClick={handleGoNext}>
         Далее
         <img src="/arrow-with-line-right-white.svg" alt="" />
       </button>

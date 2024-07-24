@@ -1,95 +1,102 @@
 import { FC } from 'react';
-import styles from '../MainPart.module.css';
 import { Link } from 'react-router-dom';
 
 export const SurveyStart: FC = () => {
   return (
-    <div>
-      <h1 className={styles.title}>
-        Тест-драйв <span className={styles.blueText}>Ubrato</span>
+    <div className="flex flex-col items-center pt-10">
+      <h1 className="font-black text-[60px]">
+        Тест-драйв <span className="text-accent">Ubrato</span>
       </h1>
-      <div className={`${styles.part1}`}>
-        <div className={`${styles.textBlock}`}>
-          <div className={styles.survey__pair}>
-            <h1 className={styles.surveyTitle}>Онлайн опрос</h1>
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen h-[380px] my-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex justify-center lg:justify-between">
+          <div className="flex items-center">
+            <div className="flex flex-col font-black text-[30px]">
+              <div className="flex gap-2 items-center">
+                <img className="size-20" src="/survey/check-mark.svg" alt="" />
+                <p>
+                  Примите участие в опросе
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <img className="size-20" src="/survey/arrow-down.svg" alt="" />
+                <p>
+                  Получите исследование в подарок
+                </p>
+              </div>
+              <div className="flex gap-2 items-center">
+                <img className="size-20" src="/survey/heart.svg" alt="" />
+                <p>
+                  Давайте улучшим <span className="text-accent">Ubrato</span> вместе!
+                </p>
+              </div>
+            </div>
           </div>
-          <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="/survey/check-mark.svg" alt="" />
-            <p className={styles.survey__pair__text}>Примите участие в опросе</p>
-          </div>
-          <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="/survey/arrow-down.svg" alt="" />
-            <p className={styles.survey__pair__text}>Получите исследование в подарок</p>
-          </div>
-          <div className={styles.survey__pair}>
-            <img className={styles.survey__pair__image} src="/survey/heart.svg" alt="" />
-            <p className={styles.survey__pair__text}>
-              Давайте улучшим <span className={styles.blueText}>Ubrato</span> вместе!
-            </p>
-          </div>
+          <img className="h-full w-fit hidden lg:flex" src="/survey/laptop.png" alt="" />
         </div>
-        <img className={styles.laptopImage} src="/survey/laptop.png" alt="" />
       </div>
-      <div className={`${styles.part2} ${styles.container}`}>
-        <p className={styles.boldText}>
+      <div className="flex flex-col text-[26px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
+        <p className="text-[26px] font-extrabold">
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <Link to="/knowledge-base" className={styles.link}>Исполнителей</Link>, принять участие в тест-драйве
+          качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
           сайта.
         </p>
-        <p className={`${styles.regularText} ${styles.narrowText}`}>
-          Ubrato – это платформа для корпоративных клиентов, которые ищут профессиональные услуги
-          уборки и сопутствующие услуги. Платформа работает по принципу электронной торговой
-          площадки, где заказчики публикуют свои запросы, а исполнители предлагают им свои услуги.
-          Все взаимодействия на платформе основаны на принципах открытости, честности и
-          профессионализма.
-        </p>
-        <p className={styles.boldText}>Преимущества участникам</p>
-        <p className={styles.regularText}>
-          За ответы на вопросы анкеты Ubrato предоставит доступ к исследованию рынка клининговых
-          услуг, созданному на основе опроса более 150 представителей клининговых компаний России в период 2023-2024 года.
-        </p>
-        <p className={styles.regularText}>
+        <div className="pl-10 w-full">
+          <p className="">
+            <span className="text-accent">Ubrato</span> – это платформа для корпоративных клиентов, которые ищут профессиональные услуги
+            уборки и сопутствующие услуги. Платформа работает по принципу электронной торговой
+            площадки, где заказчики публикуют свои запросы, а исполнители предлагают им свои услуги.
+            Все взаимодействия на платформе основаны на принципах открытости, честности и
+            профессионализма.
+          </p>
+        </div>
+
+        <div>
+          <p className="font-extrabold">Преимущества участникам</p>
+          <p>
+            За ответы на вопросы анкеты Ubrato предоставит доступ к исследованию рынка клининговых
+            услуг, созданному на основе опроса более 150 представителей клининговых компаний России в период 2023-2024 года.
+          </p>
+        </div>
+
+        <p>
           Участники анкетирования станут ключевым партнерами площадки.
         </p>
-        <ul>
-          <li className={`${styles.regularText} ${styles.dotLi}`}>
+        <ul className="w-full pl-10">
+          <li className="w-full list-disc list-inside">
             Вы получите доступ ко всем сервисам площадки.
           </li>
-          <li className={`${styles.regularText} ${styles.dotLi}`}>
-            За каждым участником тест-драйва будет закреплен персональный менеджер, который ответит
-            в случае возникновения вопросов.
+          <li className="w-full list-disc list-inside">
+            За каждым участником тест-драйва будет закреплен персональный менеджер, который ответит в случае возникновения вопросов.
           </li>
         </ul>
-        <p className={styles.regularText}>
-          Уже есть вопросы? <Link to={'/contacts'} className={styles.link}>Напишите телефон</Link> и мы перезвоним.{' '}
+        <p>
+          Уже есть вопросы? <Link to="/contacts" className="text-accent hover:underline">Напишите телефон</Link> и мы перезвоним.
         </p>
-        <p className={styles.boldText}>Как принять участие</p>
-        <ul className={styles.list}>
-          <li className={`${styles.regularText}`}>
-            <span className={styles.numberLi}>1. </span>
-            <span className={styles.link}>Зарегистрируйтесь</span> на площадке Ubrato в качестве
+        <p className="font-extrabold">Как принять участие</p>
+        <ul className="w-full pl-16">
+          <li className="w-full list-decimal list-outside">
+            <Link to="/register" className="text-accent hover:underline">Зарегистрируйтесь</Link> на площадке Ubrato в качестве
             Исполнителя.
           </li>
-          <li className={`${styles.regularText}`}>
-            <span className={styles.numberLi}>2. </span>Ознакомьтесь с возможностями площадки и
+          <li className="w-full list-decimal list-outside">
+            Ознакомьтесь с возможностями площадки и
             примите участие в торгах. На сайте создано несколько тестовых тендеров, отмеченных в
             начале описания тендера заголовком “Тестовый тендер”.
           </li>
-          <li className={`${styles.regularText}`}>
-            <span className={styles.numberLi}>3. </span>
-            Заполните <span className={styles.link}>анкету</span> участника в личном кабинете.
+          <li className="w-full list-decimal list-outside">
+            Заполните <Link to="/profile" className="text-accent hover:underline">анкету</Link> участника в личном кабинете.
           </li>
-          <li className={`${styles.regularText}`}>
-            <span className={styles.numberLi}>4. </span>Получите в подарок от нас Исследование рынка
+          <li className="w-full list-decimal list-outside">
+            Получите в подарок от нас Исследование рынка
             клининговых услуг за 2023-2024 годы. Материал станет доступен для скачивания после заполнения
             анкеты.
           </li>
         </ul>
-        <Link to="1" className={styles.survey__button}>
+        <Link to="1" className="w-[600px] self-center bg-accent text-white text-center h-[70px] items-center flex justify-center rounded-2xl">
           Участвовать
         </Link>
-        <p className={`${styles.afertaText}`}>
-          Настоящие условия не являются офертой. Администрация площадки Ubrato.ru вправе вносить
+        <p className="text-[18px] font-light">
+          *Настоящие условия не являются офертой. Администрация площадки Ubrato.ru вправе вносить
           изменения в условия тест-драйва без предварительного уведомления пользователей.
         </p>
       </div>

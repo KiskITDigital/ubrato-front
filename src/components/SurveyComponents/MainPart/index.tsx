@@ -10,7 +10,6 @@ export const SurveyMainPart: FC = () => {
     if (
       !localStorage.getItem('token') ||
       userStore.error ||
-      (userStore.isLoggedIn && !userStore.user.is_contractor) ||
       userStore.passedSurvey
     ) {
       navigate('/');
@@ -23,10 +22,6 @@ export const SurveyMainPart: FC = () => {
     userStore.passedSurvey,
     userStore.user.is_contractor,
   ]);
-
-  if (!userStore.isLoggedIn || !userStore.user.is_contractor || userStore.passedSurvey) {
-    return <div></div>;
-  }
 
   return (
     <>

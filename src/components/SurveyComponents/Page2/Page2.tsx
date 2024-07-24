@@ -11,14 +11,6 @@ export const Page2: FC = () => {
     control: styles.radioControl,
   };
 
-  const radioGroupStyle = {
-    wrapper: styles.radioGroupNumbersWrapper,
-  };
-
-  const tableRadioGroupStyle = {
-    wrapper: styles.tableRadioGroupWrapper,
-  };
-
   const rateArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const surveyStore = useSurveyStore();
@@ -26,8 +18,6 @@ export const Page2: FC = () => {
 
   const [error1, setError1] = useState('');
   const [error2, setError2] = useState('');
-  const [error3, setError3] = useState('');
-  const [error4, setError4] = useState('');
 
   const handleGoNext = () => {
     let error = true;
@@ -43,46 +33,11 @@ export const Page2: FC = () => {
     } else {
       error = false;
     }
-    if (
-      !surveyStore.question4.naviagtion ||
-      !surveyStore.question4.companyInfoChanging ||
-      !surveyStore.question4.contactInfoChanging ||
-      !surveyStore.question4.portfolioCreating
-    ) {
-      error = true;
-      setError3('Ответьте на все вопросы');
-    } else {
-      error = false;
-    }
-    if (!surveyStore.question5.rate) {
-      error = true;
-      setError4('Это обязательный вопрос');
-    } else {
-      error = false;
-    }
     if (!error) {
       surveyStore.setIsPage2Completed(true);
       navigate('/survey/3');
     }
   };
-
-  useEffect(() => {
-    if (
-      !(
-        !surveyStore.question4.naviagtion ||
-        !surveyStore.question4.companyInfoChanging ||
-        !surveyStore.question4.contactInfoChanging ||
-        !surveyStore.question4.portfolioCreating
-      )
-    ) {
-      setError3('');
-    }
-  }, [
-    surveyStore.question4.companyInfoChanging,
-    surveyStore.question4.contactInfoChanging,
-    surveyStore.question4.naviagtion,
-    surveyStore.question4.portfolioCreating,
-  ]);
 
   useEffect(() => {
     if (!surveyStore.isPage1Completed) {
@@ -99,205 +54,134 @@ export const Page2: FC = () => {
   }
 
   return (
-    <div>
-      <h1 className={styles.title}>
-        Тест-драйв <span className={styles.blueText}>Ubrato</span> Анкета
+    <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
+      <h1 className="font-black text-[60px]">
+        Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
-      <div className={styles.blueBackground}>
-        <p className={`${styles.text} ${styles.bold}`}>
-          Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-          качестве <span className={styles.blueText}>Исполнителей</span>, принять участие в
-          тест-драйве площадки. Условия участия по{' '}
-          <Link className={styles.blueText} to="/">
-            ссылке
-          </Link>
-          .
-        </p>
-        <p className={styles.text}>
-          <span className={styles.bold}>
-            Пожалуйста, ответьте на вопросы анкеты. <br /> *
-          </span>{' '}
-          Звездочкой отмечены обязательные для ответов
-        </p>
-      </div>
-      <div className={`${styles.blueBackground} ${styles.questionsHeader}`}>
-        <p className={`${styles.text} ${styles.bold}`}>Оцените элементы и сервисы сайта Ubrato</p>
-      </div>
-      <ol className={styles.questionsContainer}>
-        <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>
-            Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию (ссылки,
-            кнопки, переходы в разделы и другие страницы и тд) *
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
+          <p className="font-extrabold">
+            Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
+            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
+            сайта.
           </p>
-          <p>1 - совсем непонятно и неудобно, 10 - все понял, удобно ориентироваться</p>
-          <RadioGroup
-            value={surveyStore.question2.rate}
-            onValueChange={(v) => {
-              surveyStore.setQuestion2(v);
-              setError1('');
-            }}
-            classNames={radioGroupStyle}
-          >
-            {rateArr.map((e) => {
-              return (
-                <Radio key={e} classNames={radioStyle} value={e.toString()}>
-                  {e}
-                </Radio>
-              );
-            })}
-            {error1 && <p className={styles.errorText}>{error1}</p>}
-          </RadioGroup>
-          <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Вашкомментарий</p>
-            <input
-              type="text"
-              value={surveyStore.question2.comment}
-              onChange={(e) => {
-                surveyStore.setQuestion2comment(e.target.value);
-              }}
-              className={styles.input}
-            />
+          <div className="flex flex-col">
+            <p className="font-extrabold">
+              Пожалуйста, ответьте на вопросы анкеты.
+            </p>
+            <p>
+              * Звездочкой отмечены обязательные для ответов
+            </p>
           </div>
-        </li>
-        <li className={`${styles.questionItem} ${styles.text}`}>
-          <p className={styles.bold}>
-            Пожалуйста, оцените процесс регистрации и верификации в целом *
+        </div>
+      </div>
+
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
+        <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
+          <p className="font-extrabold">
+            Оцените элементы и сервисы сайта Ubrato
           </p>
-          <p>1 - неудобный, 10 - удобный</p>
-          <RadioGroup
-            value={surveyStore.question3.rate}
-            onValueChange={(v) => {
-              surveyStore.setQuestion3(v);
-              setError2('');
-            }}
-            classNames={radioGroupStyle}
-          >
-            {rateArr.map((e) => {
-              return (
-                <Radio key={e} classNames={radioStyle} value={e.toString()}>
-                  {e}
-                </Radio>
-              );
-            })}
-            {error2 && <p className={styles.errorText}>{error2}</p>}
-          </RadioGroup>
-          <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Ваш комментарий</p>
-            <input
-              type="text"
-              value={surveyStore.question3.comment}
-              onChange={(e) => {
-                surveyStore.setQuestion3comment(e.target.value);
+        </div>
+      </div>
+
+      <div className="max-w-[1130px] w-full px-[40px]">
+        <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
+          <div>
+            <p className="font-extrabold">
+              2. Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию (ссылки, кнопки, переходы в разделы и другие страницы и тд) *
+            </p>
+            <p>
+              1 - совсем непонятно и неудобно, 10 - все понял, удобно ориентироваться
+            </p>
+          </div>
+          <div className="max-w-[1130px] w-full px-[40px] xl:px-0">
+            <RadioGroup
+              value={surveyStore.question2.rate}
+              onValueChange={(v) => {
+                surveyStore.setQuestion2(v);
+                setError1('');
               }}
-              className={styles.input}
-            />
-          </div>
-        </li>
-        <li className={`${styles.questionItem} ${styles.text}`}>
-          <div className={styles.tableQuestinHeader}>
-            <p>Элементы</p>
-            <div>
-              <p>Удобно</p>
-              <p>Не удобно</p>
+            >
+              <div className="flex gap-3">
+                {rateArr.map((e) => {
+                  return (
+                    <Radio key={e} classNames={radioStyle} value={e.toString()}>
+                      {e}
+                    </Radio>
+                  );
+                })}
+                {error1 && <p className={styles.errorText}>{error1}</p>}
+              </div>
+            </RadioGroup>
+            <div className={`${styles.yourVariant} ${styles.comment}`}>
+              <p>Ваш комментарий</p>
+              <input
+                type="text"
+                value={surveyStore.question2.comment}
+                onChange={(e) => {
+                  surveyStore.setQuestion2comment(e.target.value);
+                }}
+                className={styles.input}
+              />
             </div>
           </div>
-          <RadioGroup
-            value={surveyStore.question4.naviagtion}
-            onValueChange={(v) => surveyStore.setQuestion4nav(v)}
-            classNames={tableRadioGroupStyle}
-          >
-            <p>Навигация (меню слева)</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
-            </div>
-          </RadioGroup>
-          <RadioGroup
-            value={surveyStore.question4.companyInfoChanging}
-            onValueChange={(v) => surveyStore.setQuestion4company(v)}
-            classNames={tableRadioGroupStyle}
-          >
-            <p>Редактирование данных компании</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
-            </div>
-          </RadioGroup>
-          <RadioGroup
-            value={surveyStore.question4.contactInfoChanging}
-            onValueChange={(v) => surveyStore.setQuestion4contact(v)}
-            classNames={tableRadioGroupStyle}
-          >
-            <p>Редактирование данных о контактном лице</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
-            </div>
-          </RadioGroup>
-          <RadioGroup
-            value={surveyStore.question4.portfolioCreating}
-            onValueChange={(v) => surveyStore.setQuestion4portfolio(v)}
-            classNames={tableRadioGroupStyle}
-          >
-            <p>Оформление портфолио</p>
-            <div>
-              <Radio classNames={radioStyle} value={'Удобно'}></Radio>
-              <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
-            </div>
-            {error3 && <p className={styles.errorText}>{error3}</p>}
-          </RadioGroup>
-          <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Ваш комментарий</p>
-            <input
-              type="text"
-              value={surveyStore.question4.comment}
-              onChange={(e) => {
-                surveyStore.setQuestion4comment(e.target.value);
+        </div>
+      </div>
+
+      <div className="max-w-[1130px] w-full px-[40px]">
+        <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
+          <div>
+            <p className="font-extrabold">
+              3. Пожалуйста, оцените процесс регистрации и верификации в целом *
+            </p>
+            <p>
+              1 - неудобный, 10 - удобный
+            </p>
+          </div>
+          <div className="max-w-[1130px] w-full px-[40px] xl:px-0">
+            <RadioGroup
+              value={surveyStore.question3.rate}
+              onValueChange={(v) => {
+                surveyStore.setQuestion3(v);
+                setError2('');
               }}
-              className={styles.input}
-            />
+            >
+              <div className="flex gap-3">
+                {rateArr.map((e) => {
+                  return (
+                    <Radio key={e} classNames={radioStyle} value={e.toString()}>
+                      {e}
+                    </Radio>
+                  );
+                })}
+                {error2 && <p className={styles.errorText}>{error2}</p>}
+              </div>
+            </RadioGroup>
+            <div className={`${styles.yourVariant} ${styles.comment}`}>
+              <p>Ваш комментарий</p>
+              <input
+                type="text"
+                value={surveyStore.question2.comment}
+                onChange={(e) => {
+                  surveyStore.setQuestion3comment(e.target.value);
+                }}
+                className={styles.input}
+              />
+            </div>
           </div>
-        </li>
-        <li className={`${styles.questionItem} ${styles.text}`}>
-          <p>Пожалуйста, оцените процесс регистрации и верификации в целом *</p>
-          <p>1 - неудобный, 10 - удобный</p>
-          <RadioGroup
-            value={surveyStore.question5.rate}
-            onValueChange={(v) => {
-              surveyStore.setQuestion5(v);
-              setError4('');
-            }}
-            classNames={radioGroupStyle}
-          >
-            {rateArr.map((e) => {
-              return (
-                <Radio key={e} classNames={radioStyle} value={e.toString()}>
-                  {e}
-                </Radio>
-              );
-            })}
-            {error4 && <p className={styles.errorText}>{error4}</p>}
-          </RadioGroup>
-          <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Ваш комментарий</p>
-            <input
-              type="text"
-              value={surveyStore.question5.comment}
-              onChange={(e) => {
-                surveyStore.setQuestion5comment(e.target.value);
-              }}
-              className={styles.input}
-            />
+
+          <div className="w-full justify-center items-center flex gap-3">
+            <Link to="/survey/1">
+              <button className="w-[175px] flex justify-center items-center h-[54px] bg-[#ECF0F3] rounded-2xl font-extrabold">
+                Назад
+              </button>
+            </Link>
+            <button className="w-[175px] flex justify-center items-center h-[54px] bg-accent text-white  rounded-2xl font-extrabold" onClick={handleGoNext}>
+              Далее
+            </button>
           </div>
-        </li>
-      </ol>
-      <div className={styles.btnsContainer}>
-        <Link className={`${styles.survey__button} ${styles.backBtn}`} to="/survey/1">
-          Назад
-        </Link>
-        <button className={`${styles.survey__button} ${styles.nextBtn2}`} onClick={handleGoNext}>
-          Далее
-        </button>
+        </div>
       </div>
     </div>
   );
