@@ -101,19 +101,19 @@ export const Page4: FC = () => {
 
   return (
     <div className="text-[26px] font-medium w-full">
-      <h1 className="font-black text-[60px] text-center">
+      <h1 className="font-bold text-[60px] text-center">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[40px]">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
             качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
             сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-extrabold">
+            <p className="font-bold">
               Пожалуйста, ответьте на вопросы анкеты.
             </p>
             <p>
@@ -125,7 +125,7 @@ export const Page4: FC = () => {
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Оцените удобство работы с тендерами
           </p>
         </div>

@@ -12,6 +12,7 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
   const handleButtonFileClick = () => {
     if (inputFileRef.current) inputFileRef.current.click();
   };
+
   return (
     <div ref={ref} className={`${styles.section} ${styles.cleaningTZ}`}>
       <div className={`${styles.section__block}`}>
@@ -44,6 +45,7 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
         {createTenderState.errors.includes('tz') && <p className={`${styles.inputErrorText} ${cleaningTZStyles.cleaningTZErrorText}`}>Обязательно для заполнения</p>}
         <input
           type="file"
+          multiple
           accept=".pdf"
           onChange={(e) => createTenderState.handleFileUpload(e, null, 'upload-tz')}
           ref={inputFileRef}

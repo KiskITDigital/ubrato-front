@@ -55,19 +55,19 @@ export const Page2: FC = () => {
 
   return (
     <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
-      <h1 className="font-black text-[60px]">
+      <h1 className="font-bold text-[60px]">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
             качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
             сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-extrabold">
+            <p className="font-bold">
               Пожалуйста, ответьте на вопросы анкеты.
             </p>
             <p>
@@ -79,7 +79,7 @@ export const Page2: FC = () => {
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Оцените элементы и сервисы сайта Ubrato
           </p>
         </div>
@@ -88,7 +88,7 @@ export const Page2: FC = () => {
       <div className="max-w-[1130px] w-full px-[40px]">
         <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
           <div>
-            <p className="font-extrabold">
+            <p className="font-bold">
               2. Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию (ссылки, кнопки, переходы в разделы и другие страницы и тд) *
             </p>
             <p>
@@ -132,7 +132,7 @@ export const Page2: FC = () => {
       <div className="max-w-[1130px] w-full px-[40px]">
         <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
           <div>
-            <p className="font-extrabold">
+            <p className="font-bold">
               3. Пожалуйста, оцените процесс регистрации и верификации в целом *
             </p>
             <p>
@@ -173,11 +173,11 @@ export const Page2: FC = () => {
 
           <div className="w-full justify-center items-center flex gap-3">
             <Link to="/survey/1">
-              <button className="w-[175px] flex justify-center items-center h-[54px] bg-[#ECF0F3] rounded-2xl font-extrabold">
+              <button className="w-[175px] flex justify-center items-center h-[54px] bg-[#ECF0F3] rounded-2xl font-bold">
                 Назад
               </button>
             </Link>
-            <button className="w-[175px] flex justify-center items-center h-[54px] bg-accent text-white  rounded-2xl font-extrabold" onClick={handleGoNext}>
+            <button className="w-[175px] flex justify-center items-center h-[54px] bg-accent text-white  rounded-2xl font-bold" onClick={handleGoNext}>
               Далее
             </button>
           </div>

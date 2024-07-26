@@ -33,19 +33,19 @@ export const Page1: FC = () => {
 
   return (
     <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
-      <h1 className="font-black text-[60px]">
+      <h1 className="font-bold text-[60px]">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
             качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
             сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-extrabold">
+            <p className="font-bold">
               Пожалуйста, ответьте на вопросы анкеты.
             </p>
             <p>
@@ -57,14 +57,14 @@ export const Page1: FC = () => {
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-extrabold">
+          <p className="font-bold">
             Полезен ли <span className="text-accent">Ubrato</span> для бизнеса вашей компании?
           </p>
         </div>
       </div>
 
       <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-        <p className="font-extrabold">
+        <p className="font-bold">
           1. Помогает ли профильный агрегатор Ubrato в решении задач вашего бизнеса? *
         </p>
         <p>
@@ -107,7 +107,7 @@ export const Page1: FC = () => {
         </RadioGroup>
       </div>
 
-      <button className="w-[220px] flex justify-between items-center h-[54px] bg-accent text-white px-4 rounded-2xl font-extrabold" onClick={handleGoNext}>
+      <button className="w-[220px] flex justify-between items-center h-[54px] bg-accent text-white px-4 rounded-2xl font-bold" onClick={handleGoNext}>
         Далее
         <img src="/arrow-with-line-right-white.svg" alt="" />
       </button>

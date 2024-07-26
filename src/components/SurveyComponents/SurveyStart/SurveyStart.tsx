@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const SurveyStart: FC = () => {
   return (
     <div className="flex flex-col items-center pt-10">
-      <h1 className="font-black text-[60px]">
+      <h1 className="font-bold text-[60px]">
         Тест-драйв <span className="text-accent">Ubrato</span>
       </h1>
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen h-[380px] my-10">
@@ -35,7 +35,7 @@ export const SurveyStart: FC = () => {
         </div>
       </div>
       <div className="flex flex-col text-[26px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
-        <p className="text-[26px] font-extrabold">
+        <p className="text-[26px] font-bold">
           Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
           качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
           сайта.
@@ -51,7 +51,7 @@ export const SurveyStart: FC = () => {
         </div>
 
         <div>
-          <p className="font-extrabold">Преимущества участникам</p>
+          <p className="font-bold">Преимущества участникам</p>
           <p>
             За ответы на вопросы анкеты Ubrato предоставит доступ к исследованию рынка клининговых
             услуг, созданному на основе опроса более 150 представителей клининговых компаний России в период 2023-2024 года.
@@ -72,7 +72,7 @@ export const SurveyStart: FC = () => {
         <p>
           Уже есть вопросы? <Link to="/contacts" className="text-accent hover:underline">Напишите телефон</Link> и мы перезвоним.
         </p>
-        <p className="font-extrabold">Как принять участие</p>
+        <p className="font-bold">Как принять участие</p>
         <ul className="w-full pl-16">
           <li className="w-full list-decimal list-outside">
             <Link to="/register" className="text-accent hover:underline">Зарегистрируйтесь</Link> на площадке Ubrato в качестве
