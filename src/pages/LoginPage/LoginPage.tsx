@@ -36,10 +36,11 @@ export const LoginPage: FC = () => {
       (async () => {
         setIsLoading(true);
         try {
-          await login(parameters);
-          const token = localStorage.getItem('token');
-          if (token) {
-            await userInfoStore.fetchUser(token);
+          const res = await login(parameters);
+          localStorage.setItem('token', res.data.access_token);
+          userInfoStore.isLoggedIn = true
+          if (res.data.access_token) {
+            await userInfoStore.fetchUser(res.data.access_token);
             if (!userInfoStore.error) {
               navigate('/profile');
             }
