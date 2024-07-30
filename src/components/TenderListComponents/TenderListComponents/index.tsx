@@ -207,7 +207,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       header: ({ column }) => {
         return (
           <button className="flex items-center" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Название скрипта
+            Название
             <img src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"} className="ml-2 h-4 w-4" />
           </button>
         )

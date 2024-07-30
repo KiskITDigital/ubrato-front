@@ -14,7 +14,7 @@ export const QuestionsBlock: FC = () => {
 
   const location = useLocation();
 
-  const questionsRef = useRef(null);
+  // const questionsRef = useRef(null);
 
   const [questionNumber, setQuestionNumber] = useState('');
   const [pageNumber, setPageNumber] = useState('1');
