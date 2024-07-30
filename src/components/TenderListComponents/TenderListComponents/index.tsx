@@ -113,14 +113,12 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       return filters.join(" && ");
     })();
 
-
-
     const searchParameters = {
-      q: "",
-      query_by: "name",
+      q: tenderListState.fastFilterTexts,
+      query_by: "name, description, wishes",
       per_page: paginationPerPage,
       page: paginationPage,
-      filter_by: filters,
+      // filter_by: filters,
       sort_by: sortingValue
     };
 
