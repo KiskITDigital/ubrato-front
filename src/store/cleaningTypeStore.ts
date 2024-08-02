@@ -79,14 +79,14 @@ export const useCleaningTypeStore = create<CleaningTypeState>()((set) => ({
     {
       name: 'Уборка территории',
       count: -1,
-      image: './warehouse-cleaning.png',
+      image: './territory-cleaning.png',
       isActive: false,
       padding: 10,
     },
     {
       name: 'Уборка склада',
       count: -1,
-      image: './territory-cleaning.png',
+      image: './warehouse-cleaning.png',
       isActive: false,
       padding: 10,
     },

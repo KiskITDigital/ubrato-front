@@ -122,7 +122,7 @@ const Dates: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HTMLDiv
             </div>
             <div className={`${styles.firstSections__div} ${styles.firstSections__responses}`}>
                 <div className={`${styles.firstSections__div__title}`}>
-                    <p className={`${styles.firstSections__div__title__p}`}>Оказание улуг</p>
+                    <p className={`${styles.firstSections__div__title__p}`}>Оказание услуг</p>
                 </div>
                 <div className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`} ref={calendarRef2} onFocus={(event) => {
                     const target = event.target;

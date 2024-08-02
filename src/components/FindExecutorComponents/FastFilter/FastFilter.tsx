@@ -37,6 +37,23 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
   });
 
   useEffect(() => {
+    if (location.pathname === '/find-executor') {
+      // client
+      //   .collections("tender_index")
+      //   .documents()
+      //   .search({
+      //     q: inputFilter,
+      //     query_by: "name, description, wishes",
+      //   })
+      //   .then(async (response) => {
+      //     console.log(response.hits)
+      //     if (response.hits?.length)
+      //       setQuerySuggestions(response.hits);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Ошибка:", error);
+      //   });
+    }
     if (location.pathname === '/alltenders') {
       client
         .collections("tender_index")
@@ -110,7 +127,7 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
             onBlur={() => setInputFilter('')}
             placeholder={location.pathname === "/alltenders" ? "Например, название, описание, услуга" : "Например, наименование или ИНН компании"} />
         </label>
-        {querySuggestions.length && inputFilter &&
+        {querySuggestions && inputFilter &&
           <div className="absolute flex flex-col w-full h-fit max-h-[400px] rounded-[10px] bg-white z-20 p-3 overflow-y-auto">
             {querySuggestions.map((item, itemIndex) =>
               <div
