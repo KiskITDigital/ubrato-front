@@ -3,12 +3,10 @@ import styles from "./style.module.css";
 import { useIsOrdererState } from "@/store/isOrdererStore";
 import { Executor, OpportunitiesInfoT, Orderer } from "@/textData/textData";
 
-import { useUserInfoStore } from "@/store/userInfoStore";
 import { Link } from "react-router-dom";
 
 export const AboutUtils: FC = () => {
   const ordererState = useIsOrdererState();
-  const userState = useUserInfoStore();
   const [info, setInfo] = useState<OpportunitiesInfoT[]>(Orderer);
 
   function handleInfo() {
@@ -189,7 +187,7 @@ export const AboutUtils: FC = () => {
 
         {ordererState.role === "contractor" && (
           <div className={styles.develop_container_modded}>
-            <h2 className={styles.header_list_links}>Как найти заказчика? </h2>
+            <h2 className={styles.header_list_links}>Как найти заказчика?</h2>
             <div className={styles.link_container}>
               <div className={styles.link_container_block}>
                 <div className={styles.link_header}>
