@@ -19,7 +19,7 @@ const SettingsPage: FC = () => {
 
     const status: 'unverified' | 'success' = userInfoStore.user.verified ? "success" : "unverified"
 
-    const [buttonText, setButtonText] = useState<"Отправить письмо" | "На указанную вами электронную почту отправлена ссылка для создания нового пароля.">("Отправить письмо");
+    const [buttonText, setButtonText] = useState<"Отправить письмо" | "Ссылка для подтверждения e-mail отправлена на указанную вами почту.">("Отправить письмо");
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     // const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +67,7 @@ const SettingsPage: FC = () => {
         }
         try {
             await askForVerification(token)
-            setButtonText("На указанную вами электронную почту отправлена ссылка для создания нового пароля.")
+            setButtonText("Ссылка для подтверждения e-mail отправлена на указанную вами почту.")
             setTimeout(() => {
                 setButtonText("Отправить письмо")
             }, 3000)
@@ -124,10 +124,10 @@ const SettingsPage: FC = () => {
                             <button
                                 onClick={() => verification()}
                                 className={styles.sendMessage}
-                                disabled={buttonText === "На указанную вами электронную почту отправлена ссылка для создания нового пароля."}
+                                disabled={buttonText === "Ссылка для подтверждения e-mail отправлена на указанную вами почту."}
                             >{buttonText}</button>
                             {
-                                buttonText !== "На указанную вами электронную почту отправлена ссылка для создания нового пароля." &&
+                                buttonText !== "Ссылка для подтверждения e-mail отправлена на указанную вами почту." &&
                                 <div className={styles.info}>
                                     <img className={styles.info__img} src="/info-ic.svg" alt="i" />
                                     <p className={styles.info__text}>Чтобы начать работу с тендерами пройдите верификацию</p>

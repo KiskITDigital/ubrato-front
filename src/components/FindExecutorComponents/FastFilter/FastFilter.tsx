@@ -38,21 +38,21 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
 
   useEffect(() => {
     if (location.pathname === '/find-executor') {
-      // client
-      //   .collections("tender_index")
-      //   .documents()
-      //   .search({
-      //     q: inputFilter,
-      //     query_by: "name, description, wishes",
-      //   })
-      //   .then(async (response) => {
-      //     console.log(response.hits)
-      //     if (response.hits?.length)
-      //       setQuerySuggestions(response.hits);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Ошибка:", error);
-      //   });
+      client
+        .collections("contractor_index")
+        .documents()
+        .search({
+          q: inputFilter,
+          query_by: "name",
+        })
+        .then(async (response) => {
+          console.log(response.hits)
+          if (response.hits?.length)
+            setQuerySuggestions(response.hits);
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+        });
     }
     if (location.pathname === '/alltenders') {
       client
