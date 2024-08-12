@@ -46,7 +46,7 @@ export const KnowledgeBaseComponent: FC = () => {
           <p className={s.block_paragraph}>
             <span className={s.accent_block}>Администрация Ubrato</span> — орган управления сайтом Ubrato. Юридически
             значимая информация, касающаяся администрации сайта, содержится в
-            разделе “<Link className={s.block_link} to={'/pravo'}>Правовая информация</Link>“.
+            разделе “<Link className={s.block_link} to={'/rights?document=1'}>Правовая информация</Link>“.
           </p>
           <p className={s.block_paragraph}>
             <span className={s.accent_block}> Аккаунт</span> — учетная запись (совокупность данных) Пользователя,
@@ -163,7 +163,7 @@ export const KnowledgeBaseComponent: FC = () => {
           <p className={s.block_paragraph}>
             <span className={s.accent_block}> Пользователь сайта</span> — любой посетитель веб-сайта Ubrato. Юридически
             значимая информация, касающаяся порядка использования сервиса,
-            содержится в “<Link className={s.block_link} to={'/pravo'}>Пользовательском соглашении</Link>”  (ссылка на
+            содержится в “<Link className={s.block_link} to={'rights?document=2'}>Пользовательском соглашении</Link>”  (ссылка на
             https://ubrato.ru/pravo).
           </p>
           <p className={s.block_paragraph}>
