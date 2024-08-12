@@ -24,6 +24,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  // getPaginationRowModel,
   getSortedRowModel,
   GlobalFilterTableState,
   SortingState,
@@ -58,6 +59,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
+
+  useEffect(() => {
+    table.setPageSize(paginationPerPage)
+  }, [paginationPerPage]);
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -163,10 +168,14 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     data: tenderList || fallbackData,
     columns: columns,
     enableMultiSort: true,
+    manualPagination: true,
+    // pageCount: paginationTotal,
+    // rowCount: paginationPerPage,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
+    // getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting: sorting,
       globalFilter: globalFilter
@@ -223,7 +232,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       query_by: "name, description, wishes",
       per_page: paginationPerPage,
       page: paginationPage,
-      // filter_by: filters,
+      filter_by: filters,
       sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`
     };
 
@@ -359,24 +368,41 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       {allExecutorListLength > tenderList.length && (
         <>
           <button
-            onClick={() => setPaginationPerPage((prev) => prev + 2)}
+            onClick={() => {
+              setPaginationPerPage(prev => prev + 2)
+            }}
             className={s.showMore}
           >
             Показать еще
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
 
-          {!!paginationTotal && (
-            <Pagination
-              classNames={paginationClassNames}
-              total={paginationTotal}
-              showControls
-              initialPage={1}
-              page={paginationPage}
-              onChange={setPaginationPage}
-            />
-          )}
+          <div className="flex items-center justify-center">
+            {/* <button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </button> */}
+            {!!paginationTotal && (
+              <Pagination
+                classNames={paginationClassNames}
+                total={paginationTotal}
+                showControls
+                initialPage={1}
+                page={paginationPage}
+                onChange={setPaginationPage}
+              />
+            )}
+            {/* <button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </button> */}
+          </div>
         </>
+
       )}
     </div>
   );

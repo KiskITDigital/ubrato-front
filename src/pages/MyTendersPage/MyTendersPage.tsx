@@ -33,22 +33,11 @@ export const MyTendersPage: FC = () => {
     }, 0);
   }, []);
 
-  const switchDraft = () => {
-    if (draftSwitch) {
-      setDraftSwitch(false);
-      // console.log(draftSwitch);
-
-    } else {
-      setDraftSwitch(true);
-      // console.log(draftSwitch);
-    }
-  };
-
   return (
     <div ref={startRef} className={s.main_blokkk}>
       <h1 className={s.title}>Мои тендеры</h1>
       <TenderListCustomSearch />
-      <p onClick={switchDraft} className="cursor-pointer">{draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}</p>
+      <p onClick={() => setDraftSwitch(!draftSwitch)} className="cursor-pointer">{draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}</p>
       {!draftSwitch ? (
         <TenderListComp myTender={true} />
       ) : (
