@@ -1,6 +1,6 @@
 import { FC, FormEvent, Ref, useEffect, useRef } from "react";
 import styles from './contacts-page.module.css'
-import { Checkbox, Input } from "@nextui-org/react";
+import { Checkbox, Input, Textarea } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { helpSchema } from "@/validation/helpSchema";
 import { useIMask } from "react-imask";
@@ -124,10 +124,11 @@ const ContactsPage: FC = () => {
                         errorMessage={formik.errors.phone}
                         classNames={itemClasses}
                     />
-                    <Input
+                    <Textarea
                         id="question"
                         name="question"
                         type="text"
+                        maxLength={1000}
                         label="Какой вопрос у вас возник?"
                         value={formik.values.question}
                         onChange={formik.handleChange}
