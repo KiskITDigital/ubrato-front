@@ -7,7 +7,7 @@ export const HowToRegister: FC = () => {
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
         Чтобы начать работу на площадке, пройдите процедуру регистрации. Подключение пользователей к
-        сервису организовано в три этапа: Регистрация Верификация Модерация
+        сервису организовано в три этапа: Регистрация, Верификация, Модерация.
       </p>
       <p className={qstyles.title}>1. Регистрация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
