@@ -14,7 +14,7 @@ const HowToBecome: FC = () => {
                 <li className={qstyles.li}>пользоваться личным кабинетом;</li>
                 <li className={qstyles.li}>создавать тендеры на выполнение клининговых и смежных услуг;</li>
                 <li className={qstyles.li}>изучать портфолио исполнителей;</li>
-                <li className={qstyles.li}>общаться с потенциальными исполнителями в чате;</li>
+                <li className={qstyles.li}>отвечать на вопросы потенциальных исполнителей;</li>
                 <li className={qstyles.li}>выбирать победителей тендеров;</li>
                 <li className={qstyles.li}>оставлять отзывы об исполнителях и ставить им оценки (рейтинг) по итогам выполнения работ.</li>
             </ul>
