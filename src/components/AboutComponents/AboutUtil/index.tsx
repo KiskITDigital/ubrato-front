@@ -24,7 +24,7 @@ export const AboutUtils: FC = () => {
       {ordererState.role === "orderer" && (
         <div className={styles.develop_container}>
           <h2 className={styles.develop_header_modded}>
-            На <span className={styles.blue}>Ubrato</span> собраны клининговые компании разного профиля и масштаба,
+            На <span className="text-accent">Ubrato</span> собраны клининговые компании разного профиля и масштаба,
             например, здесь можно найти исполнителей для
           </h2>
           <div className={styles.develop_list}>
@@ -93,7 +93,7 @@ export const AboutUtils: FC = () => {
       <div className={styles.container}>
         <div className={styles.develop_container}>
           <h2 className={styles.header}>
-            Вам нужен <span className={styles.blueText}>Ubrato</span>, если вы:
+            Вам нужен <span className={styles.blueText}>Ubrato</span>, если вы
           </h2>
           <div className={styles.btnsContainer}>
             <button
@@ -103,7 +103,7 @@ export const AboutUtils: FC = () => {
               disabled={ordererState.role === "orderer"}
               className={`${styles.button}`}
             >
-              Для заказчика
+              Заказчик
             </button>
             <button
               onClick={() => {
@@ -112,7 +112,7 @@ export const AboutUtils: FC = () => {
               disabled={ordererState.role === "contractor"}
               className={`${styles.button}`}
             >
-              Для исполнителя
+              Исполнитель
             </button>
           </div>
           {ordererState.role === "orderer" && (
