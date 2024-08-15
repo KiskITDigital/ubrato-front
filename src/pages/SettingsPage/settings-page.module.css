@@ -19,13 +19,11 @@
 }
 
 .section__name {
-    width: 40%;
     font-size: 16px;
     font-weight: 700;
 }
 
 .section__container {
-    width: 60%;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -127,6 +125,7 @@
 .statusVerifyBlock {
     display: flex;
     flex-direction: row;
+    width: 100%;
     gap: 8px;
 }
 
@@ -137,8 +136,8 @@
     color: var(--color-white);
     font-size: 16px;
     font-weight: 600;
-    width: fit-content;
-    text-wrap: nowrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .sendMessage:disabled {
