@@ -56,7 +56,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   const updateExecutorList = async (newExecutorList: executorList[]) => {
     // console.log(newExecutorList);
-    const city = JSON.parse(localStorage.getItem("userCity") || "{}")?.city
+    const city = JSON.parse(localStorage.getItem("сity") || "{}")
 
     newExecutorList = newExecutorList.map(executor => ({
       ...executor, text: executor.text ? executor.text.length > 63 ? executor.text.slice(0, 60) + "..." : executor.text : "", isTextHidden: false, regions: (
@@ -65,7 +65,8 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
           : []
       )
     }))
-    // console.log(newExecutorList);
+
+    console.log(newExecutorList);
 
     // if (localStorage.getItem("token") && userInfoState.is_contractor) {
     //     const res = await updateToken(fetchContractorProfile, null);
@@ -135,7 +136,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                       favoriteExecutorsHandler={favoriteExecutorsHandler}
                       setExecutorIdToOfferTender={setExecutorIdToOfferTender}
                       setExecutorNameToOfferTender={setExecutorNameToOfferTender}
-                      servicesNumber={1}
+                      servicesNumber={3}
                     /> :
                     <div key={ind}></div>
                 ))
