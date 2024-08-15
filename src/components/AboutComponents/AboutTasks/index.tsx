@@ -27,55 +27,65 @@ export const AboutTasks: FC = () => {
   }, [userState.user.is_contractor]);
 
   return (
-    <div className={`container ${styles.container}`}>
-      <h2 className={styles.header}>
-        Какие задачи решает <span className={styles.blueText}>Ubrato</span>
-      </h2>
-      <div className={styles.btnsContainer}>
-        <button
-          onClick={() => {
-            handleInfo();
-          }}
-          disabled={ordererState.role === 'orderer'}
-          className={`${styles.button}`}
-        >
-          Для заказчика
-        </button>
-        <button
-          onClick={() => {
-            handleInfo();
-          }}
-          disabled={ordererState.role === 'contractor'}
-          className={`${styles.button}`}
-        >
-          Для исполнителя
-        </button>
+    <div className={`${styles.container} max-w-[1130px] p-10 flex gap-20`}>
+      <div className="flex flex-col gap-[30px]">
+        <h2 className={styles.header}>
+          Какие задачи решает <span className={styles.blueText}>Ubrato</span>
+        </h2>
+        <div className="bg-white rounded-[17px] flex w-fit self-center">
+          <button
+            onClick={() => {
+              handleInfo();
+            }}
+            disabled={ordererState.role === 'orderer'}
+            className={`${styles.button}`}
+          >
+            Для заказчика
+          </button>
+          <button
+            onClick={() => {
+              handleInfo();
+            }}
+            disabled={ordererState.role === 'contractor'}
+            className={`${styles.button}`}
+          >
+            Для исполнителя
+          </button>
+        </div>
       </div>
-      { ordererState.role === 'orderer' && (<div className={styles.develop_container}>
+      {ordererState.role === 'orderer' && (
+        <div className="flex flex-col justify-center items-center gap-[30px] max-w-[1130px]">
+          <h2 className={styles.develop_header}>
+            <span className={styles.blueText}>Ubrato</span> поможет
+          </h2>
+          <div className="flex w-full gap-5">
+            <div className={styles.list_elem}>
+              <img className="size-[50px] min-w-[50px]" src="./arrow.png" alt="" />
+              <p className=" text-wrap">Сориентироваться на рынке клининга</p>
+            </div>
+            <div className={styles.list_elem}>
+              <img className="size-[50px] min-w-[50px]" src="./person.png" alt="" />
+              <p>Найти нового подрядчика для вашей организации</p>
+            </div>
+            <div className={styles.list_elem}>
+              <img className="size-[50px] min-w-[50px]" src="./graphs.png" alt="" />
+              <p>Быть в курсе актуальных цен на услуги клининга</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {ordererState.role === 'contractor' && (<div className={styles.develop_container}>
         <h2 className={styles.develop_header}>
-        <span className={styles.blueText}>Ubrato</span> поможет
+          <span className={styles.blueText}>Ubrato</span> поможет
         </h2>
-        <div className={styles.develop_list}> 
-            <div className={styles.list_elem}><img src="./arrow.png" alt="" /> <p>Сориентироваться на рынке клининга</p></div>
-            <div className={styles.list_elem}><img src="./person.png" alt="" /> <p>Найти нового подрядчика 
-для вашей организации</p></div>
-            <div className={styles.list_elem}><img src="./graphs.png" alt="" /> <p>Быть в курсе актуальных 
-цен на услуги клининга</p></div>
+        <div className={styles.develop_list}>
+          <div className={styles.list_elem}><img src="./person.png" alt="" /> <p>Найти новых клиентов</p></div>
+          <div className={styles.list_elem}><img src="./likes.png" alt="" /> <p>Заработать репутацию надёжного партнёра</p></div>
+          <div className={styles.list_elem}><img src="./graphs.png" alt="" /> <p>Сравнить себя с конкурентами</p></div>
         </div>
-        </div>
-    )}
-      
-      { ordererState.role === 'contractor' && (<div className={styles.develop_container}>
-        <h2 className={styles.develop_header}>
-        <span className={styles.blueText}>Ubrato</span> поможет
-        </h2>
-        <div className={styles.develop_list}> 
-            <div className={styles.list_elem}><img src="./person.png" alt="" /> <p>Найти новых клиентов</p></div>
-            <div className={styles.list_elem}><img src="./likes.png" alt="" /> <p>Заработать репутацию надёжного партнёра</p></div>
-            <div className={styles.list_elem}><img src="./graphs.png" alt="" /> <p>Сравнить себя с конкурентами</p></div>
-        </div>
-        </div>
-    )}
+      </div>
+      )}
     </div>
   );
 };

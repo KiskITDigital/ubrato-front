@@ -91,7 +91,7 @@ export const AboutUtils: FC = () => {
       )}
 
       <div className={styles.container}>
-        <div className={styles.develop_container}>
+        <div className="flex flex-col justify-center items-center mt-10">
           <h2 className={styles.header}>
             Вам нужен <span className={styles.blueText}>Ubrato</span>, если вы
           </h2>
