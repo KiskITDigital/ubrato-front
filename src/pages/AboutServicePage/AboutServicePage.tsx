@@ -11,7 +11,7 @@ import { AboutDeveloping } from '@/components/AboutComponents/AboutDeveloping';
 import { AboutTasks } from '@/components/AboutComponents/AboutTasks';
 import { AboutOpportunities } from '@/components/AboutComponents/AboutOpportunities';
 import { AboutUtils } from '@/components/AboutComponents/AboutUtil';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const AboutServicePage: FC = () => {
   const location = useLocation()
@@ -27,12 +27,18 @@ export const AboutServicePage: FC = () => {
   }, [location.state]);
 
   return (
-    <div ref={startRef}>
+    <div ref={startRef} className="flex flex-col gap-20">
       <AboutHeader />
       <AboutDeveloping />
       <AboutTasks />
       <AboutOpportunities />
       <AboutUtils />
+      <section className="flex flex-col w-full items-center">
+        <div className="max-w-[1130px] w-full flex flex-col gap-10">
+          <h2 className="font-bold text-5xl">Присоединяйтесь к <span className="text-accent">Ubrato!</span></h2>
+          <p className="text-2xl">Еще не зарегистрированы? <Link className="text-accent underline" to="/registration">Зарегестрироваться</Link></p>
+        </div>
+      </section>
     </div>
   );
 };

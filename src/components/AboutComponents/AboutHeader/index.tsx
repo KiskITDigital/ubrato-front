@@ -1,11 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './style.module.css';
-import styles2 from './styleq.module.css';
-import { Link } from 'react-router-dom';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { useCreateTenderState } from '@/store/createTenderStore';
 
 export const AboutHeader: FC = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30 }, [
@@ -13,16 +9,6 @@ export const AboutHeader: FC = () => {
   ]);
 
   const [isPlaying, setIsPlaying] = useState(true);
-
-  const userStore = useUserInfoStore();
-
-  const [mobile, setMobile] = useState(false);
-
-  useEffect(() => {
-    if (window.outerWidth <= 450) {
-      setMobile(true);
-    }
-  }, []);
 
   useEffect(() => {
     const autoplay = emblaApi?.plugins()?.autoplay;
