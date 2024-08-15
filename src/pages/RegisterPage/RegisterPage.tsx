@@ -285,11 +285,11 @@ export const RegisterPage: FC = () => {
                         setCompanyName('');
                       } else {
                         setCompanyName(res);
+                        if (registrationStep !== 4) {
+                          setRegistrationStep(3);
+                        }
                       }
                     })();
-                    if (registrationStep !== 4) {
-                      setRegistrationStep(3);
-                    }
                   }
                   if (e.target.value?.match(/[\d]/) || !e.target.value) {
                     formik.handleChange(e);
