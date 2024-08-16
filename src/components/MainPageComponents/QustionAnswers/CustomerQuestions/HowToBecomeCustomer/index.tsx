@@ -30,7 +30,7 @@ const HowToBecome: FC = () => {
                     Как найти и выбрать исполнителя?
                 </Link>
             </div>
-            <p className={`${qstyles.text}`}>Остались вопросы? <Link to="/contacts" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>Напишите телефон</Link> и мы перезвоним.</p>
+            <p className={`${qstyles.text}`}>Остались вопросы? <Link to="/contacts#contact-form" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>Напишите телефон</Link> и мы перезвоним.</p>
         </div>
     );
 }

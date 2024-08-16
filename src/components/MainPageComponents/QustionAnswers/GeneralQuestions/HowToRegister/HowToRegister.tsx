@@ -45,7 +45,7 @@ export const HowToRegister: FC = () => {
       </div>
       <p className={`${qstyles.text}`}>
         Остались вопросы?{' '}
-        <Link to="/contacts" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>
+        <Link to="/contacts#contact-form" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>
           Напишите телефон
         </Link>{' '}
         и мы перезвоним.

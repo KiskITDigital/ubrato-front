@@ -177,7 +177,7 @@ export const RegisterPage: FC = () => {
         </div>
         <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
           Есть вопросы по регистрации?{' '}
-          <Link to="/contacts" state={{ isHelp: true, previousPage: location.pathname }} className={styles.link}>
+          <Link to="/contacts#contact-form" state={{ isHelp: true, previousPage: location.pathname }} className={styles.link}>
             Напишите телефон
           </Link>{' '}
           и мы перезвоним

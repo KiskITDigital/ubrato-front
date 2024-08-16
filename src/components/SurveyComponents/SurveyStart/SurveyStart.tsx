@@ -70,7 +70,7 @@ export const SurveyStart: FC = () => {
           </li>
         </ul>
         <p>
-          Уже есть вопросы? <Link to="/contacts" className="text-accent hover:underline">Напишите телефон</Link> и мы перезвоним.
+          Уже есть вопросы? <Link to="/contacts#contact-form" className="text-accent hover:underline">Напишите телефон</Link> и мы перезвоним.
         </p>
         <p className="font-bold">Как принять участие</p>
         <ul className="w-full pl-16">
