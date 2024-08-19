@@ -4,7 +4,7 @@ import { getCities, updateToken, putContractorProfile, fetchContractorProfile } 
 import { contractorProfileData } from '@/api/profileOrganization';
 import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
 import { useTypesObjectsStore } from '@/store/objectsStore';
-import { Accordion, AccordionItem } from '@nextui-org/react';
+import { Accordion, AccordionItem, Textarea } from '@nextui-org/react';
 import ArrowIC from './arrow.svg?react';
 import { ServiceCard } from '../ServiceCard/ServiceCard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -26,7 +26,7 @@ type services = {
 export const ContractorProfile: FC = () => {
   const userInfoState = useUserInfoStore()
 
-  const [textareaValue, setTextareaValue] = useState<string | null>('');
+  const [textareaValue, setTextareaValue] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
@@ -284,22 +284,21 @@ export const ContractorProfile: FC = () => {
       </div>
       <div className={styles.description}>
         <p>Описание компании</p>
-        <textarea
-          className={styles.textarea}
-          value={textareaValue ?? ''}
+        <Textarea
+          className="border rounded-2xl border-gray-200 outline-none w-[490px]"
+          classNames={{
+            input: "outline-none"
+          }}
+          minRows={2}
+          value={textareaValue}
           ref={area}
           maxLength={600}
           onChange={(e) => {
-            if (e.target.value.length === 0 || e.target.value.length === 600) {
-              setTextareaValue(null);
-            } else {
-              setTextareaValue(e.target.value);
-            }
-            e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
+            setTextareaValue(e.target.value);
           }}
           name="description"
           id="description"
-        ></textarea>
+        />
       </div>
       <div className={styles.locations}>
         <p>Локации</p>
