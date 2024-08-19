@@ -80,6 +80,7 @@ export const PortfolioForm: FC<{
                 ) {
                   if (e.target.files !== null) {
                     if (e.target.files.length <= 8 - newLinks.length) {
+                      setError('');
                       (async () => {
                         const newNewLinks: string[] = [];
                         const newLinksInfo: { name: string; format: string }[] = [];
