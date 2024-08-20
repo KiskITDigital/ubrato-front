@@ -4,6 +4,7 @@ import { FileInput } from '../FileInput/FileInput';
 import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
 import { Checkbox } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
+import { verifyUser } from "@/api/verification";
 
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
@@ -40,6 +41,14 @@ export const ProfileDocuments: FC = () => {
       setDisabled(true);
     }
   }, [checkBoxes, profileDocuments.documents]);
+
+  function handleUserVerify() {
+    setDisabled(true)
+    verifyUser(localStorage.getItem("token") || "").catch((error) => {
+      console.log(error)
+      setDisabled(false)
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -89,7 +98,7 @@ export const ProfileDocuments: FC = () => {
         >
           Даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку Персональных данных</Link>
         </Checkbox>
-        <button disabled={disabled} className={styles.send}>
+        <button disabled={disabled} className={styles.send} onClick={handleUserVerify}>
           Отправить на верификацию
         </button>
         <p className={styles.help}>Есть вопросы по верификации?</p>
