@@ -104,15 +104,17 @@ export const Portfolio: FC<{
           </button>
         </PopoverTrigger>
         <PopoverContent>
-          <div className={styles.form}>
-            <button onClick={() => setIsFormOpen(false)} className={styles.closeBtn}>
-              <img src="/x-icon.svg" alt="" />
-            </button>
-            <PortfolioForm
-              setPortfolioList={changePortfolio}
-              setPortfolio={setPortfolio}
-              close={closeForm}
-            />
+          <div className="flex justify-center items-center w-screen min-h-screen">
+            <div className={styles.form}>
+              <button onClick={() => setIsFormOpen(false)} className={styles.closeBtn}>
+                <img src="/x-icon.svg" alt="" />
+              </button>
+              <PortfolioForm
+                setPortfolioList={changePortfolio}
+                setPortfolio={setPortfolio}
+                close={closeForm}
+              />
+            </div>
           </div>
         </PopoverContent>
       </Popover>

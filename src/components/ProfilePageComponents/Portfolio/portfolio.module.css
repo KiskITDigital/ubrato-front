@@ -73,13 +73,11 @@
 }
 
 .form {
-  width: 811px;
-  height: 537px;
+  width: 810px;
+  height: fit;
+  position: relative;
   background-color: white;
-  position: absolute;
-  top: calc(50vh - 268.5px);
   border: 1px solid rgba(0, 0, 0, 0.04);
-  left: calc(50vw - 405.5px);
   border-radius: 20px;
 }
 
@@ -112,7 +110,7 @@
   padding: 5px 8px;
   width: 39px;
   height: 34px;
-  border-radius: 10px;
+  border-radius: 10px; 
   background-color: rgba(0, 0, 0, 0.04);
   display: flex;
   justify-content: center;
