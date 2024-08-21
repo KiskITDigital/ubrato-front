@@ -3,11 +3,12 @@ import styles from './ordererprofile.module.css';
 import { fetchOrdererProfile, getCities, putOrdererProfile, updateToken } from '@/api';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link } from 'react-router-dom';
+import { Textarea } from "@nextui-org/react";
 
 export const OrdererProfile: FC = () => {
   const userInfoState = useUserInfoStore()
 
-  const [textareaValue, setTextareaValue] = useState<string | null>('');
+  const [textareaValue, setTextareaValue] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [citiesArr, setSitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [locations, setLocations] = useState<{ id: number; name: string }[]>([]);
@@ -75,25 +76,22 @@ export const OrdererProfile: FC = () => {
         </div>
       </div>
       <div className={styles.description}>
-        <p className={styles.partHeader}>Описание компании</p>
-        <textarea
-          className={styles.textarea}
-          value={textareaValue ?? ''}
+        <p>Описание компании</p>
+        <Textarea
+          className="border rounded-2xl border-gray-200 outline-none w-[490px]"
+          classNames={{
+            input: "outline-none"
+          }}
+          minRows={2}
+          value={textareaValue}
           ref={area}
           maxLength={600}
           onChange={(e) => {
-            if (e.target.value.length === 0 || e.target.value.length === 600) {
-              setTextareaValue(null);
-            } else {
-              setTextareaValue(e.target.value);
-            }
-            // console.log(e.target.scrollHeight);
-            e.target.style.height = `${Math.floor(e.target.scrollHeight / 22) * 22}px`;
-            // console.log(e.target.scrollHeight);
+            setTextareaValue(e.target.value);
           }}
           name="description"
           id="description"
-        ></textarea>
+        />
       </div>
       <div className={styles.locations}>
         <p className={styles.partHeader}>Локации</p>
