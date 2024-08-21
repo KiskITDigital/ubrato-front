@@ -34,9 +34,9 @@ export const AboutServicePage: FC = () => {
       <AboutOpportunities />
       <AboutUtils />
       <section className="flex flex-col w-full items-center">
-        <div className="max-w-[1130px] w-full flex flex-col gap-10">
-          <h2 className="font-bold text-5xl">Присоединяйтесь к <span className="text-accent">Ubrato!</span></h2>
-          <p className="text-2xl">Еще не зарегистрированы? <Link className="text-accent underline" to="/registration">Зарегестрироваться</Link></p>
+        <div className="max-w-[1130px] w-full flex flex-col gap-10 text-center">
+          <h2 className="font-bold text-[46px]">Присоединяйтесь к <span className="text-accent">Ubrato!</span></h2>
+          <p className="text-2xl">Еще не зарегистрированы? <Link className="text-accent underline" to="/registration">Зарегистрироваться</Link></p>
         </div>
       </section>
     </div>
