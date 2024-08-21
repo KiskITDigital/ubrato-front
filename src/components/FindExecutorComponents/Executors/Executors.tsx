@@ -140,23 +140,23 @@ const Executors: FC = () => {
     findExecutorState.fastFilterTexts.length,
   ]);
 
-  // useEffect(() => {
-  //   startRef.current!.scrollIntoView({ behavior: "smooth" })
-  //   setTimeout(() => {
-  //     const elementTop = startRef.current!.getBoundingClientRect().top;
-  //     window.scrollBy({ top: elementTop - 300, behavior: "smooth" });
-  //   }, 0);
+  useEffect(() => {
+    startRef.current!.scrollIntoView({ behavior: "smooth" })
+    setTimeout(() => {
+      const elementTop = startRef.current!.getBoundingClientRect().top;
+      window.scrollBy({ top: elementTop - 300, behavior: "smooth" });
+    }, 0);
 
-  // }, [
-  //   findExecutorState.objectTypesId,
-  //   paginationPage,
-  //   sortingValue,
-  //   findExecutorState.locationId,
-  //   findExecutorState.servicesTypesId,
-  //   findExecutorState.servicesTypesId.length,
-  //   findExecutorState.fastFilterTexts,
-  //   findExecutorState.fastFilterTexts.length,
-  // ]);
+  }, [
+    findExecutorState.objectTypesId,
+    paginationPage,
+    sortingValue,
+    findExecutorState.locationId,
+    findExecutorState.servicesTypesId,
+    findExecutorState.servicesTypesId.length,
+    findExecutorState.fastFilterTexts,
+    findExecutorState.fastFilterTexts.length,
+  ]);
 
   return (
     <div ref={startRef} className={`container ${styles.container}`}>
