@@ -19,6 +19,7 @@ import {
   removeFavoriteExecutor,
 } from "@/api/index";
 import { useNavigate } from "react-router-dom";
+import Typesense from 'typesense';
 
 const Executors: FC = () => {
   const findExecutorState = useFindExecutorState();
@@ -79,6 +80,115 @@ const Executors: FC = () => {
     return filters.join(" && ");
   }
 
+  const client = new Typesense.Client({
+    apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
+    nodes: [
+      {
+        host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+        port: import.meta.env.VITE_TYPESENSE_API_PORT,
+        protocol: "https",
+        path: "",
+      },
+    ],
+  });
+
+  const [objectSearchValues, setObjectSearchValues] = useState<{
+    name: string
+    id: number
+  }[]>([]);
+  const [serviceSearchValues, setServiceSearchValues] = useState<{
+    name: string
+    id: number
+  }[]>([]);
+  const [locationSearchValue, setLocationSearchValue] = useState<string>();
+
+  useEffect(() => {
+    const locationSearchParameters = {
+      q: "*",
+      query_by: "name",
+      filter_by: findExecutorState.locationId ? `id:${findExecutorState.locationId}` : ""
+    };
+
+    if (findExecutorState.locationId)
+      client
+        .collections("city_index")
+        .documents()
+        .search(locationSearchParameters)
+        .then(response => {
+          if (response.hits?.length)
+            // @ts-expect-error
+            setLocationSearchValue(response.hits[0].document?.name)
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+        });
+  }, [findExecutorState.locationId]);
+
+  useEffect(() => {
+    // setObjectSearchValues([])
+    // setServiceSearchValues([])
+    // setLocationSearchValue("")
+    const objectSearchParameters = {
+      q: "*",
+      query_by: "name",
+      per_page: 250,
+      // filter_by: findExecutorState.objectTypesId.length ? `id:${findExecutorState.objectTypesId}` : ""
+    };
+
+    const serviceSearchParameters = {
+      q: "*",
+      query_by: "name",
+      per_page: 250,
+      // filter_by: findExecutorState.servicesTypesId.length ? `id:${findExecutorState.servicesTypesId}` : ""
+    };
+
+    // const locationSearchParameters = {
+    //   q: "*",
+    //   query_by: "name",
+    //   filter_by: findExecutorState.locationId ? `id:${findExecutorState.locationId}` : ""
+    // };
+
+    client
+      .collections("object_type_index")
+      .documents()
+      .search(objectSearchParameters)
+      .then(response => {
+        if (response.hits?.length)
+          setObjectSearchValues([...response.hits.map((hit: any) => {
+            return {
+              name: hit.document?.name,
+              id: hit.document?.id,
+            }
+          })])
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      });
+
+    client
+      .collections("service_type_index")
+      .documents()
+      .search(serviceSearchParameters)
+      .then(response => {
+        if (response.hits?.length)
+          setServiceSearchValues([...response.hits.map((hit: any) => {
+            return {
+              name: hit.document?.name,
+              id: hit.document?.id,
+            }
+          })])
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      });
+  }, [
+    // findExecutorState.locationId,
+    // findExecutorState.objectTypesId,
+    // findExecutorState.servicesTypesId,
+  ])
+
+
+
   const favoriteExecutorsHandler = async (executor: executorList) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -120,7 +230,7 @@ const Executors: FC = () => {
         setPaginationPage(1)
         return;
       }
-      // console.log(hits);
+      console.log(hits);
 
 
       const newExecutorList = await getExecutorList(hits)
@@ -129,15 +239,13 @@ const Executors: FC = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    findExecutorState.objectTypesId,
     paginationPage,
     paginationPerPage,
     sortingValue,
     findExecutorState.locationId,
-    findExecutorState.servicesTypesId,
+    findExecutorState.objectTypesId.length,
     findExecutorState.servicesTypesId.length,
     findExecutorState.fastFilterTexts,
-    findExecutorState.fastFilterTexts.length,
   ]);
 
   useEffect(() => {
@@ -169,6 +277,41 @@ const Executors: FC = () => {
           />
         </Modal>
       )}
+      <div className="flex flex-wrap gap-3">
+        {findExecutorState.objectTypesId.length > 0 &&
+          (objectSearchValues.filter((object) => {
+            return findExecutorState.objectTypesId.includes(Number(object.id))
+          }).map((value) =>
+            <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
+              const arrayCopy = findExecutorState.objectTypesId
+              arrayCopy.splice(arrayCopy.findIndex(object => object === Number(value.id)), 1)
+              findExecutorState.handleObjectTypesId(arrayCopy)
+            }}>
+              {value.name}
+              <img src="/x-icon.svg" className="size-5" />
+            </div>
+          ))}
+        {findExecutorState.servicesTypesId.length > 0 &&
+          (serviceSearchValues.filter(service => {
+            return findExecutorState.servicesTypesId.includes(Number(service.id))
+          }).map((value) =>
+            <div className="flex gap-1 items-center cursor-pointer" onClick={() => {
+              const arrayCopy = findExecutorState.servicesTypesId
+              arrayCopy.splice(arrayCopy.findIndex(object => object === Number(value.id)), 1)
+              findExecutorState.handleServicesTypesId(arrayCopy)
+            }}>
+              {value.name}
+              <img src="/x-icon.svg" className="size-5" />
+            </div>
+          ))
+        }
+        {findExecutorState.locationId &&
+          <div className="flex gap-1 items-center cursor-pointer" onClick={() => findExecutorState.handleLocation(null)}>
+            {locationSearchValue}
+            <img src="/x-icon.svg" className="size-5" />
+          </div>
+        }
+      </div>
       <div className={styles.amount}>
         <p className={styles.number}>Исполнители: {allExecutorListLength}</p>
         <Dropdown classNames={dropDownClassNames}>
