@@ -84,7 +84,7 @@ export const SurveyStart: FC = () => {
             начале описания тендера заголовком “Тестовый тендер”.
           </li>
           <li className="w-full list-decimal list-outside">
-            Заполните <Link to="/profile" className="text-accent hover:underline">анкету</Link> участника в личном кабинете.
+            Заполните <Link to="/survey/1" className="text-accent hover:underline">анкету</Link> участника в личном кабинете.
           </li>
           <li className="w-full list-decimal list-outside">
             Получите в подарок от нас Исследование рынка

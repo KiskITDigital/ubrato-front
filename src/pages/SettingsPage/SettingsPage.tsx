@@ -112,10 +112,10 @@ const SettingsPage: FC = () => {
   };
 
   return (
-    <section ref={startRef} className={styles.container}>
+    <section ref={startRef} className={`${styles.container}`}>
       <p className={styles.title}>Настройки аккаунта</p>
-      <div className="flex justify-between border-b border-black/30 pb-6">
-        <p className={styles.section__name}>Статус</p>
+      <div className="flex gap-10 border-b border-black/30 pb-6">
+        <p className="min-w-[220px] font-bold">Статус</p>
         <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
           {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
           <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : 'Подтвердите почту'}</p>
@@ -123,7 +123,7 @@ const SettingsPage: FC = () => {
             <div className={styles.statusVerifyBlock}>
               <button
                 onClick={() => verification()}
-                className={styles.sendMessage}
+                className={`${styles.sendMessage}`}
                 disabled={buttonText === "Ссылка для подтверждения e-mail отправлена на указанную вами почту."}
               >{buttonText}</button>
               {
@@ -137,8 +137,8 @@ const SettingsPage: FC = () => {
           }
         </div>
       </div>
-      <div className={`${styles.section} ${styles.sectionUserData}`}>
-        <p className={styles.section__name}>Пользовательские данные</p>
+      <div className="flex justify-between gap-10 border-b border-black/30 pb-6">
+        <p className="min-w-[220px] font-bold">Пользовательские данные</p>
         <div className={styles.section__container}>
           <div className={styles.inputBlock}>
             <p className={styles.inputBlock__name}>Email</p>
@@ -190,16 +190,16 @@ const SettingsPage: FC = () => {
           {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
         </div>
       </div>
-      <div className={styles.section}>
-        <p className={styles.section__name}>Правовые документы</p>
+      <div className="flex gap-10 border-b border-black/30 pb-6">
+        <p className="min-w-[220px] font-bold">Правовые документы</p>
         <div className={styles.section__container}>
           <Link target="_blank" to="/rights?document=1" className={styles.sectionLink}>Политика обработки персональных данных</Link>
           <Link target="_blank" to="/rights?document=2" className={styles.sectionLink}>Пользовательское соглашение</Link>
           <Link target="_blank" to="/rights?document=3" className={styles.sectionLink}>Согласие на обработку персональных данных</Link>
         </div>
       </div>
-      <div className={styles.section}>
-        <p className={styles.section__name}>Обратная связь</p>
+      <div className="flex gap-10 border-b border-black/30 pb-6">
+        <p className="min-w-[220px] font-bold">Обратная связь</p>
         <div className={styles.section__container}>
           <p className={styles.sectionText}>Есть вопросы по настройке аккаунта? <Link className={styles.sectionLink} to="/profile/help">Напишите телефон</Link> и мы перезвоним</p>
         </div>
