@@ -340,10 +340,13 @@ const Executors: FC = () => {
       {allExecutorListLength > findExecutorState.executorList.length ? (
         <>
           <button
-            onClick={() => setPaginationPerPage((prev) => prev + 2)}
+            onClick={() => {
+              setPaginationPage(1)
+              setPaginationPerPage((prev) => prev + 2)
+            }}
             className={styles.showMore}
           >
-            Показать еще
+            Показать ещё
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
           {!!paginationTotal && (

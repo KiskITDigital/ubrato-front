@@ -198,10 +198,13 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
       {allExecutorListLength > list.length && (
         <>
           <button
-            onClick={() => setPaginationPerPage((prev) => prev + 2)}
+            onClick={() => {
+              setPaginationPage(1)
+              setPaginationPerPage((prev) => prev + 2)
+            }}
             className={s.showMore}
           >
-            Показать еще
+            Показать ещё
             <img src="/find-executor/arrow-down.svg" alt="" />
           </button>
           {!!paginationTotal && (
