@@ -276,7 +276,7 @@ export const Page4: FC = () => {
             <p>Ваш комментарий</p>
             <input
               type="text"
-              value={surveyStore.question4.comment}
+              value={surveyStore.question11.comment}
               onChange={(e) => {
                 surveyStore.setQuestion11comment(e.target.value);
               }}
