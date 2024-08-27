@@ -142,7 +142,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                                                 {tender.isTextHidden && tender.description.split(' ').length > 10 && <img onClick={() => showAllExecutorText(tender.id)} src="/find-executor/arrow-right-black.svg" alt="->" />}
                                             </p>
                                             <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
-                                            <p className={styles.tenderTime}>Прием откликов до {new Date(new Date(tender.reception_end).getTime() * 1000).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                            <p className={styles.tenderTime}>Прием откликов до {new Date(tender.reception_end).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                                         </div>
                                         {/* <div>{!!tender.regions?.length && tender.regions?.map(region => <p key={region.id}>{region.name}</p>)}</div> */}
                                         {isMobile || <div className={styles.locationsAndLinkBlock}>
