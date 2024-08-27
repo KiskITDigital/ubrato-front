@@ -65,7 +65,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
             id={id}
             accept="image/png, image/jpeg, application/pdf, text/xml"
           />
-          <div className={styles.fileBtn}>Загрузить</div>
+          <div className={`${styles.fileBtn} ${Boolean(link) && "hidden"}`}>Загрузить</div>
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>
