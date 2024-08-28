@@ -23,7 +23,7 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
         }
         <button onClick={() => {
           createTenderState.removeError('tz')
-        }} className={`${styles.section__block__button} ${styles.textRegular} ${createTenderState.errors.includes('tz') ? cleaningTZStyles.cleaningTZError : ''}`}>
+        }} className={`${styles.textRegular} ${createTenderState.errors.includes('tz') ? cleaningTZStyles.cleaningTZError : ''}`}>
           {
             createTenderState.cleaningTZ ?
               <img className={styles.removeTZ}
@@ -36,9 +36,17 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
                 }}
               />
               :
-              <div className="flex items-center gap-2" onClick={handleButtonFileClick}>
-                <img src="/create-tender/create-tender-plus.svg" alt="plus" />
-                Загрузить
+              <div className="flex gap-5 cursor-default">
+                <div className="flex items-center gap-2 bg-[--color-light-gray-secondary] px-3 h-[34px] rounded-[10px] cursor-pointer" onClick={handleButtonFileClick}>
+                  <img src="/create-tender/create-tender-plus.svg" alt="plus" />
+                  Загрузить
+                </div>
+                <div className="flex gap-[10px] bg-[--color-light-gray-secondary] p-3 rounded-[14px] text-start text-[16px]">
+                  <img src="/info-blue-ic.svg" alt="i" className="size-4 min-w-4 my-[2px]" />
+                  <p className=" leading-tight cursor-text select-text">
+                    Загрузите файл с техническим заданием на уборку объекта в форматах doc, docx, xls, xlsx, jpg или pdf. Допустимый размер файла — 10 Мб.
+                  </p>
+                </div>
               </div>
           }
         </button>
@@ -46,8 +54,15 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement>; }> = forwardRef<HT
         <input
           type="file"
           multiple
-          accept=".pdf"
-          onChange={(e) => createTenderState.handleFileUpload(e, null, 'upload-tz')}
+          accept=".doc,.docx,.xls,.jpg,.pdf"
+          onChange={(e) => {
+            if (e.target.files) {
+              if (e.target.files[0].size > 10485760)
+                alert("Недопустимый формат или размер файла.")
+              else
+                createTenderState.handleFileUpload(e, null, 'upload-tz')
+            }
+          }}
           ref={inputFileRef}
           style={{ display: 'none' }}
         />

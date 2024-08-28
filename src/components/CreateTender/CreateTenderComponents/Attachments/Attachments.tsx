@@ -89,16 +89,31 @@ const Attachments: FC<{ windowWidth: number, ref?: React.LegacyRef<HTMLDivElemen
               }
             </div>
           }
-          <button onClick={() => {
-            // e.stopPropagation();
-            createTenderState.attachments.length < 8 && handleButtonFileClick()
-          }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''}`}><img src='/create-tender/create-tender-plus.svg' alt="plus" />Добавить вложения (до 8 шт.)</button>
+          <div className="flex gap-5">
+            <button onClick={() => {
+              // e.stopPropagation();
+              createTenderState.attachments.length < 8 && handleButtonFileClick()
+            }} disabled={createTenderState.attachments.length >= 8} className={`${styles.section__block__button} ${styles.textRegular} ${styles.section__attachments__block__button} ${createTenderState.errors.includes('attachments') ? styles.section__block__buttonError : ''} h-fit`}><img src='/create-tender/create-tender-plus.svg' alt="plus" />Загрузить</button>
+            <div className="flex gap-[10px] bg-[--color-light-gray-secondary] p-3 rounded-[10px]">
+              <img src="/info-blue-ic.svg" alt="i" className="size-4 min-w-4 my-[2px]" />
+              <p className="leading-tight text-[16px]">
+                Загрузите файлы с информацией об объекте - фото, план или другие материалы. До 8 файлов в форматах doc, docx, xls, xlsx, jpg или pdf, не более 10 Мб каждый.
+              </p>
+            </div>
+          </div>
           <input
             // onClick={(e) => e.stopPropagation()}
             type="file"
             multiple
-            accept="image/*,.pdf,.xml"
-            onChange={(e) => createTenderState.handleFileUpload(e, null)}
+            accept=".doc,.docx,.xls,.jpg,.pdf"
+            onChange={(e) => {
+              if (e.target.files) {
+                if (e.target.files[e.target.files?.length - 1].size > 10485760)
+                  alert("Недопустимый формат или размер файла.")
+                else
+                  createTenderState.handleFileUpload(e, null)
+              }
+            }}
             ref={inputFileRef}
             style={{ display: 'none' }}
           />

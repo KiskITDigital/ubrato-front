@@ -10,7 +10,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        accent: "#0084FF"
+        accent: "#0084FF",
+        "light-gray": "#ECF0F3",
       }
     },
   },
