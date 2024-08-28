@@ -260,7 +260,6 @@ export const ContractorProfile: FC = () => {
     const res = await getCities(text);
     setSitiesArr(res.data);
     text ? setIsListOpen(true) : setIsListOpen(false)
-
   }
 
   return (
@@ -302,7 +301,7 @@ export const ContractorProfile: FC = () => {
       </div>
       <div className={styles.locations}>
         <p>Локации</p>
-        <div onBlur={() => { changeCities("") }} className={styles.inputContainer}>
+        <div className={styles.inputContainer}>
           <input
             className={styles.input}
             type="text"
