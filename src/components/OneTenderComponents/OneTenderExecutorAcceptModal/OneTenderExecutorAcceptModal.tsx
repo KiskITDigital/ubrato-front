@@ -91,9 +91,8 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
                 <label className={`${styles.field}`}>
                   <p className={styles.label_paragraph}>Готовы выполнить работу за</p>
                   <div>
-                    <input onChange={handleInputChange} disabled={isAgreed} type="text" name="price" className={styles.input_modal} />
+                    <input onChange={handleInputChange} disabled={isAgreed} type="number" name="price" className={styles.input_modal} />
                     рублей
-
                   </div>
                   <Switch classNames={SwicthStyles} onChange={handleChange}></Switch>
                   <span className={styles.span_nds}>вкл. НДС</span>
