@@ -228,9 +228,25 @@ export const CompanyInfo: FC = () => {
         <div className={styles.brandGrid}>
           <p className={styles.gridHeader}>Номер телефона</p>
           <div className={styles.inputs}>
-            {phones.map((_, ix) => (
-              <InputPhone phones={phones} setPhones={setPhones} ix={ix} key={ix} />
-            ))}
+            {phones.length ?
+              <>
+                {phones.map((_, ix) => (
+                  <InputPhone
+                    phones={phones}
+                    setPhones={setPhones}
+                    ix={ix}
+                    key={ix}
+                  />
+                ))}
+              </>
+              :
+              <InputPhone
+                phones={phones}
+                setPhones={setPhones}
+                ix={0}
+                key={0}
+              />
+            }
             <button
               onClick={() => {
                 const newPhones = [...phones];
@@ -244,9 +260,27 @@ export const CompanyInfo: FC = () => {
           </div>
           <p className={styles.gridHeader}>Электронная почта</p>
           <div className={styles.inputs}>
-            {emails.map((_, ix) => (
-              <InputContact data={emails} setData={setEmails} ix={ix} id="email" key={ix} />
-            ))}
+            {emails.length ?
+              <>
+                {emails.map((_, ix) => (
+                  <InputContact
+                    data={emails}
+                    setData={setEmails}
+                    ix={ix}
+                    id="email"
+                    key={ix}
+                  />
+                ))}
+              </>
+              :
+              <InputContact
+                data={emails}
+                setData={setEmails}
+                ix={0}
+                id="email"
+                key={0}
+              />
+            }
             <button
               onClick={() => {
                 const newMails = [...emails];
@@ -260,15 +294,27 @@ export const CompanyInfo: FC = () => {
           </div>
           <p className={styles.gridHeader}>Мессенджер</p>
           <div className={styles.inputs}>
-            {messengers.map((_, ix) => (
+            {messengers.length ?
+              <>
+                {messengers.map((_, ix) => (
+                  <InputContact
+                    data={messengers}
+                    setData={setMessengers}
+                    ix={ix}
+                    id="messenger"
+                    key={ix}
+                  />
+                ))}
+              </>
+              :
               <InputContact
                 data={messengers}
                 setData={setMessengers}
-                ix={ix}
-                id="messanger"
-                key={ix}
+                ix={0}
+                id="messenger"
+                key={0}
               />
-            ))}
+            }
             <button
               onClick={() => {
                 const newMessengers = [...messengers];
@@ -314,9 +360,9 @@ export const CompanyInfo: FC = () => {
                   };
                   await updateToken(putBrandContacts, params);
                   const res = await updateToken(fetchOrganizationInfo, null);
-                  setEmails([...res.email]);
-                  setPhones([...res.phone]);
-                  setMessengers([...res.messenger]);
+                  setEmails(res.email);
+                  setPhones(res.phone);
+                  setMessengers(res.messenger);
                   initialContacts.current = {
                     phones: JSON.parse(JSON.stringify(res.phone)),
                     emails: JSON.parse(JSON.stringify(res.email)),
