@@ -49,9 +49,9 @@ export const LoginPage: FC = () => {
           // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg('Неверный пароль');
+              setErrorMsg('incorrect password');
             } else if (e.response?.status === 404) {
-              setErrorMsg('Пользователя с таким e-mail не существует');
+              setErrorMsg('email busy');
             } else {
               setErrorMsg('Что-то пошло не так');
             }
@@ -120,6 +120,12 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
+            {
+              errorMsg === 'email busy' && 
+              <p className={styles.errorMessage}>
+                Пользователь с таким e-mail не существует
+              </p>
+            }
           </div>
           <div className={styles.inputContainer}>
             <Input
@@ -146,11 +152,14 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
+            {
+              errorMsg === 'incorrect password' && 
+              <p className={styles.errorMessage}>Неверный пароль</p>
+            }
           </div>
           <Link className={styles.forgotPassword} to="/reset-password">Забыли пароль?</Link>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
-            {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>
         </form>
       </div>

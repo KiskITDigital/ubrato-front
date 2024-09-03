@@ -46,7 +46,6 @@
   color: var(--color-red-error);
   font-size: 10px;
   position: absolute;
-  left: 15px;
   line-height: 22px;
 }
 
