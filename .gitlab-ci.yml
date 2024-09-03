@@ -26,9 +26,8 @@ variables:
   REMOTE_PATH: "/home/ubrato/ubrato"
 
 dev-build:
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^stage/ && $CI_PIPELINE_SOURCE == "push"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME=~ /^stage/
+  only:
+    - stage
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p "$CI_JOB_TOKEN" $CI_REGISTRY
@@ -36,9 +35,8 @@ dev-build:
     - docker push "$CI_REGISTRY_IMAGE:latest"
 
 dev-deploy:
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^stage/ && $CI_PIPELINE_SOURCE == "push"
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME=~ /^stage/
+  only:
+    - stage
   stage: deploy
   script:
     - ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST -p $REMOTE_PORT "docker service update --with-registry-auth --force --image registry.ubrato.ru/ubrato/ubrato-front:latest stack_ubrato-front"
