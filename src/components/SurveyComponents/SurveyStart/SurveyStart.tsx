@@ -1,7 +1,11 @@
-import { FC } from 'react';
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export const SurveyStart: FC = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
   return (
     <div className="flex flex-col items-center pt-10">
       <h1 className="font-bold text-[60px]">
@@ -70,7 +74,9 @@ export const SurveyStart: FC = () => {
           </li>
         </ul>
         <p>
-          Уже есть вопросы? <Link to="/contacts#contact-form" className="text-accent hover:underline">Напишите телефон</Link> и мы перезвоним.
+          Уже есть вопросы? <span className="text-accent underline cursor-pointer" onClick={() => setOpenModal(true)}>
+            Напишите телефон
+          </span> и мы перезвоним.
         </p>
         <p className="font-bold">Как принять участие</p>
         <ul className="w-full pl-16">
@@ -100,6 +106,9 @@ export const SurveyStart: FC = () => {
           изменения в условия тест-драйва без предварительного уведомления пользователей.
         </p>
       </div>
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
     </div>
   );
 };

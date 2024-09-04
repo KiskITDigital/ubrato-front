@@ -52,7 +52,6 @@ export const QuestionsBlock: FC = () => {
   }, [isOrdererState.role, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
-    console.log()
     if (location.search) {
       setQuestionNumber(location.search.slice(-1));
       setPageNumber(location.search.slice(6, 7));

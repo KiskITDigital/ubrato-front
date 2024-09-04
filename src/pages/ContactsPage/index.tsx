@@ -95,12 +95,13 @@ const ContactsPage: FC = () => {
         <p className={styles.contactText}>
           Нашли ошибку или у вас есть предложение? Напишите нам
         </p>
-        <form className={styles.from} onSubmit={formik.handleSubmit}>
-          <p className={styles.formTitle}>Обратная связь c <span>Ubrato</span></p>
+        <form className="flex flex-col gap-5 bg-white p-5 rounded-[20px]" onSubmit={formik.handleSubmit}>
+          <p className="text-[20px] font-bold">Обратная связь c <span className="text-accent">Ubrato</span></p>
           <Input
             id="name"
             name="name"
             type="text"
+            placeholder="Имя"
             label="Как к вам обращаться? *"
             value={formik.values.name}
             onChange={formik.handleChange}
@@ -108,11 +109,11 @@ const ContactsPage: FC = () => {
             errorMessage={formik.errors.name}
             classNames={itemClasses}
           />
-
           <Input
             ref={ref as Ref<HTMLInputElement>}
             id="phone"
             name="phone"
+            placeholder="+7 (900) 000 00 00"
             label="Ваш номер телефона: *"
             type="phone"
             value={value}
@@ -145,7 +146,9 @@ const ContactsPage: FC = () => {
             Соглашаюсь с <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку персональных данных</Link>.
             <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
           </Checkbox>
-          <input type="submit" className={styles.submit} value="Заказать звонок" />
+          <button type="submit" className={styles.submit}>
+            Заказать звонок
+          </button>
         </form>
       </div>
       <div className={styles.data}>

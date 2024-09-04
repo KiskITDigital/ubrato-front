@@ -9,6 +9,8 @@ import { askForVerification, askResetPassword, login } from "@/api";
 // import { AxiosError } from "axios";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { AxiosError } from "axios";
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
 
 const SettingsPage: FC = () => {
   const navigate = useNavigate()
@@ -111,6 +113,8 @@ const SettingsPage: FC = () => {
     helperWrapper: styles.helperWrapper,
   };
 
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
   return (
     <section ref={startRef} className={`${styles.container}`}>
       <p className={styles.title}>Настройки аккаунта</p>
@@ -201,11 +205,16 @@ const SettingsPage: FC = () => {
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Обратная связь</p>
         <div className={styles.section__container}>
-          <p className={styles.sectionText}>Есть вопросы по настройке аккаунта? <Link className={styles.sectionLink} to="/profile/help">Напишите телефон</Link> и мы перезвоним</p>
+          <p className={styles.sectionText}>Есть вопросы по настройке аккаунта? <span className={`${styles.sectionLink} cursor-pointer`} onClick={() => setOpenModal(true)}>
+            Напишите телефон
+          </span> и мы перезвоним</p>
         </div>
       </div>
       {/* {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>} */}
       <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
     </section>
   );
 }

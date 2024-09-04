@@ -119,6 +119,7 @@
 .link {
   color: var(--color-blue-primary);
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .help {

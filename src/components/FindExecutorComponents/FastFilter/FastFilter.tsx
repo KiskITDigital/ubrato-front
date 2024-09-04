@@ -46,7 +46,6 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
           query_by: "name",
         })
         .then(async (response) => {
-          console.log(response.hits)
           if (response.hits?.length)
             setQuerySuggestions(response.hits);
         })
@@ -63,7 +62,6 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
           query_by: "name, description, wishes",
         })
         .then(async (response) => {
-          console.log(response.hits)
           if (response.hits?.length)
             setQuerySuggestions(response.hits);
         })
@@ -134,7 +132,6 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
                 key={"suggestion-" + itemIndex}
                 className="border-b-2 last:border-none border-gray-200 py-3 cursor-pointer"
                 onMouseDown={() => {
-                  console.log(values, item.document.name)
                   setValues([...values, item.document.name])
                 }}
               >
