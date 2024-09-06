@@ -49,13 +49,15 @@ interface myTenderToogle {
   myTender: boolean
 }
 
+const DEFAULT_PER_PAGE = 20
+
 export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const tenderListState = useTenderListState()
 
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(5);
+  const [paginationPerPage, setPaginationPerPage] = useState(DEFAULT_PER_PAGE);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
@@ -370,7 +372,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
           <button
             onClick={() => {
               setPaginationPage(1)
-              setPaginationPerPage((prev) => prev + 2)
+              setPaginationPerPage((prev) => prev + DEFAULT_PER_PAGE)
             }}
             className={s.showMore}
           >

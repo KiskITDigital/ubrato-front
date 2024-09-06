@@ -21,13 +21,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import Typesense from 'typesense';
 
+const DEFAULT_PER_PAGE = 20
+
 const Executors: FC = () => {
   const findExecutorState = useFindExecutorState();
   // const [executorList, setExecutorList] = useState<executorList[]>([]);
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(2);
+  const [paginationPerPage, setPaginationPerPage] = useState(DEFAULT_PER_PAGE);
   const [sortingValue, setSortingValue] = useState<
     "" | "name:asc" | "name:desc"
   >("");
@@ -341,7 +343,7 @@ const Executors: FC = () => {
           <button
             onClick={() => {
               setPaginationPage(1)
-              setPaginationPerPage((prev) => prev + 2)
+              setPaginationPerPage((prev) => prev + DEFAULT_PER_PAGE)
             }}
             className={styles.showMore}
           >
