@@ -13,14 +13,15 @@ export interface dataObjectTypes {
   name: string,
   active: boolean,
   price: number,
-  object_types: Array<string>,
-  objects_types: Array<string>,
+  object_group: string,
+  objects_types: string[],
   location: string,
   floor_space: number,
-  services_types: Array<string>,
+  services_groups: string[]
+  services_types: string[],
   description: string,
   wishes: string,
-  attachments: Array<string>,
+  attachments: string[],
   reception_start: string,
   reception_end: string,
   work_start: string,
@@ -41,10 +42,11 @@ export const OneTenderPageExecutor: FC = () => {
     name: '',
     active: false,
     price: 0,
-    object_types: [],
+    object_group: '',
     objects_types: [],
     location: '',
     floor_space: 0,
+    services_groups: [],
     services_types: [],
     description: '',
     wishes: '',
@@ -64,7 +66,7 @@ export const OneTenderPageExecutor: FC = () => {
 
   switch (activeIndex) {
     case 0:
-      stack = <OneTenderInfoViewExecutor dataQ={dataState} />;
+      stack = <OneTenderInfoViewExecutor dataTender={dataState} />;
       break;
     case 1:
       stack = <div>tt</div>;

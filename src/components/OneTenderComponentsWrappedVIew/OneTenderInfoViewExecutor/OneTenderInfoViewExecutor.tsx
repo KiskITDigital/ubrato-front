@@ -13,25 +13,31 @@ import { dataObjectTypes } from '@/pages/OneTenderPageExecutor/OneTenderPageExec
 import { FC } from 'react';
 
 interface tenderProps {
-  dataQ: dataObjectTypes 
+  dataTender: dataObjectTypes
 }
 
-
-
-export const OneTenderInfoViewExecutor: FC<tenderProps> = ({dataQ}) => {
-const dataTender = dataQ
+export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
 
   return (
     <div>
-        <OneTenderInfoExecutor is_contract_price={dataTender.is_contract_price} price={dataTender.price} timestamp_rc_start={dataTender.reception_start} timestamp_rc_end={dataTender.reception_end} timestamp_wrk_start={dataTender.work_start} timestamp_wrk_end={dataTender.work_end} timestamp_crtd={dataTender.created_at} is_nds={dataTender.is_nds_price}></OneTenderInfoExecutor>
-        <OneTenderExecutorNotification></OneTenderExecutorNotification>
-        <OneTenderCity city={dataTender.location}></OneTenderCity>
-        <OneTenderObject building={dataTender.objects_types}></OneTenderObject>
-        <OneTenderArea area={dataTender.floor_space}></OneTenderArea>
-        <OneTenderOffers offers={dataTender.services_types}></OneTenderOffers>
-        <OneTenderDescription description={dataTender.description}></OneTenderDescription>
-        <OneTenderWishes wishes={dataTender.wishes}></OneTenderWishes>
-        <OneTenderAttachments attachment={dataTender.attachments}></OneTenderAttachments>
+      <OneTenderInfoExecutor
+        is_contract_price={dataTender.is_contract_price}
+        price={dataTender.price}
+        timestamp_rc_start={dataTender.reception_start}
+        timestamp_rc_end={dataTender.reception_end}
+        timestamp_wrk_start={dataTender.work_start}
+        timestamp_wrk_end={dataTender.work_end}
+        timestamp_crtd={dataTender.created_at}
+        is_nds={dataTender.is_nds_price}
+      />
+      <OneTenderExecutorNotification />
+      <OneTenderCity city={dataTender.location} />
+      <OneTenderObject objectGroup={dataTender.object_group} objectsTypes={dataTender.objects_types} />
+      <OneTenderArea area={dataTender.floor_space} />
+      <OneTenderOffers servicesGroups={dataTender.services_groups} servicesTypes={dataTender.services_types} />
+      <OneTenderDescription description={dataTender.description} />
+      <OneTenderWishes wishes={dataTender.wishes} />
+      <OneTenderAttachments attachment={dataTender.attachments} />
     </div>
   );
 };

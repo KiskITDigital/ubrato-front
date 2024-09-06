@@ -12,6 +12,7 @@ import s from "./styles.module.css";
 import { getMe } from "@/api/getMe";
 import { useTenderListState } from "@/store/tendersListStore";
 import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
+import { cn } from '@/utils/twMerge';
 import {
   Table,
   TableBody,
@@ -30,6 +31,7 @@ import {
   SortingState,
   useReactTable
 } from '@tanstack/react-table';
+import { useNavigate } from "react-router-dom";
 
 export interface TenderList {
   id: string;
@@ -309,6 +311,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     myTender
   ]);
 
+  const navigate = useNavigate()
+
   return (
     <div className="w-full">
       <div className={s.counter_tender}>
@@ -347,7 +351,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
                 <TableRow
                   key={"row" + rowIndex}
                   data-state={row.getIsSelected() && "selected"}
-                  className={rowIndex % 2 !== 0 ? "bg-slate-200/40" : ""}
+                  className={cn(rowIndex % 2 !== 0 ? "bg-slate-200/40" : "", "cursor-pointer")}
+                  onClick={() => navigate("/tender/" + row.original.id)}
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell key={"cell-" + rowIndex + cellIndex} style={{ width: cell.column.getSize() }}>
