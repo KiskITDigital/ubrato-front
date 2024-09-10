@@ -31,6 +31,7 @@ import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
 import RightsPage from '@/pages/RightsPage';
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage';
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage';
+import { BecomeContractor } from '@/components/ProfilePageComponents/BecomeContractor/BecomeContractor';
 
 export const Router = () => {
   return (
@@ -38,7 +39,7 @@ export const Router = () => {
       <Route path="/" element={<App />}>
         <Route path="" element={<HomePage />} />
         <Route path="faq" element={<HomePage />} />
-        <Route path='about' element={<AboutServicePage />} />
+        <Route path="about" element={<AboutServicePage />} />
         <Route path="create-tender" element={<CreateTenderPage />} />
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="alltenders" element={<AllTendersPage />} />
@@ -57,14 +58,13 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="tenders" element={<MyTendersPage />} >
-          
-          </Route>
+          <Route path="tenders" element={<MyTendersPage />}></Route>
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
             <Route path="orderer" element={<OrdererProfile />} />
           </Route>
+          <Route path="become-contractor" element={<BecomeContractor />} />
           <Route path="notifications" element={<ProfileNotifications />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
@@ -73,8 +73,8 @@ export const Router = () => {
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
-        <Route path='contacts' element={<ContactsPage />} />
-        <Route path='rights' element={<RightsPage />} />
+        <Route path="contacts" element={<ContactsPage />} />
+        <Route path="rights" element={<RightsPage />} />
       </Route>
     </Routes>
   );
