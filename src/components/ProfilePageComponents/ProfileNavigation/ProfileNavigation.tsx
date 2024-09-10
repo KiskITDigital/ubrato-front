@@ -88,7 +88,7 @@ export const ProfileNavigation: FC = () => {
         ) : (
           <Link
             className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
-            to="documents"
+            to="become-contractor"
           >
             <p className={styles.become_link}>Стать исполнителем</p> 
           </Link>
