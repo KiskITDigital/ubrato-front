@@ -21,15 +21,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import Typesense from 'typesense';
 
-const DEFAULT_PER_PAGE = 20
-
 const Executors: FC = () => {
   const findExecutorState = useFindExecutorState();
   // const [executorList, setExecutorList] = useState<executorList[]>([]);
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(DEFAULT_PER_PAGE);
+  const [defaultPerPage, setDefaultPerPage] = useState<number>(20)
+  const [paginationPerPage, setPaginationPerPage] = useState(defaultPerPage);
   const [sortingValue, setSortingValue] = useState<
     "" | "name:asc" | "name:desc"
   >("");
@@ -250,6 +249,10 @@ const Executors: FC = () => {
   ]);
 
   useEffect(() => {
+    setPaginationPerPage(defaultPerPage)
+  }, [defaultPerPage]);
+
+  useEffect(() => {
     startRef.current!.scrollIntoView({ behavior: "smooth" })
     setTimeout(() => {
       const elementTop = startRef.current!.getBoundingClientRect().top;
@@ -314,22 +317,40 @@ const Executors: FC = () => {
         }
       </div>
       <div className={styles.amount}>
-        <p className={styles.number}>Исполнители: {allExecutorListLength}</p>
-        <Dropdown classNames={dropDownClassNames}>
-          <DropdownTrigger>
-            <Button disableRipple variant="bordered">
-              Рекомендуем <img src="/find-executor/drop-down.svg" alt="" />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Static Actions">
-            <DropdownItem onClick={() => setSortingValue("name:asc")}>
-              По наименованию
-            </DropdownItem>
-            <DropdownItem onClick={() => setSortingValue("name:desc")}>
-              По популярности
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div className="flex justify-between w-full">
+          <p className="text-[24px]">Исполнители: {allExecutorListLength}</p>
+          <div className="w-fit flex items-center gap-2">
+            <p className="">
+              Показывать на странице
+            </p>
+            <select className="outline-none" value={defaultPerPage} onChange={(event) => setDefaultPerPage(Number(event.target.value))}>
+              <option value={20}>
+                20
+              </option>
+              <option value={50}>
+                50
+              </option>
+              <option value={100}>
+                100
+              </option>
+            </select>
+          </div>
+          <Dropdown classNames={dropDownClassNames}>
+            <DropdownTrigger>
+              <Button disableRipple variant="bordered">
+                Рекомендуем <img src="/find-executor/drop-down.svg" alt="" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Static Actions">
+              <DropdownItem onClick={() => setSortingValue("name:asc")}>
+                По наименованию
+              </DropdownItem>
+              <DropdownItem onClick={() => setSortingValue("name:desc")}>
+                По популярности
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </div>
       <ExecutorList
         executorList={findExecutorState.executorList}
@@ -340,16 +361,19 @@ const Executors: FC = () => {
       />
       {allExecutorListLength > findExecutorState.executorList.length ? (
         <>
-          <button
-            onClick={() => {
-              setPaginationPage(1)
-              setPaginationPerPage((prev) => prev + DEFAULT_PER_PAGE)
-            }}
-            className={styles.showMore}
-          >
-            Показать ещё
-            <img src="/find-executor/arrow-down.svg" alt="" />
-          </button>
+          {paginationPerPage < allExecutorListLength &&
+            <button
+              onClick={() => {
+                setPaginationPage(1)
+                setPaginationPerPage((prev) => prev + defaultPerPage)
+              }}
+              className={styles.showMore}
+            >
+              Показать ещё
+              <img src="/find-executor/arrow-down.svg" alt="" />
+            </button>
+          }
+
           {!!paginationTotal && (
             <Pagination
               classNames={paginationClassNames}

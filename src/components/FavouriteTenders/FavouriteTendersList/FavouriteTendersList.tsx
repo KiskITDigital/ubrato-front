@@ -13,7 +13,6 @@ import { getAllFavoriteTenders } from "@/api/favouriteTenders";
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 
-
 interface TenderList {
   id: string;
   name: string;
@@ -24,13 +23,10 @@ interface TenderList {
   city: string;
 }
 
-
-
 interface SortingOption {
   label: string;
   field: string;
 }
-
 
 interface myTenderToggle {
   myTender: boolean;

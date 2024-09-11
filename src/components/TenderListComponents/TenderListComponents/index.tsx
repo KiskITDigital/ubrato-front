@@ -6,7 +6,7 @@ import {
 } from "react";
 import Typesense from "typesense";
 import { fetchProduct } from "@/api";
-import { Pagination } from "@nextui-org/react";
+import { Pagination, Select, SelectItem } from "@nextui-org/react";
 
 import s from "./styles.module.css";
 import { getMe } from "@/api/getMe";
@@ -51,15 +51,14 @@ interface myTenderToogle {
   myTender: boolean
 }
 
-const DEFAULT_PER_PAGE = 20
-
 export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const tenderListState = useTenderListState()
 
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(DEFAULT_PER_PAGE);
+  const [defaultPerPage, setDefaultPerPage] = useState<number>(20)
+  const [paginationPerPage, setPaginationPerPage] = useState(defaultPerPage);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('')
   const [meData, setMe] = useState<Me | null>(null);
@@ -67,6 +66,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   useEffect(() => {
     table.setPageSize(paginationPerPage)
   }, [paginationPerPage]);
+
+  useEffect(() => {
+    setPaginationPerPage(defaultPerPage)
+  }, [defaultPerPage]);
 
   const paginationClassNames = {
     base: s.paginationBase,
@@ -315,8 +318,26 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
 
   return (
     <div className="w-full">
-      <div className={s.counter_tender}>
-        Найдено тендеров: {allExecutorListLength}
+      <div className="flex justify-between">
+        <div className="text-[24px]">
+          Найдено тендеров: {allExecutorListLength}
+        </div>
+        <div className="w-fit flex items-center gap-2">
+          <p className="">
+            Показывать на странице
+          </p>
+          <select className="outline-none" value={defaultPerPage} onChange={(event) => setDefaultPerPage(Number(event.target.value))}>
+            <option value={20}>
+              20
+            </option>
+            <option value={50}>
+              50
+            </option>
+            <option value={100}>
+              100
+            </option>
+          </select>
+        </div>
       </div>
 
       <div className="mt-[20px]">
@@ -373,17 +394,19 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       </div>
 
       {allExecutorListLength > tenderList.length && (
-        <>
-          <button
-            onClick={() => {
-              setPaginationPage(1)
-              setPaginationPerPage((prev) => prev + DEFAULT_PER_PAGE)
-            }}
-            className={s.showMore}
-          >
-            Показать ещё
-            <img src="/find-executor/arrow-down.svg" alt="" />
-          </button>
+        <div className="flex flex-col w-full pt-4 gap-2">
+          {paginationPerPage < allExecutorListLength &&
+            <button
+              onClick={() => {
+                setPaginationPage(1)
+                setPaginationPerPage((prev) => prev + defaultPerPage)
+              }}
+              className={s.showMore}
+            >
+              Показать ещё
+              <img src="/find-executor/arrow-down.svg" alt="" />
+            </button>
+          }
 
           <div className="flex items-center justify-center">
             {/* <button
@@ -409,7 +432,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
               Next
             </button> */}
           </div>
-        </>
+        </div>
 
       )}
     </div>
