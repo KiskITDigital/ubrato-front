@@ -16,6 +16,11 @@ interface tenderProps {
   dataTender: dataObjectTypes
 }
 
+type Category = {
+  name: string
+  services: string[]
+}[]
+
 export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
 
   return (

@@ -46,8 +46,8 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
           query_by: "name",
         })
         .then(async (response) => {
-          if (response.hits?.length)
-            setQuerySuggestions(response.hits);
+          if (response.hits)
+            setQuerySuggestions([...response.hits]);
         })
         .catch((error) => {
           console.error("Ошибка:", error);
@@ -62,8 +62,8 @@ const FastFilterBlock: FC<{ title: string, values: string[], setValues: (newFast
           query_by: "name, description, wishes",
         })
         .then(async (response) => {
-          if (response.hits?.length)
-            setQuerySuggestions(response.hits);
+          if (response.hits)
+            setQuerySuggestions([...response.hits]);
         })
         .catch((error) => {
           console.error("Ошибка:", error);
