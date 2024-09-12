@@ -1,4 +1,4 @@
-import { FC, FormEvent, forwardRef, Ref, useEffect, useRef, useState } from 'react';
+import { FC, forwardRef, Ref, useEffect, useRef, useState } from 'react';
 import styles from '../../CreateTender.module.css';
 import datesStyles from './Dates.module.css';
 import { useCreateTenderState } from '@/store/createTenderStore';
@@ -32,7 +32,6 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     scale: 2,
     radix: ',',
     mapToRadix: ['.'],
-    autofix: true,
   });
 
   useEffect(() => {
@@ -56,6 +55,12 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
       window.removeEventListener('click', handleClickOutside);
     };
   }, [calendar1, calendar2]);
+
+  useEffect(() => {
+    if (createTenderState.price === '') {
+      setValue('');
+    }
+  }, [setValue, createTenderState.price]);
 
   return (
     <div ref={ref2} className={`${styles.firstSections}`}>
@@ -158,12 +163,9 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
                 +createTenderState.price === 0 && createTenderState.handleSimpleInput('price', '');
               }}
               value={value}
-              //   onChange={(e) =>
-              //     createTenderState.handleSimpleInput('price', e.currentTarget.value, checkOnlyNumber)
-              //   }
-              onInput={(e: FormEvent<HTMLInputElement>) => {
-                if (/^0/.test(e.currentTarget.value)) {
-                  setValue('');
+              onChange={(e) => {
+                if (/^0\d+/.test(e.currentTarget.value)) {
+                  setValue(value.slice(1));
                 } else {
                   setValue(e.currentTarget.value);
                 }

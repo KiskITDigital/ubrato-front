@@ -5,7 +5,6 @@ import { LoginPage } from '../pages/LoginPage/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage/RegisterPage';
 import { ProfilePage } from '@/pages/ProfilePage/ProfilePage';
 import { SurveyPage } from '@/pages/SurveyPage';
-import { OneTenderPage } from '@/pages/OneTenderPage/OneTenderPage';
 import { CreateTenderPage } from '@/pages/CreateTenderPage/CreateTenderPage';
 import { OneTenderPageExecutor } from '@/pages/OneTenderPageExecutor/OneTenderPageExecutor';
 import { Page1, ProfileDocuments, SurveyStart } from '@/components';
@@ -71,7 +70,6 @@ export const Router = () => {
         </Route>
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
-        <Route path="testmytender" element={<OneTenderPage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
         <Route path="contacts" element={<ContactsPage />} />
         <Route path="rights" element={<RightsPage />} />
