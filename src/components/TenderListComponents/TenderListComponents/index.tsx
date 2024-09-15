@@ -3,10 +3,10 @@ import {
   // ReactNode,
   useEffect,
   useState,
-} from "react";
-import Typesense from "typesense";
-import { fetchProduct } from "@/api";
-import { Pagination, Select, SelectItem } from "@nextui-org/react";
+} from 'react';
+import Typesense from 'typesense';
+import { fetchProduct } from '@/api';
+import { Pagination, Select, SelectItem } from '@nextui-org/react';
 
 import s from './styles.module.css';
 import { getMe } from '@/api/getMe';
@@ -56,7 +56,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [defaultPerPage, setDefaultPerPage] = useState<number>(20)
+  const [defaultPerPage, setDefaultPerPage] = useState<number>(20);
   const [paginationPerPage, setPaginationPerPage] = useState(defaultPerPage);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('');
@@ -67,7 +67,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   }, [paginationPerPage]);
 
   useEffect(() => {
-    setPaginationPerPage(defaultPerPage)
+    setPaginationPerPage(defaultPerPage);
   }, [defaultPerPage]);
 
   const paginationClassNames = {
@@ -335,24 +335,32 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   return (
     <div className="w-full">
       <div className="flex justify-between">
-        <div className="text-[24px]">
-          Найдено тендеров: {allExecutorListLength}
-        </div>
+        <div className="text-[24px]">Найдено тендеров: {allExecutorListLength}</div>
         <div className="w-fit flex items-center gap-2">
-          <p className="">
-            Показывать на странице
-          </p>
-          <select className="outline-none" value={defaultPerPage} onChange={(event) => setDefaultPerPage(Number(event.target.value))}>
-            <option value={20}>
-              20
-            </option>
-            <option value={50}>
-              50
-            </option>
-            <option value={100}>
-              100
-            </option>
-          </select>
+          <p className="whitespace-nowrap">Показывать на странице</p>
+          <Select
+            aria-label="Показывать на странице"
+            defaultSelectedKeys={[20]}
+            onChange={(e) => {
+              console.log(Number(e.target.value));
+              setDefaultPerPage(Number(e.target.value));
+            }}
+            onOpenChange={(e) => {
+              console.log(e);
+            }}
+            classNames={{
+              mainWrapper:
+                'flex bg-red p-[5px] w-[70px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
+              trigger: 'flex justify-between p-0',
+              selectorIcon: 'z-10 relative data-[open]:rotate-180 duration-300 transition-all',
+              popoverContent:
+                'p-[5px] pt-[10px] ml-[-7px] mt-[-5px] w-[70px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
+            }}
+          >
+            <SelectItem key={20}>20</SelectItem>
+            <SelectItem key={50}>50</SelectItem>
+            <SelectItem key={100}>100</SelectItem>
+          </Select>
         </div>
       </div>
 
@@ -414,18 +422,18 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
 
       {allExecutorListLength > tenderList.length && (
         <div className="flex flex-col w-full pt-4 gap-2">
-          {paginationPerPage < allExecutorListLength &&
+          {paginationPerPage < allExecutorListLength && (
             <button
               onClick={() => {
-                setPaginationPage(1)
-                setPaginationPerPage((prev) => prev + defaultPerPage)
+                setPaginationPage(1);
+                setPaginationPerPage((prev) => prev + defaultPerPage);
               }}
               className={s.showMore}
             >
               Показать ещё
               <img src="/find-executor/arrow-down.svg" alt="" />
             </button>
-          }
+          )}
 
           <div className="flex items-center justify-center">
             {/* <button
@@ -452,7 +460,6 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
             </button> */}
           </div>
         </div>
-
       )}
     </div>
   );
