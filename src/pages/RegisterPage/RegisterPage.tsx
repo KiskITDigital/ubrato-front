@@ -1,15 +1,26 @@
-import { useFormik } from 'formik';
-import { ChangeEvent, FC, FormEvent, Ref, useEffect, useRef, useState } from 'react';
-import { RegisterFormValuesT } from '@/types/app';
-import { Checkbox, Input } from '@nextui-org/react';
-import { registerSchema } from '@/validation/registerSchema';
-import styles from './registerpage.module.css';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { Link, useNavigate } from 'react-router-dom';
-import { checkINN, registerUser } from '@/api';
-import { useIMask } from 'react-imask';
+import { useFormik } from "formik";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  Ref,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { RegisterFormValuesT } from "@/types/app";
+import { Checkbox, Input } from "@nextui-org/react";
+import { registerSchema } from "@/validation/registerSchema";
+import styles from "./registerpage.module.css";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { Link, useNavigate } from "react-router-dom";
+import { checkINN, registerUser } from "@/api";
+import { useIMask } from "react-imask";
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const RegisterPage: FC = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,14 +32,14 @@ export const RegisterPage: FC = () => {
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
 
   const initialValues: RegisterFormValuesT = {
-    inn: '',
-    email: '',
-    phone: '',
-    password: '',
-    repeatPassword: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
+    inn: "",
+    email: "",
+    phone: "",
+    password: "",
+    repeatPassword: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
     userAgreement: false,
     personalDataAgreement: false,
     personalDataPolicy: false,
@@ -55,18 +66,18 @@ export const RegisterPage: FC = () => {
         last_name: values.lastName,
         inn: values.inn,
         is_contractor: isContractor,
-        avatar: '',
+        avatar: "",
       };
       (async () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
 
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
             await fetchUser(token);
             if (!userInfoStore.error) {
-              navigate('/profile');
+              navigate("/profile");
             }
           }
         } catch (e) {
@@ -82,7 +93,7 @@ export const RegisterPage: FC = () => {
   });
 
   const [isContractor, setIsContractor] = useState(false);
-  const [companyName, setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState("");
   const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4>(1);
   // const [nameConfirm, setNameConfirm] = useState(false);
 
@@ -93,21 +104,21 @@ export const RegisterPage: FC = () => {
     label: `${styles.checkText} ${styles.infoText}`,
   };
 
-  const surnameRef = useRef<HTMLInputElement>(null)
+  const surnameRef = useRef<HTMLInputElement>(null);
 
   const scrollTosurnameRef = () => {
-    surnameRef.current!.scrollIntoView({ behavior: "smooth" })
+    surnameRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       const elementTop = surnameRef.current!.getBoundingClientRect().top;
       window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
-  }
+  };
 
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
+  const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
-      navigate('/profile');
+      navigate("/profile");
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
@@ -146,7 +157,7 @@ export const RegisterPage: FC = () => {
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
         <p className={`${styles.infoText} pt-[10px]`}>
-          Уже есть аккунт?{' '}
+          Уже есть аккунт?{" "}
           <Link className={styles.link} to="/login">
             Войти
           </Link>
@@ -160,7 +171,7 @@ export const RegisterPage: FC = () => {
             Вы заказчик
           </button>
           <button
-            className={`${styles.button} ${isContractor ? styles.active : ''}`}
+            className={`${styles.button} ${isContractor ? styles.active : ""}`}
             onClick={() => {
               setIsContractor(!isContractor);
             }}
@@ -171,15 +182,20 @@ export const RegisterPage: FC = () => {
         <div className={styles.questionsAboutRegistrationContainer}>
           <p className={styles.questionsAboutRegistration}>
             {isContractor
-              ? 'Если ваша компания выполняет заказы, то добавьте функционал исполнителя. Или выберите эту роль позже.'
-              : 'Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.'}
+              ? "Если ваша компания выполняет заказы, то добавьте функционал исполнителя. Или выберите эту роль позже."
+              : "Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры."}
           </p>
         </div>
-        <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
-          Есть вопросы по регистрации?{' '}
-          <Link to="/contacts#contact-form" state={{ isHelp: true, previousPage: location.pathname }} className={styles.link}>
+        <div
+          className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}
+        >
+          Есть вопросы по регистрации?{" "}
+          <span
+            className={`cursor-pointer underline underline-offset-4`}
+            onClick={() => setOpenModal(true)}
+          >
             Напишите телефон
-          </Link>{' '}
+          </span>{" "}
           и мы перезвоним
         </div>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
@@ -193,8 +209,8 @@ export const RegisterPage: FC = () => {
               value={formik.values.email}
               onChange={(e) => {
                 formik.handleChange(e);
-                if (e.target.value.endsWith(' ')) {
-                  formik.setErrors({ email: 'Некорректный e-mail' });
+                if (e.target.value.endsWith(" ")) {
+                  formik.setErrors({ email: "Некорректный e-mail" });
                 }
                 // console.log(e.target.value);
               }}
@@ -209,7 +225,7 @@ export const RegisterPage: FC = () => {
             <Input
               id="password"
               name="password"
-              type={isPasswordVisible ? 'text' : 'password'}
+              type={isPasswordVisible ? "text" : "password"}
               label="Пароль (не менее 6 знаков)"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -232,7 +248,7 @@ export const RegisterPage: FC = () => {
             <Input
               id="repeatPassword"
               name="repeatPassword"
-              type={isConfirmVisible ? 'text' : 'password'}
+              type={isConfirmVisible ? "text" : "password"}
               label="Пароль (не менее 6 знаков)"
               value={formik.values.repeatPassword}
               onChange={formik.handleChange}
@@ -251,9 +267,13 @@ export const RegisterPage: FC = () => {
               classNames={itemClasses}
             />
           </div>
-          {registrationStep > 1 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
           {registrationStep > 1 && (
-            <p className={`${styles.infoText} py-[10px] w-full max-w-full text-center`}>
+            <p className={styles.inputGrHeader}>Укажите данные компании</p>
+          )}
+          {registrationStep > 1 && (
+            <p
+              className={`${styles.infoText} py-[10px] w-full max-w-full text-center`}
+            >
               В настоящее время сервис Ubrato открыт для юридических лиц
             </p>
           )}
@@ -273,16 +293,18 @@ export const RegisterPage: FC = () => {
                   }
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
-                      const res = await checkINN(e.currentTarget.value).catch((e) => {
-                        console.log(e);
-                        return 'err';
-                      });
-                      if (res === 'Неверный ИНН') {
-                        formik.setErrors({ inn: 'Неверный ИНН' });
-                        setCompanyName('');
-                      } else if (res === 'err') {
-                        formik.setErrors({ inn: 'Что-то не так' });
-                        setCompanyName('');
+                      const res = await checkINN(e.currentTarget.value).catch(
+                        (e) => {
+                          console.log(e);
+                          return "err";
+                        }
+                      );
+                      if (res === "Неверный ИНН") {
+                        formik.setErrors({ inn: "Неверный ИНН" });
+                        setCompanyName("");
+                      } else if (res === "err") {
+                        formik.setErrors({ inn: "Что-то не так" });
+                        setCompanyName("");
                       } else {
                         setCompanyName(res);
                         if (registrationStep !== 4) {
@@ -306,7 +328,9 @@ export const RegisterPage: FC = () => {
                 <p className={`${styles.label} ${styles.companyText}`}>
                   Это название вашей компании?
                 </p>
-                <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
+                <p className={`${styles.label} ${styles.companyText}`}>
+                  Краткое название компании
+                </p>
                 <p className={styles.nameConfirm}>{companyName}</p>
                 <div className={styles.companyBtns}>
                   <button
@@ -315,7 +339,7 @@ export const RegisterPage: FC = () => {
                         if (registrationStep !== 4) {
                           scrollTosurnameRef();
                         }
-                      }, 5)
+                      }, 5);
                       setRegistrationStep(4);
                     }}
                     type="button"
@@ -326,11 +350,11 @@ export const RegisterPage: FC = () => {
                     type="button"
                     onClick={() => {
                       // setNameConfirm(false);
-                      formik.values.inn = '';
+                      formik.values.inn = "";
                       if (registrationStep !== 4) {
                         setRegistrationStep(2);
                       }
-                      setCompanyName('');
+                      setCompanyName("");
                     }}
                   >
                     Нет
@@ -416,8 +440,12 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Принимаю{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=2">
+                  Принимаю{" "}
+                  <Link
+                    target="_blank"
+                    className={styles.link}
+                    to="/rights?document=2"
+                  >
                     Пользовательское соглашение ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
@@ -431,8 +459,12 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Соглашаюсь с{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=1">
+                  Соглашаюсь с{" "}
+                  <Link
+                    target="_blank"
+                    className={styles.link}
+                    to="/rights?document=1"
+                  >
                     Политикой обработки персональных данных ООО «Интеграция»
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
@@ -446,8 +478,12 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Даю{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=3">
+                  Даю{" "}
+                  <Link
+                    target="_blank"
+                    className={styles.link}
+                    to="/rights?document=3"
+                  >
                     Согласие на обработку персональных данных
                   </Link>
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
@@ -467,6 +503,9 @@ export const RegisterPage: FC = () => {
           )}
         </form>
       </div>
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
     </div>
   );
 };
