@@ -13,11 +13,10 @@ export const OneTenderObject: FC<TenderObject> = ({ objectGroup, objectsTypes })
     <div className={style.block_main}>
       <p className={style.block_main_p}>Объект:</p>
       <div className={style.lineList}>
-        {' '}
         <div className={style.iconLine}>
-          <div className={style.IconBack}>
+          {/* <div className={style.IconBack}>
             <img className={style.icon} src="/tenderpics/building.svg" alt="" />
-          </div>{' '}
+          </div> */}
           <p>
             {objectGroup} <span>{'>'}</span>
           </p>

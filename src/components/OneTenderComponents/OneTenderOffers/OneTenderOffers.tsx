@@ -17,17 +17,17 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
               className="flex gap-3 items-center"
               key={"category-" + categoryIndex}
             >
-              <div className="flex gap-3 items-center">
-                <div className="flex items-center justify-center size-10 min-w-10 rounded-[10px] bg-accent/20">
+              <div className="flex gap-3 items-center text-[18px]">
+                {/* <div className="flex items-center justify-center size-10 min-w-10 rounded-[10px] bg-accent/20">
                   <img
                     className="min-w-6 size-6"
                     src="/tenderpics/cleaning_bucket.svg"
                     alt=""
                   />
-                </div>
-                <span>{category.name}</span>
+                </div> */}
+                <p>{category.name}</p>
+                {">"}
               </div>
-              {">"}
               <div className="flex flex-wrap w-full">
                 {category.services.map((service, serviceIndex) => (
                   <Fragment key={"service-" + categoryIndex}>
