@@ -88,6 +88,7 @@ export default function ContactModal({ onClose }: { onClose?: () => void }) {
         name="question"
         type="text"
         maxLength={1000}
+        placeholder="Напишите ваш вопрос"
         label="Какой вопрос у вас возник?"
         value={formik.values.question}
         onChange={formik.handleChange}
