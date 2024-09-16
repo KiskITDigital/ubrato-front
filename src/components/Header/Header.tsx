@@ -7,7 +7,7 @@ import { useIsOrdererState } from '@/store/isOrdererStore';
 import { Notifications } from '..';
 import { updateToken } from '@/api';
 import { CityModal } from '../CityModal/CityModal';
-import axios from "axios";
+import axios from 'axios';
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -23,7 +23,7 @@ export const Header: FC = () => {
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
   const [confirm, setConfirm] = useState<boolean>(false);
   const [city, setCity] = useState<string | undefined>('');
-  const [geolocation, setGeolocation] = useState<{ lat: number, lon: number }>()
+  const [geolocation, setGeolocation] = useState<{ lat: number; lon: number }>();
 
   const handleConfirm = () => {
     if (city) {
@@ -61,28 +61,34 @@ export const Header: FC = () => {
     }
 
     if (localStorage.getItem('city')) {
-      setCity(localStorage.getItem('city') || "")
-      setConfirm(true)
+      setCity(localStorage.getItem('city') || '');
+      setConfirm(true);
     } else {
       navigator.geolocation.getCurrentPosition((position) => {
-        setGeolocation({ lat: position.coords.latitude, lon: position.coords.longitude })
-      })
+        setGeolocation({ lat: position.coords.latitude, lon: position.coords.longitude });
+      });
     }
   }, []);
 
   useEffect(() => {
     if (geolocation)
-      axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${geolocation.lat}&lon=${geolocation.lon}&format=json`, {
-        withCredentials: false
-      }).then(response => {
-        if (response.data?.address?.city)
-          setCity(response.data?.address?.city)
-      })
+      axios
+        .get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${geolocation.lat}&lon=${geolocation.lon}&format=json`,
+          {
+            withCredentials: false,
+          }
+        )
+        .then((response) => {
+          if (response.data?.address?.city) setCity(response.data?.address?.city);
+        });
   }, [geolocation]);
 
   return (
     <header className={`${styles.container}`}>
-      {isCityModalOpen && <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpen} />}
+      {isCityModalOpen && (
+        <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpen} />
+      )}
       {!!widthR.current && isMenuOpen && (
         <div
           onClick={() => {
@@ -115,7 +121,11 @@ export const Header: FC = () => {
             ''
           )}
           <Link to="/">
-            <img className={styles.logo} src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'} alt="logo" />
+            <img
+              className={styles.logo}
+              src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'}
+              alt="logo"
+            />
           </Link>
           <div className={styles.headerTopLinks}>
             <Link to="/about">
@@ -125,11 +135,14 @@ export const Header: FC = () => {
               <p className={styles.text}>8 800-775-67-57</p>
             </a>
             <div className={styles.location}>
-              <img src="/location.svg" alt="location" className="cursor-pointer" onClick={() => setIsCityModalOpen(true)} />
-              <p className={styles.locationText}
-                onClick={() => setConfirm(false)}
-              >
-                {city ? city : "Указать"}
+              <img
+                src="/location.svg"
+                alt="location"
+                className="cursor-pointer"
+                onClick={() => setIsCityModalOpen(true)}
+              />
+              <p className={styles.locationText} onClick={() => setConfirm(false)}>
+                {city ? city : 'Указать'}
               </p>
               {!confirm && city && (
                 <div className={styles.cityConfirm}>
@@ -139,6 +152,7 @@ export const Header: FC = () => {
                     <button
                       onClick={() => {
                         document.body.style.overflow = 'hidden';
+                        setConfirm(true);
                         setIsCityModalOpen(true);
                       }}
                     >
@@ -220,4 +234,4 @@ export const Header: FC = () => {
       </div>
     </header>
   );
-}
+};
