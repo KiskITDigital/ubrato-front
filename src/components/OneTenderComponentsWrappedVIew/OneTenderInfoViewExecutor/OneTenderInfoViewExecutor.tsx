@@ -16,10 +16,10 @@ interface tenderProps {
   dataTender: dataObjectTypes
 }
 
-type Category = {
+export type Category = {
   name: string
   services: string[]
-}[]
+}
 
 export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
 
@@ -39,7 +39,7 @@ export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
       <OneTenderCity city={dataTender.location} />
       <OneTenderObject objectGroup={dataTender.object_group} objectsTypes={dataTender.objects_types} />
       <OneTenderArea area={dataTender.floor_space} />
-      <OneTenderOffers servicesGroups={dataTender.services_groups} servicesTypes={dataTender.services_types} />
+      <OneTenderOffers categories={dataTender.categories} />
       <OneTenderDescription description={dataTender.description} />
       <OneTenderWishes wishes={dataTender.wishes} />
       <OneTenderAttachments attachment={dataTender.attachments} />

@@ -1,6 +1,6 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
-import { OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
+import { Category, OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 import { FC, ReactNode, useEffect, useState, } from 'react';
 import { useSwitchStore } from '@/store/switchStore';
 import { fetchProduct } from '@/api/getTender';
@@ -17,8 +17,7 @@ export interface dataObjectTypes {
   objects_types: string[],
   location: string,
   floor_space: number,
-  services_groups: string[]
-  services_types: string[],
+  categories: Category[]
   description: string,
   wishes: string,
   attachments: string[],
@@ -46,8 +45,7 @@ export const OneTenderPageExecutor: FC = () => {
     objects_types: [],
     location: '',
     floor_space: 0,
-    services_groups: [],
-    services_types: [],
+    categories: [],
     description: '',
     wishes: '',
     attachments: [],
