@@ -1,8 +1,12 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.module.css';
 import { Link } from 'react-router-dom';
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const HowToRegister: FC = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false)
+
   return (
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
@@ -45,11 +49,14 @@ export const HowToRegister: FC = () => {
       </div>
       <p className={`${qstyles.text}`}>
         Остались вопросы?{' '}
-        <Link to="/contacts#contact-form" state={{ previousPage: location.pathname }} className={`${qstyles.link}`}>
+        <span className={`${qstyles.link} cursor-pointer`} onClick={() => setOpenModal(true)}>
           Напишите телефон
-        </Link>{' '}
+        </span>{' '}
         и мы перезвоним.
       </p>
-    </div >
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
+    </div>
   );
 };

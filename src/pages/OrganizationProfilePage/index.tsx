@@ -110,9 +110,9 @@ const OrganizationProfilePage: FC = () => {
                                 !!data.executor.description && <Description text={data.executor.description} />
                             )}
                             {'orderer' in data ? (
-                                !!data.orderer.locations.length && <Locations status="orderer" loactions={data.orderer.locations} />
+                                !!data.orderer.locations.length && <Locations status="orderer" locations={data.orderer.locations} />
                             ) : (
-                                !!data.executor.locations.length && <Locations status="executor" loactions={data.executor.locations} />
+                                !!data.executor.locations.length && <Locations status="executor" locations={data.executor.locations} />
                             )}
                             {'executor' in data && (<>
                                 {!!data.executor.services.length && <Services services={data.executor.services} />}

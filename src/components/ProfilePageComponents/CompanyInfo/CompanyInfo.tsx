@@ -6,6 +6,8 @@ import { contacntsT, orgInfoT, putBrandContacts, putBrandData } from '@/api/prof
 import { Avatar, Checkbox } from '@nextui-org/react';
 import { InputPhone } from '../inputPhone/InputPhone';
 import { InputContact } from '../InputContact/InputContact';
+import Modal from '@/components/Modal';
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const CompanyInfo: FC = () => {
   const [companyInfo, setCompanyInfo] = useState<orgInfoT>();
@@ -120,6 +122,8 @@ export const CompanyInfo: FC = () => {
       };
     })();
   }, []);
+
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   return (
     <div className={styles.container}>
@@ -389,9 +393,9 @@ export const CompanyInfo: FC = () => {
             Данные компании получены из Единого государственного реестра юридических лиц
             автоматически на основе идентификационного номера налогоплательщика. Если вы заметили
             ошибку,{' '}
-            <Link to="help" className="underline">
+            <span className="underline cursor-pointer" onClick={() => setOpenModal(true)}>
               свяжитесь
-            </Link>{' '}
+            </span>{' '}
             с администрацией Ubrato.
           </p>
         </div>
@@ -412,6 +416,9 @@ export const CompanyInfo: FC = () => {
           <p className={`${styles.rowData} w-[222px]`}>{companyInfo?.tax_code}</p>
         </div>
       </div>
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
     </div>
   );
 };

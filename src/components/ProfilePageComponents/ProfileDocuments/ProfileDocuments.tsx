@@ -5,6 +5,8 @@ import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
 import { Checkbox } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import { verifyUser } from "@/api/verification";
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
@@ -49,6 +51,8 @@ export const ProfileDocuments: FC = () => {
       setDisabled(false)
     })
   }
+
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   return (
     <div className={styles.container}>
@@ -103,12 +107,15 @@ export const ProfileDocuments: FC = () => {
         </button>
         <p className={styles.help}>Есть вопросы по верификации?</p>
         <p className={styles.help}>
-          <Link to="../help" className={styles.link}>
+          <span className={styles.link} onClick={() => setOpenModal(true)}>
             Напишите
-          </Link>{' '}
+          </span>{' '}
           телефон и мы перезвоним.
         </p>
       </div>
+      <Modal isOpen={openModal}>
+        <ContactModal onClose={() => setOpenModal(false)} />
+      </Modal>
     </div>
   );
 };

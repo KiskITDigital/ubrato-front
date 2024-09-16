@@ -13,7 +13,6 @@ import { getAllFavoriteTenders } from "@/api/favouriteTenders";
 import { useUserInfoStore } from "@/store/userInfoStore";
 
 
-
 interface TenderList {
   id: string;
   name: string;
@@ -24,24 +23,23 @@ interface TenderList {
   city: string;
 }
 
-
-
 interface SortingOption {
   label: string;
   field: string;
 }
 
-
 interface myTenderToggle {
   myTender: boolean;
 }
+
+const DEFAULT_PER_PAGE = 15
 
 export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
   const findExecutorState = useFindExecutorState();
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(0);
   const [paginationPage, setPaginationPage] = useState(1);
-  const [paginationPerPage, setPaginationPerPage] = useState(5);
+  const [paginationPerPage, setPaginationPerPage] = useState(DEFAULT_PER_PAGE);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState("");
   const [meData, setMe] = useState<string | null>();
@@ -200,7 +198,7 @@ export const FavouriteTendersList: FC<myTenderToggle> = ({ myTender }) => {
           <button
             onClick={() => {
               setPaginationPage(1)
-              setPaginationPerPage((prev) => prev + 2)
+              setPaginationPerPage((prev) => prev + DEFAULT_PER_PAGE)
             }}
             className={s.showMore}
           >

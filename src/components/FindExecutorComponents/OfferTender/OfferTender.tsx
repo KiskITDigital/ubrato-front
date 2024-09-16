@@ -22,7 +22,7 @@ const OfferTender: FC<{
 
     useEffect(() => {
         (async () => {
-            const hits = await generateTypesenseClient("tender_index", { per_page: 5, sort_by: "created_at:desc", filter_by: `user_id:=${userInfoState.user.id}` })
+            const hits = await generateTypesenseClient("tender_index", { per_page: 15, sort_by: "created_at:desc", filter_by: `user_id:=${userInfoState.user.id}` })
             const token = localStorage.getItem('token');
             if (!token) return;
             const tenderListPromises = hits?.map(async (hit) => {
