@@ -18,6 +18,7 @@ import { checkINN, registerUser } from "@/api";
 import { useIMask } from "react-imask";
 import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
+import toast, { Toaster } from "react-hot-toast";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -72,7 +73,6 @@ export const RegisterPage: FC = () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
-
           const token = localStorage.getItem("token");
           if (token) {
             await fetchUser(token);
@@ -80,8 +80,10 @@ export const RegisterPage: FC = () => {
               navigate("/profile");
             }
           }
-        } catch (e) {
-          // console.log(e);
+        } catch (error: any) {
+          toast.error(
+            `${error.response.data.msg}\n${error.response.data.id}`
+          );
         } finally {
           setIsLoading(false);
         }
@@ -154,6 +156,7 @@ export const RegisterPage: FC = () => {
 
   return (
     <div className={`container ${styles.container}`}>
+      <Toaster position="bottom-right" gutter={8} />
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
         <p className={`${styles.infoText} pt-[10px]`}>
