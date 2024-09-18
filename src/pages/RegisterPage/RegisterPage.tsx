@@ -18,6 +18,7 @@ import { checkINN, registerUser } from "@/api";
 import { useIMask } from "react-imask";
 import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
+import toast, { Toaster } from "react-hot-toast";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -72,7 +73,6 @@ export const RegisterPage: FC = () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
-
           const token = localStorage.getItem("token");
           if (token) {
             await fetchUser(token);
@@ -80,8 +80,8 @@ export const RegisterPage: FC = () => {
               navigate("/profile");
             }
           }
-        } catch (e) {
-          // console.log(e);
+        } catch (error: any) {
+          toast.error(`${error.response.data.msg}\n${error.response.data.id}`);
         } finally {
           setIsLoading(false);
         }
@@ -154,6 +154,7 @@ export const RegisterPage: FC = () => {
 
   return (
     <div className={`container ${styles.container}`}>
+      <Toaster position="bottom-right" gutter={8} />
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
         <p className={`${styles.infoText} pt-[10px]`}>
@@ -293,23 +294,12 @@ export const RegisterPage: FC = () => {
                   }
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
-                      const res = await checkINN(e.currentTarget.value).catch(
-                        (e) => {
-                          console.log(e);
-                          return "err";
-                        }
-                      );
-                      if (res === "Неверный ИНН") {
-                        formik.setErrors({ inn: "Неверный ИНН" });
-                        setCompanyName("");
-                      } else if (res === "err") {
-                        formik.setErrors({ inn: "Что-то не так" });
-                        setCompanyName("");
+                      const res = await checkINN(e.currentTarget.value);
+                      if (res.data.length > 0) {
+                        setCompanyName(res.data);
+                        if (registrationStep !== 4) setRegistrationStep(3);
                       } else {
-                        setCompanyName(res);
-                        if (registrationStep !== 4) {
-                          setRegistrationStep(3);
-                        }
+                        toast.error("Неверный ИНН");
                       }
                     })();
                   }
