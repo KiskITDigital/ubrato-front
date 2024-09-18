@@ -81,9 +81,7 @@ export const RegisterPage: FC = () => {
             }
           }
         } catch (error: any) {
-          toast.error(
-            `${error.response.data.msg}\n${error.response.data.id}`
-          );
+          toast.error(`${error.response.data.msg}\n${error.response.data.id}`);
         } finally {
           setIsLoading(false);
         }
@@ -296,23 +294,12 @@ export const RegisterPage: FC = () => {
                   }
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
-                      const res = await checkINN(e.currentTarget.value).catch(
-                        (e) => {
-                          console.log(e);
-                          return "err";
-                        }
-                      );
-                      if (res === "Неверный ИНН") {
-                        formik.setErrors({ inn: "Неверный ИНН" });
-                        setCompanyName("");
-                      } else if (res === "err") {
-                        formik.setErrors({ inn: "Что-то не так" });
-                        setCompanyName("");
+                      const res = await checkINN(e.currentTarget.value);
+                      if (res.data.length > 0) {
+                        setCompanyName(res.data);
+                        if (registrationStep !== 4) setRegistrationStep(3);
                       } else {
-                        setCompanyName(res);
-                        if (registrationStep !== 4) {
-                          setRegistrationStep(3);
-                        }
+                        toast.error("Неверный ИНН");
                       }
                     })();
                   }
