@@ -40,7 +40,10 @@ export const Footer: FC = () => {
             <Link to="/profile" className={styles.registrationLink}>
               <p className={styles.registrationText}>Личный кабинет</p>
             </Link>
-            <button className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]" onClick={handleLogOut}>
+            <button
+              className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]"
+              onClick={handleLogOut}
+            >
               Выйти
             </button>
           </div>
@@ -53,18 +56,26 @@ export const Footer: FC = () => {
             {/* {userInfoStorage.user} */}
             {!userInfoStorage.isLoggedIn && (
               <li>
-                <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
+                <Link
+                  to="/register"
+                  onClick={() => ordererState.handleState('contractor')}
+                  state={{ toReload: null }}
+                >
                   <p className={styles.point}>Стать заказчиком</p>
                 </Link>
-              </li>)
-            }
+              </li>
+            )}
             {(!userInfoStorage.user || !userInfoStorage.user.is_contractor) && (
               <li>
-                <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
+                <Link
+                  to={`${userInfoStorage.isLoggedIn ? '/profile/become-contractor' : 'register'}`}
+                  onClick={() => ordererState.handleState('contractor')}
+                  state={{ toReload: null }}
+                >
                   <p className={styles.point}>Стать исполнителем</p>
                 </Link>
-              </li>)
-            }
+              </li>
+            )}
             <li>
               <Link to="/create-tender">
                 <p className={styles.point}>Создать тендер</p>
@@ -86,17 +97,25 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Информация</p>
           <ul>
             <li>
-              <Link to="/" state={{ to: "catalog" }}>
+              <Link to="/" state={{ to: 'catalog' }}>
                 <p className={styles.point}>Каталог</p>
               </Link>
             </li>
             <li>
-              <Link to="/about" onClick={() => ordererState.handleState('orderer')} state={{ toReload: null }}>
+              <Link
+                to="/about"
+                onClick={() => ordererState.handleState('orderer')}
+                state={{ toReload: null }}
+              >
                 <p className={styles.point}>Заказчикам</p>
               </Link>
             </li>
             <li>
-              <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
+              <Link
+                to="/about"
+                onClick={() => ordererState.handleState('contractor')}
+                state={{ toReload: null }}
+              >
                 <p className={styles.point}>Исполнителям</p>
               </Link>
             </li>
@@ -106,7 +125,7 @@ export const Footer: FC = () => {
               </Link>
             </li> */}
             <li>
-              <Link to="/" state={{ to: "questions" }}>
+              <Link to="/" state={{ to: 'questions' }}>
                 <p className={styles.point}>Частые вопросы</p>
               </Link>
             </li>
@@ -136,7 +155,10 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <a target="_blank" href='https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15'>
+              <a
+                target="_blank"
+                href="https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15"
+              >
                 <p className={styles.point}>Карта сайта</p>
               </a>
             </li>
@@ -151,7 +173,7 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Служба поддержки</p>
           <ul>
             <li>
-              <a className={styles.bluetext} href='tel:88007756757'>
+              <a className={styles.bluetext} href="tel:88007756757">
                 8 800-775-67-57
               </a>
               <p className={styles.pointtwo}>Время работы с 9:00 до 21:00 по Московскому времени</p>

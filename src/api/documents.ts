@@ -32,16 +32,20 @@ export const fetchUserDocs = async (token: string) => {
   );
   // console.log(res.data)
   return res.data;
-
 };
 
 export const fetchPrivateFile = async (token: string, link: string) => {
-  await axiosInstanceStore.get(`/s3${link}`, {
+  const res = await axiosInstanceStore.get(`/s3${link}`, {
     headers: {
       authorization: `Bearer ${token}`,
     },
+    responseType: 'arraybuffer',
   });
-  // console.log(res);
+  const data = new Uint8Array(res.data);
+  let binary = '';
+  data.forEach((e) => (binary += String.fromCharCode(e)));
+
+  return btoa(binary);
 };
 
 export const fetchPrivateFileInfo = async (token: string, link: string) => {
@@ -76,5 +80,5 @@ export const handleFileDelete = async (token: string, id: string) => {
     },
   });
   // console.log(res);
-  return res
+  return res;
 };
