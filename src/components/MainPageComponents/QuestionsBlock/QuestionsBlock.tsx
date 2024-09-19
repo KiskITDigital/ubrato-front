@@ -21,7 +21,7 @@ export const QuestionsBlock: FC = () => {
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
 
   const itemClasses = {
-    base: `${styles.accordionItem}`,
+    base: styles.accordionItem,
     title: styles.accordionTitle,
     heading: styles.accordionHeading,
     indicator: styles.accordionIndicator,
@@ -33,7 +33,7 @@ export const QuestionsBlock: FC = () => {
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
@@ -142,10 +142,10 @@ export const QuestionsBlock: FC = () => {
             if (e instanceof Set) {
               if (e.size != 0) {
                 setQuestionNumber(Array.from(e)[1].toString());
-                navigate(`#q${pageNumber}_${Array.from(e)[1].toString()}`)
+                navigate(`#q${pageNumber}_${Array.from(e)[1].toString()}`);
               } else {
                 setQuestionNumber('0');
-                navigate('#faq-default')
+                navigate('#faq-default');
               }
             }
           }}

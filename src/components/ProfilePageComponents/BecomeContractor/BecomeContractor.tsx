@@ -36,7 +36,7 @@ export const BecomeContractor: FC = () => {
         </p>
         <p className="text-base mt-[15px]">
           Проверьте актуальность документов компании в разделе “
-          <Link className="text-accent" to="/docs">
+          <Link className="text-accent" to="../documents">
             Документы
           </Link>
           ”. При необходимости заново загрузите выписку из ЕГРЮЛ, приказ о назначении генерального
