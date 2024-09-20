@@ -131,6 +131,7 @@ const ContactsPage: FC = () => {
             name="question"
             type="text"
             maxLength={1000}
+            placeholder="Напишите ваш вопрос"
             label="Какой вопрос у вас возник?"
             value={formik.values.question}
             onChange={formik.handleChange}
