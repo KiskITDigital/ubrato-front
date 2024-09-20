@@ -30,7 +30,7 @@ export const BecomeContractor: FC = () => {
         <p className="text-base ">
           Чтобы зарегистрировать компанию в роли исполнителя, необходимо наличие действующего
           юридического лица с видом деятельности, относящемся к клинингу или к смежным услугам.{' '}
-          <Link className="text-accent" to="/#q3_1">
+          <Link className="text-accent" to="/faq?page=2&number=1#q2_1">
             Узнать подробнее.
           </Link>
         </p>
