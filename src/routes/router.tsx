@@ -57,7 +57,10 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="tenders" element={<MyTendersPage />}></Route>
+          <Route path="tenders" element={<MyTendersPage />}>
+            <Route path="contractor" element={<MyTendersPage />} />
+            <Route path="orderer" element={<MyTendersPage />} />
+          </Route>
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />

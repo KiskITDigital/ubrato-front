@@ -296,7 +296,7 @@ export const RegisterPage: FC = () => {
                     (async () => {
                       const res = await checkINN(e.currentTarget.value);
                       if (res.data.length > 0) {
-                        setCompanyName(res.data);
+                        setCompanyName(res.data[0].name);
                         if (registrationStep !== 4) setRegistrationStep(3);
                       } else {
                         toast.error("Неверный ИНН");
