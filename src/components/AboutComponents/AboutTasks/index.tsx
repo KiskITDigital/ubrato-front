@@ -75,16 +75,23 @@ export const AboutTasks: FC = () => {
         </div>
       )}
 
-      {ordererState.role === 'contractor' && (<div className={styles.develop_container}>
-        <h2 className={styles.develop_header}>
-          <span className={styles.blueText}>Ubrato</span> поможет
-        </h2>
-        <div className={styles.develop_list}>
-          <div className={styles.list_elem}><img src="./person.png" alt="" /> <p>Найти новых клиентов</p></div>
-          <div className={styles.list_elem}><img src="./likes.png" alt="" /> <p>Заработать репутацию надёжного партнёра</p></div>
-          <div className={styles.list_elem}><img src="./graphs.png" alt="" /> <p>Сравнить себя с конкурентами</p></div>
+      {ordererState.role === 'contractor' && (
+        <div className={styles.develop_container}>
+          <h2 className={styles.develop_header}>
+            <span className={styles.blueText}>Ubrato</span> поможет
+          </h2>
+          <div className={styles.develop_list}>
+            <div className={styles.list_elem}>
+              <img src="./person.png" alt="" /> <p>Найти новых клиентов</p>
+            </div>
+            <div className={styles.list_elem}>
+              <img src="./likes.png" alt="" /> <p>Заработать репутацию надёжного партнёра</p>
+            </div>
+            <div className={styles.list_elem}>
+              <img src="./graphs.png" alt="" /> <p>Сравнить себя с конкурентами</p>
+            </div>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
