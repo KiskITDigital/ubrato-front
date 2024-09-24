@@ -29,7 +29,7 @@ export const CityModal: FC<{
   useEffect(() => {
     getCities('').then((response) => {
       console.log(citiesArr);
-      setCitiesArr(response.data);
+      // setCitiesArr(response.data);
       setIsListOpen(true);
     });
   }, []);
