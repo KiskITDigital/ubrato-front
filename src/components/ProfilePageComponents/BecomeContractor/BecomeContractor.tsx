@@ -66,7 +66,7 @@ export const BecomeContractor: FC = () => {
           <p className="bg-light-gray text-base py-3 px-[14px] mt-[20px] rounded-[14px] flex gap-[10px]">
             <img src="/info-blue-ic.svg" alt="" />
             Сейчас ваша заявка на статус исполнителя находится на модерации, решение по вашей заявке
-            придет вам в раздел уведомления!
+            придет вам в раздел “Уведомления”!
           </p>
           <div className="flex gap-4 self-center mt-[20px]">
             <Link
