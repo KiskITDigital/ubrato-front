@@ -135,17 +135,22 @@ export const Header: FC = () => {
               <p className={styles.text}>8 800-775-67-57</p>
             </a>
             <div className={styles.location}>
-              <img
-                src="/location.svg"
-                alt="location"
-                className="cursor-pointer"
-                onClick={() => setIsCityModalOpen(true)}
-              />
-              <p className={styles.locationText} onClick={() => setConfirm(false)}>
-                {city ? city : 'Указать'}
-              </p>
+              <div
+                className="flex gap-[6px] items-center"
+                onClick={() => {
+                  if (!city) {
+                    setIsCityModalOpen(true);
+                  } else {
+                    setConfirm(false);
+                  }
+                }}
+              >
+                <img src="/location.svg" alt="location" className="cursor-pointer" />
+                <p className={styles.locationText}>{city ? city : 'Указать'}</p>
+              </div>
+
               {!confirm && city && (
-                <div className={styles.cityConfirm}>
+                <div className={`${styles.cityConfirm}`}>
                   <p>Ваш город {city}?</p>
                   <div>
                     <button onClick={() => handleConfirm()}>Да</button>
