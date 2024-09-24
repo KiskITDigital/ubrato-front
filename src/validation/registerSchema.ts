@@ -2,7 +2,7 @@ import { AnySchema, boolean, object, ref, string } from 'yup';
 import { RegisterFormValuesT } from '../types/app';
 
 export const registerSchema = object().shape<Record<keyof RegisterFormValuesT, AnySchema>>({
-  inn: string().length(10, 'ИНН должен состоять из 10 символов').required('ИНН обязательно!'),
+  inn: string().length(10, 'ИНН должен состоять из 10 символов').required('Введите ИНН'),
   email: string()
     .matches(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
