@@ -160,6 +160,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     newVal: string | boolean | Date,
     mask?: (value: string) => string
   ) => {
+    console.log(newVal)
     set((state) => ({
       ...state,
       [whatToChange]: mask && typeof newVal === 'string' ? mask(newVal) : newVal,

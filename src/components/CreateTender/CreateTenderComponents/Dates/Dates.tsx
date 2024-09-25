@@ -24,7 +24,7 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
   const [calendar1, setCalendar1] = useState(false);
   const [calendar2, setCalendar2] = useState(false);
 
-  const { ref, value, setValue } = useIMask({
+  const { ref, value, setValue, unmaskedValue } = useIMask({
     mask: Number,
     min: 0.01,
     max: 9999999999.99,
@@ -33,6 +33,10 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     radix: ',',
     mapToRadix: ['.'],
   });
+
+  useEffect(() => {
+    createTenderState.handleSimpleInput('price', unmaskedValue);
+  }, [unmaskedValue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -164,12 +168,11 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
               }}
               value={value}
               onChange={(e) => {
-                if (/^0\d+/.test(e.currentTarget.value)) {
+                if (/^0\d+/.test(e.target.value)) {
                   setValue(value.slice(1));
                 } else {
-                  setValue(e.currentTarget.value);
+                  setValue(e.target.value);
                 }
-                createTenderState.handleSimpleInput('price', e.currentTarget.value);
               }}
               className={`${styles.input} ${styles.firstSections__div__main__block__input} ${
                 createTenderState.errors.includes('price') && !createTenderState.is_contract_price
