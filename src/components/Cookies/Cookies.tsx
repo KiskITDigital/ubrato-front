@@ -32,8 +32,7 @@ export const Cookies: FC = () => {
             <Link target="_blank" className="text-accent underline" to="./rights?document=1">
               Политикой в отношении обработки персональных данных.
             </Link>{' '}
-            Вы можете запретить сохранение cookie в настройках своего браузера. Сайт использует
-            файлы cookie.
+            Вы можете запретить сохранение cookie в настройках своего браузера.
           </p>
         </div>
         <button
