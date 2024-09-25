@@ -80,6 +80,7 @@ const SettingsPage: FC = () => {
 
   const handlePassword = async (newVal: string) => {
     setPassword(newVal);
+    setPassword(newVal);
     // if (password.length > 0 && password.length < 6) setPasswordError("Пароль слишком короткий")
     // else setPasswordError("")
     if (newVal.length > 0) {
@@ -91,7 +92,7 @@ const SettingsPage: FC = () => {
           if (e.response?.status === 401) {
             setPasswordError('Пароль некорректен');
           } else {
-            setErrorMsg('Что-то пошло не так');
+            setErrorMsg("Что-то пошло не так");
           }
         }
       }
@@ -179,7 +180,9 @@ const SettingsPage: FC = () => {
       <p className={styles.title}>Настройки аккаунта</p>
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Статус</p>
-        <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
+        <div
+          className={`${styles.section__container} ${styles.section__containerStatus}`}
+        >
           {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
           <p
             className={`${styles.status} ${
@@ -230,14 +233,14 @@ const SettingsPage: FC = () => {
               placeholder="Электронная почта"
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg('');
+                setErrorMsg("");
               }}
             />
           </div>
           <div className={styles.inputBlock}>
             <p className={styles.inputBlock__name}>Пароль</p>
             <Input
-              type={isPasswordVisible ? 'text' : 'password'}
+              type={isPasswordVisible ? "text" : "password"}
               maxLength={250}
               value={password}
               onChange={(e) => handlePassword(e.currentTarget.value)}
@@ -253,7 +256,7 @@ const SettingsPage: FC = () => {
               }
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg('');
+                setErrorMsg("");
               }}
             />
             {passwordError !== 'allowed' &&
