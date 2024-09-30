@@ -164,7 +164,7 @@ export const Footer: FC = () => {
             </li>
             <li>
               <Link target="_blank" to="/rights?document=1">
-                <p className={styles.point}>Правовая информация</p>
+                <p className={styles.point}>Документы Ubrato</p>
               </Link>
             </li>
           </ul>
@@ -188,14 +188,24 @@ export const Footer: FC = () => {
         </div>
       </div>
       <div className={styles.line}>
-        <Link target="_blank" to="/rights?document=1">
-          <p className={styles.confidental}>Политика обработки персональных данных</p>
-        </Link>
-        <Link target="_blank" to="/rights?document=2">
+        <Link target="_blank" to="/rights">
           <p className={styles.confidental}>Пользовательское соглашение</p>
         </Link>
-        <Link target="_blank" to="/rights?document=3">
+        <Link target="_blank" to="/rights?document=1">
+          <p className={styles.confidental}>Политика в отношении обработки персональных данных</p>
+        </Link>
+        <Link target="_blank" to="/rights">
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
+        </Link>
+        <Link target="_blank" to="/rights">
+          <p className={styles.confidental}>
+            Оферта для исполнителей, намеренных учавствовать в тендерах
+          </p>
+        </Link>
+        <Link target="_blank" to="/rights">
+          <p className={styles.confidental}>
+            Оферта для заказчиков, намеренных учавсвовать в тендерах
+          </p>
         </Link>
       </div>
       <div className={styles.last}>
