@@ -36,7 +36,7 @@ const DateRangePickerLocal: FC<{
         errorMessage: styles["error-message"],
         gridBodyRow: styles["grid-body-row"],
         gridBody: styles["grid-body"],
-        header: styles["header"]
+        header: styles["header"],
     };
 
     useEffect(() => {
