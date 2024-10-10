@@ -36,7 +36,7 @@ export const AboutServicePage: FC = () => {
       <section className="flex flex-col w-full items-center">
         <div className="max-w-[1130px] w-full flex flex-col gap-10 text-center">
           <h2 className="font-bold text-[46px]">Присоединяйтесь к <span className="text-accent">Ubrato!</span></h2>
-          <p className="text-2xl">Еще не зарегистрированы? <Link className="text-accent underline" to="/registration">Зарегистрироваться</Link></p>
+          <p className="text-2xl">Еще не зарегистрированы? <Link className="text-accent underline" to="/register">Зарегистрироваться</Link></p>
         </div>
       </section>
     </div>
