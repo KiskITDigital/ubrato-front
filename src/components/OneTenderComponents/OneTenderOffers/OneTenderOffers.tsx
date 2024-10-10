@@ -17,7 +17,7 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
               className="flex gap-3 items-center"
               key={"category-" + categoryIndex}
             >
-              <div className="flex gap-3 items-center text-[18px]">
+              <div className="flex gap-3 items-center text-[18px] text-nowrap">
                 {/* <div className="flex items-center justify-center size-10 min-w-10 rounded-[10px] bg-accent/20">
                   <img
                     className="min-w-6 size-6"
@@ -25,16 +25,15 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
                     alt=""
                   />
                 </div> */}
-                <p>{category.name}</p>
+                <p className="">{category.name}</p>
                 {">"}
               </div>
-              <div className="flex flex-wrap w-full">
+              <div className="flex flex-wrap w-full gap-2">
                 {category.services.map((service, serviceIndex) => (
                   <Fragment key={"service-" + categoryIndex}>
                     <p className="bg-slate-100 rounded-md px-3 py-1">
                       {service}
                     </p>
-                    <span className="last:hidden pr-1">,</span>
                   </Fragment>
                 ))}
               </div>

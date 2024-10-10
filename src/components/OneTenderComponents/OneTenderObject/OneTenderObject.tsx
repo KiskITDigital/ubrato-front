@@ -21,11 +21,13 @@ export const OneTenderObject: FC<TenderObject> = ({ objectGroup, objectsTypes })
             {objectGroup} <span>{'>'}</span>
           </p>
         </div>
+        <div className="flex flex-wrap w-full gap-2">
         {objectsTypes?.map((obj, index) =>
-          <p className="bg-slate-100 rounded-md px-3 py-1" key={index}>
+          <p className="bg-slate-100 rounded-md px-3 py-1" key={"object-" + index}>
             {obj}
           </p>
         )}
+        </div>
       </div>
     </div>
   );
