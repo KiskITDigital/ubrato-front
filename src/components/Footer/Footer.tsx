@@ -176,7 +176,7 @@ export const Footer: FC = () => {
               <a className={styles.bluetext} href="tel:88007756757">
                 8 800-775-67-57
               </a>
-              <p className={styles.pointtwo}>Время работы с 9:00 до 21:00 по Московскому времени</p>
+              <p className={styles.pointtwo}>Время работы с 9:00 до 18:00 по Московскому времени</p>
             </li>
             <li>
               <a href="mailto:info@ubrato.ru">

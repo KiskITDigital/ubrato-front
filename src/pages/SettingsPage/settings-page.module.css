@@ -258,6 +258,16 @@
   text-wrap: nowrap;
 }
 
+.dataErrorMessage {
+  color: #f90a0a;
+  font-size: 10px;
+  position: absolute;
+  left: 0;
+  top: 48px;
+  line-height: 22px;
+  text-wrap: nowrap;
+}
+
 .base[data-invalid] {
   border: 1px solid #f90a0a;
 }

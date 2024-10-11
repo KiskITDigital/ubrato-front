@@ -29,17 +29,18 @@ export {
   putContractorProfile,
   postPortfolio,
   deletePortfolio,
-  putPortfolio
+  putPortfolio,
 } from './profileOrganization';
 export { getExecutor } from './findExecutor/getExecutor';
 export {
   isFavoriteExecutor,
   addFavoriteExecutor,
   removeFavoriteExecutor,
-  getAllFavoriteExecutors
+  getAllFavoriteExecutors,
 } from './findExecutor/favoriteExecutors';
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';
-export { getOtherProfilesOrganizations } from './otherProfilesOrganizations'
-export { askForVerification, verify } from './verification'
-export { askResetPassword, resetPassword } from "./resetPassword";
+export { getOtherProfilesOrganizations } from './otherProfilesOrganizations';
+export { askForVerification, verify } from './verification';
+export { askResetPassword, resetPassword } from './resetPassword';
+export { changePersonalData } from './changePersonalData';

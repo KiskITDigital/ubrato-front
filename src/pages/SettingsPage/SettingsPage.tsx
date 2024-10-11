@@ -4,7 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@nextui-org/react';
 // import { LoginFormValuesT } from "@/types/app";
 // import { useFormik } from "formik";
-import { askForVerification, askResetPassword, login } from '@/api';
+import {
+  askForVerification,
+  askResetPassword,
+  changePersonalData,
+  login,
+  updateToken,
+} from '@/api';
 // import { loginSchema } from '@/validation/loginSchema';
 // import { AxiosError } from "axios";
 import { useUserInfoStore } from '@/store/userInfoStore';
@@ -38,6 +44,7 @@ const SettingsPage: FC = () => {
   const [lastName, setLastName] = useState('');
   const [middleName, setMiddleName] = useState('');
   const [hasDataChanged, setHasDataChanged] = useState(false);
+  const [changeDataError, setChangeDataError] = useState('');
 
   const [passwordToChange, setPasswordToChange] = useState('');
   const [isPasswordToChangeVisible, setIsPasswordToChangeVisible] = useState(false);
@@ -92,7 +99,7 @@ const SettingsPage: FC = () => {
           if (e.response?.status === 401) {
             setPasswordError('Пароль некорректен');
           } else {
-            setErrorMsg("Что-то пошло не так");
+            setErrorMsg('Что-то пошло не так');
           }
         }
       }
@@ -180,9 +187,7 @@ const SettingsPage: FC = () => {
       <p className={styles.title}>Настройки аккаунта</p>
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Статус</p>
-        <div
-          className={`${styles.section__container} ${styles.section__containerStatus}`}
-        >
+        <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
           {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
           <p
             className={`${styles.status} ${
@@ -233,14 +238,14 @@ const SettingsPage: FC = () => {
               placeholder="Электронная почта"
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg("");
+                setErrorMsg('');
               }}
             />
           </div>
           <div className={styles.inputBlock}>
             <p className={styles.inputBlock__name}>Пароль</p>
             <Input
-              type={isPasswordVisible ? "text" : "password"}
+              type={isPasswordVisible ? 'text' : 'password'}
               maxLength={250}
               value={password}
               onChange={(e) => handlePassword(e.currentTarget.value)}
@@ -256,7 +261,7 @@ const SettingsPage: FC = () => {
               }
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg("");
+                setErrorMsg('');
               }}
             />
             {passwordError !== 'allowed' &&
@@ -289,7 +294,10 @@ const SettingsPage: FC = () => {
               variant="bordered"
               placeholder="Фамилия"
               classNames={itemClasses}
-              onValueChange={(e) => setLastName(e)}
+              onValueChange={(e) => {
+                setLastName(e);
+                setChangeDataError('');
+              }}
             />
           </div>
           <div className={styles.inputBlock}>
@@ -299,13 +307,19 @@ const SettingsPage: FC = () => {
               value={firstName}
               placeholder="Имя"
               classNames={itemClasses}
-              onValueChange={(e) => setFirstName(e)}
+              onValueChange={(e) => {
+                setFirstName(e);
+                setChangeDataError('');
+              }}
             />
           </div>
           <div className={styles.inputBlock}>
             <p className={styles.inputBlock__name}>Отчество</p>
             <Input
-              onValueChange={(e) => setMiddleName(e)}
+              onValueChange={(e) => {
+                setMiddleName(e);
+                setChangeDataError('');
+              }}
               type="text"
               value={middleName}
               placeholder="Отчество"
@@ -320,7 +334,8 @@ const SettingsPage: FC = () => {
               name="phone"
               type="phone"
               value={value}
-              placeholder="Отчество"
+              placeholder="Телефон"
+              onChange={() => setChangeDataError('')}
               classNames={itemClasses}
             />
           </div>
@@ -336,11 +351,29 @@ const SettingsPage: FC = () => {
           )}
           {(wantToChange || isVerified) &&
             (hasDataChanged === true ? (
-              <div className="flex gap-[10px]">
+              <div className="flex gap-[10px] relative">
                 <button
                   className={styles.filledBtn}
                   onClick={() => {
-                    // setWantToChange(true);
+                    const token = localStorage.getItem('token');
+                    const parameters = {
+                      firstName: firstName,
+                      lastName: lastName,
+                      middleName: middleName,
+                      phone: value,
+                    };
+                    if (token && firstName && lastName && value) {
+                      (async () => {
+                        await updateToken<
+                          void,
+                          { firstName: string; middleName: string; lastName: string; phone: string }
+                        >(changePersonalData, parameters);
+                        setWantToChange(false);
+                        setIsVerified(false);
+                      })();
+                    } else {
+                      setChangeDataError('Заполните все поля');
+                    }
                   }}
                 >
                   Сохранить
@@ -358,6 +391,7 @@ const SettingsPage: FC = () => {
                 >
                   Отменить
                 </button>
+                {changeDataError && <p className={styles.dataErrorMessage}>{changeDataError}</p>}
               </div>
             ) : (
               <div className="flex gap-[10px]">
@@ -397,7 +431,7 @@ const SettingsPage: FC = () => {
                 }
                 classNames={{ ...itemClasses, base: styles.base2 }}
               />
-              <div className='relative'>
+              <div className="relative">
                 <button
                   className="bg-accent text-white text-[16px] font-medium px-[18px] py-[12px] rounded-[13px]"
                   onClick={() => {
@@ -409,7 +443,11 @@ const SettingsPage: FC = () => {
                 >
                   Подтвердить
                 </button>
-                {verifyError && <p className="absolute w-[150px] text-[10px] left-[5px] bottom-[-15px] text-red-600">{verifyError}</p>}
+                {verifyError && (
+                  <p className="absolute w-[150px] text-[10px] left-[5px] bottom-[-15px] text-red-600">
+                    {verifyError}
+                  </p>
+                )}
               </div>
             </div>
           </div>
