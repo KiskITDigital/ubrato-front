@@ -31,6 +31,7 @@ import RightsPage from '@/pages/RightsPage';
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage';
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage';
 import { BecomeContractor } from '@/components/ProfilePageComponents/BecomeContractor/BecomeContractor';
+import { Requisites } from '@/pages/Requisites/Reausites';
 
 export const Router = () => {
   return (
@@ -74,6 +75,7 @@ export const Router = () => {
         <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
+        <Route path="requisites" element={<Requisites />} />
         <Route path="contacts" element={<ContactsPage />} />
         <Route path="rights" element={<RightsPage />} />
       </Route>

@@ -167,6 +167,11 @@ export const Footer: FC = () => {
                 <p className={styles.point}>Документы Ubrato</p>
               </Link>
             </li>
+            <li>
+              <Link to="/requisites">
+                <p className={styles.point}>Реквизиты</p>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className={`${styles.column} ${styles.supportService}`}>

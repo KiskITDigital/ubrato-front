@@ -1,33 +1,32 @@
-import { useCreateTenderState } from "@/store/createTenderStore";
-import { useTypesObjectsStore } from "@/store/objectsStore";
-import { FC, forwardRef, Ref, useEffect, useState } from "react";
-import { CheckboxGroup, Checkbox } from "@nextui-org/react";
-import styles from "../../CreateTender.module.css";
-import { checkFloorSpace } from "../../funcs";
-import { useIMask } from "react-imask";
+import { useCreateTenderState } from '@/store/createTenderStore';
+import { useTypesObjectsStore } from '@/store/objectsStore';
+import { FC, forwardRef, Ref, useEffect, useState } from 'react';
+import { CheckboxGroup, Checkbox } from '@nextui-org/react';
+import styles from '../../CreateTender.module.css';
+import { checkFloorSpace } from '../../funcs';
+import { useIMask } from 'react-imask';
 
 const Object: FC<{
   windowWidth: number;
   ref?: React.LegacyRef<HTMLDivElement>;
 }> = forwardRef<
   HTMLDivElement,
-  Omit<{ windowWidth: number; ref?: React.LegacyRef<HTMLDivElement> }, "ref">
+  Omit<{ windowWidth: number; ref?: React.LegacyRef<HTMLDivElement> }, 'ref'>
 >((props, ref) => {
   const { windowWidth } = props;
   const createTenderState = useCreateTenderState();
   const objectsStore = useTypesObjectsStore();
 
-  const [isChoosingObjectNameMobile, setIsChoosingObjectNameMobile] =
-    useState(false);
-  const [
-    chooseTypesTypesToObjectToAddObject,
-    setChooseTypesTypesToObjectToAddObject,
-  ] = useState<string[]>([]);
+  const [isChoosingObjectNameMobile, setIsChoosingObjectNameMobile] = useState(false);
+  const [chooseTypesTypesToObjectToAddObject, setChooseTypesTypesToObjectToAddObject] = useState<
+    string[]
+  >([]);
   const [isChoosingObject, setIsChoosingObject] = useState(false);
   const [isObjectChoosed, setIsObjectChoosed] = useState<null | string>(null);
   const [choosingObjectTypes, setChoosingObjectTypes] = useState<
     null | { id: number; name: string; count: number }[]
   >(null);
+  const [areaExtraInfo, setAreaExtraInfo] = useState('');
 
   const fetchObjects = objectsStore.fetchObjects;
 
@@ -43,27 +42,21 @@ const Object: FC<{
   } = useIMask({
     mask: Number,
     min: 0.01,
-    max: 9999999999.99,
-    thousandsSeparator: " ",
+    max: 9999999.99,
+    thousandsSeparator: ' ',
     scale: 2,
-    radix: ",",
-    mapToRadix: ["."],
+    radix: ',',
+    mapToRadix: ['.'],
   });
 
   useEffect(() => {
-    createTenderState.handleSimpleInput(
-      "floor_space",
-      unmaskedValue,
-      checkFloorSpace
-    );
+    createTenderState.handleSimpleInput('floor_space', unmaskedValue, checkFloorSpace);
   }, [unmaskedValue]);
 
   return (
     <div ref={ref} className={`${styles.section} ${styles.object}`}>
       <div className={`${styles.section__block}`}>
-        <p
-          className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}
-        >
+        <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>
           Объект:
         </p>
         {windowWidth <= 1050 ? (
@@ -71,25 +64,23 @@ const Object: FC<{
             <button
               onClick={() => {
                 setIsChoosingObjectNameMobile((prev) => !prev);
-                createTenderState.addObject("", []);
+                createTenderState.addObject('', []);
               }}
-              className={`${styles.section__block__button} ${
-                styles.textRegular
-              } ${
-                createTenderState.errors.includes("object")
+              className={`${styles.section__block__button} ${styles.textRegular} ${
+                createTenderState.errors.includes('object')
                   ? styles.section__block__buttonError
-                  : ""
+                  : ''
               }`}
             >
               <img
                 src={
                   createTenderState.objectName || isChoosingObjectNameMobile
-                    ? "/create-tender/create-tender-close.svg"
-                    : "/create-tender/create-tender-plus.svg"
+                    ? '/create-tender/create-tender-close.svg'
+                    : '/create-tender/create-tender-plus.svg'
                 }
                 alt="plus"
               />
-              {createTenderState.objectName || "Добавить объект"}
+              {createTenderState.objectName || 'Добавить объект'}
             </button>
             {createTenderState.objectName && (
               <CheckboxGroup
@@ -100,11 +91,8 @@ const Object: FC<{
                 className={`${styles.checkbox__mobile}`}
                 value={createTenderState.objectCategory}
                 onValueChange={(newObjectTypes) => {
-                  createTenderState.addObject(
-                    createTenderState.objectName,
-                    newObjectTypes
-                  );
-                  createTenderState.removeError("object");
+                  createTenderState.addObject(createTenderState.objectName, newObjectTypes);
+                  createTenderState.removeError('object');
                 }}
               >
                 {
@@ -113,12 +101,10 @@ const Object: FC<{
                     ?.find((el) => el.name === createTenderState.objectName)
                     ?.types.map((type) => (
                       <Checkbox
-                        className={`${styles.object__objects__types__p} ${
-                          styles.CheckboxNextUI
-                        } ${
+                        className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${
                           createTenderState.objectCategory.includes(type.name)
                             ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}`
-                            : ""
+                            : ''
                         }`}
                         key={type.id}
                         value={type.name}
@@ -143,10 +129,7 @@ const Object: FC<{
                   }) => (
                     <p
                       onClick={() => {
-                        createTenderState.handleSimpleInput(
-                          "objectName",
-                          object.name
-                        );
+                        createTenderState.handleSimpleInput('objectName', object.name);
                         setIsChoosingObjectNameMobile(false);
                         setChoosingObjectTypes(
                           object.types.map((object) => ({
@@ -158,7 +141,7 @@ const Object: FC<{
                       className={styles.cities__autocomplete__item}
                       key={object.id}
                     >
-                      {object.name}{" "}
+                      {object.name}{' '}
                       <img
                         src="/create-tender/create-tender-cities-autocomplete-checkmark.svg"
                         alt=""
@@ -168,7 +151,7 @@ const Object: FC<{
                 )}
               </div>
             )}
-            {createTenderState.errors.includes("object") && (
+            {createTenderState.errors.includes('object') && (
               <p className={`${styles.inputErrorText} ${styles.objectError}`}>
                 Обязательно для заполнения
               </p>
@@ -180,9 +163,7 @@ const Object: FC<{
               <div
                 className={`${styles.services__block__service} ${styles.object__block__service}`}
               >
-                <p className={`${styles.service__name}`}>
-                  {createTenderState.objectName}
-                </p>
+                <p className={`${styles.service__name}`}>{createTenderState.objectName}</p>
                 <img
                   className={`${styles.service__name__img} ${styles.arrowRightImg}`}
                   src="/create-tender/create-tender-arrow-right.svg"
@@ -205,10 +186,7 @@ const Object: FC<{
                             prev.filter((_, i) => i !== ind)
                           );
                           if (createTenderState.objectCategory.length === 1) {
-                            createTenderState.handleSimpleInput(
-                              "objectName",
-                              ""
-                            );
+                            createTenderState.handleSimpleInput('objectName', '');
                             setIsObjectChoosed(null);
                           }
                         }}
@@ -222,29 +200,24 @@ const Object: FC<{
               </div>
             )}
             <button
-              className={`${styles.section__block__button} ${
-                styles.textRegular
-              } ${
+              className={`${styles.section__block__button} ${styles.textRegular} ${
                 createTenderState.objectName || isChoosingObject
                   ? styles.section__block__button__end
-                  : ""
+                  : ''
               } ${
-                createTenderState.errors.includes("object")
+                createTenderState.errors.includes('object')
                   ? styles.section__block__buttonError
-                  : ""
+                  : ''
               }`}
               onClick={() => {
                 setIsChoosingObject((prev) => !prev);
               }}
             >
               {createTenderState.objectName && !isChoosingObject ? (
-                "Изменить"
+                'Изменить'
               ) : isChoosingObject ? (
                 <>
-                  <img
-                    src="/create-tender/create-tender-close.svg"
-                    alt="close"
-                  />
+                  <img src="/create-tender/create-tender-close.svg" alt="close" />
                   Отмена
                 </>
               ) : (
@@ -254,14 +227,12 @@ const Object: FC<{
                 </>
               )}
             </button>
-            {createTenderState.errors.includes("object") && (
+            {createTenderState.errors.includes('object') && (
               <p
-                className={`${styles.inputErrorText} ${
-                  styles.inputErrorTextFloorSspace
-                } ${styles.objectError} ${
-                  createTenderState.objectName || isChoosingObject
-                    ? styles.objectErrorRight
-                    : ""
+                className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace} ${
+                  styles.objectError
+                } ${
+                  createTenderState.objectName || isChoosingObject ? styles.objectErrorRight : ''
                 }`}
               >
                 Обязательно для заполнения
@@ -273,7 +244,7 @@ const Object: FC<{
       {isChoosingObject && windowWidth > 1050 && (
         <div
           className={`${styles.object__types} ${
-            choosingObjectTypes ? "" : styles.object__typesHalf
+            choosingObjectTypes ? '' : styles.object__typesHalf
           }`}
           //  className={`${styles.object__objects} ${choosingObjectTypes ? '' : styles.object__objectsEmpty}`}
         >
@@ -292,7 +263,7 @@ const Object: FC<{
                     className={`${styles.object__objects__objects__p} ${
                       object.name === isObjectChoosed
                         ? styles.object__objects__objects__pSelected
-                        : ""
+                        : ''
                     }`}
                     onClick={() => {
                       setChoosingObjectTypes(
@@ -307,7 +278,7 @@ const Object: FC<{
                     }}
                     key={object.id}
                   >
-                    {object.name}{" "}
+                    {object.name}{' '}
                     {object.name === isObjectChoosed && (
                       <img
                         className={styles.arrowRightImg}
@@ -337,14 +308,10 @@ const Object: FC<{
                   >
                     {choosingObjectTypes!.map((type) => (
                       <Checkbox
-                        className={`${styles.object__objects__types__p} ${
-                          styles.CheckboxNextUI
-                        } ${
-                          chooseTypesTypesToObjectToAddObject.includes(
-                            type.name
-                          )
+                        className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${
+                          chooseTypesTypesToObjectToAddObject.includes(type.name)
                             ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}`
-                            : ""
+                            : ''
                         }`}
                         key={type.id}
                         value={type.name}
@@ -359,7 +326,7 @@ const Object: FC<{
                         // createTenderState.handleSimpleInput('objectName', isObjectChoosed!);
                         // createTenderState.handleSimpleInput('objectCategory', objectTypeChosen!);
                         // createTenderState.addObject('', [])
-                        createTenderState.removeError("object");
+                        createTenderState.removeError('object');
                         createTenderState.addObject(
                           isObjectChoosed!,
                           chooseTypesTypesToObjectToAddObject
@@ -379,19 +346,18 @@ const Object: FC<{
           )}
         </div>
       )}
-      <div className={`${styles.section__block} ${styles.square}`}>
-        <p
-          className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}
-        >
+      <div className={`${styles.section__block} ${styles.square} relative`}>
+        <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>
           Площадь:
         </p>
         <input
           // onClick={(e) => e.stopPropagation()}
-          onBlur={() =>
+          onBlur={() => {
             +createTenderState.floor_space === 0 &&
-            createTenderState.handleSimpleInput("floor_space", "")
-          }
-          // onFocus={() => createTenderState.removeError('floor_space')}
+              createTenderState.handleSimpleInput('floor_space', '');
+            setAreaExtraInfo('');
+          }}
+          onFocus={() => setAreaExtraInfo('Введите значение от 0,1 до 9 999 999')}
           // onBlur={() => !createTenderState.floor_space && createTenderState.addError('floor_space')}
           value={areaValue}
           onChange={(e) => {
@@ -400,9 +366,7 @@ const Object: FC<{
           type="text"
           inputMode="numeric"
           className={`${styles.input} ${styles.square__input} ${
-            createTenderState.errors.includes("floor_space")
-              ? styles.inputError
-              : ""
+            createTenderState.errors.includes('floor_space') ? styles.inputError : ''
           }`}
           ref={areaRef as Ref<HTMLInputElement>}
         />
@@ -412,11 +376,14 @@ const Object: FC<{
         >
           кв. м.
         </label>
-        {createTenderState.errors.includes("floor_space") && (
-          <p
-            className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace}`}
-          >
+        {createTenderState.errors.includes('floor_space') && (
+          <p className={`${styles.inputErrorText} ${styles.inputErrorTextFloorSspace}`}>
             Обязательно для заполнения
+          </p>
+        )}
+        {areaExtraInfo && (
+          <p className="absolute text-[10px] bottom-[-5px] text-[rgba(0,0,0,.5)]">
+            {areaExtraInfo}
           </p>
         )}
       </div>
