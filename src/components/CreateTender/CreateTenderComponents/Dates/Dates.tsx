@@ -2,7 +2,7 @@ import { FC, forwardRef, Ref, useEffect, useRef, useState } from 'react';
 import styles from '../../CreateTender.module.css';
 import datesStyles from './Dates.module.css';
 import { useCreateTenderState } from '@/store/createTenderStore';
-import { Checkbox, Switch } from '@nextui-org/react';
+import { Checkbox, Switch, Tooltip } from '@nextui-org/react';
 import { addTwoDots } from '../../funcs';
 import DateRangePickerLocal from '../DateRangePickerLocal/DateRangePickerLocal';
 import { useIMask } from 'react-imask';
@@ -157,8 +157,19 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
           </Switch>
         </div>
         <div className={`${styles.firstSections__div__main}`}>
-          <div className={`${styles.firstSections__div__main__block}`}>
+          <div className={`${styles.firstSections__div__main__block} relative`}>
             <p className={`${styles.firstSections__div__main__block__p}`}>Стоимость в рублях</p>
+            <div className="absolute right-0">
+              <Tooltip
+                classNames={{ base: 'bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md' }}
+                content={'Введите значение от 0,01 до 9 999 999 999,99 или выберите “Договорная”'}
+                closeDelay={100}
+              >
+                <button>
+                  <img className='w-[16px] h-[16px]' src="/info-ic.svg" alt="info" />
+                </button>
+              </Tooltip>
+            </div>
             <input
               // onClick={(e) => e.stopPropagation()}
               onFocus={() => createTenderState.removeError('price')}
