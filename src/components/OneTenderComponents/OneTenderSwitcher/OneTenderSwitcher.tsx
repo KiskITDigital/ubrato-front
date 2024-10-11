@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useSwitchStore } from "@/store/switchStore";
-import styles from "./OneTenderSwitcher.module.css";
-import { OneTenderExecutorAcceptModal } from "../OneTenderExecutorAcceptModal/OneTenderExecutorAcceptModal";
-import { useUserInfoStore } from "@/store/userInfoStore";
+import React, { useState } from 'react';
+import { useSwitchStore } from '@/store/switchStore';
+import styles from './OneTenderSwitcher.module.css';
+import { OneTenderExecutorAcceptModal } from '../OneTenderExecutorAcceptModal/OneTenderExecutorAcceptModal';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 type SwitchProps = {
   setResponse: () => void;
@@ -12,7 +12,7 @@ type SwitchProps = {
   price: number;
   tenderId: string | undefined;
   response: boolean;
-  user_id: string
+  user_id: string;
 };
 
 export const Switchero: React.FC<SwitchProps> = ({
@@ -22,14 +22,14 @@ export const Switchero: React.FC<SwitchProps> = ({
   button_text,
   price,
   response,
-  user_id
+  user_id,
 }) => {
-  const userInfoStore = useUserInfoStore()
+  const userInfoStore = useUserInfoStore();
 
   const { activeIndex, setActiveIndex } = useSwitchStore();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({});
-  const userInfo = useUserInfoStore()
+  const userInfo = useUserInfoStore();
   const openModal = () => {
     setIsOpen(true);
   };
@@ -54,7 +54,7 @@ export const Switchero: React.FC<SwitchProps> = ({
   };
   return (
     <>
-      {button_text == "Откликнуться на тендер" ? (
+      {button_text == 'Откликнуться на тендер' ? (
         <button onClick={openModal} className={styles.button_modal_adapt}>
           Откликнуться на тендер
         </button>
@@ -67,8 +67,7 @@ export const Switchero: React.FC<SwitchProps> = ({
           {options.map((option, index) => (
             <button
               key={index}
-              className={`${styles.switch_btn} ${activeIndex === index ? styles.active : ""
-                }`}
+              className={`${styles.switch_btn} ${activeIndex === index ? styles.active : ''}`}
               onClick={() => handleSwitch(index)}
             >
               {option}
@@ -76,7 +75,9 @@ export const Switchero: React.FC<SwitchProps> = ({
           ))}
         </div>
         <div>
-          {(userInfoStore.is_contractor && button_text == "Откликнуться на тендер" && user_id != userInfo.user.id) ? (
+          {userInfoStore.is_contractor &&
+          button_text == 'Откликнуться на тендер' &&
+          user_id != userInfo.user.id ? (
             <button onClick={openModal} className={styles.button_modal}>
               Откликнуться на тендер
             </button>
