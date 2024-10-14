@@ -38,7 +38,7 @@ export const LoginPage: FC = () => {
         try {
           const res = await login(parameters);
           localStorage.setItem('token', res.data.access_token);
-          userInfoStore.isLoggedIn = true
+          userInfoStore.isLoggedIn = true;
           if (res.data.access_token) {
             await userInfoStore.fetchUser(res.data.access_token);
             if (!userInfoStore.error) {
@@ -71,17 +71,14 @@ export const LoginPage: FC = () => {
     label: styles.label,
     errorMessage: styles.errorMessage,
     helperWrapper: styles.helperWrapper,
-    inputWrapper: styles.inputWrapper
+    inputWrapper: styles.inputWrapper,
   };
 
-  const navigationType = useNavigationType()
+  const navigationType = useNavigationType();
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       navigate(-1);
-    }
-    else
-      if (navigationType === "POP")
-        navigate(-1)
+    } else if (navigationType === 'POP') navigate(-1);
   }, [navigate, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
@@ -120,12 +117,9 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
-            {
-              errorMsg === 'email busy' && 
-              <p className={styles.errorMessage}>
-                Пользователь с таким e-mail не существует
-              </p>
-            }
+            {errorMsg === 'email busy' && (
+              <p className={styles.errorMessage}>Пользователь с таким e-mail не существует</p>
+            )}
           </div>
           <div className={styles.inputContainer}>
             <Input
@@ -152,12 +146,24 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
-            {
-              errorMsg === 'incorrect password' && 
+            {errorMsg === 'incorrect password' && (
               <p className={styles.errorMessage}>Неверный пароль</p>
-            }
+            )}
           </div>
-          <Link className={styles.forgotPassword} to="/reset-password">Забыли пароль?</Link>
+          <Link className={styles.forgotPassword} to="/reset-password">
+            Забыли пароль?
+          </Link>
+          <p className='w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]'>
+            Нажимая на кнопку «Войти», вы даете{' '}
+            <Link className='text-accent underline' target="_blank" to="/rights?document=3">
+              Согласие на обработку персональных данных
+            </Link>{' '}
+            в соответствии с{' '}
+            <Link className='text-accent underline' target="_blank" to="/rights?document=3">
+              Согласие на обработку персональных данных
+            </Link>
+            .
+          </p>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
           </div>

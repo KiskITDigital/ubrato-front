@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFormik } from 'formik';
 import { ChangeEvent, FC, FormEvent, Ref, useEffect, useRef, useState } from 'react';
 import { RegisterFormValuesT } from '@/types/app';
@@ -85,6 +86,7 @@ export const RegisterPage: FC = () => {
   });
 
   const [isContractor, setIsContractor] = useState(false);
+  const [isOrderer, setIsOrderer] = useState(false);
   const [companyName, setCompanyName] = useState('');
   const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4>(1);
   // const [nameConfirm, setNameConfirm] = useState(false);
@@ -122,9 +124,12 @@ export const RegisterPage: FC = () => {
       formik.values.email.length !== 0 &&
       formik.values.password.length !== 0 &&
       formik.values.repeatPassword.length !== 0 &&
-      registrationStep === 1
+      registrationStep === 1 &&
+      isOrderer
     ) {
       setRegistrationStep(2);
+    } else {
+      setRegistrationStep(1);
     }
   }, [
     formik.errors.email,
@@ -133,7 +138,7 @@ export const RegisterPage: FC = () => {
     formik.values.email.length,
     formik.values.password.length,
     formik.values.repeatPassword.length,
-    registrationStep,
+    isOrderer,
   ]);
 
   useEffect(() => {
@@ -157,27 +162,65 @@ export const RegisterPage: FC = () => {
         </p>
         <div className={styles.createInfo}>
           <p className={styles.create}>Выберите Вашу роль</p>
-          <img className={styles.info} src="./info-ic.svg" alt="info" />
         </div>
         <div className={styles.buttonsContainer}>
-          <button className={`${styles.button} ${styles.active}`} disabled>
-            Вы заказчик
+          <button
+            className={`${styles.button} ${isOrderer ? styles.active : ''}`}
+            onClick={() => {
+              if (isContractor && isOrderer) {
+                setIsOrderer(!isOrderer);
+                setIsContractor(!isContractor);
+              } else {
+                setIsOrderer(!isOrderer);
+              }
+            }}
+          >
+            Заказчик
           </button>
           <button
             className={`${styles.button} ${isContractor ? styles.active : ''}`}
             onClick={() => {
-              setIsContractor(!isContractor);
+              if (isOrderer && !isContractor) {
+                setIsContractor(!isContractor);
+              } else {
+                setIsContractor(!isContractor);
+                setIsOrderer(!isOrderer);
+              }
             }}
           >
-            Вы исполнитель
+            Исполнитель
           </button>
         </div>
-        <div className={styles.questionsAboutRegistrationContainer}>
-          <p className={styles.questionsAboutRegistration}>
-            {isContractor
-              ? 'Если ваша компания выполняет заказы, то добавьте функционал исполнителя. Или выберите эту роль позже.'
-              : 'Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.'}
-          </p>
+        <div className="flex w-[478px] justify-between mt-[20px]">
+          <div>
+            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[12px]">
+              Выбирайте роль Заказчика, если вашей компании нужно заказать клининг и/или смежные{' '}
+              <Link className="underline" to="/faq?page=3&number=2#q3_2">
+                услуги
+              </Link>
+              .
+            </p>
+            <p className="text-[rgba(0,0,0,.4)] text-center text-[12px]">
+              Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.
+              Если в будущем вашей компании потребуется роль Исполнителя, то вы сможете подключить
+              этот функционал в личном кабинете.
+            </p>
+          </div>
+          <div>
+            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[12px]">
+              Выбирайте роль Исполнителя, если ваша компания предлагает свои клининговые и/или
+              смежные{' '}
+              <Link className="underline" to="/faq?page=2&number=1#q2_1">
+                услуги
+              </Link>
+              .
+            </p>
+            <p className="text-[rgba(0,0,0,.4)] text-center text-[12px]">
+              Регистрируясь как Исполнитель, ваша компания одновременно регистрируется и в роли
+              Заказчика. Это позволит находить Исполнителей на субподряды или заказывать
+              специализированные услуги для себя.
+            </p>
+          </div>
         </div>
         <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
           Есть вопросы по регистрации?{' '}
@@ -302,10 +345,13 @@ export const RegisterPage: FC = () => {
             {registrationStep > 2 && (
               <div className={styles.companyName}>
                 <p className={`${styles.label} ${styles.companyText}`}>
-                  Это название вашей компании?
+                  Это наименование вашей компании?
                 </p>
                 <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
                 <p className={styles.nameConfirm}>{companyName}</p>
+                <p className="mb-[15px] ml-[15px] text-[10px] text-[rgba(0,0,0,.6)]">
+                  Сокращенное наименование юридического лица
+                </p>
                 <div className={styles.companyBtns}>
                   <button
                     onClick={() => {
@@ -452,6 +498,12 @@ export const RegisterPage: FC = () => {
                     {formik.errors.personalDataAgreement}
                   </p>
                 </Checkbox>
+                <p className="w-[478px] text-center text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">
+                  Оператор направляет Пользователям Сайта информационно-рекламные материалы. В
+                  случае несогласия на получение рекламных рассылок и материалов, необходимо
+                  написать заявление об отказе от их получения в произвольной форме и направить
+                  Оператору по электронной почте на адрес info@ubrato.ru.
+                </p>
               </div>
               <div className={styles.submitContainer}>
                 <input

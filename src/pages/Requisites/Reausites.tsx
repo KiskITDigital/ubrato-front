@@ -15,7 +15,7 @@ export const Requisites: FC = () => {
   return (
     <div ref={startRef} className="container">
       <div className={styles.data}>
-        <p className={styles.dataTitle}>Данные компании</p>
+        <p className={styles.dataTitle}>Реквизиты ООО «ИНТЕГРАЦИЯ»</p>
         <div className={styles.dataBlock}>
           <p className={styles.dataBlockTitle}>Полное наименование организации: </p>
           <p className={styles.dataBlockText}>

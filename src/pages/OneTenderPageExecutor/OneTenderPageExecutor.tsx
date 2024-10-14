@@ -1,42 +1,41 @@
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
 import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
-import {
-  Category,
-  OneTenderInfoViewExecutor,
-} from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
-import { FC, ReactNode, useEffect, useState } from 'react';
+import { Category, OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
+import { FC, ReactNode, useEffect, useState, } from 'react';
 import { useSwitchStore } from '@/store/switchStore';
 import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
 
+
 export interface dataObjectTypes {
-  id: number;
-  name: string;
-  active: boolean;
-  price: number;
-  object_group: string;
-  objects_types: string[];
-  location: string;
-  floor_space: number;
-  categories: Category[];
-  description: string;
-  wishes: string;
-  attachments: string[];
-  reception_start: string;
-  reception_end: string;
-  work_start: string;
-  work_end: string;
-  created_at: string;
-  is_nds_price: boolean;
-  is_contract_price: boolean;
-  user_id: string;
+  id: number,
+  name: string,
+  active: boolean,
+  price: number,
+  object_group: string,
+  objects_types: string[],
+  location: string,
+  floor_space: number,
+  categories: Category[]
+  description: string,
+  wishes: string,
+  attachments: string[],
+  reception_start: string,
+  reception_end: string,
+  work_start: string,
+  work_end: string,
+  created_at: string,
+  is_nds_price: boolean,
+  is_contract_price: boolean,
+  user_id: string
 }
 
+
 export const OneTenderPageExecutor: FC = () => {
-  const { id }: Readonly<Params<string>> = useParams();
+  const { id }: Readonly<Params<string>> = useParams()
   const { activeIndex } = useSwitchStore();
-  const [response, setResponse] = useState(false);
+  const [response, setResponse] = useState(false)
   const [dataState, setData] = useState<dataObjectTypes>({
     id: 0,
     name: '',
@@ -57,8 +56,8 @@ export const OneTenderPageExecutor: FC = () => {
     created_at: '',
     is_nds_price: false,
     is_contract_price: false,
-    user_id: '',
-  });
+    user_id: ''
+  })
   const [loading, setLoading] = useState(true);
 
   let stack: ReactNode;
@@ -74,11 +73,10 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <div>ee</div>;
       break;
     case 3:
-      stack = (
+      stack =
         // <OneTenderAdd
         // ></OneTenderAdd>
-        <div>пусто</div>
-      );
+        <div>пусто</div>;
       break;
     default:
       stack = <div>No stack component found</div>;
@@ -86,20 +84,22 @@ export const OneTenderPageExecutor: FC = () => {
 
   useEffect(() => {
     (async () => {
+
       const token = localStorage.getItem('token');
-      const responded = await isResponded(token, id);
+      const responded = await isResponded(token, id)
       const data = await fetchProduct(id);
       if (data) {
-        setResponse(responded.status);
-        setData(data);
-        setLoading(false);
+        setResponse(responded.status)
+        setData(data)
+        setLoading(false)
         // console.log(responded);
         console.log(data);
+
       } else {
         // console.log('proizoshla oshibka');
       }
     })();
-  }, [id]);
+  }, [id])
 
   if (loading) {
     return <div>Loading...</div>;
@@ -110,8 +110,8 @@ export const OneTenderPageExecutor: FC = () => {
   }
 
   const changeResponseStatus = () => {
-    setResponse(true);
-  };
+    setResponse(true)
+  }
 
   return (
     <div>

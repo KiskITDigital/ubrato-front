@@ -3,12 +3,13 @@ import { useCreateTenderState } from '@/store/createTenderStore';
 import { useTypesObjectsStore } from '@/store/objectsStore';
 import { FC, useState } from 'react';
 import { formatDate } from '../../funcs';
-import { createTender, offerTender } from '@/api/index';
+import { createTender, offerTender, updateToken } from '@/api/index';
 import styles from '../../CreateTender.module.css';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@/components/Modal';
 import AfterSendInfo from '../AfterSendInfo/AfterSendInfo';
 import { AxiosError } from 'axios';
+import { createTenderData } from '@/types/app';
 
 const SendButtons: FC = () => {
   const createTenderState = useCreateTenderState();
@@ -70,7 +71,10 @@ const SendButtons: FC = () => {
     try {
       const res =
         (isDraft || city_id) &&
-        ((await createTender(token, objectToSend, isDraft)) as {
+        ((await updateToken<
+          { status: number; data: { id: number } },
+          { parameters: createTenderData; isDraft?: boolean }
+        >(createTender, { parameters: objectToSend, isDraft: isDraft })) as {
           status: number;
           data: { id: number };
         });
