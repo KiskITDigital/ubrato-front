@@ -2,9 +2,16 @@ import { FC, forwardRef, Ref, useEffect, useRef, useState } from 'react';
 import styles from '../../CreateTender.module.css';
 import datesStyles from './Dates.module.css';
 import { useCreateTenderState } from '@/store/createTenderStore';
-import { Checkbox, Switch, Tooltip } from '@nextui-org/react';
-import { addTwoDots } from '../../funcs';
-import DateRangePickerLocal from '../DateRangePickerLocal/DateRangePickerLocal';
+import { Checkbox, DateRangePicker, RangeValue, Switch, Tooltip } from '@nextui-org/react';
+import dayjs from 'dayjs';
+import {
+  CalendarDate,
+  CalendarDateTime,
+  getLocalTimeZone,
+  parseDate,
+  parseDateTime,
+  today,
+} from '@internationalized/date';
 import { useIMask } from 'react-imask';
 
 const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
@@ -18,11 +25,8 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
 
   const spanRef = useRef<HTMLSpanElement>(null);
 
-  const priceInputRef1 = useRef<HTMLInputElement>(null);
-  const priceInputRef2 = useRef<HTMLInputElement>(null);
-
-  const [calendar1, setCalendar1] = useState(false);
-  const [calendar2, setCalendar2] = useState(false);
+  const [isCalendar1Open, setIsCalendar1Open] = useState(false);
+  const [isCalendar2Open, setIsCalendar2Open] = useState(false);
 
   const { ref, value, setValue, unmaskedValue } = useIMask({
     mask: Number,
@@ -34,31 +38,20 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     mapToRadix: ['.'],
   });
 
+  const classNames = {
+    base: datesStyles.base,
+    calendar: datesStyles.calendar,
+    calendarContent: datesStyles.calendarContent,
+    inputWrapper: datesStyles.inputWrapper,
+    innerWrapper: datesStyles.innerWrapper,
+    input: datesStyles.input,
+    segment: datesStyles.segment,
+    separator: datesStyles.separator,
+  };
+
   useEffect(() => {
     createTenderState.handleSimpleInput('price', unmaskedValue);
   }, [unmaskedValue]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target;
-      if (target instanceof Node) {
-        if (calendarRef1.current && !calendarRef1.current.contains(target)) {
-          setCalendar1(false);
-          calendar1 && spanRef.current?.focus();
-        }
-        if (calendarRef2.current && !calendarRef2.current.contains(target)) {
-          setCalendar2(false);
-          calendar2 && spanRef.current?.focus();
-        }
-      }
-    };
-
-    window.addEventListener('click', handleClickOutside);
-
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, [calendar1, calendar2]);
 
   useEffect(() => {
     if (createTenderState.price === '') {
@@ -76,68 +69,56 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
         <div
           ref={calendarRef1}
           className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork} ${datesStyles.dateTimeContainer}`}
-          onFocus={(event) => {
-            const target = event.target;
-            if (target instanceof Node) {
-              if (priceInputRef1.current?.contains(target)) {
-                priceInputRef1.current.focus();
-              } else if (priceInputRef2.current?.contains(target)) {
-                priceInputRef2.current.focus();
-              } else {
-                setCalendar1(true);
-              }
-            }
+          onClick={() => {
+            setIsCalendar1Open(true);
           }}
         >
           <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
           <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-          <DateRangePickerLocal
-            state={calendar1}
-            setState={(newVal: boolean) => {
-              setCalendar1(newVal);
-              spanRef.current?.focus();
+          <DateRangePicker
+            aria-label="прием откликов"
+            classNames={classNames}
+            isOpen={isCalendar1Open}
+            onOpenChange={(e) => {
+              setIsCalendar1Open(e);
             }}
-            timeToChangeStart="reception_start"
-            timeToChangeEnd="reception_end"
+            disableAnimation
+            value={{
+              start: parseDateTime(dayjs(createTenderState.reception_start).format().split('+')[0]),
+              end: parseDateTime(dayjs(createTenderState.reception_end).format().split('+')[0]),
+            }}
+            onChange={(newVal: RangeValue<CalendarDateTime>) => {
+              const firstDate = new Date(
+                newVal.start.year,
+                newVal.start.month - 1,
+                newVal.start.day,
+                newVal.start.hour,
+                newVal.start.minute
+              );
+              const secondDate = new Date(
+                newVal.end.year,
+                newVal.end.month - 1,
+                newVal.end.day,
+                newVal.end.hour,
+                newVal.end.minute
+              );
+              if (
+                firstDate.getFullYear() > 2030 ||
+                firstDate.getFullYear() < new Date().getFullYear() ||
+                secondDate.getFullYear() > 2030 ||
+                secondDate.getFullYear() < new Date().getFullYear()
+              )
+                return;
+              if (firstDate.getTime() > secondDate.getTime()) {
+                createTenderState.handleSimpleInput('reception_start', firstDate);
+                createTenderState.handleSimpleInput('reception_end', firstDate);
+              } else {
+                createTenderState.handleSimpleInput('reception_start', firstDate);
+                createTenderState.handleSimpleInput('reception_end', secondDate);
+              }
+            }}
+            minValue={today(getLocalTimeZone())}
           />
-          <div className={datesStyles.dateTime}>
-            <span className={styles.firstSections__responses__inputs__span}></span>
-            <input
-              // onClick={(e) => e.stopPropagation()}
-              ref={priceInputRef1}
-              placeholder="00:00"
-              maxLength={5}
-              value={createTenderState.reception_time_start}
-              onChange={(e) =>
-                createTenderState.handleSimpleInput(
-                  'reception_time_start',
-                  e.currentTarget.value,
-                  addTwoDots
-                )
-              }
-              type="text"
-              className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`}
-            />
-          </div>
-          <div className={`${datesStyles.dateTime} ${datesStyles.dateTime2}`}>
-            <span className={styles.firstSections__responses__inputs__span}></span>
-            <input
-              // onClick={(e) => e.stopPropagation()}
-              ref={priceInputRef2}
-              placeholder="00:00"
-              maxLength={5}
-              value={createTenderState.reception_time_end}
-              onChange={(e) =>
-                createTenderState.handleSimpleInput(
-                  'reception_time_end',
-                  e.currentTarget.value,
-                  addTwoDots
-                )
-              }
-              type="text"
-              className={`${styles.input} ${styles.firstSections__responses__inputs__input2}`}
-            />
-          </div>
         </div>
       </div>
       <div className={`${styles.firstSections__div}`}>
@@ -161,12 +142,14 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             <p className={`${styles.firstSections__div__main__block__p}`}>Стоимость в рублях</p>
             <div className="absolute right-0">
               <Tooltip
-                classNames={{ base: 'bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md' }}
+                classNames={{
+                  base: 'bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md',
+                }}
                 content={'Введите значение от 0,01 до 9 999 999 999,99 или выберите “Договорная”'}
                 closeDelay={100}
               >
                 <button>
-                  <img className='w-[16px] h-[16px]' src="/info-ic.svg" alt="info" />
+                  <img className="w-[16px] h-[16px]" src="/info-ic.svg" alt="info" />
                 </button>
               </Tooltip>
             </div>
@@ -229,23 +212,44 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
         <div
           className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}
           ref={calendarRef2}
-          onFocus={(event) => {
-            const target = event.target;
-            if (target instanceof Node) {
-              setCalendar2(true);
-            }
-          }}
         >
           <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
           <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
-          <DateRangePickerLocal
-            state={calendar2}
-            setState={(newVal: boolean) => {
-              setCalendar2(newVal);
-              spanRef.current?.focus();
+          <DateRangePicker
+            aria-label="оказание услуг"
+            classNames={classNames}
+            isOpen={isCalendar2Open}
+            onOpenChange={(e) => {
+              setIsCalendar2Open(e);
             }}
-            timeToChangeStart="work_start"
-            timeToChangeEnd="work_end"
+            disableAnimation
+            value={{
+              start: parseDate(dayjs(createTenderState.work_start).format().split('T')[0]),
+              end: parseDate(dayjs(createTenderState.work_end).format().split('T')[0]),
+            }}
+            onChange={(newVal: RangeValue<CalendarDate>) => {
+              const firstDate = new Date(
+                newVal.start.year,
+                newVal.start.month - 1,
+                newVal.start.day
+              );
+              const secondDate = new Date(newVal.end.year, newVal.end.month - 1, newVal.end.day);
+              if (
+                firstDate.getFullYear() > 2030 ||
+                firstDate.getFullYear() < new Date().getFullYear() ||
+                secondDate.getFullYear() > 2030 ||
+                secondDate.getFullYear() < new Date().getFullYear()
+              )
+                return;
+              if (firstDate.getTime() > secondDate.getTime()) {
+                createTenderState.handleSimpleInput('work_start', firstDate);
+                createTenderState.handleSimpleInput('work_end', firstDate);
+              } else {
+                createTenderState.handleSimpleInput('work_start', firstDate);
+                createTenderState.handleSimpleInput('work_end', secondDate);
+              }
+            }}
+            minValue={today(getLocalTimeZone())}
           />
         </div>
       </div>

@@ -27,6 +27,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
       last_name: '',
       verified: false,
       is_contractor: false,
+      role: 0,
       created_at: '',
       avatar: '',
       organization: {
@@ -57,6 +58,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
           created_at: response.data.created_at,
           phone: response.data.phone,
           is_contractor: response.data.is_contractor,
+          role: response.data.role,
           verified: response.data.verified,
           email: response.data.email,
           avatar: response.data.avatar,

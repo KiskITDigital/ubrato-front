@@ -43,6 +43,7 @@ export interface UserInfoT {
   last_name: string;
   verified: boolean;
   is_contractor: boolean;
+  role: number;
   created_at: string;
   avatar: string;
   organization: {

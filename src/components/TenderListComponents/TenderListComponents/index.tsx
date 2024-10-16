@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react';
 import Typesense from 'typesense';
-import { fetchProduct } from '@/api';
+import { fetchProduct, updateToken } from '@/api';
 import { Pagination, Select, SelectItem } from '@nextui-org/react';
 
 import s from './styles.module.css';
@@ -32,6 +32,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 export interface TenderList {
   id: string;
@@ -41,9 +42,6 @@ export interface TenderList {
   work_end: string;
   price: number;
   city: string;
-}
-interface Me {
-  id: string;
 }
 
 interface myTenderToogle {
@@ -60,7 +58,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   const [paginationPerPage, setPaginationPerPage] = useState(defaultPerPage);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
   const [sortingValue, setSortingValue] = useState('');
-  const [meData, setMe] = useState<Me | null>(null);
+
+  const userInfoStore = useUserInfoStore();
 
   useEffect(() => {
     table.setPageSize(paginationPerPage);
@@ -207,12 +206,6 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   });
 
   useEffect(() => {
-    (async () => {
-      const token = localStorage.getItem('token');
-      const me = await getMe(token);
-      if (me && 'id' in me) setMe(me.id as Me);
-    })();
-
     const client = new Typesense.Client({
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
@@ -244,7 +237,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
           )
         );
       if (myTender) {
-        filters.push(`( user_id:=${meData})`);
+        filters.push(`( user_id:=${userInfoStore.user.id})`);
       }
       return filters.join(' && ');
     })();
@@ -256,6 +249,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
       page: paginationPage,
       filter_by: filters,
       sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? 'desc' : 'asc'}` : ''}`,
+      preset: '',
     };
 
     (async () => {
@@ -324,10 +318,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     tenderListState.objectTypesId,
     tenderListState.locationId,
     tenderListState.servicesTypesId,
-    meData,
     sortingValue,
     sorting,
     myTender,
+    userInfoStore.user.id,
   ]);
 
   const navigate = useNavigate();

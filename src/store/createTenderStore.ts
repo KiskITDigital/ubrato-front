@@ -1,4 +1,4 @@
-import { uploadFile } from '@/api';
+import { updateToken, uploadFile } from '@/api';
 import { getCities } from '@/api/index';
 import { City } from '@/types/app';
 import { ChangeEvent } from 'react';
@@ -160,7 +160,6 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     newVal: string | boolean | Date,
     mask?: (value: string) => string
   ) => {
-    console.log(newVal)
     set((state) => ({
       ...state,
       [whatToChange]: mask && typeof newVal === 'string' ? mask(newVal) : newVal,
@@ -278,14 +277,17 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     };
     if (token) {
       try {
-        const link = await uploadFile(token, parameters);
+        const link = await updateToken<string, { file: File; private: boolean }>(
+          uploadFile,
+          parameters
+        );
         const fileType = file.type.split('/')[0];
         const fileName = link.slice(link.lastIndexOf('/') + 1);
-        if (fileType === 'image' || file.type === 'application/pdf' || file.type === 'text/xml') {
+        if (fileType === 'image' || fileType === 'application') {
           newFile = {
             id: idToChange || Date.now(),
             fileName,
-            linkToSend: `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`,
+            linkToSend: `https://cdn.ubrato.ru/s3${link}`,
             fileType,
             fileSize: file.size,
           };

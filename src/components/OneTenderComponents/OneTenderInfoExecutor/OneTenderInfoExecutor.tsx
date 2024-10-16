@@ -45,11 +45,15 @@ export const OneTenderInfoExecutor: FC<OneTenderInfo> = ({
           <div className={styles.date_info}>
             <p className={styles.info_start}>
               {getDate(timestamp_rc_start)},
-              <span className='text-[14px] text-[rgba(0,0,0,.5)] ml-[5px]'>{getHour(timestamp_rc_start)}</span>
+              <span className="text-[14px] text-[rgba(0,0,0,.5)] ml-[5px]">
+                {getHour(timestamp_rc_start)}
+              </span>
             </p>{' '}
             <p className={styles.info_end}>
               {getDate(timestamp_rc_end)},
-              <span className='text-[14px] text-[rgba(0,0,0,.5)] ml-[5px]'>{getHour(timestamp_rc_end)}</span>
+              <span className="text-[14px] text-[rgba(0,0,0,.5)] ml-[5px]">
+                {getHour(timestamp_rc_end)}
+              </span>
             </p>
           </div>
         </div>

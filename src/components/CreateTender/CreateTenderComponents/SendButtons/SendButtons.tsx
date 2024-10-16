@@ -53,14 +53,8 @@ const SendButtons: FC = () => {
       floor_space: +createTenderState.floor_space,
       wishes: createTenderState.wishes,
       description: createTenderState.description,
-      reception_start: formatDate(
-        createTenderState.reception_start,
-        createTenderState.reception_time_start
-      ),
-      reception_end: formatDate(
-        createTenderState.reception_end,
-        createTenderState.reception_time_end
-      ),
+      reception_start: createTenderState.reception_start.toISOString(),
+      reception_end: createTenderState.reception_end.toISOString(),
       work_start: formatDate(createTenderState.work_start),
       work_end: formatDate(createTenderState.work_end),
       city_id: city_id || null,

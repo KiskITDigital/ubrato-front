@@ -1,6 +1,6 @@
-import { FC, Fragment } from "react";
-import style from "./OneTenderOffers.module.css";
-import { Category } from "@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor";
+import { FC, Fragment } from 'react';
+import style from './OneTenderOffers.module.css';
+import { Category } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 
 type TenderOffers = {
   categories: Category[];
@@ -13,10 +13,7 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
       <div className="flex gap-2 w-full">
         <div className="flex flex-col gap-3">
           {categories.map((category, categoryIndex) => (
-            <div
-              className="flex gap-3 items-center"
-              key={"category-" + categoryIndex}
-            >
+            <div className="flex gap-3 items-center" key={'category-' + categoryIndex}>
               <div className="flex gap-3 items-center text-[18px] text-nowrap">
                 {/* <div className="flex items-center justify-center size-10 min-w-10 rounded-[10px] bg-accent/20">
                   <img
@@ -25,15 +22,13 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
                     alt=""
                   />
                 </div> */}
-                <p className="">{category.name}</p>
-                {">"}
+                <p>{category.name}</p>
+                <p>{'>'}</p>
               </div>
               <div className="flex flex-wrap w-full gap-2">
                 {category.services.map((service, serviceIndex) => (
-                  <Fragment key={"service-" + categoryIndex}>
-                    <p className="bg-slate-100 rounded-md px-3 py-1">
-                      {service}
-                    </p>
+                  <Fragment key={'service-' + categoryIndex}>
+                    <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
                   </Fragment>
                 ))}
               </div>
