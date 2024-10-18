@@ -125,7 +125,7 @@ export const RegisterPage: FC = () => {
       registrationStep === 2
     ) {
       setRegistrationStep(3);
-    } else if (isContractor) {
+    } else if (isOrderer) {
       setRegistrationStep(2);
     } else {
       setRegistrationStep(1);
@@ -137,7 +137,7 @@ export const RegisterPage: FC = () => {
     formik.values.email.length,
     formik.values.password.length,
     formik.values.repeatPassword.length,
-    isContractor,
+    isOrderer,
   ]);
 
   useEffect(() => {
