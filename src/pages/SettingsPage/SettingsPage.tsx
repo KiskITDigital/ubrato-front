@@ -292,7 +292,7 @@ const SettingsPage: FC = () => {
             }}
             classNames={checkStyle}
           >
-            <p className="text-sm">
+            <p className="text-sm max-w-[500px]">
               Я даю{' '}
               <Link className={styles.link} target="_blank" to="/rights?document=1">
                 Согласие на обработку персональных данных
@@ -390,7 +390,7 @@ const SettingsPage: FC = () => {
             }}
             classNames={checkStyle}
           >
-            <p className="text-sm">
+            <p className="text-sm max-w-[500px]">
               Я даю{' '}
               <Link className={styles.link} target="_blank" to="/rights?document=1">
                 Согласие на обработку персональных данных

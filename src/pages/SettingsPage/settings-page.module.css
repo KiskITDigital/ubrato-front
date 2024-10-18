@@ -289,15 +289,14 @@
 
 .checkBase {
   display: flex;
-  flex-direction: row;
-  gap: 6px;
   align-items: center;
+  margin-bottom: 33px;
   position: relative;
-  width: 530px;
+  gap: 9px;
 }
 
 .checkBase[data-selected] > .checkWrapper {
-  background-color: var(--color-light-gray);
+  background-color: var(--color-blue-primary);
 }
 
 .checkIcon {
@@ -306,19 +305,18 @@
 }
 
 .checkIcon > polyline {
-  stroke: var(--color-blue-primary);
+  stroke: white;
 }
 
 .checkWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  border: 2px solid var(--color-black-10);
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--color-blue-primary);
   transition: background-color 0.3s ease;
-  border-radius: 6px;
+  border-radius: 7px;
   background-color: transparent;
 }
 
