@@ -34,9 +34,7 @@ export const RegisterPage: FC = () => {
     firstName: '',
     lastName: '',
     middleName: '',
-    userAgreement: false,
     personalDataAgreement: false,
-    personalDataPolicy: false,
   };
 
   const itemClasses = {
@@ -88,7 +86,7 @@ export const RegisterPage: FC = () => {
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
   const [companyName, setCompanyName] = useState('');
-  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4>(1);
+  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(1);
   // const [nameConfirm, setNameConfirm] = useState(false);
 
   const checkStyle = {
@@ -124,9 +122,10 @@ export const RegisterPage: FC = () => {
       formik.values.email.length !== 0 &&
       formik.values.password.length !== 0 &&
       formik.values.repeatPassword.length !== 0 &&
-      registrationStep === 1 &&
-      isOrderer
+      registrationStep === 2
     ) {
+      setRegistrationStep(3);
+    } else if (isContractor) {
       setRegistrationStep(2);
     } else {
       setRegistrationStep(1);
@@ -138,8 +137,14 @@ export const RegisterPage: FC = () => {
     formik.values.email.length,
     formik.values.password.length,
     formik.values.repeatPassword.length,
-    isOrderer,
+    isContractor,
   ]);
+
+  useEffect(() => {
+    if (registrationStep === 1 && isOrderer) {
+      setRegistrationStep(2);
+    }
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -233,82 +238,86 @@ export const RegisterPage: FC = () => {
           и мы перезвоним
         </div>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
-          <p className={styles.inputGrHeader}>Создайте учетную запись</p>
-          <div className={styles.inputContainer}>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              label="Логин (Email)"
-              value={formik.values.email}
-              onChange={(e) => {
-                formik.handleChange(e);
-                if (e.target.value.endsWith(' ')) {
-                  formik.setErrors({ email: 'Некорректный e-mail' });
-                }
-                // console.log(e.target.value);
-              }}
-              variant="bordered"
-              placeholder="Электронная почта"
-              isInvalid={Boolean(formik.errors.email)}
-              errorMessage={formik.errors.email}
-              classNames={itemClasses}
-            />
-          </div>
-          <div className={styles.inputContainer}>
-            <Input
-              id="password"
-              name="password"
-              type={isPasswordVisible ? 'text' : 'password'}
-              label="Пароль (не менее 6 знаков)"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Придумайте пароль"
-              isInvalid={Boolean(formik.errors.password)}
-              errorMessage={formik.errors.password}
-              endContent={
-                <button onClick={toggleVisibility} type="button">
-                  {isPasswordVisible ? (
-                    <img width="20" height="20" src="./eye-hide.svg" />
-                  ) : (
-                    <img width="20" height="20" src="./eye-show.svg" />
-                  )}
-                </button>
-              }
-              classNames={itemClasses}
-            />
-          </div>
-          <div className={styles.inputContainer}>
-            <Input
-              id="repeatPassword"
-              name="repeatPassword"
-              type={isConfirmVisible ? 'text' : 'password'}
-              label="Пароль (не менее 6 знаков)"
-              value={formik.values.repeatPassword}
-              onChange={formik.handleChange}
-              placeholder="Повторите пароль"
-              isInvalid={Boolean(formik.errors.repeatPassword)}
-              errorMessage={formik.errors.repeatPassword}
-              endContent={
-                <button onClick={toggleConfirmVisible} type="button">
-                  {isConfirmVisible ? (
-                    <img width="20" height="20" src="./eye-hide.svg" />
-                  ) : (
-                    <img width="20" height="20" src="./eye-show.svg" />
-                  )}
-                </button>
-              }
-              classNames={itemClasses}
-            />
-          </div>
-          {registrationStep > 1 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
           {registrationStep > 1 && (
+            <>
+              <p className={styles.inputGrHeader}>Создайте учетную запись</p>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  label="Логин (Email)"
+                  value={formik.values.email}
+                  onChange={(e) => {
+                    formik.handleChange(e);
+                    if (e.target.value.endsWith(' ')) {
+                      formik.setErrors({ email: 'Некорректный e-mail' });
+                    }
+                    // console.log(e.target.value);
+                  }}
+                  variant="bordered"
+                  placeholder="Электронная почта"
+                  isInvalid={Boolean(formik.errors.email)}
+                  errorMessage={formik.errors.email}
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="password"
+                  name="password"
+                  type={isPasswordVisible ? 'text' : 'password'}
+                  label="Пароль (не менее 6 знаков)"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  placeholder="Придумайте пароль"
+                  isInvalid={Boolean(formik.errors.password)}
+                  errorMessage={formik.errors.password}
+                  endContent={
+                    <button onClick={toggleVisibility} type="button">
+                      {isPasswordVisible ? (
+                        <img width="20" height="20" src="./eye-hide.svg" />
+                      ) : (
+                        <img width="20" height="20" src="./eye-show.svg" />
+                      )}
+                    </button>
+                  }
+                  classNames={itemClasses}
+                />
+              </div>
+              <div className={styles.inputContainer}>
+                <Input
+                  id="repeatPassword"
+                  name="repeatPassword"
+                  type={isConfirmVisible ? 'text' : 'password'}
+                  label="Пароль (не менее 6 знаков)"
+                  value={formik.values.repeatPassword}
+                  onChange={formik.handleChange}
+                  placeholder="Повторите пароль"
+                  isInvalid={Boolean(formik.errors.repeatPassword)}
+                  errorMessage={formik.errors.repeatPassword}
+                  endContent={
+                    <button onClick={toggleConfirmVisible} type="button">
+                      {isConfirmVisible ? (
+                        <img width="20" height="20" src="./eye-hide.svg" />
+                      ) : (
+                        <img width="20" height="20" src="./eye-show.svg" />
+                      )}
+                    </button>
+                  }
+                  classNames={itemClasses}
+                />
+              </div>
+            </>
+          )}
+          {registrationStep > 2 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
+          {registrationStep > 2 && (
             <p className={`${styles.infoText} py-[10px] w-full max-w-full text-center`}>
               В настоящее время сервис Ubrato открыт для юридических лиц
             </p>
           )}
           <div className={styles.inputContainer}>
-            {registrationStep > 1 && (
+            {registrationStep > 2 && (
               <Input
                 id="inn"
                 name="inn"
@@ -326,7 +335,7 @@ export const RegisterPage: FC = () => {
                       const res = await checkINN(e.currentTarget.value);
                       if (res.length > 0) {
                         setCompanyName(res);
-                        if (registrationStep !== 4) setRegistrationStep(3);
+                        if (registrationStep !== 5) setRegistrationStep(4);
                       } else {
                         toast.error('Неверный ИНН');
                       }
@@ -342,7 +351,7 @@ export const RegisterPage: FC = () => {
                 classNames={itemClasses}
               />
             )}
-            {registrationStep > 2 && (
+            {registrationStep > 3 && (
               <div className={styles.companyName}>
                 <p className={`${styles.label} ${styles.companyText}`}>
                   Это наименование вашей компании?
@@ -356,11 +365,11 @@ export const RegisterPage: FC = () => {
                   <button
                     onClick={() => {
                       setTimeout(() => {
-                        if (registrationStep !== 4) {
+                        if (registrationStep !== 5) {
                           scrollTosurnameRef();
                         }
                       }, 5);
-                      setRegistrationStep(4);
+                      setRegistrationStep(5);
                     }}
                     type="button"
                   >
@@ -371,8 +380,8 @@ export const RegisterPage: FC = () => {
                     onClick={() => {
                       // setNameConfirm(false);
                       formik.values.inn = '';
-                      if (registrationStep !== 4) {
-                        setRegistrationStep(2);
+                      if (registrationStep !== 5) {
+                        setRegistrationStep(3);
                       }
                       setCompanyName('');
                     }}
@@ -383,7 +392,7 @@ export const RegisterPage: FC = () => {
               </div>
             )}
           </div>
-          {registrationStep > 3 && (
+          {registrationStep > 4 && (
             <>
               <p className={styles.inputGrHeader}>Укажите контактное лицо</p>
               <p className={`${styles.infoText} ${styles.weCall}`}>
@@ -454,48 +463,27 @@ export const RegisterPage: FC = () => {
               </div>
               <div className={styles.approvalContainer}>
                 <Checkbox
-                  id="userAgreement"
-                  name="userAgreement"
-                  isSelected={formik.values.userAgreement}
-                  onChange={formik.handleChange}
-                  classNames={checkStyle}
-                >
-                  Принимаю{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=2">
-                    Пользовательское соглашение ООО «Интеграция»
-                  </Link>
-                  <p className={`${styles.errorMessage} ${styles.checkErr}`}>
-                    {formik.errors.userAgreement}
-                  </p>
-                </Checkbox>
-                <Checkbox
                   id="personalDataPolicy"
                   name="personalDataPolicy"
                   isSelected={formik.values.personalDataPolicy}
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Соглашаюсь с{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=1">
-                    Политикой обработки персональных данных ООО «Интеграция»
+                  Я даю{' '}
+                  <Link to="" className="text-accent underline text-sm">
+                    Согласие на обработку персональных данных
+                  </Link>{' '}
+                  в соответствии с{' '}
+                  <Link to="" className="text-accent underline text-sm">
+                    Политикой в отношении обработки персональных данных
+                  </Link>{' '}
+                  и принимаю условия{' '}
+                  <Link to="" className="text-accent underline text-sm">
+                    Пользовательского соглашения
                   </Link>
+                  .
                   <p className={`${styles.errorMessage} ${styles.checkErr}`}>
                     {formik.errors.personalDataPolicy}
-                  </p>
-                </Checkbox>
-                <Checkbox
-                  id="personalDataAgreement"
-                  name="personalDataAgreement"
-                  isSelected={formik.values.personalDataAgreement}
-                  onChange={formik.handleChange}
-                  classNames={checkStyle}
-                >
-                  Даю{' '}
-                  <Link target="_blank" className={styles.link} to="/rights?document=3">
-                    Согласие на обработку персональных данных
-                  </Link>
-                  <p className={`${styles.errorMessage} ${styles.checkErr}`}>
-                    {formik.errors.personalDataAgreement}
                   </p>
                 </Checkbox>
                 <p className="w-[478px] text-center text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">

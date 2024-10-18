@@ -9,7 +9,6 @@ import { fetchProduct, updateToken } from '@/api';
 import { Pagination, Select, SelectItem } from '@nextui-org/react';
 
 import s from './styles.module.css';
-import { getMe } from '@/api/getMe';
 import { useTenderListState } from '@/store/tendersListStore';
 import { generateTypesenseClient } from '@/components/FindExecutorComponents/generateSearchclient';
 import { cn } from '@/utils/twMerge';
@@ -33,6 +32,8 @@ import {
 } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { fetchDrafts } from '@/api/getTender';
+import { tenderList } from '@/types/app';
 
 export interface TenderList {
   id: string;
@@ -46,9 +47,10 @@ export interface TenderList {
 
 interface myTenderToogle {
   myTender: boolean;
+  drafts: boolean;
 }
 
-export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
+export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
   const tenderListState = useTenderListState();
 
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
@@ -206,110 +208,127 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
   });
 
   useEffect(() => {
-    const client = new Typesense.Client({
-      apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
-      nodes: [
-        {
-          host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
-          port: import.meta.env.VITE_TYPESENSE_API_PORT,
-          protocol: 'https',
-          path: '',
-        },
-      ],
-    });
+    if (drafts) {
+      (async () => {
+        const drafts = await updateToken(fetchDrafts, null);
+        const formatedDrafts: TenderList[] = drafts.map((draft) => ({
+          id: draft.id.toString(),
+          name: draft.name,
+          reception_end: draft.reception_end,
+          work_start: draft.work_start,
+          work_end: draft.work_end,
+          price: draft.price,
+          city: '',
+        }));
+        setAllExecutorListLength(drafts.length);
+        setTenderList(formatedDrafts);
+      })();
+    } else {
+      const client = new Typesense.Client({
+        apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
+        nodes: [
+          {
+            host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+            port: import.meta.env.VITE_TYPESENSE_API_PORT,
+            protocol: 'https',
+            path: '',
+          },
+        ],
+      });
 
-    const filters = (() => {
-      const filters = [];
-      if (tenderListState.locationId)
-        filters.push(`$city_index(id:=${tenderListState.locationId})`);
-      if (tenderListState.objectTypesId.length)
-        tenderListState.objectTypesId.forEach((object) =>
-          filters.push(`$tender_object(object_type_id:=${object})`)
-        );
-      if (tenderListState.servicesTypesId.length)
-        tenderListState.servicesTypesId.forEach((service) =>
-          filters.push(`$tender_service(service_type_id:=${service})`)
-        );
-      if (tenderListState.fastFilterTexts)
-        tenderListState.fastFilterTexts.forEach((filter) =>
-          filters.push(
-            `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
-          )
-        );
-      if (myTender) {
-        filters.push(`( user_id:=${userInfoStore.user.id})`);
-      }
-      return filters.join(' && ');
-    })();
+      const filters = (() => {
+        const filters = [];
+        if (tenderListState.locationId)
+          filters.push(`$city_index(id:=${tenderListState.locationId})`);
+        if (tenderListState.objectTypesId.length)
+          tenderListState.objectTypesId.forEach((object) =>
+            filters.push(`$tender_object(object_type_id:=${object})`)
+          );
+        if (tenderListState.servicesTypesId.length)
+          tenderListState.servicesTypesId.forEach((service) =>
+            filters.push(`$tender_service(service_type_id:=${service})`)
+          );
+        if (tenderListState.fastFilterTexts)
+          tenderListState.fastFilterTexts.forEach((filter) =>
+            filters.push(
+              `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
+            )
+          );
+        if (myTender) {
+          filters.push(`( user_id:=${userInfoStore.user.id})`);
+        }
+        return filters.join(' && ');
+      })();
 
-    const searchParameters = {
-      q: tenderListState.fastFilterTexts,
-      query_by: 'name, description, wishes',
-      per_page: paginationPerPage,
-      page: paginationPage,
-      filter_by: filters,
-      sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? 'desc' : 'asc'}` : ''}`,
-      preset: '',
-    };
-
-    (async () => {
-      const hitsWithoutPagination = await generateTypesenseClient('tender_index', {
+      const searchParameters = {
+        q: tenderListState.fastFilterTexts,
+        query_by: 'name, description, wishes',
+        per_page: paginationPerPage,
+        page: paginationPage,
         filter_by: filters,
-        per_page: 250,
-      });
-      setAllExecutorListLength(hitsWithoutPagination?.length || 0);
-      setPaginationTotal(
-        hitsWithoutPagination?.length
-          ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
-          : 0
-      );
-      // console.log(allExecutorListLength);
-    })();
+        sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? 'desc' : 'asc'}` : ''}`,
+        preset: '',
+      };
 
-    client
-      .collections('tender_index')
-      .documents()
-      .search(searchParameters)
-      .then(async (response) => {
-        // console.log(response.hits);
+      (async () => {
+        const hitsWithoutPagination = await generateTypesenseClient('tender_index', {
+          filter_by: filters,
+          per_page: 250,
+        });
+        setAllExecutorListLength(hitsWithoutPagination?.length || 0);
+        setPaginationTotal(
+          hitsWithoutPagination?.length
+            ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
+            : 0
+        );
+        // console.log(allExecutorListLength);
+      })();
 
-        const tenders = [] as TenderList[];
-        setAllExecutorListLength(response.found);
-        const promises = (response.hits || [])
-          .map((res, index) => {
-            const { id } = res.document as { id: string };
-            if (!id) return null;
-            return (async () => {
-              const data = await fetchProduct(id);
-              return {
-                index,
-                tenderData: {
-                  id: data.id,
-                  name: data.name,
-                  reception_end: data.reception_end,
-                  work_start: data.work_start,
-                  work_end: data.work_end,
-                  price: data.price,
-                  user: data.user_id,
-                  city: data.location,
-                },
-              } as { index: number; tenderData: TenderList };
-            })();
-          })
-          .filter((promise) => promise !== null);
+      client
+        .collections('tender_index')
+        .documents()
+        .search(searchParameters)
+        .then(async (response) => {
+          // console.log(response.hits);
 
-        const results = await Promise.all(promises);
-        results
-          .sort((a, b) => a!.index - b!.index)
-          .forEach((result) => {
-            // console.log(result?.tenderData);
-            tenders.push(result!.tenderData);
-          });
-        setTenderList(tenders);
-      })
-      .catch((error) => {
-        console.error('Ошибка:', error);
-      });
+          const tenders = [] as TenderList[];
+          setAllExecutorListLength(response.found);
+          const promises = (response.hits || [])
+            .map((res, index) => {
+              const { id } = res.document as { id: string };
+              if (!id) return null;
+              return (async () => {
+                const data = await fetchProduct(id);
+                return {
+                  index,
+                  tenderData: {
+                    id: data.id,
+                    name: data.name,
+                    reception_end: data.reception_end,
+                    work_start: data.work_start,
+                    work_end: data.work_end,
+                    price: data.price,
+                    user: data.user_id,
+                    city: data.location,
+                  },
+                } as { index: number; tenderData: TenderList };
+              })();
+            })
+            .filter((promise) => promise !== null);
+
+          const results = await Promise.all(promises);
+          results
+            .sort((a, b) => a!.index - b!.index)
+            .forEach((result) => {
+              // console.log(result?.tenderData);
+              tenders.push(result!.tenderData);
+            });
+          setTenderList(tenders);
+        })
+        .catch((error) => {
+          console.error('Ошибка:', error);
+        });
+    }
     // console.log(allExecutorListLength);
   }, [
     paginationPage,
@@ -322,6 +341,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
     sorting,
     myTender,
     userInfoStore.user.id,
+    drafts,
   ]);
 
   const navigate = useNavigate();
@@ -391,7 +411,15 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender }) => {
                   key={'row' + rowIndex}
                   data-state={row.getIsSelected() && 'selected'}
                   className={cn(rowIndex % 2 !== 0 ? 'bg-slate-200/40' : '', 'cursor-pointer')}
-                  onClick={() => navigate('/tender/' + row.original.id)}
+                  onClick={() =>
+                    navigate(
+                      `${
+                        drafts
+                          ? `/create-tender?id=${row.original.id}`
+                          : `/tender/${row.original.id}`
+                      }`
+                    )
+                  }
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell

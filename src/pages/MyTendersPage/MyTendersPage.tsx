@@ -38,7 +38,7 @@ export const MyTendersPage: FC = () => {
       <p onClick={() => setDraftSwitch(!draftSwitch)} className="cursor-pointer">
         {draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}
       </p>
-      {!draftSwitch ? <TenderListComp myTender={true} /> : <DraftTenderComponent />}
+      <TenderListComp myTender={true} drafts={draftSwitch} />
       {/* <TenderListComp myTender={true}></TenderListComp> */}
     </div>
   );

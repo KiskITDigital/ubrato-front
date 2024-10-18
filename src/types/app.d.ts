@@ -116,7 +116,7 @@ export interface executorList {
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
-  isTextHidden: boolean
+  isTextHidden: boolean;
 }
 
 export interface tenderList {
@@ -137,9 +137,8 @@ export interface tenderList {
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
-  isTextHidden: boolean
+  isTextHidden: boolean;
 }
-
 
 export interface tenderData {
   id: string;
@@ -160,10 +159,29 @@ export interface tenderData {
   status: boolean;
 }
 
-
-
-
-
+export interface draftData {
+  id: number;
+  user_id: string;
+  name: string;
+  price: number;
+  is_contract_price: boolean;
+  is_nds_price: boolean;
+  location: number;
+  floor_space: number;
+  description: string;
+  wishes: string;
+  specification: string;
+  attachments: string[];
+  services_groups: number[];
+  services_types: number[];
+  reception_start: string;
+  reception_end: string;
+  work_start: string;
+  work_end: string;
+  object_group: number;
+  objects_types: number[];
+  update_at: string;
+}
 
 interface Organization {
   id: string;
@@ -185,7 +203,7 @@ export interface Portfolio {
   id: string;
   name: string;
   description: string;
-  links: string[]
+  links: string[];
 }
 
 interface Orderer {

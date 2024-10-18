@@ -118,6 +118,9 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
               }
             }}
             minValue={today(getLocalTimeZone())}
+            selectorIcon={
+              <img className="w-[16px] h-[16px]" src="/calendar-ic.svg" alt="calendar" />
+            }
           />
         </div>
       </div>
@@ -250,6 +253,9 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
               }
             }}
             minValue={today(getLocalTimeZone())}
+            selectorIcon={
+              <img className="w-[16px] h-[16px]" src="/calendar-ic.svg" alt="calendar" />
+            }
           />
         </div>
       </div>

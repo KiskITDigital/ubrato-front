@@ -26,7 +26,7 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
                 <p>{'>'}</p>
               </div>
               <div className="flex flex-wrap w-full gap-2">
-                {category.services.map((service, serviceIndex) => (
+                {category.services.map((service) => (
                   <Fragment key={'service-' + categoryIndex}>
                     <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
                   </Fragment>
