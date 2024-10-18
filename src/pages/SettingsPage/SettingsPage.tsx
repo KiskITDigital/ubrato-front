@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, Ref, useEffect, useRef, useState } from 'react';
 import styles from './settings-page.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { Input } from '@nextui-org/react';
+import { Checkbox, Input } from '@nextui-org/react';
 // import { LoginFormValuesT } from "@/types/app";
 // import { useFormik } from "formik";
 import {
@@ -45,9 +46,13 @@ const SettingsPage: FC = () => {
   const [middleName, setMiddleName] = useState('');
   const [hasDataChanged, setHasDataChanged] = useState(false);
   const [changeDataError, setChangeDataError] = useState('');
+  const [contactConfirm, setContactConfirm] = useState(false);
+  const [contactError, setContactError] = useState('');
 
   const [passwordToChange, setPasswordToChange] = useState('');
   const [isPasswordToChangeVisible, setIsPasswordToChangeVisible] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState(false);
+  const [passwordResetError, setPasswordResetError] = useState('');
 
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<
@@ -171,6 +176,13 @@ const SettingsPage: FC = () => {
     }
   };
 
+  const checkStyle = {
+    base: styles.checkBase,
+    icon: styles.checkIcon,
+    wrapper: styles.checkWrapper,
+    label: `${styles.checkText} ${styles.infoText}`,
+  };
+
   const itemClasses = {
     input: styles.input,
     innerWrapper: styles.innerWrapper,
@@ -270,10 +282,39 @@ const SettingsPage: FC = () => {
                 <p className={styles.errorMessage}>{passwordError}</p>
               )}
           </div>
+          <Checkbox
+            id="confirm"
+            name="confirm"
+            isSelected={passwordConfirm}
+            onValueChange={(e) => {
+              setPasswordConfirm(e);
+              setPasswordResetError('');
+            }}
+            classNames={checkStyle}
+          >
+            <p className="text-sm">
+              Я даю{' '}
+              <Link className={styles.link} target="_blank" to="/rights?document=1">
+                Согласие на обработку персональных данных
+              </Link>{' '}
+              в соответствии с{' '}
+              <Link className={styles.link} target="_blank" to="/rights?document=3">
+                Политикой в отношении обработки персональных данных
+              </Link>
+              <span>.</span>
+            </p>
+            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{passwordResetError}</p>
+          </Checkbox>
           <button
             disabled={passwordError !== 'allowed'}
             className={styles.updateAccaunt}
-            onClick={() => askToResetPassword()}
+            onClick={() => {
+              if (passwordConfirm) {
+                askToResetPassword();
+              } else {
+                setPasswordResetError('Обязательное поле');
+              }
+            }}
           >
             {passwordError ===
             'На указанную вами электронную почту отправлена ссылка для создания нового пароля.'
@@ -339,6 +380,29 @@ const SettingsPage: FC = () => {
               classNames={itemClasses}
             />
           </div>
+          <Checkbox
+            id="confirm"
+            name="confirm"
+            isSelected={contactConfirm}
+            onValueChange={(e) => {
+              setContactConfirm(e);
+              setChangeDataError('');
+            }}
+            classNames={checkStyle}
+          >
+            <p className="text-sm">
+              Я даю{' '}
+              <Link className={styles.link} target="_blank" to="/rights?document=1">
+                Согласие на обработку персональных данных
+              </Link>{' '}
+              в соответствии с{' '}
+              <Link className={styles.link} target="_blank" to="/rights?document=3">
+                Политикой в отношении обработки персональных данных
+              </Link>
+              <span>.</span>
+            </p>
+            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{contactError}</p>
+          </Checkbox>
           {!wantToChange && (
             <button
               className={styles.updateAccaunt}
@@ -355,6 +419,10 @@ const SettingsPage: FC = () => {
                 <button
                   className={styles.filledBtn}
                   onClick={() => {
+                    if (!contactConfirm) {
+                      setContactError('Обязательное поле');
+                      return;
+                    }
                     const token = localStorage.getItem('token');
                     const parameters = {
                       firstName: firstName,
@@ -459,7 +527,7 @@ const SettingsPage: FC = () => {
           </div>
         )}
       </div>
-      <div className="flex gap-10 border-b border-black/30 pb-6">
+      <div className="flex justify-between border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Правовые документы</p>
         <div className={styles.section__container}>
           <Link target="_blank" to="/rights?document=1" className={styles.sectionLink}>
@@ -473,7 +541,7 @@ const SettingsPage: FC = () => {
           </Link>
         </div>
       </div>
-      <div className="flex gap-10 border-b border-black/30 pb-6">
+      <div className="flex justify-between border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Обратная связь</p>
         <div className={styles.section__container}>
           <p className={styles.sectionText}>

@@ -231,7 +231,10 @@ export const RegisterPage: FC = () => {
           Есть вопросы по регистрации?{' '}
           <span
             className={`cursor-pointer underline underline-offset-4`}
-            onClick={() => setOpenModal(true)}
+            onClick={() => {
+              setOpenModal(true);
+              document.body.style.overflow = 'hidden';
+            }}
           >
             Напишите телефон
           </span>{' '}
@@ -506,7 +509,12 @@ export const RegisterPage: FC = () => {
         </form>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal onClose={() => setOpenModal(false)} />
+        <ContactModal
+          onClose={() => {
+            setOpenModal(false);
+            document.body.style.overflow = 'auto';
+          }}
+        />
       </Modal>
     </div>
   );

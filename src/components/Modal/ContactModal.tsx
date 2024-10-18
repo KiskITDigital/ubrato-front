@@ -1,22 +1,22 @@
-import { helpSchema } from "@/validation/helpSchema";
-import { Checkbox, Input, Textarea } from "@nextui-org/react";
-import { useFormik } from "formik";
+import { helpSchema } from '@/validation/helpSchema';
+import { Checkbox, Input, Textarea } from '@nextui-org/react';
+import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
-import styles from "./ContactModal.module.css"
-import { useIMask } from "react-imask";
-import { FormEvent, Ref } from "react";
+import styles from './ContactModal.module.css';
+import { useIMask } from 'react-imask';
+import { FormEvent, Ref } from 'react';
 
 type ContactFormProps = {
   name: string;
   phone: string;
   question: string;
   confirm: boolean;
-}
+};
 
 const initialValues: ContactFormProps = {
-  name: "",
-  phone: "",
-  question: "",
+  name: '',
+  phone: '',
+  question: '',
   confirm: false,
 };
 
@@ -45,15 +45,23 @@ export default function ContactModal({ onClose }: { onClose?: () => void }) {
     validationSchema: helpSchema,
   });
 
-
   const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
 
   return (
-    <form className="flex flex-col gap-5 bg-white p-5 rounded-[20px] relative shadow-lg w-fit" onSubmit={formik.handleSubmit}>
-      {onClose &&
-        <img src="/x-icon.svg" className="absolute min-w-6 size-6 right-5 top-5 cursor-pointer" onClick={onClose} />
-      }
-      <p className="text-[20px] font-bold">Обратная связь c <span className="text-accent">Ubrato</span></p>
+    <form
+      className="flex flex-col gap-5 bg-white p-5 rounded-[20px] relative shadow-lg w-fit"
+      onSubmit={formik.handleSubmit}
+    >
+      {onClose && (
+        <img
+          src="/x-icon.svg"
+          className="absolute min-w-6 size-6 right-5 top-5 cursor-pointer"
+          onClick={onClose}
+        />
+      )}
+      <p className="text-[20px] font-bold">
+        Обратная связь c <span className="text-accent">Ubrato</span>
+      </p>
       <Input
         id="name"
         name="name"
@@ -101,12 +109,19 @@ export default function ContactModal({ onClose }: { onClose?: () => void }) {
         onChange={formik.handleChange}
         classNames={checkStyle}
       >
-        Соглашаюсь с <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку персональных данных</Link>.
-        <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
+        Я даю{' '}
+        <Link className={styles.link} target="_blank" to="/rights?document=1">
+          Согласие на обработку персональных данных
+        </Link>{' '}
+        в соответствии с{' '}
+        <Link className={styles.link} target="_blank" to="/rights?document=3">
+          Политикой в отношении обработки персональных данных
+        </Link>
+        .<p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
       </Checkbox>
       <button type="submit" className={styles.submit}>
         Заказать звонок
       </button>
     </form>
-  )
+  );
 }
