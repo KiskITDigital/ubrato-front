@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { formatDate } from '../../funcs';
 import { createTender, offerTender, updateToken } from '@/api/index';
 import styles from '../../CreateTender.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from '@/components/Modal';
 import AfterSendInfo from '../AfterSendInfo/AfterSendInfo';
 import { AxiosError } from 'axios';
@@ -99,9 +99,27 @@ const SendButtons: FC = () => {
           />
         </Modal>
       )}
+      <p className="ml-[244px]">
+        Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
+        <Link to="" className="text-accent underline text-sm">
+          Согласие на обработку персональных данных
+        </Link>{' '}
+        в соответствии с{' '}
+        <Link to="" className="text-accent underline text-sm">
+          Политикой в отношении обработки персональных данных
+        </Link>{' '}
+        и соглашаюсь с условиями настоящей{' '}
+        <Link to="" className="text-accent underline text-sm">
+          Оферты
+        </Link>
+        , а также даю{' '}
+        <Link to="" className="text-accent underline text-sm">
+          Согласие на размещение и обнародование фотографий и иных материалов
+        </Link>
+        .
+      </p>
       <div className={`${styles.section__block}`}>
-        <p className={`${styles.section__block__p}`}></p>
-        <div className={`${styles.section__sendButtons__block}`}>
+        <div className={`ml-[244px] ${styles.section__sendButtons__block}`}>
           <button
             onClick={() => {
               submit(false);
