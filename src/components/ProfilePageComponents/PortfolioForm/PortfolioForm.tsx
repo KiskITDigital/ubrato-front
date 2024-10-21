@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './portfolioform.module.css';
 import { updateToken, uploadFile, fetchFileInfo, postPortfolio, putPortfolio } from '@/api';
+import { Link } from 'react-router-dom';
 
 export const PortfolioForm: FC<{
   close: () => void;
@@ -117,8 +118,8 @@ export const PortfolioForm: FC<{
             />
             {newLinks.length < 8 && (
               <div className={styles.realInput}>
-                <img src="/x-icon.svg" alt="" />
-                <p>Добавить вложения (до {8 - newLinks.length} шт.)</p>
+                <img src="/x-icon-blue.svg" alt="" />
+                <p className="text-accent">Добавить вложения (до {8 - newLinks.length} шт.)</p>
               </div>
             )}
           </label>
@@ -155,47 +156,68 @@ export const PortfolioForm: FC<{
             </p>
           </div>
         </div>
-        <button
-          className={styles.btn}
-          onClick={() => {
-            (async () => {
-              if (data) {
-                await updateToken(putPortfolio, {
-                  id: data.id,
-                  params: {
+        <div className="flex gap-6">
+          <button
+            className={styles.btn}
+            onClick={() => {
+              (async () => {
+                if (data) {
+                  await updateToken(putPortfolio, {
+                    id: data.id,
+                    params: {
+                      name: newName,
+                      description: newDescription,
+                      imgs: newLinks,
+                    },
+                  });
+                  setPortfolioList({
+                    id: data.id,
+                    name: newName,
+                    description: newDescription,
+                    links: newLinks,
+                    selected: false,
+                  });
+                  close();
+                } else {
+                  const res = await updateToken(postPortfolio, {
                     name: newName,
                     description: newDescription,
                     imgs: newLinks,
-                  },
-                });
-                setPortfolioList({
-                  id: data.id,
-                  name: newName,
-                  description: newDescription,
-                  links: newLinks,
-                  selected: false,
-                });
-                close();
-              } else {
-                const res = await updateToken(postPortfolio, {
-                  name: newName,
-                  description: newDescription,
-                  imgs: newLinks,
-                });
-                setPortfolio({
-                  id: res,
-                  name: newName,
-                  description: newDescription,
-                  links: newLinks,
-                  selected: false,
-                });
-                close();
-              }
-            })();
-          }}
-        >
-          {data ? 'Изменить' : 'Добавить'}
-        </button>
+                  });
+                  setPortfolio({
+                    id: res,
+                    name: newName,
+                    description: newDescription,
+                    links: newLinks,
+                    selected: false,
+                  });
+                  close();
+                }
+              })();
+            }}
+          >
+            {data ? 'Изменить' : 'Добавить'}
+          </button>
+          <p className='w-full'>
+            Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
+            <Link to="" className="text-accent underline text-sm">
+              Согласие на обработку персональных данных
+            </Link>{' '}
+            в соответствии с{' '}
+            <Link to="" className="text-accent underline text-sm">
+              Политикой в отношении обработки персональных данных
+            </Link>{' '}
+            и соглашаюсь с условиями настоящей{' '}
+            <Link to="" className="text-accent underline text-sm">
+              Оферты
+            </Link>
+            , а также даю{' '}
+            <Link to="" className="text-accent underline text-sm">
+              Согласие на размещение и обнародование фотографий и иных материалов
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </div>
   );

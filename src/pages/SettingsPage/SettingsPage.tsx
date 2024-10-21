@@ -386,7 +386,7 @@ const SettingsPage: FC = () => {
             isSelected={contactConfirm}
             onValueChange={(e) => {
               setContactConfirm(e);
-              setChangeDataError('');
+              setContactError('');
             }}
             classNames={checkStyle}
           >
@@ -407,6 +407,10 @@ const SettingsPage: FC = () => {
             <button
               className={styles.updateAccaunt}
               onClick={() => {
+                if (!contactConfirm) {
+                  setContactError('Обязательное поле');
+                  return;
+                }
                 setWantToChange(true);
               }}
             >
@@ -476,7 +480,7 @@ const SettingsPage: FC = () => {
             ))}
         </div>
         {wantToChange && !isVerified && (
-          <div className="flex items-center justify-center mt-[-20px] ml-[-20px] p-[20px] absolute w-full h-full backdrop-blur box-content">
+          <div className="z-10 flex items-center justify-center mt-[-20px] ml-[-20px] p-[20px] absolute w-full h-full backdrop-blur box-content">
             <div className="bg-white w-[310px] h-[175px] p-[20px] rounded-[20px] flex flex-col justify-between items-start relative">
               <button
                 className="rounded-full bg-[rgba(0,0,0,.04)] w-[20px] h-[20px] flex items-center justify-center absolute top-[10px] right-[10px]"

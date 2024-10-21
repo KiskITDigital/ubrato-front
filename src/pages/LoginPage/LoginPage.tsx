@@ -153,14 +153,14 @@ export const LoginPage: FC = () => {
           <Link className={styles.forgotPassword} to="/reset-password">
             Забыли пароль?
           </Link>
-          <p className='w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]'>
+          <p className="w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]">
             Нажимая на кнопку «Войти», вы даете{' '}
-            <Link className='text-accent underline' target="_blank" to="/rights?document=3">
+            <Link className="text-accent underline" target="_blank" to="/rights?document=3">
               Согласие на обработку персональных данных
             </Link>{' '}
             в соответствии с{' '}
-            <Link className='text-accent underline' target="_blank" to="/rights?document=3">
-              Согласие на обработку персональных данных
+            <Link className="text-accent underline" target="_blank" to="/rights?document=3">
+              Политикой в отношении обработки персональных данных
             </Link>
             .
           </p>

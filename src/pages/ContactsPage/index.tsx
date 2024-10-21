@@ -169,15 +169,16 @@ const ContactsPage: FC = () => {
             onChange={formik.handleChange}
             classNames={checkStyle}
           >
-            Соглашаюсь с{' '}
+            Я даю{' '}
             <Link className={styles.link} target="_blank" to="/rights?document=1">
-              Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”
-            </Link>{' '}
-            и даю{' '}
-            <Link className={styles.link} target="_blank" to="/rights?document=3">
               Согласие на обработку персональных данных
+            </Link>{' '}
+            в соответствии с{' '}
+            <Link className={styles.link} target="_blank" to="/rights?document=3">
+              Политикой в отношении обработки персональных данных
             </Link>
-            .<p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
+            <span>.</span>
+            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
           </Checkbox>
           <button type="submit" className={styles.submit}>
             Заказать звонок
