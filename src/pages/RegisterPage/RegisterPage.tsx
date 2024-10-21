@@ -197,22 +197,22 @@ export const RegisterPage: FC = () => {
           </button>
         </div>
         <div className="flex w-[478px] justify-between mt-[20px]">
-          <div>
-            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[12px]">
+          <div className='w-[234px]'>
+            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[13px]">
               Выбирайте роль Заказчика, если вашей компании нужно заказать клининг и/или смежные{' '}
               <Link className="underline" to="/faq?page=3&number=2#q3_2">
                 услуги
               </Link>
               .
             </p>
-            <p className="text-[rgba(0,0,0,.4)] text-center text-[12px]">
+            <p className="text-[rgba(0,0,0,.4)] text-center text-[13px]">
               Регистрируясь на сайте Ubrato, ваша компания получает возможность проводить тендеры.
               Если в будущем вашей компании потребуется роль Исполнителя, то вы сможете подключить
               этот функционал в личном кабинете.
             </p>
           </div>
-          <div>
-            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[12px]">
+          <div className='w-[234px]'>
+            <p className="text-[rgba(0,0,0,.7)] mb-[10px] text-center text-[13px]">
               Выбирайте роль Исполнителя, если ваша компания предлагает свои клининговые и/или
               смежные{' '}
               <Link className="underline" to="/faq?page=2&number=1#q2_1">
@@ -220,7 +220,7 @@ export const RegisterPage: FC = () => {
               </Link>
               .
             </p>
-            <p className="text-[rgba(0,0,0,.4)] text-center text-[12px]">
+            <p className="text-[rgba(0,0,0,.4)] text-center text-[13px]">
               Регистрируясь как Исполнитель, ваша компания одновременно регистрируется и в роли
               Заказчика. Это позволит находить Исполнителей на субподряды или заказывать
               специализированные услуги для себя.

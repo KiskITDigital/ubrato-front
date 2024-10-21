@@ -4,20 +4,15 @@ import { FileInput } from '../FileInput/FileInput';
 import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
 import { Checkbox } from '@nextui-org/react';
 import { Link } from 'react-router-dom';
-import { verifyUser } from "@/api/verification";
-import Modal from "@/components/Modal";
-import ContactModal from "@/components/Modal/ContactModal";
+import { verifyUser } from '@/api/verification';
+import Modal from '@/components/Modal';
+import ContactModal from '@/components/Modal/ContactModal';
 
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
 
   const [disabled, setDisabled] = useState(true);
-  const [checkBoxes, setCheckBoxes] = useState({
-    1: false,
-    2: false,
-    3: false,
-  });
 
   const checkStyle = {
     base: styles.checkBase,
@@ -32,27 +27,22 @@ export const ProfileDocuments: FC = () => {
   }, [fetchDocuments]);
 
   useEffect(() => {
-    if (
-      profileDocuments.documents.every(document => document.idFile && document.link) &&
-      checkBoxes[1] &&
-      checkBoxes[2] &&
-      checkBoxes[3]
-    ) {
+    if (profileDocuments.documents.every((document) => document.idFile && document.link)) {
       setDisabled(false);
     } else {
       setDisabled(true);
     }
-  }, [checkBoxes, profileDocuments.documents]);
+  }, [profileDocuments.documents]);
 
   function handleUserVerify() {
-    setDisabled(true)
-    verifyUser(localStorage.getItem("token") || "").catch((error) => {
-      console.log(error)
-      setDisabled(false)
-    })
+    setDisabled(true);
+    verifyUser(localStorage.getItem('token') || '').catch((error) => {
+      console.log(error);
+      setDisabled(false);
+    });
   }
 
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (
     <div className={styles.container}>
@@ -75,33 +65,6 @@ export const ProfileDocuments: FC = () => {
         />
       ))}
       <div className={styles.checkContainer}>
-        <Checkbox
-          isSelected={checkBoxes[1]}
-          onValueChange={() => {
-            setCheckBoxes({ 1: !checkBoxes[1], 2: checkBoxes[2], 3: checkBoxes[3] });
-          }}
-          classNames={checkStyle}
-        >
-          Принимаю <Link className={styles.link} target="_blank" to="/rights?document=2">Пользовательское соглашение ООО «ИНТЕГРАЦИЯ»</Link>
-        </Checkbox>
-        <Checkbox
-          isSelected={checkBoxes[2]}
-          onValueChange={() => {
-            setCheckBoxes({ 1: checkBoxes[1], 2: !checkBoxes[2], 3: checkBoxes[3] });
-          }}
-          classNames={checkStyle}
-        >
-          Соглашаюсь с <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО «ИНТЕГРАЦИЯ»</Link>
-        </Checkbox>
-        <Checkbox
-          isSelected={checkBoxes[3]}
-          onValueChange={() => {
-            setCheckBoxes({ 1: checkBoxes[1], 2: checkBoxes[2], 3: !checkBoxes[3] });
-          }}
-          classNames={checkStyle}
-        >
-          Даю <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку Персональных данных</Link>
-        </Checkbox>
         <button disabled={disabled} className={styles.send} onClick={handleUserVerify}>
           Отправить на верификацию
         </button>
