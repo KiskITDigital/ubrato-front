@@ -198,8 +198,8 @@ export const PortfolioForm: FC<{
           >
             {data ? 'Изменить' : 'Добавить'}
           </button>
-          <p className='w-full'>
-            Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
+          <p className="w-full">
+            Нажимая на кнопку «{data ? 'Изменить' : 'Добавить'}» Я даю{' '}
             <Link to="" className="text-accent underline text-sm">
               Согласие на обработку персональных данных
             </Link>{' '}

@@ -17,7 +17,5 @@ export const registerSchema = object().shape<Record<keyof RegisterFormValuesT, A
   firstName: string().required('Введите имя'),
   lastName: string().required('Введите фамилию'),
   middleName: string(),
-  userAgreement: boolean().oneOf([true], 'Обязательное поле'),
   personalDataAgreement: boolean().oneOf([true], 'Обязательное поле'),
-  personalDataPolicy: boolean().oneOf([true], 'Обязательное поле'),
 });

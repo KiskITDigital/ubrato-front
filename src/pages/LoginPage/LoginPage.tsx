@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFormik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { LoginFormValuesT } from '@/types/app';
@@ -150,7 +151,7 @@ export const LoginPage: FC = () => {
               <p className={styles.errorMessage}>Неверный пароль</p>
             )}
           </div>
-          <Link className={styles.forgotPassword} to="/reset-password">
+          <Link className={styles.forgotPassword} to="/forgot-password">
             Забыли пароль?
           </Link>
           <p className="w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]">

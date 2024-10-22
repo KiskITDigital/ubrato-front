@@ -24,8 +24,6 @@ export interface RegisterFormValuesT {
   firstName: string;
   middleName: string;
   lastName: string;
-  userAgreement: boolean;
-  personalDataPolicy: boolean;
   personalDataAgreement: boolean;
 }
 
