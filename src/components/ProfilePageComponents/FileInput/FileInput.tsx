@@ -3,20 +3,23 @@ import styles from './fileinput.module.css';
 import {
   sendDoc,
   // sendDoc,
-  updateToken, uploadFile
+  updateToken,
+  uploadFile,
 } from '@/api';
 import { FileInfo } from '../FileInfo/FileInfo';
 import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
+import { Tooltip } from '@nextui-org/react';
 
 interface FileInputProps {
   header: string;
+  text: string;
   id: string;
   type: number;
   link?: string;
   idFile?: string;
 }
 
-export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }) => {
+export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, text }) => {
   const fetchDocuments = useProfileDocumentsStore();
 
   const [error, setError] = useState('');
@@ -25,7 +28,18 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
   return (
     <div className={styles.fileContainer}>
       <div>
-        <h3 className={styles.fileHeader}>{header}</h3>
+        <div className="flex gap-1">
+          <h3 className={styles.fileHeader}>{header}</h3>
+          <Tooltip
+            placement="top"
+            closeDelay={100}
+            content={<p className="w-[400px] bg-white rounded-xl py-3 px-4 shadow-lg">{text}</p>}
+          >
+            <button>
+              <img src="/info-ic.svg" alt="info" />
+            </button>
+          </Tooltip>
+        </div>
         <p className={styles.fileText}>
           Форматы: pdf, jpg, png, размер одного файла не должен превышать 5 Мб.
         </p>
@@ -35,9 +49,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
             onChange={(e) => {
               // console.log(e.target.files);
               if (
-                ['image/png', 'image/jpeg', 'application/pdf'].includes(
-                  e.target.files![0].type
-                )
+                ['image/png', 'image/jpeg', 'application/pdf'].includes(e.target.files![0].type)
               ) {
                 const parameters = { file: e.target.files![0], private: true };
                 (async () => {
@@ -65,7 +77,7 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile }
             id={id}
             accept="image/png, image/jpeg, application/pdf, text/xml"
           />
-          <div className={`${styles.fileBtn} ${Boolean(link) && "hidden"}`}>Загрузить</div>
+          <div className={`${styles.fileBtn} ${Boolean(link) && 'hidden'}`}>Загрузить</div>
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>

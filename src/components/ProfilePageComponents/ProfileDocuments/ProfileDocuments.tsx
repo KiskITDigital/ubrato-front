@@ -2,8 +2,6 @@ import { FC, useEffect, useState } from 'react';
 import styles from './profiledocuments.module.css';
 import { FileInput } from '../FileInput/FileInput';
 import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
-import { Checkbox } from '@nextui-org/react';
-import { Link } from 'react-router-dom';
 import { verifyUser } from '@/api/verification';
 import Modal from '@/components/Modal';
 import ContactModal from '@/components/Modal/ContactModal';
@@ -13,13 +11,6 @@ export const ProfileDocuments: FC = () => {
   const fetchDocuments = profileDocuments.fetchDocuments;
 
   const [disabled, setDisabled] = useState(true);
-
-  const checkStyle = {
-    base: styles.checkBase,
-    icon: styles.checkIcon,
-    wrapper: styles.checkWrapper,
-    label: `${styles.checkText} ${styles.infoText}`,
-  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -59,6 +50,7 @@ export const ProfileDocuments: FC = () => {
           key={e.id}
           id={e.id}
           header={e.header}
+          text={e.text}
           type={e.type}
           link={e.link}
           idFile={e.idFile}

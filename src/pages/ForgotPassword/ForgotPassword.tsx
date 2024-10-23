@@ -58,6 +58,7 @@ export const ForgotPassword: FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (localStorage.getItem('token')) {
       navigate('/');
     }
@@ -92,7 +93,12 @@ export const ForgotPassword: FC = () => {
               type="submit"
               value="Отправить"
             />
-            <button className="px-4 py-3 rounded-xl bg-[#F4F7F9] text-[#666] text-lg font-semibold">
+            <button
+              className="px-4 py-3 rounded-xl bg-[#F4F7F9] text-[#666] text-lg font-semibold"
+              onClick={() => {
+                navigate('/');
+              }}
+            >
               Отменить
             </button>
           </div>

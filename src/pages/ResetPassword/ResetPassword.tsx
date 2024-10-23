@@ -3,6 +3,7 @@ import { resetPassword } from '@/api';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { resetPasswordSchema } from '@/validation/resetPasswordSchema';
 import { Input } from '@nextui-org/react';
+import { AxiosError } from 'axios';
 import { useFormik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -26,19 +27,33 @@ export const ResetPassword: FC = () => {
   const formik = useFormik<resetPasswordFormValuesT>({
     initialValues: initialValues,
     onSubmit(values) {
-      const code = location.search.split('?code=')[1].split('&email=')[0];
-      const email = location.search.split('&email=')[1];
+      const searchParams = new URLSearchParams(location.search);
+      const code = searchParams.get('code');
+      const email = searchParams.get('email');
 
-      (async () => {
-        const res = await resetPassword(email.replace('%40', '@'), code, values.password);
-        if (res.status === 200) {
-          localStorage.removeItem('token');
-          userStore.setLoggedIn(false);
-          navigate('/');
-        } else {
-          setErrorMsg('Что-то пошло не так');
-        }
-      })();
+      console.log(code, email);
+
+      if (email && code) {
+        (async () => {
+          try {
+            const res = await resetPassword(email, code, values.password);
+            if (res.status === 200) {
+              localStorage.removeItem('token');
+              userStore.setLoggedIn(false);
+              navigate('/login');
+            }
+          } catch (error) {
+            console.log(error);
+            if (error instanceof AxiosError) {
+              if (error.status === 400) {
+                setErrorMsg('Срок действия ссылки истёк');
+              } else if (error.status === 404) {
+                setErrorMsg('Ссылка неверна');
+              }
+            }
+          }
+        })();
+      }
     },
     validationSchema: resetPasswordSchema,
   });
@@ -63,6 +78,10 @@ export const ResetPassword: FC = () => {
       navigate('/login');
     }
   }, [location.search.length]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (location.search.length === 0) return <div></div>;
 
@@ -123,18 +142,23 @@ export const ResetPassword: FC = () => {
               </button>
             }
           />
+          {errorMsg && <p className="text-error text-center mb-2">{errorMsg}</p>}
           <div className="flex gap-9">
             <input
               className="px-4 py-3 rounded-xl bg-accent text-white text-lg font-semibold"
               type="submit"
               value="Сохранить"
             />
-            <button className="px-4 py-3 rounded-xl bg-[#F4F7F9] text-[#666] text-lg font-semibold">
+            <button
+              className="px-4 py-3 rounded-xl bg-[#F4F7F9] text-[#666] text-lg font-semibold"
+              onClick={() => {
+                navigate('/');
+              }}
+            >
               Отменить
             </button>
           </div>
         </form>
-        {errorMsg && <p className="text-error text-center">{errorMsg}</p>}
       </div>
     </div>
   );
