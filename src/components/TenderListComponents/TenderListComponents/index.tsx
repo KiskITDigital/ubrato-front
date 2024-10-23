@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   FC,
   // ReactNode,
@@ -33,7 +34,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { fetchDrafts } from '@/api/getTender';
-import { tenderList } from '@/types/app';
+// import { tenderList } from '@/types/app';
 
 export interface TenderList {
   id: string;

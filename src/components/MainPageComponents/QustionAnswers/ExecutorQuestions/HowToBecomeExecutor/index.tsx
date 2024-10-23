@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
 import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.module.css';
 import { Link } from 'react-router-dom';
-import Modal from "@/components/Modal";
-import ContactModal from "@/components/Modal/ContactModal";
+import Modal from '@/components/Modal';
+import ContactModal from '@/components/Modal/ContactModal';
 
 const HowToBecome: FC = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <div className={qstyles.container}>
       <p className={`${qstyles.startText}`}>
@@ -76,7 +76,7 @@ const HowToBecome: FC = () => {
         и мы перезвоним.
       </p>
       <Modal isOpen={openModal}>
-        <ContactModal onClose={() => setOpenModal(false)} />
+        <ContactModal type="registration" onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

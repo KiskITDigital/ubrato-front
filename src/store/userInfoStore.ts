@@ -44,6 +44,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
       const response = await axiosInstance.get(`/v1/users/me`, {
         headers: { authorization: `Bearer ${token}` },
       });
+      console.log(response);
       if (response.status !== 200) throw response;
       // console.log(response.data);
 

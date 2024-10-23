@@ -13,4 +13,9 @@ export const axiosInstanceStore = axios.create({
   }
 })
 
+export const axiosInstanceFeedback = axios.create({
+  withCredentials: true,
+  baseURL: 'http://api.lan'
+})
+
 

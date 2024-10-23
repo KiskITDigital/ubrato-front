@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './ContactModal.module.css';
 import { useIMask } from 'react-imask';
 import { FormEvent, Ref } from 'react';
+import { sendHelpMessage } from '@/api/sendHelpMessage';
 
 type ContactFormProps = {
   name: string;
@@ -36,11 +37,20 @@ const itemClasses = {
   helperWrapper: styles.helperWrapper,
 };
 
-export default function ContactModal({ onClose }: { onClose?: () => void }) {
+export default function ContactModal({
+  onClose,
+  type,
+}: {
+  onClose?: () => void;
+  type: 'registration' | 'verification' | 'feedback';
+}) {
   const formik = useFormik<ContactFormProps>({
     initialValues: initialValues,
     onSubmit(values) {
-      console.log(values);
+      // console.log(values, type);
+      (async () => {
+        await sendHelpMessage(values.name, values.phone, values.question, type);
+      })();
     },
     validationSchema: helpSchema,
   });

@@ -64,7 +64,7 @@
   position: absolute;
   color: var(--color-black-50);
   font-size: 16px;
-  right: 56px;
+  left: 68px;
   height: 100%;
   display: flex;
   align-items: center;

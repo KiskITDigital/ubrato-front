@@ -511,6 +511,7 @@ export const RegisterPage: FC = () => {
       </div>
       <Modal isOpen={openModal}>
         <ContactModal
+          type="registration"
           onClose={() => {
             setOpenModal(false);
             document.body.style.overflow = 'auto';

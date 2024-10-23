@@ -1,55 +1,11 @@
-import { FC, FormEvent, Ref, useEffect, useRef } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { FC, useEffect, useRef } from 'react';
 import styles from './contacts-page.module.css';
-import { Checkbox, Input, Textarea } from '@nextui-org/react';
-import { useFormik } from 'formik';
-import { helpSchema } from '@/validation/helpSchema';
-import { useIMask } from 'react-imask';
-import { Link, useLocation } from 'react-router-dom';
-
-interface HelpFormValuesT {
-  name: string;
-  phone: string;
-  question: string;
-  confirm: boolean;
-  previousPage: string;
-}
+import { useLocation } from 'react-router-dom';
+import ContactModal from '@/components/Modal/ContactModal';
 
 const ContactsPage: FC = () => {
   const location = useLocation();
-
-  const checkStyle = {
-    base: styles.checkBase,
-    icon: styles.checkIcon,
-    wrapper: styles.checkWrapper,
-    label: `${styles.checkText} ${styles.infoText}`,
-  };
-
-  const itemClasses = {
-    input: styles.input,
-    innerWrapper: styles.innerWrapper,
-    base: styles.base,
-    label: styles.label,
-    errorMessage: styles.errorMessage,
-    helperWrapper: styles.helperWrapper,
-  };
-
-  const initialValues: HelpFormValuesT = {
-    name: '',
-    phone: '',
-    question: '',
-    confirm: false,
-    previousPage: location.state?.previousPage,
-  };
-
-  const formik = useFormik<HelpFormValuesT>({
-    initialValues: initialValues,
-    onSubmit(values) {
-      console.log(values);
-    },
-    validationSchema: helpSchema,
-  });
-
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
 
   const startRef = useRef<HTMLHeadingElement>(null);
 
@@ -115,75 +71,7 @@ const ContactsPage: FC = () => {
       </div>
       <div ref={helpRef} id="contact-form" className={styles.contact}>
         <p className={styles.contactText}>Нашли ошибку или у вас есть предложение? Напишите нам</p>
-        <form
-          className="flex flex-col gap-5 bg-white p-5 rounded-[20px]"
-          onSubmit={formik.handleSubmit}
-        >
-          <p className="text-[20px] font-bold">
-            Обратная связь c <span className="text-accent">Ubrato</span>
-          </p>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Имя"
-            label="Как к вам обращаться? *"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            isInvalid={Boolean(formik.errors.name)}
-            errorMessage={formik.errors.name}
-            classNames={itemClasses}
-          />
-          <Input
-            ref={ref as Ref<HTMLInputElement>}
-            id="phone"
-            name="phone"
-            placeholder="+7 (900) 000 00 00"
-            label="Ваш номер телефона: *"
-            type="phone"
-            value={value}
-            onChange={formik.handleChange}
-            onInput={(e: FormEvent<HTMLInputElement>) => {
-              setValue(e.currentTarget.value);
-              formik.handleChange(e);
-            }}
-            isInvalid={Boolean(formik.errors.phone)}
-            errorMessage={formik.errors.phone}
-            classNames={itemClasses}
-          />
-          <Textarea
-            id="question"
-            name="question"
-            type="text"
-            maxLength={1000}
-            placeholder="Напишите ваш вопрос"
-            label="Какой вопрос у вас возник?"
-            value={formik.values.question}
-            onChange={formik.handleChange}
-            classNames={itemClasses}
-          />
-          <Checkbox
-            id="confirm"
-            name="confirm"
-            isSelected={formik.values.confirm}
-            onChange={formik.handleChange}
-            classNames={checkStyle}
-          >
-            Я даю{' '}
-            <Link className={styles.link} target="_blank" to="/rights?document=1">
-              Согласие на обработку персональных данных
-            </Link>{' '}
-            в соответствии с{' '}
-            <Link className={styles.link} target="_blank" to="/rights?document=3">
-              Политикой в отношении обработки персональных данных
-            </Link>
-            <span>.</span>
-            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
-          </Checkbox>
-          <button type="submit" className={styles.submit}>
-            Заказать звонок
-          </button>
-        </form>
+        <ContactModal type="feedback" />
       </div>
     </section>
   );

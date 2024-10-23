@@ -15,7 +15,8 @@ const ConfirmEmailPage: FC = () => {
     if (codeParams) {
       (async () => {
         try {
-          await verify(codeParams);
+          const res = await verify(codeParams);
+          console.log(res);
         } catch (e) {
           setText('Что-то пошло не так, попробуйте открыть ссылку еще раз');
         }

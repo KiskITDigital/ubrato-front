@@ -408,7 +408,7 @@ export const CompanyInfo: FC = () => {
         </div>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal onClose={() => setOpenModal(false)} />
+        <ContactModal type='feedback' onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );
