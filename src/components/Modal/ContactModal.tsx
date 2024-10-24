@@ -45,7 +45,7 @@ export default function ContactModal({
   onClose?: () => void;
   type: 'registration' | 'verification' | 'feedback';
 }) {
-  const [successfullySent, setSuccessfullSent] = useState(true);
+  const [successfullySent, setSuccessfullSent] = useState(false);
 
   const formik = useFormik<ContactFormProps>({
     initialValues: initialValues,
