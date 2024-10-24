@@ -88,6 +88,7 @@
 .checkIcon {
   width: 80%;
   height: 80%;
+  z-index: 0;
 }
 
 .checkIcon > polyline {
