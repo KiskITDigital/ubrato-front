@@ -4,8 +4,9 @@ import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import styles from './ContactModal.module.css';
 import { useIMask } from 'react-imask';
-import { FormEvent, Ref, useEffect, useRef, useState } from 'react';
+import { FormEvent, Ref, useState } from 'react';
 import { sendHelpMessage } from '@/api';
+import { ClickOutside } from './ClickOutside';
 
 type ContactFormProps = {
   name: string;
@@ -44,7 +45,7 @@ export default function ContactModal({
   onClose?: () => void;
   type: 'registration' | 'verification' | 'feedback';
 }) {
-  const [successfullySent, setSuccessfullSent] = useState(false);
+  const [successfullySent, setSuccessfullSent] = useState(true);
 
   const formik = useFormik<ContactFormProps>({
     initialValues: initialValues,
@@ -65,28 +66,6 @@ export default function ContactModal({
   });
 
   const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
-
-  const wrapperRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // console.log('effect');
-    const handleClickOtside = (e: MouseEvent) => {
-      // console.log(wrapperRef.current);
-      if (e.target) {
-        if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-          setSuccessfullSent(false);
-          // document.body.removeEventListener('mousedown', handleClickOtside);
-        }
-      }
-    };
-    if (wrapperRef.current !== null) {
-      document.body.addEventListener('mousedown', handleClickOtside);
-    }
-
-    return () => {
-      document.body.removeEventListener('mousedown', handleClickOtside);
-    };
-  }, [wrapperRef]);
 
   return (
     <form
@@ -168,20 +147,23 @@ export default function ContactModal({
 
       {successfullySent && (
         <div className="flex items-center justify-center w-[calc(100%-20px)] h-[calc(100%-15px)] absolute top-[10px] left-[10px] backdrop-blur">
-          <div
-            ref={wrapperRef}
-            className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center gap-6"
+          <ClickOutside
+            clickFn={() => {
+              setSuccessfullSent(false);
+            }}
           >
-            <p className="text-lg">Спасибо за Ваше обращение, ожидайте звонка!</p>
-            {onClose && (
-              <button
-                className="w-[70px] rounded-lg p-1 bg-accent text-white flex items-center justify-center"
-                onClick={onClose}
-              >
-                ОК
-              </button>
-            )}
-          </div>
+            <div className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center gap-6">
+              <p className="text-lg">Спасибо за Ваше обращение, ожидайте звонка!</p>
+              {onClose && (
+                <button
+                  className="w-[70px] rounded-lg p-1 bg-accent text-white flex items-center justify-center"
+                  onClick={onClose}
+                >
+                  ОК
+                </button>
+              )}
+            </div>
+          </ClickOutside>
         </div>
       )}
     </form>
