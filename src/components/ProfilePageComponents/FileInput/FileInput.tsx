@@ -8,6 +8,7 @@ import {
 } from '@/api';
 import { FileInfo } from '../FileInfo/FileInfo';
 import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
+import { Tooltip } from '@nextui-org/react';
 
 interface FileInputProps {
   header: string;
@@ -27,11 +28,20 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, 
   return (
     <div className={styles.fileContainer}>
       <div>
-        <div className="flex gap-1">
+        <div className="flex gap-1 max-w-[320px]">
           <h3 className={styles.fileHeader}>{header}</h3>
+          <Tooltip
+            placement="top"
+            closeDelay={100}
+            content={<p className="w-[400px] bg-white rounded-xl py-3 px-4 shadow-lg">{text}</p>}
+          >
+            <button className='flex self-start'>
+              <img src="/info-ic.svg" alt="info" />
+            </button>
+          </Tooltip>
         </div>
         <p className={styles.fileText}>
-          {text}
+          Форматы: pdf, jpg, png, размер одного файла не должен превышать 5 Мб.
         </p>
         <label className={styles.label} htmlFor={id}>
           <input
