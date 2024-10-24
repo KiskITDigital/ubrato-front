@@ -44,3 +44,4 @@ export { getOtherProfilesOrganizations } from './otherProfilesOrganizations';
 export { askForVerification, verify } from './verification';
 export { askResetPassword, resetPassword } from './resetPassword';
 export { changePersonalData } from './changePersonalData';
+export { sendHelpMessage } from './sendHelpMessage';

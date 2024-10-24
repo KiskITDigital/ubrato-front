@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styles from './ContactModal.module.css';
 import { useIMask } from 'react-imask';
 import { FormEvent, Ref } from 'react';
-import { sendHelpMessage } from '@/api/sendHelpMessage';
+import { sendHelpMessage } from '@/api';
 
 type ContactFormProps = {
   name: string;

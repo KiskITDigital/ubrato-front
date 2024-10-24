@@ -40,7 +40,7 @@ export const ProfileDocuments: FC = () => {
       <div className={styles.headerContainer}>
         <h2 className={styles.header}>Документы для верификации</h2>
         <p>Чтобы начать работу с тендерами пройдите верификацию.</p>
-        <p>
+        <p className="mb-[25px]">
           Загрузите выписку из ЕГРЮЛ, карточку компании, документ, подтверждающий полномочия
           руководителя, Устав.{' '}
         </p>
