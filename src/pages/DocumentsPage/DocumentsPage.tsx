@@ -34,7 +34,7 @@ export const DocumentsPage: FC = () => {
                     <Link
                       to={item.link}
                       className={`pl-[14px] border-l-2 mb-2 text-[12px] ${
-                        location.pathname.includes(item.link)
+                        location.pathname.split('/')[2] === item.link
                           ? 'font-bold border-solid border-black'
                           : 'border-transparent'
                       }`}

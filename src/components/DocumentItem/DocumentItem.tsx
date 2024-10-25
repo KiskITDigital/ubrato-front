@@ -7,8 +7,6 @@ export const DocumentItem: FC = () => {
 
   const document = documentsContant[location.pathname.split('/')[2]];
 
-  console.log(document);
-
   return (
     <div>
       {document && (
