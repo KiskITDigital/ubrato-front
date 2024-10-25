@@ -19,7 +19,7 @@ const CleaningTZ: FC<{ ref?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     <div ref={ref} className={`${styles.section} ${styles.cleaningTZ}`}>
       <div className={`${styles.section__block}`}>
         <p className={`${styles.section__block__p} ${styles.textReguar} ${styles.textBlack50}`}>
-          ТЗ на уборку:
+          Техническое задание на уборку:
         </p>
         {createTenderState.cleaningTZ && (
           <p className={`${styles.textMedium} ${styles.cleaningTZText}`}>

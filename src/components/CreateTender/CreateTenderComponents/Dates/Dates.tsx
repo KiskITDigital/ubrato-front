@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, forwardRef, Ref, useEffect, useRef, useState } from 'react';
 import styles from '../../CreateTender.module.css';
 import datesStyles from './Dates.module.css';
@@ -47,6 +48,7 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     input: datesStyles.input,
     segment: datesStyles.segment,
     separator: datesStyles.separator,
+    selectorButton: 'rounded-none'
   };
 
   useEffect(() => {
@@ -73,8 +75,10 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             setIsCalendar1Open(true);
           }}
         >
-          <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
-          <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
+          <div className="ml-1 flex gap-[110px]">
+            <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
+            <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
+          </div>
           <DateRangePicker
             aria-label="прием откликов"
             classNames={classNames}
@@ -216,8 +220,10 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
           className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}
           ref={calendarRef2}
         >
-          <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
-          <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
+          <div className="ml-1 flex gap-[110px]">
+            <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
+            <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
+          </div>
           <DateRangePicker
             aria-label="оказание услуг"
             classNames={classNames}

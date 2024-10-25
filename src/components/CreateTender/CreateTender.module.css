@@ -490,7 +490,7 @@
   border-radius: 10px;
   background-color: var(--color-light-gray-secondary);
   /* width: 370px; */
-  /* height: 70px; */
+  height: 85px;
   display: flex;
   flex-direction: row;
   padding: 14px;
@@ -499,9 +499,8 @@
 }
 
 .firstSections__div__mainWork {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-row-gap: 7px;
+  flex-direction: column;
+  gap: 7px;
 }
 
 @media screen and (max-width: 1050px) {
