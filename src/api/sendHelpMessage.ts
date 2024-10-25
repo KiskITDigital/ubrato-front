@@ -4,7 +4,7 @@ export const sendHelpMessage = async (
   name: string,
   phone: string,
   question: string,
-  type: 'registration' | 'verification' | 'feedback'
+  type: 'SURVEY_TYPE_REGISTRATION' | 'SURVEY_TYPE_VERIFICATION' | 'SURVEY_TYPE_FEEDBACK'
 ) => {
   await axiosInstanceFeedback.post('/v1/survey', {
     name: name,

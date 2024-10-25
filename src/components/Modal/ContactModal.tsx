@@ -43,7 +43,7 @@ export default function ContactModal({
   type,
 }: {
   onClose?: () => void;
-  type: 'registration' | 'verification' | 'feedback';
+  type: 'SURVEY_TYPE_REGISTRATION' | 'SURVEY_TYPE_VERIFICATION' | 'SURVEY_TYPE_FEEDBACK';
 }) {
   const [successfullySent, setSuccessfullSent] = useState(false);
 

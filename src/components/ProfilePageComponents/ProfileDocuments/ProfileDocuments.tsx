@@ -73,7 +73,7 @@ export const ProfileDocuments: FC = () => {
         </p>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal type="verification" onClose={() => setOpenModal(false)} />
+        <ContactModal type="SURVEY_TYPE_VERIFICATION" onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

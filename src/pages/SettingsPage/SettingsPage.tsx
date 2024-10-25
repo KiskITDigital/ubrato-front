@@ -563,7 +563,7 @@ const SettingsPage: FC = () => {
       {/* {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>} */}
       <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
       <Modal isOpen={openModal}>
-        <ContactModal type='feedback' onClose={() => setOpenModal(false)} />
+        <ContactModal type='SURVEY_TYPE_FEEDBACK' onClose={() => setOpenModal(false)} />
       </Modal>
     </section>
   );

@@ -27,12 +27,12 @@ import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
 import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
 import ContactsPage from '@/pages/ContactsPage';
 import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
-import RightsPage from '@/pages/RightsPage';
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage';
 import { BecomeContractor } from '@/components/ProfilePageComponents/BecomeContractor/BecomeContractor';
 import { Requisites } from '@/pages/Requisites/Reausites';
 import { ResetPassword } from '@/pages/ResetPassword/ResetPassword';
 import { ForgotPassword } from '@/pages/ForgotPassword/ForgotPassword';
+import { DocumentsPage } from '@/pages/DocumentsPage/DocumentsPage';
 
 export const Router = () => {
   return (
@@ -79,7 +79,9 @@ export const Router = () => {
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
         <Route path="requisites" element={<Requisites />} />
         <Route path="contacts" element={<ContactsPage />} />
-        <Route path="rights" element={<RightsPage />} />
+        <Route path="documents" element={<DocumentsPage />}>
+          <Route path=":doc_id" element={<p>1</p>} />
+        </Route>
       </Route>
     </Routes>
   );

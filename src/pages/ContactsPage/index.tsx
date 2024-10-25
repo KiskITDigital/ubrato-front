@@ -71,7 +71,7 @@ const ContactsPage: FC = () => {
       </div>
       <div ref={helpRef} id="contact-form" className={styles.contact}>
         <p className={styles.contactText}>Нашли ошибку или у вас есть предложение? Напишите нам</p>
-        <ContactModal type="feedback" />
+        <ContactModal type="SURVEY_TYPE_FEEDBACK" />
       </div>
     </section>
   );

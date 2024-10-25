@@ -55,7 +55,7 @@ export const HowToRegister: FC = () => {
         и мы перезвоним.
       </p>
       <Modal isOpen={openModal}>
-        <ContactModal type="registration" onClose={() => setOpenModal(false)} />
+        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );
