@@ -33,6 +33,7 @@ import { Requisites } from '@/pages/Requisites/Reausites';
 import { ResetPassword } from '@/pages/ResetPassword/ResetPassword';
 import { ForgotPassword } from '@/pages/ForgotPassword/ForgotPassword';
 import { DocumentsPage } from '@/pages/DocumentsPage/DocumentsPage';
+import { DocumentItem } from '@/components/DocumentItem/DocumentItem';
 
 export const Router = () => {
   return (
@@ -80,7 +81,7 @@ export const Router = () => {
         <Route path="requisites" element={<Requisites />} />
         <Route path="contacts" element={<ContactsPage />} />
         <Route path="documents" element={<DocumentsPage />}>
-          <Route path=":doc_id" element={<p>1</p>} />
+          <Route path=":doc_id" element={<DocumentItem />} />
         </Route>
       </Route>
     </Routes>
