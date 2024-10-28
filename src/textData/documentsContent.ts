@@ -10,7 +10,7 @@ export const documentsContant: Record<
 > = {
   soglasie_na_razmeschenie_i_obnarodovaniya_fotografiy_i_inyh_materialov_dlya_ispolniteley: {
     title: 'Согласие на размещение и обнародование фотографий и иных материалов для Исполнителей',
-    link: '',
+    link: '/documents/soglasie_na_razmeschenie_i_obnarodovaniya_fotografiy_i_inyh_materialov_dlya_ispolniteley.pdf',
     publicationDate: '23.10.2023',
     entryIntoForceDAte: '23.10.2023',
     textContent: [
