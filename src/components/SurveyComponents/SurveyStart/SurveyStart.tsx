@@ -8,7 +8,7 @@ export const SurveyStart: FC = () => {
 
   return (
     <div className="flex flex-col items-center pt-10">
-      <h1 className="font-bold text-[60px]">
+      <h1 className="font-bold text-[40px]">
         Тест-драйв <span className="text-accent">Ubrato</span>
       </h1>
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen h-[380px] my-10">
@@ -34,8 +34,8 @@ export const SurveyStart: FC = () => {
           <img className="h-full w-fit hidden lg:flex" src="/survey/laptop.png" alt="" />
         </div>
       </div>
-      <div className="flex flex-col text-[26px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
-        <p className="text-[26px] font-bold">
+      <div className="flex flex-col text-[20px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
+        <p className="text-[20px] font-bold">
           Предлагаем пользователям сервиса Ubrato, зарегистрированным в качестве{' '}
           <Link to="/knowledge-base" className="text-accent hover:underline">
             Исполнителей

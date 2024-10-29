@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useState } from 'react';
 import styles from './citymodal.module.css';
 import { getCities } from '@/api';
@@ -94,7 +95,7 @@ export const CityModal: FC<{
               setConfirm(true);
               setModal(false);
               setCity(confirmedCity);
-              document.body.style.overflow = 'scroll';
+              document.body.style.overflow = 'auto';
             }}
             className={styles.btn}
           >
@@ -104,7 +105,7 @@ export const CityModal: FC<{
             onClick={() => {
               setModal(false);
               setConfirm(true);
-              document.body.style.overflow = 'scroll';
+              document.body.style.overflow = 'auto';
             }}
             className={styles.cancelBtn}
           >

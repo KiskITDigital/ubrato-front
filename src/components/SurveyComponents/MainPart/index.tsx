@@ -8,9 +8,9 @@ export const SurveyMainPart: FC = () => {
 
   useEffect(() => {
     if (
-      !localStorage.getItem('token') ||
-      userStore.error ||
-      userStore.passedSurvey
+      !localStorage.getItem('token') 
+      // userStore.error 
+      // userStore.passedSurvey
     ) {
       navigate('/');
     }

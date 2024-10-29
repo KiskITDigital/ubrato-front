@@ -54,8 +54,8 @@ export const Page2: FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
-      <h1 className="font-bold text-[60px]">
+    <div className="flex flex-col items-center pt-10 text-[20px] gap-10 font-medium">
+      <h1 className="font-bold text-[40px]">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
@@ -63,35 +63,33 @@ export const Page2: FC = () => {
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
           <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
-            сайта.
+            качестве{' '}
+            <Link to="/knowledge-base" className="text-accent hover:underline">
+              Исполнителей
+            </Link>
+            , принять участие в тест-драйве сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-bold">
-              Пожалуйста, ответьте на вопросы анкеты.
-            </p>
-            <p>
-              * Звездочкой отмечены обязательные для ответов
-            </p>
+            <p className="font-bold">Пожалуйста, ответьте на вопросы анкеты.</p>
+            <p>* Звездочкой отмечены обязательные для ответов</p>
           </div>
         </div>
       </div>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-bold">
-            Оцените элементы и сервисы сайта Ubrato
-          </p>
+          <p className="font-bold">Оцените элементы и сервисы сайта Ubrato</p>
         </div>
       </div>
 
       <div className="max-w-[1130px] w-full px-[40px]">
-        <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
+        <div className="gap-[40px] pb-[20px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
           <div>
             <p className="font-bold">
-              2. Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию (ссылки, кнопки, переходы в разделы и другие страницы и тд) *
+              2. Удобно ли вам ориентироваться на нашем сайте и находить нужную вам информацию
+              (ссылки, кнопки, переходы в разделы и другие страницы и тд) *
             </p>
-            <p>
+            <p className="text-[18px]">
               1 - совсем непонятно и неудобно, 10 - все понял, удобно ориентироваться
             </p>
           </div>
@@ -115,7 +113,7 @@ export const Page2: FC = () => {
               </div>
             </RadioGroup>
             <div className={`${styles.yourVariant} ${styles.comment}`}>
-              <p>Ваш комментарий</p>
+              <p className="text-[18px]">Ваш комментарий</p>
               <input
                 type="text"
                 value={surveyStore.question2.comment}
@@ -130,14 +128,12 @@ export const Page2: FC = () => {
       </div>
 
       <div className="max-w-[1130px] w-full px-[40px]">
-        <div className="gap-[40px] pb-[40px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
+        <div className="gap-[40px] pb-[20px] border-b-2 border-gray-200 xl:px-0 flex flex-col">
           <div>
             <p className="font-bold">
               3. Пожалуйста, оцените процесс регистрации и верификации в целом *
             </p>
-            <p>
-              1 - неудобный, 10 - удобный
-            </p>
+            <p className="text-[18px]">1 - неудобный, 10 - удобный</p>
           </div>
           <div className="max-w-[1130px] w-full px-[40px] xl:px-0">
             <RadioGroup
@@ -159,10 +155,10 @@ export const Page2: FC = () => {
               </div>
             </RadioGroup>
             <div className={`${styles.yourVariant} ${styles.comment}`}>
-              <p>Ваш комментарий</p>
+              <p className="text-[18px]">Ваш комментарий</p>
               <input
                 type="text"
-                value={surveyStore.question2.comment}
+                value={surveyStore.question3.comment}
                 onChange={(e) => {
                   surveyStore.setQuestion3comment(e.target.value);
                 }}
@@ -177,7 +173,10 @@ export const Page2: FC = () => {
                 Назад
               </button>
             </Link>
-            <button className="w-[175px] flex justify-center items-center h-[54px] bg-accent text-white  rounded-2xl font-bold" onClick={handleGoNext}>
+            <button
+              className="w-[175px] flex justify-center items-center h-[54px] bg-accent text-white  rounded-2xl font-bold"
+              onClick={handleGoNext}
+            >
               Далее
             </button>
           </div>
