@@ -38,7 +38,7 @@ export const ResponsesTab: FC = () => {
   const paginationClassNames = {
     base: 'mt-[20px]',
     wrapper: 'w-fit mx-auto',
-    cursor: 'w-[44px] h-[44px] bg-light-gray rounded-[12px]',
+    cursor: 'w-[44px] h-[44px] bg-light-gray rounded-[12px] z-1',
     prev: 'w-[40px] h-[44px] flex items-center justify-center',
     item: 'w-[44px] h-[44px]',
     next: 'w-[40px] h-[44px] flex items-center justify-center',
