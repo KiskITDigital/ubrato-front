@@ -8,9 +8,9 @@ export const documentsContant: Record<
     textContent: string[];
   }
 > = {
-  soglasie_na_razmeschenie_i_obnarodovaniya_fotografiy_i_inyh_materialov_dlya_ispolniteley: {
+  soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_ispolnitelya: {
     title: 'Согласие на размещение и обнародование фотографий и иных материалов для Исполнителей',
-    link: '/documents/soglasie_na_razmeschenie_i_obnarodovaniya_fotografiy_i_inyh_materialov_dlya_ispolniteley.pdf',
+    link: '/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_ispolnitelya.pdf',
     publicationDate: '23.10.2023',
     entryIntoForceDAte: '23.10.2023',
     textContent: [

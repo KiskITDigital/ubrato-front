@@ -219,7 +219,7 @@ export const Page5: FC = () => {
                 <Checkbox value="Заключение договора через площадку" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p>Подписание акта выполненных работ через площадку</p>
+                <p className="text-[18px]">Подписание акта выполненных работ через площадку</p>
                 <Checkbox
                   value="Подписание акта выполненных работ через площадку"
                   classNames={checkStyle}
@@ -373,7 +373,7 @@ export const Page5: FC = () => {
       </div>
       <Modal
         onOpenChange={() => {
-          navigate('/');
+          navigate('/profile');
         }}
         isOpen={completed}
         classNames={modalStyle}
@@ -392,7 +392,7 @@ export const Page5: FC = () => {
               className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"
               target="_blank"
               download
-              to="/banner-image.png"
+              to="/documents/test-drive-report.pdf"
             >
               Скачать
             </Link>

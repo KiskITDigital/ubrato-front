@@ -5,7 +5,7 @@ import { TenderListComp } from '@/components/TenderListComponents/TenderListComp
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 // import { set } from "date-fns";
-import { DraftTenderComponent } from '@/components/DraftTenderComp';
+// import { DraftTenderComponent } from '@/components/DraftTenderComp';
 import { TenderListCustomSearch } from '@/components/TenderListComponents/TenderListCustomSearch';
 
 export const MyTendersPage: FC = () => {

@@ -10,6 +10,7 @@ import { fetchProduct } from '@/api/getTender';
 import { Params, useParams } from 'react-router-dom';
 import { isResponded } from '@/api/isResponded';
 import { updateToken } from '@/api';
+import { ResponsesTab } from '@/components/OneTenderComponents/ResponsesTab/ResponsesTab';
 
 export interface dataObjectTypes {
   id: number;
@@ -69,7 +70,7 @@ export const OneTenderPageExecutor: FC = () => {
       stack = <OneTenderInfoViewExecutor dataTender={dataState} />;
       break;
     case 1:
-      stack = <div>tt</div>;
+      stack = <ResponsesTab />;
       break;
     case 2:
       stack = <div>ee</div>;
