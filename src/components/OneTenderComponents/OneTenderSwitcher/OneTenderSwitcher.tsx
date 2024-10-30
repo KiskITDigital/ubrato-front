@@ -3,10 +3,10 @@ import { useSwitchStore } from '@/store/switchStore';
 import styles from './OneTenderSwitcher.module.css';
 import { OneTenderExecutorAcceptModal } from '../OneTenderExecutorAcceptModal/OneTenderExecutorAcceptModal';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { Link } from 'react-router-dom';
 
 type SwitchProps = {
   setResponse: () => void;
-  options: string[];
   noticeKnocks: number;
   button_text: string;
   price: number;
@@ -18,7 +18,6 @@ type SwitchProps = {
 export const Switchero: React.FC<SwitchProps> = ({
   setResponse,
   tenderId,
-  options,
   button_text,
   price,
   response,
@@ -64,15 +63,10 @@ export const Switchero: React.FC<SwitchProps> = ({
 
       <div className={styles.switch_container}>
         <div>
-          {options.map((option, index) => (
-            <button
-              key={index}
-              className={`${styles.switch_btn} ${activeIndex === index ? styles.active : ''}`}
-              onClick={() => handleSwitch(index)}
-            >
-              {option}
-            </button>
-          ))}
+          <Link to=''>Тендер</Link>
+          <Link to="responses">Отклики</Link>
+          <Link to="questions_and_answers">Вопросы и ответы</Link>
+          <Link to="more_inforamtion">Доп. информация</Link>
         </div>
         <div>
           {userInfoStore.is_contractor &&

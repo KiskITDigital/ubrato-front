@@ -7,7 +7,7 @@ import { OneTenderInfoExecutor } from '@/components/OneTenderComponents/OneTende
 import { OneTenderObject } from '@/components/OneTenderComponents/OneTenderObject/OneTenderObject';
 import { OneTenderOffers } from '@/components/OneTenderComponents/OneTenderOffers/OneTenderOffers';
 import { OneTenderWishes } from '@/components/OneTenderComponents/OneTenderWishes/OneTenderWishes';
-import { dataObjectTypes } from '@/pages/OneTenderPageExecutor/OneTenderPageExecutor';
+import { dataObjectTypes } from '@/store/tenderStore';
 
 import { FC } from 'react';
 

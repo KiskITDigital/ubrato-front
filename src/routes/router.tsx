@@ -34,6 +34,9 @@ import { ResetPassword } from '@/pages/ResetPassword/ResetPassword';
 import { ForgotPassword } from '@/pages/ForgotPassword/ForgotPassword';
 import { DocumentsPage } from '@/pages/DocumentsPage/DocumentsPage';
 import { DocumentItem } from '@/components/DocumentItem/DocumentItem';
+import { TenderTab } from '@/components/OneTenderComponents/TenderTab/TenderTab';
+import { ResponsesTab } from '@/components/OneTenderComponents/ResponsesTab/ResponsesTab';
+import { QATab } from '@/components/OneTenderComponents/QATab/QATab';
 
 export const Router = () => {
   return (
@@ -75,7 +78,12 @@ export const Router = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
         </Route>
-        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
+        <Route path="/tender/:id" element={<OneTenderPageExecutor />}>
+          <Route path="" element={<TenderTab />} />
+          <Route path="responses" element={<ResponsesTab />} />
+          <Route path="questions_and_answers" element={<QATab />} />
+          <Route path="more_inforamtion" element={<p>123</p>} />
+        </Route>
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
         <Route path="requisites" element={<Requisites />} />
