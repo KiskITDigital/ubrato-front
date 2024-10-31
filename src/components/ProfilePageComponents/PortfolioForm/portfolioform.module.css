@@ -121,8 +121,3 @@
   font-size: 16px;
   font-weight: 600;
 }
-
-.infoBorder {
-  padding-top: 20px;
-  border-top: 1px solid var(--color-black-10);
-}

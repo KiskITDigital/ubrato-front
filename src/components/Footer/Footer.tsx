@@ -193,21 +193,24 @@ export const Footer: FC = () => {
         </div>
       </div>
       <div className={styles.line}>
-        <Link target="_blank" to="/rights">
+        <Link target="_blank" to="/documents/polzovatelskoe_soglashenie">
           <p className={styles.confidental}>Пользовательское соглашение</p>
         </Link>
-        <Link target="_blank" to="/rights?document=1">
+        <Link
+          target="_blank"
+          to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+        >
           <p className={styles.confidental}>Политика в отношении обработки персональных данных</p>
         </Link>
-        <Link target="_blank" to="/rights">
+        <Link target="_blank" to="/documents/soglasie_na_obrabotku_personalnyh_dannyh">
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
         </Link>
-        <Link target="_blank" to="/rights">
+        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya">
           <p className={styles.confidental}>
             Оферта для исполнителей, намеренных учавствовать в тендерах
           </p>
         </Link>
-        <Link target="_blank" to="/rights">
+        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika">
           <p className={styles.confidental}>
             Оферта для заказчиков, намеренных учавсвовать в тендерах
           </p>

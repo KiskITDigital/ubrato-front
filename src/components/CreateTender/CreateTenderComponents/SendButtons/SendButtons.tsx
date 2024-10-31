@@ -101,19 +101,35 @@ const SendButtons: FC = () => {
       )}
       <p className="ml-[244px]">
         Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
-        <Link to="" className="text-accent underline text-sm">
+        <Link
+          to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
           Согласие на обработку персональных данных
         </Link>{' '}
         в соответствии с{' '}
-        <Link to="" className="text-accent underline text-sm">
+        <Link
+          to="/documentspolitika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita/"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
           Политикой в отношении обработки персональных данных
         </Link>{' '}
         и соглашаюсь с условиями настоящей{' '}
-        <Link to="" className="text-accent underline text-sm">
+        <Link
+          to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
           Оферты
         </Link>
         , а также даю{' '}
-        <Link to="" className="text-accent underline text-sm">
+        <Link
+          to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_zakazchika"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
           Согласие на размещение и обнародование фотографий и иных материалов
         </Link>
         .

@@ -131,11 +131,19 @@ export default function ContactModal({
           classNames={checkStyle}
         >
           Я даю{' '}
-          <Link className={styles.link} target="_blank" to="/rights?document=1">
+          <Link
+            className={styles.link}
+            target="_blank"
+            to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+          >
             Согласие на обработку персональных данных
           </Link>{' '}
           в соответствии с{' '}
-          <Link className={styles.link} target="_blank" to="/rights?document=3">
+          <Link
+            className={styles.link}
+            target="_blank"
+            to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+          >
             Политикой в отношении обработки персональных данных
           </Link>
           .<p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>

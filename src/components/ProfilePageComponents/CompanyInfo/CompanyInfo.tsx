@@ -330,11 +330,19 @@ export const CompanyInfo: FC = () => {
                 >
                   <p className="text-sm">
                     Я даю{' '}
-                    <Link className={styles.link} target="_blank" to="/rights?document=1">
+                    <Link
+                      className={styles.link}
+                      target="_blank"
+                      to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+                    >
                       Согласие на обработку персональных данных
                     </Link>{' '}
                     в соответствии с{' '}
-                    <Link className={styles.link} target="_blank" to="/rights?document=3">
+                    <Link
+                      className={styles.link}
+                      target="_blank"
+                      to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+                    >
                       Политикой в отношении обработки персональных данных
                     </Link>
                     <span>.</span>
@@ -408,7 +416,7 @@ export const CompanyInfo: FC = () => {
         </div>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal type='SURVEY_TYPE_FEEDBACK' onClose={() => setOpenModal(false)} />
+        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

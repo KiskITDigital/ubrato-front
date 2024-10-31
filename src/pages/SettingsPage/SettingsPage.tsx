@@ -294,11 +294,19 @@ const SettingsPage: FC = () => {
           >
             <p className="text-sm max-w-[500px]">
               Я даю{' '}
-              <Link className={styles.link} target="_blank" to="/rights?document=1">
+              <Link
+                className={styles.link}
+                target="_blank"
+                to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+              >
                 Согласие на обработку персональных данных
               </Link>{' '}
               в соответствии с{' '}
-              <Link className={styles.link} target="_blank" to="/rights?document=3">
+              <Link
+                className={styles.link}
+                target="_blank"
+                to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+              >
                 Политикой в отношении обработки персональных данных
               </Link>
               <span>.</span>
@@ -392,11 +400,19 @@ const SettingsPage: FC = () => {
           >
             <p className="text-sm max-w-[500px]">
               Я даю{' '}
-              <Link className={styles.link} target="_blank" to="/rights?document=1">
+              <Link
+                className={styles.link}
+                target="_blank"
+                to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+              >
                 Согласие на обработку персональных данных
               </Link>{' '}
               в соответствии с{' '}
-              <Link className={styles.link} target="_blank" to="/rights?document=3">
+              <Link
+                className={styles.link}
+                target="_blank"
+                to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+              >
                 Политикой в отношении обработки персональных данных
               </Link>
               <span>.</span>
@@ -534,13 +550,25 @@ const SettingsPage: FC = () => {
       <div className="flex justify-between border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Правовые документы</p>
         <div className={styles.section__container}>
-          <Link target="_blank" to="/rights?document=1" className={styles.sectionLink}>
+          <Link
+            target="_blank"
+            to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+            className={styles.sectionLink}
+          >
             Политика обработки персональных данных
           </Link>
-          <Link target="_blank" to="/rights?document=2" className={styles.sectionLink}>
+          <Link
+            target="_blank"
+            to="/documents/polzovatelskoe_soglashenie"
+            className={styles.sectionLink}
+          >
             Пользовательское соглашение
           </Link>
-          <Link target="_blank" to="/rights?document=3" className={styles.sectionLink}>
+          <Link
+            target="_blank"
+            to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+            className={styles.sectionLink}
+          >
             Согласие на обработку персональных данных
           </Link>
         </div>
@@ -563,7 +591,7 @@ const SettingsPage: FC = () => {
       {/* {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>} */}
       <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
       <Modal isOpen={openModal}>
-        <ContactModal type='SURVEY_TYPE_FEEDBACK' onClose={() => setOpenModal(false)} />
+        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
       </Modal>
     </section>
   );

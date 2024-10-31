@@ -50,9 +50,9 @@ export const LoginPage: FC = () => {
           // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg('incorrect password');
+              setErrorMsg('Неверный пароль');
             } else if (e.response?.status === 404) {
-              setErrorMsg('email busy');
+              setErrorMsg('Нет пользователся с эти e-mail');
             } else {
               setErrorMsg('Что-то пошло не так');
             }
@@ -147,20 +147,26 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
-            {errorMsg === 'incorrect password' && (
-              <p className={styles.errorMessage}>Неверный пароль</p>
-            )}
+            {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>
           <Link className={styles.forgotPassword} to="/forgot-password">
             Забыли пароль?
           </Link>
           <p className="w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]">
             Нажимая на кнопку «Войти», вы даете{' '}
-            <Link className="text-accent underline" target="_blank" to="/rights?document=3">
+            <Link
+              className="text-accent underline"
+              target="_blank"
+              to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+            >
               Согласие на обработку персональных данных
             </Link>{' '}
             в соответствии с{' '}
-            <Link className="text-accent underline" target="_blank" to="/rights?document=3">
+            <Link
+              className="text-accent underline"
+              target="_blank"
+              to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+            >
               Политикой в отношении обработки персональных данных
             </Link>
             .

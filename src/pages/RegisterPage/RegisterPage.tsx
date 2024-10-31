@@ -473,15 +473,27 @@ export const RegisterPage: FC = () => {
                   classNames={checkStyle}
                 >
                   Я даю{' '}
-                  <Link to="" className="text-accent underline text-sm">
+                  <Link
+                    to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+                    target="_blank"
+                    className="text-accent underline text-sm"
+                  >
                     Согласие на обработку персональных данных
                   </Link>{' '}
                   в соответствии с{' '}
-                  <Link to="" className="text-accent underline text-sm">
+                  <Link
+                    to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+                    target="_blank"
+                    className="text-accent underline text-sm"
+                  >
                     Политикой в отношении обработки персональных данных
                   </Link>{' '}
                   и принимаю условия{' '}
-                  <Link to="" className="text-accent underline text-sm">
+                  <Link
+                    to="/documents/polzovatelskoe_soglashenie"
+                    target="_blank"
+                    className="text-accent underline text-sm"
+                  >
                     Пользовательского соглашения
                   </Link>
                   .
