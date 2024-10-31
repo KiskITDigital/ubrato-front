@@ -1,6 +1,8 @@
 import { fetchFileInfo } from '@/api';
 import { formatFileSize } from '@/components/CreateTender/funcs';
+import { isImage } from '@/utils';
 import { FC, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const TenderAttachment: FC<{ link: string }> = ({ link }) => {
   const [fileInfo, setFileInfo] = useState<{
@@ -9,11 +11,6 @@ export const TenderAttachment: FC<{ link: string }> = ({ link }) => {
     size: number;
     ctime: string;
   }>();
-
-  const isImage = (format: string | undefined): boolean => {
-    if (!format) return false;
-    return ['.jpg', '.jpeg', '.png'].includes(format);
-  };
 
   useEffect(() => {
     (async () => {
@@ -47,9 +44,9 @@ export const TenderAttachment: FC<{ link: string }> = ({ link }) => {
                 {fileInfo?.format.replace('.', '').toUpperCase()},{' '}
                 {fileInfo && formatFileSize(fileInfo.size)}
               </p>
-              <a target="_blank" href={link}>
+              <Link target="_blank" download to={link}>
                 <img className="w-[24px] h-[24px]" src="/download-ic.svg" alt="download" />
-              </a>
+              </Link>
             </div>
           </div>
           <p>{fileInfo?.name.split('.')[1]}</p>

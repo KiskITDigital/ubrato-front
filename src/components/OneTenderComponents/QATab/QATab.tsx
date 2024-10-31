@@ -46,7 +46,7 @@ export const QATab: FC = () => {
             <textarea
               rows={2}
               placeholder="Введите ваш вопрос..."
-              className="outline-none py-[10px] px-3 rounded-xl"
+              className="outline-none py-[10px] px-3 rounded-xl text-[16px]"
               name="question"
               id=""
             ></textarea>

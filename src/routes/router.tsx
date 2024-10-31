@@ -37,6 +37,7 @@ import { DocumentItem } from '@/components/DocumentItem/DocumentItem';
 import { TenderTab } from '@/components/OneTenderComponents/TenderTab/TenderTab';
 import { ResponsesTab } from '@/components/OneTenderComponents/ResponsesTab/ResponsesTab';
 import { QATab } from '@/components/OneTenderComponents/QATab/QATab';
+import { AdditionalInfo } from '@/components/OneTenderComponents/AdditionalInfo/AdditionalInfo';
 
 export const Router = () => {
   return (
@@ -82,7 +83,7 @@ export const Router = () => {
           <Route path="" element={<TenderTab />} />
           <Route path="responses" element={<ResponsesTab />} />
           <Route path="questions_and_answers" element={<QATab />} />
-          <Route path="more_inforamtion" element={<p>123</p>} />
+          <Route path="more_inforamtion" element={<AdditionalInfo />} />
         </Route>
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
         <Route path="organization/:org_id" element={<OrganizationProfilePage />} />

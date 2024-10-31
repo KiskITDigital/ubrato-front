@@ -28,7 +28,7 @@ export interface dataObjectTypes {
 
 interface TenderState {
   tenderInfo: dataObjectTypes;
-  fetchTenderInfo: (id: string) => Promise<void>;
+  fetchTenderInfo: (id: string, token: string | null) => Promise<void>;
   isResponded: boolean;
   loading: boolean;
   error: null | string;
@@ -59,16 +59,18 @@ export const useTenderInfoStore = create<TenderState>()((set) => {
       is_contract_price: false,
       user_id: '',
     },
-    fetchTenderInfo: async (id) => {
+    fetchTenderInfo: async (id, token) => {
       set({ loading: true });
-      const responded = await updateToken(isResponded, id);
       const data = await fetchProduct(id);
+
+      // console.log(data);
       if (data) {
         set({ loading: false, tenderInfo: data });
-        set({ isResponded: responded.status });
         // console.log(data);
-      } else {
-        // console.log('proizoshla oshibka');
+      }
+      if (token) {
+        const responded = await updateToken(isResponded, id);
+        set({ isResponded: responded.status });
       }
     },
     isResponded: false,

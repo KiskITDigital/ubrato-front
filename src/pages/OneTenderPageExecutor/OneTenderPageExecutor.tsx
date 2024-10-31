@@ -32,9 +32,10 @@ export const OneTenderPageExecutor: FC = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     (async () => {
       if (id) {
-        await tenderInfoState.fetchTenderInfo(id);
+        await tenderInfoState.fetchTenderInfo(id, token);
       }
     })();
   }, [id]);
@@ -49,7 +50,7 @@ export const OneTenderPageExecutor: FC = () => {
 
       <div className="w-[1024px] mx-auto">
         <div className="flex border-b pb-[14px] justify-between">
-          <div className='flex'>
+          <div className="flex">
             <Link
               className={`pr-[14px] relative border-solid border-r border-[#ddd] ${
                 !location.pathname.includes('responses') &&
