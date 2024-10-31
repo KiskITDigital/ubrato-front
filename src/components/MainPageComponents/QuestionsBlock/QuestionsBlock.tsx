@@ -91,8 +91,7 @@ export const QuestionsBlock: FC = () => {
         Частые вопросы про <span className={styles.blueText}>Ubrato</span>
       </h2>
       <p className={styles.greytext}>
-        {' '}
-        Мы постоянно пополняем базу знаний, основываясь на Ваших вопросах.{' '}
+        Сервис Ubrato развивается, основываясь на ваших вопросах и предложениях
       </p>
       <div className={styles.btnsblock} id="faq-default">
         <button
@@ -130,8 +129,6 @@ export const QuestionsBlock: FC = () => {
         </button>
       </div>
       <div id="hey" className={styles.pageQuestion}>
-        {/* ССЫЛКА ВОТ НА ЭТОТ АККОРДЕОН */}
-
         <Accordion
           showDivider={false}
           className={styles.accordionWrapper}

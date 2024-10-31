@@ -110,7 +110,7 @@ const SendButtons: FC = () => {
         </Link>{' '}
         в соответствии с{' '}
         <Link
-          to="/documentspolitika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita/"
+          to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita/"
           target="_blank"
           className="text-accent underline text-sm"
         >

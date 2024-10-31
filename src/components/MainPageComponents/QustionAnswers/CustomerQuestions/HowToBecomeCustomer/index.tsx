@@ -3,9 +3,12 @@ import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.mo
 import { Link } from 'react-router-dom';
 import Modal from '@/components/Modal';
 import ContactModal from '@/components/Modal/ContactModal';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 const HowToBecome: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const userInfoStore = useUserInfoStore();
 
   return (
     <div className={qstyles.container}>
@@ -15,22 +18,19 @@ const HowToBecome: FC = () => {
         другому лицу с последующей ликвидацией.
       </p>
       <p className={`${qstyles.text}`}>
-        После{' '}
-        <Link className={`${qstyles.link}`} to="/">
-          верификации
+        На сервисе Ubrato осуществляется{' '}
+        <Link
+          className={`${qstyles.link}`}
+          to={`${userInfoStore.isLoggedIn ? '/profile/documents' : '/register'}`}
+        >
+          верификация
         </Link>{' '}
-        данных компании администрацией сайта представитель зарегистрированной компании получит
-        возможность:
+        документов юридического лица, после которой заказчику предоставляется возможность:
       </p>
       <ul>
-        <li className={qstyles.li}>пользоваться личным кабинетом;</li>
-        <li className={qstyles.li}>создавать тендеры на выполнение клининговых и смежных услуг;</li>
-        <li className={qstyles.li}>изучать портфолио исполнителей;</li>
-        <li className={qstyles.li}>отвечать на вопросы потенциальных исполнителей;</li>
-        <li className={qstyles.li}>выбирать победителей тендеров;</li>
-        <li className={qstyles.li}>
-          оставлять отзывы об исполнителях и ставить им оценки (рейтинг) по итогам выполнения работ.
-        </li>
+        <li className={qstyles.li}>создавать тендеры на оказание клининговых и смежных услуг;</li>
+        <li className={qstyles.li}>осуществлять поиск исполнителей и изучать их портфолио;</li>
+        <li className={qstyles.li}> выбирать победителей тендеров.</li>
       </ul>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
