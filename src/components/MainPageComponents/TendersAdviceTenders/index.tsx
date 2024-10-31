@@ -127,16 +127,13 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   return (
     <div className={styles.embla__container}>
-      {/* {JSON.stringify(tenders)} */}
       {tenderList.map((tenderBlock: (modifiedTenderList | true)[], ind: number) => (
         <div key={ind} className={styles.embla__slide}>
           {tenderBlock.map((tender, ind) =>
             tender !== true ? (
               <div key={tender.id} className={styles.tenderForCarousel}>
-                {/* {JSON.stringify(executor)} */}
                 <div>
                   <p className={styles.tenderName}>{tender.name}</p>
-                  {/* <p className={styles.tenderText}>{tender.description}</p> */}
                   <p className={styles.tenderText}>
                     {tender.isTextHidden && tender.description.split(' ').length > 10
                       ? getShorterText(tender.description)
