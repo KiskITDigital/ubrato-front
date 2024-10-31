@@ -209,7 +209,7 @@ export const Header: FC = () => {
               {widthR.current ? (
                 ''
               ) : (
-                <Link to="/register" className={styles.registrationLink}>
+                <Link to="/registration" className={styles.registrationLink}>
                   <p className={styles.registrationText}>Регистрация</p>
                 </Link>
               )}

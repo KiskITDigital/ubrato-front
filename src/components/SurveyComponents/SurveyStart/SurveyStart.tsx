@@ -78,7 +78,7 @@ export const SurveyStart: FC = () => {
         <p className="font-bold">Как принять участие</p>
         <ul className="w-full pl-16">
           <li className="w-full list-decimal list-outside">
-            <Link to="/register" className="text-accent hover:underline">
+            <Link to="/registration" className="text-accent hover:underline">
               Зарегистрируйтесь
             </Link>{' '}
             на сервисе Ubrato в качестве Исполнителя.

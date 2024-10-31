@@ -22,7 +22,7 @@ const SendButtons: FC = () => {
   const submit = async (isDraft: boolean) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/register');
+      navigate('/registration');
       return;
     }
     if (createTenderState.validateInputs(isDraft)) return;

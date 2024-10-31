@@ -36,13 +36,6 @@ export const ProfileNavigation: FC = () => {
 
   return (
     <div className={styles.container}>
-      {/* <button
-        onClick={() => set(!)}
-        className={`${styles.menuBtn} ${ ? '' : styles.menuBtnActive}`}
-      >
-        <img src="/profile-menu-btn.svg" alt="" />
-      </button> */}
-
       <div className={styles.avatar}>
         <AvatarInput />
       </div>
@@ -55,7 +48,7 @@ export const ProfileNavigation: FC = () => {
       </div>
 
       <div className={styles.links}>
-        {userStore.user.is_contractor && !userStore.passedSurvey && (
+        {userStore.user.is_contractor && (
           <Link to="/survey" className={`${styles.link}`}>
             <SurveyIC />
             Анкета
@@ -90,7 +83,7 @@ export const ProfileNavigation: FC = () => {
             className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
             to="become-contractor"
           >
-            <p className={styles.become_link}>Стать исполнителем</p> 
+            <p className={styles.become_link}>Стать исполнителем</p>
           </Link>
         )}
         <Link
@@ -110,24 +103,25 @@ export const ProfileNavigation: FC = () => {
         >
           Заказчик
         </Link>
-        {userStore.user.is_contractor && (
-          <Link
-            className={`${styles.link} ${styles.sublink} ${
-              page.includes('tenders/contractor') ? styles.active : ''
-            }`}
-            to="tenders/contractor"
-          >
-            Исполнитель
-          </Link>
-        ) 
-        // : (
-        //   <Link
-        //     className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
-        //     to="documents"
-        //   >
-        //     <p className={styles.become_link}>Стать исполнителем</p> 
-        //   </Link>
-        // )
+        {
+          userStore.user.is_contractor && (
+            <Link
+              className={`${styles.link} ${styles.sublink} ${
+                page.includes('tenders/contractor') ? styles.active : ''
+              }`}
+              to="tenders/contractor"
+            >
+              Исполнитель
+            </Link>
+          )
+          // : (
+          //   <Link
+          //     className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
+          //     to="documents"
+          //   >
+          //     <p className={styles.become_link}>Стать исполнителем</p>
+          //   </Link>
+          // )
         }
         <Link
           to="favourite"

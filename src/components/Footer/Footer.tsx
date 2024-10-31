@@ -30,7 +30,7 @@ export const Footer: FC = () => {
               <img src="/login.svg" alt="login" />
               <p className={styles.loginText}>Вход</p>
             </Link>
-            <Link to="/register" className={styles.registrationLink}>
+            <Link to="/registration" className={styles.registrationLink}>
               <p className={styles.registrationText}>Регистрация</p>
             </Link>
           </div>
@@ -57,7 +57,7 @@ export const Footer: FC = () => {
             {!userInfoStorage.isLoggedIn && (
               <li>
                 <Link
-                  to="/register"
+                  to="/regisregistrationter"
                   onClick={() => ordererState.handleState('contractor')}
                   state={{ toReload: null }}
                 >

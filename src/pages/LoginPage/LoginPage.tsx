@@ -96,7 +96,7 @@ export const LoginPage: FC = () => {
         <h1 className={styles.header}>Вход</h1>
         <p className={'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'}>
           Ещё нет аккунта?{' '}
-          <Link className="text-[var(--color-blue-primary)] underline" to="/register">
+          <Link className="text-[var(--color-blue-primary)] underline" to="/registration">
             Зарегистрироваться
           </Link>
         </p>

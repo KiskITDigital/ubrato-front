@@ -1,31 +1,40 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { FC, useEffect } from 'react';
 import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const SurveyMainPart: FC = () => {
-  const userStore = useUserInfoStore();
+  const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      !localStorage.getItem('token') 
-      // userStore.error 
-      // userStore.passedSurvey
-    ) {
+    if (!userInfoStore.user.is_contractor) {
       navigate('/');
     }
-  }, [
-    navigate,
-    userStore.error,
-    userStore.isLoggedIn,
-    userStore.loading,
-    userStore.passedSurvey,
-    userStore.user.is_contractor,
-  ]);
+  }, [userInfoStore.user.is_contractor]);
 
   return (
     <>
-      <Outlet />
+      {userInfoStore.user.is_contractor && !userInfoStore.passedSurvey && <Outlet />}
+      {userInfoStore.user.is_contractor && userInfoStore.passedSurvey && (
+        <div className="flex flex-col gap-9 w-[1130px] mx-auto items-center pt-[100px]">
+          <p className="font-bold text-[26px]">Анкета отправлена</p>
+          <p className="font-semibold text-[20px]">
+            Благодарим за участие в тест-драйве площадки Ubrato!
+          </p>
+          <p className="text-[16px] font-semibold py-3 px-[14px] bg-[rgba(0,0,0,.03)] rounded-[14px]">
+            Вам доступно <span className="underline text-accent">Исследование рынка клининга</span>
+          </p>
+          <Link
+            className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"
+            target="_blank"
+            download
+            to="/documents/test-drive-report.pdf"
+          >
+            Скачать
+          </Link>
+        </div>
+      )}
     </>
   );
 };

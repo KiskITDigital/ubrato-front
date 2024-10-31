@@ -50,7 +50,7 @@ export const Router = () => {
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        <Route path="registration" element={<RegisterPage />} />
         <Route path="confirm-email" element={<ConfirmEmailPage />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={<ResetPassword />} />

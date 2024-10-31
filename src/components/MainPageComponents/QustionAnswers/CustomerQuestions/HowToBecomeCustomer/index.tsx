@@ -21,7 +21,7 @@ const HowToBecome: FC = () => {
         На сервисе Ubrato осуществляется{' '}
         <Link
           className={`${qstyles.link}`}
-          to={`${userInfoStore.isLoggedIn ? '/profile/documents' : '/register'}`}
+          to={`${userInfoStore.isLoggedIn ? '/profile/documents' : '/registration'}`}
         >
           верификация
         </Link>{' '}

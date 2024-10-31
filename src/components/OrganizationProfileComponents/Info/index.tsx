@@ -21,7 +21,7 @@ const Info: FC<{
   const offerTender = () => {
     const token = localStorage.getItem('token');
     if (status === 'executor' && token) setIsModal(true);
-    else navigate('/register');
+    else navigate('/registration');
   };
 
   return (

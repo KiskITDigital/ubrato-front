@@ -16,7 +16,7 @@ export const HowToRegister: FC = () => {
       <p className={qstyles.title}>1. Регистрация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
         Заполните{' '}
-        <Link className={qstyles.link} to="/register">
+        <Link className={qstyles.link} to="/registration">
           регистрационную форму
         </Link>
         . Зарегистрироваться могут только юридические лица. В качестве исполнителей могут

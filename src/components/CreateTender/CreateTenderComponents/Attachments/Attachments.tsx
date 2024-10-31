@@ -16,7 +16,7 @@ const Attachments: FC<{ windowWidth: number; ref?: React.LegacyRef<HTMLDivElemen
   const handleButtonFileClick = () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/register');
+      navigate('/registration');
       return;
     }
     if (inputFileRef.current) inputFileRef.current.click();

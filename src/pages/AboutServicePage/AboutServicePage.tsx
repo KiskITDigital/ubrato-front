@@ -33,7 +33,7 @@ export const AboutServicePage: FC = () => {
           </h2>
           <p className="text-2xl">
             Еще не зарегистрированы?{' '}
-            <Link className="text-accent underline" to="/register">
+            <Link className="text-accent underline" to="/registration">
               Зарегистрироваться
             </Link>
           </p>
