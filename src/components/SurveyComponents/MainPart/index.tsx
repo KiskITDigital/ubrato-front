@@ -25,14 +25,22 @@ export const SurveyMainPart: FC = () => {
           <p className="text-[16px] font-semibold py-3 px-[14px] bg-[rgba(0,0,0,.03)] rounded-[14px]">
             Вам доступно <span className="underline text-accent">Исследование рынка клининга</span>
           </p>
-          <Link
-            className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"
-            target="_blank"
-            download
-            to="/documents/test-drive-report.pdf"
-          >
-            Скачать
-          </Link>
+          <div className='flex gap-2'>
+            <Link
+              className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"
+              target="_blank"
+              download
+              to="/documents/test-drive-report.pdf"
+            >
+              Скачать
+            </Link>
+            <Link
+              className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-light-gray rounded-[17px]"
+              to="/profile"
+            >
+              Назад
+            </Link>
+          </div>
         </div>
       )}
     </>
