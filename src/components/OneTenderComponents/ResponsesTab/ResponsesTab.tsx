@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   ColumnDef,
   flexRender,
@@ -22,6 +22,8 @@ import {
 } from '@/components/ui/Table';
 import { Pagination } from '@nextui-org/react';
 import { ResponsesMocks } from './responsesMocks';
+import { CompanyResponse, getResponses, updateToken } from '@/api';
+import { useParams } from 'react-router-dom';
 
 export interface Response {
   id: string;
@@ -35,6 +37,8 @@ export interface Company {
 }
 
 export const ResponsesTab: FC = () => {
+  const id = useParams().id;
+
   const paginationClassNames = {
     base: 'mt-[20px]',
     wrapper: 'w-fit mx-auto',
@@ -45,15 +49,25 @@ export const ResponsesTab: FC = () => {
   };
 
   const [sortingValue, setSortingValue] = useState('');
-  const [responses, setResponses] = useState<Response[]>(ResponsesMocks);
+  const [responses, setResponses] = useState<CompanyResponse[]>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
     pageSize: 10, //default page size
   });
 
-  const columns: ColumnDef<Response>[] = [
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && id) {
+      (async () => {
+        const res = await updateToken(getResponses, id);
+        setResponses(res);
+      })();
+    }
+  }, []);
+
+  const columns: ColumnDef<CompanyResponse>[] = [
     {
-      accessorKey: 'company',
+      accessorKey: 'company_name',
       header: () => {
         return (
           <p className="text-[14px] font-normal text-[#626262] ml-[113px]">Наименование компании</p>
@@ -66,18 +80,21 @@ export const ResponsesTab: FC = () => {
             <img
               className="mr-[14px] w-11 h-11 rounded-[10px] border border-solid"
               src={
-                (row.getValue('company') as Company).avatar_url.length === 0
-                  ? '/avatar-ic.svg'
-                  : (row.getValue('company') as Company).avatar_url
+                row.getValue('company_avatar') ? row.getValue('company_avatar') : '/avatar-ic.svg'
               }
               alt="avatar"
             />
             <p className="text-[18px] underline underline-offset-4">
-              {(row.getValue('company') as Company).name}
+              {row.getValue('company_name')}
             </p>
           </div>
         );
       },
+    },
+    {
+      accessorKey: 'company_avatar',
+      header: '',
+      cell: '',
     },
     {
       accessorKey: 'price',

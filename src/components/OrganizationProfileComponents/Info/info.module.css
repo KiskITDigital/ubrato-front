@@ -76,3 +76,11 @@
   font-weight: 600;
   background-color: var(--color-gray);
 }
+
+.offerTenderButton:disabled {
+  opacity: 0.8;
+}
+
+.favoriteButton:disabled {
+  opacity: 0.8;
+}

@@ -43,6 +43,7 @@
 
 .helperWrapper {
   display: block;
+  padding: 0;
 }
 
 .errorMessage {

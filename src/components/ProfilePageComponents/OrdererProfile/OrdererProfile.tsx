@@ -69,7 +69,10 @@ export const OrdererProfile: FC = () => {
       </div>
       <p className={styles.text}>
         Нажмите на кнопку “
-        <Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}`}>
+        <Link
+          className={styles.link}
+          to={`/organization/${userInfoState.user.organization.id}/orderer`}
+        >
           Смотреть
         </Link>
         ”, чтобы посмотреть, как эту информацию увидят ваши контрагенты.

@@ -65,11 +65,11 @@ const ExecutorItem: FC<{
       }`}
     >
       <div className={styles.executorInfo}>
-        <Link to={`/organization/${executor.id}`}>
+        <Link to={`/organization/${executor.id}/contractor`}>
           <img className={styles.executorImage} src={executor.img} alt="" />
         </Link>
         <div className={styles.executorTextBlock}>
-          <Link to={`/organization/${executor.id}`}>
+          <Link to={`/organization/${executor.id}/contractor`}>
             <p className={styles.executorName}>{executor.name}</p>
           </Link>
           {executor.text && (

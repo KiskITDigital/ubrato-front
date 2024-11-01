@@ -38,6 +38,8 @@ import { TenderTab } from '@/components/OneTenderComponents/TenderTab/TenderTab'
 import { ResponsesTab } from '@/components/OneTenderComponents/ResponsesTab/ResponsesTab';
 import { QATab } from '@/components/OneTenderComponents/QATab/QATab';
 import { AdditionalInfo } from '@/components/OneTenderComponents/AdditionalInfo/AdditionalInfo';
+import { OrdererProfileView } from '@/components/OrgnizationProfile/OrdererProfile/OrdererProfile';
+import { ContractorProfileView } from '@/components/OrgnizationProfile/ContractorProfile/ContractorProfile';
 
 export const Router = () => {
   return (
@@ -86,7 +88,11 @@ export const Router = () => {
           <Route path="more_inforamtion" element={<AdditionalInfo />} />
         </Route>
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
-        <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
+        <Route path="organization/:org_id" element={<OrganizationProfilePage />}>
+          <Route path="" element={<OrdererProfileView />} />
+          <Route path="orderer" element={<OrdererProfileView />} />
+          <Route path="contractor" element={<ContractorProfileView />} />
+        </Route>
         <Route path="requisites" element={<Requisites />} />
         <Route path="contacts" element={<ContactsPage />} />
         <Route path="documents" element={<DocumentsPage />}>

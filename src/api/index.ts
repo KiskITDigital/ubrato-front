@@ -40,8 +40,10 @@ export {
 } from './findExecutor/favoriteExecutors';
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';
-export { getOtherProfilesOrganizations } from './otherProfilesOrganizations';
+export { getContractorProfile, getOrdererProfile } from './otherProfilesOrganizations';
 export { askForVerification, verify } from './verification';
 export { askResetPassword, resetPassword } from './resetPassword';
 export { changePersonalData } from './changePersonalData';
 export { sendHelpMessage } from './sendHelpMessage';
+export { getResponses } from './getResponses';
+export type { CompanyResponse } from './getResponses';

@@ -181,7 +181,7 @@ export interface draftData {
   update_at: string;
 }
 
-interface Organization {
+export interface Organization {
   id: string;
   brand_name: string;
   short_name: string;

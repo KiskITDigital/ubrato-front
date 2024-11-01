@@ -3,12 +3,13 @@ import styles from './info.module.css';
 import Modal from '@/components/Modal';
 import OfferTender from '@/components/FindExecutorComponents/OfferTender/OfferTender';
 import { useNavigate } from 'react-router-dom';
+import { useUserInfoStore } from '@/store/userInfoStore';
 
 const Info: FC<{
   orgId: string;
   status: 'orderer' | 'executor';
   isFavorite: boolean;
-  favoriteExecutorsHandler: (organization: { id: string; isFavorite: boolean }) => void;
+  favoriteExecutorsHandler?: (organization: { id: string; isFavorite: boolean }) => void;
   img: string;
   brand: string;
   name: string;
@@ -17,6 +18,8 @@ const Info: FC<{
   const navigate = useNavigate();
 
   const [isModal, setIsModal] = useState(false);
+
+  const userInfoStore = useUserInfoStore();
 
   const offerTender = () => {
     const token = localStorage.getItem('token');
@@ -44,11 +47,16 @@ const Info: FC<{
         </div>
       </div>
       <div className={styles.buttons}>
-        <button onClick={offerTender} className={styles.offerTenderButton}>
+        <button
+          onClick={offerTender}
+          disabled={userInfoStore.user.organization.id === orgId}
+          className={styles.offerTenderButton}
+        >
           {status === 'executor' ? 'Предложить тендер' : 'Связаться'}
         </button>
         <button
-          onClick={() => favoriteExecutorsHandler({ id: orgId, isFavorite })}
+          disabled={userInfoStore.user.organization.id === orgId}
+          // onClick={() => favoriteExecutorsHandler({ id: orgId, isFavorite })}
           className={styles.favoriteButton}
         >
           <img

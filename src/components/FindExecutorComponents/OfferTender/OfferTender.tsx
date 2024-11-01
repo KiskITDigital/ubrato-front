@@ -66,7 +66,7 @@ const OfferTender: FC<{
         <button className={styles.title__closeIcon}>
           <img
             onClick={() => {
-              document.body.style.overflow = 'scroll';
+              document.body.style.overflow = 'auto';
               closeModal(null);
             }}
             src="/x-icon.svg"
