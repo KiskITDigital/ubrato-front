@@ -1,6 +1,6 @@
 import { axiosInstance } from '@/utils';
 
-export const isFavoriteExecutor = async (id: string, token: string) => {
+export const isFavoriteExecutor = async (token: string, id: string) => {
   try {
     const res = await axiosInstance.get(`/v1/users/${id}/is_favorite`, {
       headers: {

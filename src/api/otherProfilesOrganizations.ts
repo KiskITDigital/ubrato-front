@@ -15,9 +15,7 @@ export const getOrdererProfile = async (orgId: string): Promise<OrdererProfileIn
   }
 };
 
-export const getContractorProfile = async (
-  orgId: string
-): Promise<ExecutorProfileInfo | undefined> => {
+export const getContractorProfile = async (orgId: string): Promise<ExecutorProfileInfo | null> => {
   try {
     const res = await axiosInstance.get(`/v1/organizations/profile/${orgId}/contractor`);
     const generalInfo = await axiosInstance.get<Organization>(`/v1/organizations/profile/${orgId}`);
@@ -28,5 +26,6 @@ export const getContractorProfile = async (
     };
   } catch (e) {
     console.log(e);
+    return null;
   }
 };

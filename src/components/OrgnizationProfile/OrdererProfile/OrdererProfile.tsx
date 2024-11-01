@@ -1,4 +1,4 @@
-import { getOrdererProfile, isFavoriteExecutor } from '@/api';
+import { getOrdererProfile, isFavoriteExecutor, updateToken } from '@/api';
 import { OrdererProfileInfo } from '@/types/app';
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,7 +15,8 @@ export const OrdererProfileView: FC = () => {
         const fetchedData = await getOrdererProfile(org_id);
         const token = localStorage.getItem('token');
         if (token && fetchedData) {
-          const isFavorite = (await isFavoriteExecutor(org_id, token))?.data?.status || false;
+          const isFavorite =
+            (await (await updateToken(isFavoriteExecutor, org_id))?.data?.status) || false;
           fetchedData.isFavorite = isFavorite;
           setData(fetchedData);
         } else {
