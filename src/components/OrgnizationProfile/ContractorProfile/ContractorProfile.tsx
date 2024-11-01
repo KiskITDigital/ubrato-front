@@ -1,7 +1,7 @@
 import { getContractorProfile, isFavoriteExecutor } from '@/api';
 import { ExecutorProfileInfo } from '@/types/app';
 import { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { OrganizationProfile } from '../OrganizationProfile/OrganiztionProfile';
 
 export const ContractorProfileView: FC = () => {
@@ -25,5 +25,17 @@ export const ContractorProfileView: FC = () => {
     }
   }, [org_id]);
 
-  return <>{data && <OrganizationProfile data={data} />}</>;
+  return (
+    <>
+      {data && <OrganizationProfile data={data} />}
+      {!data && (
+        <div className="w-[1130px] pt-6 mx-auto text-[26px]">
+          Эта компания ещё не является исполнителем посмотрите на на{' '}
+          <Link className="text-accent underline" to={`/organization/${org_id}/orderer`}>
+            профиль заказчика
+          </Link>
+        </div>
+      )}
+    </>
+  );
 };

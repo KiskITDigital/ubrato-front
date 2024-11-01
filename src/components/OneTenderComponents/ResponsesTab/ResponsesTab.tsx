@@ -21,9 +21,8 @@ import {
   TableRow,
 } from '@/components/ui/Table';
 import { Pagination } from '@nextui-org/react';
-import { ResponsesMocks } from './responsesMocks';
 import { CompanyResponse, getResponses, updateToken } from '@/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export interface Response {
   id: string;
@@ -38,6 +37,8 @@ export interface Company {
 
 export const ResponsesTab: FC = () => {
   const id = useParams().id;
+
+  const navigate = useNavigate();
 
   const paginationClassNames = {
     base: 'mt-[20px]',
@@ -67,6 +68,12 @@ export const ResponsesTab: FC = () => {
 
   const columns: ColumnDef<CompanyResponse>[] = [
     {
+      accessorKey: 'company_id',
+    },
+    {
+      accessorKey: 'company_avatar',
+    },
+    {
       accessorKey: 'company_name',
       header: () => {
         return (
@@ -90,11 +97,6 @@ export const ResponsesTab: FC = () => {
           </div>
         );
       },
-    },
-    {
-      accessorKey: 'company_avatar',
-      header: '',
-      cell: '',
     },
     {
       accessorKey: 'price',
@@ -145,6 +147,9 @@ export const ResponsesTab: FC = () => {
           {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
             <TableRow key={'h-group-' + headerGroupIndex} className="justify-between">
               {headerGroup.headers.map((header, headerIndex) => {
+                if (headerIndex <= 1) {
+                  return <></>;
+                }
                 return (
                   <TableHead
                     key={'h-' + headerGroupIndex + headerIndex}
@@ -169,23 +174,22 @@ export const ResponsesTab: FC = () => {
                 key={'row' + rowIndex}
                 data-state={row.getIsSelected() && 'selected'}
                 className="border-dashed border-[rgba(0,0,0,.14)] [&:not(:last-child)]:!border-b justify-between py-[14px] h-fit"
-                // onClick={() =>
-                //   navigate(
-                //     `${
-                //       drafts ? `/create-tender?id=${row.original.id}` : `/tender/${row.original.id}`
-                //     }`
-                //   )
-                // }
+                onClick={() => navigate(`/organization/${row.original.company_id}/contractor`)}
               >
-                {row.getVisibleCells().map((cell, cellIndex) => (
-                  <TableCell
-                    key={'cell-' + rowIndex + cellIndex}
-                    // style={{ width: cell.column.getSize() }}
-                    className="justify-end"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell, cellIndex) => {
+                  if (cellIndex <= 1) {
+                    return <></>;
+                  }
+                  return (
+                    <TableCell
+                      key={'cell-' + rowIndex + cellIndex}
+                      // style={{ width: cell.column.getSize() }}
+                      className="justify-end"
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
