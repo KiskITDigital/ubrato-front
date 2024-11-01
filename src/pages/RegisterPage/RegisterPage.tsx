@@ -158,7 +158,9 @@ export const RegisterPage: FC = () => {
     <div className={`container ${styles.container}`}>
       <Toaster position="bottom-right" gutter={8} />
       <div className={styles.formContainer}>
-        <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
+        <h1 className={styles.header}>
+          Регистрация на сайте <span className="text-accent">Ubrato</span>
+        </h1>
         <p className={`${styles.infoText} pt-[10px]`}>
           Уже есть аккаунт?{' '}
           <Link className={styles.link} to="/login">
@@ -501,7 +503,7 @@ export const RegisterPage: FC = () => {
                     {formik.errors.personalDataAgreement}
                   </p>
                 </Checkbox>
-                <p className="w-[478px] text-center text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">
+                <p className="w-[478px] text-left text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">
                   Пользователь Сайта уведомлен о том, что Оператор направляет ему
                   информационно-рекламные рассылки и материалы. В случае несогласия на получение
                   информационно-рекламных рассылок и материалов, необходимо направить заявление по
