@@ -1,4 +1,5 @@
 .base {
+  /* background-color: pink; */
   display: block !important;
   grid-column-start: 1;
   grid-column-end: 3;
@@ -30,6 +31,7 @@
   box-shadow: 0 0 6px 2px rgba(232, 232, 232, 0.2);
   outline: none;
   background-color: var(--color-white);
+
 }
 
 @media screen and (max-width: 1050px) {
@@ -110,16 +112,15 @@
 }
 
 .calendar tr {
-  margin-top: 6px;
   display: flex;
   flex-direction: row;
 }
 
-.calendar td > span {
-  padding: 4px 6px;
+.calendar tbody td {
+  padding: 2px 5px;
 }
 
-.calendar tbody {
+.calendar tbody tr {
   margin-top: 5px !important;
 }
 

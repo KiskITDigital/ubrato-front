@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Header } from '../Header/Header';
 import { Outlet } from 'react-router-dom';
-import { Cookies, Footer } from '@/components';
+import { Footer } from '@/components';
 
 export const App: FC = () => {
   return (
@@ -10,7 +10,6 @@ export const App: FC = () => {
       <main>
         <Outlet />
       </main>
-      <Cookies />
       <Footer />
     </>
   );

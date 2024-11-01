@@ -24,7 +24,7 @@ type services = {
 }[];
 
 export const ContractorProfile: FC = () => {
-  const userInfoState = useUserInfoStore();
+  const userInfoState = useUserInfoStore()
 
   const [textareaValue, setTextareaValue] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
@@ -44,7 +44,7 @@ export const ContractorProfile: FC = () => {
 
   const [areAllLocations, setAreAllLocations] = useState(true);
 
-  const portfolioRef = useRef<HTMLHeadingElement>(null);
+  const portfolioRef = useRef<HTMLHeadingElement>(null)
 
   const location = useLocation();
 
@@ -224,23 +224,43 @@ export const ContractorProfile: FC = () => {
       initalData.current = res;
     })();
   }, [fetchCleaningTypes, fetchObjects, objectsStore.apiObjects, servicesStore.apiCleaningTypes]);
+  // useEffect(() => {
+  //   const handleClickOutside = (event: MouseEvent) => {
+  //     // if (
+  //     //   locationsListRef.current
+  //     //   // !locationsListRef.current.contains(event.target as Node)
+  //     // ) {
+  //     //   setIsListOpen(false);
+  //     // }
+  //   };
+
+  //   document.addEventListener('mousedown', handleClickOutside);
+
+  //   // return () => {
+  //   //   document.removeEventListener('mousedown', handleClickOutside);
+  //   // };
+  // }, [locationsListRef]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (location.state?.refTo === 'portfolio' && portfolioRef.current) {
-        portfolioRef.current.scrollIntoView({ behavior: 'smooth' });
+      if (location.state?.refTo === "portfolio" && portfolioRef.current) {
+        portfolioRef.current.scrollIntoView({ behavior: "smooth" })
         const elementTop = portfolioRef.current!.getBoundingClientRect().top;
-        window.scrollBy({ top: elementTop - 100, behavior: 'smooth' });
+        window.scrollBy({ top: elementTop - 100, behavior: "smooth" });
       }
     }, 300);
   }, [location.state?.refTo, portfolioRef]);
+
+  // useEffect(() => {
+  //   if (!inputValue) setTimeout(() => setIsListOpen(false), 0)
+  // }, [inputValue]);
 
   const changeCities = async (text: string) => {
     setInputValue(text);
     const res = await getCities(text);
     setSitiesArr(res.data);
-    text ? setIsListOpen(true) : setIsListOpen(false);
-  };
+    text ? setIsListOpen(true) : setIsListOpen(false)
+  }
 
   return (
     <div className={styles.container}>
@@ -248,16 +268,12 @@ export const ContractorProfile: FC = () => {
       <div className={styles.infoContainer}>
         <img src="/info-blue-ic.svg" alt="" />
         <p className={styles.infoText}>
-          Пользователям Ubrato будет доступна вся информация о вашей компании, кроме контактов. Их
-          ваши контрагенты увидят после подведения итогов тендера.
+          Информация о вашей компании будет доступна компаниям-исполнителям после подведения итогов
+          тендера.
         </p>
       </div>
       <p className={styles.text}>
-        Нажмите на кнопку “
-        <Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}/contractor`}>
-          Смотреть
-        </Link>
-        ”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
+        Нажмите на кнопку “<Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}`}>Смотреть</Link>”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
       </p>
       <div className={styles.borderedContainer}>
         <div className={styles.infoContainer}>
@@ -270,7 +286,7 @@ export const ContractorProfile: FC = () => {
         <Textarea
           className="border rounded-2xl border-gray-200 outline-none w-[490px]"
           classNames={{
-            input: 'outline-none',
+            input: "outline-none"
           }}
           minRows={2}
           value={textareaValue}
@@ -290,37 +306,28 @@ export const ContractorProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
-            placeholder="введите город"
+            placeholder='введите город'
             onChange={(e) => changeCities(e.target.value)}
           />
           {locations.length !== 0 && (
             <div className={styles.locationsList} ref={locationsListRef}>
-              {(areAllLocations && locations.length > 6 ? locations.slice(0, 6) : locations).map(
-                (e) => (
-                  <div className={styles.locationItem} key={e.id}>
-                    {e.name}
-                    <button
-                      onClick={() => {
-                        setLocations(locations.filter((i) => i.id !== e.id));
-                      }}
-                      className={styles.deleteBtn}
-                    >
-                      <img src="/x-icon-white.svg" alt="" />
-                    </button>
-                  </div>
-                )
-              )}
-              {locations.length > 6 && (
-                <>
-                  {!areAllLocations && <br />}
+              {(areAllLocations && locations.length > 6 ? locations.slice(0, 6) : locations).map((e) => (
+                <div className={styles.locationItem} key={e.id}>
+                  {e.name}
                   <button
-                    onClick={() => setAreAllLocations((prev) => !prev)}
-                    className={styles.areAllLocationsButton}
+                    onClick={() => {
+                      setLocations(locations.filter((i) => i.id !== e.id));
+                    }}
+                    className={styles.deleteBtn}
                   >
-                    Показать {areAllLocations ? 'все локации' : 'меньше'}
+                    <img src="/x-icon-white.svg" alt="" />
                   </button>
-                </>
-              )}
+                </div>
+              ))}
+              {locations.length > 6 && <>
+                {!areAllLocations && <br />}
+                <button onClick={() => setAreAllLocations(prev => !prev)} className={styles.areAllLocationsButton}>Показать {areAllLocations ? "все локации" : "меньше"}</button>
+              </>}
             </div>
           )}
           {citiesArr.length !== 0 && isListOpen && (
@@ -330,8 +337,7 @@ export const ContractorProfile: FC = () => {
                   className={styles.city}
                   onClick={() => {
                     const newLocations = [...locations];
-                    if (!newLocations.find((i) => i.name === e.name))
-                      newLocations.unshift({ id: e.id, name: e.name });
+                    if (!newLocations.find((i) => i.name === e.name)) newLocations.unshift({ id: e.id, name: e.name })
                     setLocations(newLocations);
                     setIsListOpen(false);
                     setInputValue('');
@@ -508,7 +514,7 @@ export const ContractorProfile: FC = () => {
           Сохранить изменения
         </button>
       </div>
-      <span ref={location.state?.refTo === 'portfolio' ? portfolioRef : undefined}></span>
+      <span ref={location.state?.refTo === "portfolio" ? portfolioRef : undefined}></span>
       <Portfolio
         setPortfolio={addNewPortfolio}
         portfolio={portfolioList}

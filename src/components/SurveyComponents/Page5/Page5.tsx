@@ -1,9 +1,10 @@
 import { useSurveyStore } from '@/store/surveyStore';
-import { CheckboxGroup, Checkbox, Textarea, Modal, ModalContent } from '@nextui-org/react';
+import { CheckboxGroup, Checkbox, Textarea } from '@nextui-org/react';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from '../MainPart.module.css';
-import { sendAnswers, updateToken } from '@/api';
+import { sendAnswers } from '@/api';
+import * as Dialog from '@radix-ui/react-dialog';
 
 export const Page5: FC = () => {
   const checkStyle = {
@@ -59,25 +60,18 @@ export const Page5: FC = () => {
     // console.log(answers);
     const token = localStorage.getItem('token');
     if (token) {
+      setCompleted(true)
       try {
         (async () => {
-          const res = await updateToken(sendAnswers, answers);
+          const res = await sendAnswers(token, answers);
           if (res === 200) {
-            setCompleted(true);
+            setCompleted(true)
           }
         })();
       } catch (error) {
         // console.log(error);
       }
     }
-  };
-
-  const modalStyle = {
-    wrapper:
-      'z-[7] fixed top-[calc(50vh-154px)] left-[calc(50vw-314px)] w-[618px] h-[308px] bg-white p-5 shadow-md rounded-[20px]',
-    backdrop: 'z-[6] backdrop-blur fixed top-0 left-0 w-full h-full',
-    closeButton:
-      'absolute right-0 w-[34px] h-[34px] bg-[rgba(0,0,0,.04)] rounded-[10px] flex items-center justify-center',
   };
 
   useEffect(() => {
@@ -110,31 +104,34 @@ export const Page5: FC = () => {
 
   return (
     <>
-      <div className="text-[20px] font-medium w-full">
-        <h1 className="font-bold text-[40px] text-center">
+      <div className="text-[26px] font-medium w-full">
+        <h1 className="font-bold text-[60px] text-center">
           Тест-драйв <span className="text-accent">Ubrato</span> Анкета
         </h1>
 
-        <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[20px]">
+        <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[40px]">
           <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
             <p className="font-bold">
               Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-              качестве{' '}
-              <Link to="/knowledge-base" className="text-accent hover:underline">
-                Исполнителей
-              </Link>
-              , принять участие в тест-драйве сайта.
+              качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
+              сайта.
             </p>
             <div className="flex flex-col">
-              <p className="font-bold">Пожалуйста, ответьте на вопросы анкеты.</p>
-              <p>* Звездочкой отмечены обязательные для ответов</p>
+              <p className="font-bold">
+                Пожалуйста, ответьте на вопросы анкеты.
+              </p>
+              <p>
+                * Звездочкой отмечены обязательные для ответов
+              </p>
             </div>
           </div>
         </div>
 
         <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
           <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-            <p className="font-bold">Ubrato и ваш бизнес</p>
+            <p className="font-bold">
+              Ubrato и ваш бизнес
+            </p>
           </div>
         </div>
 
@@ -153,11 +150,11 @@ export const Page5: FC = () => {
               className={styles.checkGroup}
             >
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Поиск заказа</p>
+                <p>Поиск заказа</p>
                 <Checkbox value="Поиск заказа" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Согласование объема и стоимости услуг</p>
+                <p>Согласование объема и стоимости услуг</p>
                 <Checkbox value="Согласование объема и стоимости услуг" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
@@ -169,12 +166,12 @@ export const Page5: FC = () => {
                 <Checkbox value="Возможность загружать примеры работ" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Наличие отзывов</p>
+                <p>Наличие отзывов</p>
                 <Checkbox value="Наличие отзывов" classNames={checkStyle} />
               </div>
             </CheckboxGroup>
             <div className={`${styles.yourVariant} ${styles.comment}`}>
-              <p className="text-[18px]">Ваш комментарий</p>
+              <p>Ваш комментарий</p>
               <input
                 type="text"
                 value={surveyStore.question12.comment}
@@ -199,54 +196,50 @@ export const Page5: FC = () => {
               className={styles.checkGroup}
             >
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Режим одного окна (договор, акт сдачи-приемки работ, арбитраж, привлечение
-                  эксперта на любом из этапов взаимодействия сторон, в т.ч. с выездом на объект)
+                <p>
+                  Режим одного окна (договор, акт сдачи-приемки работ, арбитраж, привлечение эксперта
+                  на любом из этапов взаимодействия сторон, в т.ч. с выездом на объект)
                 </p>
                 <Checkbox value="Режим одного окна" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Гарантия получения оплаты по процедуре “Безопасная сделка”
-                </p>
+                <p>Гарантия получения оплаты по процедуре “Безопасная сделка”</p>
                 <Checkbox
                   value="Гарантия получения оплаты по процедуре “Безопасная сделка”"
                   classNames={checkStyle}
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Заключение договора через площадку</p>
+                <p>Заключение договора через площадку</p>
                 <Checkbox value="Заключение договора через площадку" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Подписание акта выполненных работ через площадку</p>
+                <p>Подписание акта выполненных работ через площадку</p>
                 <Checkbox
                   value="Подписание акта выполненных работ через площадку"
                   classNames={checkStyle}
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Разрешение споров с помощью процедуры арбитража</p>
+                <p>Разрешение споров с помощью процедуры арбитража</p>
                 <Checkbox
                   value="Разрешение споров с помощью процедуры арбитража"
                   classNames={checkStyle}
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Аренда/продажа уборочной техники, расходных материалов и экипировки
-                </p>
+                <p>Аренда/продажа уборочной техники, расходных материалов и экипировки</p>
                 <Checkbox
                   value="Аренда/продажа уборочной техники, расходных материалов и экипировки"
                   classNames={checkStyle}
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Аутсорсинг персонала</p>
+                <p>Аутсорсинг персонала</p>
                 <Checkbox value="Аутсорсинг персонала" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
+                <p>
                   Финансовые услуги (страхование, помощь в получении кредита, банковской гарантии)
                 </p>
                 <Checkbox
@@ -255,7 +248,7 @@ export const Page5: FC = () => {
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
+                <p>
                   Продвижение компании на сайте (баннерная реклама, выделенная карточка профиля,
                   приоритетное размещение в выдаче каталога и др.)
                 </p>
@@ -263,9 +256,7 @@ export const Page5: FC = () => {
               </div>
             </CheckboxGroup>
             <div className={`${styles.yourVariant} ${styles.comment}`}>
-              <p className="text-[18px]">
-                Что еще можно добавить на сайт Ubrato? (Ваш комментарий)
-              </p>
+              <p>Что еще можно добавить на сайт Ubrato? (Ваш комментарий)</p>
               <input
                 type="text"
                 value={surveyStore.question13.comment}
@@ -290,19 +281,17 @@ export const Page5: FC = () => {
               className={styles.checkGroup}
             >
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Участие в тендерах (абонентская плата)</p>
+                <p>Участие в тендерах (абонентская плата)</p>
                 <Checkbox value="Участие в тендерах (абонентская плата)" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Доступ к базе текущих тендеров (единовременная плата за пакет услуг)
-                </p>
+                <p>Доступ к базе текущих тендеров (единовременная плата за пакет услуг)</p>
                 <Checkbox value="Доступ к базе текущих тендеров" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Доступ к базе текущих тендеров и продвижение компании (единовременная плата за
-                  пакет услуг)
+                <p>
+                  Доступ к базе текущих тендеров и продвижение компании (единовременная плата за пакет
+                  услуг)
                 </p>
                 <Checkbox
                   value="Доступ к базе текущих тендеров и продвижение компании"
@@ -310,11 +299,11 @@ export const Page5: FC = () => {
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">Комиссия за победу в тендере</p>
+                <p>Комиссия за победу в тендере</p>
                 <Checkbox value="Комиссия за победу в тендере" classNames={checkStyle} />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
+                <p>
                   Раскрытие контактных данных вашей организации в каталоге Исполнителей (абонентская
                   плата)
                 </p>
@@ -324,9 +313,9 @@ export const Page5: FC = () => {
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
-                  Размещение и оформление профиля, продвижение компании (единовременная плата за
-                  пакет услуг)
+                <p>
+                  Размещение и оформление профиля, продвижение компании (единовременная плата за пакет
+                  услуг)
                 </p>
                 <Checkbox
                   value="Размещение и оформление профиля, продвижение компании"
@@ -334,7 +323,7 @@ export const Page5: FC = () => {
                 />
               </div>
               <div className={styles.checkContainer}>
-                <p className="text-[18px]">
+                <p>
                   Смс-уведомления о публикации новых тендеров в вашем сегменте (абонентская плата)
                 </p>
                 <Checkbox
@@ -346,7 +335,7 @@ export const Page5: FC = () => {
           </li>
           <li>
             <div className={`${styles.yourVariant} ${styles.comment}`}>
-              <p className={`${styles.text} text-[18px]`}>
+              <p className={styles.text}>
                 Что еще вы хотели бы улучшить или добавить на сайте Ubrato?
               </p>
               <Textarea
@@ -354,7 +343,7 @@ export const Page5: FC = () => {
                 onChange={(e) => {
                   surveyStore.setQuestion15(e.target.value);
                 }}
-                variant="faded"
+                variant='faded'
                 disableAutosize
                 disableAnimation
                 className={styles.textarea + ' border-4 rounded-3xl '}
@@ -371,34 +360,21 @@ export const Page5: FC = () => {
           </button>
         </div>
       </div>
-      <Modal
-        onOpenChange={() => {
-          navigate('/profile');
-        }}
-        isOpen={completed}
-        classNames={modalStyle}
-      >
-        <ModalContent>
-          <div className="flex flex-col gap-9">
-            <p className="font-bold text-[26px]">Анкета отправлена</p>
-            <p className="font-semibold text-[20px]">
-              Благодарим за участие в тест-драйве площадки Ubrato!
-            </p>
-            <p className="text-[16px] font-semibold py-3 px-[14px] bg-[rgba(0,0,0,.03)] rounded-[14px]">
-              Вам доступно{' '}
-              <span className="underline text-accent">Исследование рынка клининга</span>
-            </p>
-            <Link
-              className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"
-              target="_blank"
-              download
-              to="/documents/test-drive-report.pdf"
-            >
-              Скачать
-            </Link>
-          </div>
-        </ModalContent>
-      </Modal>
+      <Dialog.Root open={completed}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="DialogOverlay" />
+          <Dialog.Content className="DialogContent">
+            <div className="bg-white flex justify-center items-center h-[400px] px-20 border-gray-300 border-2 rounded-xl">
+              <p>Благодарим за участие в тест-драйве площадки Ubrato</p>
+            </div>
+            <Dialog.Close asChild>
+              <button className="IconButton" aria-label="Close">
+                <img src="/x-icon.svg" className="size-5" />
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
     </>
   );
 };

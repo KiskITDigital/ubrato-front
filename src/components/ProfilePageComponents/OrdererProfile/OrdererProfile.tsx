@@ -3,10 +3,10 @@ import styles from './ordererprofile.module.css';
 import { fetchOrdererProfile, getCities, putOrdererProfile, updateToken } from '@/api';
 import { useUserInfoStore } from '@/store/userInfoStore';
 import { Link } from 'react-router-dom';
-import { Textarea } from '@nextui-org/react';
+import { Textarea } from "@nextui-org/react";
 
 export const OrdererProfile: FC = () => {
-  const userInfoState = useUserInfoStore();
+  const userInfoState = useUserInfoStore()
 
   const [textareaValue, setTextareaValue] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
@@ -36,9 +36,8 @@ export const OrdererProfile: FC = () => {
       setTextareaValue(res.description);
       initalData.current = res;
       setTimeout(() => {
-        area.current!.style.height = `${
-          Math.floor((area.current!.scrollHeight - 29) / 22) * 22 + 51
-        }px`;
+        area.current!.style.height = `${Math.floor((area.current!.scrollHeight - 29) / 22) * 22 + 51
+          }px`;
       }, 10);
       setLocations(res.locations);
     })();
@@ -68,14 +67,7 @@ export const OrdererProfile: FC = () => {
         </p>
       </div>
       <p className={styles.text}>
-        Нажмите на кнопку “
-        <Link
-          className={styles.link}
-          to={`/organization/${userInfoState.user.organization.id}/orderer`}
-        >
-          Смотреть
-        </Link>
-        ”, чтобы посмотреть, как эту информацию увидят ваши контрагенты.
+        Нажмите на кнопку “<Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}`}>Смотреть</Link>”, чтобы посмотреть, как эту информацию увидят ваши партнеры.
       </p>
       <div className={styles.borderedContainer}>
         <div className={styles.infoContainer}>
@@ -88,7 +80,7 @@ export const OrdererProfile: FC = () => {
         <Textarea
           className="border rounded-2xl border-gray-200 outline-none w-[490px]"
           classNames={{
-            input: 'outline-none',
+            input: "outline-none"
           }}
           minRows={2}
           value={textareaValue}
@@ -108,7 +100,7 @@ export const OrdererProfile: FC = () => {
             className={styles.input}
             type="text"
             value={inputValue}
-            placeholder="введите город"
+            placeholder='введите город'
             onChange={(e) => {
               (async () => {
                 setInputValue(e.target.value);
@@ -121,9 +113,9 @@ export const OrdererProfile: FC = () => {
           />
 
           {locations.length !== 0 && (
-            <div className={styles.locationsList}>
+            <div className={styles.locationsList} >
               {locations.map((e) => (
-                <div className={styles.locationItem} key={e.id}>
+                <div className={styles.locationItem} key={e.id} >
                   {e.name}
                   <button
                     onClick={() => {

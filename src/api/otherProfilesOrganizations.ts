@@ -1,32 +1,27 @@
-import { ExecutorProfileInfo, OrdererProfileInfo, Organization } from '@/types/app';
-import { axiosInstance } from '@/utils';
+import { ErrorInfo, ExecutorProfileInfo, OrdererProfileInfo } from "@/types/app";
+import { axiosInstance } from "@/utils";
 
-export const getOrdererProfile = async (orgId: string): Promise<OrdererProfileInfo | undefined> => {
-  try {
-    const res = await axiosInstance.get(`/v1/organizations/profile/${orgId}/customer`);
-    const generalInfo = await axiosInstance.get<Organization>(`/v1/organizations/profile/${orgId}`);
-    return {
-      org: generalInfo.data,
-      orderer: res.data,
-      isFavorite: false,
-    };
-  } catch (e) {
-    console.log(e);
-  }
-};
+export const getOtherProfilesOrganizations = async (orgId: string): Promise<OrdererProfileInfo | ExecutorProfileInfo | ErrorInfo> => {
+    let org;
+    try {
+        org = await axiosInstance.get(`/v1/organizations/profile/${orgId}`);
+    } catch (e) {
+        return { msg: "Произошла ошибка, возможно такого пользователя не существует" } as ErrorInfo;
+    }
 
-export const getContractorProfile = async (
-  orgId: string
-): Promise<ExecutorProfileInfo | undefined> => {
-  try {
-    const res = await axiosInstance.get(`/v1/organizations/profile/${orgId}/contractor`);
-    const generalInfo = await axiosInstance.get<Organization>(`/v1/organizations/profile/${orgId}`);
-    return {
-      org: generalInfo.data,
-      executor: res.data,
-      isFavorite: false,
-    };
-  } catch (e) {
-    console.log(e);
-  }
-};
+    let orgAddition;
+    let status: 'contractor' | 'customer';
+    try {
+        orgAddition = await axiosInstance.get(`/v1/organizations/profile/${orgId}/contractor`);
+        status = 'contractor';
+    } catch (e) {
+        try {
+            orgAddition = await axiosInstance.get(`/v1/organizations/profile/${orgId}/customer`);
+            status = 'customer';
+        } catch (e) {
+            return { msg: "Произошла ошибка, возможно такого пользователя не существует" } as ErrorInfo;
+        }
+    }
+
+    return { org: org.data, [status === 'contractor' ? 'executor' : 'orderer']: orgAddition.data } as ExecutorProfileInfo | OrdererProfileInfo;
+}

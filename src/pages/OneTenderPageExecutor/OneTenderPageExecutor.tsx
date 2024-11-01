@@ -1,131 +1,136 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { OneTenderHeader } from '@/components/OneTenderComponents/OneTenderHeader/OneTenderHeader';
-import { FC, useEffect, useState } from 'react';
-import { Link, Outlet, Params, useLocation, useParams } from 'react-router-dom';
-import { useTenderInfoStore } from '@/store/tenderStore';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { OneTenderExecutorAcceptModal } from '@/components/OneTenderComponents/OneTenderExecutorAcceptModal/OneTenderExecutorAcceptModal';
+import { Switchero } from '@/components/OneTenderComponents/OneTenderSwitcher/OneTenderSwitcher';
+import { Category, OneTenderInfoViewExecutor } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
+import { FC, ReactNode, useEffect, useState, } from 'react';
+import { useSwitchStore } from '@/store/switchStore';
+import { fetchProduct } from '@/api/getTender';
+import { Params, useParams } from 'react-router-dom';
+import { isResponded } from '@/api/isResponded';
+
+
+export interface dataObjectTypes {
+  id: number,
+  name: string,
+  active: boolean,
+  price: number,
+  object_group: string,
+  objects_types: string[],
+  location: string,
+  floor_space: number,
+  categories: Category[]
+  description: string,
+  wishes: string,
+  attachments: string[],
+  reception_start: string,
+  reception_end: string,
+  work_start: string,
+  work_end: string,
+  created_at: string,
+  is_nds_price: boolean,
+  is_contract_price: boolean,
+  user_id: string
+}
+
 
 export const OneTenderPageExecutor: FC = () => {
-  const tenderInfoState = useTenderInfoStore();
-  const userInfoStore = useUserInfoStore();
+  const { id }: Readonly<Params<string>> = useParams()
+  const { activeIndex } = useSwitchStore();
+  const [response, setResponse] = useState(false)
+  const [dataState, setData] = useState<dataObjectTypes>({
+    id: 0,
+    name: '',
+    active: false,
+    price: 0,
+    object_group: '',
+    objects_types: [],
+    location: '',
+    floor_space: 0,
+    categories: [],
+    description: '',
+    wishes: '',
+    attachments: [],
+    reception_start: '',
+    reception_end: '',
+    work_start: '',
+    work_end: '',
+    created_at: '',
+    is_nds_price: false,
+    is_contract_price: false,
+    user_id: ''
+  })
+  const [loading, setLoading] = useState(true);
 
-  const { id }: Readonly<Params<string>> = useParams();
-  const location = useLocation();
+  let stack: ReactNode;
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState({});
-
-  const changeResponseStatus = () => {
-    tenderInfoState.setResponded(true);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formData);
-    setIsModalOpen(false);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  switch (activeIndex) {
+    case 0:
+      stack = <OneTenderInfoViewExecutor dataTender={dataState} />;
+      break;
+    case 1:
+      stack = <div>tt</div>;
+      break;
+    case 2:
+      stack = <div>ee</div>;
+      break;
+    case 3:
+      stack =
+        // <OneTenderAdd
+        // ></OneTenderAdd>
+        <div>пусто</div>;
+      break;
+    default:
+      stack = <div>No stack component found</div>;
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     (async () => {
-      if (id) {
-        await tenderInfoState.fetchTenderInfo(id, token);
+
+      const token = localStorage.getItem('token');
+      const responded = await isResponded(token, id)
+      const data = await fetchProduct(id);
+      if (data) {
+        setResponse(responded.status)
+        setData(data)
+        setLoading(false)
+        // console.log(responded);
+        console.log(data);
+
+      } else {
+        // console.log('proizoshla oshibka');
       }
     })();
-  }, [id]);
+  }, [id])
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!dataState) {
+    return <div>Failed to load data</div>;
+  }
+
+  const changeResponseStatus = () => {
+    setResponse(true)
+  }
 
   return (
     <div>
       <OneTenderHeader
-        status={tenderInfoState.tenderInfo.active}
-        id={tenderInfoState.tenderInfo.id}
-        name={tenderInfoState.tenderInfo.name}
+        status={dataState.active}
+        id={dataState.id}
+        name={dataState.name}
       ></OneTenderHeader>
-
-      <div className="w-[1024px] mx-auto">
-        <div className="flex border-b pb-[14px] justify-between">
-          <div className="flex">
-            <Link
-              className={`pr-[14px] relative border-solid border-r border-[#ddd] ${
-                !location.pathname.includes('responses') &&
-                !location.pathname.includes('questions_and_answers') &&
-                !location.pathname.includes('more_inforamtion')
-                  ? 'after:content-[" "] after:bottom-[-14px] after:block after:absolute after:w-[calc(100%-14px)] after:h-[2px] after:bg-accent'
-                  : ''
-              }`}
-              to=""
-            >
-              Тендер
-            </Link>
-            <Link
-              className={`pr-[14px] pl-[14px] border-solid border-r border-[#ddd] relative ${
-                location.pathname.includes('responses')
-                  ? 'after:content-[" "] after:bottom-[-14px] after:block after:absolute after:w-[calc(100%-28px)] after:h-[2px] after:bg-accent'
-                  : ''
-              }`}
-              to="responses"
-            >
-              Отклики
-            </Link>
-            <Link
-              className={`pr-[14px] pl-[14px] border-solid border-r border-[#ddd] relative ${
-                location.pathname.includes('questions_and_answers')
-                  ? 'after:content-[" "] after:bottom-[-14px] after:block after:absolute after:w-[calc(100%-28px)] after:h-[2px] after:bg-accent'
-                  : ''
-              }`}
-              to="questions_and_answers"
-            >
-              Вопросы и ответы
-            </Link>
-            <Link
-              className={`pl-[14px] relative ${
-                location.pathname.includes('more_inforamtion')
-                  ? 'after:content-[" "] after:bottom-[-14px] after:block after:absolute after:w-[calc(100%-14px)] after:h-[2px] after:bg-accent'
-                  : ''
-              }`}
-              to="more_inforamtion"
-            >
-              Доп. информация
-            </Link>
-          </div>
-          <div>
-            {userInfoStore.is_contractor &&
-              tenderInfoState.tenderInfo.user_id != userInfoStore.user.id &&
-              !tenderInfoState.isResponded && (
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="ml-auto right-0 top-[-47px] px-2 py-1 rounded-lg bg-accent text-white"
-                >
-                  Откликнуться на тендер
-                </button>
-              )}
-            {userInfoStore.is_contractor &&
-              tenderInfoState.tenderInfo.user_id != userInfoStore.user.id &&
-              tenderInfoState.isResponded && (
-                <p className="right-0 top-[-47px] px-2 py-1 rounded-lg bg-accent text-white">
-                  Вы уже откликнулись на тендер
-                </p>
-              )}
-          </div>
-        </div>
-      </div>
-      <Outlet />
-      <OneTenderExecutorAcceptModal
+      <Switchero
         setResponse={() => changeResponseStatus()}
-        response={tenderInfoState.isResponded}
-        id={id}
-        isOpen={isModalOpen}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        price={tenderInfoState.tenderInfo.price}
-        closeModal={() => setIsModalOpen(false)}
-      ></OneTenderExecutorAcceptModal>
+        response={response}
+        tenderId={id}
+        options={['Тендер', 'Отклики', 'Вопросы и ответы', 'Доп. информация']}
+        noticeKnocks={2}
+        button_text={'Откликнуться на тендер'}
+        price={dataState.price}
+        user_id={dataState.user_id}
+      ></Switchero>
+      {stack}
     </div>
   );
 };

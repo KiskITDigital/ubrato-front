@@ -1,38 +1,36 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useState } from 'react';
 import styles from './citymodal.module.css';
 import { getCities } from '@/api';
 
 const mockCities = [
-  { id: 0, name: 'Москва', region: 'Москва и Московская область' },
-  { id: 1, name: 'Санкт-Петербург', region: 'Санкт-Петербург и Ленинградская область' },
-  { id: 2, name: 'Нижний Новгород', region: 'Нижегородская область' },
-  { id: 3, name: 'Казань', region: 'Республика Татарстан' },
-  { id: 4, name: 'Екатеринбург', region: 'Свердловская область' },
-  { id: 5, name: 'Краснодар', region: 'Краснодарский край' },
-  { id: 6, name: 'Самара', region: 'Самарская область' },
-  { id: 7, name: 'Новосибирск', region: 'Новосибирская область' },
-  { id: 8, name: 'Красноярск', region: 'Красноярский край' },
-  { id: 9, name: 'Ростов-на-Дону', region: 'Ростовская область' },
-];
+  { id: 0, name: "Москва", region: "Москва и Московская область" },
+  { id: 1, name: "Санкт-Петербург", region: "Санкт-Петербург и Ленинградская область" },
+  { id: 2, name: "Нижний Новгород", region: "Нижегородская область" },
+  { id: 3, name: "Казань", region: "Республика Татарстан" },
+  { id: 4, name: "Екатеринбург", region: "Свердловская область" },
+  { id: 5, name: "Краснодар", region: "Краснодарский край" },
+  { id: 6, name: "Самара", region: "Самарская область" },
+  { id: 7, name: "Новосибирск", region: "Новосибирская область" },
+  { id: 8, name: "Красноярск", region: "Красноярский край" },
+  { id: 9, name: "Ростов-на-Дону", region: "Ростовская область" },
+]
 
 export const CityModal: FC<{
   setConfirm: (a: boolean) => void;
   setModal: (a: boolean) => void;
   setCity: (newCity: string) => void;
 }> = ({ setConfirm, setModal, setCity }) => {
-  const [citiesArr, setCitiesArr] =
-    useState<{ id: number; name: string; region: string }[]>(mockCities);
+  const [citiesArr, setCitiesArr] = useState<{ id: number; name: string; region: string }[]>([]);
   const [confirmedCity, setConfirmedCity] = useState<string>('');
   const [isListOpen, setIsListOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
-    getCities('').then((response) => {
-      console.log(citiesArr);
-      // setCitiesArr(response.data);
-      setIsListOpen(true);
-    });
+    getCities("").then(response => {
+      console.log(citiesArr)
+      setCitiesArr(response.data)
+      setIsListOpen(true)
+    })
   }, []);
 
   return (
@@ -44,50 +42,41 @@ export const CityModal: FC<{
           placeholder="Начните вводить название города"
           value={inputValue}
           onChange={(e) => {
-            setInputValue(e.target.value);
-            if (e.target.value === '') {
-              setCitiesArr(mockCities);
-            } else {
-              (async () => {
-                const res = await getCities(e.target.value);
-                // console.log(res);
-                setCitiesArr(res.data);
-                setIsListOpen(true);
-              })();
-            }
+            (async () => {
+              setInputValue(e.target.value);
+              const res = await getCities(e.target.value);
+              // console.log(res);
+              setCitiesArr(res.data);
+              setIsListOpen(true);
+            })();
           }}
         />
-        {citiesArr.length !== 0 && isListOpen && (
+        {mockCities.length !== 0 && isListOpen && (
           <>
-            {citiesArr?.filter((filterCity) =>
-              filterCity.name.toLowerCase().includes(inputValue.toLowerCase())
-            ).length ? (
+            {mockCities?.filter(filterCity => filterCity.name.toLowerCase().includes(inputValue.toLowerCase())).length ?
               <div className={styles.citiesList}>
-                {citiesArr
-                  ?.filter((filterCity) =>
-                    filterCity.name.toLowerCase().includes(inputValue.toLowerCase())
-                  )
-                  ?.map((city) => (
-                    <div
-                      className={styles.city}
-                      onClick={() => {
-                        setIsListOpen(false);
-                        setConfirmedCity(city.name);
-                        setInputValue('');
-                      }}
-                      key={city.id}
-                    >
-                      {city.name}
-                      <span className={`${styles.region} truncate`}>{city.region}</span>
-                    </div>
-                  ))}
+                {mockCities?.filter(filterCity => filterCity.name.toLowerCase().includes(inputValue.toLowerCase()))?.map((city) => (
+                  <div
+                    className={styles.city}
+                    onClick={() => {
+                      setIsListOpen(false);
+                      setConfirmedCity(city.name);
+                      setInputValue('');
+                    }}
+                    key={city.id}
+                  >
+                    {city.name}
+                    <span className={`${styles.region} truncate`}>{city.region}</span>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <></>
-            )}
+              : <></>
+            }
           </>
         )}
-        {confirmedCity && <p className={styles.newCity}>{confirmedCity}</p>}
+        {confirmedCity && (
+          <p className={styles.newCity}>{confirmedCity}</p>
+        )}
         <div className={styles.btns}>
           <button
             disabled={!isListOpen && confirmedCity.length === 0}
@@ -95,7 +84,7 @@ export const CityModal: FC<{
               setConfirm(true);
               setModal(false);
               setCity(confirmedCity);
-              document.body.style.overflow = 'auto';
+              document.body.style.overflow = 'scroll';
             }}
             className={styles.btn}
           >
@@ -105,7 +94,7 @@ export const CityModal: FC<{
             onClick={() => {
               setModal(false);
               setConfirm(true);
-              document.body.style.overflow = 'auto';
+              document.body.style.overflow = 'scroll';
             }}
             className={styles.cancelBtn}
           >
@@ -113,6 +102,6 @@ export const CityModal: FC<{
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };

@@ -30,7 +30,7 @@ export const Footer: FC = () => {
               <img src="/login.svg" alt="login" />
               <p className={styles.loginText}>Вход</p>
             </Link>
-            <Link to="/registration" className={styles.registrationLink}>
+            <Link to="/register" className={styles.registrationLink}>
               <p className={styles.registrationText}>Регистрация</p>
             </Link>
           </div>
@@ -40,10 +40,7 @@ export const Footer: FC = () => {
             <Link to="/profile" className={styles.registrationLink}>
               <p className={styles.registrationText}>Личный кабинет</p>
             </Link>
-            <button
-              className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]"
-              onClick={handleLogOut}
-            >
+            <button className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]" onClick={handleLogOut}>
               Выйти
             </button>
           </div>
@@ -56,26 +53,18 @@ export const Footer: FC = () => {
             {/* {userInfoStorage.user} */}
             {!userInfoStorage.isLoggedIn && (
               <li>
-                <Link
-                  to="/regisregistrationter"
-                  onClick={() => ordererState.handleState('contractor')}
-                  state={{ toReload: null }}
-                >
+                <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                   <p className={styles.point}>Стать заказчиком</p>
                 </Link>
-              </li>
-            )}
+              </li>)
+            }
             {(!userInfoStorage.user || !userInfoStorage.user.is_contractor) && (
               <li>
-                <Link
-                  to={`${userInfoStorage.isLoggedIn ? '/profile/become-contractor' : 'register'}`}
-                  onClick={() => ordererState.handleState('contractor')}
-                  state={{ toReload: null }}
-                >
+                <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                   <p className={styles.point}>Стать исполнителем</p>
                 </Link>
-              </li>
-            )}
+              </li>)
+            }
             <li>
               <Link to="/create-tender">
                 <p className={styles.point}>Создать тендер</p>
@@ -97,25 +86,17 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Информация</p>
           <ul>
             <li>
-              <Link to="/" state={{ to: 'catalog' }}>
+              <Link to="/" state={{ to: "catalog" }}>
                 <p className={styles.point}>Каталог</p>
               </Link>
             </li>
             <li>
-              <Link
-                to="/about"
-                onClick={() => ordererState.handleState('orderer')}
-                state={{ toReload: null }}
-              >
+              <Link to="/about" onClick={() => ordererState.handleState('orderer')} state={{ toReload: null }}>
                 <p className={styles.point}>Заказчикам</p>
               </Link>
             </li>
             <li>
-              <Link
-                to="/about"
-                onClick={() => ordererState.handleState('contractor')}
-                state={{ toReload: null }}
-              >
+              <Link to="/about" onClick={() => ordererState.handleState('contractor')} state={{ toReload: null }}>
                 <p className={styles.point}>Исполнителям</p>
               </Link>
             </li>
@@ -125,7 +106,7 @@ export const Footer: FC = () => {
               </Link>
             </li> */}
             <li>
-              <Link to="/" state={{ to: 'questions' }}>
+              <Link to="/" state={{ to: "questions" }}>
                 <p className={styles.point}>Частые вопросы</p>
               </Link>
             </li>
@@ -155,21 +136,13 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <a
-                target="_blank"
-                href="https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15"
-              >
+              <a target="_blank" href='https://yandex.ru/maps/213/moscow/stops/station__9858857/?ll=37.627860%2C55.685608&tab=overview&z=15'>
                 <p className={styles.point}>Карта сайта</p>
               </a>
             </li>
             <li>
               <Link target="_blank" to="/rights?document=1">
-                <p className={styles.point}>Документы Ubrato</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="/requisites">
-                <p className={styles.point}>Реквизиты</p>
+                <p className={styles.point}>Правовая информация</p>
               </Link>
             </li>
           </ul>
@@ -178,10 +151,10 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Служба поддержки</p>
           <ul>
             <li>
-              <a className={styles.bluetext} href="tel:88007756757">
+              <a className={styles.bluetext} href='tel:88007756757'>
                 8 800-775-67-57
               </a>
-              <p className={styles.pointtwo}>Время работы с 9:00 до 18:00 по Московскому времени</p>
+              <p className={styles.pointtwo}>Время работы с 9:00 до 21:00 по Московскому времени</p>
             </li>
             <li>
               <a href="mailto:info@ubrato.ru">
@@ -193,27 +166,14 @@ export const Footer: FC = () => {
         </div>
       </div>
       <div className={styles.line}>
-        <Link target="_blank" to="/documents/polzovatelskoe_soglashenie">
+        <Link target="_blank" to="/rights?document=1">
+          <p className={styles.confidental}>Политика обработки персональных данных</p>
+        </Link>
+        <Link target="_blank" to="/rights?document=2">
           <p className={styles.confidental}>Пользовательское соглашение</p>
         </Link>
-        <Link
-          target="_blank"
-          to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
-        >
-          <p className={styles.confidental}>Политика в отношении обработки персональных данных</p>
-        </Link>
-        <Link target="_blank" to="/documents/soglasie_na_obrabotku_personalnyh_dannyh">
+        <Link target="_blank" to="/rights?document=3">
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
-        </Link>
-        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya">
-          <p className={styles.confidental}>
-            Оферта для исполнителей, намеренных учавствовать в тендерах
-          </p>
-        </Link>
-        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika">
-          <p className={styles.confidental}>
-            Оферта для заказчиков, намеренных учавсвовать в тендерах
-          </p>
         </Link>
       </div>
       <div className={styles.last}>
