@@ -14,7 +14,9 @@ const Services: FC = () => {
       </p>
       <ul className={qstyles.mb20}>
         <li className={qstyles.li}>Вывоз (например, вывоз отходов мусора, снега);</li>
-        <li className={qstyles.li}>Дезинсекция (уничтожение тараканов, муравьев и других насекомых);</li>
+        <li className={qstyles.li}>
+          Дезинсекция (уничтожение тараканов, муравьев и других насекомых);
+        </li>
         <li className={qstyles.li}>Дезинфекция;</li>
         <li className={qstyles.li}>Дератизация;</li>
         <li className={qstyles.li}>Замена оборудования и инвентаря;</li>
@@ -31,7 +33,7 @@ const Services: FC = () => {
         <li className={qstyles.li}>Предоставление персонала для клининга;</li>
         <li className={qstyles.li}>Промышленный альпинизм;</li>
         <li className={qstyles.li}>
-          Уборка влажная, генеральная, поддерживающая, уборка снега, уборка мусора;
+          Уборка (например, генеральная уборка, поддерживающая уборка, уборка снега, уборка мусора);
         </li>
         <li className={qstyles.li}>Услуги прачечной;</li>
         <li className={qstyles.li}>Химчистка (например, химчистка ковров, ковролина, мебели);</li>

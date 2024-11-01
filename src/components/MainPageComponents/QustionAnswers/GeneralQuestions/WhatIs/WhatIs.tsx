@@ -24,7 +24,7 @@ export const WhatIs: FC = () => {
         </Link>
         .
       </p>
-      <p className={qstyles.title}>Преимущества Ubrato:</p>
+      <p className={`${qstyles.title} mt-4`}>Преимущества Ubrato:</p>
       <ul>
         <li className={qstyles.li}>простота регистрации и сделок</li>
         <li className={qstyles.li}>надежность контрагентов</li>

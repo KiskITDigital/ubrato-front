@@ -15,9 +15,6 @@ const Differences: FC = () => {
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
         Администрация Ubrato проводит оценку надежности заказчиков и исполнителей.
       </p>
-      <p className={`${qstyles.text} ${qstyles.ml20}`}>
-        Администрация Ubrato проводит оценку надежности заказчиков и исполнителей.
-      </p>
       <p className={qstyles.title}>Прямое предложение о партнерстве</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
         Заказчик может найти потенциальных исполнителей и предложить им участие в тендере.

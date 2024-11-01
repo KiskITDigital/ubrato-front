@@ -16,7 +16,10 @@ const Payment: FC = () => {
       </p>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
-        <Link to="/faq?page=1&number=2#q1_2" className={`${qstyles.link} ${qstyles.ml20}`}>
+        <Link
+          to="/documents/polzovatelskoe_soglashenie"
+          className={`${qstyles.link} ${qstyles.ml20}`}
+        >
           Как зарегистрироваться на сайте Ubrato?
         </Link>
       </div>
