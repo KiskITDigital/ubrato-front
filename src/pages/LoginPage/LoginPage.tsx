@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFormik } from 'formik';
 import { FC, useEffect, useState } from 'react';
 import { LoginFormValuesT } from '@/types/app';
@@ -38,7 +39,7 @@ export const LoginPage: FC = () => {
         try {
           const res = await login(parameters);
           localStorage.setItem('token', res.data.access_token);
-          userInfoStore.isLoggedIn = true
+          userInfoStore.isLoggedIn = true;
           if (res.data.access_token) {
             await userInfoStore.fetchUser(res.data.access_token);
             if (!userInfoStore.error) {
@@ -49,9 +50,9 @@ export const LoginPage: FC = () => {
           // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg('incorrect password');
+              setErrorMsg('Неверный пароль');
             } else if (e.response?.status === 404) {
-              setErrorMsg('email busy');
+              setErrorMsg('Нет пользователся с эти e-mail');
             } else {
               setErrorMsg('Что-то пошло не так');
             }
@@ -71,17 +72,14 @@ export const LoginPage: FC = () => {
     label: styles.label,
     errorMessage: styles.errorMessage,
     helperWrapper: styles.helperWrapper,
-    inputWrapper: styles.inputWrapper
+    inputWrapper: styles.inputWrapper,
   };
 
-  const navigationType = useNavigationType()
+  const navigationType = useNavigationType();
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       navigate(-1);
-    }
-    else
-      if (navigationType === "POP")
-        navigate(-1)
+    } else if (navigationType === 'POP') navigate(-1);
   }, [navigate, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
@@ -98,7 +96,7 @@ export const LoginPage: FC = () => {
         <h1 className={styles.header}>Вход</h1>
         <p className={'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'}>
           Ещё нет аккунта?{' '}
-          <Link className="text-[var(--color-blue-primary)] underline" to="/register">
+          <Link className="text-[var(--color-blue-primary)] underline" to="/registration">
             Зарегистрироваться
           </Link>
         </p>
@@ -120,12 +118,9 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
-            {
-              errorMsg === 'email busy' && 
-              <p className={styles.errorMessage}>
-                Пользователь с таким e-mail не существует
-              </p>
-            }
+            {errorMsg === 'email busy' && (
+              <p className={styles.errorMessage}>Пользователь с таким e-mail не существует</p>
+            )}
           </div>
           <div className={styles.inputContainer}>
             <Input
@@ -152,12 +147,30 @@ export const LoginPage: FC = () => {
                 setErrorMsg('');
               }}
             />
-            {
-              errorMsg === 'incorrect password' && 
-              <p className={styles.errorMessage}>Неверный пароль</p>
-            }
+            {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>
-          <Link className={styles.forgotPassword} to="/reset-password">Забыли пароль?</Link>
+          <Link className={styles.forgotPassword} to="/forgot-password">
+            Забыли пароль?
+          </Link>
+          <p className="w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]">
+            Нажимая на кнопку «Войти», вы даете{' '}
+            <Link
+              className="text-accent underline"
+              target="_blank"
+              to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+            >
+              Согласие на обработку персональных данных
+            </Link>{' '}
+            в соответствии с{' '}
+            <Link
+              className="text-accent underline"
+              target="_blank"
+              to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
+            >
+              Политикой в отношении обработки персональных данных
+            </Link>
+            .
+          </p>
           <div className={styles.submitContainer}>
             <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
           </div>

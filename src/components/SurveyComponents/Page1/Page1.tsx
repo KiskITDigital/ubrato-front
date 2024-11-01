@@ -32,8 +32,8 @@ export const Page1: FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center pt-10 text-[26px] gap-10 font-medium">
-      <h1 className="font-bold text-[60px]">
+    <div className="flex flex-col items-center pt-10 text-[20px] gap-10 font-medium">
+      <h1 className="font-bold text-[40px]">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 

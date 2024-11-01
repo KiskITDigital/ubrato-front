@@ -31,8 +31,6 @@ export const TendersAdvice: FC = () => {
     }
   }, []);
 
-
-
   return (
     <div className={`container ${styles.container}`}>
       <div className={styles.headerContainer}>
@@ -44,7 +42,7 @@ export const TendersAdvice: FC = () => {
         <p className={styles.headerText}>
           {ordererState.role === 'orderer'
             ? 'Исполнители проходят проверку администрацией сайта Ubrato и оцениваются заказчиками по итогам выполнения тендеров'
-            : 'Найдите подходящий тендер, задайте уточняющий вопрос заказчику, согласуйте стоимость, откликнитесь и становитесь исполнителем'}
+            : 'Найдите подходящий тендер, задайте уточняющие вопросы заказчику, отправьте отклик и побеждайте'}
         </p>
       </div>
       {/* <div className={styles.btnsContainer}>
@@ -67,12 +65,11 @@ export const TendersAdvice: FC = () => {
         {!widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
-              {
-                ordererState.role === 'orderer' ?
-                  <TendersAdviceExecutors />
-                  :
-                  <TendersAdvicesTenders />
-              }
+              {ordererState.role === 'orderer' ? (
+                <TendersAdviceExecutors />
+              ) : (
+                <TendersAdvicesTenders />
+              )}
             </div>
             <button className={styles.embla__prev} onClick={scrollPrev}>
               <ArrowControl image="./arrow-left.svg" />
@@ -85,11 +82,11 @@ export const TendersAdvice: FC = () => {
         {widthR.current && (
           <div className={styles.embla}>
             <div className={styles.embla__viewport} ref={emblaRef}>
-              {ordererState.role === 'orderer' ?
+              {ordererState.role === 'orderer' ? (
                 <TendersAdviceExecutors isMobile={true} />
-                :
+              ) : (
                 <TendersAdvicesTenders isMobile={true} />
-              }
+              )}
             </div>
             <button className={styles.embla__prev} onClick={scrollPrev}>
               <ArrowControl image="./arrow-left.svg" />
@@ -101,7 +98,10 @@ export const TendersAdvice: FC = () => {
         )}
       </div>
       <div className={styles.btnContainer}>
-        <Link to={ordererState.role === 'orderer' ? "/find-executor" : "/alltenders"} className={styles.btn}>
+        <Link
+          to={ordererState.role === 'orderer' ? '/find-executor' : '/alltenders'}
+          className={styles.btn}
+        >
           <p className={styles.btnText}>
             {ordererState.role === 'orderer' ? 'Найти исполнителя' : 'Найти тендер'}
           </p>

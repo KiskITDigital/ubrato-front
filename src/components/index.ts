@@ -18,4 +18,5 @@ export { Notifications } from './Notifications/Notifications';
 export { Page1 } from './SurveyComponents/Page1/Page1';
 export { SurveyStart } from './SurveyComponents/SurveyStart/SurveyStart';
 export { ProfileNavigation } from './ProfilePageComponents/ProfileNavigation/ProfileNavigation';
-export { ProfileDocuments } from './ProfilePageComponents/ProfileDocuments/ProfileDocuments'
+export { ProfileDocuments } from './ProfilePageComponents/ProfileDocuments/ProfileDocuments';
+export { Cookies } from './Cookies/Cookies';

@@ -1,7 +1,7 @@
-import { FC, useState } from "react"
-import styles from './styles.module.css'
+import { FC, useState } from 'react';
+import styles from './styles.module.css';
 import { Switch } from '@nextui-org/react';
-import { sendResponse } from "@/api/respondTender";
+import { sendResponse } from '@/api/respondTender';
 // import notion from ''
 
 type TenderModalProps = {
@@ -11,11 +11,20 @@ type TenderModalProps = {
   handleSubmit: (e: React.FormEvent) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   price: number;
-  id: string | undefined,
-  response: boolean
+  id: string | undefined;
+  response: boolean;
 };
 
-export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse, id, isOpen, closeModal, handleSubmit, handleChange, price, response }) => {
+export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
+  setResponse,
+  id,
+  isOpen,
+  closeModal,
+  handleSubmit,
+  handleChange,
+  price,
+  response,
+}) => {
   const [customPrice, setCustomPrice] = useState<number | null>(null);
   const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
@@ -24,8 +33,6 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
     wrapper: styles.wrapper,
     thumb: styles.thumb,
   };
-
-  const token = localStorage.getItem('token');
 
   const handleResponseOnTender = (token: string, id: string, price: number) => {
     if (token) {
@@ -37,7 +44,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
         // console.log(e);
       }
     }
-  }
+  };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAgreed(e.target.checked);
@@ -45,7 +52,6 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
       setCustomPrice(null);
     } else {
       // console.log('error occured');
-
     }
   };
 
@@ -57,18 +63,17 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
+    const token = localStorage.getItem('token');
     e.preventDefault();
     if (token && id) {
       const finalPrice = isAgreed ? price : customPrice;
       if (finalPrice !== null) {
-        await handleResponseOnTender(token, id, finalPrice);
-        setResponse()
-        closeModal()
+        handleResponseOnTender(token, id, finalPrice);
+        setResponse();
+        closeModal();
       }
     }
   };
-
-
 
   return (
     <>
@@ -76,22 +81,35 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
         <div className={styles.modalOverlay}>
           {!response ? (
             <div className={styles.modal}>
-              <span className={styles.close} onClick={closeModal}>&times;</span>
+              <span className={styles.close} onClick={closeModal}>
+                &times;
+              </span>
               <h2 className={styles.modalHeader}>Откликнуться на тендер</h2>
               <form className={styles.form_modal} onSubmit={handleSubmit}>
                 <label className={`${styles.field}`}>
                   <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
                   <div className={styles.wrap_label}>
                     {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
-                    <input type="checkbox" onChange={handleCheckboxChange} className={styles.input_checkobx} />
-                    <p className={styles.middle_paragraph}>Согласны со стоимостью заказчика {price} рублей</p>
+                    <input
+                      type="checkbox"
+                      onChange={handleCheckboxChange}
+                      className={styles.input_checkobx}
+                    />
+                    <p className={styles.middle_paragraph}>
+                      Согласны со стоимостью заказчика {price} рублей
+                    </p>
                   </div>
-
                 </label>
                 <label className={`${styles.field}`}>
                   <p className={styles.label_paragraph}>Готовы выполнить работу за</p>
                   <div>
-                    <input onChange={handleInputChange} disabled={isAgreed} type="number" name="price" className={styles.input_modal} />
+                    <input
+                      onChange={handleInputChange}
+                      disabled={isAgreed}
+                      type="number"
+                      name="price"
+                      className={styles.input_modal}
+                    />
                     рублей
                   </div>
                   <Switch classNames={SwicthStyles} onChange={handleChange}></Switch>
@@ -100,11 +118,13 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
                 <div className={styles.nds_notice}>
                   <div className={styles.circle}></div>
                   <p className={styles.nds_notice_text}>
-                    Если ваша компания работает по общей системе налогообложения (ОСН), указывайте цену с учетом НДС
+                    Если ваша компания работает по общей системе налогообложения (ОСН), указывайте
+                    цену с учетом НДС
                   </p>
                 </div>
-                <button onClick={handleFormSubmit} className={styles.button_spec} type="submit">Откликнуться</button>
-
+                <button onClick={handleFormSubmit} className={styles.button_spec} type="submit">
+                  Откликнуться
+                </button>
               </form>
             </div>
           ) : (
@@ -115,11 +135,13 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({ setResponse
                 {/* <img src="./notion.svg" alt="" /> */}
                 <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
               </div>
-              <button className={styles.button_spec} onClick={closeModal}>Закрыть окно</button>
+              <button className={styles.button_spec} onClick={closeModal}>
+                Закрыть окно
+              </button>
             </div>
           )}
         </div>
       )}
     </>
-  )
-}
+  );
+};

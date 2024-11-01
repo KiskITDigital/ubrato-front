@@ -71,7 +71,7 @@
 
 .text {
   width: 1016px;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -117,7 +117,7 @@
   gap: 15px;
 }
 
-.part2>p,
+.part2 > p,
 ul {
   max-width: 956px;
 }
@@ -164,12 +164,12 @@ ul {
 
 .questionItem {
   list-style-type: decimal;
-  margin-bottom: 70px;
+  margin-bottom: 30px;
 }
 
 .questionItem:not(:first-child) {
   border-top: 1px dashed var(--color-black-60);
-  padding-top: 50px;
+  padding-top: 20px;
 }
 
 .questionsContainer {
@@ -180,7 +180,8 @@ ul {
 
 .radioBase {
   display: flex;
-  gap: 32px;
+  gap: 5px;
+  font-size: 18px;
 }
 
 .radioControl {
@@ -191,16 +192,17 @@ ul {
   transition: all 0.3s ease;
 }
 
-.radioBase[data-selected]>.radioWrapper>.radioControl {
+.radioBase[data-selected] > .radioWrapper > .radioControl {
   background-color: black;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  z-index: 1;
 }
 
 .radioWrapper {
   border: 3px solid black;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   display: flex;
   border-radius: 100%;
   align-items: center;
@@ -221,20 +223,21 @@ ul {
   align-items: center;
 }
 
-.radioNumberBase[data-selected]>.radioWrapper>.radioControl {
+.radioNumberBase[data-selected] > .radioWrapper > .radioControl {
   background-color: black;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  z-index: 0;
 }
 
 .input {
   border: 3px solid var(--color-black-30);
   border-radius: 20px;
   width: 431px;
-  height: 58px;
+  height: 46px;
   outline: none;
-  padding: 10px 10px;
-  font-size: 20px;
+  padding: 6px 10px;
+  font-size: 16px;
 }
 
 .input:disabled {
@@ -243,22 +246,19 @@ ul {
 
 .textarea {
   border: 3px solid var(--color-black-30);
-  font-size: 20px;
+  font-size: 16px;
   width: 431px;
-
-  >div {
-    padding: 8px 5px;
-    border-radius: 50%;
-    width: 431px;
-
-    >div {
-      textarea {
-        outline: none;
-      }
-    }
-  }
 }
 
+.textarea > div {
+  padding: 8px 10px;
+  border-radius: 50%;
+  width: 431px;
+}
+
+.textarea > div > div > textarea {
+  outline: none;
+}
 .radioGroupWrapper {
   display: flex;
   flex-direction: column;
@@ -323,18 +323,18 @@ ul {
   justify-content: space-between;
 }
 
-.tableQuestinHeader>p {
+.tableQuestinHeader > p {
   color: var(--color-blue-primary);
 }
 
-.tableQuestinHeader>div {
+.tableQuestinHeader > div {
   display: flex;
   width: 320px;
   justify-content: space-around;
   margin-right: 18px;
 }
 
-.tableQuestinHeader>div>p {
+.tableQuestinHeader > div > p {
   color: var(--color-blue-primary);
   width: 125px;
   text-align: center;
@@ -352,11 +352,11 @@ ul {
   width: 100%;
 }
 
-.tableRadioGroupWrapper>p {
+.tableRadioGroupWrapper > p {
   width: 65%;
 }
 
-.tableRadioGroupWrapper>div {
+.tableRadioGroupWrapper > div {
   display: flex;
   width: 33%;
   justify-content: space-around;
@@ -375,7 +375,7 @@ ul {
   height: 80%;
 }
 
-.checkIcon>polyline {
+.checkIcon > polyline {
   stroke: var(--color-blue-primary);
 }
 
@@ -383,8 +383,8 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border: 2px solid var(--color-black-10);
   transition: background-color 0.3s ease;
   border-radius: 6px;
@@ -404,7 +404,7 @@ ul {
   margin-bottom: 20px;
 }
 
-.checkContainer>p {
+.checkContainer > p {
   width: 600px;
 }
 
@@ -412,7 +412,7 @@ ul {
   margin-top: 30px;
   position: relative;
 
-  >div {
+  > div {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -454,7 +454,7 @@ ul {
     font-size: 12px;
   }
 
-  .part2>p,
+  .part2 > p,
   ul {
     max-width: 956px;
   }
@@ -504,7 +504,7 @@ ul {
     font-size: 12px;
   }
 
-  .part2>p,
+  .part2 > p,
   ul {
     max-width: 458px;
   }
@@ -555,7 +555,7 @@ ul {
     font-size: 15px;
   }
 
-  .part2>p,
+  .part2 > p,
   ul {
     max-width: 90%;
   }
@@ -602,12 +602,12 @@ ul {
     height: 24px;
   }
 
-  .radioBase[data-selected]>.radioWrapper>.radioControl {
+  .radioBase[data-selected] > .radioWrapper > .radioControl {
     width: 13px;
     height: 13px;
   }
 
-  .radioNumberBase[data-selected]>.radioWrapper>.radioControl {
+  .radioNumberBase[data-selected] > .radioWrapper > .radioControl {
     width: 13px;
     height: 13px;
   }
@@ -621,11 +621,11 @@ ul {
     margin-bottom: 0;
   }
 
-  .tableQuestinHeader>div>p {
+  .tableQuestinHeader > div > p {
     width: 80px;
   }
 
-  .tableQuestinHeader>div {
+  .tableQuestinHeader > div {
     width: fit-content;
     margin-right: 14px;
     gap: 5px;
@@ -635,11 +635,11 @@ ul {
     padding: 8px 14px;
   }
 
-  .tableRadioGroupWrapper>div {
+  .tableRadioGroupWrapper > div {
     width: 160px;
   }
 
-  .tableRadioGroupWrapper>p {
+  .tableRadioGroupWrapper > p {
     max-width: 170px;
   }
 

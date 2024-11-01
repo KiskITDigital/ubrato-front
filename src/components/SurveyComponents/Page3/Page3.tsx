@@ -72,34 +72,31 @@ export const Page3: FC = () => {
   }, []);
 
   return (
-    <div className="text-[26px] font-medium w-full">
-      <h1 className="font-bold text-[60px] text-center">
+    <div className="text-[20px] font-medium w-full">
+      <h1 className="font-bold text-[40px] text-center">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
-      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[40px]">
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[20px]">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
           <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
-            сайта.
+            качестве{' '}
+            <Link to="/knowledge-base" className="text-accent hover:underline">
+              Исполнителей
+            </Link>
+            , принять участие в тест-драйве сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-bold">
-              Пожалуйста, ответьте на вопросы анкеты.
-            </p>
-            <p>
-              * Звездочкой отмечены обязательные для ответов
-            </p>
+            <p className="font-bold">Пожалуйста, ответьте на вопросы анкеты.</p>
+            <p>* Звездочкой отмечены обязательные для ответов</p>
           </div>
         </div>
       </div>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-bold">
-            Оцените полноту информации на сайте Ubrato
-          </p>
+          <p className="font-bold">Оцените полноту информации на сайте Ubrato</p>
         </div>
       </div>
 
@@ -120,29 +117,33 @@ export const Page3: FC = () => {
             className={styles.checkGroup}
           >
             <div className={styles.checkContainer}>
-              <p>Уведомления в “шапке” сайта (в правом верхнем углу) в “Колокольчике”</p>
+              <p className="text-[18px]">
+                Уведомления в “шапке” сайта (в правом верхнем углу) в “Колокольчике”
+              </p>
               <Checkbox value="в колокольчике" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Push-уведомления (всплывающие окна) в правом нижнем углу</p>
+              <p className="text-[18px]">
+                Push-уведомления (всплывающие окна) в правом нижнем углу
+              </p>
               <Checkbox value="пуш уведомления" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Уведомления на почту</p>
+              <p className="text-[18px]">Уведомления на почту</p>
               <Checkbox value="уведомления на почту" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Уведомления в мессенджер</p>
+              <p className="text-[18px]">Уведомления в мессенджер</p>
               <Checkbox value="уведомления в мессенджер" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Уведомления в звонке от менеджера сайта</p>
+              <p className="text-[18px]">Уведомления в звонке от менеджера сайта</p>
               <Checkbox value="уведомления от менеджера" classNames={checkStyle} />
             </div>
             {error1 && <p className={styles.errorText}>{error1}</p>}
           </CheckboxGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Ваш комментарий</p>
+            <p className="text-[18px]">Ваш комментарий</p>
             <input
               type="text"
               value={surveyStore.question6.comment}
@@ -155,7 +156,7 @@ export const Page3: FC = () => {
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
           <p className={styles.bold}>Пожалуйста, оцените, насколько информативны уведомления *</p>
-          <p>
+          <p className="text-[18px]">
             1 - совсем непонятные и неинформативные уведомления, 10 - все понял, все информативно
           </p>
           <RadioGroup
@@ -178,7 +179,7 @@ export const Page3: FC = () => {
             {error2 && <p className={styles.errorText}>{error2}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Ваш комментарий</p>
+            <p className='text-[18px]'>Ваш комментарий</p>
             <input
               type="text"
               value={surveyStore.question7.comment}
@@ -202,33 +203,47 @@ export const Page3: FC = () => {
             className={styles.checkGroup}
           >
             <div className={styles.checkContainer}>
-              <p>Динамика рынка клининга, информация об активности заказчиков</p>
+              <p className="text-[18px]">
+                Динамика рынка клининга, информация об активности заказчиков
+              </p>
               <Checkbox value="Динамика рынка клининга" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Слияния и поглощения игроков рынка клининга</p>
-              <Checkbox value="Слияния и поглощения игроков рынка клининга" classNames={checkStyle} />
+              <p className="text-[18px]">Слияния и поглощения игроков рынка клининга</p>
+              <Checkbox
+                value="Слияния и поглощения игроков рынка клининга"
+                classNames={checkStyle}
+              />
             </div>
             <div className={styles.checkContainer}>
-              <p>Новости о регулировании рынка клининга</p>
+              <p className="text-[18px]">Новости о регулировании рынка клининга</p>
               <Checkbox value="Новости о регулировании рынка клининга" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Информация о новинках оборудования, инструментов и чистящих средств</p>
+              <p className="text-[18px]">
+                Информация о новинках оборудования, инструментов и чистящих средств
+              </p>
               <Checkbox value="Информация о новинках оборудования" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Все ключевые отраслевые новости</p>
+              <p className="text-[18px]">Все ключевые отраслевые новости</p>
               <Checkbox value="Все ключевые новости" classNames={checkStyle} />
             </div>
             <div className={styles.checkContainer}>
-              <p>Хочу сфокусироваться на работе с тендерами, не отвлекаясь на отраслевые новости</p>
-              <Checkbox value="Хочу сфокусироваться на работе с тендерами" classNames={checkStyle} />
+              <p className="text-[18px]">
+                Хочу сфокусироваться на работе с тендерами, не отвлекаясь на отраслевые новости
+              </p>
+              <Checkbox
+                value="Хочу сфокусироваться на работе с тендерами"
+                classNames={checkStyle}
+              />
             </div>
             {error3 && <p className={styles.errorText}>{error3}</p>}
           </CheckboxGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p>Какую еще информацию вы хотели бы видеть на Ubrato? (Ваш комментарий)</p>
+            <p className="text-[18px]">
+              Какую еще информацию вы хотели бы видеть на Ubrato? (Ваш комментарий)
+            </p>
             <input
               type="text"
               value={surveyStore.question8.comment}

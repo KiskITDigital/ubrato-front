@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
 import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.module.css';
 import { Link } from 'react-router-dom';
-import Modal from "@/components/Modal";
-import ContactModal from "@/components/Modal/ContactModal";
+import Modal from '@/components/Modal';
+import ContactModal from '@/components/Modal/ContactModal';
 
 export const HowToRegister: FC = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (
     <div className={qstyles.container}>
@@ -16,7 +16,7 @@ export const HowToRegister: FC = () => {
       <p className={qstyles.title}>1. Регистрация</p>
       <p className={`${qstyles.text} ${qstyles.ml20}`}>
         Заполните{' '}
-        <Link className={qstyles.link} to="/register">
+        <Link className={qstyles.link} to="/registration">
           регистрационную форму
         </Link>
         . Зарегистрироваться могут только юридические лица. В качестве исполнителей могут
@@ -55,7 +55,7 @@ export const HowToRegister: FC = () => {
         и мы перезвоним.
       </p>
       <Modal isOpen={openModal}>
-        <ContactModal onClose={() => setOpenModal(false)} />
+        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

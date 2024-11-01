@@ -10,7 +10,7 @@ export const Help: FC = () => {
   return (
     <div className="flex flex-col gap-5">
       <h2 className={styles.header}>Помощь</h2>
-      <ContactModal />
+      <ContactModal type='SURVEY_TYPE_FEEDBACK' />
     </div>
   );
 };

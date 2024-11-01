@@ -21,7 +21,7 @@ export const QuestionsBlock: FC = () => {
   const [qustionsArr, setQuestionArr] = useState(generalQuestions);
 
   const itemClasses = {
-    base: `${styles.accordionItem}`,
+    base: styles.accordionItem,
     title: styles.accordionTitle,
     heading: styles.accordionHeading,
     indicator: styles.accordionIndicator,
@@ -33,7 +33,7 @@ export const QuestionsBlock: FC = () => {
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (window.outerWidth <= 450) {
@@ -91,8 +91,7 @@ export const QuestionsBlock: FC = () => {
         Частые вопросы про <span className={styles.blueText}>Ubrato</span>
       </h2>
       <p className={styles.greytext}>
-        {' '}
-        Мы постоянно пополняем базу знаний, основываясь на Ваших вопросах.{' '}
+        Сервис Ubrato развивается, основываясь на ваших вопросах и предложениях
       </p>
       <div className={styles.btnsblock} id="faq-default">
         <button
@@ -130,8 +129,6 @@ export const QuestionsBlock: FC = () => {
         </button>
       </div>
       <div id="hey" className={styles.pageQuestion}>
-        {/* ССЫЛКА ВОТ НА ЭТОТ АККОРДЕОН */}
-
         <Accordion
           showDivider={false}
           className={styles.accordionWrapper}
@@ -142,10 +139,14 @@ export const QuestionsBlock: FC = () => {
             if (e instanceof Set) {
               if (e.size != 0) {
                 setQuestionNumber(Array.from(e)[1].toString());
-                navigate(`#q${pageNumber}_${Array.from(e)[1].toString()}`)
+                navigate(
+                  `/faq?page=${pageNumber}&number=${Array.from(
+                    e
+                  )[1].toString()}#q${pageNumber}_${Array.from(e)[1].toString()}`
+                );
               } else {
                 setQuestionNumber('0');
-                navigate('#faq-default')
+                navigate('#faq-default');
               }
             }
           }}

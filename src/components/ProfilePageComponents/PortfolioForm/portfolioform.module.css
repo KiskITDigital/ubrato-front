@@ -59,18 +59,19 @@
   display: flex;
   gap: 9px;
   padding: 7px;
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: white;
   border-radius: 10px;
+  border: 1px solid var(--color-blue-primary);
   align-items: center;
 }
 
-.realInput>img {
+.realInput > img {
   transform: rotate(45deg);
   width: 14px;
   height: 14px;
 }
 
-.realInput>p {
+.realInput > p {
   font-size: 18px;
   font-weight: 500;
 }
@@ -81,6 +82,7 @@
   border-radius: 13px;
   align-self: center;
   color: white;
+  min-width: 230px;
 }
 
 .filesList {
@@ -100,7 +102,7 @@
   align-items: center;
 }
 
-.file>button>img {
+.file > button > img {
   width: 14px;
   height: 14px;
   max-width: fit-content;
@@ -118,9 +120,4 @@
 .infoText {
   font-size: 16px;
   font-weight: 600;
-}
-
-.infoBorder {
-  padding-top: 20px;
-  border-top: 1px solid var(--color-black-10);
 }

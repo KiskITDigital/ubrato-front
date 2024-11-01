@@ -3,12 +3,13 @@ import { useCreateTenderState } from '@/store/createTenderStore';
 import { useTypesObjectsStore } from '@/store/objectsStore';
 import { FC, useState } from 'react';
 import { formatDate } from '../../funcs';
-import { createTender, offerTender } from '@/api/index';
+import { createTender, offerTender, updateToken } from '@/api/index';
 import styles from '../../CreateTender.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from '@/components/Modal';
 import AfterSendInfo from '../AfterSendInfo/AfterSendInfo';
 import { AxiosError } from 'axios';
+import { createTenderData } from '@/types/app';
 
 const SendButtons: FC = () => {
   const createTenderState = useCreateTenderState();
@@ -21,7 +22,7 @@ const SendButtons: FC = () => {
   const submit = async (isDraft: boolean) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/register');
+      navigate('/registration');
       return;
     }
     if (createTenderState.validateInputs(isDraft)) return;
@@ -52,14 +53,8 @@ const SendButtons: FC = () => {
       floor_space: +createTenderState.floor_space,
       wishes: createTenderState.wishes,
       description: createTenderState.description,
-      reception_start: formatDate(
-        createTenderState.reception_start,
-        createTenderState.reception_time_start
-      ),
-      reception_end: formatDate(
-        createTenderState.reception_end,
-        createTenderState.reception_time_end
-      ),
+      reception_start: createTenderState.reception_start.toISOString(),
+      reception_end: createTenderState.reception_end.toISOString(),
       work_start: formatDate(createTenderState.work_start),
       work_end: formatDate(createTenderState.work_end),
       city_id: city_id || null,
@@ -70,7 +65,10 @@ const SendButtons: FC = () => {
     try {
       const res =
         (isDraft || city_id) &&
-        ((await createTender(token, objectToSend, isDraft)) as {
+        ((await updateToken<
+          { status: number; data: { id: number } },
+          { parameters: createTenderData; isDraft?: boolean }
+        >(createTender, { parameters: objectToSend, isDraft: isDraft })) as {
           status: number;
           data: { id: number };
         });
@@ -101,9 +99,43 @@ const SendButtons: FC = () => {
           />
         </Modal>
       )}
+      <p className="ml-[244px]">
+        Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
+        <Link
+          to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
+          Согласие на обработку персональных данных
+        </Link>{' '}
+        в соответствии с{' '}
+        <Link
+          to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita/"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
+          Политикой в отношении обработки персональных данных
+        </Link>{' '}
+        и соглашаюсь с условиями настоящей{' '}
+        <Link
+          to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
+          Оферты
+        </Link>
+        , а также даю{' '}
+        <Link
+          to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_zakazchika"
+          target="_blank"
+          className="text-accent underline text-sm"
+        >
+          Согласие на размещение и обнародование фотографий и иных материалов
+        </Link>
+        .
+      </p>
       <div className={`${styles.section__block}`}>
-        <p className={`${styles.section__block__p}`}></p>
-        <div className={`${styles.section__sendButtons__block}`}>
+        <div className={`ml-[244px] ${styles.section__sendButtons__block}`}>
           <button
             onClick={() => {
               submit(false);

@@ -8,7 +8,7 @@ export { getNotifications, setNotificationRead } from './notofications';
 export { updateToken } from './updateToken';
 export { checkINN } from './checkINN';
 export { getCities } from './createTender/getCities';
-export { fetchProduct } from './getTender';
+export { fetchProduct, fetchDraft } from './getTender';
 export { createTender } from './createTender/createTender';
 export {
   fetchDocumentsTypes,
@@ -29,17 +29,21 @@ export {
   putContractorProfile,
   postPortfolio,
   deletePortfolio,
-  putPortfolio
+  putPortfolio,
 } from './profileOrganization';
 export { getExecutor } from './findExecutor/getExecutor';
 export {
   isFavoriteExecutor,
   addFavoriteExecutor,
   removeFavoriteExecutor,
-  getAllFavoriteExecutors
+  getAllFavoriteExecutors,
 } from './findExecutor/favoriteExecutors';
 export { offerTender } from './findExecutor/offerTender';
 export { isResponded as isRespondedOfferTender } from './findExecutor/isResponded';
-export { getOtherProfilesOrganizations } from './otherProfilesOrganizations'
-export { askForVerification, verify } from './verification'
-export { askResetPassword, resetPassword } from "./resetPassword";
+export { getContractorProfile, getOrdererProfile } from './otherProfilesOrganizations';
+export { askForVerification, verify } from './verification';
+export { askResetPassword, resetPassword } from './resetPassword';
+export { changePersonalData } from './changePersonalData';
+export { sendHelpMessage } from './sendHelpMessage';
+export { getResponses } from './getResponses';
+export type { CompanyResponse } from './getResponses';

@@ -5,7 +5,7 @@ import { TenderListComp } from '@/components/TenderListComponents/TenderListComp
 import { useNavigate, useNavigationType } from 'react-router-dom';
 import { useUserInfoStore } from '@/store/userInfoStore';
 // import { set } from "date-fns";
-import { DraftTenderComponent } from '@/components/DraftTenderComp';
+// import { DraftTenderComponent } from '@/components/DraftTenderComp';
 import { TenderListCustomSearch } from '@/components/TenderListComponents/TenderListCustomSearch';
 
 export const MyTendersPage: FC = () => {
@@ -38,7 +38,7 @@ export const MyTendersPage: FC = () => {
       <p onClick={() => setDraftSwitch(!draftSwitch)} className="cursor-pointer">
         {draftSwitch ? 'Открыть созданные тендеры' : 'Открыть черновики'}
       </p>
-      {!draftSwitch ? <TenderListComp myTender={true} /> : <DraftTenderComponent />}
+      <TenderListComp myTender={true} drafts={draftSwitch} />
       {/* <TenderListComp myTender={true}></TenderListComp> */}
     </div>
   );

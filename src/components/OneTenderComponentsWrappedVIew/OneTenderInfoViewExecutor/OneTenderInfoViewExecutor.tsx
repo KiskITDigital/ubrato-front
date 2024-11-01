@@ -1,4 +1,3 @@
-
 import { OneTenderArea } from '@/components/OneTenderComponents/OneTenderArea/OneTenderArea';
 import { OneTenderAttachments } from '@/components/OneTenderComponents/OneTenderAttachments/OneTenderAttachments';
 import { OneTenderCity } from '@/components/OneTenderComponents/OneTenderCity/OneTenderCity';
@@ -8,21 +7,20 @@ import { OneTenderInfoExecutor } from '@/components/OneTenderComponents/OneTende
 import { OneTenderObject } from '@/components/OneTenderComponents/OneTenderObject/OneTenderObject';
 import { OneTenderOffers } from '@/components/OneTenderComponents/OneTenderOffers/OneTenderOffers';
 import { OneTenderWishes } from '@/components/OneTenderComponents/OneTenderWishes/OneTenderWishes';
-import { dataObjectTypes } from '@/pages/OneTenderPageExecutor/OneTenderPageExecutor';
+import { dataObjectTypes } from '@/store/tenderStore';
 
 import { FC } from 'react';
 
 interface tenderProps {
-  dataTender: dataObjectTypes
+  dataTender: dataObjectTypes;
 }
 
 export type Category = {
-  name: string
-  services: string[]
-}
+  name: string;
+  services: string[];
+};
 
 export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
-
   return (
     <div>
       <OneTenderInfoExecutor
@@ -37,7 +35,10 @@ export const OneTenderInfoViewExecutor: FC<tenderProps> = ({ dataTender }) => {
       />
       <OneTenderExecutorNotification />
       <OneTenderCity city={dataTender.location} />
-      <OneTenderObject objectGroup={dataTender.object_group} objectsTypes={dataTender.objects_types} />
+      <OneTenderObject
+        objectGroup={dataTender.object_group}
+        objectsTypes={dataTender.objects_types}
+      />
       <OneTenderArea area={dataTender.floor_space} />
       <OneTenderOffers categories={dataTender.categories} />
       <OneTenderDescription description={dataTender.description} />

@@ -63,12 +63,13 @@
 }
 
 .line {
-  display: inline-flex;
-  justify-content: space-between;
+  display: flex;
+  justify-content: start;
   margin-bottom: 30px;
   padding-top: 30px;
   border-top: 1px solid #e5e5e5;
   margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 .footerUnder {

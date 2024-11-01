@@ -1,64 +1,262 @@
 .dateTimeContainer {
-    position: relative;
+  position: relative;
 }
 
 .dateTime {
-    position: absolute;
-    display: flex;
-    margin-top: 38px;
-    flex-direction: row;
-    align-items: center;
+  position: absolute;
+  display: flex;
+  margin-top: 38px;
+  flex-direction: row;
+  align-items: center;
 
-    right: 0;
-    margin-right: calc(100% / 2 + 6px);
-    max-width: 60px;
+  right: 0;
+  margin-right: calc(100% / 2 + 6px);
+  max-width: 60px;
 }
 
 .dateTime2 {
-    margin-right: 14px;
+  margin-right: 14px;
 }
 
 @media screen and (min-width: 1050px) {
-    .dateTime {
-        width: 60px;
-        left: 0;
-        max-width: none;
-        margin-left: 106px;
-    }
+  .dateTime {
+    width: 60px;
+    left: 0;
+    max-width: none;
+    margin-left: 106px;
+  }
 
-    .dateTime2 {
-        margin-left: calc(50% + 102px);
-    }
+  .dateTime2 {
+    margin-left: calc(50% + 102px);
+  }
 }
 
 @media screen and (min-width: 1280px) {
-    .dateTime {
-        margin-left: 122px;
-        font-size: 14px;
-        line-height: 16px;
-    }
+  .dateTime {
+    margin-left: 122px;
+    font-size: 14px;
+    line-height: 16px;
+  }
 
-    .dateTime2 {
-        margin-left: calc(50% + 114px);
-    }
+  .dateTime2 {
+    margin-left: calc(50% + 114px);
+  }
 }
 
 @media screen and (min-width: 1280px) {
-    .dateTime {
-        width: 66px;
-    }
+  .dateTime {
+    width: 66px;
+  }
 }
 
-.dateTime>input {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 20.88px;
-    padding: 5px 8px;
-    border: none;
+.dateTime > input {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.88px;
+  padding: 5px 8px;
+  border: none;
 }
 
 @media screen and (max-width: 1050px) {
-    .dateTime>input {
-        border-radius: 0 6px 6px 0;
-    }
+  .dateTime > input {
+    border-radius: 0 6px 6px 0;
+  }
+}
+
+.base {
+  display: block !important;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 100%;
+}
+
+.segment {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.88px;
+  outline: none;
+  padding: 0.5px;
+}
+
+.segment:focus {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.inputWrapper {
+  padding: 0;
+}
+
+.innerWrapper {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.input {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: 1px solid var(--color-light-gray-secondary);
+  border-radius: 10px;
+  padding: 5px 8px;
+  box-shadow: 0 0 6px 2px rgba(232, 232, 232, 0.2);
+  outline: none;
+  background-color: var(--color-white);
+  max-width: 149px!important;
+}
+
+@media screen and (max-width: 1050px) {
+  .input {
+    border-radius: 6px;
+  }
+}
+
+.separator {
+  display: none;
+}
+
+.calendarContent {
+  width: fit-content;
+}
+
+.calendar {
+  border: 1px solid var(--color-light-gray-secondary);
+  border-radius: 10px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  outline: none;
+  background-color: var(--color-white);
+  padding: 10px 20px;
+  width: fit-content;
+  margin-right: auto;
+}
+
+.calendar > div:nth-child(2) > div > div:first-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20.88px;
+  margin-bottom: 10px;
+}
+
+.calendar thead th {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar tbody td {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar tr {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar td > span {
+  padding: 4px 6px;
+}
+
+.calendar tbody {
+  margin-top: 5px !important;
+}
+
+.calendar tbody td[aria-selected='true'] {
+  background-color: var(--color-blue-primary-10);
+}
+
+.calendar tbody td[aria-disabled='true'] span {
+  color: var(--color-text-gray);
+}
+
+.calendar tbody td[aria-selected='true'] span {
+  color: var(--color-blue-primary);
+}
+
+.calendar > div:last-of-type > div > div > div {
+  width: fit-content;
+}
+
+.calendar > div:last-of-type > div > div {
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.calendar > div:last-of-type > div > div > div > div > div > div:focus {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.calendar > div:last-of-type > div > div > div > div > div {
+  gap: 0.5px;
+}
+/* .calendar tbody td span[data-selection-start='true'] {
+  background-color: blue;
+} */
+
+
+/* .calendar tbody td span[data-selection-end="true"] {
+      background-color: red;
+  } */
+
+/* .calendar tbody td:has(span[data-selection-start="true"], span[data-selection-end="true"]) {
+      background-color: var(--color-blue-primary);
+  } */
+
+.calendar tbody td:has(span[data-selection-start='true']) {
+  /* border-radius: 10px 0 0 10px; */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.calendar tbody td:has(span[data-range-start='true']) {
+  /* border-radius: 10px 0 0 10px; */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.calendar tbody td:has(span[data-selection-end='true']) {
+  /* border-radius: 0 10px 10px 0; */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.calendar tbody td:has(span[data-range-end='true']) {
+  /* border-radius: 0 10px 10px 0; */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+/* .calendar tbody td span[data-selection-start="true"] {
+      border-radius: 100px;
+      background-color: var(--color-blue-primary);
+      color: white;
+  }
+  
+  .calendar tbody td span[data-selection-end="true"]>span {
+      width: 100%;
+      height: 100px !important;
+      border-radius: 100px;
+      background-color: var(--color-blue-primary);
+      color: white;
+  } */
+
+.calendar tbody td span {
+  outline: none;
+}
+
+.calendar header {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1280px) {
+  .segment {
+    font-size: 14px;
+    line-height: 16px;
+  }
 }
