@@ -24,6 +24,8 @@ export interface RegisterFormValuesT {
   firstName: string;
   middleName: string;
   lastName: string;
+  userAgreement: boolean;
+  personalDataPolicy: boolean;
   personalDataAgreement: boolean;
 }
 
@@ -41,7 +43,6 @@ export interface UserInfoT {
   last_name: string;
   verified: boolean;
   is_contractor: boolean;
-  role: number;
   created_at: string;
   avatar: string;
   organization: {
@@ -114,7 +115,7 @@ export interface executorList {
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
-  isTextHidden: boolean;
+  isTextHidden: boolean
 }
 
 export interface tenderList {
@@ -135,8 +136,9 @@ export interface tenderList {
   }[];
   areServicesHidden: boolean;
   isFavorite: boolean;
-  isTextHidden: boolean;
+  isTextHidden: boolean
 }
+
 
 export interface tenderData {
   id: string;
@@ -157,31 +159,12 @@ export interface tenderData {
   status: boolean;
 }
 
-export interface draftData {
-  id: number;
-  user_id: string;
-  name: string;
-  price: number;
-  is_contract_price: boolean;
-  is_nds_price: boolean;
-  location: number;
-  floor_space: number;
-  description: string;
-  wishes: string;
-  specification: string;
-  attachments: string[];
-  services_groups: number[];
-  services_types: number[];
-  reception_start: string;
-  reception_end: string;
-  work_start: string;
-  work_end: string;
-  object_group: number;
-  objects_types: number[];
-  update_at: string;
-}
 
-export interface Organization {
+
+
+
+
+interface Organization {
   id: string;
   brand_name: string;
   short_name: string;
@@ -201,7 +184,7 @@ export interface Portfolio {
   id: string;
   name: string;
   description: string;
-  links: string[];
+  links: string[]
 }
 
 interface Orderer {

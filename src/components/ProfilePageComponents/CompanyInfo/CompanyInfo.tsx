@@ -7,7 +7,7 @@ import { Avatar, Checkbox } from '@nextui-org/react';
 import { InputPhone } from '../inputPhone/InputPhone';
 import { InputContact } from '../InputContact/InputContact';
 import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const CompanyInfo: FC = () => {
   const [companyInfo, setCompanyInfo] = useState<orgInfoT>();
@@ -21,12 +21,7 @@ export const CompanyInfo: FC = () => {
   //   size: number;
   //   ctime: string;
   // }>(null);
-  const [avatarInfo, setAvatarInfo] = useState<null | {
-    name: string;
-    format: string;
-    size: number;
-    ctime: string;
-  }>(null);
+  const [avatarInfo, setAvatarInfo] = useState<null | { name: string; format: string; size: number; ctime: string; }>(null);
 
   const [emails, setEmails] = useState<{ contact: string; info: string }[]>([]);
   const [phones, setPhones] = useState<{ contact: string; info: string }[]>([]);
@@ -59,11 +54,11 @@ export const CompanyInfo: FC = () => {
   useEffect(() => {
     if (
       JSON.stringify(phones.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.phones) ||
+      JSON.stringify(initialContacts.current?.phones) ||
       JSON.stringify(emails.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.emails) ||
+      JSON.stringify(initialContacts.current?.emails) ||
       JSON.stringify(messengers.filter((e) => e.contact.length !== 0)) !==
-        JSON.stringify(initialContacts.current?.messengers)
+      JSON.stringify(initialContacts.current?.messengers)
     ) {
       setIsContactsEqual(false);
     } else {
@@ -128,7 +123,7 @@ export const CompanyInfo: FC = () => {
     })();
   }, []);
 
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   return (
     <div className={styles.container}>
@@ -237,15 +232,25 @@ export const CompanyInfo: FC = () => {
         <div className={styles.brandGrid}>
           <p className={styles.gridHeader}>Номер телефона</p>
           <div className={styles.inputs}>
-            {phones.length ? (
+            {phones.length ?
               <>
                 {phones.map((_, ix) => (
-                  <InputPhone phones={phones} setPhones={setPhones} ix={ix} key={ix} />
+                  <InputPhone
+                    phones={phones}
+                    setPhones={setPhones}
+                    ix={ix}
+                    key={ix}
+                  />
                 ))}
               </>
-            ) : (
-              <InputPhone phones={phones} setPhones={setPhones} ix={0} key={0} />
-            )}
+              :
+              <InputPhone
+                phones={phones}
+                setPhones={setPhones}
+                ix={0}
+                key={0}
+              />
+            }
             <button
               onClick={() => {
                 const newPhones = [...phones];
@@ -259,15 +264,27 @@ export const CompanyInfo: FC = () => {
           </div>
           <p className={styles.gridHeader}>Электронная почта</p>
           <div className={styles.inputs}>
-            {emails.length ? (
+            {emails.length ?
               <>
                 {emails.map((_, ix) => (
-                  <InputContact data={emails} setData={setEmails} ix={ix} id="email" key={ix} />
+                  <InputContact
+                    data={emails}
+                    setData={setEmails}
+                    ix={ix}
+                    id="email"
+                    key={ix}
+                  />
                 ))}
               </>
-            ) : (
-              <InputContact data={emails} setData={setEmails} ix={0} id="email" key={0} />
-            )}
+              :
+              <InputContact
+                data={emails}
+                setData={setEmails}
+                ix={0}
+                id="email"
+                key={0}
+              />
+            }
             <button
               onClick={() => {
                 const newMails = [...emails];
@@ -281,7 +298,7 @@ export const CompanyInfo: FC = () => {
           </div>
           <p className={styles.gridHeader}>Мессенджер</p>
           <div className={styles.inputs}>
-            {messengers.length ? (
+            {messengers.length ?
               <>
                 {messengers.map((_, ix) => (
                   <InputContact
@@ -293,7 +310,7 @@ export const CompanyInfo: FC = () => {
                   />
                 ))}
               </>
-            ) : (
+              :
               <InputContact
                 data={messengers}
                 setData={setMessengers}
@@ -301,7 +318,7 @@ export const CompanyInfo: FC = () => {
                 id="messenger"
                 key={0}
               />
-            )}
+            }
             <button
               onClick={() => {
                 const newMessengers = [...messengers];
@@ -328,25 +345,9 @@ export const CompanyInfo: FC = () => {
                   }}
                   classNames={checkStyle}
                 >
-                  <p className="text-sm">
-                    Я даю{' '}
-                    <Link
-                      className={styles.link}
-                      target="_blank"
-                      to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
-                    >
-                      Согласие на обработку персональных данных
-                    </Link>{' '}
-                    в соответствии с{' '}
-                    <Link
-                      className={styles.link}
-                      target="_blank"
-                      to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
-                    >
-                      Политикой в отношении обработки персональных данных
-                    </Link>
-                    <span>.</span>
-                  </p>
+                  Соглашаюсь с{' '}
+                  <Link className={styles.link} target="_blank" to="/rights?document=1">Политикой обработки персональных данных ООО “ИНТЕГРАЦИЯ”</Link> и даю{' '}
+                  <Link className={styles.link} target="_blank" to="/rights?document=3">Согласие на обработку персональных данных</Link>
                   <p className={styles.errorMessage}>{error}</p>
                 </Checkbox>
               </div>
@@ -416,7 +417,7 @@ export const CompanyInfo: FC = () => {
         </div>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
+        <ContactModal onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

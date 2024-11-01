@@ -92,11 +92,6 @@
   fill-opacity: 1;
 }
 
-.link > svg {
-  width: 21px;
-  height: auto;
-}
-
 .active2 > svg > path {
   fill: var(--color-blue-primary);
   fill-opacity: 1;

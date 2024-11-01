@@ -24,7 +24,7 @@
   margin-top: 43px;
   border-radius: 10px;
   width: 478px;
-  transition: all ease-in-out 0.15s;
+  transition: all ease-in-out .15s;
 }
 
 .base:has(.input:focus) {
@@ -36,12 +36,10 @@
   top: -28px;
   left: 15px;
   color: var(--color-black-60);
-  z-index: 1;
 }
 
 .helperWrapper {
   display: block;
-  padding: 0;
 }
 
 .errorMessage {
@@ -101,6 +99,7 @@
     font-size: 22px;
   }
 }
+
 
 .forgotPassword {
   margin-left: 15px;

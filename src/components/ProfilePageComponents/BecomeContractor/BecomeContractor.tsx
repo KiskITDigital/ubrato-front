@@ -30,17 +30,17 @@ export const BecomeContractor: FC = () => {
         <p className="text-base ">
           Чтобы зарегистрировать компанию в роли исполнителя, необходимо наличие действующего
           юридического лица с видом деятельности, относящемся к клинингу или к смежным услугам.{' '}
-          <Link className="text-accent" to="/faq?page=2&number=1#q2_1">
+          <Link className="text-accent" to="/#q3_1">
             Узнать подробнее.
           </Link>
         </p>
         <p className="text-base mt-[15px]">
           Проверьте актуальность документов компании в разделе “
-          <Link className="text-accent" to="../documents">
+          <Link className="text-accent" to="/docs">
             Документы
           </Link>
-          ”. При необходимости заново загрузите выписку из ЕГРЮЛ, документ, подтверждающий
-          полномочия руководителя компании, карточку и Устав компании.
+          ”. При необходимости заново загрузите выписку из ЕГРЮЛ, приказ о назначении генерального
+          директора, карточку и устав компании.
         </p>
         <p className="text-base mt-[15px]">
           Затем отправьте заявку на регистрацию компании в роли исполнителя.
@@ -66,7 +66,7 @@ export const BecomeContractor: FC = () => {
           <p className="bg-light-gray text-base py-3 px-[14px] mt-[20px] rounded-[14px] flex gap-[10px]">
             <img src="/info-blue-ic.svg" alt="" />
             Сейчас ваша заявка на статус исполнителя находится на модерации, решение по вашей заявке
-            придет вам в раздел “Уведомления”!
+            придет вам в раздел уведомления!
           </p>
           <div className="flex gap-4 self-center mt-[20px]">
             <Link

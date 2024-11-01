@@ -14,7 +14,7 @@ export const Page4: FC = () => {
   const radioGroupStyle = {
     wrapper: styles.radioGroupNumbersWrapper,
   };
-
+  
   const rateArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const surveyStore = useSurveyStore();
@@ -100,40 +100,41 @@ export const Page4: FC = () => {
   }, []);
 
   return (
-    <div className="text-[20px] font-medium w-full">
-      <h1 className="font-bold text-[40px] text-center">
+    <div className="text-[26px] font-medium w-full">
+      <h1 className="font-bold text-[60px] text-center">
         Тест-драйв <span className="text-accent">Ubrato</span> Анкета
       </h1>
 
-      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[20px]">
+      <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10 mb-[40px]">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col gap-[20px]">
           <p className="font-bold">
             Агрегатор клининговых услуг Ubrato предлагает участникам сервиса, зарегистрированным в
-            качестве{' '}
-            <Link to="/knowledge-base" className="text-accent hover:underline">
-              Исполнителей
-            </Link>
-            , принять участие в тест-драйве сайта.
+            качестве <Link to="/knowledge-base" className="text-accent hover:underline">Исполнителей</Link>, принять участие в тест-драйве
+            сайта.
           </p>
           <div className="flex flex-col">
-            <p className="font-bold">Пожалуйста, ответьте на вопросы анкеты.</p>
-            <p>* Звездочкой отмечены обязательные для ответов</p>
+            <p className="font-bold">
+              Пожалуйста, ответьте на вопросы анкеты.
+            </p>
+            <p>
+              * Звездочкой отмечены обязательные для ответов
+            </p>
           </div>
         </div>
       </div>
 
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen py-10">
         <div className="max-w-[1130px] w-full px-[40px] xl:px-0 flex flex-col">
-          <p className="font-bold">Оцените удобство работы с тендерами</p>
+          <p className="font-bold">
+            Оцените удобство работы с тендерами
+          </p>
         </div>
       </div>
 
       <ol className={styles.questionsContainer}>
-        <li className={`${styles.questionItem} ${styles.text} text-[16px]`}>
+        <li className={`${styles.questionItem} ${styles.text}`}>
           <p className={styles.bold}>Пожалуйста, оцените удобства поиска тендеров *</p>
-          <p className="text-[18px]">
-            1 - совсем непонятный и неудобный поиск тендеров, 10 - все понял, все удобно
-          </p>
+          <p>1 - совсем непонятный и неудобный поиск тендеров, 10 - все понял, все удобно</p>
           <RadioGroup
             value={surveyStore.question9.rate}
             onValueChange={(v) => {
@@ -154,7 +155,7 @@ export const Page4: FC = () => {
             {error1 && <p className={styles.errorText}>{error1}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p className="text-[18px]">Ваш комментарий</p>
+            <p>Ваш комментарий</p>
             <input
               type="text"
               value={surveyStore.question9.comment}
@@ -167,7 +168,7 @@ export const Page4: FC = () => {
         </li>
         <li className={`${styles.questionItem} ${styles.text}`}>
           <p className={styles.bold}>Пожалуйста, оцените полноту данных о тендере для отклика *</p>
-          <p className="text-[18px]">
+          <p>
             1 - совсем мало данных о тендере, чтобы сделать отклик, 10 - данных о тендере достаточно
             для отклика
           </p>
@@ -191,7 +192,7 @@ export const Page4: FC = () => {
             {error2 && <p className={styles.errorText}>{error2}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p className="text-[18px]">Ваш комментарий</p>
+            <p>Ваш комментарий</p>
             <input
               type="text"
               value={surveyStore.question10.comment}
@@ -272,7 +273,7 @@ export const Page4: FC = () => {
             {error3 && <p className={styles.errorText}>{error3}</p>}
           </RadioGroup>
           <div className={`${styles.yourVariant} ${styles.comment}`}>
-            <p className="text-[18px]">Ваш комментарий</p>
+            <p>Ваш комментарий</p>
             <input
               type="text"
               value={surveyStore.question11.comment}

@@ -15,6 +15,5 @@ type parameters = {
 export const registerUser = async (parameters: parameters) => {
   const res = await axiosInstance.post(`/v1/auth/signup`, parameters);
   localStorage.setItem('token', res.data.access_token);
-  return res
   // console.log(res);
 };

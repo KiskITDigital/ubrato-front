@@ -158,15 +158,11 @@ export const postPortfolio = async (token: string, params: IPortfolio) => {
   const newParams = {
     name: params.name,
     description: params.description,
-    links: params.imgs,
-  };
-  const res = await axiosInstance.post<{ id: string }>(
-    '/v1/organizations/my/profile/cv',
-    newParams,
-    {
-      headers: { authorization: `Bearer ${token}` },
-    }
-  );
+    links: params.imgs
+  }
+  const res = await axiosInstance.post<{ id: string }>('/v1/organizations/my/profile/cv', newParams, {
+    headers: { authorization: `Bearer ${token}` },
+  });
   return res.data.id;
 };
 
@@ -174,11 +170,15 @@ export const putPortfolio = async (token: string, params: IPortfolioPut) => {
   const newParams = {
     name: params.params.name,
     description: params.params.description,
-    links: params.params.imgs,
-  };
-  await axiosInstance.put(`/v1/organizations/my/profile/cv/${params.id}`, newParams, {
-    headers: { authorization: `Bearer ${token}` },
-  });
+    links: params.params.imgs
+  }
+  await axiosInstance.put(
+    `/v1/organizations/my/profile/cv/${params.id}`,
+    newParams,
+    {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  );
   // console.log(res)
 };
 

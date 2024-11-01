@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './portfolioform.module.css';
 import { updateToken, uploadFile, fetchFileInfo, postPortfolio, putPortfolio } from '@/api';
-import { Link } from 'react-router-dom';
 
 export const PortfolioForm: FC<{
   close: () => void;
@@ -70,15 +69,6 @@ export const PortfolioForm: FC<{
           type="text"
         />
         <p className={styles.subHeader}>Вложения:</p>
-        <div>
-          <div className={styles.infoContainer}>
-            <img src="/info-blue-ic.svg" alt="" />
-            <p className={styles.infoText}>
-              Разместите фотографии с примерами работ вашей компании и напишите описание. Форматы:
-              pdf, jpg, png, размер одного файла не должен превышать 5 Мб.
-            </p>
-          </div>
-        </div>
         <div className={styles.filesList}>
           <label htmlFor="portfolioFile">
             <input
@@ -127,8 +117,8 @@ export const PortfolioForm: FC<{
             />
             {newLinks.length < 8 && (
               <div className={styles.realInput}>
-                <img src="/x-icon-blue.svg" alt="" />
-                <p className="text-accent">Добавить вложения (до {8 - newLinks.length} шт.)</p>
+                <img src="/x-icon.svg" alt="" />
+                <p>Добавить вложения (до {8 - newLinks.length} шт.)</p>
               </div>
             )}
           </label>
@@ -155,86 +145,57 @@ export const PortfolioForm: FC<{
             </div>
           ))}
         </div>
-        {error && <p>{error}</p>}
-
-        <div className="flex gap-6 pt-5 border-t border-solid border-[rgba(0,0,0,.1)]">
-          <button
-            className={styles.btn}
-            onClick={() => {
-              (async () => {
-                if (data) {
-                  await updateToken(putPortfolio, {
-                    id: data.id,
-                    params: {
-                      name: newName,
-                      description: newDescription,
-                      imgs: newLinks,
-                    },
-                  });
-                  setPortfolioList({
-                    id: data.id,
-                    name: newName,
-                    description: newDescription,
-                    links: newLinks,
-                    selected: false,
-                  });
-                  close();
-                } else {
-                  const res = await updateToken(postPortfolio, {
+        <p>{error}</p>
+        <div className={styles.infoBorder}>
+          <div className={styles.infoContainer}>
+            <img src="/info-blue-ic.svg" alt="" />
+            <p className={styles.infoText}>
+              Разместите фотографии с примерами работ вашей компании и напишите описание. Форматы:
+              pdf, jpg, png, размер одного файла не должен превышать 5 Мб.
+            </p>
+          </div>
+        </div>
+        <button
+          className={styles.btn}
+          onClick={() => {
+            (async () => {
+              if (data) {
+                await updateToken(putPortfolio, {
+                  id: data.id,
+                  params: {
                     name: newName,
                     description: newDescription,
                     imgs: newLinks,
-                  });
-                  setPortfolio({
-                    id: res,
-                    name: newName,
-                    description: newDescription,
-                    links: newLinks,
-                    selected: false,
-                  });
-                  close();
-                }
-              })();
-            }}
-          >
-            {data ? 'Изменить' : 'Добавить'}
-          </button>
-          <p className="w-full">
-            Нажимая на кнопку «{data ? 'Изменить' : 'Добавить'}» Я даю{' '}
-            <Link
-              to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Согласие на обработку персональных данных
-            </Link>{' '}
-            в соответствии с{' '}
-            <Link
-              to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Политикой в отношении обработки персональных данных
-            </Link>{' '}
-            и соглашаюсь с условиями настоящей{' '}
-            <Link
-              to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Оферты
-            </Link>
-            , а также даю{' '}
-            <Link
-              to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_ispolnitelya"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Согласие на размещение и обнародование фотографий и иных материалов
-            </Link>
-            .
-          </p>
-        </div>
+                  },
+                });
+                setPortfolioList({
+                  id: data.id,
+                  name: newName,
+                  description: newDescription,
+                  links: newLinks,
+                  selected: false,
+                });
+                close();
+              } else {
+                const res = await updateToken(postPortfolio, {
+                  name: newName,
+                  description: newDescription,
+                  imgs: newLinks,
+                });
+                setPortfolio({
+                  id: res,
+                  name: newName,
+                  description: newDescription,
+                  links: newLinks,
+                  selected: false,
+                });
+                close();
+              }
+            })();
+          }}
+        >
+          {data ? 'Изменить' : 'Добавить'}
+        </button>
       </div>
     </div>
   );

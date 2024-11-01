@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
 import qstyles from '@/components/MainPageComponents/QustionAnswers/questions.module.css';
 import { Link } from 'react-router-dom';
-import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
 
 const HowToBecome: FC = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false)
   return (
     <div className={qstyles.container}>
       <p className={`${qstyles.startText}`}>
@@ -18,7 +18,7 @@ const HowToBecome: FC = () => {
       <p className={`${qstyles.startText}`}>
         Условием для исполнителей является наличие действующего юридического лица с видом
         деятельности, относящемся к клинингу или к смежным услугам. При этом, исполнитель может
-        участвовать только в тендерах, соответствующих его ОКВЭД.
+        участвовать только в тендерах, соответствующих его ОКВЭД.{' '}
       </p>
       <p className={`${qstyles.title}`}>
         Ubrato регистрирует компании со следующими категориями ОКВЭД:
@@ -52,9 +52,12 @@ const HowToBecome: FC = () => {
         После верификации данных администрацией сайта компания получит возможность:
       </p>
       <ul>
-        <li className={qstyles.li}>создать портфолио</li>
+        <li className={qstyles.li}>возможность создать портфолио</li>
         <li className={qstyles.li}>искать и откликаться на тендеры</li>
-        <li className={qstyles.li}>задавать вопросы заказчикам об условиях тендера</li>
+        <li className={qstyles.li}>общаться с потенциальными заказчиками в чате</li>
+        <li className={qstyles.li}>
+          оставлять отзывы о заказчиках и ставить им оценку (рейтинг) по итогам выполнения работ
+        </li>
       </ul>
       <div className={qstyles.seeAlso}>
         <p className={qstyles.title}>Смотрите также:</p>
@@ -73,7 +76,7 @@ const HowToBecome: FC = () => {
         и мы перезвоним.
       </p>
       <Modal isOpen={openModal}>
-        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
+        <ContactModal onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

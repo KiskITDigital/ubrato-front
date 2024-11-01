@@ -8,7 +8,7 @@ export const SurveyStart: FC = () => {
 
   return (
     <div className="flex flex-col items-center pt-10">
-      <h1 className="font-bold text-[40px]">
+      <h1 className="font-bold text-[60px]">
         Тест-драйв <span className="text-accent">Ubrato</span>
       </h1>
       <div className="flex bg-[#F5FAFE] w-full justify-center max-w-screen h-[380px] my-10">
@@ -34,8 +34,8 @@ export const SurveyStart: FC = () => {
           <img className="h-full w-fit hidden lg:flex" src="/survey/laptop.png" alt="" />
         </div>
       </div>
-      <div className="flex flex-col text-[20px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
-        <p className="text-[20px] font-bold">
+      <div className="flex flex-col text-[26px] max-w-[1130px] px-[40px] xl:px-0 w-full gap-8 font-medium">
+        <p className="text-[26px] font-bold">
           Предлагаем пользователям сервиса Ubrato, зарегистрированным в качестве{' '}
           <Link to="/knowledge-base" className="text-accent hover:underline">
             Исполнителей
@@ -44,23 +44,23 @@ export const SurveyStart: FC = () => {
         </p>
         <div className="pl-10 w-full">
           <p className="">
-            <span className="text-accent">Ubrato</span> – это сервис, предназначенный для
-            корпоративных клиентов, которым нужны профессиональные клининговые и смежные услуги.
-            Сервис функционирует по принципу электронной площадки, где заказчики могут размещать
-            свои запросы, а исполнители предоставляют свои предложения и услуги. Все взаимодействия
-            осуществляются на основе принципов прозрачности, добросовестности и профессионализма.
+            <span className="text-accent">Ubrato</span> – это платформа для корпоративных клиентов,
+            которые ищут профессиональные услуги уборки и сопутствующие услуги. Платформа работает
+            по принципу электронной торговой площадки, где заказчики публикуют свои запросы, а
+            исполнители предлагают им свои услуги. Все взаимодействия на платформе основаны на
+            принципах открытости, честности и профессионализма.
           </p>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div>
           <p className="font-bold">Преимущества участникам анкетирования</p>
           <p>
             За ответы на вопросы анкеты Ubrato предоставит доступ к материалу об исследовании рынка
             клининговых и смежных услуг. Исследование было проведено в формате опроса более 150
-            представителей клининговых компаний России в 2023-2024 годах.
+            представителей клининговых компаний России в 2023-2024 годах. Участники анкетирования
+            станут ключевыми партнерами** сервиса Ubrato.
           </p>
-          <p>Участники анкетирования станут ключевыми партнерами** сервиса Ubrato.</p>
-          <ul className="pl-10">
+          <ul>
             <li className="list-disc">Вы получите доступ ко всем решениям сервиса.</li>
             <li className="list-disc">
               За каждым участником тест-драйва будет закреплен персональный менеджер, который
@@ -68,25 +68,36 @@ export const SurveyStart: FC = () => {
             </li>
           </ul>
         </div>
+
+        <p>Участники анкетирования станут ключевым партнерами площадки.</p>
+        <ul className="w-full pl-10">
+          <li className="w-full list-disc list-inside">
+            Вы получите доступ ко всем сервисам площадки.
+          </li>
+          <li className="w-full list-disc list-inside">
+            За каждым участником тест-драйва будет закреплен персональный менеджер, который ответит
+            в случае возникновения вопросов.
+          </li>
+        </ul>
         <p>
           Уже есть вопросы?{' '}
           <span className="text-accent underline cursor-pointer" onClick={() => setOpenModal(true)}>
             Напишите телефон
           </span>{' '}
-          , и специалист Администрации Ubrato свяжется с Вами.
+          и мы перезвоним.
         </p>
         <p className="font-bold">Как принять участие</p>
         <ul className="w-full pl-16">
           <li className="w-full list-decimal list-outside">
-            <Link to="/registration" className="text-accent hover:underline">
+            <Link to="/register" className="text-accent hover:underline">
               Зарегистрируйтесь
             </Link>{' '}
-            на сервисе Ubrato в качестве Исполнителя.
+            на площадке Ubrato в качестве Исполнителя.
           </li>
           <li className="w-full list-decimal list-outside">
-            Ознакомьтесь с возможностями сервиса Ubrato и примите участие в торгах. На сайте создано
-            несколько тестовых тендеров, отмеченных в начале описания тендера заголовком «Тестовый
-            тендер».
+            Ознакомьтесь с возможностями площадки и примите участие в торгах. На сайте создано
+            несколько тестовых тендеров, отмеченных в начале описания тендера заголовком “Тестовый
+            тендер”.
           </li>
           <li className="w-full list-decimal list-outside">
             Заполните{' '}
@@ -96,8 +107,8 @@ export const SurveyStart: FC = () => {
             участника в личном кабинете.
           </li>
           <li className="w-full list-decimal list-outside">
-            Получите в подарок от нас «Исследование рынка клининговых услуг за 2023-2024 годы».
-            Материал станет доступен для скачивания после заполнения Исполнителем анкеты.
+            Получите в подарок от нас Исследование рынка клининговых услуг за 2023-2024 годы.
+            Материал станет доступен для скачивания после заполнения анкеты.
           </li>
         </ul>
         <Link
@@ -120,14 +131,14 @@ export const SurveyStart: FC = () => {
           </p>
         </div>
         <p className="text-[18px] font-bold italic">
-          Обращаем Ваше внимание на то, что предложение о принятии участия в тест-драйве носит
+          Обращаем Ваше внимание, на то, что предложение о принятии участия в тест-драйве носит
           информационный характер и не является публичной офертой в соответствии со ст. 437 ГК РФ.
           Администрация площадки Ubrato.ru вправе вносить изменения в условия тест-драйва без
           предварительного уведомления пользователей.
         </p>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
+        <ContactModal onClose={() => setOpenModal(false)} />
       </Modal>
     </div>
   );

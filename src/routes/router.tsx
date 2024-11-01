@@ -27,19 +27,10 @@ import { AboutServicePage } from '@/pages/AboutServicePage/AboutServicePage';
 import OrganizationProfilePage from '@/pages/OrganizationProfilePage';
 import ContactsPage from '@/pages/ContactsPage';
 import { KnowledgeBasePage } from '@/pages/KnowledgeBasePage/KnowledgeBasePage';
+import RightsPage from '@/pages/RightsPage';
+import ForgotPasswordPage from '@/pages/ForgotPasswordPage';
 import ConfirmEmailPage from '@/pages/ConfirmEmailPage';
 import { BecomeContractor } from '@/components/ProfilePageComponents/BecomeContractor/BecomeContractor';
-import { Requisites } from '@/pages/Requisites/Reausites';
-import { ResetPassword } from '@/pages/ResetPassword/ResetPassword';
-import { ForgotPassword } from '@/pages/ForgotPassword/ForgotPassword';
-import { DocumentsPage } from '@/pages/DocumentsPage/DocumentsPage';
-import { DocumentItem } from '@/components/DocumentItem/DocumentItem';
-import { TenderTab } from '@/components/OneTenderComponents/TenderTab/TenderTab';
-import { ResponsesTab } from '@/components/OneTenderComponents/ResponsesTab/ResponsesTab';
-import { QATab } from '@/components/OneTenderComponents/QATab/QATab';
-import { AdditionalInfo } from '@/components/OneTenderComponents/AdditionalInfo/AdditionalInfo';
-import { OrdererProfileView } from '@/components/OrgnizationProfile/OrdererProfile/OrdererProfile';
-import { ContractorProfileView } from '@/components/OrgnizationProfile/ContractorProfile/ContractorProfile';
 
 export const Router = () => {
   return (
@@ -52,10 +43,9 @@ export const Router = () => {
         <Route path="find-executor" element={<FindExecutor />} />
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="login" element={<LoginPage />} />
-        <Route path="registration" element={<RegisterPage />} />
+        <Route path="register" element={<RegisterPage />} />
         <Route path="confirm-email" element={<ConfirmEmailPage />} />
-        <Route path="forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="reset-password" element={<ForgotPasswordPage />} />
         <Route path="survey" element={<SurveyPage />}>
           <Route path="" element={<SurveyStart />} />
           <Route path="1" element={<Page1 />} />
@@ -67,10 +57,7 @@ export const Router = () => {
         <Route path="profile" element={<ProfilePage />}>
           <Route path="favourite" element={<FavoritePage />} />
           <Route path="documents" element={<ProfileDocuments />} />
-          <Route path="tenders" element={<MyTendersPage />}>
-            <Route path="contractor" element={<MyTendersPage />} />
-            <Route path="orderer" element={<MyTendersPage />} />
-          </Route>
+          <Route path="tenders" element={<MyTendersPage />}></Route>
           <Route path="" element={<Company />}>
             <Route path="" element={<CompanyInfo />} />
             <Route path="contractor" element={<ContractorProfile />} />
@@ -81,23 +68,11 @@ export const Router = () => {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<Help />} />
         </Route>
-        <Route path="/tender/:id" element={<OneTenderPageExecutor />}>
-          <Route path="" element={<TenderTab />} />
-          <Route path="responses" element={<ResponsesTab />} />
-          <Route path="questions_and_answers" element={<QATab />} />
-          <Route path="more_inforamtion" element={<AdditionalInfo />} />
-        </Route>
+        <Route path="/tender/:id" element={<OneTenderPageExecutor />} />
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
-        <Route path="organization/:org_id" element={<OrganizationProfilePage />}>
-          <Route path="" element={<OrdererProfileView />} />
-          <Route path="orderer" element={<OrdererProfileView />} />
-          <Route path="contractor" element={<ContractorProfileView />} />
-        </Route>
-        <Route path="requisites" element={<Requisites />} />
+        <Route path="organization/:org_id" element={<OrganizationProfilePage />} />
         <Route path="contacts" element={<ContactsPage />} />
-        <Route path="documents" element={<DocumentsPage />}>
-          <Route path=":doc_id" element={<DocumentItem />} />
-        </Route>
+        <Route path="rights" element={<RightsPage />} />
       </Route>
     </Routes>
   );

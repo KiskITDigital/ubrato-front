@@ -47,6 +47,7 @@ export const useNotificationsStore = create<notificationsStore>()((set) => ({
   },
 }));
 
+
 const isExpanded = (id: number) => {
   return useNotificationsStore.getState().expandedIds.includes(id);
 };
