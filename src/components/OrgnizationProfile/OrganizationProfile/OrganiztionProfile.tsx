@@ -10,13 +10,15 @@ import Services from '@/components/OrganizationProfileComponents/Services';
 import Objects from '@/components/OrganizationProfileComponents/Objects';
 import Portfolio from '@/components/OrganizationProfileComponents/Portfolio';
 import { useUserInfoStore } from '@/store/userInfoStore';
+import { addFavoriteExecutor, removeFavoriteExecutor, updateToken } from '@/api';
 
 interface OrganizationProfileProps {
   data: ExecutorProfileInfo | OrdererProfileInfo | null;
   // isLoading: boolean;
+  setFavourite: (isFavorite: boolean) => void;
 }
 
-export const OrganizationProfile: FC<OrganizationProfileProps> = ({ data }) => {
+export const OrganizationProfile: FC<OrganizationProfileProps> = ({ data, setFavourite }) => {
   const startRef = useRef<HTMLHeadingElement>(null);
 
   const userInfoStore = useUserInfoStore();
@@ -27,6 +29,23 @@ export const OrganizationProfile: FC<OrganizationProfileProps> = ({ data }) => {
       navigate('/login');
     }
   }, []);
+
+  const favoriteExecutorsHandler = (organization: { id: string; isFavorite: boolean }) => {
+    (async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+      } else {
+        const res = organization.isFavorite
+          ? await updateToken(removeFavoriteExecutor, organization.id)
+          : await updateToken(addFavoriteExecutor, organization.id);
+        const resStatus = res.data.status;
+        if (resStatus) {
+          setFavourite(!organization.isFavorite);
+        }
+      }
+    })();
+  };
 
   useEffect(() => {
     startRef.current!.scrollIntoView({ behavior: 'smooth' });
@@ -42,7 +61,7 @@ export const OrganizationProfile: FC<OrganizationProfileProps> = ({ data }) => {
         <>
           <Info
             isFavorite={data.isFavorite}
-            // favoriteExecutorsHandler={favoriteExecutorsHandler}
+            favoriteExecutorsHandler={favoriteExecutorsHandler}
             orgId={data.org.id}
             status={'executor' in data ? 'executor' : 'orderer'}
             img={data.org.avatar}

@@ -363,7 +363,7 @@ export const Page5: FC = () => {
           </li>
         </ol>
         <div className={styles.btnsContainer}>
-          <Link className={`${styles.survey__button} ${styles.backBtn}`} to="/survey/2">
+          <Link className={`${styles.survey__button} ${styles.backBtn}`} to="/survey/4">
             Назад
           </Link>
           <button className={`${styles.survey__button} ${styles.nextBtn2}`} onClick={handleGoNext}>

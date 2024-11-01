@@ -9,6 +9,12 @@ export const ContractorProfileView: FC = () => {
 
   const org_id = useParams<{ org_id: string }>().org_id;
 
+  const setFavourite = (isFavorite: boolean) => {
+    if (data) {
+      setData({ ...data, isFavorite: isFavorite });
+    }
+  };
+
   useEffect(() => {
     if (org_id) {
       (async () => {
@@ -27,7 +33,7 @@ export const ContractorProfileView: FC = () => {
 
   return (
     <>
-      {data && <OrganizationProfile data={data} />}
+      {data && <OrganizationProfile data={data} setFavourite={setFavourite} />}
       {data === null && (
         <div className="w-[1130px] pt-6 mx-auto text-[26px]">
           Эта компания ещё не является исполнителем посмотрите на на{' '}

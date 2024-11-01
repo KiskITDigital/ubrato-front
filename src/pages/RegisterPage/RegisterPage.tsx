@@ -160,7 +160,7 @@ export const RegisterPage: FC = () => {
       <div className={styles.formContainer}>
         <h1 className={styles.header}>Регистрация на сайте Ubrato</h1>
         <p className={`${styles.infoText} pt-[10px]`}>
-          Уже есть аккунт?{' '}
+          Уже есть аккаунт?{' '}
           <Link className={styles.link} to="/login">
             Войти
           </Link>

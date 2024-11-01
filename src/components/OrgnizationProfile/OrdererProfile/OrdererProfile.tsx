@@ -7,6 +7,12 @@ import { OrganizationProfile } from '../OrganizationProfile/OrganiztionProfile';
 export const OrdererProfileView: FC = () => {
   const [data, setData] = useState<OrdererProfileInfo | undefined>();
 
+  const setFavourite = (isFavorite: boolean) => {
+    if (data) {
+      setData({ ...data, isFavorite: isFavorite });
+    }
+  };
+
   const org_id = useParams<{ org_id: string }>().org_id;
 
   useEffect(() => {
@@ -26,5 +32,5 @@ export const OrdererProfileView: FC = () => {
     }
   }, [org_id]);
 
-  return <>{data && <OrganizationProfile data={data} />}</>;
+  return <>{data && <OrganizationProfile data={data} setFavourite={setFavourite} />}</>;
 };

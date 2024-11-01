@@ -16,7 +16,7 @@ import OfferTender from '../OfferTender/OfferTender';
 import Modal from '@/components/Modal';
 import { generateTypesenseClient, getExecutorList } from '../generateSearchclient';
 import ExecutorList from '../ExecutorList/ExecutorList';
-import { addFavoriteExecutor, removeFavoriteExecutor } from '@/api/index';
+import { addFavoriteExecutor, removeFavoriteExecutor, updateToken } from '@/api/index';
 import { useNavigate } from 'react-router-dom';
 import Typesense from 'typesense';
 
@@ -112,6 +112,7 @@ const Executors: FC = () => {
         .search(locationSearchParameters)
         .then((response) => {
           if (response.hits?.length)
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             setLocationSearchValue(response.hits[0].document?.name);
         })
@@ -196,8 +197,8 @@ const Executors: FC = () => {
       navigate('/login');
     } else {
       const res = executor.isFavorite
-        ? removeFavoriteExecutor(executor.id, token)
-        : addFavoriteExecutor(executor.id, token);
+        ? updateToken(removeFavoriteExecutor, executor.id)
+        : updateToken(addFavoriteExecutor, executor.id);
       const resStatus = (await res).data.status;
       findExecutorState.handleExecutorList(
         findExecutorState.executorList.map((executorItem) =>

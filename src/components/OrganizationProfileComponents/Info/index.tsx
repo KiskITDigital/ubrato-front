@@ -9,7 +9,7 @@ const Info: FC<{
   orgId: string;
   status: 'orderer' | 'executor';
   isFavorite: boolean;
-  favoriteExecutorsHandler?: (organization: { id: string; isFavorite: boolean }) => void;
+  favoriteExecutorsHandler: (organization: { id: string; isFavorite: boolean }) => void;
   img: string;
   brand: string;
   name: string;
@@ -56,7 +56,7 @@ const Info: FC<{
         </button>
         <button
           disabled={userInfoStore.user.organization.id === orgId}
-          // onClick={() => favoriteExecutorsHandler({ id: orgId, isFavorite })}
+          onClick={() => favoriteExecutorsHandler({ id: orgId, isFavorite })}
           className={styles.favoriteButton}
         >
           <img
