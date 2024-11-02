@@ -7,7 +7,7 @@ const WhatOrders: FC = () => {
     <div className={qstyles.container}>
       <p className={`${qstyles.startText}`}>
         На сайте Ubrato размещены заказы на оказание клининговых и смежных услуг. Сейчас в{' '}
-        <Link className={qstyles.link} to="/">
+        <Link className={qstyles.link} to="/alltenders">
           каталоге
         </Link>{' '}
         находится более 100 услуг, сгруппированных в 17 видов:

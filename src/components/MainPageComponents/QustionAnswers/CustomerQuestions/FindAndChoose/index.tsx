@@ -55,7 +55,7 @@ const FindAndChoose: FC = () => {
         <li className={qstyles.li}>
           Предложите тендер потенциальным исполнителям, нажав на кнопку «Предложить тендер»;
         </li>
-        <li className={qstyles.li}>Сравните отклики по параметрам цены, рейтинга и надежности;</li>
+        <li className={qstyles.li}>Сравните отклики по значениям стоимости;</li>
         <li className={qstyles.li}>Заключите с победителем договор на оказание услуг.</li>
       </ul>
       <div className={qstyles.seeAlso}>

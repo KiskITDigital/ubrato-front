@@ -7,7 +7,7 @@ const Services: FC = () => {
     <div className={qstyles.container}>
       <p className={qstyles.startText}>
         На сайте Ubrato зарегистрированы исполнители клининговых и смежных услуг. В{' '}
-        <Link to="" className={`${qstyles.link}`}>
+        <Link to="/find-executor" className={`${qstyles.link}`}>
           каталоге
         </Link>{' '}
         представлены более 100 услуг, объединенных в 17 видов:{' '}
