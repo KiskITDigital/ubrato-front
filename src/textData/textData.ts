@@ -60,7 +60,7 @@ export const ordererCardList: HowToFindCardT[] = [
   {
     img: './executor-ic.svg',
     title: 'Выберите исполнителя',
-    text: 'Изучите портфолио компаний, оставивших отклики и выберите исполнителя',
+    text: 'Изучите портфолио компаний, оставивших отклики и выберите победителя',
   },
 ];
 
@@ -72,7 +72,7 @@ export const executorCardList: HowToFindCardT[] = [
   },
   {
     img: './portfolio.svg',
-    title: 'Создайте портфолио',
+    title: 'Разместите портфолио',
     text: 'Расскажите о возможностях и преимуществах вашей компании',
   },
   {
