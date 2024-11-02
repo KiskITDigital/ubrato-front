@@ -385,9 +385,7 @@ export const RegisterPage: FC = () => {
                     onClick={() => {
                       // setNameConfirm(false);
                       formik.values.inn = '';
-                      if (registrationStep !== 5) {
-                        setRegistrationStep(3);
-                      }
+                      setRegistrationStep(3);
                       setCompanyName('');
                     }}
                   >

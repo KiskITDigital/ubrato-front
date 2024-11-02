@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
 }
 
 .blueText {
@@ -19,7 +18,7 @@
   font-weight: 900;
   margin-bottom: 22px;
   max-width: 600;
-  margin-bottom: 20px;
+  margin-bottom: 45px;
 }
 
 .newsImage {

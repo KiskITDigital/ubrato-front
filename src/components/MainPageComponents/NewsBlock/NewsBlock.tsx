@@ -4,16 +4,27 @@ import styles from './newsblock.module.css';
 interface NewsItemProps {
   date: string;
   text: string;
-  imageSrc: string;
+  header: string;
 }
 
-const NewsItem: FC<NewsItemProps> = ({ date, text }) => (
-  <div className={styles.newsItem}>
-    {/* <img src={imageSrc} alt="News" className={styles.newsImage} /> */}
-    <div className={styles.blockcontent}>
-      <div className={styles.blockdate}>{date}</div>
-      <div className={styles.blocktext}>{text}</div>
-    </div>
+const news = [
+  {
+    header: 'Открыт сайт Ubrato',
+    text: 'Агрегатор клининговых услуг Ubrato открыт. Команда проекта уверена, что площадка станет удобным и полезным инструментом для бизнеса. За каждым пользователем закрепляется персональный менеджер, который поможет с регистрацией и проведением тендеров.',
+    date: '01.09.2024',
+  },
+  {
+    header: 'Участники тест-драйва Ubrato получат исследование рынка клининговых услуг',
+    text: 'Ubrato предлагает представителям компаний, зарегистрированным на площадке в качестве исполнителей, принять участие в тест-драйве сайта. Протестируйте площадку, ответьте на вопросы анкеты, и мы предоставим вам исследование рынка клининговых услуг.',
+    date: '01.09.2024',
+  },
+];
+
+const NewsItem: FC<NewsItemProps> = ({ date, text, header }) => (
+  <div className="bg-[#f4f7f9] rounded-[30px] flex flex-col gap-4 p-[30px] w-[550px]">
+    <h4 className="text-[20px] font-bold">{header}</h4>
+    <div className="text-[#666] text-[14px]">{date}</div>
+    <div className="text-[#666] text-[16px]">{text}</div>
   </div>
 );
 
@@ -23,22 +34,10 @@ export const NewsBlock: FC = () => (
       <h2 className={styles.header}>
         Новости <span className={styles.blueText}>Ubrato</span>
       </h2>
-      <div className={styles.newsItems}>
-        <NewsItem
-          date="13.12.2023 в 13:00"
-          text="Новые тендеры на клининговые услуги: возможности для роста бизнеса в условиях пандемии"
-          imageSrc="./newsimg1.png"
-        />
-        <NewsItem
-          date="11.12.2023 в 9:00"
-          text="Государственные и муниципальные учреждения увеличивают спрос на услуги клининга: анализ текущих тендеров и перспективы"
-          imageSrc="./newsimg2.png"
-        />
-        <NewsItem
-          date="9.12.2023 в 21:40"
-          text="Эко-тенденции в клининговой индустрии: как забота о природе может стать конкурентным преимуществом на рынке"
-          imageSrc="./newsimg3.png"
-        />
+      <div className="flex justify-between gap-[30px]">
+        {news.map((item, ix) => (
+          <NewsItem key={ix} header={item.header} text={item.text} date={item.date} />
+        ))}
       </div>
     </div>
   </div>
