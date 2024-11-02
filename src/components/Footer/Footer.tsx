@@ -163,7 +163,7 @@ export const Footer: FC = () => {
               </a>
             </li>
             <li>
-              <Link target="_blank" to="/rights?document=1">
+              <Link target="_blank" to="/documents">
                 <p className={styles.point}>Документы Ubrato</p>
               </Link>
             </li>

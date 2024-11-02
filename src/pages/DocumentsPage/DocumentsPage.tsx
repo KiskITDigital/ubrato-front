@@ -1,7 +1,7 @@
 import { documents } from '@/textData/documentsTitles';
 import { Accordion, AccordionItem } from '@nextui-org/react';
-import { FC } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { FC, useEffect } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 export const DocumentsPage: FC = () => {
   const itemClasses = {
@@ -15,6 +15,13 @@ export const DocumentsPage: FC = () => {
   };
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === '/documents') {
+      navigate('oferta_na_okazanie_uslug_dlya_ispolnitelya');
+    }
+  }, [location.pathname]);
 
   return (
     <div className="container mt-5">

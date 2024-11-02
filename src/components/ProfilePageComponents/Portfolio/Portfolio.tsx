@@ -33,6 +33,7 @@ export const Portfolio: FC<{
   const windowRef = useRef<HTMLDivElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isChanging, setIschanging] = useState<{ id: string; isChanging: boolean }[]>([]);
+  const [selectAllCheck, setSelectAllCheck] = useState(false);
   const closeForm = () => {
     setIsFormOpen(false);
   };
@@ -94,12 +95,17 @@ export const Portfolio: FC<{
         backdrop="opaque"
         classNames={propoverSlots}
       >
-        <PopoverTrigger onClick={() => setIsFormOpen(true)}>
+        <PopoverTrigger disabled={portfolio.length === 10} onClick={() => setIsFormOpen(true)}>
           <button className={styles.btn}>
             <img className={styles.btnImg} src="/add-file-ic.svg" alt="" />
             <div className={styles.btnText}>
               <p className={styles.btnTextBig}>Добавить работы</p>
-              <p className={styles.count}>Можно загрузить до {10 - portfolio.length} шт.</p>
+              {portfolio.length === 10 && (
+                <p className={styles.count}>Вы загрузили максимальное количество работ (10)</p>
+              )}
+              {portfolio.length < 10 && (
+                <p className={styles.count}>Можно загрузить до {10 - portfolio.length} шт.</p>
+              )}
             </div>
           </button>
         </PopoverTrigger>
@@ -121,7 +127,9 @@ export const Portfolio: FC<{
       <div className={styles.controls}>
         <Checkbox
           classNames={{ ...checkStyle, label: 'text-black' }}
+          isSelected={selectAllCheck}
           onValueChange={(e) => {
+            setSelectAllCheck(e);
             setPortfolioList(
               [...portfolio].map((i) => {
                 return { ...i, selected: e };
@@ -133,6 +141,7 @@ export const Portfolio: FC<{
         </Checkbox>
         <button
           onClick={() => {
+            setSelectAllCheck(false);
             portfolio.forEach(async (e) => {
               if (e.selected) {
                 updateToken(deletePortfolio, e.id);
