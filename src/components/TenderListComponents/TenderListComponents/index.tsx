@@ -84,8 +84,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
   const toDate = (date: string) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
-    newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toISOString().split('T')[0];
+    // newDate.setHours(0, 0, 0, 0);
+    const formattedDate = newDate.toLocaleDateString('ru-RU');
     return formattedDate;
   };
 
@@ -124,7 +124,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
         );
       },
       cell: ({ row }) => {
-        return <p>{toDate(row.getValue('reception_end'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue('reception_end'))}</p>;
       },
     },
     {
@@ -144,7 +144,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
         );
       },
       cell: ({ row }) => {
-        return <p>{toDate(row.getValue('work_start'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue('work_start'))}</p>;
       },
     },
     {
@@ -164,7 +164,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
         );
       },
       cell: ({ row }) => {
-        return <p>{toDate(row.getValue('work_end'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue('work_end'))}</p>;
       },
     },
     {
@@ -424,6 +424,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
+                      className="w-full"
                       key={'cell-' + rowIndex + cellIndex}
                       style={{ width: cell.column.getSize() }}
                     >

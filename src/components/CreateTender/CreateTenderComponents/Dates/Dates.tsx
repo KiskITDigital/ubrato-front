@@ -48,7 +48,7 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     input: datesStyles.input,
     segment: datesStyles.segment,
     separator: datesStyles.separator,
-    selectorButton: 'rounded-none'
+    selectorButton: 'rounded-none',
   };
 
   useEffect(() => {
@@ -60,6 +60,18 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
       setValue('');
     }
   }, [setValue, createTenderState.price]);
+
+  useEffect(() => {
+    if (createTenderState.reception_end.getTime() > createTenderState.work_start.getTime()) {
+      createTenderState.handleSimpleInput('work_start', createTenderState.reception_end);
+      createTenderState.handleSimpleInput('work_end', createTenderState.reception_end);
+    }
+  }, [createTenderState.reception_end]);
+
+  useEffect(() => {
+    createTenderState.handleSimpleInput('reception_start', new Date());
+    createTenderState.handleSimpleInput('reception_end', new Date());
+  }, []);
 
   return (
     <div ref={ref2} className={`${styles.firstSections}`}>
@@ -75,7 +87,7 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             setIsCalendar1Open(true);
           }}
         >
-          <div className="ml-1 flex gap-[110px]">
+          <div className="ml-1 flex gap-[120px]">
             <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
             <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
           </div>
@@ -220,7 +232,7 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
           className={`${styles.firstSections__div__main} ${styles.firstSections__div__mainWork}`}
           ref={calendarRef2}
         >
-          <div className="ml-1 flex gap-[110px]">
+          <div className="ml-1 flex gap-[100px]">
             <p className={`${styles.firstSections__div__main__block__p}`}>Начало</p>
             <p className={`${styles.firstSections__div__main__block__p}`}>Окончание</p>
           </div>

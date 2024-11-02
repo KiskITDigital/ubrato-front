@@ -229,4 +229,5 @@
   display: flex;
   gap: 10px;
   outline: none;
+  z-index: 1;
 }

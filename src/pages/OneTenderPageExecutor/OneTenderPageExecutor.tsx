@@ -99,7 +99,10 @@ export const OneTenderPageExecutor: FC = () => {
               tenderInfoState.tenderInfo.user_id != userInfoStore.user.id &&
               !tenderInfoState.isResponded && (
                 <button
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => {
+                    document.body.style.overflow = 'hidden';
+                    setIsModalOpen(true);
+                  }}
                   className="ml-auto right-0 top-[-47px] px-2 py-1 rounded-lg bg-accent text-white"
                 >
                   Откликнуться на тендер
@@ -124,7 +127,10 @@ export const OneTenderPageExecutor: FC = () => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         price={tenderInfoState.tenderInfo.price}
-        closeModal={() => setIsModalOpen(false)}
+        closeModal={() => {
+          document.body.style.overflow = 'auto';
+          setIsModalOpen(false);
+        }}
       ></OneTenderExecutorAcceptModal>
     </div>
   );

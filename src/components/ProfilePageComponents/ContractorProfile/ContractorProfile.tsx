@@ -249,12 +249,15 @@ export const ContractorProfile: FC = () => {
         <img src="/info-blue-ic.svg" alt="" />
         <p className={styles.infoText}>
           Пользователям Ubrato будет доступна вся информация о вашей компании, кроме контактов. Их
-          ваши контрагенты увидят после подведения итогов тендера.
+          ваши контрагенты увидят после подведения итогов тендера и выбора победителя.
         </p>
       </div>
       <p className={styles.text}>
         Нажмите на кнопку “
-        <Link className={styles.link} to={`/organization/${userInfoState.user.organization.id}/contractor`}>
+        <Link
+          className={styles.link}
+          to={`/organization/${userInfoState.user.organization.id}/contractor`}
+        >
           Смотреть
         </Link>
         ”, чтобы посмотреть, как эту информацию увидят ваши партнеры.

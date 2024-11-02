@@ -63,8 +63,8 @@ export const OrdererProfile: FC = () => {
       <div className={styles.infoContainer}>
         <img src="/info-blue-ic.svg" alt="" />
         <p className={styles.infoText}>
-          Информация о вашей компании будет доступна компаниям-исполнителям после подведения итогов
-          тендера.
+          Информация о вашей компании будет доступна исполнителям после подведения итогов тендера и
+          выбора победителя.
         </p>
       </div>
       <p className={styles.text}>

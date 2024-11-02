@@ -1,11 +1,7 @@
-import { FC, useEffect, useState } from "react";
-import s from "./styles.module.css";
-import { Link } from "react-router-dom";
-import {
-  addFavouriteTender,
-  isFavoriteTender,
-  removeFavoriteTender,
-} from "@/api/favouriteTenders";
+import { FC, useEffect, useState } from 'react';
+import s from './styles.module.css';
+import { Link } from 'react-router-dom';
+import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from '@/api/favouriteTenders';
 
 interface Hit {
   id: string;
@@ -18,21 +14,20 @@ interface Hit {
 }
 
 interface CustomHitProps {
-  hit: Hit
+  hit: Hit;
 }
 export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   // console.log(hit);
   const [fav, setFav] = useState(false);
-  const [tokenOuter, setToken] = useState("");
+  const [tokenOuter, setToken] = useState('');
   // const userInfoStore = useUserInfoStore()
-
 
   // const navigate = useNavigate()
   const tenderId = hit.id;
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem('token');
       if (!token) return;
       setToken(token);
       const isFav = await isFavoriteTender(tenderId, token);
@@ -56,7 +51,7 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
     newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toISOString().split("T")[0];
+    const formattedDate = newDate.toISOString().split('T')[0];
     return formattedDate;
   };
 
@@ -64,7 +59,7 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
     if (str.length <= maxLength) return str;
 
     const truncatedStr = str.slice(0, maxLength);
-    const lastSpaceIndex = truncatedStr.lastIndexOf(" ");
+    const lastSpaceIndex = truncatedStr.lastIndexOf(' ');
 
     if (lastSpaceIndex !== -1) {
       return truncatedStr.slice(0, lastSpaceIndex);
@@ -86,10 +81,7 @@ export const TenderListElem: FC<CustomHitProps> = ({ hit }) => {
   return (
     <div className={s.hit_block}>
       <button onClick={handleFavClick} className={s.executorLoveButton}>
-        <img
-          src={`/find-executor/heart-${fav ? "active" : "inactive"}.svg`}
-          alt="heart"
-        />
+        <img src={`/find-executor/heart-${fav ? 'active' : 'inactive'}.svg`} alt="heart" />
       </button>
 
       <div className={s.hit_header}>

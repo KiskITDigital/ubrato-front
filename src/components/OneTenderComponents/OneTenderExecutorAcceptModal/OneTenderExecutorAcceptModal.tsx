@@ -1,7 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, Ref, useState } from 'react';
 import styles from './styles.module.css';
 import { Switch } from '@nextui-org/react';
 import { sendResponse } from '@/api/respondTender';
+import { useIMask } from 'react-imask';
 // import notion from ''
 
 type TenderModalProps = {
@@ -25,7 +26,6 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
   price,
   response,
 }) => {
-  const [customPrice, setCustomPrice] = useState<number | null>(null);
   const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
   const SwicthStyles = {
@@ -46,27 +46,32 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
     }
   };
 
+  const { ref, value, setValue, unmaskedValue } = useIMask({
+    mask: Number,
+    min: 0.01,
+    max: 9999999999.99,
+    thousandsSeparator: ' ',
+    scale: 2,
+    radix: ',',
+    mapToRadix: ['.'],
+  });
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsAgreed(e.target.checked);
     if (e.target.checked) {
-      setCustomPrice(null);
+      setValue(price.toString());
     } else {
       // console.log('error occured');
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputPrice = parseFloat(e.target.value);
-    if (!isNaN(inputPrice)) {
-      setCustomPrice(inputPrice);
-    }
-  };
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     const token = localStorage.getItem('token');
+    const finalPrice = isAgreed ? price : Number(unmaskedValue);
+    console.log(finalPrice);
     e.preventDefault();
     if (token && id) {
-      const finalPrice = isAgreed ? price : customPrice;
+      const finalPrice = isAgreed ? price : Number(value);
       if (finalPrice !== null) {
         handleResponseOnTender(token, id, finalPrice);
         setResponse();
@@ -104,9 +109,17 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
                   <p className={styles.label_paragraph}>Готовы выполнить работу за</p>
                   <div>
                     <input
-                      onChange={handleInputChange}
+                      ref={ref as Ref<HTMLInputElement>}
+                      onChange={(e) => {
+                        if (/^0\d+/.test(e.target.value)) {
+                          setValue(e.target.value.slice(1));
+                        } else {
+                          setValue(e.target.value);
+                        }
+                      }}
                       disabled={isAgreed}
-                      type="number"
+                      value={value}
+                      type="text"
                       name="price"
                       className={styles.input_modal}
                     />
@@ -131,8 +144,6 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
             <div className={styles.modal_new}>
               <p className={styles.notion}>Вы уже откликнулись на этот тендер!</p>
               <div className={styles.nds_notice}>
-                {/* <div className={styles.circle}></div> */}
-                {/* <img src="./notion.svg" alt="" /> */}
                 <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
               </div>
               <button className={styles.button_spec} onClick={closeModal}>
