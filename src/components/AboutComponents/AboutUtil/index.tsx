@@ -57,8 +57,8 @@ export const AboutUtils: FC = () => {
         <div className={styles.develop_container}>
           {' '}
           <h2 className={styles.develop_header_modded}>
-            Ubrato используют заказчики клининговых услуг разного профиля и масштаба, например,
-            здесь можно найти тендеры на услуги:
+            <span className="text-accent">Ubrato</span> используют заказчики клининговых услуг
+            разного профиля и масштаба, например, здесь можно найти тендеры на услуги:
           </h2>
           <div className={styles.develop_list}>
             <div className={styles.service_line}>

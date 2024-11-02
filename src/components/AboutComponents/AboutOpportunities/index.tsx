@@ -17,7 +17,7 @@ export const AboutOpportunities: FC = () => {
           </div>{' '}
           <p>
             {ordererState.role === 'contractor' ? 'заказчиков ' : 'исполнителей '}
-            клининговых услуг самого разного профиля и масштаба
+            клининговых и смежных услуг разного профиля и масштаба
           </p>
         </div>
         <div className={styles.list_elem}>
@@ -30,10 +30,7 @@ export const AboutOpportunities: FC = () => {
           <div className={styles.header_line}>
             <img src="./chating.png" alt="" /> <h3>Обсуждение условий</h3>
           </div>{' '}
-          <p>
-            сделки и уточнение деталей в отдельном чате с каждым
-            {ordererState.role === 'contractor' ? ' заказчиком' : ' исполнителем'}
-          </p>
+          <p>сделки и уточнение деталей тендера в период его проведения</p>
         </div>
       </div>
       <div className={styles.develop_list}>
@@ -48,7 +45,7 @@ export const AboutOpportunities: FC = () => {
         </div>
         <div className={styles.list_elem}>
           <div className={styles.header_line}>
-            <img src="./support.png" alt="" /> <h3>Круглосуточная поддержка</h3>
+            <img src="./support.png" alt="" /> <h3>Поддержка</h3>
           </div>{' '}
           <p>персонального менеджера с первого дня регистрации</p>
         </div>
