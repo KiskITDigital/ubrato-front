@@ -102,7 +102,11 @@ export const KnowledgeBaseComponent: FC = () => {
           <p className={s.block_paragraph}>
             <span className={s.accent_block}>Исполнитель</span> — юридическое лицо,
             зарегистрированное на сервисе Ubrato, успешно прошедшее процедуру Верификации,
-            заинтересованное в оказании Заказчику клининговых и смежных услуг.
+            заинтересованное в оказании Заказчику клининговых и смежных{' '}
+            <Link className="underline text-accent" to="/faq?page=2&number=1#q2_1">
+              услуг
+            </Link>
+            .
           </p>
         </div>
         <div className={s.content_block}>
