@@ -62,11 +62,7 @@ export const DocumentItem: FC = () => {
             </button>
           </header>
           <div className="mt-[25px] px-5">
-            {document.textContent.map((item, index) => (
-              <p className="text-lg" key={index}>
-                {item}
-              </p>
-            ))}
+            <article className="prose prose-a:text-accent">{document.textContent}</article>
           </div>
         </>
       )}
