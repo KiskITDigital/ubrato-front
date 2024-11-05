@@ -97,6 +97,7 @@ const Executors: FC = () => {
     }[]
   >([]);
   const [locationSearchValue, setLocationSearchValue] = useState<string>();
+  const portalContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const locationSearchParameters = {
@@ -343,7 +344,7 @@ const Executors: FC = () => {
       <div className={styles.amount}>
         <div className="flex justify-between w-full">
           <p className="text-[24px]">Исполнители: {allExecutorListLength}</p>
-          <div className="w-fit flex items-center gap-2">
+          <div ref={portalContainer} className="w-fit flex items-center gap-2 z-0">
             <p className="whitespace-nowrap">Показывать на странице</p>
             <Select
               aria-label="Показывать на странице"
@@ -363,6 +364,7 @@ const Executors: FC = () => {
                 popoverContent:
                   'p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
               }}
+              popoverProps={{ portalContainer: portalContainer.current! }}
             >
               <SelectItem key={20}>20</SelectItem>
               <SelectItem key={50}>50</SelectItem>

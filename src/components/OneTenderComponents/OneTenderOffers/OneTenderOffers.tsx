@@ -9,12 +9,12 @@ type TenderOffers = {
 export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
   return (
     <div className={style.block_main}>
-      <p className="min-w-[240px]">Услуги:</p>
+      <p className="min-w-[160px]">Услуги:</p>
       <div className="flex gap-2 w-full">
         <div className="flex flex-col gap-3">
           {categories.map((category, categoryIndex) => (
-            <div className="flex gap-3 items-center" key={'category-' + categoryIndex}>
-              <div className="flex gap-3 items-center text-[18px] text-nowrap">
+            <div className="flex gap-3" key={'category-' + categoryIndex}>
+              <div className="flex gap-3 text-[18px] text-nowrap">
                 {/* <div className="flex items-center justify-center size-10 min-w-10 rounded-[10px] bg-accent/20">
                   <img
                     className="min-w-6 size-6"
@@ -26,11 +26,19 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
                 <p>{'>'}</p>
               </div>
               <div className="flex flex-wrap w-full gap-2">
-                {category.services.map((service) => (
-                  <Fragment key={'service-' + categoryIndex}>
-                    <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
-                  </Fragment>
-                ))}
+                {category.services.map(
+                  (service, serviceIndex) =>
+                    serviceIndex < 4 && (
+                      <Fragment key={'service-' + serviceIndex}>
+                        <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
+                      </Fragment>
+                    )
+                )}
+                {category.services.length > 4 && (
+                  <div className="flex items-center pl-3">
+                    <p>+{category.services.length - 4}</p>
+                  </div>
+                )}
               </div>
             </div>
           ))}

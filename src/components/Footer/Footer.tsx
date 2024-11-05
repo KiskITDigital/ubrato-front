@@ -206,14 +206,10 @@ export const Footer: FC = () => {
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
         </Link>
         <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya">
-          <p className={styles.confidental}>
-            Оферта для исполнителей, намеренных учавствовать в тендерах
-          </p>
+          <p className={styles.confidental}>Оферта на оказание услуг для Исполнителя</p>
         </Link>
         <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika">
-          <p className={styles.confidental}>
-            Оферта для заказчиков, намеренных учавсвовать в тендерах
-          </p>
+          <p className={styles.confidental}>Оферта на оказание услуг для Заказчика</p>
         </Link>
       </div>
       <div className={styles.last}>

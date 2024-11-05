@@ -3,6 +3,7 @@ import {
   FC,
   // ReactNode,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import Typesense from 'typesense';
@@ -80,6 +81,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
     item: s.item,
     next: s.next,
   };
+  const portalContainer = useRef<HTMLDivElement>(null);
 
   const toDate = (date: string) => {
     const timestamp = date;
@@ -348,7 +350,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full">
+    <div ref={portalContainer} className="w-full z-0">
       <div className="flex justify-between">
         <div className="text-[24px]">Найдено тендеров: {allExecutorListLength}</div>
         <div className="w-fit flex items-center gap-2">
@@ -371,6 +373,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
               popoverContent:
                 'p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
             }}
+            popoverProps={{ portalContainer: portalContainer.current! }}
           >
             <SelectItem key={20}>20</SelectItem>
             <SelectItem key={50}>50</SelectItem>
