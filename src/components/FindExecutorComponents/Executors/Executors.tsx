@@ -357,11 +357,11 @@ const Executors: FC = () => {
               }}
               classNames={{
                 mainWrapper:
-                  'flex bg-red p-[5px] w-[70px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
+                  'flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
                 trigger: 'flex justify-between p-0',
                 selectorIcon: 'z-10 relative data-[open]:rotate-180 duration-300 transition-all',
                 popoverContent:
-                  'p-[5px] pt-[10px] ml-[-7px] mt-[-5px] w-[70px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
+                  'p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
               }}
             >
               <SelectItem key={20}>20</SelectItem>
@@ -395,7 +395,7 @@ const Executors: FC = () => {
       />
       {allExecutorListLength > findExecutorState.executorList.length ? (
         <>
-          {paginationPerPage < allExecutorListLength && (
+          {/* {paginationPerPage < allExecutorListLength && (
             <button
               onClick={() => {
                 setPaginationPage(1);
@@ -406,7 +406,7 @@ const Executors: FC = () => {
               Показать ещё
               <img src="/find-executor/arrow-down.svg" alt="" />
             </button>
-          )}
+          )} */}
 
           {!!paginationTotal && (
             <Pagination

@@ -365,11 +365,11 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
             }}
             classNames={{
               mainWrapper:
-                'flex bg-red p-[5px] w-[70px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
+                'flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
               trigger: 'flex justify-between p-0',
               selectorIcon: 'z-10 relative data-[open]:rotate-180 duration-300 transition-all',
               popoverContent:
-                'p-[5px] pt-[10px] ml-[-7px] mt-[-5px] w-[70px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
+                'p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
             }}
           >
             <SelectItem key={20}>20</SelectItem>
@@ -446,7 +446,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
 
       {allExecutorListLength > tenderList.length && (
         <div className="flex flex-col w-full pt-4 gap-2">
-          {paginationPerPage < allExecutorListLength && (
+          {/* {paginationPerPage < allExecutorListLength && (
             <button
               onClick={() => {
                 setPaginationPage(1);
@@ -457,7 +457,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
               Показать ещё
               <img src="/find-executor/arrow-down.svg" alt="" />
             </button>
-          )}
+          )} */}
 
           <div className="flex items-center justify-center">
             {/* <button
