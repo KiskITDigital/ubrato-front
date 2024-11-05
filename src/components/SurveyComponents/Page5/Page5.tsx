@@ -386,7 +386,7 @@ export const Page5: FC = () => {
             </p>
             <p className="text-[16px] font-semibold py-3 px-[14px] bg-[rgba(0,0,0,.03)] rounded-[14px]">
               Вам доступно{' '}
-              <span className="underline text-accent">Исследование рынка клининга</span>
+              <span>Исследование рынка клининга</span>
             </p>
             <Link
               className="self-center text-lg font-bold w-[200px] h-[48px] flex items-center justify-center bg-accent text-white rounded-[17px]"

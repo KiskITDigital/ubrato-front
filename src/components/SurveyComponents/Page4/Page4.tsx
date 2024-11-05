@@ -239,7 +239,7 @@ export const Page4: FC = () => {
             onValueChange={(v) => surveyStore.setQusetion11chat(v)}
           >
             <div className="flex justify-between items-center rounded-xl w-full px-5 bg-[#F5FAFE] h-[60px]">
-              <p>Чат с заказчиком</p>
+              <p>Вопросы заказчику</p>
               <div className="flex gap-[120px] mr-16">
                 <Radio classNames={radioStyle} value={'Удобно'}></Radio>
                 <Radio classNames={radioStyle} value={'Не удобно'}></Radio>
