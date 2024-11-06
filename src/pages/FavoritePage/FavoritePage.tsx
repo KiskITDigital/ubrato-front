@@ -13,7 +13,6 @@ import Modal from '@/components/Modal';
 import { useNavigate } from 'react-router-dom';
 import { Pagination } from '@nextui-org/react';
 import { FavouriteTendersList } from '@/components/FavouriteTenders/FavouriteTendersList/FavouriteTendersList';
-import { getAllFavoriteTenders } from '@/api/favouriteTenders';
 import { useFindExecutorState } from '@/store/findExecutorStore';
 
 const DEFAULT_PER_PAGE = 15;
@@ -65,22 +64,6 @@ const FavoritePage: FC = () => {
     // setTenderList(new)
   };
 
-  const updateFavoriteTenders = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
-    const favoriteTenders = (await getAllFavoriteTenders(token)).data;
-    const filters = `id:=[${favoriteTenders.map((executor: { id: string }) => executor.id)}]`;
-    const hits = await generateTypesenseClient('contractor_index', {
-      filter_by: filters,
-      page: paginationPage,
-      per_page: paginationPerPage,
-    });
-    const totalHits = await generateTypesenseClient('contractor_index', { filter_by: filters });
-    const newExecutorList = await getExecutorList(hits);
-    setPaginationTotal(totalHits?.length || 0);
-    findExecutorState.handleExecutorList(newExecutorList);
-  };
-
   useEffect(() => {
     startRef.current!.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
@@ -89,7 +72,7 @@ const FavoritePage: FC = () => {
     }, 0);
 
     updateFavoriteExecutors();
-    updateFavoriteTenders();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paginationPage, paginationPerPage]);
 

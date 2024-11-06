@@ -12,7 +12,7 @@ export const registerSchema = object().shape<Record<keyof RegisterFormValuesT, A
   phone: string().required('Телефон обязателен!'),
   password: string()
     .min(8, 'Пароль слишком короткий')
-    .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+    .matches(/^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/, {
       message: 'Пароль должен содержать хотя бы 1 букву и цифру',
     })
     .required('Введите пароль!'),
