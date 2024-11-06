@@ -42,7 +42,7 @@ export const TenderTab: FC = () => {
 
   return (
     <div className={styles.switch_container}>
-      <OneTenderInfoViewExecutor dataTender={tenderInfoState.tenderInfo} />;
+      <OneTenderInfoViewExecutor dataTender={tenderInfoState.tenderInfo} />
     </div>
   );
 };

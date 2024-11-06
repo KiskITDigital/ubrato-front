@@ -6,9 +6,34 @@ type TenderOffers = {
   categories: Category[];
 };
 
-export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
+const Services: FC<{ category: Category }> = ({ category }) => {
   const [serviceCount, setServiceCount] = useState(3);
 
+  return (
+    <div className="flex flex-wrap w-full gap-2">
+      {category.services.map(
+        (service, serviceIndex) =>
+          serviceIndex < serviceCount && (
+            <Fragment key={'service-' + serviceIndex}>
+              <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
+            </Fragment>
+          )
+      )}
+      {category.services.length > serviceCount && serviceCount === 3 && (
+        <div
+          className="flex items-center pl-3 cursor-pointer"
+          onClick={() => {
+            setServiceCount(category.services.length);
+          }}
+        >
+          <p>+{category.services.length - serviceCount}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
   return (
     <div className={style.block_main}>
       <p className="min-w-[160px]">Услуги:</p>
@@ -27,26 +52,7 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
                 <p>{category.name}</p>
                 <p>{'>'}</p>
               </div>
-              <div className="flex flex-wrap w-full gap-2">
-                {category.services.map(
-                  (service, serviceIndex) =>
-                    serviceIndex < serviceCount && (
-                      <Fragment key={'service-' + serviceIndex}>
-                        <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
-                      </Fragment>
-                    )
-                )}
-                {category.services.length > serviceCount && serviceCount === 3 && (
-                  <div
-                    className="flex items-center pl-3 cursor-pointer"
-                    onClick={() => {
-                      setServiceCount(category.services.length);
-                    }}
-                  >
-                    <p>+{category.services.length - serviceCount}</p>
-                  </div>
-                )}
-              </div>
+              <Services category={category} />
             </div>
           ))}
         </div>
