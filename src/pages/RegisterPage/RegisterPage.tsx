@@ -295,7 +295,7 @@ export const RegisterPage: FC = () => {
                   id="repeatPassword"
                   name="repeatPassword"
                   type={isConfirmVisible ? 'text' : 'password'}
-                  label="Пароль (не менее 8 знаков, буквы и цифры)"
+                  label="Повторите пароль"
                   value={formik.values.repeatPassword}
                   onChange={formik.handleChange}
                   placeholder="Повторите пароль"

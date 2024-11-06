@@ -21,12 +21,12 @@ const Services: FC<{ category: Category }> = ({ category }) => {
       )}
       {category.services.length > serviceCount && serviceCount === 3 && (
         <div
-          className="flex items-center pl-3 cursor-pointer"
+          className="flex items-center px-2 py-1 ml-2 cursor-pointer border border-accent rounded-md"
           onClick={() => {
             setServiceCount(category.services.length);
           }}
         >
-          <p>+{category.services.length - serviceCount}</p>
+          <p className="text-accent">+{category.services.length - serviceCount}</p>
         </div>
       )}
     </div>
