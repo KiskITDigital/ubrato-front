@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useState } from 'react';
 import style from './OneTenderOffers.module.css';
 import { Category } from '@/components/OneTenderComponentsWrappedVIew/OneTenderInfoViewExecutor/OneTenderInfoViewExecutor';
 
@@ -7,6 +7,8 @@ type TenderOffers = {
 };
 
 export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
+  const [serviceCount, setServiceCount] = useState(3);
+
   return (
     <div className={style.block_main}>
       <p className="min-w-[160px]">Услуги:</p>
@@ -28,15 +30,20 @@ export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
               <div className="flex flex-wrap w-full gap-2">
                 {category.services.map(
                   (service, serviceIndex) =>
-                    serviceIndex < 4 && (
+                    serviceIndex < serviceCount && (
                       <Fragment key={'service-' + serviceIndex}>
                         <p className="bg-slate-100 rounded-md px-3 py-1">{service}</p>
                       </Fragment>
                     )
                 )}
-                {category.services.length > 4 && (
-                  <div className="flex items-center pl-3">
-                    <p>+{category.services.length - 4}</p>
+                {category.services.length > serviceCount && serviceCount === 3 && (
+                  <div
+                    className="flex items-center pl-3 cursor-pointer"
+                    onClick={() => {
+                      setServiceCount(category.services.length);
+                    }}
+                  >
+                    <p>+{category.services.length - serviceCount}</p>
                   </div>
                 )}
               </div>

@@ -26,7 +26,7 @@
 
 .lineList {
   display: flex;
-  align-items: center;
+  align-items: start;
 }
 
 .icon {
@@ -46,7 +46,7 @@
 
 .iconLine {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
 }
 

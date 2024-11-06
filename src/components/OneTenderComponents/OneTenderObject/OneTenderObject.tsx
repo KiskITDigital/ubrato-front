@@ -18,7 +18,7 @@ export const OneTenderObject: FC<TenderObject> = ({ objectGroup, objectsTypes })
           <p>{objectGroup}</p>
           <p className="mr-[10px]">{'>'}</p>
         </div>
-        <div className="flex flex-wrap w-full gap-2">
+        <div className="flex flex-wrap w-full gap-2 items-start">
           {objectsTypes?.map((obj, index) => (
             <p className="bg-slate-100 rounded-md px-3 py-1" key={'object-' + index}>
               {obj}
