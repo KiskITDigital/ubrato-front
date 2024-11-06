@@ -22,10 +22,33 @@ export const BecomeContractor: FC = () => {
         <div
           className={`${
             isRequestModerating
-              ? 'backdrop-blur w-[calc(100%+20px)] h-full absolute top-0 left-0'
+              ? 'backdrop-blur w-[calc(100%+20px)] h-full absolute top-0 left-0 flex justify-center items-center'
               : 'hidden'
           }`}
-        ></div>
+        >
+          <div className="p-5 rounded-[20px] w-[700px] bg-white flex flex-col">
+            <p className="text-[28px] font-bold">Ваша заявка находится на модерации</p>
+            <p className="bg-light-gray text-base py-3 px-[14px] mt-[20px] rounded-[14px] flex gap-[10px]">
+              <img src="/info-blue-ic.svg" alt="" />
+              Сейчас ваша заявка на статус исполнителя находится на модерации, решение по вашей
+              заявке придет вам в раздел “Уведомления”!
+            </p>
+            <div className="flex gap-4 self-center mt-[20px]">
+              <Link
+                className="bg-light-gray text-[#666] text-center w-[200px] py-3 rounded-[17px]"
+                to="../documents"
+              >
+                Документы
+              </Link>
+              <Link
+                className="bg-accent text-white text-center w-[200px] py-3 rounded-[17px]"
+                to="../notifications"
+              >
+                Уведомления
+              </Link>
+            </div>
+          </div>
+        </div>
         <h1 className={styles.header}>Стать исполнителем</h1>
         <p className="text-base ">
           Чтобы зарегистрировать компанию в роли исполнителя, необходимо наличие действующего
@@ -60,30 +83,6 @@ export const BecomeContractor: FC = () => {
           <li className="list-disc">Оставлять отзывы о заказчиках и ставить им оценку</li>
         </ul>
       </div>
-      {isRequestModerating && (
-        <div className="p-5 rounded-[20px] absolute top-[96px] left-[86px] bg-white flex flex-col">
-          <p className="text-[28px] font-bold">Ваша заявка находится на модерации</p>
-          <p className="bg-light-gray text-base py-3 px-[14px] mt-[20px] rounded-[14px] flex gap-[10px]">
-            <img src="/info-blue-ic.svg" alt="" />
-            Сейчас ваша заявка на статус исполнителя находится на модерации, решение по вашей заявке
-            придет вам в раздел “Уведомления”!
-          </p>
-          <div className="flex gap-4 self-center mt-[20px]">
-            <Link
-              className="bg-light-gray text-[#666] text-center w-[200px] py-3 rounded-[17px]"
-              to="../documents"
-            >
-              Документы
-            </Link>
-            <Link
-              className="bg-accent text-white text-center w-[200px] py-3 rounded-[17px]"
-              to="../notifications"
-            >
-              Уведомления
-            </Link>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

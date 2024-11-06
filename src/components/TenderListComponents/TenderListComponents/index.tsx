@@ -476,7 +476,10 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
                 showControls
                 initialPage={1}
                 page={paginationPage}
-                onChange={setPaginationPage}
+                onChange={(e) => {
+                  setPaginationPage(e);
+                  window.scrollTo({ top: 0, behavior:'smooth' });
+                }}
               />
             )}
             {/* <button
