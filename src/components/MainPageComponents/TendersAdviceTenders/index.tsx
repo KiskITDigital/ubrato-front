@@ -12,6 +12,7 @@ interface modifiedTenderList extends tenderList {
   reception_end: number;
   description: string;
   location: string;
+  categories: { name: string; services: string[] }[];
   isFavorite: boolean;
   isTextHidden: boolean;
 }
@@ -45,19 +46,6 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
             : tenderItem
         )
       );
-      // setTenderList(prev => prev.map((tenderItemBlock: modifiedTenderList[]) =>
-      //     tenderItemBlock.some(tenderItem => tenderItem.id === tender.id)
-      //         ?
-      //         tenderItemBlock.map(tenderItem => tenderItem.id === )
-      //         // {
-      //         //     ...tenderItemBlock,
-      //         //     isFavorite: resStatus
-      //         //         ? !tenderItemBlock.isFavorite
-      //         //         : tenderItemBlock.isFavorite,
-      //         // }
-      //         : tenderItemBlock
-      // )
-      // );
     }
   };
 
@@ -87,22 +75,21 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     setTenderList(changedNewExecutorList);
   };
 
-  const showAllExecutorText = (id: string) => {
-    const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[];
-    const newTenderList = tenderListToFormat.map((tender) =>
-      tender.id === id ? { ...tender, isTextHidden: false } : tender
-    );
-    updateTenderList(newTenderList);
-  };
+  // const showAllExecutorText = (id: string) => {
+  //   const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[];
+  //   const newTenderList = tenderListToFormat.map((tender) =>
+  //     tender.id === id ? { ...tender, isTextHidden: false } : tender
+  //   );
+  //   updateTenderList(newTenderList);
+  // };
 
-  const getShorterText = (text: string) => {
-    return text.split(' ').slice(0, 10).join(' ');
-  };
+  // const getShorterText = (text: string) => {
+  //   return text.split(' ').slice(0, 10).join(' ');
+  // };
 
   useEffect(() => {
     (async () => {
-      const hits = await generateTypesenseClient('tender_index', { per_page: 250 });
-
+      const hits = await generateTypesenseClient('tender_index', { per_page: 16 });
       const tenderListPromises =
         hits?.map(async (hit) => {
           const { id: tenderId } = hit.document as { id: string };
@@ -117,7 +104,6 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
         const tendersList = fulfilled.map((promise) => {
           return promise.value;
         });
-        console.log(tendersList);
         updateTenderList(tendersList);
         tenderListStore.handleTenderList(tendersList);
       });
@@ -134,8 +120,9 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
               <div key={tender.id} className={styles.tenderForCarousel}>
                 <div>
                   <p className={styles.tenderName}>{tender.name}</p>
-                  <p className={styles.tenderText}>
-                    {tender.isTextHidden && tender.description.split(' ').length > 10
+                  <p className="font-medium text-[16px] text-[rgba(0,0,0,.6)] line-clamp-4">
+                    {tender.description}
+                    {/* {tender.isTextHidden && tender.description.split(' ').length > 10
                       ? getShorterText(tender.description)
                       : tender.description}
                     {tender.isTextHidden && tender.description.split(' ').length > 10 && (
@@ -144,7 +131,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                         src="/find-executor/arrow-right-black.svg"
                         alt="->"
                       />
-                    )}
+                    )} */}
                   </p>
                   <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
                   <p className={styles.tenderTime}>
@@ -160,6 +147,20 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                 {isMobile || (
                   <div className={styles.locationsAndLinkBlock}>
                     <p className={styles.tenderLocation}>{tender.location}</p>
+                    <div className="flex">
+                      {tender.categories
+                        .map((category) => category.services.map((service) => service))
+                        .flat(3)
+                        .map((service, ix) => {
+                          if (ix < 3) {
+                            return (
+                              <p key={ix} className="max-w-[150px] line-clamp-3 [&:not(:first-child)]:pl-[10px] [&:not(:last-child)]:pr-[10px] [&:not(:last-child)]:border-r border-[#ECF0F3]">
+                                {service}
+                              </p>
+                            );
+                          }
+                        })}
+                    </div>
                     <div className={`${styles.executorButtons}`}>
                       <button
                         onClick={() => favoriteExecutorsHandler(tender)}

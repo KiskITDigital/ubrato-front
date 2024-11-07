@@ -104,7 +104,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   useEffect(() => {
     (async () => {
-      const hits = await generateTypesenseClient('contractor_index', { per_page: 250 });
+      const hits = await generateTypesenseClient('contractor_index', { per_page: 16 });
       const newExecutorList = await getExecutorList(hits);
       findExecutorState.handleExecutorList(newExecutorList);
     })();
