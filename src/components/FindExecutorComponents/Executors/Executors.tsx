@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, useEffect, useRef, useState } from 'react';
 import styles from './executors.module.css';
 import {
@@ -223,10 +224,10 @@ const Executors: FC = () => {
         per_page: 250,
       });
 
-      setAllExecutorListLength(hitsWithoutPagination?.length || 0);
+      setAllExecutorListLength(hitsWithoutPagination?.hits?.length || 0);
       setPaginationTotal(
-        hitsWithoutPagination?.length
-          ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
+        hitsWithoutPagination?.hits?.length
+          ? Math.ceil(hitsWithoutPagination.hits?.length / paginationPerPage)
           : 0
       );
       // console.log(allExecutorListLength);
@@ -236,12 +237,12 @@ const Executors: FC = () => {
         filter_by: filters,
         sort_by: sortingValue,
       });
-      if (hits?.length === 0 && paginationPage > 1) {
+      if (hits?.hits?.length === 0 && paginationPage > 1) {
         setPaginationPage(1);
         return;
       }
 
-      const newExecutorList = await getExecutorList(hits);
+      const newExecutorList = await getExecutorList(hits?.hits);
       findExecutorState.handleExecutorList(newExecutorList);
     })();
 

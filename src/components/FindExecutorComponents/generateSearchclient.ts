@@ -64,8 +64,7 @@ export const generateTypesenseClient = async (
     };
 
     const res = await client.collections(collection).documents().search(searchParameters);
-
-    return res.hits || [];
+    return res || [];
   } catch (e) {
     console.error('Typesense.Client error: ', e);
   }
@@ -96,7 +95,7 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
             per_page: 250,
             include_fields: '$service_group_index(id, name)',
           })
-        )
+        )?.hits
           ?.map((document) => document.document)
           .forEach((service: typesenseService | object) => {
             if (!('id' in service)) return;

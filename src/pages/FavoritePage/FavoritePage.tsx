@@ -58,8 +58,8 @@ const FavoritePage: FC = () => {
       per_page: paginationPerPage,
     });
     const totalHits = await generateTypesenseClient('contractor_index', { filter_by: filters });
-    const newExecutorList = await getExecutorList(hits);
-    setPaginationTotal(totalHits?.length || 0);
+    const newExecutorList = await getExecutorList(hits?.hits);
+    setPaginationTotal(totalHits?.hits?.length || 0);
     findExecutorState.handleExecutorList(newExecutorList);
     // setTenderList(new)
   };
@@ -100,7 +100,7 @@ const FavoritePage: FC = () => {
       <Switcher state={switcher} setState={setSwitcher} />
       {switcher === 'Тендеры' ? (
         <>
-          <FavouriteTendersList myTender={false} />
+          <FavouriteTendersList />
         </>
       ) : findExecutorState.executorList.length ? (
         <>

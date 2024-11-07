@@ -9,7 +9,8 @@ interface findExecutor {
   userID: number | null;
 
   executorList: executorList[];
-
+  executorsCount: number;
+  setExecutorsCount: (newExecutorsCount: number) => void;
   handleLocation: (newLocationId: number | null) => void;
   handleObjectTypesId: (newObjectTypesId: number[]) => void;
   handleServicesTypesId: (newServicesTypesId: number[]) => void;
@@ -27,7 +28,10 @@ export const useFindExecutorState = create<findExecutor>()((set) => ({
   userID: null,
 
   executorList: [],
-
+  executorsCount: 0,
+  setExecutorsCount: (newExecutorsCount) => {
+    set((state) => ({ ...state, executorsCount: newExecutorsCount }));
+  },
   handleLocation: (newLocationId: number | null) => {
     set((state) => ({ ...state, locationId: newLocationId }));
   },

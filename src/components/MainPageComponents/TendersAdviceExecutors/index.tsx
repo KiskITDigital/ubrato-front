@@ -105,7 +105,9 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
   useEffect(() => {
     (async () => {
       const hits = await generateTypesenseClient('contractor_index', { per_page: 16 });
-      const newExecutorList = await getExecutorList(hits);
+      const newExecutorList = await getExecutorList(hits?.hits);
+      console.log(hits);
+      findExecutorState.setExecutorsCount(hits?.out_of ?? 0);
       findExecutorState.handleExecutorList(newExecutorList);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

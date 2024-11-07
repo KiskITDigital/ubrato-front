@@ -82,7 +82,7 @@ const MainFilter: FC = () => {
           'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"',
       });
       const newCities = documents
-        ? (documents.map((document) => document.document) as {
+        ? (documents.hits?.map((document) => document.document) as {
             id: string;
             name: string;
             region_id: string;

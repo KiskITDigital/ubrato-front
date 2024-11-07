@@ -142,9 +142,9 @@ export const ExecutorsCatalog: FC = () => {
         <p className={styles.executorsCount}>
           {
             isOrdererState.role === 'contractor' ?
-              `Найдено тендеров: ${tenderListStore.tenderList.length}`
+              `Найдено тендеров: ${tenderListStore.tendersCount}`
               :
-              `Найдено исполнителей: ${findExecutorState.executorList.length}`
+              `Найдено исполнителей: ${findExecutorState.executorsCount}`
           }
         </p>
         <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"}>
@@ -152,12 +152,12 @@ export const ExecutorsCatalog: FC = () => {
             {
               isOrdererState.role === 'contractor' ? <>
                 Найти тендеры
-                {widthR.current ? <p className={styles.countExecutorsText}> {tenderListStore.tenderList.length}</p> : ''}
+                {widthR.current ? <p className={styles.countExecutorsText}> {tenderListStore.tendersCount}</p> : ''}
                 <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
               </> :
                 <>
                   Найти исполнителя
-                  {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorList.length}</p> : ''}
+                  {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorsCount}</p> : ''}
                   <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
                 </>
             }

@@ -23,7 +23,7 @@ const Locations: FC<{ status: 'executor' | 'orderer', locations: Location[] }> =
     (async () => {
       const cityFilters = locations.reduce((acc, el) => acc + el.id + ', ', '')
       const cities = await generateTypesenseClient("city_index", { filter_by: `id:[${cityFilters}]`, include_fields: "$region_index(id, name)", per_page: 250 })
-      if (cities) setModifiedLocations(Object.entries(groupBy(cities.map(el => el.document) as City[], (city: City) => city.region_index.name)))
+      if (cities) setModifiedLocations(Object.entries(groupBy(cities.hits?.map(el => el.document) as City[], (city: City) => city.region_index.name)))
     })()
   }, [locations]);
 

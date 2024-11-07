@@ -30,7 +30,7 @@ const OfferTender: FC<{
       const token = localStorage.getItem('token');
       if (!token) return;
       const tenderListPromises =
-        hits?.map(async (hit) => {
+        hits?.hits?.map(async (hit) => {
           const { id: tenderId } = hit.document as { id: string };
           const statusResponse = await isRespondedOfferTender(token, tenderId, executorId);
           const status = statusResponse.data.status;

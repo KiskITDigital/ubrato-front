@@ -9,7 +9,8 @@ interface tenderListState {
   userID: number | null;
 
   tenderList: tenderList[];
-
+  tendersCount: number;
+  setTendersCount: (newTendersCount: number) => void;
   handleLocation: (newLocationId: number | null) => void;
   handleObjectTypesId: (newObjectTypesId: number[]) => void;
   handleServicesTypesId: (newServicesTypesId: number[]) => void;
@@ -27,7 +28,10 @@ export const useTenderListState = create<tenderListState>()((set) => ({
   userID: null,
 
   tenderList: [],
-
+  tendersCount: 0,
+  setTendersCount: (newTendersCount) => {
+    set((state) => ({ ...state, tendersCount: newTendersCount }));
+  },
   handleLocation: (newLocationId: number | null) => {
     set((state) => ({ ...state, locationId: newLocationId }));
   },

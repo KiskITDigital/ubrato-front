@@ -5,15 +5,15 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import Typesense from 'typesense';
-import { fetchProduct, updateToken } from '@/api';
-import { Pagination, Select, SelectItem } from '@nextui-org/react';
+} from "react";
+import Typesense from "typesense";
+import { fetchProduct, updateToken } from "@/api";
+import { Pagination, Select, SelectItem } from "@nextui-org/react";
 
-import s from './styles.module.css';
-import { useTenderListState } from '@/store/tendersListStore';
-import { generateTypesenseClient } from '@/components/FindExecutorComponents/generateSearchclient';
-import { cn } from '@/utils/twMerge';
+import s from "./styles.module.css";
+import { useTenderListState } from "@/store/tendersListStore";
+import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
+import { cn } from "@/utils/twMerge";
 import {
   Table,
   TableBody,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/Table';
+} from "@/components/ui/Table";
 import {
   ColumnDef,
   flexRender,
@@ -31,10 +31,10 @@ import {
   GlobalFilterTableState,
   SortingState,
   useReactTable,
-} from '@tanstack/react-table';
-import { useNavigate } from 'react-router-dom';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { fetchDrafts } from '@/api/getTender';
+} from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { fetchDrafts } from "@/api/getTender";
 // import { tenderList } from '@/types/app';
 
 export interface TenderList {
@@ -61,7 +61,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
   const [defaultPerPage, setDefaultPerPage] = useState<number>(20);
   const [paginationPerPage, setPaginationPerPage] = useState(defaultPerPage);
   const [tenderList, setTenderList] = useState<TenderList[]>([]);
-  const [sortingValue, setSortingValue] = useState('');
+  const [sortingValue, setSortingValue] = useState("");
 
   const userInfoStore = useUserInfoStore();
 
@@ -87,22 +87,22 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
     // newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toLocaleDateString('ru-RU');
+    const formattedDate = newDate.toLocaleDateString("ru-RU");
     return formattedDate;
   };
 
   const columns: ColumnDef<TenderList>[] = [
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       header: ({ column }) => {
         return (
           <button
             className="flex items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Название
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
             />
           </button>
@@ -110,77 +110,77 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
       },
     },
     {
-      accessorKey: 'reception_end',
+      accessorKey: "reception_end",
       header: ({ column }) => {
         return (
           <button
             className="flex items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Дата приема заявок
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p className="w-full text-center">{toDate(row.getValue('reception_end'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue("reception_end"))}</p>;
       },
     },
     {
-      accessorKey: 'work_start',
+      accessorKey: "work_start",
       header: ({ column }) => {
         return (
           <button
             className="flex items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Дата начала работ
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p className="w-full text-center">{toDate(row.getValue('work_start'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue("work_start"))}</p>;
       },
     },
     {
-      accessorKey: 'work_end',
+      accessorKey: "work_end",
       header: ({ column }) => {
         return (
           <button
             className="flex items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Дата окончания работ
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p className="w-full text-center">{toDate(row.getValue('work_end'))}</p>;
+        return <p className="w-full text-center">{toDate(row.getValue("work_end"))}</p>;
       },
     },
     {
-      accessorKey: 'price',
+      accessorKey: "price",
       size: 70,
       header: ({ column }) => {
         return (
           <button
             className="flex items-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Цена
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
             />
           </button>
@@ -221,7 +221,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
           work_start: draft.work_start,
           work_end: draft.work_end,
           price: draft.price,
-          city: '',
+          city: "",
         }));
         setAllExecutorListLength(drafts.length);
         setTenderList(formatedDrafts);
@@ -233,8 +233,8 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
           {
             host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
             port: import.meta.env.VITE_TYPESENSE_API_PORT,
-            protocol: 'https',
-            path: '',
+            protocol: "https",
+            path: "",
           },
         ],
       });
@@ -260,35 +260,35 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
         if (myTender) {
           filters.push(`( user_id:=${userInfoStore.user.id})`);
         }
-        return filters.join(' && ');
+        return filters.join(" && ");
       })();
 
       const searchParameters = {
         q: tenderListState.fastFilterTexts,
-        query_by: 'name, description, wishes',
+        query_by: "name, description, wishes",
         per_page: paginationPerPage,
         page: paginationPage,
         filter_by: filters,
-        sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? 'desc' : 'asc'}` : ''}`,
-        preset: '',
+        sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`,
+        preset: "",
       };
 
       (async () => {
-        const hitsWithoutPagination = await generateTypesenseClient('tender_index', {
+        const hitsWithoutPagination = await generateTypesenseClient("tender_index", {
           filter_by: filters,
           per_page: 250,
         });
-        setAllExecutorListLength(hitsWithoutPagination?.length || 0);
+        setAllExecutorListLength(hitsWithoutPagination?.hits?.length || 0);
         setPaginationTotal(
-          hitsWithoutPagination?.length
-            ? Math.ceil(hitsWithoutPagination.length / paginationPerPage)
+          hitsWithoutPagination?.hits?.length
+            ? Math.ceil(hitsWithoutPagination.hits.length / paginationPerPage)
             : 0
         );
         // console.log(allExecutorListLength);
       })();
 
       client
-        .collections('tender_index')
+        .collections("tender_index")
         .documents()
         .search(searchParameters)
         .then(async (response) => {
@@ -329,7 +329,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
           setTenderList(tenders);
         })
         .catch((error) => {
-          console.error('Ошибка:', error);
+          console.error("Ошибка:", error);
         });
     }
     // console.log(allExecutorListLength);
@@ -367,11 +367,11 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
             }}
             classNames={{
               mainWrapper:
-                'flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]',
-              trigger: 'flex justify-between p-0',
-              selectorIcon: 'z-10 relative data-[open]:rotate-180 duration-300 transition-all',
+                "flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]",
+              trigger: "flex justify-between p-0",
+              selectorIcon: "z-10 relative data-[open]:rotate-180 duration-300 transition-all",
               popoverContent:
-                'p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white',
+                "p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white",
             }}
             popoverProps={{ portalContainer: portalContainer.current! }}
           >
@@ -387,13 +387,13 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
               <TableRow
-                key={'h-group-' + headerGroupIndex}
+                key={"h-group-" + headerGroupIndex}
                 className="bg-slate-200/40 hover:bg-slate-200/40"
               >
                 {headerGroup.headers.map((header, headerIndex) => {
                   return (
                     <TableHead
-                      key={'h-' + headerGroupIndex + headerIndex}
+                      key={"h-" + headerGroupIndex + headerIndex}
                       style={{ width: header.getSize() }}
                       onClick={() => {
                         setSortingValue(header.column.id);
@@ -412,9 +412,9 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row, rowIndex) => (
                 <TableRow
-                  key={'row' + rowIndex}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className={cn(rowIndex % 2 !== 0 ? 'bg-slate-200/40' : '', 'cursor-pointer')}
+                  key={"row" + rowIndex}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={cn(rowIndex % 2 !== 0 ? "bg-slate-200/40" : "", "cursor-pointer")}
                   onClick={() =>
                     navigate(
                       `${
@@ -428,7 +428,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       className="w-full"
-                      key={'cell-' + rowIndex + cellIndex}
+                      key={"cell-" + rowIndex + cellIndex}
                       style={{ width: cell.column.getSize() }}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -478,7 +478,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
                 page={paginationPage}
                 onChange={(e) => {
                   setPaginationPage(e);
-                  window.scrollTo({ top: 0, behavior:'smooth' });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               />
             )}

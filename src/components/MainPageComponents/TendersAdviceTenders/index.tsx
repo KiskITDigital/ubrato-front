@@ -90,8 +90,9 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
   useEffect(() => {
     (async () => {
       const hits = await generateTypesenseClient('tender_index', { per_page: 16 });
+      console.log(hits);
       const tenderListPromises =
-        hits?.map(async (hit) => {
+        hits?.hits?.map(async (hit) => {
           const { id: tenderId } = hit.document as { id: string };
           const tender = await getTender(tenderId);
           const token = localStorage.getItem('token');
@@ -105,7 +106,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
           return promise.value;
         });
         updateTenderList(tendersList);
-        tenderListStore.handleTenderList(tendersList);
+        tenderListStore.setTendersCount(hits?.out_of ?? 0);
       });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,18 +149,18 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                   <div className={styles.locationsAndLinkBlock}>
                     <p className={styles.tenderLocation}>{tender.location}</p>
                     <div className="flex">
-                      {tender.categories
-                        .map((category) => category.services.map((service) => service))
-                        .flat(3)
-                        .map((service, ix) => {
-                          if (ix < 3) {
-                            return (
-                              <p key={ix} className="max-w-[150px] line-clamp-3 [&:not(:first-child)]:pl-[10px] [&:not(:last-child)]:pr-[10px] [&:not(:last-child)]:border-r border-[#ECF0F3]">
-                                {service}
-                              </p>
-                            );
-                          }
-                        })}
+                      {tender.categories.map((category, ix) => {
+                        if (ix < 3) {
+                          return (
+                            <p
+                              key={ix}
+                              className="max-w-[150px] line-clamp-3 [&:not(:first-child)]:pl-[10px] [&:not(:last-child)]:pr-[10px] [&:not(:last-child)]:border-r border-[#ECF0F3]"
+                            >
+                              {category.name}
+                            </p>
+                          );
+                        }
+                      })}
                     </div>
                     <div className={`${styles.executorButtons}`}>
                       <button
