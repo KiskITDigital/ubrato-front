@@ -52,7 +52,8 @@ export const QuestionsBlock: FC = () => {
   }, [isOrdererState.role, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
-    if (location.search) {
+    if (location.search && !location.search.includes('bannerId')) {
+      console.log(location.search)
       setQuestionNumber(location.search.slice(-1));
       setPageNumber(location.search.slice(6, 7));
     } else if (location.pathname === '/faq') {
