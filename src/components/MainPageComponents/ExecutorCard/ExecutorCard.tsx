@@ -22,7 +22,7 @@ export const ExecutorCard: FC<ExecutorCardProps> = ({
     <div className="w-[560px] min-h-[420px] shadow-md rounded-[35px] p-[30px] flex flex-col justify-between">
       <div className="flex gap-8">
         <img
-          className="w-[86px] h-[86px] shadow-md rounded-full object-cover"
+          className="w-[86px] h-[86px] shadow-md rounded-full object-cover border border-[#F4F7F9]"
           src={executor.img}
           alt="avatar"
         />
@@ -79,7 +79,7 @@ export const ExecutorCard: FC<ExecutorCardProps> = ({
       </div>
       <div className="flex justify-between mt-[10px]">
         <button
-          className="w-12 h-12 flex items-center justify-center border-light-gray border rounded-[13px]"
+          className="w-12 h-12 flex items-center justify-center border-light-gray border rounded-[13px] shadow-md"
           onClick={() => favoriteExecutorsHandler(executor)}
         >
           <img

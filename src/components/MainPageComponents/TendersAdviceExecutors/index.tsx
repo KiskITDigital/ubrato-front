@@ -2,8 +2,6 @@ import Modal from "@/components/Modal";
 import OfferTender from "@/components/FindExecutorComponents/OfferTender/OfferTender";
 import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ExecutorItem from "@/components/FindExecutorComponents/ExecutorItem";
-import itemStyles from "./tender-advice-item.module.css";
 import {
   addFavoriteExecutor,
   // fetchContractorProfile,
@@ -57,7 +55,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   const updateExecutorList = async (newExecutorList: executorList[]) => {
     // console.log(newExecutorList);
-    const city = JSON.parse(localStorage.getItem("сity") || "{}");
+    // const city = JSON.parse(localStorage.getItem("сity") || "{}");
 
     newExecutorList = newExecutorList.map((executor) => ({
       ...executor,
