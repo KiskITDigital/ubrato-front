@@ -58,7 +58,7 @@ export const ExecutorsCatalog: FC = () => {
     typeCleaningStore?.apiCleaningTypes?.length,
   ]);
 
-  const count = isOrdererState.role === 'contractor' ? tenderListStore.tenderList.length : findExecutorState.executorList.length
+  const count = isOrdererState.role === 'contractor' ? tenderListStore.tendersCount : findExecutorState.executorsCount
 
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
