@@ -3,19 +3,19 @@ export const countTransformTender: (count: number) => string = (count: number) =
   const lastDigit = count % 10;
   if (lastDigits <= 20) {
     if (lastDigits === 1) {
-      return 'тендер';
+      return "тендер";
     } else if (lastDigits > 1 && lastDigits < 5) {
-      return 'тендера';
+      return "тендера";
     } else {
-      return 'тендеров';
+      return "тендеров";
     }
   } else {
     if (lastDigit === 1) {
-      return 'тендер';
+      return "тендер";
     } else if (lastDigit > 1 && lastDigit < 5) {
-      return 'тендера';
+      return "тендера";
     } else {
-      return 'тендеров';
+      return "тендеров";
     }
   }
 };
@@ -25,19 +25,41 @@ export const countTransformService: (count: number) => string = (count: number) 
   const lastDigit = count % 10;
   if (lastDigits <= 20) {
     if (lastDigits === 1) {
-      return 'исполнитель';
+      return "исполнитель";
     } else if (lastDigits > 1 && lastDigits < 5) {
-      return 'исполнителя';
+      return "исполнителя";
     } else {
-      return 'исполнителей';
+      return "исполнителей";
     }
   } else {
     if (lastDigit === 1) {
-      return 'исполнитель';
+      return "исполнитель";
     } else if (lastDigit > 1 && lastDigit < 5) {
-      return 'исполнителя';
+      return "исполнителя";
     } else {
-      return 'исполнителей';
+      return "исполнителей";
+    }
+  }
+};
+
+export const countTransformWork: (count: number) => string = (count: number) => {
+  const lastDigits = count % 100;
+  const lastDigit = count % 10;
+  if (lastDigits <= 20) {
+    if (lastDigits === 1) {
+      return "услуга";
+    } else if (lastDigits > 1 && lastDigits < 5) {
+      return "услуги";
+    } else {
+      return "услуг";
+    }
+  } else {
+    if (lastDigit === 1) {
+      return "услуга";
+    } else if (lastDigit > 1 && lastDigit < 5) {
+      return "услуги";
+    } else {
+      return "услуг";
     }
   }
 };

@@ -1,23 +1,24 @@
-import Modal from '@/components/Modal';
-import OfferTender from '@/components/FindExecutorComponents/OfferTender/OfferTender';
-import { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ExecutorItem from '@/components/FindExecutorComponents/ExecutorItem';
-import itemStyles from './tender-advice-item.module.css';
+import Modal from "@/components/Modal";
+import OfferTender from "@/components/FindExecutorComponents/OfferTender/OfferTender";
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ExecutorItem from "@/components/FindExecutorComponents/ExecutorItem";
+import itemStyles from "./tender-advice-item.module.css";
 import {
   addFavoriteExecutor,
   // fetchContractorProfile,
   removeFavoriteExecutor,
   updateToken,
   // updateToken,
-} from '@/api/index';
-import { executorList } from '@/types/app';
+} from "@/api/index";
+import { executorList } from "@/types/app";
 import {
   generateTypesenseClient,
   getExecutorList,
-} from '@/components/FindExecutorComponents/generateSearchclient';
-import { useFindExecutorState } from '@/store/findExecutorStore';
-import styles from './tenders-advice-executors.module.css';
+} from "@/components/FindExecutorComponents/generateSearchclient";
+import { useFindExecutorState } from "@/store/findExecutorStore";
+import styles from "./tenders-advice-executors.module.css";
+import { ExecutorCard } from "../ExecutorCard/ExecutorCard";
 // import { useUserInfoStore } from '@/store/userInfoStore';
 
 const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
@@ -33,9 +34,9 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
   const [executorNameToOfferTender, setExecutorNameToOfferTender] = useState<null | string>(null);
 
   const favoriteExecutorsHandler = async (executor: executorList) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
     } else {
       const res = executor.isFavorite
         ? await updateToken(removeFavoriteExecutor, executor.id)
@@ -56,21 +57,13 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   const updateExecutorList = async (newExecutorList: executorList[]) => {
     // console.log(newExecutorList);
-    const city = JSON.parse(localStorage.getItem('сity') || '{}');
+    const city = JSON.parse(localStorage.getItem("сity") || "{}");
 
     newExecutorList = newExecutorList.map((executor) => ({
       ...executor,
-      text: executor.text
-        ? executor.text.length > 63
-          ? executor.text.slice(0, 60) + '...'
-          : executor.text
-        : '',
+      text: executor.text,
       isTextHidden: false,
-      regions: executor.regions.length
-        ? city
-          ? [executor.regions.find((region) => region.name === city) || executor.regions[0]]
-          : [executor.regions[0]]
-        : [],
+      regions: executor.regions,
     }));
 
     console.log(newExecutorList);
@@ -104,7 +97,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   useEffect(() => {
     (async () => {
-      const hits = await generateTypesenseClient('contractor_index', { per_page: 16 });
+      const hits = await generateTypesenseClient("contractor_index", { per_page: 16 });
       const newExecutorList = await getExecutorList(hits?.hits);
       console.log(hits);
       findExecutorState.setExecutorsCount(hits?.out_of ?? 0);
@@ -135,14 +128,12 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
           <div key={ind} className={styles.embla__slide}>
             {executorBlock.map((executor: executorList | true, ind) =>
               executor !== true ? (
-                <ExecutorItem
+                <ExecutorCard
                   key={executor.id}
                   executor={executor}
-                  additionalStyles={itemStyles}
                   favoriteExecutorsHandler={favoriteExecutorsHandler}
                   setExecutorIdToOfferTender={setExecutorIdToOfferTender}
                   setExecutorNameToOfferTender={setExecutorNameToOfferTender}
-                  servicesNumber={3}
                 />
               ) : (
                 <div key={ind}></div>
