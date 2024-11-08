@@ -720,10 +720,6 @@
     width: 18px;
 } */
 
-.section__block__button__end {
-  margin-left: auto;
-}
-
 .object__block__service {
   width: fit-content !important;
 }
@@ -1049,12 +1045,14 @@
   padding: 10px;
   border-radius: 10px;
   background-color: var(--color-blue-primary);
-  width: 100%;
+  width: 442px;
   color: var(--color-white);
   font-weight: 400;
   font-size: 18px;
   align-self: flex-start;
-  margin: 15px 2px 0;
+  position: absolute;
+  top: -57px;
+  left: 0;
 }
 
 .object__objects__types__button:disabled {
@@ -1468,30 +1466,29 @@
 .object__typesHalf > div:first-of-type {
   width: 100%;
   background-color: var(--color-white) !important;
+  border-radius: 10px;
 }
 
-.object__types > div {
+.scroll {
   padding: 8px;
   width: 50%;
   max-height: 452px;
   overflow-y: scroll;
+  /* padding-bottom: 47px; */
 }
 
-.object__types > div::-webkit-scrollbar {
+.scroll::-webkit-scrollbar {
   width: 12px;
 }
-.object__types > div::-webkit-scrollbar-track {
+.scroll::-webkit-scrollbar-track {
   background: transparent;
 }
-.object__types > div::-webkit-scrollbar-thumb {
+.scroll::-webkit-scrollbar-thumb {
   background-color: var(--color-blue-primary);
   border-radius: 20px;
   border: 3px solid white;
 }
 
-.object__types > div:last-of-type {
-  background-color: #f7f7f7;
-}
 
 .services__types {
   width: 100%;

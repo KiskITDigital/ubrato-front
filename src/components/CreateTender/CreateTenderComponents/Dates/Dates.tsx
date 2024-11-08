@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, forwardRef, Ref, useEffect, useRef, useState } from 'react';
-import styles from '../../CreateTender.module.css';
-import datesStyles from './Dates.module.css';
-import { useCreateTenderState } from '@/store/createTenderStore';
-import { Checkbox, DateRangePicker, RangeValue, Switch, Tooltip } from '@nextui-org/react';
-import dayjs from 'dayjs';
+import { FC, forwardRef, Ref, useEffect, useRef, useState } from "react";
+import styles from "../../CreateTender.module.css";
+import datesStyles from "./Dates.module.css";
+import { useCreateTenderState } from "@/store/createTenderStore";
+import { Checkbox, DateRangePicker, RangeValue, Switch, Tooltip } from "@nextui-org/react";
+import dayjs from "dayjs";
 import {
   CalendarDate,
   CalendarDateTime,
@@ -12,8 +12,8 @@ import {
   parseDate,
   parseDateTime,
   today,
-} from '@internationalized/date';
-import { useIMask } from 'react-imask';
+} from "@internationalized/date";
+import { useIMask } from "react-imask";
 
 const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
   HTMLDivElement,
@@ -31,12 +31,10 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
 
   const { ref, value, setValue, unmaskedValue } = useIMask({
     mask: Number,
-    min: 0.01,
+    min: 1,
     max: 9999999999.99,
-    thousandsSeparator: ' ',
-    scale: 2,
-    radix: ',',
-    mapToRadix: ['.'],
+    thousandsSeparator: " ",
+    scale: 0,
   });
 
   const classNames = {
@@ -48,29 +46,29 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
     input: datesStyles.input,
     segment: datesStyles.segment,
     separator: datesStyles.separator,
-    selectorButton: 'rounded-none',
+    selectorButton: "rounded-none",
   };
 
   useEffect(() => {
-    createTenderState.handleSimpleInput('price', unmaskedValue);
+    createTenderState.handleSimpleInput("price", unmaskedValue);
   }, [unmaskedValue]);
 
   useEffect(() => {
-    if (createTenderState.price === '') {
-      setValue('');
+    if (createTenderState.price === "") {
+      setValue("");
     }
   }, [setValue, createTenderState.price]);
 
   useEffect(() => {
     if (createTenderState.reception_end.getTime() > createTenderState.work_start.getTime()) {
-      createTenderState.handleSimpleInput('work_start', createTenderState.reception_end);
-      createTenderState.handleSimpleInput('work_end', createTenderState.reception_end);
+      createTenderState.handleSimpleInput("work_start", createTenderState.reception_end);
+      createTenderState.handleSimpleInput("work_end", createTenderState.reception_end);
     }
   }, [createTenderState.reception_end]);
 
   useEffect(() => {
-    createTenderState.handleSimpleInput('reception_start', new Date());
-    createTenderState.handleSimpleInput('reception_end', new Date());
+    createTenderState.handleSimpleInput("reception_start", new Date());
+    createTenderState.handleSimpleInput("reception_end", new Date());
   }, []);
 
   return (
@@ -100,8 +98,8 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             }}
             disableAnimation
             value={{
-              start: parseDateTime(dayjs(createTenderState.reception_start).format().split('+')[0]),
-              end: parseDateTime(dayjs(createTenderState.reception_end).format().split('+')[0]),
+              start: parseDateTime(dayjs(createTenderState.reception_start).format().split("+")[0]),
+              end: parseDateTime(dayjs(createTenderState.reception_end).format().split("+")[0]),
             }}
             onChange={(newVal: RangeValue<CalendarDateTime>) => {
               const firstDate = new Date(
@@ -126,11 +124,11 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
               )
                 return;
               if (firstDate.getTime() > secondDate.getTime()) {
-                createTenderState.handleSimpleInput('reception_start', firstDate);
-                createTenderState.handleSimpleInput('reception_end', firstDate);
+                createTenderState.handleSimpleInput("reception_start", firstDate);
+                createTenderState.handleSimpleInput("reception_end", firstDate);
               } else {
-                createTenderState.handleSimpleInput('reception_start', firstDate);
-                createTenderState.handleSimpleInput('reception_end', secondDate);
+                createTenderState.handleSimpleInput("reception_start", firstDate);
+                createTenderState.handleSimpleInput("reception_end", secondDate);
               }
             }}
             minValue={today(getLocalTimeZone())}
@@ -146,11 +144,11 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
           <Switch
             aria-hidden={false}
             className={`${styles.SwitchNextUI} ${
-              createTenderState.is_NDS ? styles.SwitchNextUIOn : ''
+              createTenderState.is_NDS ? styles.SwitchNextUIOn : ""
             }`}
             isSelected={createTenderState.is_NDS}
             onValueChange={() =>
-              createTenderState.handleSimpleInput('is_NDS', !createTenderState.is_NDS)
+              createTenderState.handleSimpleInput("is_NDS", !createTenderState.is_NDS)
             }
           >
             вкл. НДС
@@ -162,9 +160,9 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             <div className="absolute right-0">
               <Tooltip
                 classNames={{
-                  base: 'bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md',
+                  base: "bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md",
                 }}
-                content={'Введите значение от 0,01 до 9 999 999 999,99 или выберите “Договорная”'}
+                content={"Введите значение от 1 до 9 999 999 999 или выберите “Договорная”"}
                 closeDelay={100}
               >
                 <button>
@@ -174,10 +172,10 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             </div>
             <input
               // onClick={(e) => e.stopPropagation()}
-              onFocus={() => createTenderState.removeError('price')}
+              onFocus={() => createTenderState.removeError("price")}
               onBlur={() => {
-                !createTenderState.price && createTenderState.addError('price');
-                +createTenderState.price === 0 && createTenderState.handleSimpleInput('price', '');
+                !createTenderState.price && createTenderState.addError("price");
+                +createTenderState.price === 0 && createTenderState.handleSimpleInput("price", "");
               }}
               value={value}
               onChange={(e) => {
@@ -188,14 +186,14 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
                 }
               }}
               className={`${styles.input} ${styles.firstSections__div__main__block__input} ${
-                createTenderState.errors.includes('price') && !createTenderState.is_contract_price
+                createTenderState.errors.includes("price") && !createTenderState.is_contract_price
                   ? styles.inputError
-                  : ''
+                  : ""
               }`}
               type="text"
               ref={ref as Ref<HTMLInputElement>}
             />
-            {createTenderState.errors.includes('price') && !createTenderState.is_contract_price && (
+            {createTenderState.errors.includes("price") && !createTenderState.is_contract_price && (
               <p
                 className={`${styles.inputErrorText} ${styles.inputErrorTextPrice} ${styles.inputErrorTenderPrice}`}
               >
@@ -208,14 +206,9 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
           >
             <span className={`${styles.CheckboxNextUI__block__span}`}></span>
             <Checkbox
-              onValueChange={() =>
-                createTenderState.handleSimpleInput(
-                  'is_contract_price',
-                  !createTenderState.is_contract_price
-                )
-              }
+              onValueChange={(e) => createTenderState.handleSimpleInput("is_contract_price", e)}
               className={`${styles.CheckboxNextUI} ${
-                createTenderState.is_contract_price ? styles.CheckboxNextUIActive : ''
+                createTenderState.is_contract_price ? styles.CheckboxNextUIActive : ""
               } ${styles.CheckboxNextUIIsContract}`}
               isSelected={createTenderState.is_contract_price}
             >
@@ -245,8 +238,8 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             }}
             disableAnimation
             value={{
-              start: parseDate(dayjs(createTenderState.work_start).format().split('T')[0]),
-              end: parseDate(dayjs(createTenderState.work_end).format().split('T')[0]),
+              start: parseDate(dayjs(createTenderState.work_start).format().split("T")[0]),
+              end: parseDate(dayjs(createTenderState.work_end).format().split("T")[0]),
             }}
             onChange={(newVal: RangeValue<CalendarDate>) => {
               const firstDate = new Date(
@@ -263,11 +256,11 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
               )
                 return;
               if (firstDate.getTime() > secondDate.getTime()) {
-                createTenderState.handleSimpleInput('work_start', firstDate);
-                createTenderState.handleSimpleInput('work_end', firstDate);
+                createTenderState.handleSimpleInput("work_start", firstDate);
+                createTenderState.handleSimpleInput("work_end", firstDate);
               } else {
-                createTenderState.handleSimpleInput('work_start', firstDate);
-                createTenderState.handleSimpleInput('work_end', secondDate);
+                createTenderState.handleSimpleInput("work_start", firstDate);
+                createTenderState.handleSimpleInput("work_end", secondDate);
               }
             }}
             minValue={today(getLocalTimeZone())}

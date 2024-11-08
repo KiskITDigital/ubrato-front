@@ -248,9 +248,7 @@ const Object: FC<{
           }`}
           //  className={`${styles.object__objects} ${choosingObjectTypes ? '' : styles.object__objectsEmpty}`}
         >
-          <div
-          //  className={styles.object__objects__objects}
-          >
+          <div className={styles.scroll}>
             {!!objectsStore?.apiObjects?.length &&
               objectsStore.apiObjects.map(
                 (object: {
@@ -291,35 +289,40 @@ const Object: FC<{
               )}
           </div>
           {!!choosingObjectTypes?.length && (
-            <div
-            // className={`${choosingObjectTypes ? '' : styles.object__objects__typesEmpty}`}
-            // className={`${styles.object__objects__types} ${choosingObjectTypes ? '' : styles.object__objects__typesEmpty}`}
-            >
-              {isObjectChoosed && (
-                <>
-                  <CheckboxGroup
-                    //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
-                    label=""
-                    defaultValue={[]}
-                    // className={styles.object__services__types__checkboxGroup}
-                    className={`${styles.typesToAdd}`}
-                    value={chooseTypesTypesToObjectToAddObject}
-                    onValueChange={setChooseTypesTypesToObjectToAddObject}
-                  >
-                    {choosingObjectTypes!.map((type) => (
-                      <Checkbox
-                        className={`${styles.object__objects__types__p} ${styles.CheckboxNextUI} ${
-                          chooseTypesTypesToObjectToAddObject.includes(type.name)
-                            ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}`
-                            : ""
-                        }`}
-                        key={type.id}
-                        value={type.name}
-                      >
-                        {type.name}
-                      </Checkbox>
-                    ))}
-                  </CheckboxGroup>
+            <div className="relative w-[50%] bg-[#f7f7f7]">
+              <div className={`${styles.scroll} h-[452px] !w-full`}>
+                {isObjectChoosed && (
+                  <>
+                    <CheckboxGroup
+                      //  onChange={(e) => setObjectTypeChosen(e.currentTarget.value)} label=""
+                      label=""
+                      defaultValue={[]}
+                      // className={styles.object__services__types__checkboxGroup}
+                      className={`${styles.typesToAdd}`}
+                      value={chooseTypesTypesToObjectToAddObject}
+                      onValueChange={setChooseTypesTypesToObjectToAddObject}
+                    >
+                      {choosingObjectTypes!.map((type) => (
+                        <Checkbox
+                          className={`${styles.object__objects__types__p} ${
+                            styles.CheckboxNextUI
+                          } ${
+                            chooseTypesTypesToObjectToAddObject.includes(type.name)
+                              ? `${styles.CheckboxNextUIActive} ${styles.CheckboxNextUIActiveTypes}`
+                              : ""
+                          }`}
+                          key={type.id}
+                          value={type.name}
+                        >
+                          {type.name}
+                        </Checkbox>
+                      ))}
+                    </CheckboxGroup>
+                  </>
+                )}
+              </div>
+              <div>
+                {isObjectChoosed && (
                   <button
                     onClick={() => {
                       if (chooseTypesTypesToObjectToAddObject.length) {
@@ -340,8 +343,8 @@ const Object: FC<{
                   >
                     Применить
                   </button>
-                </>
-              )}
+                )}
+              </div>
             </div>
           )}
         </div>
