@@ -17,6 +17,7 @@ import {
 import { useFindExecutorState } from "@/store/findExecutorStore";
 import styles from "./tenders-advice-executors.module.css";
 import { ExecutorCard } from "../ExecutorCard/ExecutorCard";
+import { transformServices } from "@/utils/transformServices";
 // import { useUserInfoStore } from '@/store/userInfoStore';
 
 const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
@@ -97,7 +98,6 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     (async () => {
       const hits = await generateTypesenseClient("contractor_index", { per_page: 16 });
       const newExecutorList = await getExecutorList(hits?.hits);
-      console.log(hits);
       findExecutorState.setExecutorsCount(hits?.out_of ?? 0);
       findExecutorState.handleExecutorList(newExecutorList);
     })();
