@@ -39,7 +39,7 @@ export const useTypesObjectsStore = create<ObjectsState>()((set) => ({
     },
     {
       name: 'Офисная недвижимость',
-      count: 1000,
+      count: -1,
       image: './office.svg',
       isActive: false,
     },

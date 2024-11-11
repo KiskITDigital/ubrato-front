@@ -36,7 +36,7 @@ const Services: FC<{ category: Category }> = ({ category }) => {
 export const OneTenderOffers: FC<TenderOffers> = ({ categories }) => {
   return (
     <div className={style.block_main}>
-      <p className="min-w-[160px]">Услуги:</p>
+      <p className={`min-w-[160px] ${style.block_main_p}`}>Услуги:</p>
       <div className="flex gap-2 w-full">
         <div className="flex flex-col gap-3">
           {categories.map((category, categoryIndex) => (

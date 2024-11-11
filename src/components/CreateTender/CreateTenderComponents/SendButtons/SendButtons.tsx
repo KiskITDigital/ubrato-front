@@ -48,7 +48,7 @@ const SendButtons: FC = () => {
       specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : '',
       name: createTenderState.name,
       price: +createTenderState.price.replaceAll(' ', ''),
-      is_contract_price: +createTenderState.price ? createTenderState.is_contract_price : true,
+      is_contract_price: createTenderState.is_contract_price,
       is_nds_price: createTenderState.is_NDS,
       floor_space: +createTenderState.floor_space,
       wishes: createTenderState.wishes,

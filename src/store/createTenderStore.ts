@@ -328,11 +328,11 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   validateInputs: (isDraft: boolean) => {
     const newErrors: string[] = [];
     set((state) => {
-      let new_is_contract_price = state.is_contract_price;
+      const new_is_contract_price = state.is_contract_price;
       if (!state.name) newErrors.push('name');
       if (!isDraft) {
-        // if (!state.price) newErrors.push('price')
-        if (!state.price) new_is_contract_price = true;
+        if (!state.price) newErrors.push('price')
+        // if (!state.price) new_is_contract_price = true;
         // if (!state.cleaningTZ) newErrors.push('tz')
         if (!state.city) newErrors.push('city');
         if (!state.objectName) newErrors.push('object');

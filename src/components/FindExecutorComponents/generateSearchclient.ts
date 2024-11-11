@@ -3,6 +3,7 @@ import Typesense from 'typesense';
 import { executorList } from '@/types/app';
 import { SearchResponseHit } from 'typesense/lib/Typesense/Documents';
 import { getExecutor, isFavoriteExecutor, updateToken } from '@/api/index';
+import { transformServices } from '@/utils';
 
 interface typesenseService {
   id: string;
@@ -119,7 +120,7 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
             inn: data.organizationInfo.inn,
             text: data.contractorInfo.description,
             regions: data.contractorInfo.locations,
-            services: data.contractorInfo.services,
+            services: transformServices(data.contractorInfo.services),
             areServicesHidden: data.contractorInfo.services.length > 5,
             isFavorite: isFavorite,
             isTextHidden: true,
