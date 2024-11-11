@@ -52,7 +52,7 @@ export const LoginPage: FC = () => {
             if (e.response?.status === 401) {
               setErrorMsg('Неверный пароль');
             } else if (e.response?.status === 404) {
-              setErrorMsg('Нет пользователся с эти e-mail');
+              setErrorMsg('Нет пользователся с таким e-mail');
             } else {
               setErrorMsg('Что-то пошло не так');
             }
