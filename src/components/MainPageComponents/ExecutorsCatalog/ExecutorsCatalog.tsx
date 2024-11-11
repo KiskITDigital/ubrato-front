@@ -1,16 +1,13 @@
-import { FC, useState, useRef, useEffect } from 'react';
-import styles from './executorscatalog.module.css';
-import { TypeObjectCard, TypeCleaningCard } from '@/components';
-import { useTypesObjectsStore } from '@/store/objectsStore';
-import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
-import { Link } from 'react-router-dom';
-import {
-  countTransformTender,
-  countTransformService
-} from '@/utils';
-import { useIsOrdererState } from '@/store/isOrdererStore';
-import { useFindExecutorState } from '@/store/findExecutorStore';
-import { useTenderListState } from '@/store/tendersListStore';
+import { FC, useState, useRef, useEffect } from "react";
+import styles from "./executorscatalog.module.css";
+import { TypeObjectCard, TypeCleaningCard } from "@/components";
+import { useTypesObjectsStore } from "@/store/objectsStore";
+import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
+import { Link } from "react-router-dom";
+import { countTransformTender, countTransformService } from "@/utils";
+import { useIsOrdererState } from "@/store/isOrdererStore";
+import { useFindExecutorState } from "@/store/findExecutorStore";
+import { useTenderListState } from "@/store/tendersListStore";
 // import { useUserInfoStore } from '@/store/userInfoStore';
 
 export const ExecutorsCatalog: FC = () => {
@@ -20,22 +17,22 @@ export const ExecutorsCatalog: FC = () => {
 
   // const userInfoStore = useUserInfoStore()
 
-  const findExecutorState = useFindExecutorState()
+  const findExecutorState = useFindExecutorState();
 
-  const tenderListStore = useTenderListState()
+  const tenderListStore = useTenderListState();
 
   const listRef = useRef<HTMLDivElement>(null);
   const [isShown, setIsShown] = useState(false);
-  const [showBtnText, setShowBtnText] = useState('Показать все объекты');
+  const [showBtnText, setShowBtnText] = useState("Показать все объекты");
 
   useEffect(() => {
     const height = Math.ceil((objectsStore.objects.length - 8) / 4) * 105;
     if (isShown) {
-      setShowBtnText('Скрыть доп. объекты');
+      setShowBtnText("Скрыть доп. объекты");
       listRef.current!.style.height = `${listRef.current!.offsetHeight + height}px`;
     } else {
       listRef.current!.style.height = `${listRef.current!.offsetHeight - height}px`;
-      setShowBtnText('Показать все объекты');
+      setShowBtnText("Показать все объекты");
     }
   }, [isShown, objectsStore.objects.length]);
 
@@ -58,7 +55,10 @@ export const ExecutorsCatalog: FC = () => {
     typeCleaningStore?.apiCleaningTypes?.length,
   ]);
 
-  const count = isOrdererState.role === 'contractor' ? tenderListStore.tendersCount : findExecutorState.executorsCount
+  const count =
+    isOrdererState.role === "contractor"
+      ? tenderListStore.tendersCount
+      : findExecutorState.executorsCount;
 
   const width: number | null = null;
   const widthR = useRef<number | null>(width);
@@ -73,7 +73,8 @@ export const ExecutorsCatalog: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={`${styles.dasshedBorder} ${styles.container}`}>
         <h2 className={styles.header}>
-          <span className={styles.blueText}>Каталог</span> {isOrdererState.role === 'contractor' ? "тендеров" : "исполнителей"}
+          <span className={styles.blueText}>Каталог</span>{" "}
+          {isOrdererState.role === "contractor" ? "тендеров" : "исполнителей"}
         </h2>
         <p className={styles.text}>
           Выбирайте исполнителей из каталога Ubrato в зависимости от объекта, которым вы управляете,
@@ -91,7 +92,7 @@ export const ExecutorsCatalog: FC = () => {
               <img
                 src="./arrow-down.svg"
                 alt="arrow"
-                style={{ transform: isShown ? 'rotate(180deg)' : 'none' }}
+                style={{ transform: isShown ? "rotate(180deg)" : "none" }}
               />
               <p>{showBtnText}</p>
             </button>
@@ -104,11 +105,16 @@ export const ExecutorsCatalog: FC = () => {
         <div className={styles.cleaningTypeGrid}>
           {widthR.current && (
             <div>
-              <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"} className={styles.allTenderLink}>
-                <p className={styles.allTenderHeader}>{isOrdererState.role === 'contractor' ? "Все тендеры" : "Все исполнители"}</p>
+              <Link
+                to={isOrdererState.role === "contractor" ? "/alltenders" : "/find-executor"}
+                className={styles.allTenderLink}
+              >
+                <p className={styles.allTenderHeader}>
+                  {isOrdererState.role === "contractor" ? "Все тендеры" : "Все исполнители"}
+                </p>
                 <p className={styles.allTenderCount}>
-                  {count}{' '}
-                  {isOrdererState.role === 'contractor'
+                  {count}{" "}
+                  {isOrdererState.role === "contractor"
                     ? countTransformTender(count)
                     : countTransformService(count)}
                 </p>
@@ -125,11 +131,16 @@ export const ExecutorsCatalog: FC = () => {
           ))}
           {!widthR.current && (
             <div>
-              <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"} className={styles.allTenderLink}>
-                <p className={styles.allTenderHeader}>{isOrdererState.role === 'contractor' ? "Все тендеры" : "Все исполнители"}</p>
+              <Link
+                to={isOrdererState.role === "contractor" ? "/alltenders" : "/find-executor"}
+                className={styles.allTenderLink}
+              >
+                <p className={styles.allTenderHeader}>
+                  {isOrdererState.role === "contractor" ? "Все тендеры" : "Все исполнители"}
+                </p>
                 <p className={styles.allTenderCount}>
-                  {count}{' '}
-                  {isOrdererState.role === 'contractor'
+                  {count}{" "}
+                  {isOrdererState.role === "contractor"
                     ? countTransformTender(count)
                     : countTransformService(count)}
                 </p>
@@ -140,27 +151,33 @@ export const ExecutorsCatalog: FC = () => {
       </div>
       <div className={styles.findExecutor}>
         <p className={styles.executorsCount}>
-          {
-            isOrdererState.role === 'contractor' ?
-              `Найдено тендеров: ${tenderListStore.tendersCount}`
-              :
-              `Найдено исполнителей: ${findExecutorState.executorsCount}`
-          }
+          {isOrdererState.role === "contractor"
+            ? `Найдено тендеров: ${tenderListStore.tendersCount}`
+            : `Найдено исполнителей: ${findExecutorState.executorsCount}`}
         </p>
-        <Link to={isOrdererState.role === 'contractor' ? "/alltenders" : "/find-executor"}>
+        <Link to={isOrdererState.role === "contractor" ? "/alltenders" : "/find-executor"}>
           <button className={styles.findExecutorBtn}>
-            {
-              isOrdererState.role === 'contractor' ? <>
+            {isOrdererState.role === "contractor" ? (
+              <>
                 Найти тендеры
-                {widthR.current ? <p className={styles.countExecutorsText}> {tenderListStore.tendersCount}</p> : ''}
+                {widthR.current ? (
+                  <p className={styles.countExecutorsText}> {tenderListStore.tendersCount}</p>
+                ) : (
+                  ""
+                )}
                 <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
-              </> :
-                <>
-                  Найти исполнителя
-                  {widthR.current ? <p className={styles.countExecutorsText}> {findExecutorState.executorsCount}</p> : ''}
-                  <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
-                </>
-            }
+              </>
+            ) : (
+              <>
+                Найти исполнителя
+                {widthR.current ? (
+                  <p className={styles.countExecutorsText}> {findExecutorState.executorsCount}</p>
+                ) : (
+                  ""
+                )}
+                <img className={styles.arrow} src="./arrow-with-line-right-white.svg" alt="arrow" />
+              </>
+            )}
           </button>
         </Link>
       </div>

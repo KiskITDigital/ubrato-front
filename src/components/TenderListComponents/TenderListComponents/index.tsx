@@ -472,12 +472,14 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
               <TableRow
-                key={"h-group-" + headerGroupIndex}
+                key={"h-group-" + Math.random()}
                 className="justify-between bg-[#F4F7F9] rounded-[13px] !border border-[rgba(0,0,0,.05)] h-[65px]"
               >
                 {headerGroup.headers.map((header, headerIndex) => {
                   if (headerIndex < 4) {
-                    return <></>;
+                    return (
+                      <div className="hidden" key={"h-" + headerGroupIndex + headerIndex}></div>
+                    );
                   }
                   return (
                     <TableHead
@@ -506,7 +508,7 @@ export const TenderListComp: FC<myTenderToogle> = ({ myTender, drafts }) => {
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => {
                     if (cellIndex < 4) {
-                      return <></>;
+                      return <div className="hidden" key={"cell-" + rowIndex + cellIndex}></div>;
                     }
                     return (
                       <TableCell
