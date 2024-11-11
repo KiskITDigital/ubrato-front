@@ -57,7 +57,10 @@ export const ExecutorCard: FC<ExecutorCardProps> = ({
               executor.services.map(
                 (service, ix) =>
                   ix < 2 && (
-                    <div className="flex justify-between pt-[10px] border-t border-dashed border-[rgba(0,0,0,.14)]">
+                    <div
+                      key={ix}
+                      className="flex justify-between pt-[10px] border-t border-dashed border-[rgba(0,0,0,.14)]"
+                    >
                       <p className="text-[16px] max-w-[274px]">{service.name}</p>
                       <div>
                         <p className="text-[16px]">

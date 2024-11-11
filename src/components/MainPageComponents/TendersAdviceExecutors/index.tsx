@@ -65,7 +65,7 @@ const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
       regions: executor.regions,
     }));
 
-    console.log(newExecutorList);
+    // console.log(newExecutorList);
 
     // if (localStorage.getItem("token") && userInfoState.is_contractor) {
     //     const res = await updateToken(fetchContractorProfile, null);

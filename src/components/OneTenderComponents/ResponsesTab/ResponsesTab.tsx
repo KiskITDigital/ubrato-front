@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -11,7 +11,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -19,10 +19,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/Table';
-import { Pagination } from '@nextui-org/react';
-import { CompanyResponse, getResponses, updateToken } from '@/api';
-import { useNavigate, useParams } from 'react-router-dom';
+} from "@/components/ui/Table";
+import { Pagination } from "@nextui-org/react";
+import { CompanyResponse, getResponses, updateToken } from "@/api";
+import { useNavigate, useParams } from "react-router-dom";
 
 export interface Response {
   id: string;
@@ -41,15 +41,15 @@ export const ResponsesTab: FC = () => {
   const navigate = useNavigate();
 
   const paginationClassNames = {
-    base: 'mt-[20px]',
-    wrapper: 'w-fit mx-auto',
-    cursor: 'w-[44px] h-[44px] bg-light-gray rounded-[12px] z-1',
-    prev: 'w-[40px] h-[44px] flex items-center justify-center',
-    item: 'w-[44px] h-[44px]',
-    next: 'w-[40px] h-[44px] flex items-center justify-center',
+    base: "mt-[20px]",
+    wrapper: "w-fit mx-auto",
+    cursor: "w-[44px] h-[44px] bg-light-gray rounded-[12px] z-1",
+    prev: "w-[40px] h-[44px] flex items-center justify-center",
+    item: "w-[44px] h-[44px]",
+    next: "w-[40px] h-[44px] flex items-center justify-center",
   };
 
-  const [sortingValue, setSortingValue] = useState('');
+  const [sortingValue, setSortingValue] = useState("");
   const [responses, setResponses] = useState<CompanyResponse[]>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0, //initial page index
@@ -57,7 +57,7 @@ export const ResponsesTab: FC = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token && id) {
       (async () => {
         const res = await updateToken(getResponses, id);
@@ -68,13 +68,13 @@ export const ResponsesTab: FC = () => {
 
   const columns: ColumnDef<CompanyResponse>[] = [
     {
-      accessorKey: 'company_id',
+      accessorKey: "company_id",
     },
     {
-      accessorKey: 'company_avatar',
+      accessorKey: "company_avatar",
     },
     {
-      accessorKey: 'company_name',
+      accessorKey: "company_name",
       header: () => {
         return (
           <p className="text-[14px] font-normal text-[#626262] ml-[113px]">Наименование компании</p>
@@ -87,35 +87,35 @@ export const ResponsesTab: FC = () => {
             <img
               className="mr-[14px] w-11 h-11 rounded-[10px] border border-solid"
               src={
-                row.getValue('company_avatar') ? row.getValue('company_avatar') : '/avatar-ic.svg'
+                row.getValue("company_avatar") ? row.getValue("company_avatar") : "/avatar-ic.svg"
               }
               alt="avatar"
             />
             <p className="text-[18px] underline underline-offset-4">
-              {row.getValue('company_name')}
+              {row.getValue("company_name")}
             </p>
           </div>
         );
       },
     },
     {
-      accessorKey: 'price',
+      accessorKey: "price",
       header: ({ column }) => {
         return (
           <button
             className="flex items-center text-[14px] font-normal text-[#626262]"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Стоимость
             <img
-              src={column.getIsSorted() === 'asc' ? '/icons/arrow-up.svg' : '/icons/arrow-down.svg'}
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-auto !w-[10px] min-w-0"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p>{row.getValue('price')}</p>;
+        return <p>{row.getValue("price")}</p>;
       },
     },
   ];
@@ -145,14 +145,14 @@ export const ResponsesTab: FC = () => {
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
-            <TableRow key={'h-group-' + headerGroupIndex} className="justify-between">
+            <TableRow key={"h-group-" + headerGroupIndex} className="justify-between">
               {headerGroup.headers.map((header, headerIndex) => {
                 if (headerIndex <= 1) {
                   return <></>;
                 }
                 return (
                   <TableHead
-                    key={'h-' + headerGroupIndex + headerIndex}
+                    key={"h-" + headerGroupIndex + headerIndex}
                     className="justify-end items-center"
                     onClick={() => {
                       setSortingValue(header.column.id);
@@ -171,8 +171,8 @@ export const ResponsesTab: FC = () => {
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row, rowIndex) => (
               <TableRow
-                key={'row' + rowIndex}
-                data-state={row.getIsSelected() && 'selected'}
+                key={"row" + rowIndex}
+                data-state={row.getIsSelected() && "selected"}
                 className="border-dashed border-[rgba(0,0,0,.14)] [&:not(:last-child)]:!border-b justify-between py-[14px] h-fit"
                 onClick={() => navigate(`/organization/${row.original.company_id}/contractor`)}
               >
@@ -182,7 +182,7 @@ export const ResponsesTab: FC = () => {
                   }
                   return (
                     <TableCell
-                      key={'cell-' + rowIndex + cellIndex}
+                      key={"cell-" + rowIndex + cellIndex}
                       // style={{ width: cell.column.getSize() }}
                       className="justify-end"
                     >

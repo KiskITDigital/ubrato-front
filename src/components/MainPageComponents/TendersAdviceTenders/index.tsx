@@ -1,11 +1,12 @@
-import { generateTypesenseClient } from '@/components/FindExecutorComponents/generateSearchclient';
-import { tenderList } from '@/types/app';
-import { FC, useEffect, useState } from 'react';
-import { fetchProduct as getTender } from '@/api/getTender';
-import styles from './tenders-advice-tenders.module.css';
-import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from '@/api/favouriteTenders';
-import { Link, useNavigate } from 'react-router-dom';
-import { useTenderListState } from '@/store/tendersListStore';
+import { generateTypesenseClient } from "@/components/FindExecutorComponents/generateSearchclient";
+import { tenderList } from "@/types/app";
+import { FC, useEffect, useState } from "react";
+import { fetchProduct as getTender } from "@/api/getTender";
+import styles from "./tenders-advice-tenders.module.css";
+import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import { Link, useNavigate } from "react-router-dom";
+import { useTenderListState } from "@/store/tendersListStore";
+import { updateToken } from "@/api";
 
 interface modifiedTenderList extends tenderList {
   price: number;
@@ -25,13 +26,13 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
   const navigate = useNavigate();
 
   const favoriteExecutorsHandler = async (tender: modifiedTenderList) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
     } else {
       const res = tender.isFavorite
-        ? removeFavoriteTender(tender.id, token)
-        : addFavouriteTender(tender.id, token);
+        ? updateToken(removeFavoriteTender, tender.id)
+        : updateToken(addFavouriteTender, tender.id);
       const resStatus = (await res).data.status;
       if (!resStatus) return;
       const tenderListToFormat = tenderList.flat(Infinity) as modifiedTenderList[];
@@ -49,15 +50,15 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
     }
   };
 
-  const transformPrice = (value: number | string, currencySymbol: string = '₽'): string => {
+  const transformPrice = (value: number | string, currencySymbol: string = "₽"): string => {
     const stringValue = String(value);
-    const parts = stringValue.split('.');
-    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    const parts = stringValue.split(".");
+    const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     if (parts.length === 2) {
-      return integerPart + ' ' + parts[1] + ' ' + currencySymbol;
+      return integerPart + " " + parts[1] + " " + currencySymbol;
     } else {
-      return integerPart + ' ' + currencySymbol;
+      return integerPart + " " + currencySymbol;
     }
   };
 
@@ -89,19 +90,19 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
 
   useEffect(() => {
     (async () => {
-      const hits = await generateTypesenseClient('tender_index', { per_page: 16 });
-      console.log(hits);
+      const hits = await generateTypesenseClient("tender_index", { per_page: 16 });
+      // console.log(hits);
       const tenderListPromises =
         hits?.hits?.map(async (hit) => {
           const { id: tenderId } = hit.document as { id: string };
           const tender = await getTender(tenderId);
-          const token = localStorage.getItem('token');
-          const isFavorite = token ? (await isFavoriteTender(tenderId, token)).data.status : false;
+          const token = localStorage.getItem("token");
+          const isFavorite = token ? await updateToken(isFavoriteTender, tenderId) : false;
           return { ...tender, isFavorite, isTextHidden: true } as modifiedTenderList;
         }) || [];
 
       Promise.allSettled(tenderListPromises).then((res) => {
-        const fulfilled = res.filter((promise) => promise.status === 'fulfilled');
+        const fulfilled = res.filter((promise) => promise.status === "fulfilled");
         const tendersList = fulfilled.map((promise) => {
           return promise.value;
         });
@@ -136,11 +137,11 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                   </p>
                   <p className={styles.tenderPrice}>{transformPrice(tender.price)}</p>
                   <p className={styles.tenderTime}>
-                    Прием откликов по{' '}
-                    {new Date(tender.reception_end).toLocaleDateString('ru-RU', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
+                    Прием откликов по{" "}
+                    {new Date(tender.reception_end).toLocaleDateString("ru-RU", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })}
                   </p>
                 </div>
@@ -169,7 +170,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                       >
                         <img
                           src={`/find-executor/heart-${
-                            tender.isFavorite ? 'active' : 'inactive'
+                            tender.isFavorite ? "active" : "inactive"
                           }.svg`}
                           alt="+"
                         />
@@ -177,7 +178,7 @@ const TendersAdvicesTenders: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
                       <Link to={`/tender/${tender.id}`}>
                         <button className={`${styles.executorOfferButton}`}>
                           Перейти к тендеру
-                          <img src={'/find-executor/arrow-right-black.svg'} alt="->" />
+                          <img src={"/find-executor/arrow-right-black.svg"} alt="->" />
                         </button>
                       </Link>
                     </div>
