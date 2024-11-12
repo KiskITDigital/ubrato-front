@@ -100,7 +100,7 @@ export const Header: FC = () => {
             <Link to="/create-tender">Создать тендер</Link>
             <Link to="/find-executor">Найти исполнителя</Link>
             <Link to="/alltenders">Найти тендер</Link>
-            <Link to="/">Мои тендеры</Link>
+            <Link to="/my-tenders">Мои тендеры</Link>
             <Link to="/about">О сервисе</Link>
             <Link to="/">Правовая информация</Link>
           </div>
@@ -193,7 +193,7 @@ export const Header: FC = () => {
                 </li>
               )}
               <li>
-                <Link to="/profile/tenders" className={styles.navLink}>
+                <Link to="/my-tenders" className={styles.navLink}>
                   <img src="/my-tenders.svg" alt="my-tenders" />
                   <p>Мои тендеры</p>
                 </Link>

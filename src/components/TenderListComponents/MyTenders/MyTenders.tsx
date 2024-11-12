@@ -10,7 +10,7 @@ import Typesense from "typesense";
 import { fetchProduct, updateToken } from "@/api";
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
 
-import s from "./styles.module.css";
+import s from "./mytenders.module.css";
 import { useTenderListState } from "@/store/tendersListStore";
 import {
   Table,
@@ -32,7 +32,9 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
+import { fetchDrafts } from "@/api/getTender";
 import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import { cn } from "@/utils/twMerge";
 
 export interface TenderList {
   id: string;
@@ -44,9 +46,14 @@ export interface TenderList {
   city: string;
   is_favorite: boolean;
   categories: { name: string; services: string[] }[];
+  is_nds_price: boolean;
 }
 
-export const TenderListComp: FC = () => {
+interface myTenderToogle {
+  drafts: boolean;
+}
+
+export const MyTenders: FC<myTenderToogle> = ({ drafts }) => {
   const tenderListState = useTenderListState();
 
   const [allExecutorListLength, setAllExecutorListLength] = useState(0);
@@ -87,12 +94,27 @@ export const TenderListComp: FC = () => {
   };
 
   const columns: ColumnDef<TenderList>[] = [
-    { accessorKey: "id" },
     {
       accessorKey: "work_end",
     },
-    { accessorKey: "city" },
-    { accessorKey: "categories" },
+    { accessorKey: "is_nds_price" },
+    {
+      accessorKey: "id",
+      header: () => {
+        return (
+          <div className="flex items-center w-[80px] justify-center">
+            <p>ID</p>
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="flex w-[80px]">
+            <p className="text-[14px] text-center w-full">{row.getValue("id")}</p>
+          </div>
+        );
+      },
+    },
     {
       accessorKey: "is_favorite",
       header: () => {
@@ -105,7 +127,7 @@ export const TenderListComp: FC = () => {
       cell: ({ row }) => {
         return (
           <button
-            className="w-[26px] mr-[10px] h-full flex items-start"
+            className="w-[26px] mr-[10px] h-full flex items-center"
             onClick={() => {
               if (localStorage.getItem("token")) {
                 if (row.getValue("is_favorite")) {
@@ -134,8 +156,8 @@ export const TenderListComp: FC = () => {
       accessorKey: "name",
       header: () => {
         return (
-          <div className="flex items-center w-[318px] justify-center">
-            <p>Тендеры</p>
+          <div className="flex items-center w-[165px] justify-center">
+            <p>Название</p>
             {/* <img
               src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
               className="ml-2 h-4 w-4"
@@ -145,23 +167,64 @@ export const TenderListComp: FC = () => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex flex-col w-[318px] gap-3 h-full">
+          <div className="flex flex-col w-[165px] gap-3 h-full justify-center">
             <p
-              onClick={() => navigate(`/tender/${row.original.id}`)}
-              className="text-[14px] w-[318px] text-start line-clamp-2 whitespace-normal underline cursor-pointer"
+              onClick={() =>
+                navigate(
+                  `${
+                    drafts ? `/create-tender?id=${row.original.id}` : `/tender/${row.original.id}`
+                  }`
+                )
+              }
+              className="text-[14px] w-[165px] text-accent text-start line-clamp-2 whitespace-normal underline cursor-pointer"
             >
               {row.getValue("name")}
             </p>
-            <div className="flex gap-1">
-              <p className="text-[14px] text-accent">{row.getValue("city")}</p>
-              <p className="truncate text-[rgba(0,0,0,.6)]">
-                {(row.getValue("categories") as { name: string; services: string[] }[]).map(
-                  (e, ix) => {
-                    return <span key={ix}>{e.name} </span>;
-                  }
-                )}
-              </p>
-            </div>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "city",
+      header: () => {
+        return (
+          <div className="flex items-center w-[130px] justify-center">
+            <p>Место</p>
+          </div>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="flex gap-1 w-[130px]">
+            <p className="text-[14px] text-start">{row.getValue("city")}</p>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "price",
+      size: 70,
+      header: ({ column }) => {
+        return (
+          <button
+            className="flex items-center flex-col justify-center"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Стоимость, руб
+            <img
+              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
+              className="ml-2 h-4 w-4"
+            />
+          </button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="w-[80px]">
+            <p className="text-[#666] text-end">{row.getValue("price")} ₽</p>
+            <p className="text-[#666] text-end">
+              {row.getValue("is_nds_price") ? "с НДС" : "без НДС"}
+            </p>
           </div>
         );
       },
@@ -186,7 +249,7 @@ export const TenderListComp: FC = () => {
       },
       cell: ({ row }) => {
         return (
-          <p className="w-full text-center text-[rgba(0,0,0,.6)]">
+          <p className="w-[115px] text-center text-[rgba(0,0,0,.6)]">
             {toDate(row.getValue("reception_end"))}
           </p>
         );
@@ -196,16 +259,15 @@ export const TenderListComp: FC = () => {
       accessorKey: "work_start",
       header: ({ column }) => {
         return (
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center items-center w-[166px]">
             <p>Оказание услуг</p>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-[80px]">
               <p>с</p>
               <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
                 <img
                   src={
                     column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"
                   }
-                  className="ml-2 h-4 w-4"
                 />
               </button>
               <p>по</p>
@@ -228,7 +290,6 @@ export const TenderListComp: FC = () => {
                         : "/icons/arrow-down.svg"
                       : "/icons/arrow-down.svg"
                   }
-                  className="ml-2 h-4 w-4"
                 />
               </button>
             </div>
@@ -247,28 +308,6 @@ export const TenderListComp: FC = () => {
             </p>
           </div>
         );
-      },
-    },
-
-    {
-      accessorKey: "price",
-      size: 70,
-      header: ({ column }) => {
-        return (
-          <button
-            className="flex items-center flex-col justify-center"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Стоимость, руб
-            <img
-              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
-              className="ml-2 h-4 w-4"
-            />
-          </button>
-        );
-      },
-      cell: ({ row }) => {
-        return <p className="text-accent w-[80px] text-end">{row.getValue("price")} ₽</p>;
       },
     },
   ];
@@ -295,97 +334,120 @@ export const TenderListComp: FC = () => {
   });
 
   useEffect(() => {
-    const client = new Typesense.Client({
-      apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
-      nodes: [
-        {
-          host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
-          port: import.meta.env.VITE_TYPESENSE_API_PORT,
-          protocol: "https",
-          path: "",
-        },
-      ],
-    });
-
-    const filters = (() => {
-      const filters = [];
-      if (tenderListState.locationId)
-        filters.push(`$city_index(id:=${tenderListState.locationId})`);
-      if (tenderListState.objectTypesId.length)
-        tenderListState.objectTypesId.forEach((object) =>
-          filters.push(`$tender_object(object_type_id:=${object})`)
-        );
-      if (tenderListState.servicesTypesId.length)
-        tenderListState.servicesTypesId.forEach((service) =>
-          filters.push(`$tender_service(service_type_id:=${service})`)
-        );
-      if (tenderListState.fastFilterTexts)
-        tenderListState.fastFilterTexts.forEach((filter) =>
-          filters.push(
-            `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
-          )
-        );
-      return filters.join(" && ");
-    })();
-
-    const searchParameters = {
-      q: tenderListState.fastFilterTexts,
-      query_by: "name, description, wishes",
-      per_page: paginationPerPage,
-      page: paginationPage,
-      filter_by: filters,
-      sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`,
-      preset: "",
-    };
-
-    client
-      .collections("tender_index")
-      .documents()
-      .search(searchParameters)
-      .then(async (response) => {
-        // console.log(response.hits);
-
-        const tenders = [] as TenderList[];
-        setAllExecutorListLength(response.found);
-        setPaginationTotal(response?.found ? Math.ceil(response.found / paginationPerPage) : 0);
-        const promises = (response.hits || [])
-          .map((res, index) => {
-            const { id } = res.document as { id: string };
-            if (!id) return null;
-            return (async () => {
-              const data = await fetchProduct(id);
-              return {
-                index,
-                tenderData: {
-                  is_favorite: await updateToken(isFavoriteTender, id),
-                  id: data.id,
-                  name: data.name,
-                  reception_end: data.reception_end,
-                  work_start: data.work_start,
-                  work_end: data.work_end,
-                  price: data.price,
-                  user: data.user_id,
-                  city: data.location,
-                  categories: data.categories,
-                },
-              } as { index: number; tenderData: TenderList };
-            })();
-          })
-          .filter((promise) => promise !== null);
-
-        const results = await Promise.all(promises);
-        results
-          .sort((a, b) => a!.index - b!.index)
-          .forEach((result) => {
-            // console.log(result?.tenderData);
-            tenders.push(result!.tenderData);
-          });
-        setTenderList(tenders);
-      })
-      .catch((error) => {
-        console.error("Ошибка:", error);
+    if (drafts) {
+      (async () => {
+        const drafts = await updateToken(fetchDrafts, null);
+        const formatedDrafts: TenderList[] = drafts.map((draft) => ({
+          id: draft.id.toString(),
+          name: draft.name,
+          reception_end: draft.reception_end,
+          work_start: draft.work_start,
+          work_end: draft.work_end,
+          price: draft.price,
+          city: "",
+          is_favorite: false,
+          categories: [],
+          is_nds_price: false,
+        }));
+        setAllExecutorListLength(drafts.length);
+        setTenderList(formatedDrafts);
+      })();
+    } else {
+      const client = new Typesense.Client({
+        apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
+        nodes: [
+          {
+            host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+            port: import.meta.env.VITE_TYPESENSE_API_PORT,
+            protocol: "https",
+            path: "",
+          },
+        ],
       });
 
+      const filters = (() => {
+        const filters = [];
+        if (tenderListState.locationId)
+          filters.push(`$city_index(id:=${tenderListState.locationId})`);
+        if (tenderListState.objectTypesId.length)
+          tenderListState.objectTypesId.forEach((object) =>
+            filters.push(`$tender_object(object_type_id:=${object})`)
+          );
+        if (tenderListState.servicesTypesId.length)
+          tenderListState.servicesTypesId.forEach((service) =>
+            filters.push(`$tender_service(service_type_id:=${service})`)
+          );
+        if (tenderListState.fastFilterTexts)
+          tenderListState.fastFilterTexts.forEach((filter) =>
+            filters.push(
+              `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
+            )
+          );
+
+        filters.push(`( user_id:=${userInfoStore.user.id})`);
+
+        return filters.join(" && ");
+      })();
+
+      const searchParameters = {
+        q: tenderListState.fastFilterTexts,
+        query_by: "name, description, wishes",
+        per_page: paginationPerPage,
+        page: paginationPage,
+        filter_by: filters,
+        sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`,
+        preset: "",
+      };
+
+      client
+        .collections("tender_index")
+        .documents()
+        .search(searchParameters)
+        .then(async (response) => {
+          // console.log(response.hits);
+
+          const tenders = [] as TenderList[];
+          setAllExecutorListLength(response.found);
+          setPaginationTotal(response?.found ? Math.ceil(response.found / paginationPerPage) : 0);
+          const promises = (response.hits || [])
+            .map((res, index) => {
+              const { id } = res.document as { id: string };
+              if (!id) return null;
+              return (async () => {
+                const data = await fetchProduct(id);
+                return {
+                  index,
+                  tenderData: {
+                    is_favorite: await updateToken(isFavoriteTender, id),
+                    id: data.id,
+                    name: data.name,
+                    reception_end: data.reception_end,
+                    work_start: data.work_start,
+                    work_end: data.work_end,
+                    price: data.price,
+                    user: data.user_id,
+                    city: data.location,
+                    is_nds_price: data.is_nds_price,
+                    categories: data.categories,
+                  },
+                } as { index: number; tenderData: TenderList };
+              })();
+            })
+            .filter((promise) => promise !== null);
+
+          const results = await Promise.all(promises);
+          results
+            .sort((a, b) => a!.index - b!.index)
+            .forEach((result) => {
+              // console.log(result?.tenderData);
+              tenders.push(result!.tenderData);
+            });
+          setTenderList(tenders);
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+        });
+    }
     // console.log(allExecutorListLength);
   }, [
     paginationPage,
@@ -397,7 +459,7 @@ export const TenderListComp: FC = () => {
     sortingValue,
     sorting,
     userInfoStore.user.id,
-
+    drafts,
     needUpdate,
   ]);
 
@@ -442,7 +504,7 @@ export const TenderListComp: FC = () => {
                 className="justify-between bg-[#F4F7F9] rounded-[13px] !border border-[rgba(0,0,0,.05)] h-[65px]"
               >
                 {headerGroup.headers.map((header, headerIndex) => {
-                  if (headerIndex < 4) {
+                  if (headerIndex < 2) {
                     return (
                       <div className="hidden" key={"h-" + headerGroupIndex + headerIndex}></div>
                     );
@@ -470,10 +532,13 @@ export const TenderListComp: FC = () => {
                 <TableRow
                   key={"row" + rowIndex}
                   data-state={row.getIsSelected() && "selected"}
-                  className="justify-between w-[800px] px-[15px] gap-0 h-[85px] pt-[15px] [&:not(:last-child)]:border-b border-dashed [&:not(:last-child)]:pb-[15px] [&:not(:last-child)]:h-[100px]"
+                  className={cn(
+                    rowIndex % 2 !== 0 ? "bg-slate-200/40" : "",
+                    "justify-between gap-0 h-[64px] border-solid hover:border-accent !border-l-2 border-transparent"
+                  )}
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => {
-                    if (cellIndex < 4) {
+                    if (cellIndex < 2) {
                       return <div className="hidden" key={"cell-" + rowIndex + cellIndex}></div>;
                     }
                     return (

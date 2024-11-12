@@ -1,20 +1,19 @@
-import { FC, useEffect, useRef } from 'react';
-import s from './styles.module.css';
-import { TenderListComp } from '@/components/TenderListComponents/TenderListComponents';
-// import { MainFilterTender } from '@/components/TenderListComponents/TenderListCustomFilter';
-import FastFilterBlock from '@/components/FindExecutorComponents/FastFilter/FastFilter';
-import { useTenderListState } from '@/store/tendersListStore';
-import MainFilterTender from '@/components/TenderListComponents/TenderListCustomFilter';
+import { FC, useEffect, useRef } from "react";
+import s from "./styles.module.css";
+import FastFilterBlock from "@/components/FindExecutorComponents/FastFilter/FastFilter";
+import { useTenderListState } from "@/store/tendersListStore";
+import MainFilterTender from "@/components/TenderListComponents/TenderListCustomFilter";
+import { TenderListComp } from "@/components/TenderListComponents/TenderListComponents";
 
 export const AllTendersPage: FC = () => {
   const tenderListState = useTenderListState();
   const startRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    startRef.current!.scrollIntoView({ behavior: 'smooth' });
+    startRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       const elementTop = startRef.current!.getBoundingClientRect().top;
-      window.scrollBy({ top: elementTop - 200, behavior: 'smooth' });
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
   }, []);
 
@@ -27,7 +26,7 @@ export const AllTendersPage: FC = () => {
       />
       <div className={s.block_container}>
         <MainFilterTender></MainFilterTender>
-        <TenderListComp myTender={false} drafts={false}></TenderListComp>
+        <TenderListComp />
       </div>
     </div>
   );

@@ -17,8 +17,6 @@ import {
 import { useFindExecutorState } from "@/store/findExecutorStore";
 import styles from "./tenders-advice-executors.module.css";
 import { ExecutorCard } from "../ExecutorCard/ExecutorCard";
-import { transformServices } from "@/utils/transformServices";
-// import { useUserInfoStore } from '@/store/userInfoStore';
 
 const TendersAdviceExecutors: FC<{ isMobile?: boolean }> = ({ isMobile }) => {
   const navigate = useNavigate();

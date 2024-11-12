@@ -50,7 +50,7 @@ const AfterSendInfo: FC<{
         </p>
       </div>
       <div className={styles.buttons}>
-        <Link onClick={closeModal} to="/profile/tenders">
+        <Link onClick={closeModal} to="/my-tenders">
           <button className={styles.buttons__myTendersButton}>Мои тендеры</button>
         </Link>
         <button onClick={closeModal} className={styles.buttons__createTenderButton}>

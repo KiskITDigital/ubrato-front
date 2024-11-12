@@ -1,16 +1,11 @@
 import { FC, useEffect, useRef, useState } from "react";
 import s from "./styles.module.css";
-import { TenderListComp } from "@/components/TenderListComponents/TenderListComponents";
-// import { TenderListCustomSearch } from '@/components/TenderListComponents/TenderListCustomSearch';
-import { useNavigate, useNavigationType } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
-// import { set } from "date-fns";
-// import { DraftTenderComponent } from '@/components/DraftTenderComp';
-import { TenderListCustomSearch } from "@/components/TenderListComponents/TenderListCustomSearch";
+import { MyTenders } from "@/components/TenderListComponents/MyTenders/MyTenders";
 
 export const MyTendersPage: FC = () => {
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const userInfoStore = useUserInfoStore();
   const [draftSwitch, setDraftSwitch] = useState(false);
 
@@ -18,10 +13,9 @@ export const MyTendersPage: FC = () => {
 
   useEffect(() => {
     if (!userInfoStore.isLoggedIn) {
-      if (navigationType === "POP") navigate(-1);
-      else navigate("/login");
+      navigate("/login");
     }
-  }, [navigate, navigationType, userInfoStore.isLoggedIn]);
+  }, [navigate, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
     startRef.current!.scrollIntoView({ behavior: "smooth" });
@@ -32,17 +26,16 @@ export const MyTendersPage: FC = () => {
   }, []);
 
   return (
-    <div ref={startRef} className={s.main_blokkk}>
+    <div ref={startRef} className="container">
       <h1 className={s.title}>Мои тендеры</h1>
-      <TenderListCustomSearch />
+      <Link className="mb-3 mt-3 block text-[20px] text-accent underline" to="/profile">Ваш профиль</Link>
       <p
         onClick={() => setDraftSwitch(!draftSwitch)}
         className="cursor-pointer text-accent underline"
       >
         {draftSwitch ? "Открыть созданные тендеры" : "Открыть черновики"}
       </p>
-      <TenderListComp myTender={true} drafts={draftSwitch} />
-      {/* <TenderListComp myTender={true}></TenderListComp> */}
+      <MyTenders drafts={draftSwitch} />
     </div>
   );
 };
