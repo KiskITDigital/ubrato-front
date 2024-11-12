@@ -384,11 +384,11 @@ const Object: FC<{
             Обязательно для заполнения
           </p>
         )}
-        {areaExtraInfo && (
+        {/* {areaExtraInfo && (
           <p className="absolute text-[10px] bottom-[-5px] text-[rgba(0,0,0,.5)]">
             {areaExtraInfo}
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );

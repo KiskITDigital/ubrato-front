@@ -28,7 +28,7 @@ export const MyTendersPage: FC = () => {
   return (
     <div ref={startRef} className="container">
       <h1 className={s.title}>Мои тендеры</h1>
-      <Link className="mb-3 mt-3 block text-[20px] text-accent underline" to="/profile">Ваш профиль</Link>
+      <Link className="mb-3 mt-3 block text-[16px] text-accent underline" to="/profile">Личный кабинет</Link>
       <p
         onClick={() => setDraftSwitch(!draftSwitch)}
         className="cursor-pointer text-accent underline"

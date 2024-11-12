@@ -98,7 +98,10 @@ const OfferTender: FC<{
               </div>
               <div className={styles.buttons}>
                 <Link
-                  onClick={() => createTenderState.changeExecutorToSend(executorId, executorName)}
+                  onClick={() => {
+                    document.body.style.overflow = "auto";
+                    createTenderState.changeExecutorToSend(executorId, executorName);
+                  }}
                   to="/create-tender"
                 >
                   <button className={styles.button}>Создать тендер</button>

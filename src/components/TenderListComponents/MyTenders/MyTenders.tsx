@@ -127,7 +127,7 @@ export const MyTenders: FC<myTenderToogle> = ({ drafts }) => {
       cell: ({ row }) => {
         return (
           <button
-            className="w-[26px] mr-[10px] h-full flex items-center"
+            className="h-full flex items-center"
             onClick={() => {
               if (localStorage.getItem("token")) {
                 if (row.getValue("is_favorite")) {
@@ -176,7 +176,7 @@ export const MyTenders: FC<myTenderToogle> = ({ drafts }) => {
                   }`
                 )
               }
-              className="text-[14px] w-[165px] text-accent text-start line-clamp-2 whitespace-normal underline cursor-pointer"
+              className="text-[14px] w-[165px] text-accent text-center line-clamp-2 whitespace-normal underline cursor-pointer"
             >
               {row.getValue("name")}
             </p>
@@ -195,8 +195,8 @@ export const MyTenders: FC<myTenderToogle> = ({ drafts }) => {
       },
       cell: ({ row }) => {
         return (
-          <div className="flex gap-1 w-[130px]">
-            <p className="text-[14px] text-start">{row.getValue("city")}</p>
+          <div className="flex gap-1 w-[130px] justify-center">
+            <p className="text-[14px]">{row.getValue("city")}</p>
           </div>
         );
       },
@@ -220,9 +220,9 @@ export const MyTenders: FC<myTenderToogle> = ({ drafts }) => {
       },
       cell: ({ row }) => {
         return (
-          <div className="w-[80px]">
-            <p className="text-[#666] text-end">{row.getValue("price")} ₽</p>
-            <p className="text-[#666] text-end">
+          <div className="w-[105px] flex flex-col items-center">
+            <p className="text-[#666] w-[60px] text-end">{row.getValue("price")} ₽</p>
+            <p className="text-[#666] w-[60px] text-end">
               {row.getValue("is_nds_price") ? "с НДС" : "без НДС"}
             </p>
           </div>
