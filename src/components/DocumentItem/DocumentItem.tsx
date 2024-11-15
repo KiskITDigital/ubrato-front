@@ -59,7 +59,7 @@ export const DocumentItem: FC = () => {
             </button>
           </header>
           <div className="mt-[25px] px-5">
-            <article className="prose max-w-full prose-a:text-accent prose-p:indent-5 prose-p:text-justify">
+            <article className="prose max-w-full prose-a:text-accent prose-p:my-0 prose-p:indent-5 prose-p:text-justify">
               {document.textContent}
             </article>
           </div>

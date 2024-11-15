@@ -19,14 +19,14 @@ export const DocumentsPage: FC = () => {
 
   useEffect(() => {
     if (location.pathname === "/documents") {
-      navigate("oferta_na_okazanie_uslug_dlya_ispolnitelya");
+      navigate("polzovatelskoe_soglashenie");
     }
   }, [location.pathname]);
 
   return (
     <div className="container mt-5">
       <div className="flex gap-5">
-        <nav className="px-5 py-6 rounded-[30px] bg-white shadow-md w-[310px]">
+        <nav className="px-5 py-6 rounded-[30px] bg-white shadow-md w-[310px] h-fit">
           <Accordion
             defaultExpandedKeys={["0", "1"]}
             itemClasses={itemClasses}
