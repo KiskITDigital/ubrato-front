@@ -3,14 +3,6 @@ export const documents = [
     title: 'Документы',
     items: [
       {
-        text: 'Оферта на оказание услуг для Исполнителя',
-        link: 'oferta_na_okazanie_uslug_dlya_ispolnitelya',
-      },
-      {
-        text: 'Оферта на оказание услуг для Заказчика',
-        link: 'oferta_na_okazanie_uslug_dlya_zakazchika',
-      },
-      {
         text: 'Пользовательское соглашение',
         link: 'polzovatelskoe_soglashenie',
       },
@@ -25,6 +17,10 @@ export const documents = [
       {
         text: 'Согласие на обработку персональных данных',
         link: 'soglasie_na_obrabotku_personalnyh_dannyh',
+      },
+      {
+        text: "Правила проведения тендеров Заказчиками и участие в тендерах Исполнителей",
+        link: "pravila_provedeniya_tenderov_zakazchikami_i_uchastie_v_tenderakh_ispolniteley"
       },
       {
         text: 'Согласие на размещение и обнародование фотографий и иных материалов для Исполнителя',

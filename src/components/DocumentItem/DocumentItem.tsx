@@ -27,9 +27,6 @@ export const DocumentItem: FC = () => {
             <p className="text-[rgba(0,0,0,.5)] mt-3">
               Дата публикации: {document.publicationDate}
             </p>
-            <p className="text-[rgba(0,0,0,.5)]">
-              Дата вступления в силу: {document.entryIntoForceDAte}
-            </p>
             <Modal
               isOpen={isOpen}
               onOpenChange={onOpenChange}
@@ -68,7 +65,7 @@ export const DocumentItem: FC = () => {
           </div>
         </>
       )}
-      {!document && <p className="text-2xl mt-[30px]">Документ не найден</p>}
+      {!document && <p className="text-2xl mt-[30px] text-center">Документ не найден</p>}
     </div>
   );
 };
