@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './portfolioform.module.css';
-import { updateToken, uploadFile, fetchFileInfo, postPortfolio, putPortfolio } from '@/api';
-import { Link } from 'react-router-dom';
+import { FC, useEffect, useState } from "react";
+import styles from "./portfolioform.module.css";
+import { updateToken, uploadFile, fetchFileInfo, postPortfolio, putPortfolio } from "@/api";
+import { Link } from "react-router-dom";
 
 export const PortfolioForm: FC<{
   close: () => void;
@@ -21,10 +21,11 @@ export const PortfolioForm: FC<{
   }) => void;
   data?: { id: string; name: string; description: string; links: string[] };
 }> = ({ data, setPortfolio, close, setPortfolioList }) => {
-  const [newName, setNewName] = useState(data?.name ?? '');
-  const [newDescription, setNewDescription] = useState(data?.description ?? '');
+  const [newName, setNewName] = useState(data?.name ?? "");
+  const [nameErr, setNameErr] = useState("");
+  const [newDescription, setNewDescription] = useState(data?.description ?? "");
   const [newLinks, setNewLinks] = useState<string[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [linksInfo, setLinksInfo] = useState<
     {
       name: string;
@@ -54,13 +55,28 @@ export const PortfolioForm: FC<{
       <div className={styles.scroll}>
         <p className={styles.header}>Добавить портфолио</p>
         <p className={styles.subHeader}>Название:</p>
-        <input
-          onChange={(e) => setNewName(e.target.value)}
-          value={newName}
-          name="header"
-          className={styles.input}
-          type="text"
-        />
+        <div className="relative w-full">
+          <input
+            onChange={(e) => {
+              if (e.target.value.trim().length > 0) {
+                setNameErr("");
+              }
+              setNewName(e.target.value);
+            }}
+            onBlur={e => {
+              if (e.target.value.trim().length === 0) {
+                setNameErr("Название обязательно");
+              }
+            }}
+            value={newName}
+            name="header"
+            className={`${styles.input} ${nameErr && "!border-error"}`}
+            type="text"
+          />
+          {nameErr && (
+            <p className="absolute text-[10px] text-error bottom-[-18px] left-2">{nameErr}</p>
+          )}
+        </div>
         <p className={styles.subHeader}>Описание:</p>
         <input
           onChange={(e) => setNewDescription(e.target.value)}
@@ -86,11 +102,11 @@ export const PortfolioForm: FC<{
               onChange={(e) => {
                 // console.log(e.target.files);
                 if (
-                  ['image/png', 'image/jpeg', 'application/pdf'].includes(e.target.files![0].type)
+                  ["image/png", "image/jpeg", "application/pdf"].includes(e.target.files![0].type)
                 ) {
                   if (e.target.files !== null) {
                     if (e.target.files.length <= 8 - newLinks.length) {
-                      setError('');
+                      setError("");
                       (async () => {
                         const newNewLinks: string[] = [];
                         const newLinksInfo: { name: string; format: string }[] = [];
@@ -110,12 +126,12 @@ export const PortfolioForm: FC<{
                         setLinksInfo([...linksInfo, ...newLinksInfo]);
                       })();
                     } else {
-                      setError('Слишком много файлов');
+                      setError("Слишком много файлов");
                     }
                   }
                 } else {
-                  setError('Неверный тип файла');
-                  e.target.value = '';
+                  setError("Неверный тип файла");
+                  e.target.value = "";
                   // console.log(e.target.files);
                 }
               }}
@@ -135,7 +151,7 @@ export const PortfolioForm: FC<{
 
           {linksInfo?.map((e, ix) => (
             <div className={styles.file} key={ix}>
-              {e.name.split('.')[1]}
+              {e.name.split(".")[1]}
               {e.format}
               <button
                 onClick={(e) => {
@@ -143,7 +159,7 @@ export const PortfolioForm: FC<{
                   const newNewLinks = newLinks.filter((i) => !i.includes(name!));
                   // console.log(linksInfo);
                   const newLinksInfo = linksInfo.filter(
-                    (i) => !i.name.includes(name!.split('.')[0])
+                    (i) => !i.name.includes(name!.split(".")[0])
                   );
                   // console.log(newLinksInfo);
                   setNewLinks(newNewLinks);
@@ -162,61 +178,65 @@ export const PortfolioForm: FC<{
             className={styles.btn}
             onClick={() => {
               (async () => {
-                if (data) {
-                  await updateToken(putPortfolio, {
-                    id: data.id,
-                    params: {
+                if (newName.trim() === "") {
+                  setNameErr("Название обязательно");
+                } else {
+                  if (data) {
+                    await updateToken(putPortfolio, {
+                      id: data.id,
+                      params: {
+                        name: newName,
+                        description: newDescription,
+                        imgs: newLinks,
+                      },
+                    });
+                    setPortfolioList({
+                      id: data.id,
+                      name: newName,
+                      description: newDescription,
+                      links: newLinks,
+                      selected: false,
+                    });
+                    close();
+                  } else {
+                    const res = await updateToken(postPortfolio, {
                       name: newName,
                       description: newDescription,
                       imgs: newLinks,
-                    },
-                  });
-                  setPortfolioList({
-                    id: data.id,
-                    name: newName,
-                    description: newDescription,
-                    links: newLinks,
-                    selected: false,
-                  });
-                  close();
-                } else {
-                  const res = await updateToken(postPortfolio, {
-                    name: newName,
-                    description: newDescription,
-                    imgs: newLinks,
-                  });
-                  setPortfolio({
-                    id: res,
-                    name: newName,
-                    description: newDescription,
-                    links: newLinks,
-                    selected: false,
-                  });
-                  close();
+                    });
+                    setPortfolio({
+                      id: res,
+                      name: newName,
+                      description: newDescription,
+                      links: newLinks,
+                      selected: false,
+                    });
+                    close();
+                  }
                 }
               })();
             }}
           >
-            {data ? 'Изменить' : 'Добавить'}
+            {data ? "Изменить" : "Добавить"}
           </button>
           <p className="w-full">
-            Нажимая на кнопку «{data ? 'Изменить' : 'Добавить'}» Я даю{' '}
+            Нажимая на кнопку «{data ? "Изменить" : "Добавить"}» Я даю{" "}
             <Link
               to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
               target="_blank"
               className="text-accent underline text-sm"
             >
               Согласие на обработку персональных данных
-            </Link>{' '}
-            в соответствии с{' '}
+            </Link>{" "}
+            в соответствии с{" "}
             <Link
               to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
               target="_blank"
               className="text-accent underline text-sm"
             >
               Политикой в отношении обработки персональных данных
-            </Link>{' '}
-            и соглашаюсь с условиями настоящей{' '}
+            </Link>{" "}
+            и соглашаюсь с условиями настоящей{" "}
             <Link
               to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya"
               target="_blank"
@@ -224,7 +244,7 @@ export const PortfolioForm: FC<{
             >
               Оферты
             </Link>
-            , а также даю{' '}
+            , а также даю{" "}
             <Link
               to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_ispolnitelya"
               target="_blank"
