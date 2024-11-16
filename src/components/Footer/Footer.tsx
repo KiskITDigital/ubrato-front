@@ -1,8 +1,8 @@
-import { FC } from 'react';
-import styles from './footer.module.css';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { useIsOrdererState } from '@/store/isOrdererStore';
+import { FC } from "react";
+import styles from "./footer.module.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { useIsOrdererState } from "@/store/isOrdererStore";
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -12,9 +12,9 @@ export const Footer: FC = () => {
   const location = useLocation();
 
   const handleLogOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     userInfoStorage.setLoggedIn(false);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -35,7 +35,7 @@ export const Footer: FC = () => {
             </Link>
           </div>
         )}
-        {userInfoStorage.isLoggedIn && !location.pathname.includes('profile') && (
+        {userInfoStorage.isLoggedIn && !location.pathname.includes("profile") && (
           <div className="flex gap-[20px]">
             <Link to="/profile" className={styles.registrationLink}>
               <p className={styles.registrationText}>Личный кабинет</p>
@@ -57,8 +57,8 @@ export const Footer: FC = () => {
             {!userInfoStorage.isLoggedIn && (
               <li>
                 <Link
-                  to="/regisregistrationter"
-                  onClick={() => ordererState.handleState('contractor')}
+                  to="/registration"
+                  onClick={() => ordererState.handleState("contractor")}
                   state={{ toReload: null }}
                 >
                   <p className={styles.point}>Стать заказчиком</p>
@@ -68,8 +68,8 @@ export const Footer: FC = () => {
             {(!userInfoStorage.user || !userInfoStorage.user.is_contractor) && (
               <li>
                 <Link
-                  to={`${userInfoStorage.isLoggedIn ? '/profile/become-contractor' : 'register'}`}
-                  onClick={() => ordererState.handleState('contractor')}
+                  to={`${userInfoStorage.isLoggedIn ? "/profile/become-contractor" : "register"}`}
+                  onClick={() => ordererState.handleState("contractor")}
                   state={{ toReload: null }}
                 >
                   <p className={styles.point}>Стать исполнителем</p>
@@ -97,14 +97,14 @@ export const Footer: FC = () => {
           <p className={styles.footercolumn}>Информация</p>
           <ul>
             <li>
-              <Link to="/" state={{ to: 'catalog' }}>
+              <Link to="/" state={{ to: "catalog" }}>
                 <p className={styles.point}>Каталог</p>
               </Link>
             </li>
             <li>
               <Link
                 to="/about"
-                onClick={() => ordererState.handleState('orderer')}
+                onClick={() => ordererState.handleState("orderer")}
                 state={{ toReload: null }}
               >
                 <p className={styles.point}>Заказчикам</p>
@@ -113,7 +113,7 @@ export const Footer: FC = () => {
             <li>
               <Link
                 to="/about"
-                onClick={() => ordererState.handleState('contractor')}
+                onClick={() => ordererState.handleState("contractor")}
                 state={{ toReload: null }}
               >
                 <p className={styles.point}>Исполнителям</p>
@@ -125,7 +125,7 @@ export const Footer: FC = () => {
               </Link>
             </li> */}
             <li>
-              <Link to="/" state={{ to: 'questions' }}>
+              <Link to="/" state={{ to: "questions" }}>
                 <p className={styles.point}>Частые вопросы</p>
               </Link>
             </li>
@@ -205,16 +205,27 @@ export const Footer: FC = () => {
         <Link target="_blank" to="/documents/soglasie_na_obrabotku_personalnyh_dannyh">
           <p className={styles.confidental}>Согласие на обработку персональных данных</p>
         </Link>
-        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya">
-          <p className={styles.confidental}>Оферта на оказание услуг для Исполнителя</p>
-        </Link>
-        <Link target="_blank" to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika">
-          <p className={styles.confidental}>Оферта на оказание услуг для Заказчика</p>
-        </Link>
+      </div>
+      <div className="mb-5">
+        <p className="text-[10px] text-[rgba(0,0,0,.6)] text-start">
+          Использование Оператором сайта{" "}
+          <a className="text-accent underline" href="https://www.ubrato.ru">
+            https://www.ubrato.ru
+          </a>{" "}
+          осуществляется на основании лицензионного договора о предоставлении права на использование
+          сайта как программы для ЭВМ от 28 августа 2024 г. на условиях простой (неисключительной)
+          лицензии.
+        </p>
+        <p className="text-[10px] text-[rgba(0,0,0,.6)] text-start">
+          Использование Оператором товарного знака Ubrato осуществляется на основании лицензионного
+          договора о предоставлении права на использование товарного знака от 07 августа 2024 г. на
+          условиях простой (неисключительной) лицензии, зарегистрированного в Федеральной службе по
+          интеллектуальной собственности 24 сентября 2024 г. за номером РД0479806.
+        </p>
       </div>
       <div className={styles.last}>
         <p className={styles.greytext}>
-          © 2024 ООО “Интеграция”{' '}
+          © 2024 ООО “Интеграция”{" "}
           <Link to="/" className={styles.greytext}>
             (ubrato.ru)
           </Link>
