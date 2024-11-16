@@ -1,12 +1,12 @@
-import { helpSchema } from '@/validation/helpSchema';
-import { Checkbox, Input, Textarea } from '@nextui-org/react';
-import { useFormik } from 'formik';
-import { Link } from 'react-router-dom';
-import styles from './ContactModal.module.css';
-import { useIMask } from 'react-imask';
-import { FormEvent, Ref, useState } from 'react';
-import { sendHelpMessage } from '@/api';
-import { ClickOutside } from './ClickOutside';
+import { helpSchema } from "@/validation/helpSchema";
+import { Checkbox, Input, Textarea } from "@nextui-org/react";
+import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import styles from "./ContactModal.module.css";
+import { useIMask } from "react-imask";
+import { FormEvent, Ref, useState } from "react";
+import { sendHelpMessage } from "@/api";
+import { ClickOutside } from "./ClickOutside";
 
 type ContactFormProps = {
   name: string;
@@ -16,9 +16,9 @@ type ContactFormProps = {
 };
 
 const initialValues: ContactFormProps = {
-  name: '',
-  phone: '',
-  question: '',
+  name: "",
+  phone: "",
+  question: "",
   confirm: false,
 };
 
@@ -43,7 +43,7 @@ export default function ContactModal({
   type,
 }: {
   onClose?: () => void;
-  type: 'SURVEY_TYPE_REGISTRATION' | 'SURVEY_TYPE_VERIFICATION' | 'SURVEY_TYPE_FEEDBACK';
+  type: "SURVEY_TYPE_REGISTRATION" | "SURVEY_TYPE_VERIFICATION" | "SURVEY_TYPE_FEEDBACK";
 }) {
   const [successfullySent, setSuccessfullSent] = useState(false);
 
@@ -56,7 +56,7 @@ export default function ContactModal({
           await sendHelpMessage(values.name, values.phone, values.question, type);
           setSuccessfullSent(true);
           formik.resetForm();
-          setValue('');
+          setValue("");
         } catch (error) {
           console.error(error);
         }
@@ -65,7 +65,7 @@ export default function ContactModal({
     validationSchema: helpSchema,
   });
 
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
+  const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
   return (
     <form
@@ -130,21 +130,25 @@ export default function ContactModal({
           onChange={formik.handleChange}
           classNames={checkStyle}
         >
-          Я даю{' '}
+          Я даю{" "}
           <Link
             className={styles.link}
             target="_blank"
             to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
           >
             Согласие на обработку персональных данных
-          </Link>{' '}
-          в соответствии с{' '}
+          </Link>{" "}
+          в соответствии с{" "}
           <Link
             className={styles.link}
             target="_blank"
             to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
           >
             Политикой в отношении обработки персональных данных
+          </Link>{" "}
+          и принимаю условия{" "}
+          <Link className={styles.link} target="_blank" to="/documents/polzovatelskoe_soglashenie">
+            Пользовательского соглашения
           </Link>
           .<p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
         </Checkbox>
