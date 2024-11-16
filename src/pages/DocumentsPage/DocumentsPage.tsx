@@ -18,7 +18,7 @@ export const DocumentsPage: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname === "/documents") {
+    if (location.pathname === "/documents" || location.pathname === "/documents/") {
       navigate("polzovatelskoe_soglashenie");
     }
   }, [location.pathname]);
