@@ -13,7 +13,7 @@ export const DocumentItem: FC = () => {
   const modalStyle = {
     wrapper:
       "z-[7] absolute top-[calc(50vh-143px)] left-[calc(50vw-270px)] w-[540px] h-[286px] bg-white p-5 shadow-md rounded-[20px]",
-    backdrop: "z-[6] backdrop-blur absolute top-0 left-0 w-full h-full",
+    backdrop: "z-[6] backdrop-blur fixed top-0 left-0 w-full h-full",
     closeButton:
       "absolute right-0 w-[34px] h-[34px] bg-[rgba(0,0,0,.04)] rounded-[10px] flex items-center justify-center",
   };
@@ -23,7 +23,7 @@ export const DocumentItem: FC = () => {
       {document && (
         <>
           <header className="mt-[30px] relative px-5 py-[14px] bg-[#EBF5FF] rounded-[13px]">
-            <h2 className="font-bold text-[20px]">{document.title}</h2>
+            <h2 className="font-bold text-[20px] max-w-[728px]">{document.title}</h2>
             <p className="text-[rgba(0,0,0,.5)] mt-3">
               Дата публикации: {document.publicationDate}
             </p>
@@ -36,11 +36,7 @@ export const DocumentItem: FC = () => {
               <ModalContent>
                 <div className="mt-[70px] flex flex-col justify-between h-full">
                   <p className="text-lg font-semibold">
-                    Скачать документ{" "}
-                    <span className="text-accent underline">
-                      Согласие на размещение и обнародование фотографий и иных материалов для
-                      Исполнителей
-                    </span>{" "}
+                    Скачать документ <span className="text-accent underline">{document.title}</span>{" "}
                     в формате pdf
                   </p>
                   <Link
