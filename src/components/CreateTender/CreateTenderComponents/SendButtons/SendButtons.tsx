@@ -1,28 +1,28 @@
-import { useCleaningTypeStore } from '@/store/cleaningTypeStore';
-import { useCreateTenderState } from '@/store/createTenderStore';
-import { useTypesObjectsStore } from '@/store/objectsStore';
-import { FC, useState } from 'react';
-import { formatDate } from '../../funcs';
-import { createTender, offerTender, updateToken } from '@/api/index';
-import styles from '../../CreateTender.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import Modal from '@/components/Modal';
-import AfterSendInfo from '../AfterSendInfo/AfterSendInfo';
-import { AxiosError } from 'axios';
-import { createTenderData } from '@/types/app';
+import { useCleaningTypeStore } from "@/store/cleaningTypeStore";
+import { useCreateTenderState } from "@/store/createTenderStore";
+import { useTypesObjectsStore } from "@/store/objectsStore";
+import { FC, useState } from "react";
+import { formatDate } from "../../funcs";
+import { createTender, offerTender, updateToken } from "@/api/index";
+import styles from "../../CreateTender.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import Modal from "@/components/Modal";
+import AfterSendInfo from "../AfterSendInfo/AfterSendInfo";
+import { AxiosError } from "axios";
+import { createTenderData } from "@/types/app";
 
 const SendButtons: FC = () => {
   const createTenderState = useCreateTenderState();
   const objectsStore = useTypesObjectsStore();
   const cleaningTypeStore = useCleaningTypeStore();
 
-  const [isModal, setIsModal] = useState<'' | 'tender' | 'draft'>('');
+  const [isModal, setIsModal] = useState<"" | "tender" | "draft">("");
   const navigate = useNavigate();
 
   const submit = async (isDraft: boolean) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/registration');
+      navigate("/registration");
       return;
     }
     if (createTenderState.validateInputs(isDraft)) return;
@@ -45,9 +45,9 @@ const SendButtons: FC = () => {
     const objectToSend = {
       objects_types: arrToSearchObjectTypes.length ? arrToSearchObjectTypes : [],
       services_types: arrToSearchServicesTypes.length ? arrToSearchServicesTypes : [],
-      specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : '',
+      specification: createTenderState.cleaningTZ ? createTenderState.cleaningTZ.linkToSend : "",
       name: createTenderState.name,
-      price: +createTenderState.price.replaceAll(' ', ''),
+      price: +createTenderState.price.replaceAll(" ", ""),
       is_contract_price: createTenderState.is_contract_price,
       is_nds_price: createTenderState.is_NDS,
       floor_space: +createTenderState.floor_space,
@@ -77,11 +77,11 @@ const SendButtons: FC = () => {
         if (createTenderState.executorToSend)
           offerTender(token, createTenderState.executorToSend.id, res.data.id);
         createTenderState.clear();
-        setIsModal(isDraft ? 'draft' : 'tender');
+        setIsModal(isDraft ? "draft" : "tender");
       }
     } catch (e) {
       if (e instanceof AxiosError) {
-        navigate('/login');
+        navigate("/login");
       }
     }
   };
@@ -90,9 +90,9 @@ const SendButtons: FC = () => {
       {!!isModal && (
         <Modal isOpen={!!isModal}>
           <AfterSendInfo
-            isDraft={isModal === 'draft'}
+            isDraft={isModal === "draft"}
             closeModal={() => {
-              setIsModal('');
+              setIsModal("");
               createTenderState.changeExecutorToSend();
             }}
             executorName={createTenderState.executorToSend?.name || null}
@@ -100,31 +100,7 @@ const SendButtons: FC = () => {
         </Modal>
       )}
       <p className="ml-[244px]">
-        Нажимая на кнопку «Отправить на модерацию» Я даю{' '}
-        <Link
-          to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
-          target="_blank"
-          className="text-accent underline text-sm"
-        >
-          Согласие на обработку персональных данных
-        </Link>{' '}
-        в соответствии с{' '}
-        <Link
-          to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita/"
-          target="_blank"
-          className="text-accent underline text-sm"
-        >
-          Политикой в отношении обработки персональных данных
-        </Link>{' '}
-        и соглашаюсь с условиями настоящей{' '}
-        <Link
-          to="/documents/oferta_na_okazanie_uslug_dlya_zakazchika"
-          target="_blank"
-          className="text-accent underline text-sm"
-        >
-          Оферты
-        </Link>
-        , а также даю{' '}
+        Нажимая на кнопку «Отправить на модерацию» Я даю{" "}
         <Link
           to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_zakazchika"
           target="_blank"
