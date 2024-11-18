@@ -63,7 +63,7 @@ export const PortfolioForm: FC<{
               }
               setNewName(e.target.value);
             }}
-            onBlur={e => {
+            onBlur={(e) => {
               if (e.target.value.trim().length === 0) {
                 setNameErr("Название обязательно");
               }
@@ -221,30 +221,6 @@ export const PortfolioForm: FC<{
           </button>
           <p className="w-full">
             Нажимая на кнопку «{data ? "Изменить" : "Добавить"}» Я даю{" "}
-            <Link
-              to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Согласие на обработку персональных данных
-            </Link>{" "}
-            в соответствии с{" "}
-            <Link
-              to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Политикой в отношении обработки персональных данных
-            </Link>{" "}
-            и соглашаюсь с условиями настоящей{" "}
-            <Link
-              to="/documents/oferta_na_okazanie_uslug_dlya_ispolnitelya"
-              target="_blank"
-              className="text-accent underline text-sm"
-            >
-              Оферты
-            </Link>
-            , а также даю{" "}
             <Link
               to="/documents/soglasie_na_razmeschenie_i_obnarodovaniye_fotografiy_i_inyh_materialov_dlya_ispolnitelya"
               target="_blank"

@@ -160,9 +160,14 @@ const Dates: FC<{ ref2?: React.LegacyRef<HTMLDivElement> }> = forwardRef<
             <div className="absolute right-0">
               <Tooltip
                 classNames={{
-                  base: "bg-white text-[12px] px-[8px] py-[4px] rounded-[8px] shadow-md",
+                  base: "bg-white px-[8px] py-[4px] rounded-[8px] shadow-md",
                 }}
-                content={"Введите значение от 1 до 9 999 999 999 или выберите “Договорная”"}
+                content={
+                  <div>
+                    <p className="font-bold text-[12px] text-black mb-1">Укажите ваш бюджет</p>
+                    <p className="text-[12px] text-black">Введите значение от 1 до 9 999 999 999 или выберите «Договорная»</p>
+                  </div>
+                }
                 closeDelay={100}
               >
                 <button>

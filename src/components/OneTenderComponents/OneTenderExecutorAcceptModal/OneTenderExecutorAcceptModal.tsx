@@ -1,8 +1,8 @@
-import { FC, Ref, useState } from 'react';
-import styles from './styles.module.css';
-import { Switch } from '@nextui-org/react';
-import { sendResponse } from '@/api/respondTender';
-import { useIMask } from 'react-imask';
+import { FC, Ref, useState } from "react";
+import styles from "./styles.module.css";
+import { Switch } from "@nextui-org/react";
+import { sendResponse } from "@/api/respondTender";
+import { useIMask } from "react-imask";
 // import notion from ''
 
 type TenderModalProps = {
@@ -50,10 +50,10 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
     mask: Number,
     min: 0.01,
     max: 9999999999.99,
-    thousandsSeparator: ' ',
+    thousandsSeparator: " ",
     scale: 2,
-    radix: ',',
-    mapToRadix: ['.'],
+    radix: ",",
+    mapToRadix: ["."],
   });
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +66,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const finalPrice = isAgreed ? price : Number(unmaskedValue);
     console.log(finalPrice);
     e.preventDefault();
@@ -101,7 +101,7 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
                       className={styles.input_checkobx}
                     />
                     <p className={styles.middle_paragraph}>
-                      Согласны со стоимостью заказчика {price} рублей
+                      Согласны с бюджетом на тендер {price} рублей
                     </p>
                   </div>
                 </label>
@@ -131,8 +131,8 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
                 <div className={styles.nds_notice}>
                   <div className={styles.circle}></div>
                   <p className={styles.nds_notice_text}>
-                    Если ваша компания работает по общей системе налогообложения (ОСН), указывайте
-                    цену с учетом НДС
+                    Выбирайте с НДС, если ваша компания работает по общей системе налогообложения
+                    (ОСН)
                   </p>
                 </div>
                 <button onClick={handleFormSubmit} className={styles.button_spec} type="submit">

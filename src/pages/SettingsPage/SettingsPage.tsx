@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, Ref, useEffect, useRef, useState } from 'react';
-import styles from './settings-page.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { Checkbox, Input } from '@nextui-org/react';
+import { FC, Ref, useEffect, useRef, useState } from "react";
+import styles from "./settings-page.module.css";
+import { Link, useNavigate } from "react-router-dom";
+import { Checkbox, Input } from "@nextui-org/react";
 // import { LoginFormValuesT } from "@/types/app";
 // import { useFormik } from "formik";
 import {
@@ -11,14 +11,14 @@ import {
   changePersonalData,
   login,
   updateToken,
-} from '@/api';
+} from "@/api";
 // import { loginSchema } from '@/validation/loginSchema';
 // import { AxiosError } from "axios";
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { AxiosError } from 'axios';
-import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
-import { useIMask } from 'react-imask';
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { AxiosError } from "axios";
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
+import { useIMask } from "react-imask";
 
 const SettingsPage: FC = () => {
   const navigate = useNavigate();
@@ -27,40 +27,40 @@ const SettingsPage: FC = () => {
 
   const userInfoStore = useUserInfoStore();
 
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
+  const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
-  const status: 'unverified' | 'success' = userInfoStore.user.verified ? 'success' : 'unverified';
+  const status: "unverified" | "success" = userInfoStore.user.verified ? "success" : "unverified";
 
   const [buttonText, setButtonText] = useState<
-    'Отправить письмо' | 'Ссылка для подтверждения e-mail отправлена на указанную вами почту.'
-  >('Отправить письмо');
+    "Отправить письмо" | "Ссылка для подтверждения e-mail отправлена на указанную вами почту."
+  >("Отправить письмо");
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const [wantToChange, setWantToChange] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [verifyError, setVerifyError] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [middleName, setMiddleName] = useState('');
+  const [verifyError, setVerifyError] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [middleName, setMiddleName] = useState("");
   const [hasDataChanged, setHasDataChanged] = useState(false);
-  const [changeDataError, setChangeDataError] = useState('');
+  const [changeDataError, setChangeDataError] = useState("");
   const [contactConfirm, setContactConfirm] = useState(false);
-  const [contactError, setContactError] = useState('');
+  const [contactError, setContactError] = useState("");
 
-  const [passwordToChange, setPasswordToChange] = useState('');
+  const [passwordToChange, setPasswordToChange] = useState("");
   const [isPasswordToChangeVisible, setIsPasswordToChangeVisible] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
-  const [passwordResetError, setPasswordResetError] = useState('');
+  const [passwordResetError, setPasswordResetError] = useState("");
 
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState<
-    | ''
-    | 'Пароль некорректен'
-    | 'allowed'
-    | 'На указанную вами электронную почту отправлена ссылка для создания нового пароля.'
-  >('');
+    | ""
+    | "Пароль некорректен"
+    | "allowed"
+    | "На указанную вами электронную почту отправлена ссылка для создания нового пароля."
+  >("");
 
   // const initialValues: LoginFormValuesT = {
   //     email: userInfoStore.user.email,
@@ -82,9 +82,9 @@ const SettingsPage: FC = () => {
     } catch (e) {
       if (e instanceof AxiosError) {
         if (e.response?.status === 401) {
-          setVerifyError('Пароль некорректен');
+          setVerifyError("Пароль некорректен");
         } else {
-          setVerifyError('Что-то пошло не так');
+          setVerifyError("Что-то пошло не так");
         }
       }
     }
@@ -98,33 +98,33 @@ const SettingsPage: FC = () => {
     if (newVal.length > 0) {
       try {
         await login({ email: userInfoStore.user.email, password: newVal });
-        setPasswordError('allowed');
+        setPasswordError("allowed");
       } catch (e) {
         if (e instanceof AxiosError) {
           if (e.response?.status === 401) {
-            setPasswordError('Пароль некорректен');
+            setPasswordError("Пароль некорректен");
           } else {
-            setErrorMsg('Что-то пошло не так');
+            setErrorMsg("Что-то пошло не так");
           }
         }
       }
-    } else setPasswordError('');
+    } else setPasswordError("");
   };
 
   const verification = async () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     try {
       await askForVerification(token);
-      setButtonText('Ссылка для подтверждения e-mail отправлена на указанную вами почту.');
+      setButtonText("Ссылка для подтверждения e-mail отправлена на указанную вами почту.");
       setTimeout(() => {
-        setButtonText('Отправить письмо');
+        setButtonText("Отправить письмо");
       }, 3000);
     } catch (e) {
-      navigate('/login');
+      navigate("/login");
     }
   };
 
@@ -140,7 +140,7 @@ const SettingsPage: FC = () => {
       userInfoStore.user.first_name === firstName &&
       userInfoStore.user.last_name === lastName &&
       userInfoStore.user.middle_name === middleName &&
-      userInfoStore.user.phone === value.replaceAll('-', '').replaceAll('(', '').replaceAll(')', '')
+      userInfoStore.user.phone === value.replaceAll("-", "").replaceAll("(", "").replaceAll(")", "")
     ) {
       setHasDataChanged(false);
     } else {
@@ -149,15 +149,15 @@ const SettingsPage: FC = () => {
   }, [firstName, lastName, middleName, value]);
 
   useEffect(() => {
-    startRef.current!.scrollIntoView({ behavior: 'smooth' });
+    startRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       const elementTop = startRef.current!.getBoundingClientRect().top;
-      window.scrollBy({ top: elementTop - 200, behavior: 'smooth' });
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -166,12 +166,12 @@ const SettingsPage: FC = () => {
   const askToResetPassword = async () => {
     const { status } = await askResetPassword(userInfoStore.user.email);
     if (status) {
-      setPassword('');
+      setPassword("");
       setPasswordError(
-        'На указанную вами электронную почту отправлена ссылка для создания нового пароля.'
+        "На указанную вами электронную почту отправлена ссылка для создания нового пароля."
       );
       setTimeout(() => {
-        setPasswordError('');
+        setPasswordError("");
       }, 3000);
     }
   };
@@ -203,25 +203,25 @@ const SettingsPage: FC = () => {
           {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
           <p
             className={`${styles.status} ${
-              status === 'success' ? styles.statusSuccess : styles.statusUnSuccess
+              status === "success" ? styles.statusSuccess : styles.statusUnSuccess
             }`}
           >
-            {status === 'success' ? 'Верифицирован' : 'Подтвердите почту'}
+            {status === "success" ? "Верифицирован" : "Подтвердите почту"}
           </p>
-          {status === 'unverified' && (
+          {status === "unverified" && (
             <div className={styles.statusVerifyBlock}>
               <button
                 onClick={() => verification()}
                 className={`${styles.sendMessage}`}
                 disabled={
                   buttonText ===
-                  'Ссылка для подтверждения e-mail отправлена на указанную вами почту.'
+                  "Ссылка для подтверждения e-mail отправлена на указанную вами почту."
                 }
               >
                 {buttonText}
               </button>
               {buttonText !==
-                'Ссылка для подтверждения e-mail отправлена на указанную вами почту.' && (
+                "Ссылка для подтверждения e-mail отправлена на указанную вами почту." && (
                 <div className={styles.info}>
                   <img className={styles.info__img} src="/info-ic.svg" alt="i" />
                   <p className={styles.info__text}>
@@ -250,14 +250,14 @@ const SettingsPage: FC = () => {
               placeholder="Электронная почта"
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg('');
+                setErrorMsg("");
               }}
             />
           </div>
           <div className={styles.inputBlock}>
             <p className={styles.inputBlock__name}>Пароль</p>
             <Input
-              type={isPasswordVisible ? 'text' : 'password'}
+              type={isPasswordVisible ? "text" : "password"}
               maxLength={250}
               value={password}
               onChange={(e) => handlePassword(e.currentTarget.value)}
@@ -273,12 +273,12 @@ const SettingsPage: FC = () => {
               }
               classNames={itemClasses}
               onFocus={() => {
-                setErrorMsg('');
+                setErrorMsg("");
               }}
             />
-            {passwordError !== 'allowed' &&
+            {passwordError !== "allowed" &&
               passwordError !==
-                'На указанную вами электронную почту отправлена ссылка для создания нового пароля.' && (
+                "На указанную вами электронную почту отправлена ссылка для создания нового пароля." && (
                 <p className={styles.errorMessage}>{passwordError}</p>
               )}
           </div>
@@ -288,20 +288,20 @@ const SettingsPage: FC = () => {
             isSelected={passwordConfirm}
             onValueChange={(e) => {
               setPasswordConfirm(e);
-              setPasswordResetError('');
+              setPasswordResetError("");
             }}
             classNames={checkStyle}
           >
             <p className="text-sm max-w-[500px]">
-              Я даю{' '}
+              Я даю{" "}
               <Link
                 className={styles.link}
                 target="_blank"
                 to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
               >
                 Согласие на обработку персональных данных
-              </Link>{' '}
-              в соответствии с{' '}
+              </Link>{" "}
+              в соответствии с{" "}
               <Link
                 className={styles.link}
                 target="_blank"
@@ -314,20 +314,20 @@ const SettingsPage: FC = () => {
             <p className={`${styles.errorMessage} ${styles.checkErr}`}>{passwordResetError}</p>
           </Checkbox>
           <button
-            disabled={passwordError !== 'allowed'}
+            disabled={passwordError !== "allowed"}
             className={styles.updateAccaunt}
             onClick={() => {
               if (passwordConfirm) {
                 askToResetPassword();
               } else {
-                setPasswordResetError('Обязательное поле');
+                setPasswordResetError("Обязательное поле");
               }
             }}
           >
             {passwordError ===
-            'На указанную вами электронную почту отправлена ссылка для создания нового пароля.'
-              ? 'На указанную вами электронную почту отправлена ссылка для создания нового пароля.'
-              : 'Изменить'}
+            "На указанную вами электронную почту отправлена ссылка для создания нового пароля."
+              ? "На указанную вами электронную почту отправлена ссылка для создания нового пароля."
+              : "Изменить"}
           </button>
           {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
         </div>
@@ -345,7 +345,7 @@ const SettingsPage: FC = () => {
               classNames={itemClasses}
               onValueChange={(e) => {
                 setLastName(e);
-                setChangeDataError('');
+                setChangeDataError("");
               }}
             />
           </div>
@@ -358,7 +358,7 @@ const SettingsPage: FC = () => {
               classNames={itemClasses}
               onValueChange={(e) => {
                 setFirstName(e);
-                setChangeDataError('');
+                setChangeDataError("");
               }}
             />
           </div>
@@ -367,7 +367,7 @@ const SettingsPage: FC = () => {
             <Input
               onValueChange={(e) => {
                 setMiddleName(e);
-                setChangeDataError('');
+                setChangeDataError("");
               }}
               type="text"
               value={middleName}
@@ -384,7 +384,7 @@ const SettingsPage: FC = () => {
               type="phone"
               value={value}
               placeholder="Телефон"
-              onChange={() => setChangeDataError('')}
+              onChange={() => setChangeDataError("")}
               classNames={itemClasses}
             />
           </div>
@@ -394,20 +394,20 @@ const SettingsPage: FC = () => {
             isSelected={contactConfirm}
             onValueChange={(e) => {
               setContactConfirm(e);
-              setContactError('');
+              setContactError("");
             }}
             classNames={checkStyle}
           >
             <p className="text-sm max-w-[500px]">
-              Я даю{' '}
+              Я даю{" "}
               <Link
                 className={styles.link}
                 target="_blank"
                 to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
               >
                 Согласие на обработку персональных данных
-              </Link>{' '}
-              в соответствии с{' '}
+              </Link>{" "}
+              в соответствии с{" "}
               <Link
                 className={styles.link}
                 target="_blank"
@@ -424,7 +424,7 @@ const SettingsPage: FC = () => {
               className={styles.updateAccaunt}
               onClick={() => {
                 if (!contactConfirm) {
-                  setContactError('Обязательное поле');
+                  setContactError("Обязательное поле");
                   return;
                 }
                 setWantToChange(true);
@@ -440,10 +440,10 @@ const SettingsPage: FC = () => {
                   className={styles.filledBtn}
                   onClick={() => {
                     if (!contactConfirm) {
-                      setContactError('Обязательное поле');
+                      setContactError("Обязательное поле");
                       return;
                     }
-                    const token = localStorage.getItem('token');
+                    const token = localStorage.getItem("token");
                     const parameters = {
                       firstName: firstName,
                       lastName: lastName,
@@ -460,7 +460,7 @@ const SettingsPage: FC = () => {
                         setIsVerified(false);
                       })();
                     } else {
-                      setChangeDataError('Заполните все поля');
+                      setChangeDataError("Заполните все поля");
                     }
                   }}
                 >
@@ -506,7 +506,7 @@ const SettingsPage: FC = () => {
               </button>
               <p className="text-[16px] font-bold">Введите пароль</p>
               <Input
-                type={isPasswordToChangeVisible ? 'text' : 'password'}
+                type={isPasswordToChangeVisible ? "text" : "password"}
                 maxLength={250}
                 value={passwordToChange}
                 onChange={(e) => setPasswordToChange(e.currentTarget.value)}
@@ -531,7 +531,7 @@ const SettingsPage: FC = () => {
                   onClick={() => {
                     (async () => {
                       await handleVerifyPassword(passwordToChange);
-                      setPasswordToChange('');
+                      setPasswordToChange("");
                     })();
                   }}
                 >
@@ -548,14 +548,14 @@ const SettingsPage: FC = () => {
         )}
       </div>
       <div className="flex justify-between border-b border-black/30 pb-6">
-        <p className="min-w-[220px] font-bold">Правовые документы</p>
+        <p className="min-w-[220px] font-bold">Документы Ubrato</p>
         <div className={styles.section__container}>
           <Link
             target="_blank"
             to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
             className={styles.sectionLink}
           >
-            Политика обработки персональных данных
+            Политика в отношении обработки персональных данных
           </Link>
           <Link
             target="_blank"
@@ -571,19 +571,22 @@ const SettingsPage: FC = () => {
           >
             Согласие на обработку персональных данных
           </Link>
+          <Link target="_blank" className="underline" to="/documents">
+            Все документы <span className="text-accent underline">Ubrato</span>
+          </Link>
         </div>
       </div>
       <div className="flex justify-between border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Обратная связь</p>
         <div className={styles.section__container}>
           <p className={styles.sectionText}>
-            Есть вопросы по настройке аккаунта?{' '}
+            Есть вопросы по настройке аккаунта?{" "}
             <span
               className={`${styles.sectionLink} cursor-pointer`}
               onClick={() => setOpenModal(true)}
             >
               Напишите телефон
-            </span>{' '}
+            </span>{" "}
             и мы перезвоним
           </p>
         </div>
