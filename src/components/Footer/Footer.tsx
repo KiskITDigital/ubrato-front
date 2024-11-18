@@ -68,7 +68,7 @@ export const Footer: FC = () => {
             {(!userInfoStorage.user || !userInfoStorage.user.is_contractor) && (
               <li>
                 <Link
-                  to={`${userInfoStorage.isLoggedIn ? "/profile/become-contractor" : "register"}`}
+                  to={`${userInfoStorage.isLoggedIn ? "/profile/become-contractor" : "registration"}`}
                   onClick={() => ordererState.handleState("contractor")}
                   state={{ toReload: null }}
                 >

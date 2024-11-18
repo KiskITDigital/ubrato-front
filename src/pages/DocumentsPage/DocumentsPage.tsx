@@ -55,7 +55,7 @@ export const DocumentsPage: FC = () => {
             ))}
           </Accordion>
         </nav>
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full h-[1206px] overflow-y-scroll scroll">
           <h1 className="text-4xl text-center font-bold">
             Документы <span className="text-accent">Ubrato</span>
           </h1>
