@@ -64,7 +64,7 @@ stage-deploy:
   extends: .prod-deploy
   variables:
     IMAGE_TAG: "stage"
-    SERVICE: stage_$CI_PROJECT_NAME
+    SERVICE: stack_$CI_PROJECT_NAME
 
 dev-deploy:
   only: [test]
