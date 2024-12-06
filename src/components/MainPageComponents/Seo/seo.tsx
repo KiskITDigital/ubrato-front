@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import styles from './seo.module.css';
-import { useState } from 'react';
+import { FC } from "react";
+import styles from "./seo.module.css";
+import { useState } from "react";
 
 export const Seo: FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -9,12 +9,12 @@ export const Seo: FC = () => {
     <div className={`container ${styles.container}`}>
       <div className={styles.seoBlock}>
         <h2 className={styles.titleblock}>
-          <span className={styles.blueText}>Seo </span>Заголовок
+          Сервис<span className={styles.blueText}>Ubrato </span> - Здесь решаются задачи клининга*
         </h2>
-        <p className={`${styles.content} ${isCollapsed ? styles.contentHidden : ''}`}>
-          Наш сервис помогает находить честных партнёров и заключать выгодные сделки в сфере{' '}
+        <p className={`${styles.content} ${isCollapsed ? "h-[150px]" : "h-fit"}`}>
+          Наш сервис помогает находить честных партнёров и заключать выгодные сделки в сфере{" "}
           <b>услуг клининга</b>. Москва — город, в котором сотни клининговых компаний, а также
-          тысячи собственников недвижимости и менеджеров по хозяйственной части пользуются{' '}
+          тысячи собственников недвижимости и менеджеров по хозяйственной части пользуются{" "}
           <b>сервисом</b> Ubrato. Здесь вы точно найдёте надёжного партнёра или клиента!
           <br />
           <br />
@@ -30,13 +30,14 @@ export const Seo: FC = () => {
           на <b>тендеры</b> и отправляют <b>предложения</b> дезинсекции зданий, мойки окон и
           фасадов, в том числе высотные <b>работы</b>, производят вывоз мусора — строительного, ТКО
           и ТБО по приемлемым <b>ценам</b>. Ubrato позволяет не только <b>договориться</b> с
-          подрядчиком и узнать его <b>расценки</b>, но и сориентироваться в рыночной{' '}
+          подрядчиком и узнать его <b>расценки</b>, но и сориентироваться в рыночной{" "}
           <b>стоимости</b> конкретного вида клининговых услуг. И заказчики, и подрядчики на сервисе
           Ubrato проходят проверку по данным юридического лица компании. Заказать <b>уборку</b> в
           городе <b>Москва</b> или найти клиентов для клининговой компании проще, чем кажется, если
           вы на сайте Ubrato
+          <p className="mt-4">*Под словом «здесь» подразумевается площадка Ubrato</p>
           <button className={`${styles.button}`} onClick={() => setIsCollapsed(!isCollapsed)}>
-            <div className={`${styles.gradient} ${!isCollapsed ? styles.active : ''}`}></div>
+            <div className={`${styles.gradient} ${!isCollapsed ? styles.active : ""}`}></div>
           </button>
         </p>
       </div>

@@ -1,9 +1,38 @@
 .mainBlock {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    gap: 30px;
-    border-bottom: 1px dashed var(--color-black-14);
-    padding-bottom: 30px;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  gap: 30px;
+  border-bottom: 1px dashed var(--color-black-14);
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}
+
+.content {
+  font-size: 20px;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.button {
+  width: 100%;
+  height: 113px;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  transition: background 0.3s ease;
+}
+
+.gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, #ffffff 100%);
+  height: 113px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  transition: bottom 0.5s ease;
+}
+
+.active {
+  bottom: -113px;
 }
