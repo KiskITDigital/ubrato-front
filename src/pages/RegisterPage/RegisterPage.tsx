@@ -338,7 +338,7 @@ export const RegisterPage: FC = () => {
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
                       const res = await checkINN(e.currentTarget.value);
-                      if (res.length > 0) {
+                      if (res?.length > 0) {
                         setCompanyName(res);
                         if (registrationStep !== 5) setRegistrationStep(4);
                       } else {
