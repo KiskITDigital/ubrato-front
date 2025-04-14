@@ -38,19 +38,26 @@ export const LoginPage: FC = () => {
         setIsLoading(true);
         try {
           const res = await login(parameters);
-          localStorage.setItem('token', res.data.access_token);
-          userInfoStore.isLoggedIn = true;
-          if (res.data.access_token) {
-            await userInfoStore.fetchUser(res.data.access_token);
+          const token = res.data.access_token;
+          // todo - проверять залогинен ли после проверки токена или до, т.к сейчас записывать в localStorage = undefined и падает, проверить после запуска сервера
+          if (typeof token === 'string') {
+            userInfoStore.isLoggedIn = true;
+            await userInfoStore.fetchUser(token);
             if (!userInfoStore.error) {
-              navigate('/profile');
+              navigate('/my-tenders');
             }
+            return;
           }
+          formik.resetForm();
+          setErrorMsg(
+            'Неверный логин или пароль. Проверьте правильность введенных данных'
+          );
         } catch (e) {
-          // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg('Неверный пароль');
+              setErrorMsg(
+                'Неверный логин или пароль. Проверьте правильность введенных данных'
+              );
             } else if (e.response?.status === 404) {
               setErrorMsg('Нет пользователся с таким e-mail');
             } else {
@@ -94,9 +101,16 @@ export const LoginPage: FC = () => {
     <div className={`container ${styles.container}`}>
       <div>
         <h1 className={styles.header}>Вход</h1>
-        <p className={'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'}>
+        <p
+          className={
+            'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'
+          }
+        >
           Ещё нет аккунта?{' '}
-          <Link className="text-[var(--color-blue-primary)] underline" to="/registration">
+          <Link
+            className="text-[var(--color-blue-primary)] underline"
+            to="/registration"
+          >
             Зарегистрироваться
           </Link>
         </p>
@@ -119,7 +133,9 @@ export const LoginPage: FC = () => {
               }}
             />
             {errorMsg === 'email busy' && (
-              <p className={styles.errorMessage}>Пользователь с таким e-mail не существует</p>
+              <p className={styles.errorMessage}>
+                Пользователь с таким e-mail не существует
+              </p>
             )}
           </div>
           <div className={styles.inputContainer}>
@@ -172,7 +188,12 @@ export const LoginPage: FC = () => {
             .
           </p>
           <div className={styles.submitContainer}>
-            <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
+            <input
+              disabled={isLoading}
+              className={styles.submit}
+              type="submit"
+              value="Войти"
+            />
           </div>
         </form>
       </div>
