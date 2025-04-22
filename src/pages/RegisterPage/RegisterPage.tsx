@@ -1,6 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useFormik } from 'formik';
-import { ChangeEvent, FC, FormEvent, Ref, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  Ref,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { RegisterFormValuesT } from '@/types/app';
 import { Checkbox, Input } from '@nextui-org/react';
 import { registerSchema } from '@/validation/registerSchema';
@@ -86,7 +94,9 @@ export const RegisterPage: FC = () => {
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
   const [companyName, setCompanyName] = useState('');
-  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(1);
+  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(
+    1
+  );
   // const [nameConfirm, setNameConfirm] = useState(false);
 
   const checkStyle = {
@@ -201,35 +211,40 @@ export const RegisterPage: FC = () => {
         <div className="flex w-[478px] justify-between mt-[20px]">
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
-              Выбирайте роль Заказчика, если вашей компании нужно заказать клининг и/или смежные{' '}
+              Выбирайте роль Заказчика, если вашей компании нужно заказать
+              клининг и/или смежные{' '}
               <Link className="underline" to="/faq?page=3&number=2#q3_2">
                 услуги
               </Link>
               .
             </p>
             <p className="text-[rgba(0,0,0,.6)] text-center text-[13px]">
-              Регистрируясь на сайте <span className="text-accent">Ubrato</span>, ваша компания
-              получает возможность проводить тендеры. Если в будущем вашей компании потребуется роль
-              Исполнителя, то вы сможете подключить этот функционал в личном кабинете.
+              Регистрируясь на сайте <span className="text-accent">Ubrato</span>
+              , ваша компания получает возможность проводить тендеры. Если в
+              будущем вашей компании потребуется роль Исполнителя, то вы сможете
+              подключить этот функционал в личном кабинете.
             </p>
           </div>
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
-              Выбирайте роль Исполнителя, если ваша компания предлагает свои клининговые и/или
-              смежные{' '}
+              Выбирайте роль Исполнителя, если ваша компания предлагает свои
+              клининговые и/или смежные{' '}
               <Link className="underline" to="/faq?page=2&number=1#q2_1">
                 услуги
               </Link>
               .
             </p>
             <p className="text-[rgba(0,0,0,.6)] text-center text-[13px]">
-              Регистрируясь как Исполнитель, ваша компания одновременно регистрируется и в роли
-              Заказчика. Это позволит находить Исполнителей на субподряды или заказывать
-              специализированные услуги для себя.
+              Регистрируясь как Исполнитель, ваша компания одновременно
+              регистрируется и в роли Заказчика. Это позволит находить
+              Исполнителей на субподряды или заказывать специализированные
+              услуги для себя.
             </p>
           </div>
         </div>
-        <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
+        <div
+          className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}
+        >
           Есть вопросы по регистрации?{' '}
           <span
             className={`cursor-pointer underline underline-offset-4`}
@@ -315,7 +330,9 @@ export const RegisterPage: FC = () => {
               </div>
             </>
           )}
-          {registrationStep > 2 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
+          {registrationStep > 2 && (
+            <p className={styles.inputGrHeader}>Укажите данные компании</p>
+          )}
           {registrationStep > 2 && (
             <p className={`${styles.infoText} py-[10px] w-full max-w-full`}>
               В настоящее время сервис Ubrato открыт для юридических лиц
@@ -361,7 +378,9 @@ export const RegisterPage: FC = () => {
                 <p className={`${styles.label} ${styles.companyText}`}>
                   Это наименование вашей компании?
                 </p>
-                <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
+                <p className={`${styles.label} ${styles.companyText}`}>
+                  Краткое название компании
+                </p>
                 <p className={styles.nameConfirm}>{companyName}</p>
                 <p className="mb-[15px] ml-[15px] text-[10px] text-[rgba(0,0,0,.6)]">
                   Сокращенное наименование юридического лица
@@ -502,11 +521,12 @@ export const RegisterPage: FC = () => {
                   </p>
                 </Checkbox>
                 <p className="w-[478px] text-left text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">
-                  Пользователь Сайта уведомлен о том, что Оператор направляет ему
-                  информационно-рекламные рассылки и материалы. В случае несогласия на получение
-                  информационно-рекламных рассылок и материалов, необходимо направить заявление по
-                  форме, размещенной на Сайте Оператора, либо в произвольной форме на адрес
-                  электронной почты info@ubrato.ru.
+                  Пользователь Сайта уведомлен о том, что Оператор направляет
+                  ему информационно-рекламные рассылки и материалы. В случае
+                  несогласия на получение информационно-рекламных рассылок и
+                  материалов, необходимо направить заявление по форме,
+                  размещенной на Сайте Оператора, либо в произвольной форме на
+                  адрес электронной почты info@ubrato.ru.
                 </p>
               </div>
               <div className={styles.submitContainer}>
