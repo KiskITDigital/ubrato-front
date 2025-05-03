@@ -2,7 +2,7 @@
 import { AvatarInput } from "@/components/AvatarInput/AvatarInput";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { FC, useEffect, useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./profilenav.module.css";
 import {
   DocumentsIC,
@@ -15,20 +15,14 @@ import {
   TenderIC,
   HelpIC,
 } from "./icons";
+import { logout } from "@/api/auth/auth";
 
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const [page, setPage] = useState("");
   // const [, set] = useState(true);
-
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
-    userStore.setLoggedIn(false);
-    navigate("/");
-  };
 
   useEffect(() => {
     setPage(location.pathname);
@@ -43,7 +37,10 @@ export const ProfileNavigation: FC = () => {
       <div className={styles.info}>
         <p>{userStore.user.organization.short_name}</p>
         <p>
-          ИНН <span className={styles.blueText}>{userStore.user.organization.inn}</span>
+          ИНН{" "}
+          <span className={styles.blueText}>
+            {userStore.user.organization.inn}
+          </span>
         </p>
       </div>
 
@@ -56,14 +53,18 @@ export const ProfileNavigation: FC = () => {
         )}
         <Link
           to=""
-          className={`${styles.link} ${!page.includes("profile/") ? styles.active : ""} `}
+          className={`${styles.link} ${
+            !page.includes("profile/") ? styles.active : ""
+          } `}
         >
           <CompanyProfiveIC />
           Профиль компании
         </Link>
         <Link
           className={`${styles.link} ${styles.sublink} ${
-            page.includes("orderer") && !page.includes("tenders") ? styles.active : ""
+            page.includes("orderer") && !page.includes("tenders")
+              ? styles.active
+              : ""
           }`}
           to="orderer"
         >
@@ -72,7 +73,9 @@ export const ProfileNavigation: FC = () => {
         {userStore.user.is_contractor ? (
           <Link
             className={`${styles.link} ${styles.sublink} ${
-              page.includes("contractor") && !page.includes("tenders") ? styles.active : ""
+              page.includes("contractor") && !page.includes("tenders")
+                ? styles.active
+                : ""
             }`}
             to="contractor"
           >
@@ -89,7 +92,9 @@ export const ProfileNavigation: FC = () => {
         <Link
           to="/my-tenders"
           className={`${styles.link} ${
-            page.includes("tenders") && !page.includes("tenders/") ? styles.active : ""
+            page.includes("tenders") && !page.includes("tenders/")
+              ? styles.active
+              : ""
           } `}
         >
           <TenderIC />
@@ -117,39 +122,52 @@ export const ProfileNavigation: FC = () => {
 
         <Link
           to="favourite"
-          className={`${styles.link} ${page.includes("favourite") ? styles.active : ""}`}
+          className={`${styles.link} ${
+            page.includes("favourite") ? styles.active : ""
+          }`}
         >
           <HeartIC />
           Избранное
         </Link>
         <Link
           to="notifications"
-          className={`${styles.link} ${page.includes("notifications") ? styles.active : ""} `}
+          className={`${styles.link} ${
+            page.includes("notifications") ? styles.active : ""
+          } `}
         >
           <BellIC />
           Уведомления
         </Link>
         <Link
           to="documents"
-          className={`${styles.link} ${page.includes("documents") ? styles.active : ""} `}
+          className={`${styles.link} ${
+            page.includes("documents") ? styles.active : ""
+          } `}
         >
           <DocumentsIC />
           Документы
         </Link>
         <Link
           to="settings"
-          className={`${styles.link} ${page.includes("settings") ? styles.active : ""} `}
+          className={`${styles.link} ${
+            page.includes("settings") ? styles.active : ""
+          } `}
         >
           <SettingsIC />
           Настройки аккаунта
         </Link>
-        <Link to="help" className={`${styles.link} ${page.includes("help") ? styles.active : ""} `}>
+        <Link
+          to="help"
+          className={`${styles.link} ${
+            page.includes("help") ? styles.active : ""
+          } `}
+        >
           <HelpIC />
           Помощь
         </Link>
       </div>
 
-      <button className={styles.logout} onClick={handleLogOut}>
+      <button className={styles.logout} onClick={logout}>
         <LogoutIC />
         Выйти
       </button>
