@@ -12,6 +12,12 @@ import { login } from '@/api';
 
 axios.defaults.withCredentials = true;
 
+enum ErrorMessages {
+  invalidData = 'Неверный логин или пароль. Проверьте правильность введенных данных',
+  emailUndefined = 'Нет пользователся с таким e-mail',
+  other = 'Что-то пошло не так',
+}
+
 export const LoginPage: FC = () => {
   const initialValues: LoginFormValuesT = {
     email: '',
@@ -19,6 +25,13 @@ export const LoginPage: FC = () => {
   };
 
   const [errorMsg, setErrorMsg] = useState('');
+
+  const onError = (message = '', resetForm = false) => {
+    if (resetForm) {
+      formik.resetForm();
+    }
+    setErrorMsg(message);
+  };
 
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
@@ -39,7 +52,6 @@ export const LoginPage: FC = () => {
         try {
           const res = await login(parameters);
           const token = res.data.access_token;
-          // todo - проверять залогинен ли после проверки токена или до, т.к сейчас записывать в localStorage = undefined и падает, проверить после запуска сервера
           if (typeof token === 'string') {
             userInfoStore.isLoggedIn = true;
             await userInfoStore.fetchUser(token);
@@ -48,20 +60,16 @@ export const LoginPage: FC = () => {
             }
             return;
           }
-          formik.resetForm();
-          setErrorMsg(
-            'Неверный логин или пароль. Проверьте правильность введенных данных'
-          );
+          onError(ErrorMessages.invalidData, true);
         } catch (e) {
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg(
-                'Неверный логин или пароль. Проверьте правильность введенных данных'
-              );
+              onError(ErrorMessages.invalidData, true);
             } else if (e.response?.status === 404) {
-              setErrorMsg('Нет пользователся с таким e-mail');
+              onError(ErrorMessages.emailUndefined, true);
             } else {
-              setErrorMsg('Что-то пошло не так');
+              formik.resetForm();
+              onError(ErrorMessages.other, true);
             }
           }
         } finally {
@@ -128,9 +136,7 @@ export const LoginPage: FC = () => {
               isInvalid={Boolean(formik.errors.email)}
               errorMessage={formik.errors.email}
               classNames={itemClasses}
-              onFocus={() => {
-                setErrorMsg('');
-              }}
+              onFocus={() => onError()}
             />
             {errorMsg === 'email busy' && (
               <p className={styles.errorMessage}>
@@ -159,9 +165,7 @@ export const LoginPage: FC = () => {
                 </button>
               }
               classNames={itemClasses}
-              onFocus={() => {
-                setErrorMsg('');
-              }}
+              onFocus={() => onError()}
             />
             {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>

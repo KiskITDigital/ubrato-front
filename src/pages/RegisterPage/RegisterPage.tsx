@@ -273,7 +273,7 @@ export const RegisterPage: FC = () => {
                     if (e.target.value.endsWith(' ')) {
                       formik.setErrors({ email: 'Некорректный e-mail' });
                     }
-                    // console.log(e.target.value);
+                    // добавить запрос на проверку мыла по примеру checkINN
                   }}
                   variant="bordered"
                   placeholder="Электронная почта"
@@ -331,13 +331,14 @@ export const RegisterPage: FC = () => {
             </>
           )}
           {registrationStep > 2 && (
-            <p className={styles.inputGrHeader}>Укажите данные компании</p>
+            <>
+              <p className={styles.inputGrHeader}>Укажите данные компании</p>
+              <p className={`${styles.infoText} py-[10px] w-full max-w-full`}>
+                В настоящее время сервис Ubrato открыт для юридических лиц
+              </p>
+            </>
           )}
-          {registrationStep > 2 && (
-            <p className={`${styles.infoText} py-[10px] w-full max-w-full`}>
-              В настоящее время сервис Ubrato открыт для юридических лиц
-            </p>
-          )}
+
           <div className={styles.inputContainer}>
             {registrationStep > 2 && (
               <Input
