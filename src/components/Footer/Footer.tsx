@@ -3,7 +3,7 @@ import styles from "./footer.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { useIsOrdererState } from "@/store/isOrdererStore";
-import { logout } from "@/api/auth/auth";
+import { logout } from "@/utils/auth/auth";
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();

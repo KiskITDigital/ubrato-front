@@ -15,7 +15,7 @@ import {
   TenderIC,
   HelpIC,
 } from "./icons";
-import { logout } from "@/api/auth/auth";
+import { logout } from "@/utils/auth/auth";
 
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
