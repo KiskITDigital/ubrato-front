@@ -43,7 +43,10 @@ export default function ContactModal({
   type,
 }: {
   onClose?: () => void;
-  type: "SURVEY_TYPE_REGISTRATION" | "SURVEY_TYPE_VERIFICATION" | "SURVEY_TYPE_FEEDBACK";
+  type:
+    | "SURVEY_TYPE_REGISTRATION"
+    | "SURVEY_TYPE_VERIFICATION"
+    | "SURVEY_TYPE_FEEDBACK";
 }) {
   const [successfullySent, setSuccessfullSent] = useState(false);
 
@@ -53,7 +56,12 @@ export default function ContactModal({
       // console.log(values, type);
       (async () => {
         try {
-          await sendHelpMessage(values.name, values.phone, values.question, type);
+          await sendHelpMessage(
+            values.name,
+            values.phone,
+            values.question,
+            type
+          );
           setSuccessfullSent(true);
           formik.resetForm();
           setValue("");
@@ -147,10 +155,17 @@ export default function ContactModal({
             Политикой в отношении обработки персональных данных
           </Link>{" "}
           и принимаю условия{" "}
-          <Link className={styles.link} target="_blank" to="/documents/polzovatelskoe_soglashenie">
+          <Link
+            className={styles.link}
+            target="_blank"
+            to="/documents/polzovatelskoe_soglashenie"
+          >
             Пользовательского соглашения
           </Link>
-          .<p className={`${styles.errorMessage} ${styles.checkErr}`}>{formik.errors.confirm}</p>
+          .
+          <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+            {formik.errors.confirm}
+          </p>
         </Checkbox>
         <button type="submit" className={styles.submit}>
           Заказать звонок
@@ -165,7 +180,9 @@ export default function ContactModal({
             }}
           >
             <div className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center gap-6">
-              <p className="text-lg">Спасибо за Ваше обращение, ожидайте звонка!</p>
+              <p className="text-lg">
+                Спасибо за Ваше обращение, ожидайте звонка!
+              </p>
               {onClose && (
                 <button
                   className="w-[70px] rounded-lg p-1 bg-accent text-white flex items-center justify-center"

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useFormik } from 'formik';
+import { useFormik } from "formik";
 import {
   ChangeEvent,
   FC,
@@ -8,18 +8,18 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
-import { RegisterFormValuesT } from '@/types/app';
-import { Checkbox, Input } from '@nextui-org/react';
-import { registerSchema } from '@/validation/registerSchema';
-import styles from './registerpage.module.css';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { Link, useNavigate } from 'react-router-dom';
-import { checkINN, registerUser } from '@/api';
-import { useIMask } from 'react-imask';
-import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
-import toast, { Toaster } from 'react-hot-toast';
+} from "react";
+import { RegisterFormValuesT } from "@/types/app";
+import { Checkbox, Input } from "@nextui-org/react";
+import { registerSchema } from "@/validation/registerSchema";
+import styles from "./registerpage.module.css";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { Link, useNavigate } from "react-router-dom";
+import { checkINN, registerUser } from "@/api";
+import { useIMask } from "react-imask";
+import Modal from "@/components/Modal";
+import toast, { Toaster } from "react-hot-toast";
+import InfoModal from "@/components/Modal/InfoModal";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -34,14 +34,14 @@ export const RegisterPage: FC = () => {
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
 
   const initialValues: RegisterFormValuesT = {
-    inn: '',
-    email: '',
-    phone: '',
-    password: '',
-    repeatPassword: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
+    inn: "",
+    email: "",
+    phone: "",
+    password: "",
+    repeatPassword: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
     personalDataAgreement: false,
   };
 
@@ -66,18 +66,16 @@ export const RegisterPage: FC = () => {
         last_name: values.lastName,
         inn: values.inn,
         is_contractor: isContractor,
-        avatar: '',
+        avatar: "",
       };
       (async () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
             await fetchUser(token);
-            if (!userInfoStore.error) {
-              navigate('/profile');
-            }
+            setOpenModal(true);
           }
         } catch (error: any) {
           toast.error(`${error.response.data.msg}\n${error.response.data.id}`);
@@ -93,11 +91,10 @@ export const RegisterPage: FC = () => {
 
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
-  const [companyName, setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState("");
   const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(
     1
   );
-  // const [nameConfirm, setNameConfirm] = useState(false);
 
   const checkStyle = {
     base: styles.checkBase,
@@ -109,18 +106,18 @@ export const RegisterPage: FC = () => {
   const surnameRef = useRef<HTMLInputElement>(null);
 
   const scrollTosurnameRef = () => {
-    surnameRef.current!.scrollIntoView({ behavior: 'smooth' });
+    surnameRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       const elementTop = surnameRef.current!.getBoundingClientRect().top;
-      window.scrollBy({ top: elementTop - 200, behavior: 'smooth' });
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
   };
 
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
+  const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
-      navigate('/profile');
+      navigate("/profile");
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 
@@ -172,7 +169,7 @@ export const RegisterPage: FC = () => {
           Регистрация на сайте <span className="text-accent">Ubrato</span>
         </h1>
         <p className={`${styles.infoText} pt-[10px]`}>
-          Уже есть аккаунт?{' '}
+          Уже есть аккаунт?{" "}
           <Link className={styles.link} to="/login">
             Войти
           </Link>
@@ -182,7 +179,7 @@ export const RegisterPage: FC = () => {
         </div>
         <div className={styles.buttonsContainer}>
           <button
-            className={`${styles.button} ${isOrderer ? styles.active : ''}`}
+            className={`${styles.button} ${isOrderer ? styles.active : ""}`}
             onClick={() => {
               if (isContractor && isOrderer) {
                 setIsOrderer(!isOrderer);
@@ -195,7 +192,7 @@ export const RegisterPage: FC = () => {
             Заказчик
           </button>
           <button
-            className={`${styles.button} ${isContractor ? styles.active : ''}`}
+            className={`${styles.button} ${isContractor ? styles.active : ""}`}
             onClick={() => {
               if (isOrderer && !isContractor) {
                 setIsContractor(!isContractor);
@@ -212,7 +209,7 @@ export const RegisterPage: FC = () => {
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
               Выбирайте роль Заказчика, если вашей компании нужно заказать
-              клининг и/или смежные{' '}
+              клининг и/или смежные{" "}
               <Link className="underline" to="/faq?page=3&number=2#q3_2">
                 услуги
               </Link>
@@ -228,7 +225,7 @@ export const RegisterPage: FC = () => {
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
               Выбирайте роль Исполнителя, если ваша компания предлагает свои
-              клининговые и/или смежные{' '}
+              клининговые и/или смежные{" "}
               <Link className="underline" to="/faq?page=2&number=1#q2_1">
                 услуги
               </Link>
@@ -245,16 +242,16 @@ export const RegisterPage: FC = () => {
         <div
           className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}
         >
-          Есть вопросы по регистрации?{' '}
+          Есть вопросы по регистрации?{" "}
           <span
             className={`cursor-pointer underline underline-offset-4`}
             onClick={() => {
               setOpenModal(true);
-              document.body.style.overflow = 'hidden';
+              document.body.style.overflow = "hidden";
             }}
           >
             Напишите телефон
-          </span>{' '}
+          </span>{" "}
           и мы перезвоним
         </div>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
@@ -270,10 +267,10 @@ export const RegisterPage: FC = () => {
                   value={formik.values.email}
                   onChange={(e) => {
                     formik.handleChange(e);
-                    if (e.target.value.endsWith(' ')) {
-                      formik.setErrors({ email: 'Некорректный e-mail' });
+                    if (e.target.value.endsWith(" ")) {
+                      formik.setErrors({ email: "Некорректный e-mail" });
                     }
-                    // добавить запрос на проверку мыла по примеру checkINN
+                    // todo - добавить запрос на проверку мыла по примеру checkINN
                   }}
                   variant="bordered"
                   placeholder="Электронная почта"
@@ -286,7 +283,7 @@ export const RegisterPage: FC = () => {
                 <Input
                   id="password"
                   name="password"
-                  type={isPasswordVisible ? 'text' : 'password'}
+                  type={isPasswordVisible ? "text" : "password"}
                   label="Пароль (не менее 8 знаков, буквы и цифры)"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -309,7 +306,7 @@ export const RegisterPage: FC = () => {
                 <Input
                   id="repeatPassword"
                   name="repeatPassword"
-                  type={isConfirmVisible ? 'text' : 'password'}
+                  type={isConfirmVisible ? "text" : "password"}
                   label="Повторите пароль"
                   value={formik.values.repeatPassword}
                   onChange={formik.handleChange}
@@ -356,11 +353,13 @@ export const RegisterPage: FC = () => {
                   if (e.currentTarget.value.length === 10) {
                     (async () => {
                       const res = await checkINN(e.currentTarget.value);
+
                       if (res?.length > 0) {
                         setCompanyName(res);
                         if (registrationStep !== 5) setRegistrationStep(4);
                       } else {
-                        toast.error('Неверный ИНН');
+                        toast.error("Неверный ИНН");
+                        setRegistrationStep(3);
                       }
                     })();
                   }
@@ -388,6 +387,9 @@ export const RegisterPage: FC = () => {
                 </p>
                 <div className={styles.companyBtns}>
                   <button
+                    className={`${
+                      registrationStep > 4 && styles.companyBtnActive
+                    }`}
                     onClick={() => {
                       setTimeout(() => {
                         if (registrationStep !== 5) {
@@ -403,10 +405,9 @@ export const RegisterPage: FC = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      // setNameConfirm(false);
-                      formik.values.inn = '';
+                      formik.values.inn = "";
                       setRegistrationStep(3);
-                      setCompanyName('');
+                      setCompanyName("");
                     }}
                   >
                     Нет
@@ -492,23 +493,23 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Я даю{' '}
+                  Я даю{" "}
                   <Link
                     to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
                     target="_blank"
                     className="text-accent underline text-sm"
                   >
                     Согласие на обработку персональных данных
-                  </Link>{' '}
-                  в соответствии с{' '}
+                  </Link>{" "}
+                  в соответствии с{" "}
                   <Link
                     to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
                     target="_blank"
                     className="text-accent underline text-sm"
                   >
                     Политикой в отношении обработки персональных данных
-                  </Link>{' '}
-                  и принимаю условия{' '}
+                  </Link>{" "}
+                  и принимаю условия{" "}
                   <Link
                     to="/documents/polzovatelskoe_soglashenie"
                     target="_blank"
@@ -532,7 +533,7 @@ export const RegisterPage: FC = () => {
               </div>
               <div className={styles.submitContainer}>
                 <input
-                  disabled={isLoading}
+                  disabled={isLoading || !formik.isValid}
                   className={styles.submit}
                   type="submit"
                   value="Зарегистрироваться"
@@ -543,11 +544,12 @@ export const RegisterPage: FC = () => {
         </form>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal
-          type="SURVEY_TYPE_REGISTRATION"
+        <InfoModal
+          title="Вы успешно отправили заявку на регистрацию на сайте Ubrato"
+          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты"
           onClose={() => {
             setOpenModal(false);
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
           }}
         />
       </Modal>
