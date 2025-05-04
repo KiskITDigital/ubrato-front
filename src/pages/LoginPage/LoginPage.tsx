@@ -54,9 +54,10 @@ export const LoginPage: FC = () => {
           const token = res.data.access_token;
           if (typeof token === "string") {
             userInfoStore.isLoggedIn = true;
+            localStorage.setItem("token", token);
             await userInfoStore.fetchUser(token);
             if (!userInfoStore.error) {
-              navigate("/my-tenders");
+              navigate("/my-tenders", { replace: true });
             }
             if (typeof BroadcastChannel !== "undefined") {
               const authChannel = new BroadcastChannel("auth");
