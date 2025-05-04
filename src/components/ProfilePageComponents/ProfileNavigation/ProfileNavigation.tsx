@@ -1,4 +1,3 @@
-/// <reference types="vite-plugin-svgr/client" />
 import { AvatarInput } from "@/components/AvatarInput/AvatarInput";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { FC, useEffect, useState } from "react";
@@ -16,17 +15,60 @@ import {
   HelpIC,
 } from "./icons";
 import { logout } from "@/utils/auth/auth";
+import Modal from "@/components/Modal";
+import InfoModal from "@/components/Modal/InfoModal";
+
+interface ProtectedLinkProps {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}
+const allowedRoutes = [
+  "notifications",
+  "help",
+  "documents",
+  "/my-tenders",
+  "/survey",
+];
 
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
   const location = useLocation();
+  const isVerified = userStore.user.verified;
 
   const [page, setPage] = useState("");
-  // const [, set] = useState(true);
+  const [openInfoModal, setOpenInfoModal] = useState(false);
 
   useEffect(() => {
     setPage(location.pathname);
   }, [location]);
+
+  const closeInfoModal = () => {
+    setOpenInfoModal(false);
+  };
+
+  const ProtectedLink = ({
+    to,
+    children,
+    className = "",
+  }: ProtectedLinkProps) => {
+    const isAllowedRoute = allowedRoutes.includes(to);
+
+    return (
+      <Link
+        to={isVerified || isAllowedRoute ? to : "#"}
+        className={className}
+        onClick={(e) => {
+          if (!isVerified && !isAllowedRoute) {
+            e.preventDefault();
+            setOpenInfoModal(true);
+          }
+        }}
+      >
+        {children}
+      </Link>
+    );
+  };
 
   return (
     <div className={styles.container}>
@@ -46,21 +88,23 @@ export const ProfileNavigation: FC = () => {
 
       <div className={styles.links}>
         {userStore.user.is_contractor && (
-          <Link to="/survey" className={`${styles.link}`}>
+          <ProtectedLink to="/survey" className={`${styles.link}`}>
             <SurveyIC />
             Анкета
-          </Link>
+          </ProtectedLink>
         )}
-        <Link
+
+        <ProtectedLink
           to=""
           className={`${styles.link} ${
             !page.includes("profile/") ? styles.active : ""
-          } `}
+          }`}
         >
           <CompanyProfiveIC />
           Профиль компании
-        </Link>
-        <Link
+        </ProtectedLink>
+
+        <ProtectedLink
           className={`${styles.link} ${styles.sublink} ${
             page.includes("orderer") && !page.includes("tenders")
               ? styles.active
@@ -69,9 +113,10 @@ export const ProfileNavigation: FC = () => {
           to="orderer"
         >
           Заказчик
-        </Link>
+        </ProtectedLink>
+
         {userStore.user.is_contractor ? (
-          <Link
+          <ProtectedLink
             className={`${styles.link} ${styles.sublink} ${
               page.includes("contractor") && !page.includes("tenders")
                 ? styles.active
@@ -80,47 +125,29 @@ export const ProfileNavigation: FC = () => {
             to="contractor"
           >
             Исполнитель
-          </Link>
+          </ProtectedLink>
         ) : (
-          <Link
+          <ProtectedLink
             className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
             to="become-contractor"
           >
             <p className={styles.become_link}>Стать исполнителем</p>
-          </Link>
+          </ProtectedLink>
         )}
-        <Link
+
+        <ProtectedLink
           to="/my-tenders"
           className={`${styles.link} ${
             page.includes("tenders") && !page.includes("tenders/")
               ? styles.active
               : ""
-          } `}
+          }`}
         >
           <TenderIC />
           Мои тендеры
-        </Link>
-        {/* <Link
-          className={`${styles.link} ${styles.sublink} ${
-            page.includes('tenders/orderer') ? styles.active : ''
-          }`}
-          to="tenders/orderer"
-        >
-          Заказчик
-        </Link>
-        {
-          userStore.user.is_contractor && (
-            <Link
-              className={`${styles.link} ${styles.sublink} ${
-                page.includes('tenders/contractor') ? styles.active : ''
-              }`}
-              to="tenders/contractor"
-            >
-              Исполнитель
-            </Link>
-          ) */}
+        </ProtectedLink>
 
-        <Link
+        <ProtectedLink
           to="favourite"
           className={`${styles.link} ${
             page.includes("favourite") ? styles.active : ""
@@ -128,49 +155,61 @@ export const ProfileNavigation: FC = () => {
         >
           <HeartIC />
           Избранное
-        </Link>
-        <Link
+        </ProtectedLink>
+
+        <ProtectedLink
           to="notifications"
           className={`${styles.link} ${
             page.includes("notifications") ? styles.active : ""
-          } `}
+          }`}
         >
           <BellIC />
           Уведомления
-        </Link>
-        <Link
+        </ProtectedLink>
+
+        <ProtectedLink
           to="documents"
           className={`${styles.link} ${
             page.includes("documents") ? styles.active : ""
-          } `}
+          }`}
         >
           <DocumentsIC />
           Документы
-        </Link>
-        <Link
+        </ProtectedLink>
+
+        <ProtectedLink
           to="settings"
           className={`${styles.link} ${
             page.includes("settings") ? styles.active : ""
-          } `}
+          }`}
         >
           <SettingsIC />
           Настройки аккаунта
-        </Link>
-        <Link
+        </ProtectedLink>
+
+        <ProtectedLink
           to="help"
           className={`${styles.link} ${
             page.includes("help") ? styles.active : ""
-          } `}
+          }`}
         >
           <HelpIC />
           Помощь
-        </Link>
+        </ProtectedLink>
       </div>
 
       <button className={styles.logout} onClick={logout}>
         <LogoutIC />
         Выйти
       </button>
+
+      <Modal isOpen={openInfoModal}>
+        <InfoModal
+          title=""
+          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
+          onClose={closeInfoModal}
+        />
+      </Modal>
     </div>
   );
 };

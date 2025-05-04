@@ -117,7 +117,7 @@ export const RegisterPage: FC = () => {
 
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
-      navigate("/profile");
+      navigate("/profile/documents");
     }
   }, [navigate, userInfoStore.isLoggedIn]);
 

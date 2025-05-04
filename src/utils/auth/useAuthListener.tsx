@@ -13,7 +13,6 @@ export const useAuthListener = () => {
       localStorage.setItem("token", token);
       await fetchUser(token);
       setLoggedIn(true);
-      navigate("/my-tenders", { replace: true });
     };
 
     const handleLogout = () => {

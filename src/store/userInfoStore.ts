@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { UserInfoT } from '@/types/app';
-import { axiosInstance } from '@/utils';
-import { surveyCheck } from '@/api';
+import { create } from "zustand";
+import { UserInfoT } from "@/types/app";
+import { axiosInstance } from "@/utils";
+import { surveyCheck } from "@/api";
 interface UserInfoState {
   user: UserInfoT;
   fetchUser: (token: string) => Promise<void>;
@@ -15,25 +15,24 @@ interface UserInfoState {
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => {
-
   return {
     is_contractor: null,
     user: {
-      id: '',
-      email: '',
-      phone: '',
-      first_name: '',
-      middle_name: '',
-      last_name: '',
+      id: "",
+      email: "",
+      phone: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
       verified: false,
       is_contractor: false,
       role: 0,
-      created_at: '',
-      avatar: '',
+      created_at: "",
+      avatar: "",
       organization: {
-        id: '',
-        short_name: '',
-        inn: '',
+        id: "",
+        short_name: "",
+        inn: "",
       },
     },
     passedSurvey: false,
@@ -66,7 +65,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
         },
         isLoggedIn: true,
       });
-      set({ is_contractor: response.data.is_contractor })
+      set({ is_contractor: response.data.is_contractor });
       set({ loading: false });
     },
     isLoggedIn: false,
@@ -76,5 +75,5 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
     setPassedSurvey(e) {
       set({ passedSurvey: e });
     },
-  }
+  };
 });
