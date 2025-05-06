@@ -53,7 +53,6 @@ export default function ContactModal({
   const formik = useFormik<ContactFormProps>({
     initialValues: initialValues,
     onSubmit(values) {
-      // console.log(values, type);
       (async () => {
         try {
           await sendHelpMessage(

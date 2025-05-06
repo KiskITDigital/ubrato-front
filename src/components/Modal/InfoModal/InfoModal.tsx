@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import styles from "./infoModal.module.css";
 
 type InfoModalProps = {
   title: string;
@@ -16,16 +17,13 @@ export default function InfoModal({ title, text, onClose }: InfoModalProps) {
   }, []);
 
   return (
-    <section className="flex flex-col gap-5 bg-white rounded-[20px] relative  w-fit">
-      <div className="bg-white p-5 rounded-xl shadow-md flex flex-col items-center gap-6">
-        <h4 className="text-[20px] font-bold">{title}</h4>
+    <section className={styles.modalContainer}>
+      <div className={styles.modalContent}>
+        {title && <h4 className={styles.modalTitle}>{title}</h4>}
 
-        <p className="text-lg">{text}</p>
+        <p className={styles.modalText}>{text}</p>
 
-        <button
-          className="w-[70px] rounded-lg p-1 bg-accent text-white flex items-center justify-center"
-          onClick={onClose}
-        >
+        <button className={styles.modalButton} onClick={onClose}>
           ОК
         </button>
       </div>
