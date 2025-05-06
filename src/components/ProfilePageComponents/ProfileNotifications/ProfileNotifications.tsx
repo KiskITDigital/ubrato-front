@@ -1,7 +1,7 @@
-import { useNotificationsStore } from '@/store/notificationsStore';
-import { FC, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import s from './styles.module.css';
+import { useNotificationsStore } from "@/store/notificationsStore";
+import { FC, useEffect } from "react";
+import { Link } from "react-router-dom";
+import s from "./styles.module.css";
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
@@ -25,7 +25,7 @@ export const ProfileNotifications: FC = () => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
     newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toISOString().split('T')[0];
+    const formattedDate = newDate.toISOString().split("T")[0];
     return formattedDate;
   };
 
@@ -43,7 +43,7 @@ export const ProfileNotifications: FC = () => {
             <div className={s.content}>
               <h2
                 className={`${s.notification_header} ${
-                  isExpanded(e.id) ? s.notification_header_expanded : ''
+                  isExpanded(e.id) ? s.notification_header_expanded : ""
                 }`}
               >
                 {e.header}
@@ -54,7 +54,7 @@ export const ProfileNotifications: FC = () => {
                   {e.href && (
                     <Link
                       className="underline text-red-400"
-                      to={e.href.replace('https://ubrato.ru', '')}
+                      to={e.href.replace("https://ubrato.ru", "")}
                     >
                       {e.href_text}
                     </Link>
