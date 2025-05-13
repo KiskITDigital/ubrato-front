@@ -92,9 +92,12 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
               <h2 className={styles.modalHeader}>Откликнуться на тендер</h2>
               <form className={styles.form_modal} onSubmit={handleSubmit}>
                 <label className={`${styles.field}`}>
-                  <p className={styles.accent_paragraph}>Выберите один из вариантов:</p>
+                  <p className={styles.accent_paragraph}>
+                    Выберите один из вариантов:
+                  </p>
                   <div className={styles.wrap_label}>
                     {/* <label className={styles.input_checkbox}> <span className={styles.phantom_check}></span> <input onChange={handleCheckboxChange} type="checkbox" name=""  /></label>  */}
+                    {/* todo - проверить как отображается чекбокс, из-за переписывания стилей в base.css, заменить на чекбокс из nextui */}
                     <input
                       type="checkbox"
                       onChange={handleCheckboxChange}
@@ -106,7 +109,9 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
                   </div>
                 </label>
                 <label className={`${styles.field}`}>
-                  <p className={styles.label_paragraph}>Готовы выполнить работу за</p>
+                  <p className={styles.label_paragraph}>
+                    Готовы выполнить работу за
+                  </p>
                   <div>
                     <input
                       ref={ref as Ref<HTMLInputElement>}
@@ -125,26 +130,37 @@ export const OneTenderExecutorAcceptModal: FC<TenderModalProps> = ({
                     />
                     рублей
                   </div>
-                  <Switch classNames={SwicthStyles} onChange={handleChange}></Switch>
+                  <Switch
+                    classNames={SwicthStyles}
+                    onChange={handleChange}
+                  ></Switch>
                   <span className={styles.span_nds}>вкл. НДС</span>
                 </label>
                 <div className={styles.nds_notice}>
                   <div className={styles.circle}></div>
                   <p className={styles.nds_notice_text}>
-                    Выбирайте с НДС, если ваша компания работает по общей системе налогообложения
-                    (ОСН)
+                    Выбирайте с НДС, если ваша компания работает по общей
+                    системе налогообложения (ОСН)
                   </p>
                 </div>
-                <button onClick={handleFormSubmit} className={styles.button_spec} type="submit">
+                <button
+                  onClick={handleFormSubmit}
+                  className={styles.button_spec}
+                  type="submit"
+                >
                   Откликнуться
                 </button>
               </form>
             </div>
           ) : (
             <div className={styles.modal_new}>
-              <p className={styles.notion}>Вы уже откликнулись на этот тендер!</p>
+              <p className={styles.notion}>
+                Вы уже откликнулись на этот тендер!
+              </p>
               <div className={styles.nds_notice}>
-                <p className={styles.nds_notice_text}>Ранее вы уже откликались на этот тендер</p>
+                <p className={styles.nds_notice_text}>
+                  Ранее вы уже откликались на этот тендер
+                </p>
               </div>
               <button className={styles.button_spec} onClick={closeModal}>
                 Закрыть окно
