@@ -23,7 +23,9 @@ export const DocumentItem: FC = () => {
       {document && (
         <>
           <header className="mt-[30px] relative px-5 py-[14px] bg-[#EBF5FF] rounded-[13px]">
-            <h2 className="font-bold text-[20px] max-w-[728px]">{document.title}</h2>
+            <h2 className="font-bold text-[20px] max-w-[728px]">
+              {document.title}
+            </h2>
             <p className="text-[rgba(0,0,0,.5)] mt-3">
               Дата публикации: {document.publicationDate}
             </p>
@@ -36,7 +38,10 @@ export const DocumentItem: FC = () => {
               <ModalContent>
                 <div className="mt-[70px] flex flex-col justify-between h-full">
                   <p className="text-lg font-semibold">
-                    Скачать документ <span className="text-accent underline">{document.title}</span>{" "}
+                    Скачать документ{" "}
+                    <span className="text-accent underline">
+                      {document.title}
+                    </span>{" "}
                     в формате pdf
                   </p>
                   <Link
@@ -51,7 +56,11 @@ export const DocumentItem: FC = () => {
               </ModalContent>
             </Modal>
             <button onClick={onOpen} className="absolute top-[14px] right-5">
-              <img className="w-[32px] h-[32px]" src="/download-ic-blue.svg" alt="download" />
+              <img
+                className="w-[32px] h-[32px]"
+                src="/download-ic-blue.svg"
+                alt="download"
+              />
             </button>
           </header>
           <div className="mt-[25px] px-5">
@@ -61,7 +70,11 @@ export const DocumentItem: FC = () => {
           </div>
         </>
       )}
-      {!document && <p className="text-2xl mt-[30px] text-center">Документ не найден</p>}
+      {!document && (
+        <p className="text-2xl mt-[30px] text-center">
+          Документ находится в разработке
+        </p>
+      )}
     </div>
   );
 };
