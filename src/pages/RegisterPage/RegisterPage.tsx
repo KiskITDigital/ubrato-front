@@ -20,6 +20,7 @@ import { useIMask } from "react-imask";
 import Modal from "@/components/Modal";
 import toast, { Toaster } from "react-hot-toast";
 import InfoModal from "@/components/Modal/InfoModal";
+import { checkEmailRegistrationStatus } from "@/api/register/checkEmailRegistrationStatus";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -89,6 +90,7 @@ export const RegisterPage: FC = () => {
     validateOnMount: false,
   });
 
+  const [isEmailRegistered, setIsEmailRegistered] = useState<boolean>(false);
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
   const [companyName, setCompanyName] = useState("");
@@ -265,12 +267,31 @@ export const RegisterPage: FC = () => {
                   type="email"
                   label="Логин (Email)"
                   value={formik.values.email}
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     formik.handleChange(e);
                     if (e.target.value.endsWith(" ")) {
                       formik.setErrors({ email: "Некорректный e-mail" });
                     }
-                    // todo - добавить запрос на проверку мыла по примеру checkINN
+                    const email = e.target.value.trim();
+
+                    if (email) {
+                      try {
+                        const exists = await checkEmailRegistrationStatus(
+                          email
+                        );
+                        setIsEmailRegistered(exists);
+                        if (exists) {
+                          formik.setFieldError(
+                            "email",
+                            "Email уже зарегистрирован"
+                          );
+                        }
+                      } catch (error) {
+                        console.error("Ошибка проверки email:", error);
+                      }
+                    } else {
+                      setIsEmailRegistered(false);
+                    }
                   }}
                   variant="bordered"
                   placeholder="Электронная почта"
@@ -278,6 +299,29 @@ export const RegisterPage: FC = () => {
                   errorMessage={formik.errors.email}
                   classNames={itemClasses}
                 />
+                {isEmailRegistered && (
+                  <div>
+                    <p className={styles.errorMessage}>
+                      Введенный адрес электронной почты уже зарегистрирован в
+                      Ubrato.
+                    </p>
+                    <Link to="/login">
+                      <span
+                        className={`${styles.blueText} ${styles.text_underline} `}
+                      >
+                        Войдите на сайт
+                      </span>
+                    </Link>{" "}
+                    <p className={styles.errorMessage}> или </p>
+                    <Link to="/forgot-password">
+                      <span
+                        className={`${styles.blueText} ${styles.text_underline} `}
+                      >
+                        восстановите пароль.
+                      </span>
+                    </Link>{" "}
+                  </div>
+                )}
               </div>
               <div className={styles.inputContainer}>
                 <Input
