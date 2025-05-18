@@ -21,6 +21,7 @@ import Modal from "@/components/Modal";
 import toast, { Toaster } from "react-hot-toast";
 import InfoModal from "@/components/Modal/InfoModal";
 import { checkEmailRegistrationStatus } from "@/api/register/checkEmailRegistrationStatus";
+import { checkINNRegistrationStatus } from "@/api/register/checkINNRegistrationStatus";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -90,6 +91,7 @@ export const RegisterPage: FC = () => {
     validateOnMount: false,
   });
 
+  const [isINNRegistered, setIsINNRegistered] = useState<boolean>(false);
   const [isEmailRegistered, setIsEmailRegistered] = useState<boolean>(false);
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
@@ -382,40 +384,92 @@ export const RegisterPage: FC = () => {
 
           <div className={styles.inputContainer}>
             {registrationStep > 2 && (
-              <Input
-                id="inn"
-                name="inn"
-                type="text"
-                label="ИНН"
-                value={formik.values.inn}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  if (formik.values.inn.length >= 10 && e.target.value) {
-                    e.target.value = e.target.value.slice(0, 10);
-                    formik.handleChange(e);
-                    return;
-                  }
-                  if (e.currentTarget.value.length === 10) {
-                    (async () => {
-                      const res = await checkINN(e.currentTarget.value);
+              <>
+                {" "}
+                <Input
+                  id="inn"
+                  name="inn"
+                  type="text"
+                  label="ИНН"
+                  value={formik.values.inn}
+                  onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                    if (formik.values.inn.length >= 10 && e.target.value) {
+                      e.target.value = e.target.value.slice(0, 10);
+                      formik.handleChange(e);
+                      return;
+                    }
 
-                      if (res?.length > 0) {
-                        setCompanyName(res);
-                        if (registrationStep !== 5) setRegistrationStep(4);
-                      } else {
-                        toast.error("Неверный ИНН");
-                        setRegistrationStep(3);
-                      }
-                    })();
-                  }
-                  if (e.target.value?.match(/[\d]/) || !e.target.value) {
+                    if (!(e.target.value?.match(/[\d]/) || !e.target.value)) {
+                      return;
+                    }
+
                     formik.handleChange(e);
-                  }
-                }}
-                placeholder="ИНН"
-                isInvalid={Boolean(formik.errors.inn)}
-                errorMessage={formik.errors.inn}
-                classNames={itemClasses}
-              />
+
+                    if (e.target.value.length === 10) {
+                      try {
+                        const res = await checkINN(e.target.value);
+
+                        if (res?.length > 0) {
+                          setCompanyName(res);
+                          if (registrationStep !== 5) setRegistrationStep(4);
+
+                          const isRegistered = await checkINNRegistrationStatus(
+                            e.target.value
+                          );
+                          setIsINNRegistered(isRegistered);
+
+                          if (isRegistered) {
+                            formik.setFieldError(
+                              "inn",
+                              "Этот ИНН уже зарегистрирован в системе"
+                            );
+                          } else if (formik.errors.inn) {
+                            formik.setErrors({
+                              ...formik.errors,
+                              inn: undefined,
+                            });
+                          }
+                        } else {
+                          toast.error("Неверный ИНН");
+                          setRegistrationStep(3);
+                          setIsINNRegistered(false);
+                        }
+                      } catch (error) {
+                        console.error("Ошибка проверки ИНН:", error);
+                      }
+                    } else {
+                      setIsINNRegistered(false);
+                    }
+                  }}
+                  placeholder="ИНН"
+                  isInvalid={Boolean(formik.errors.inn)}
+                  errorMessage={formik.errors.inn}
+                  classNames={itemClasses}
+                />
+                {isINNRegistered && (
+                  <div>
+                    <p className={styles.errorMessage}>
+                      Организация, с введенным значением ИНН уже
+                      зарегистрирована в Ubrato.
+                    </p>
+                    <Link to="/login">
+                      <span
+                        className={`${styles.blueText} ${styles.text_underline} `}
+                      >
+                        Войдите на сайт
+                      </span>
+                    </Link>{" "}
+                    <p className={styles.errorMessage}> или </p>
+                    <Link to="/forgot-password">
+                      <span
+                        className={`${styles.blueText} ${styles.text_underline} `}
+                      >
+                        восстановите пароль.
+                      </span>
+                    </Link>{" "}
+                  </div>
+                )}
+              </>
             )}
             {registrationStep > 3 && (
               <div className={styles.companyName}>
