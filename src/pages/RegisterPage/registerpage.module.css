@@ -54,6 +54,18 @@
   line-height: 22px;
 }
 
+.innAlreadyRegister {
+  max-width: 478px;
+  line-height: 22px;
+  color: #f90a0a;
+  font-size: 10px;
+  padding-left: 15px;
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--color-black-60);
+  }
+}
+
 .base[data-invalid] {
   border: 1px solid #f90a0a;
 }
