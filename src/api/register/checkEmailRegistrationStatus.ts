@@ -6,7 +6,7 @@ export const checkEmailRegistrationStatus = async (
 ): Promise<boolean> => {
   try {
     const response = await axiosInstance.get(
-      `/v1/users/check-email?email=${encodeURIComponent(email)}`
+      `/v1/users/check-email?email=${email}`
     );
     return response.status === 200;
   } catch (error: unknown) {

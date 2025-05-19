@@ -12,7 +12,7 @@ export const checkINNRegistrationStatus = async (
 ): Promise<boolean> => {
   try {
     const response = await axiosInstance.get(
-      `/v1/suggest/check-inn?inn=${encodeURIComponent(inn)}`
+      `/v1/suggest/check-inn?inn=${inn}`
     );
     return response.status === 200;
   } catch (error: unknown) {
