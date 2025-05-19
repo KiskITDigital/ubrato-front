@@ -395,7 +395,6 @@ export const RegisterPage: FC = () => {
           <div className={styles.inputContainer}>
             {registrationStep > 2 && (
               <>
-                {" "}
                 <Input
                   id="inn"
                   name="inn"
@@ -403,6 +402,11 @@ export const RegisterPage: FC = () => {
                   label="ИНН"
                   value={formik.values.inn}
                   onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                    setIsINNRegistered(false);
+                    if (formik.errors.inn) {
+                      formik.setFieldError("inn", undefined);
+                    }
+
                     if (formik.values.inn.length >= 10 && e.target.value) {
                       e.target.value = e.target.value.slice(0, 10);
                       formik.handleChange(e);
@@ -426,13 +430,9 @@ export const RegisterPage: FC = () => {
                           const isRegistered = await checkINNRegistrationStatus(
                             e.target.value
                           );
-                          setIsINNRegistered(isRegistered);
 
                           if (isRegistered) {
-                            formik.setFieldError(
-                              "inn",
-                              "Этот ИНН уже зарегистрирован в системе"
-                            );
+                            setIsINNRegistered(isRegistered);
                           } else if (formik.errors.inn) {
                             formik.setErrors({
                               ...formik.errors,
@@ -456,12 +456,10 @@ export const RegisterPage: FC = () => {
                   errorMessage={formik.errors.inn}
                   classNames={itemClasses}
                 />
-                {isINNRegistered && (
-                  <div>
-                    <p className={styles.errorMessage}>
-                      Организация, с введенным значением ИНН уже
-                      зарегистрирована в Ubrato.
-                    </p>
+                {isINNRegistered && !formik.errors.inn && (
+                  <div className={styles.innAlreadyRegister}>
+                    Организация, с введенным значением ИНН уже зарегистрирована
+                    в Ubrato.{" "}
                     <Link to="/login">
                       <span
                         className={`${styles.blueText} ${styles.text_underline} `}
@@ -469,7 +467,7 @@ export const RegisterPage: FC = () => {
                         Войдите на сайт
                       </span>
                     </Link>{" "}
-                    <p className={styles.errorMessage}> или </p>
+                    или{" "}
                     <Link to="/forgot-password">
                       <span
                         className={`${styles.blueText} ${styles.text_underline} `}
@@ -641,7 +639,12 @@ export const RegisterPage: FC = () => {
               </div>
               <div className={styles.submitContainer}>
                 <input
-                  disabled={isLoading || !formik.isValid}
+                  disabled={
+                    isLoading ||
+                    !formik.isValid ||
+                    isEmailRegistered ||
+                    isINNRegistered
+                  }
                   className={styles.submit}
                   type="submit"
                   value="Зарегистрироваться"
