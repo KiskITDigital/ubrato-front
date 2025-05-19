@@ -100,6 +100,26 @@ export const RegisterPage: FC = () => {
     1
   );
 
+  const debounceTimer = useRef<number | null>(null);
+
+  const handleEmailCheck = (email: string) => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        const exists = await checkEmailRegistrationStatus(email);
+        setIsEmailRegistered(exists);
+        if (exists) {
+          formik.setFieldError("email", "Email уже зарегистрирован");
+        }
+      } catch (error) {
+        console.error("Ошибка проверки email:", error);
+      }
+    }, 500);
+  };
+
   const checkStyle = {
     base: styles.checkBase,
     icon: styles.checkIcon,
@@ -277,22 +297,12 @@ export const RegisterPage: FC = () => {
                     const email = e.target.value.trim();
 
                     if (email) {
-                      try {
-                        const exists = await checkEmailRegistrationStatus(
-                          email
-                        );
-                        setIsEmailRegistered(exists);
-                        if (exists) {
-                          formik.setFieldError(
-                            "email",
-                            "Email уже зарегистрирован"
-                          );
-                        }
-                      } catch (error) {
-                        console.error("Ошибка проверки email:", error);
-                      }
+                      handleEmailCheck(email);
                     } else {
                       setIsEmailRegistered(false);
+                      if (debounceTimer.current) {
+                        clearTimeout(debounceTimer.current);
+                      }
                     }
                   }}
                   variant="bordered"
