@@ -54,15 +54,28 @@
   line-height: 22px;
 }
 
-.innAlreadyRegister {
+.alreadyRegisterError {
   max-width: 478px;
   line-height: 22px;
-  color: #f90a0a;
-  font-size: 10px;
   padding-left: 15px;
+  margin-bottom: -20px;
+
+  a,
+  p {
+    color: #f90a0a;
+  }
+
   a {
     text-decoration: underline;
     text-decoration-color: var(--color-black-60);
+    color: var(--color-blue-primary);
+  }
+
+  a,
+  p,
+  span {
+    font-size: 10px;
+    display: inline;
   }
 }
 

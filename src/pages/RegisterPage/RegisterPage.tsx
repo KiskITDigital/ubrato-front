@@ -308,30 +308,17 @@ export const RegisterPage: FC = () => {
                   variant="bordered"
                   placeholder="Электронная почта"
                   isInvalid={Boolean(formik.errors.email)}
-                  errorMessage={formik.errors.email}
                   classNames={itemClasses}
+                  errorMessage={!isEmailRegistered && formik.errors.email}
                 />
                 {isEmailRegistered && (
-                  <div>
-                    <p className={styles.errorMessage}>
+                  <div className={styles.alreadyRegisterError}>
+                    <p>
                       Введенный адрес электронной почты уже зарегистрирован в
                       Ubrato.
-                    </p>
-                    <Link to="/login">
-                      <span
-                        className={`${styles.blueText} ${styles.text_underline} `}
-                      >
-                        Войдите на сайт
-                      </span>
-                    </Link>{" "}
-                    <p className={styles.errorMessage}> или </p>
-                    <Link to="/forgot-password">
-                      <span
-                        className={`${styles.blueText} ${styles.text_underline} `}
-                      >
-                        восстановите пароль.
-                      </span>
-                    </Link>{" "}
+                    </p>{" "}
+                    <Link to="/login">Войдите на сайт</Link> <p> или </p>
+                    <Link to="/forgot-password">восстановите пароль.</Link>{" "}
                   </div>
                 )}
               </div>
@@ -457,24 +444,13 @@ export const RegisterPage: FC = () => {
                   classNames={itemClasses}
                 />
                 {isINNRegistered && !formik.errors.inn && (
-                  <div className={styles.innAlreadyRegister}>
-                    Организация, с введенным значением ИНН уже зарегистрирована
-                    в Ubrato.{" "}
-                    <Link to="/login">
-                      <span
-                        className={`${styles.blueText} ${styles.text_underline} `}
-                      >
-                        Войдите на сайт
-                      </span>
-                    </Link>{" "}
-                    или{" "}
-                    <Link to="/forgot-password">
-                      <span
-                        className={`${styles.blueText} ${styles.text_underline} `}
-                      >
-                        восстановите пароль.
-                      </span>
-                    </Link>{" "}
+                  <div className={styles.alreadyRegisterError}>
+                    <p>
+                      Организация, с введенным значением ИНН уже
+                      зарегистрирована в Ubrato.{" "}
+                    </p>
+                    <Link to="/login">Войдите на сайт</Link> или{" "}
+                    <Link to="/forgot-password">восстановите пароль.</Link>{" "}
                   </div>
                 )}
               </>
