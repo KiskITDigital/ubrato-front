@@ -125,7 +125,8 @@ const SettingsPage: FC = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      const isSuccess = await deleteAccount();
+      const token = localStorage.getItem("token");
+      const isSuccess = await deleteAccount(token);
 
       if (isSuccess) {
         setOpenDeleteAccountModal(true);
