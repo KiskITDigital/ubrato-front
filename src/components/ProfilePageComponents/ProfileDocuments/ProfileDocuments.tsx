@@ -6,11 +6,15 @@ import { verifyUser } from "@/api/verification";
 import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
 import InfoModal from "@/components/Modal/InfoModal";
+import { useUserInfoStore } from "@/store/userInfoStore";
 
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
   const fetchDocuments = profileDocuments.fetchDocuments;
   const [disabled, setDisabled] = useState(true);
+  const userStore = useUserInfoStore();
+
+  const isEmailVerified = userStore.user.email_verified;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,8 +41,7 @@ export const ProfileDocuments: FC = () => {
     });
   }
   const [openModal, setOpenModal] = useState<boolean>(false);
-
-  const [openInfoModal, setOpenInfoModal] = useState(true);
+  const [openInfoModal, setOpenInfoModal] = useState(isEmailVerified);
 
   function closeInfoModal() {
     setOpenInfoModal(false);
@@ -94,13 +97,15 @@ export const ProfileDocuments: FC = () => {
           onClose={() => setOpenModal(false)}
         />
       </Modal>
-      <Modal isOpen={openInfoModal}>
-        <InfoModal
-          title=""
-          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
-          onClose={closeInfoModal}
-        />
-      </Modal>
+      {!isEmailVerified && (
+        <Modal isOpen={openInfoModal}>
+          <InfoModal
+            title=""
+            text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
+            onClose={closeInfoModal}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

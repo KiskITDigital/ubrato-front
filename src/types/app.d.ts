@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export interface ObjectInfoT {
   name: string;
@@ -40,6 +40,7 @@ export interface UserInfoT {
   middle_name: string;
   last_name: string;
   verified: boolean;
+  email_verified: boolean;
   is_contractor: boolean;
   role: number;
   created_at: string;
