@@ -44,6 +44,7 @@
   font-size: 10px;
   position: absolute;
   line-height: 22px;
+  width: max-content;
 }
 
 .inputFile:disabled + .fileBtn {

@@ -9,6 +9,10 @@
   width: 370px;
   margin-left: 15px;
   display: flex;
+
+  img {
+    object-fit: contain;
+  }
 }
 
 .text {
