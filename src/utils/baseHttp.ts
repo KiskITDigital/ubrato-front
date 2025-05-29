@@ -7,7 +7,7 @@ export const axiosInstance = axios.create({
 
 export const axiosInstanceStore = axios.create({
   withCredentials: true,
-  baseURL: "https://cdn.ubrato.ru",
+  baseURL: "http://api.ubrato.ru:8001",
   headers: {
     "Content-Type": "multipart/form-data",
   },
