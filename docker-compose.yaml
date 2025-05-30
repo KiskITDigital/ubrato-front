@@ -1,0 +1,11 @@
+services:
+  front:
+    image: ubrato-front
+    build: .
+    container_name: ubrato-front
+    restart: unless-stopped
+    ports:
+      - "8002:5174"
+
+    # env_file:
+    #   - .env
