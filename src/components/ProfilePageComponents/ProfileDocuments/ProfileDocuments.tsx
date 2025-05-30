@@ -2,23 +2,27 @@ import { FC, useEffect, useState } from "react";
 import styles from "./profiledocuments.module.css";
 import { FileInput } from "../FileInput/FileInput";
 import { useProfileDocumentsStore } from "@/store/profileDocumentsStore";
-import { getVerificationHistory, verifyUser } from "@/api/verification";
 import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
 import InfoModal from "@/components/Modal/InfoModal";
 import { useUserInfoStore } from "@/store/userInfoStore";
+import { useVerificationStore } from "@/store/verificationStore";
 
 export const ProfileDocuments: FC = () => {
   const profileDocuments = useProfileDocumentsStore();
-  const fetchDocuments = profileDocuments.fetchDocuments;
-  const [disabled, setDisabled] = useState(true);
+  const verificationStore = useVerificationStore();
   const userStore = useUserInfoStore();
 
-  const [isVerificationPending, setIsVerificationPending] = useState(false);
-  // todo - вынести в какой то стор
+  const [disabled, setDisabled] = useState(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openInfoModal, setOpenInfoModal] = useState(
+    userStore.user.email_verified
+  );
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
 
   const isEmailVerified = userStore.user.email_verified;
   const isVerified = userStore.user.verified;
+  const isVerificationPending = verificationStore.isVerificationPending;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -29,55 +33,31 @@ export const ProfileDocuments: FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchDocuments();
-
-    getVerificationHistory(localStorage.getItem("token") || "").then(
-      (history) => {
-        const hasPendingVerification = history.some(
-          (item) => item.verified === null && item.verified_at === null
-        );
-        setIsVerificationPending(hasPendingVerification);
-      }
-    );
-  }, [fetchDocuments]);
+    profileDocuments.fetchDocuments();
+    verificationStore.fetchVerificationHistory();
+  }, []);
 
   useEffect(() => {
-    if (
-      profileDocuments.documents.every(
-        (document) => document.idFile && document.link
-      ) &&
-      !isVerificationPending
-    ) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
+    const allDocumentsUploaded = profileDocuments.documents.every(
+      (document) => document.idFile && document.link
+    );
+
+    setDisabled(!allDocumentsUploaded || isVerificationPending);
   }, [profileDocuments.documents, isVerificationPending]);
 
-  function handleUserVerify() {
+  async function handleUserVerify() {
     setDisabled(true);
-    verifyUser(localStorage.getItem("token") || "")
-      .then(() => {
-        setOpenVerifyModal(true);
-        setIsVerificationPending(true);
-      })
-      .catch((error) => {
-        console.log(error);
-        setDisabled(false);
-      });
-  }
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openInfoModal, setOpenInfoModal] = useState(isEmailVerified);
-
-  function closeInfoModal() {
-    setOpenInfoModal(false);
+    try {
+      await verificationStore.submitVerification();
+      setOpenVerifyModal(true);
+    } catch (error) {
+      console.error(error);
+      setDisabled(false);
+    }
   }
 
-  const [openVerifyModal, setOpenVerifyModal] = useState(false);
-
-  function closeVerifyModal() {
-    setOpenVerifyModal(false);
-  }
+  const closeInfoModal = () => setOpenInfoModal(false);
+  const closeVerifyModal = () => setOpenVerifyModal(false);
 
   return (
     <div className={styles.container}>
