@@ -45,7 +45,6 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
         headers: { authorization: `Bearer ${token}` },
       });
       if (response.status !== 200) throw response;
-      // console.log(response.data);
 
       const surveyPass = await surveyCheck(token);
       set({
@@ -63,7 +62,11 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
           email_verified: response.data.email_verified,
           email: response.data.email,
           avatar: response.data.avatar,
-          organization: response.data.organiztion,
+          organization: {
+            id: response.data.organiztion.id,
+            short_name: response.data.organization.short_name,
+            inn: response.data.organization.inn,
+          },
         },
         isLoggedIn: true,
       });

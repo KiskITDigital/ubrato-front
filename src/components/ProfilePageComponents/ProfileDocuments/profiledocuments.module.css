@@ -93,10 +93,28 @@
   cursor: pointer;
 }
 
+.helpContainer {
+  margin-top: 12px;
+}
+
 .help {
   color: var(--color-black-60);
 }
 
-.help:first-of-type {
-  margin-top: 12px;
+.awaitingVerification {
+  margin-bottom: 12px;
+  p {
+    color: var(--color-green);
+  }
+}
+
+.verifiedSuccess {
+  padding: 4px 13px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  width: fit-content;
+  background-color: var(--color-green-secondary);
+  color: var(--color-green);
+  margin-top: 25px;
 }

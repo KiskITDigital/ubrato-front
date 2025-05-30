@@ -8,7 +8,11 @@ import { useProfileDocumentsStore } from "@/store/profileDocumentsStore";
 import { FC, useEffect, useState } from "react";
 import styles from "./fileinfo.module.css";
 
-export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
+export const FileInfo: FC<{
+  link: string;
+  id: string;
+  isDisabled?: boolean;
+}> = ({ link, id, isDisabled }) => {
   const fetchDocuments = useProfileDocumentsStore();
   const [fileInfo, setFileInfo] = useState<{
     name: string;
@@ -69,26 +73,28 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
           })}{" "}
           {fileDate?.getFullYear()}
         </p>
-        <button
-          className={styles.btn}
-          onClick={() => {
-            (async () => {
-              // console.log(id);
-              await updateToken(handleFileDelete, id);
-              // const token = localStorage.getItem('token')
-              // await handleFileDelete( token, id)
-              await fetchDocuments.fetchDocuments();
-              try {
-                fetchDocuments.removeDocument(id);
-              } catch (e) {
-                fetchDocuments.removeDocument(id);
-              }
-            })();
-          }}
-        >
-          <img src="/trash-bin.svg" alt="" />
-          Удалить <br />
-        </button>
+        {!isDisabled && (
+          <button
+            className={styles.btn}
+            onClick={() => {
+              (async () => {
+                // console.log(id);
+                await updateToken(handleFileDelete, id);
+                // const token = localStorage.getItem('token')
+                // await handleFileDelete( token, id)
+                await fetchDocuments.fetchDocuments();
+                try {
+                  fetchDocuments.removeDocument(id);
+                } catch (e) {
+                  fetchDocuments.removeDocument(id);
+                }
+              })();
+            }}
+          >
+            <img src="/trash-bin.svg" alt="" />
+            Удалить <br />
+          </button>
+        )}
       </div>
     </div>
   );

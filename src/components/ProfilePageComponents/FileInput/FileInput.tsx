@@ -12,6 +12,7 @@ interface FileInputProps {
   type: number;
   link?: string;
   idFile?: string;
+  isDisabled?: boolean;
 }
 
 export const FileInput: FC<FileInputProps> = ({
@@ -21,6 +22,7 @@ export const FileInput: FC<FileInputProps> = ({
   link,
   idFile,
   text,
+  isDisabled = false,
 }) => {
   const fetchDocuments = useProfileDocumentsStore();
   const [error, setError] = useState("");
@@ -104,7 +106,7 @@ export const FileInput: FC<FileInputProps> = ({
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>
-      {link && <FileInfo link={link} id={newIdFile} />}
+      {link && <FileInfo link={link} id={newIdFile} isDisabled={isDisabled} />}
     </div>
   );
 };

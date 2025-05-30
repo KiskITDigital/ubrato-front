@@ -1,13 +1,13 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import styles from './header.module.css';
-import { Link } from 'react-router-dom';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { Avatar } from '@nextui-org/react';
-import { useIsOrdererState } from '@/store/isOrdererStore';
-import { Notifications } from '..';
-import { updateToken } from '@/api';
-import { CityModal } from '../CityModal/CityModal';
-import axios from 'axios';
+import { FC, useEffect, useRef, useState } from "react";
+import styles from "./header.module.css";
+import { Link } from "react-router-dom";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { Avatar } from "@nextui-org/react";
+import { useIsOrdererState } from "@/store/isOrdererStore";
+import { Notifications } from "..";
+import { updateToken } from "@/api";
+import { CityModal } from "../CityModal/CityModal";
+import axios from "axios";
 
 export const Header: FC = () => {
   const userInfoStorage = useUserInfoStore();
@@ -22,18 +22,21 @@ export const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
   const [confirm, setConfirm] = useState<boolean>(false);
-  const [city, setCity] = useState<string | undefined>('');
-  const [geolocation, setGeolocation] = useState<{ lat: number; lon: number }>();
+  const [city, setCity] = useState<string | undefined>("");
+  const [geolocation, setGeolocation] = useState<{
+    lat: number;
+    lon: number;
+  }>();
 
   const handleConfirm = () => {
     if (city) {
-      localStorage.setItem('city', city);
+      localStorage.setItem("city", city);
       setConfirm(true);
     }
   };
 
   const setNewCity = (newCity: string) => {
-    localStorage.setItem('city', newCity);
+    localStorage.setItem("city", newCity);
     setCity(newCity);
   };
 
@@ -43,7 +46,7 @@ export const Header: FC = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token !== null) {
       (async () => {
         await updateToken<void, undefined>(fetchUser, undefined);
@@ -52,7 +55,7 @@ export const Header: FC = () => {
   }, [fetchUser]);
 
   useEffect(() => {
-    handleState(userInfoStorage.user.is_contractor ? 'contractor' : 'orderer');
+    handleState(userInfoStorage.user.is_contractor ? "contractor" : "orderer");
   }, [handleState, userInfoStorage.user.is_contractor]);
 
   useEffect(() => {
@@ -60,12 +63,15 @@ export const Header: FC = () => {
       widthR.current = window.outerHeight;
     }
 
-    if (localStorage.getItem('city')) {
-      setCity(localStorage.getItem('city') || '');
+    if (localStorage.getItem("city")) {
+      setCity(localStorage.getItem("city") || "");
       setConfirm(true);
     } else {
       navigator.geolocation.getCurrentPosition((position) => {
-        setGeolocation({ lat: position.coords.latitude, lon: position.coords.longitude });
+        setGeolocation({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
       });
     }
   }, []);
@@ -80,14 +86,19 @@ export const Header: FC = () => {
           }
         )
         .then((response) => {
-          if (response.data?.address?.city) setCity(response.data?.address?.city);
+          if (response.data?.address?.city)
+            setCity(response.data?.address?.city);
         });
   }, [geolocation]);
 
   return (
     <header className={`${styles.container}`}>
       {isCityModalOpen && (
-        <CityModal setCity={setNewCity} setConfirm={setConfirm} setModal={setIsCityModalOpen} />
+        <CityModal
+          setCity={setNewCity}
+          setConfirm={setConfirm}
+          setModal={setIsCityModalOpen}
+        />
       )}
       {!!widthR.current && isMenuOpen && (
         <div
@@ -118,12 +129,12 @@ export const Header: FC = () => {
               <img src="/burger_button.svg" alt="" />
             </button>
           ) : (
-            ''
+            ""
           )}
           <Link to="/">
             <img
               className={styles.logo}
-              src={widthR.current ? '/logo-mobile.svg' : '/logo.svg'}
+              src={widthR.current ? "/logo-mobile.svg" : "/logo.svg"}
               alt="logo"
             />
           </Link>
@@ -145,8 +156,12 @@ export const Header: FC = () => {
                   }
                 }}
               >
-                <img src="/location.svg" alt="location" className="cursor-pointer" />
-                <p className={styles.locationText}>{city ? city : 'Указать'}</p>
+                <img
+                  src="/location.svg"
+                  alt="location"
+                  className="cursor-pointer"
+                />
+                <p className={styles.locationText}>{city ? city : "Указать"}</p>
               </div>
 
               {!confirm && city && (
@@ -156,7 +171,7 @@ export const Header: FC = () => {
                     <button onClick={() => handleConfirm()}>Да</button>
                     <button
                       onClick={() => {
-                        document.body.style.overflow = 'hidden';
+                        document.body.style.overflow = "hidden";
                         setConfirm(true);
                         setIsCityModalOpen(true);
                       }}
@@ -184,7 +199,8 @@ export const Header: FC = () => {
                   <p>Найти исполнителя</p>
                 </Link>
               </li>
-              {(userInfoStorage.user.is_contractor || !userInfoStorage.isLoggedIn) && (
+              {(userInfoStorage.user.is_contractor ||
+                !userInfoStorage.isLoggedIn) && (
                 <li>
                   <Link to="/alltenders" className={styles.navLink}>
                     <img src="/find-tender.svg" alt="my-tender" />
@@ -207,7 +223,7 @@ export const Header: FC = () => {
                 <p className={styles.loginText}>Вход</p>
               </Link>
               {widthR.current ? (
-                ''
+                ""
               ) : (
                 <Link to="/registration" className={styles.registrationLink}>
                   <p className={styles.registrationText}>Регистрация</p>
