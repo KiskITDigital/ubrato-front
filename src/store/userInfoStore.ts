@@ -63,7 +63,7 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
           email: response.data.email,
           avatar: response.data.avatar,
           organization: {
-            id: response.data.organiztion.id,
+            id: response.data.organization.id,
             short_name: response.data.organization.short_name,
             inn: response.data.organization.inn,
           },

@@ -21,6 +21,13 @@ export const ProfileDocuments: FC = () => {
   const isVerified = userStore.user.verified;
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !userStore.user.id) {
+      userStore.fetchUser(token);
+    }
+  }, [userStore]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
     fetchDocuments();
 

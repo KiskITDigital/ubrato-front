@@ -21,7 +21,7 @@ export const ProfilePage: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const setPassedSurvey = userStore.setPassedSurvey;
-  const isVerified = userStore.user.verified;
+  const isEmailVerified = userStore.user.email_verified;
 
   useEffect(() => {
     (async () => {
@@ -41,7 +41,7 @@ export const ProfilePage: FC = () => {
   useEffect(() => {
     const isAllowedRoute = allowedRoutes.includes(location.pathname);
 
-    if (!isVerified && !isAllowedRoute) {
+    if (!isEmailVerified && !isAllowedRoute) {
       navigate("/profile/documents");
     }
   }, [location.pathname]);

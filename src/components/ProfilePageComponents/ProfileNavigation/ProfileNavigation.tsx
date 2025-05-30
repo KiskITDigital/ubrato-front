@@ -34,7 +34,7 @@ const allowedRoutes = [
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
   const location = useLocation();
-  const isVerified = userStore.user.verified;
+  const isEmailVerified = userStore.user.email_verified;
 
   const [page, setPage] = useState("");
   const [openInfoModal, setOpenInfoModal] = useState(false);
@@ -56,10 +56,10 @@ export const ProfileNavigation: FC = () => {
 
     return (
       <Link
-        to={isVerified || isAllowedRoute ? to : "#"}
+        to={isEmailVerified || isAllowedRoute ? to : "#"}
         className={className}
         onClick={(e) => {
-          if (!isVerified && !isAllowedRoute) {
+          if (!isEmailVerified && !isAllowedRoute) {
             e.preventDefault();
             setOpenInfoModal(true);
           }
