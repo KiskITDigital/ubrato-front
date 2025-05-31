@@ -1,0 +1,5 @@
+http://* {
+    root * /srv/www
+
+    file_server
+}
