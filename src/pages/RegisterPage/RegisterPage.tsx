@@ -22,9 +22,11 @@ import toast, { Toaster } from "react-hot-toast";
 import InfoModal from "@/components/Modal/InfoModal";
 import { checkEmailRegistrationStatus } from "@/api/register/checkEmailRegistrationStatus";
 import { checkINNRegistrationStatus } from "@/api/register/checkINNRegistrationStatus";
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -270,7 +272,7 @@ export const RegisterPage: FC = () => {
           <span
             className={`cursor-pointer underline underline-offset-4`}
             onClick={() => {
-              setOpenModal(true);
+              setOpenFeedbackModal(true);
               document.body.style.overflow = "hidden";
             }}
           >
@@ -638,6 +640,12 @@ export const RegisterPage: FC = () => {
             setOpenModal(false);
             document.body.style.overflow = "auto";
           }}
+        />
+      </Modal>
+      <Modal isOpen={openFeedbackModal}>
+        <ContactModal
+          type="SURVEY_TYPE_FEEDBACK"
+          onClose={() => setOpenFeedbackModal(false)}
         />
       </Modal>
     </div>
