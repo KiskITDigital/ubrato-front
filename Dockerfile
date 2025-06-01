@@ -1,22 +1,19 @@
-FROM node:21.7.1-alpine3.18@sha256:88a2a0bf05ec222e3b42ba6609c880a3acfa4e98693632aee13686a6b6595c2c
-
-ARG SERVER_URI=https://api.ubrato.ru
-ARG TYPESENSE_API_PORT=443
-ARG TYPESENSE_API_KEY=q4gLY2ASz9VxsGH67iAHVGkQs0OoWNj9
-ARG TYPESENSE_API_URI=search.ubrato.ru
-ENV VITE_SERVER_URI=${SERVER_URI}
-ENV VITE_TYPESENSE_API_PORT=${TYPESENSE_API_PORT}
-ENV VITE_TYPESENSE_API_KEY=${TYPESENSE_API_KEY}
-ENV VITE_TYPESENSE_API_URI=${TYPESENSE_API_URI}
-
-ARG PORT=5555
-ENV PORT=${PORT}
-
-ARG NODE_ENV
-ENV NODE_ENV=${NODE_ENV}
+FROM node:24.1-alpine AS builder
 
 WORKDIR /app
-COPY . .
+
+COPY ./package.json ./package-lock.json ./
 RUN npm install
+
+COPY ./src ./src
+COPY ./public ./public
+COPY ./index.html ./server.js ./postcss.config.js \
+     ./tsconfig.json ./tsconfig.node.json ./typesense-config.json ./typesense.config.ts \
+     ./vite.config.ts ./tailwind.config.js ./
+
 RUN npm run build
-ENTRYPOINT ["node", "server"]
+
+FROM caddy:2.10-alpine AS runner
+
+COPY --from=builder /app/dist/client /srv/www
+COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
