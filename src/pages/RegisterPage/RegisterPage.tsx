@@ -78,8 +78,8 @@ export const RegisterPage: FC = () => {
           await registerUser(parameters);
           const token = localStorage.getItem("token");
           if (token) {
-            await fetchUser(token);
             setOpenModal(true);
+            await fetchUser(token);
           }
         } catch (error: any) {
           toast.error(`${error.response.data.msg}\n${error.response.data.id}`);
@@ -142,12 +142,6 @@ export const RegisterPage: FC = () => {
   const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
   useEffect(() => {
-    if (userInfoStore.isLoggedIn) {
-      navigate("/profile/documents");
-    }
-  }, [navigate, userInfoStore.isLoggedIn]);
-
-  useEffect(() => {
     if (
       !formik.errors.email &&
       !formik.errors.password &&
@@ -182,10 +176,6 @@ export const RegisterPage: FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  if (userInfoStore.isLoggedIn) {
-    return <div></div>;
-  }
 
   return (
     <div className={`container ${styles.container}`}>
@@ -639,6 +629,7 @@ export const RegisterPage: FC = () => {
           onClose={() => {
             setOpenModal(false);
             document.body.style.overflow = "auto";
+            navigate("/profile/documents");
           }}
         />
       </Modal>
