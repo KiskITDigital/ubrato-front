@@ -1,5 +1,14 @@
-http://* {
-    root * /srv/www
+{
+    log {
+        level INFO
+        output stdout
+        format json
+    }
+}
 
+http://ubrato.ru {
+    root * /srv/www
+    try_files {path} /index.html
     file_server
+    log
 }
