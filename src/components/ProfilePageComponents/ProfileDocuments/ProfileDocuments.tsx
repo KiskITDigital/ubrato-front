@@ -13,21 +13,23 @@ export const ProfileDocuments: FC = () => {
   const verificationStore = useVerificationStore();
   const userStore = useUserInfoStore();
 
-  const [disabled, setDisabled] = useState(true);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [openInfoModal, setOpenInfoModal] = useState(
-    userStore.user.email_verified
-  );
-  const [openVerifyModal, setOpenVerifyModal] = useState(false);
-
   const isEmailVerified = userStore.user.email_verified;
   const isVerified = userStore.user.verified;
   const isVerificationPending = verificationStore.isVerificationPending;
+
+  const [disabled, setDisabled] = useState(true);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openVerifyEmailModal, setOpenIVerifyEmailModal] =
+    useState(isEmailVerified);
+  const [openVerifyModal, setOpenVerifyModal] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !userStore.user.id) {
       userStore.fetchUser(token);
+    }
+    if (!isEmailVerified) {
+      setOpenIVerifyEmailModal(true);
     }
   }, [userStore]);
 
@@ -56,7 +58,7 @@ export const ProfileDocuments: FC = () => {
     }
   }
 
-  const closeInfoModal = () => setOpenInfoModal(false);
+  const closeVerifyEmailModal = () => setOpenIVerifyEmailModal(false);
   const closeVerifyModal = () => setOpenVerifyModal(false);
 
   return (
@@ -123,15 +125,15 @@ export const ProfileDocuments: FC = () => {
           onClose={() => setOpenModal(false)}
         />
       </Modal>
-      {!isEmailVerified && (
-        <Modal isOpen={openInfoModal}>
-          <InfoModal
-            title=""
-            text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
-            onClose={closeInfoModal}
-          />
-        </Modal>
-      )}
+
+      <Modal isOpen={openVerifyEmailModal}>
+        <InfoModal
+          title=""
+          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
+          onClose={closeVerifyEmailModal}
+        />
+      </Modal>
+
       <Modal isOpen={openVerifyModal}>
         <InfoModal
           title=""
