@@ -1,28 +1,42 @@
-import { FC, useEffect, useState } from 'react';
-import styles from './confirm-email-page.module.css';
-import { useLocation } from 'react-router-dom';
-import { verify } from '@/api';
+import { FC, useEffect, useState } from "react";
+import styles from "./confirm-email-page.module.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { verify } from "@/api";
 
 const ConfirmEmailPage: FC = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const codeParams = searchParams.get('code');
+  const codeParams = searchParams.get("code");
 
-  const [text, setText] = useState('Запрос на верефикацию отправлен');
+  const navigate = useNavigate();
+
+  const [text, setText] = useState("Проверяем email...");
 
   useEffect(() => {
-    console.log(codeParams);
-    if (codeParams) {
-      (async () => {
-        try {
-          const res = await verify(codeParams);
-          console.log(res);
-        } catch (e) {
-          setText('Что-то пошло не так, попробуйте открыть ссылку еще раз');
+    if (!codeParams) {
+      setText(
+        "Неверная ссылка подтверждения. Пожалуйста, проверьте email еще раз."
+      );
+      return;
+    }
+
+    const verifyEmail = async () => {
+      try {
+        const res = await verify(codeParams);
+        if (res.status) {
+          setText("Email успешно подтвержден. Перенаправляем...");
+          navigate("/profile/documents");
+          return;
         }
-      })();
-    } else setText('Что-то пошло не так, попробуйте открыть ссылку еще раз');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        throw new Error(`Unexpected status code: ${res.status}`);
+      } catch (e) {
+        setText(
+          "Не удалось подтвердить email. Пожалуйста, попробуйте открыть ссылку еще раз."
+        );
+      }
+    };
+
+    verifyEmail();
   }, []);
 
   return (
