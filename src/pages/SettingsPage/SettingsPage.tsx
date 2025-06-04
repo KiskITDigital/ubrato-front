@@ -19,6 +19,9 @@ import { AxiosError } from "axios";
 import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
 import { useIMask } from "react-imask";
+import { deleteAccount } from "@/api/deleteAccount";
+import { logout } from "@/utils/auth/auth";
+import InfoModal from "@/components/Modal/InfoModal";
 
 const SettingsPage: FC = () => {
   const navigate = useNavigate();
@@ -29,15 +32,20 @@ const SettingsPage: FC = () => {
 
   const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
-  const status: "unverified" | "success" = userInfoStore.user.verified ? "success" : "unverified";
+  const status: "unverified" | "success" = userInfoStore.user.verified
+    ? "success"
+    : "unverified";
 
   const [buttonText, setButtonText] = useState<
-    "Отправить письмо" | "Ссылка для подтверждения e-mail отправлена на указанную вами почту."
+    | "Отправить письмо"
+    | "Ссылка для подтверждения e-mail отправлена на указанную вами почту."
   >("Отправить письмо");
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   // const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [errorDeleteAccountMsg, setErrorDeleteAccountMsg] = useState("");
+
   const [wantToChange, setWantToChange] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [verifyError, setVerifyError] = useState("");
@@ -50,7 +58,8 @@ const SettingsPage: FC = () => {
   const [contactError, setContactError] = useState("");
 
   const [passwordToChange, setPasswordToChange] = useState("");
-  const [isPasswordToChangeVisible, setIsPasswordToChangeVisible] = useState(false);
+  const [isPasswordToChangeVisible, setIsPasswordToChangeVisible] =
+    useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [passwordResetError, setPasswordResetError] = useState("");
 
@@ -75,7 +84,10 @@ const SettingsPage: FC = () => {
 
   const handleVerifyPassword = async (value: string) => {
     try {
-      const res = await login({ email: userInfoStore.user.email, password: value });
+      const res = await login({
+        email: userInfoStore.user.email,
+        password: value,
+      });
       if (res.status === 200) {
         setIsVerified(true);
       }
@@ -111,6 +123,27 @@ const SettingsPage: FC = () => {
     } else setPasswordError("");
   };
 
+  const handleDeleteAccount = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const isSuccess = await deleteAccount(token);
+
+      if (isSuccess) {
+        setOpenDeleteAccountModal(true);
+      } else {
+        setErrorDeleteAccountMsg("Не удалось удалить аккаунт");
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        if (e.response?.status === 401) {
+          setErrorDeleteAccountMsg("Требуется авторизация");
+        }
+      } else {
+        setErrorDeleteAccountMsg("Не удалось удалить аккаунт");
+      }
+    }
+  };
+
   const verification = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -119,7 +152,9 @@ const SettingsPage: FC = () => {
     }
     try {
       await askForVerification(token);
-      setButtonText("Ссылка для подтверждения e-mail отправлена на указанную вами почту.");
+      setButtonText(
+        "Ссылка для подтверждения e-mail отправлена на указанную вами почту."
+      );
       setTimeout(() => {
         setButtonText("Отправить письмо");
       }, 3000);
@@ -140,7 +175,8 @@ const SettingsPage: FC = () => {
       userInfoStore.user.first_name === firstName &&
       userInfoStore.user.last_name === lastName &&
       userInfoStore.user.middle_name === middleName &&
-      userInfoStore.user.phone === value.replaceAll("-", "").replaceAll("(", "").replaceAll(")", "")
+      userInfoStore.user.phone ===
+        value.replaceAll("-", "").replaceAll("(", "").replaceAll(")", "")
     ) {
       setHasDataChanged(false);
     } else {
@@ -193,17 +229,23 @@ const SettingsPage: FC = () => {
   };
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openDeleteAccountModal, setOpenDeleteAccountModal] =
+    useState<boolean>(false);
 
   return (
     <section ref={startRef} className={`${styles.container}`}>
       <p className={styles.title}>Настройки аккаунта</p>
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Статус</p>
-        <div className={`${styles.section__container} ${styles.section__containerStatus}`}>
+        <div
+          className={`${styles.section__container} ${styles.section__containerStatus}`}
+        >
           {/* <p className={`${styles.status} ${status === 'success' ? styles.statusSuccess : styles.statusUnSuccess}`}>{status === 'success' ? 'Верифицирован' : status === 'blocked' ? 'Заблокирован' : 'Подтвердите почту'}</p> */}
           <p
             className={`${styles.status} ${
-              status === "success" ? styles.statusSuccess : styles.statusUnSuccess
+              status === "success"
+                ? styles.statusSuccess
+                : styles.statusUnSuccess
             }`}
           >
             {status === "success" ? "Верифицирован" : "Подтвердите почту"}
@@ -223,7 +265,11 @@ const SettingsPage: FC = () => {
               {buttonText !==
                 "Ссылка для подтверждения e-mail отправлена на указанную вами почту." && (
                 <div className={styles.info}>
-                  <img className={styles.info__img} src="/info-ic.svg" alt="i" />
+                  <img
+                    className={styles.info__img}
+                    src="/info-ic.svg"
+                    alt="i"
+                  />
                   <p className={styles.info__text}>
                     Чтобы начать работу с тендерами пройдите верификацию
                   </p>
@@ -263,7 +309,10 @@ const SettingsPage: FC = () => {
               onChange={(e) => handlePassword(e.currentTarget.value)}
               placeholder="Введите пароль"
               endContent={
-                <button onClick={() => setIsPasswordVisible((prev) => !prev)} type="button">
+                <button
+                  onClick={() => setIsPasswordVisible((prev) => !prev)}
+                  type="button"
+                >
                   {isPasswordVisible ? (
                     <img width="20" height="20" src="/eye-hide.svg" />
                   ) : (
@@ -311,7 +360,9 @@ const SettingsPage: FC = () => {
               </Link>
               <span>.</span>
             </p>
-            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{passwordResetError}</p>
+            <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+              {passwordResetError}
+            </p>
           </Checkbox>
           <button
             disabled={passwordError !== "allowed"}
@@ -417,7 +468,9 @@ const SettingsPage: FC = () => {
               </Link>
               <span>.</span>
             </p>
-            <p className={`${styles.errorMessage} ${styles.checkErr}`}>{contactError}</p>
+            <p className={`${styles.errorMessage} ${styles.checkErr}`}>
+              {contactError}
+            </p>
           </Checkbox>
           {!wantToChange && (
             <button
@@ -454,7 +507,12 @@ const SettingsPage: FC = () => {
                       (async () => {
                         await updateToken<
                           void,
-                          { firstName: string; middleName: string; lastName: string; phone: string }
+                          {
+                            firstName: string;
+                            middleName: string;
+                            lastName: string;
+                            phone: string;
+                          }
                         >(changePersonalData, parameters);
                         setWantToChange(false);
                         setIsVerified(false);
@@ -479,7 +537,9 @@ const SettingsPage: FC = () => {
                 >
                   Отменить
                 </button>
-                {changeDataError && <p className={styles.dataErrorMessage}>{changeDataError}</p>}
+                {changeDataError && (
+                  <p className={styles.dataErrorMessage}>{changeDataError}</p>
+                )}
               </div>
             ) : (
               <div className="flex gap-[10px]">
@@ -502,7 +562,11 @@ const SettingsPage: FC = () => {
                 className="rounded-full bg-[rgba(0,0,0,.04)] w-[20px] h-[20px] flex items-center justify-center absolute top-[10px] right-[10px]"
                 onClick={() => setWantToChange(false)}
               >
-                <img className="w-[10px] h-[10px]" src="/x-icon.svg" alt="close" />
+                <img
+                  className="w-[10px] h-[10px]"
+                  src="/x-icon.svg"
+                  alt="close"
+                />
               </button>
               <p className="text-[16px] font-bold">Введите пароль</p>
               <Input
@@ -513,7 +577,9 @@ const SettingsPage: FC = () => {
                 placeholder="Введите пароль"
                 endContent={
                   <button
-                    onClick={() => setIsPasswordToChangeVisible((prev) => !prev)}
+                    onClick={() =>
+                      setIsPasswordToChangeVisible((prev) => !prev)
+                    }
                     type="button"
                   >
                     {isPasswordToChangeVisible ? (
@@ -592,9 +658,20 @@ const SettingsPage: FC = () => {
         </div>
       </div>
       {/* {status !== 'blocked' && <button className={styles.deleteAccaunt}>Удалить аккаунт</button>} */}
-      <button className={styles.deleteAccaunt}>Удалить аккаунт</button>
+      <button className={styles.deleteAccaunt} onClick={handleDeleteAccount}>
+        Удалить аккаунт
+      </button>
+      {errorDeleteAccountMsg && (
+        <p className={styles.errorMessage}>{errorDeleteAccountMsg}</p>
+      )}
       <Modal isOpen={openModal}>
-        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
+        <ContactModal
+          type="SURVEY_TYPE_FEEDBACK"
+          onClose={() => setOpenModal(false)}
+        />
+      </Modal>
+      <Modal isOpen={openDeleteAccountModal}>
+        <InfoModal title="" text="Аккаунт успешно удален" onClose={logout} />
       </Modal>
     </section>
   );

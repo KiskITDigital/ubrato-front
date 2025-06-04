@@ -1,20 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useFormik } from 'formik';
-import { ChangeEvent, FC, FormEvent, Ref, useEffect, useRef, useState } from 'react';
-import { RegisterFormValuesT } from '@/types/app';
-import { Checkbox, Input } from '@nextui-org/react';
-import { registerSchema } from '@/validation/registerSchema';
-import styles from './registerpage.module.css';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { Link, useNavigate } from 'react-router-dom';
-import { checkINN, registerUser } from '@/api';
-import { useIMask } from 'react-imask';
-import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
-import toast, { Toaster } from 'react-hot-toast';
+import { useFormik } from "formik";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  Ref,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { RegisterFormValuesT } from "@/types/app";
+import { Checkbox, Input } from "@nextui-org/react";
+import { registerSchema } from "@/validation/registerSchema";
+import styles from "./registerpage.module.css";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { Link, useNavigate } from "react-router-dom";
+import { checkINN, registerUser } from "@/api";
+import { useIMask } from "react-imask";
+import Modal from "@/components/Modal";
+import toast, { Toaster } from "react-hot-toast";
+import InfoModal from "@/components/Modal/InfoModal";
+import { checkEmailRegistrationStatus } from "@/api/register/checkEmailRegistrationStatus";
+import { checkINNRegistrationStatus } from "@/api/register/checkINNRegistrationStatus";
+import ContactModal from "@/components/Modal/ContactModal";
 
 export const RegisterPage: FC = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,14 +38,14 @@ export const RegisterPage: FC = () => {
   const toggleConfirmVisible = () => setIsConfirmVisible(!isConfirmVisible);
 
   const initialValues: RegisterFormValuesT = {
-    inn: '',
-    email: '',
-    phone: '',
-    password: '',
-    repeatPassword: '',
-    firstName: '',
-    lastName: '',
-    middleName: '',
+    inn: "",
+    email: "",
+    phone: "",
+    password: "",
+    repeatPassword: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
     personalDataAgreement: false,
   };
 
@@ -58,18 +70,16 @@ export const RegisterPage: FC = () => {
         last_name: values.lastName,
         inn: values.inn,
         is_contractor: isContractor,
-        avatar: '',
+        avatar: "",
       };
       (async () => {
         setIsLoading(true);
         try {
           await registerUser(parameters);
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (token) {
+            setOpenModal(true);
             await fetchUser(token);
-            if (!userInfoStore.error) {
-              navigate('/profile');
-            }
           }
         } catch (error: any) {
           toast.error(`${error.response.data.msg}\n${error.response.data.id}`);
@@ -83,11 +93,34 @@ export const RegisterPage: FC = () => {
     validateOnMount: false,
   });
 
+  const [isINNRegistered, setIsINNRegistered] = useState<boolean>(false);
+  const [isEmailRegistered, setIsEmailRegistered] = useState<boolean>(false);
   const [isContractor, setIsContractor] = useState(false);
   const [isOrderer, setIsOrderer] = useState(false);
-  const [companyName, setCompanyName] = useState('');
-  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(1);
-  // const [nameConfirm, setNameConfirm] = useState(false);
+  const [companyName, setCompanyName] = useState("");
+  const [registrationStep, setRegistrationStep] = useState<1 | 2 | 3 | 4 | 5>(
+    1
+  );
+
+  const debounceTimer = useRef<number | null>(null);
+
+  const handleEmailCheck = (email: string) => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        const exists = await checkEmailRegistrationStatus(email);
+        setIsEmailRegistered(exists);
+        if (exists) {
+          formik.setFieldError("email", "Email уже зарегистрирован");
+        }
+      } catch (error) {
+        console.error("Ошибка проверки email:", error);
+      }
+    }, 500);
+  };
 
   const checkStyle = {
     base: styles.checkBase,
@@ -99,20 +132,14 @@ export const RegisterPage: FC = () => {
   const surnameRef = useRef<HTMLInputElement>(null);
 
   const scrollTosurnameRef = () => {
-    surnameRef.current!.scrollIntoView({ behavior: 'smooth' });
+    surnameRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
       const elementTop = surnameRef.current!.getBoundingClientRect().top;
-      window.scrollBy({ top: elementTop - 200, behavior: 'smooth' });
+      window.scrollBy({ top: elementTop - 200, behavior: "smooth" });
     }, 0);
   };
 
-  const { ref, value, setValue } = useIMask({ mask: '+{7}(900)000-00-00' });
-
-  useEffect(() => {
-    if (userInfoStore.isLoggedIn) {
-      navigate('/profile');
-    }
-  }, [navigate, userInfoStore.isLoggedIn]);
+  const { ref, value, setValue } = useIMask({ mask: "+{7}(900)000-00-00" });
 
   useEffect(() => {
     if (
@@ -150,10 +177,6 @@ export const RegisterPage: FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (userInfoStore.isLoggedIn) {
-    return <div></div>;
-  }
-
   return (
     <div className={`container ${styles.container}`}>
       <Toaster position="bottom-right" gutter={8} />
@@ -162,7 +185,7 @@ export const RegisterPage: FC = () => {
           Регистрация на сайте <span className="text-accent">Ubrato</span>
         </h1>
         <p className={`${styles.infoText} pt-[10px]`}>
-          Уже есть аккаунт?{' '}
+          Уже есть аккаунт?{" "}
           <Link className={styles.link} to="/login">
             Войти
           </Link>
@@ -172,7 +195,7 @@ export const RegisterPage: FC = () => {
         </div>
         <div className={styles.buttonsContainer}>
           <button
-            className={`${styles.button} ${isOrderer ? styles.active : ''}`}
+            className={`${styles.button} ${isOrderer ? styles.active : ""}`}
             onClick={() => {
               if (isContractor && isOrderer) {
                 setIsOrderer(!isOrderer);
@@ -185,7 +208,7 @@ export const RegisterPage: FC = () => {
             Заказчик
           </button>
           <button
-            className={`${styles.button} ${isContractor ? styles.active : ''}`}
+            className={`${styles.button} ${isContractor ? styles.active : ""}`}
             onClick={() => {
               if (isOrderer && !isContractor) {
                 setIsContractor(!isContractor);
@@ -201,45 +224,50 @@ export const RegisterPage: FC = () => {
         <div className="flex w-[478px] justify-between mt-[20px]">
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
-              Выбирайте роль Заказчика, если вашей компании нужно заказать клининг и/или смежные{' '}
+              Выбирайте роль Заказчика, если вашей компании нужно заказать
+              клининг и/или смежные{" "}
               <Link className="underline" to="/faq?page=3&number=2#q3_2">
                 услуги
               </Link>
               .
             </p>
             <p className="text-[rgba(0,0,0,.6)] text-center text-[13px]">
-              Регистрируясь на сайте <span className="text-accent">Ubrato</span>, ваша компания
-              получает возможность проводить тендеры. Если в будущем вашей компании потребуется роль
-              Исполнителя, то вы сможете подключить этот функционал в личном кабинете.
+              Регистрируясь на сайте <span className="text-accent">Ubrato</span>
+              , ваша компания получает возможность проводить тендеры. Если в
+              будущем вашей компании потребуется роль Исполнителя, то вы сможете
+              подключить этот функционал в личном кабинете.
             </p>
           </div>
           <div className="w-[234px]">
             <p className="text-[rgba(0,0,0)] mb-[10px] text-center text-[13px]">
-              Выбирайте роль Исполнителя, если ваша компания предлагает свои клининговые и/или
-              смежные{' '}
+              Выбирайте роль Исполнителя, если ваша компания предлагает свои
+              клининговые и/или смежные{" "}
               <Link className="underline" to="/faq?page=2&number=1#q2_1">
                 услуги
               </Link>
               .
             </p>
             <p className="text-[rgba(0,0,0,.6)] text-center text-[13px]">
-              Регистрируясь как Исполнитель, ваша компания одновременно регистрируется и в роли
-              Заказчика. Это позволит находить Исполнителей на субподряды или заказывать
-              специализированные услуги для себя.
+              Регистрируясь как Исполнитель, ваша компания одновременно
+              регистрируется и в роли Заказчика. Это позволит находить
+              Исполнителей на субподряды или заказывать специализированные
+              услуги для себя.
             </p>
           </div>
         </div>
-        <div className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}>
-          Есть вопросы по регистрации?{' '}
+        <div
+          className={`${styles.questionsAboutRegistration} ${styles.stillHaveQuestions}`}
+        >
+          Есть вопросы по регистрации?{" "}
           <span
             className={`cursor-pointer underline underline-offset-4`}
             onClick={() => {
-              setOpenModal(true);
-              document.body.style.overflow = 'hidden';
+              setOpenFeedbackModal(true);
+              document.body.style.overflow = "hidden";
             }}
           >
             Напишите телефон
-          </span>{' '}
+          </span>{" "}
           и мы перезвоним
         </div>
         <form className={styles.form} onSubmit={formik.handleSubmit}>
@@ -253,25 +281,44 @@ export const RegisterPage: FC = () => {
                   type="email"
                   label="Логин (Email)"
                   value={formik.values.email}
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     formik.handleChange(e);
-                    if (e.target.value.endsWith(' ')) {
-                      formik.setErrors({ email: 'Некорректный e-mail' });
+                    if (e.target.value.endsWith(" ")) {
+                      formik.setErrors({ email: "Некорректный e-mail" });
                     }
-                    // console.log(e.target.value);
+                    const email = e.target.value.trim();
+
+                    if (email) {
+                      handleEmailCheck(email);
+                    } else {
+                      setIsEmailRegistered(false);
+                      if (debounceTimer.current) {
+                        clearTimeout(debounceTimer.current);
+                      }
+                    }
                   }}
                   variant="bordered"
                   placeholder="Электронная почта"
                   isInvalid={Boolean(formik.errors.email)}
-                  errorMessage={formik.errors.email}
                   classNames={itemClasses}
+                  errorMessage={!isEmailRegistered && formik.errors.email}
                 />
+                {isEmailRegistered && (
+                  <div className={styles.alreadyRegisterError}>
+                    <p>
+                      Введенный адрес электронной почты уже зарегистрирован в
+                      Ubrato.
+                    </p>{" "}
+                    <Link to="/login">Войдите на сайт</Link> <p> или </p>
+                    <Link to="/forgot-password">восстановите пароль.</Link>{" "}
+                  </div>
+                )}
               </div>
               <div className={styles.inputContainer}>
                 <Input
                   id="password"
                   name="password"
-                  type={isPasswordVisible ? 'text' : 'password'}
+                  type={isPasswordVisible ? "text" : "password"}
                   label="Пароль (не менее 8 знаков, буквы и цифры)"
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -294,7 +341,7 @@ export const RegisterPage: FC = () => {
                 <Input
                   id="repeatPassword"
                   name="repeatPassword"
-                  type={isConfirmVisible ? 'text' : 'password'}
+                  type={isConfirmVisible ? "text" : "password"}
                   label="Повторите пароль"
                   value={formik.values.repeatPassword}
                   onChange={formik.handleChange}
@@ -315,59 +362,108 @@ export const RegisterPage: FC = () => {
               </div>
             </>
           )}
-          {registrationStep > 2 && <p className={styles.inputGrHeader}>Укажите данные компании</p>}
           {registrationStep > 2 && (
-            <p className={`${styles.infoText} py-[10px] w-full max-w-full`}>
-              В настоящее время сервис Ubrato открыт для юридических лиц
-            </p>
+            <>
+              <p className={styles.inputGrHeader}>Укажите данные компании</p>
+              <p className={`${styles.infoText} py-[10px] w-full max-w-full`}>
+                В настоящее время сервис Ubrato открыт для юридических лиц
+              </p>
+            </>
           )}
+
           <div className={styles.inputContainer}>
             {registrationStep > 2 && (
-              <Input
-                id="inn"
-                name="inn"
-                type="text"
-                label="ИНН"
-                value={formik.values.inn}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  if (formik.values.inn.length >= 10 && e.target.value) {
-                    e.target.value = e.target.value.slice(0, 10);
+              <>
+                <Input
+                  id="inn"
+                  name="inn"
+                  type="text"
+                  label="ИНН"
+                  value={formik.values.inn}
+                  onChange={async (e: ChangeEvent<HTMLInputElement>) => {
+                    setIsINNRegistered(false);
+                    if (formik.errors.inn) {
+                      formik.setFieldError("inn", undefined);
+                    }
+
+                    if (formik.values.inn.length >= 10 && e.target.value) {
+                      e.target.value = e.target.value.slice(0, 10);
+                      formik.handleChange(e);
+                      return;
+                    }
+
+                    if (!(e.target.value?.match(/[\d]/) || !e.target.value)) {
+                      return;
+                    }
+
                     formik.handleChange(e);
-                    return;
-                  }
-                  if (e.currentTarget.value.length === 10) {
-                    (async () => {
-                      const res = await checkINN(e.currentTarget.value);
-                      if (res.length > 0) {
-                        setCompanyName(res);
-                        if (registrationStep !== 5) setRegistrationStep(4);
-                      } else {
-                        toast.error('Неверный ИНН');
+
+                    if (e.target.value.length === 10) {
+                      try {
+                        const res = await checkINN(e.target.value);
+
+                        if (res?.length > 0) {
+                          setCompanyName(res);
+                          if (registrationStep !== 5) setRegistrationStep(4);
+
+                          const isRegistered = await checkINNRegistrationStatus(
+                            e.target.value
+                          );
+
+                          if (isRegistered) {
+                            setIsINNRegistered(isRegistered);
+                          } else if (formik.errors.inn) {
+                            formik.setErrors({
+                              ...formik.errors,
+                              inn: undefined,
+                            });
+                          }
+                        } else {
+                          toast.error("Неверный ИНН");
+                          setRegistrationStep(3);
+                          setIsINNRegistered(false);
+                        }
+                      } catch (error) {
+                        console.error("Ошибка проверки ИНН:", error);
                       }
-                    })();
-                  }
-                  if (e.target.value?.match(/[\d]/) || !e.target.value) {
-                    formik.handleChange(e);
-                  }
-                }}
-                placeholder="ИНН"
-                isInvalid={Boolean(formik.errors.inn)}
-                errorMessage={formik.errors.inn}
-                classNames={itemClasses}
-              />
+                    } else {
+                      setIsINNRegistered(false);
+                    }
+                  }}
+                  placeholder="ИНН"
+                  isInvalid={Boolean(formik.errors.inn)}
+                  errorMessage={formik.errors.inn}
+                  classNames={itemClasses}
+                />
+                {isINNRegistered && !formik.errors.inn && (
+                  <div className={styles.alreadyRegisterError}>
+                    <p>
+                      Организация, с введенным значением ИНН уже
+                      зарегистрирована в Ubrato.{" "}
+                    </p>
+                    <Link to="/login">Войдите на сайт</Link> или{" "}
+                    <Link to="/forgot-password">восстановите пароль.</Link>{" "}
+                  </div>
+                )}
+              </>
             )}
             {registrationStep > 3 && (
               <div className={styles.companyName}>
                 <p className={`${styles.label} ${styles.companyText}`}>
                   Это наименование вашей компании?
                 </p>
-                <p className={`${styles.label} ${styles.companyText}`}>Краткое название компании</p>
+                <p className={`${styles.label} ${styles.companyText}`}>
+                  Краткое название компании
+                </p>
                 <p className={styles.nameConfirm}>{companyName}</p>
                 <p className="mb-[15px] ml-[15px] text-[10px] text-[rgba(0,0,0,.6)]">
                   Сокращенное наименование юридического лица
                 </p>
                 <div className={styles.companyBtns}>
                   <button
+                    className={`${
+                      registrationStep > 4 && styles.companyBtnActive
+                    }`}
                     onClick={() => {
                       setTimeout(() => {
                         if (registrationStep !== 5) {
@@ -383,10 +479,9 @@ export const RegisterPage: FC = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      // setNameConfirm(false);
-                      formik.values.inn = '';
+                      formik.values.inn = "";
                       setRegistrationStep(3);
-                      setCompanyName('');
+                      setCompanyName("");
                     }}
                   >
                     Нет
@@ -472,23 +567,23 @@ export const RegisterPage: FC = () => {
                   onChange={formik.handleChange}
                   classNames={checkStyle}
                 >
-                  Я даю{' '}
+                  Я даю{" "}
                   <Link
                     to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
                     target="_blank"
                     className="text-accent underline text-sm"
                   >
                     Согласие на обработку персональных данных
-                  </Link>{' '}
-                  в соответствии с{' '}
+                  </Link>{" "}
+                  в соответствии с{" "}
                   <Link
                     to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
                     target="_blank"
                     className="text-accent underline text-sm"
                   >
                     Политикой в отношении обработки персональных данных
-                  </Link>{' '}
-                  и принимаю условия{' '}
+                  </Link>{" "}
+                  и принимаю условия{" "}
                   <Link
                     to="/documents/polzovatelskoe_soglashenie"
                     target="_blank"
@@ -502,16 +597,22 @@ export const RegisterPage: FC = () => {
                   </p>
                 </Checkbox>
                 <p className="w-[478px] text-left text-[14px] mb-[15px] text-[rgba(0,0,0,.6)]">
-                  Пользователь Сайта уведомлен о том, что Оператор направляет ему
-                  информационно-рекламные рассылки и материалы. В случае несогласия на получение
-                  информационно-рекламных рассылок и материалов, необходимо направить заявление по
-                  форме, размещенной на Сайте Оператора, либо в произвольной форме на адрес
-                  электронной почты info@ubrato.ru.
+                  Пользователь Сайта уведомлен о том, что Оператор направляет
+                  ему информационно-рекламные рассылки и материалы. В случае
+                  несогласия на получение информационно-рекламных рассылок и
+                  материалов, необходимо направить заявление по форме,
+                  размещенной на Сайте Оператора, либо в произвольной форме на
+                  адрес электронной почты info@ubrato.ru.
                 </p>
               </div>
               <div className={styles.submitContainer}>
                 <input
-                  disabled={isLoading}
+                  disabled={
+                    isLoading ||
+                    !formik.isValid ||
+                    isEmailRegistered ||
+                    isINNRegistered
+                  }
                   className={styles.submit}
                   type="submit"
                   value="Зарегистрироваться"
@@ -522,12 +623,20 @@ export const RegisterPage: FC = () => {
         </form>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal
-          type="SURVEY_TYPE_REGISTRATION"
+        <InfoModal
+          title="Вы успешно отправили заявку на регистрацию на сайте Ubrato"
+          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты"
           onClose={() => {
             setOpenModal(false);
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
+            navigate("/profile/documents");
           }}
+        />
+      </Modal>
+      <Modal isOpen={openFeedbackModal}>
+        <ContactModal
+          type="SURVEY_TYPE_FEEDBACK"
+          onClose={() => setOpenFeedbackModal(false)}
         />
       </Modal>
     </div>

@@ -1,24 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useFormik } from 'formik';
-import { FC, useEffect, useState } from 'react';
-import { LoginFormValuesT } from '@/types/app';
-import axios, { AxiosError } from 'axios';
-import styles from './loginpage.module.css';
-import { Input } from '@nextui-org/react';
-import { useUserInfoStore } from '@/store/userInfoStore';
-import { loginSchema } from '@/validation/loginSchema';
-import { Link, useNavigate, useNavigationType } from 'react-router-dom';
-import { login } from '@/api';
+import { useFormik } from "formik";
+import { FC, useEffect, useState } from "react";
+import { LoginFormValuesT } from "@/types/app";
+import axios, { AxiosError } from "axios";
+import styles from "./loginpage.module.css";
+import { Input } from "@nextui-org/react";
+import { useUserInfoStore } from "@/store/userInfoStore";
+import { loginSchema } from "@/validation/loginSchema";
+import { Link, useNavigate, useNavigationType } from "react-router-dom";
+import { login } from "@/api";
 
 axios.defaults.withCredentials = true;
 
+enum ErrorMessages {
+  invalidData = "Неверный логин или пароль. Проверьте правильность введенных данных",
+  emailUndefined = "Нет пользователся с таким e-mail",
+  other = "Что-то пошло не так",
+}
+
 export const LoginPage: FC = () => {
   const initialValues: LoginFormValuesT = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const onError = (message = "", resetForm = false) => {
+    if (resetForm) {
+      formik.resetForm();
+    }
+    setErrorMsg(message);
+  };
 
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
@@ -38,23 +51,34 @@ export const LoginPage: FC = () => {
         setIsLoading(true);
         try {
           const res = await login(parameters);
-          localStorage.setItem('token', res.data.access_token);
-          userInfoStore.isLoggedIn = true;
-          if (res.data.access_token) {
-            await userInfoStore.fetchUser(res.data.access_token);
+          const token = res.data.access_token;
+          if (typeof token === "string") {
+            userInfoStore.isLoggedIn = true;
+            localStorage.setItem("token", token);
+            await userInfoStore.fetchUser(token);
             if (!userInfoStore.error) {
-              navigate('/profile');
+              navigate("/my-tenders", { replace: true });
             }
+            if (typeof BroadcastChannel !== "undefined") {
+              const authChannel = new BroadcastChannel("auth");
+              authChannel.postMessage({
+                type: "LOGIN",
+                token: token,
+              });
+              authChannel.close();
+            }
+            return;
           }
+          onError(ErrorMessages.invalidData, true);
         } catch (e) {
-          // console.log(e, '1');
           if (e instanceof AxiosError) {
             if (e.response?.status === 401) {
-              setErrorMsg('Неверный пароль');
+              onError(ErrorMessages.invalidData, true);
             } else if (e.response?.status === 404) {
-              setErrorMsg('Нет пользователся с таким e-mail');
+              onError(ErrorMessages.emailUndefined, true);
             } else {
-              setErrorMsg('Что-то пошло не так');
+              formik.resetForm();
+              onError(ErrorMessages.other, true);
             }
           }
         } finally {
@@ -79,7 +103,7 @@ export const LoginPage: FC = () => {
   useEffect(() => {
     if (userInfoStore.isLoggedIn) {
       navigate(-1);
-    } else if (navigationType === 'POP') navigate(-1);
+    } else if (navigationType === "POP") navigate(-1);
   }, [navigate, userInfoStore.isLoggedIn]);
 
   useEffect(() => {
@@ -94,9 +118,16 @@ export const LoginPage: FC = () => {
     <div className={`container ${styles.container}`}>
       <div>
         <h1 className={styles.header}>Вход</h1>
-        <p className={'ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]'}>
-          Ещё нет аккунта?{' '}
-          <Link className="text-[var(--color-blue-primary)] underline" to="/registration">
+        <p
+          className={
+            "ml-[15px] pt-[10px] text-[var(--color-black-60)] font-[600]"
+          }
+        >
+          Ещё нет аккунта?{" "}
+          <Link
+            className="text-[var(--color-blue-primary)] underline"
+            to="/registration"
+          >
             Зарегистрироваться
           </Link>
         </p>
@@ -114,19 +145,19 @@ export const LoginPage: FC = () => {
               isInvalid={Boolean(formik.errors.email)}
               errorMessage={formik.errors.email}
               classNames={itemClasses}
-              onFocus={() => {
-                setErrorMsg('');
-              }}
+              onFocus={() => onError()}
             />
-            {errorMsg === 'email busy' && (
-              <p className={styles.errorMessage}>Пользователь с таким e-mail не существует</p>
+            {errorMsg === "email busy" && (
+              <p className={styles.errorMessage}>
+                Пользователь с таким e-mail не существует
+              </p>
             )}
           </div>
           <div className={styles.inputContainer}>
             <Input
               id="password"
               name="password"
-              type={isPasswordVisible ? 'text' : 'password'}
+              type={isPasswordVisible ? "text" : "password"}
               label="Пароль"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -143,9 +174,7 @@ export const LoginPage: FC = () => {
                 </button>
               }
               classNames={itemClasses}
-              onFocus={() => {
-                setErrorMsg('');
-              }}
+              onFocus={() => onError()}
             />
             {errorMsg && <p className={styles.errorMessage}>{errorMsg}</p>}
           </div>
@@ -153,15 +182,15 @@ export const LoginPage: FC = () => {
             Забыли пароль?
           </Link>
           <p className="w-[478px] text-[var(--color-black-60)] pl-[15px] mt-[15px]">
-            Нажимая на кнопку «Войти», вы даете{' '}
+            Нажимая на кнопку «Войти», вы даете{" "}
             <Link
               className="text-accent underline"
               target="_blank"
               to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
             >
               Согласие на обработку персональных данных
-            </Link>{' '}
-            в соответствии с{' '}
+            </Link>{" "}
+            в соответствии с{" "}
             <Link
               className="text-accent underline"
               target="_blank"
@@ -172,7 +201,12 @@ export const LoginPage: FC = () => {
             .
           </p>
           <div className={styles.submitContainer}>
-            <input disabled={isLoading} className={styles.submit} type="submit" value="Войти" />
+            <input
+              disabled={isLoading}
+              className={styles.submit}
+              type="submit"
+              value="Войти"
+            />
           </div>
         </form>
       </div>

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -7,13 +7,13 @@ export const axiosInstance = axios.create({
 
 export const axiosInstanceStore = axios.create({
   withCredentials: true,
-  baseURL: 'https://cdn.ubrato.ru',
+  baseURL: "http://api.ubrato.ru:8001",
   headers: {
-    'Content-Type': 'multipart/form-data',
+    "Content-Type": "multipart/form-data",
   },
 });
 
 export const axiosInstanceFeedback = axios.create({
   withCredentials: true,
-  baseURL: 'https://api-stage.ubrato.ru',
+  baseURL: "https://api.ubrato.ru",
 });

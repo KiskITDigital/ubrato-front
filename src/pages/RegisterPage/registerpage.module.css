@@ -54,6 +54,31 @@
   line-height: 22px;
 }
 
+.alreadyRegisterError {
+  max-width: 478px;
+  line-height: 22px;
+  padding-left: 15px;
+  margin-bottom: -20px;
+
+  a,
+  p {
+    color: #f90a0a;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--color-black-60);
+    color: var(--color-blue-primary);
+  }
+
+  a,
+  p,
+  span {
+    font-size: 10px;
+    display: inline;
+  }
+}
+
 .base[data-invalid] {
   border: 1px solid #f90a0a;
 }
@@ -194,10 +219,14 @@
   background-color: var(--color-blue-primary);
   color: var(--color-white);
   cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .submit:disabled {
-  opacity: 0.8;
+  background-color: transparent;
+  border: 1px solid var(--color-blue-primary);
+  color: var(--color-blue-primary);
+  cursor: not-allowed;
 }
 
 .submitContainer {
@@ -286,6 +315,11 @@
   background-color: var(--color-blue-light);
   border-radius: 10px;
   height: fit-content;
+}
+
+.companyBtns .companyBtnActive {
+  background-color: var(--color-blue-primary);
+  color: var(--color-white);
 }
 
 @media screen and (width < 450px) {

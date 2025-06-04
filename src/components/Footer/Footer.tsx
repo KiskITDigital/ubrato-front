@@ -1,27 +1,24 @@
 import { FC } from "react";
 import styles from "./footer.module.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { useIsOrdererState } from "@/store/isOrdererStore";
+import { logout } from "@/utils/auth/auth";
 
 export const Footer: FC = () => {
   const userInfoStorage = useUserInfoStore();
   const ordererState = useIsOrdererState();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleLogOut = () => {
-    localStorage.removeItem("token");
-    userInfoStorage.setLoggedIn(false);
-    navigate("/");
-  };
+  const { pathname } = useLocation();
 
   return (
     <footer className={`container ${styles.container}`}>
       <div className={styles.footerTop}>
         <div className={styles.imgcontainer}>
-          <img src="/minilogo2.png" className={styles.minilogo} alt="minilogo" />
+          <img
+            src="/minilogo2.png"
+            className={styles.minilogo}
+            alt="minilogo"
+          />
           <img src="/logo.svg" className={styles.logo} alt="logo" />
         </div>
         {!userInfoStorage.isLoggedIn && (
@@ -35,14 +32,14 @@ export const Footer: FC = () => {
             </Link>
           </div>
         )}
-        {userInfoStorage.isLoggedIn && !location.pathname.includes("profile") && (
+        {userInfoStorage.isLoggedIn && !pathname.includes("profile") && (
           <div className="flex gap-[20px]">
             <Link to="/profile" className={styles.registrationLink}>
               <p className={styles.registrationText}>Личный кабинет</p>
             </Link>
             <button
               className="rounded-[10px] border-[#070c2c]/[.1] border-[1px] py-[9px] px-[14px] text-[var(--color-black-60)]"
-              onClick={handleLogOut}
+              onClick={logout}
             >
               Выйти
             </button>
@@ -68,7 +65,11 @@ export const Footer: FC = () => {
             {(!userInfoStorage.user || !userInfoStorage.user.is_contractor) && (
               <li>
                 <Link
-                  to={`${userInfoStorage.isLoggedIn ? "/profile/become-contractor" : "registration"}`}
+                  to={`${
+                    userInfoStorage.isLoggedIn
+                      ? "/profile/become-contractor"
+                      : "registration"
+                  }`}
                   onClick={() => ordererState.handleState("contractor")}
                   state={{ toReload: null }}
                 >
@@ -145,12 +146,18 @@ export const Footer: FC = () => {
               </Link>
             </li>
             <li>
-              <Link to="/contacts" state={{ isHelp: false, previousPage: location.pathname }}>
+              <Link
+                to="/contacts"
+                state={{ isHelp: false, previousPage: pathname }}
+              >
                 <p className={styles.point}>Контакты</p>
               </Link>
             </li>
             <li>
-              <Link to="/contacts" state={{ isHelp: true, previousPage: location.pathname }}>
+              <Link
+                to="/contacts"
+                state={{ isHelp: true, previousPage: pathname }}
+              >
                 <p className={styles.point}>Помощь</p>
               </Link>
             </li>
@@ -181,13 +188,17 @@ export const Footer: FC = () => {
               <a className={styles.bluetext} href="tel:88007756757">
                 8 800-775-67-57
               </a>
-              <p className={styles.pointtwo}>Время работы с 9:00 до 18:00 по Московскому времени</p>
+              <p className={styles.pointtwo}>
+                Время работы с 9:00 до 18:00 по Московскому времени
+              </p>
             </li>
             <li>
               <a href="mailto:info@ubrato.ru">
                 <p className={styles.bluetext}>info@ubrato.ru</p>
               </a>
-              <p className={styles.pointtwo}>Вопросы и предложения по работе сервиса</p>
+              <p className={styles.pointtwo}>
+                Вопросы и предложения по работе сервиса
+              </p>
             </li>
           </ul>
         </div>
@@ -200,10 +211,17 @@ export const Footer: FC = () => {
           target="_blank"
           to="/documents/politika_v_otnoshenii_obrabotki_personalnyh_dannyh_polzovateley_saita"
         >
-          <p className={styles.confidental}>Политика в отношении обработки персональных данных</p>
+          <p className={styles.confidental}>
+            Политика в отношении обработки персональных данных
+          </p>
         </Link>
-        <Link target="_blank" to="/documents/soglasie_na_obrabotku_personalnyh_dannyh">
-          <p className={styles.confidental}>Согласие на обработку персональных данных</p>
+        <Link
+          target="_blank"
+          to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
+        >
+          <p className={styles.confidental}>
+            Согласие на обработку персональных данных
+          </p>
         </Link>
       </div>
       <div className="mb-5">
@@ -212,15 +230,17 @@ export const Footer: FC = () => {
           <a className="text-accent underline" href="https://www.ubrato.ru">
             https://www.ubrato.ru
           </a>{" "}
-          осуществляется на основании лицензионного договора о предоставлении права на использование
-          сайта как программы для ЭВМ от 28 августа 2024 г. на условиях простой (неисключительной)
-          лицензии.
+          осуществляется на основании лицензионного договора о предоставлении
+          права на использование сайта как программы для ЭВМ от 28 августа 2024
+          г. на условиях простой (неисключительной) лицензии.
         </p>
         <p className="text-[10px] text-[rgba(0,0,0,.6)] text-start">
-          Использование Оператором товарного знака Ubrato осуществляется на основании лицензионного
-          договора о предоставлении права на использование товарного знака от 07 августа 2024 г. на
-          условиях простой (неисключительной) лицензии, зарегистрированного в Федеральной службе по
-          интеллектуальной собственности 24 сентября 2024 г. за номером РД0479806.
+          Использование Оператором товарного знака Ubrato осуществляется на
+          основании лицензионного договора о предоставлении права на
+          использование товарного знака от 07 августа 2024 г. на условиях
+          простой (неисключительной) лицензии, зарегистрированного в Федеральной
+          службе по интеллектуальной собственности 24 сентября 2024 г. за
+          номером РД0479806.
         </p>
       </div>
       <div className={styles.last}>

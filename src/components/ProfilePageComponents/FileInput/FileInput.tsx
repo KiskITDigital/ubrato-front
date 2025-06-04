@@ -1,14 +1,9 @@
-import { FC, useState } from 'react';
-import styles from './fileinput.module.css';
-import {
-  sendDoc,
-  // sendDoc,
-  updateToken,
-  uploadFile,
-} from '@/api';
-import { FileInfo } from '../FileInfo/FileInfo';
-import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
-import { Tooltip } from '@nextui-org/react';
+import { FC, useState } from "react";
+import styles from "./fileinput.module.css";
+import { sendDoc, updateToken, uploadFile } from "@/api";
+import { FileInfo } from "../FileInfo/FileInfo";
+import { useProfileDocumentsStore } from "@/store/profileDocumentsStore";
+import { Tooltip } from "@nextui-org/react";
 
 interface FileInputProps {
   header: string;
@@ -17,14 +12,24 @@ interface FileInputProps {
   type: number;
   link?: string;
   idFile?: string;
+  isDisabled?: boolean;
 }
 
-export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, text }) => {
+export const FileInput: FC<FileInputProps> = ({
+  header,
+  type,
+  id,
+  link,
+  idFile,
+  text,
+  isDisabled = false,
+}) => {
   const fetchDocuments = useProfileDocumentsStore();
+  const [error, setError] = useState("");
+  const [newIdFile, setNewIdFile] = useState(idFile ?? "");
 
-  const [error, setError] = useState('');
-  // const [newLink, setNewLink] = useState<string>();
-  const [newIdFile, setNewIdFile] = useState(idFile ?? '');
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 МБ в байтах
+
   return (
     <div className={styles.fileContainer}>
       <div>
@@ -33,9 +38,13 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, 
           <Tooltip
             placement="top"
             closeDelay={100}
-            content={<p className="w-[400px] bg-white rounded-xl py-3 px-4 shadow-lg">{text}</p>}
+            content={
+              <p className="w-[400px] bg-white rounded-xl py-3 px-4 shadow-lg">
+                {text}
+              </p>
+            }
           >
-            <button className='flex self-start'>
+            <button className="flex self-start">
               <img src="/info-ic.svg" alt="info" />
             </button>
           </Tooltip>
@@ -47,29 +56,43 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, 
           <input
             disabled={Boolean(link)}
             onChange={(e) => {
-              // console.log(e.target.files);
+              if (!e.target.files || e.target.files.length === 0) return;
+
+              const file = e.target.files[0];
+
               if (
-                ['image/png', 'image/jpeg', 'application/pdf'].includes(e.target.files![0].type)
+                !["image/png", "image/jpeg", "application/pdf"].includes(
+                  file.type
+                )
               ) {
-                const parameters = { file: e.target.files![0], private: true };
-                (async () => {
-                  const link = await updateToken<string, { file: File; private: boolean }>(
-                    uploadFile,
-                    parameters
-                  );
-                  // setNewLink(link);
-                  const res = await updateToken<string, { link: string; type: number }>(sendDoc, {
-                    link: link,
-                    type: type,
-                  });
-                  setNewIdFile(res);
-                  fetchDocuments.fetchDocuments();
-                })();
-              } else {
-                setError('Неверный тип файла');
-                e.target.value = '';
-                // console.log(e.target.files);
+                setError("Неверный тип файла");
+                e.target.value = "";
+                return;
               }
+
+              if (file.size > MAX_FILE_SIZE) {
+                setError("Размер файла превышает 5 МБ");
+                e.target.value = "";
+                return;
+              }
+
+              setError("");
+              const parameters = { file: file, private: true };
+              (async () => {
+                const link = await updateToken<
+                  string,
+                  { file: File; private: boolean }
+                >(uploadFile, parameters);
+                const res = await updateToken<
+                  string,
+                  { link: string; type: number }
+                >(sendDoc, {
+                  link: link,
+                  type: type,
+                });
+                setNewIdFile(res);
+                fetchDocuments.fetchDocuments();
+              })();
             }}
             className={styles.inputFile}
             type="file"
@@ -77,12 +100,13 @@ export const FileInput: FC<FileInputProps> = ({ header, type, id, link, idFile, 
             id={id}
             accept="image/png, image/jpeg, application/pdf, text/xml"
           />
-          <div className={`${styles.fileBtn} ${Boolean(link) && 'hidden'}`}>Загрузить</div>
+          <div className={`${styles.fileBtn} ${Boolean(link) && "hidden"}`}>
+            Загрузить
+          </div>
           {error && <p className={styles.error}>{error}</p>}
         </label>
       </div>
-      {link && <FileInfo link={link} id={newIdFile} />}
-      {/* {newLink && !link && <FileInfo link={newLink} id={newIdFile} />} */}
+      {link && <FileInfo link={link} id={newIdFile} isDisabled={isDisabled} />}
     </div>
   );
 };

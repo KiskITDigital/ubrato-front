@@ -1,9 +1,18 @@
-import { fetchPrivateFile, fetchPrivateFileInfo, handleFileDelete, updateToken } from '@/api';
-import { useProfileDocumentsStore } from '@/store/profileDocumentsStore';
-import { FC, useEffect, useState } from 'react';
-import styles from './fileinfo.module.css';
+import {
+  fetchPrivateFile,
+  fetchPrivateFileInfo,
+  handleFileDelete,
+  updateToken,
+} from "@/api";
+import { useProfileDocumentsStore } from "@/store/profileDocumentsStore";
+import { FC, useEffect, useState } from "react";
+import styles from "./fileinfo.module.css";
 
-export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
+export const FileInfo: FC<{
+  link: string;
+  id: string;
+  isDisabled?: boolean;
+}> = ({ link, id, isDisabled }) => {
   const fetchDocuments = useProfileDocumentsStore();
   const [fileInfo, setFileInfo] = useState<{
     name: string;
@@ -32,9 +41,9 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
   return (
     // if (!documentId) return null;
     <div className={styles.container}>
-      {(fileInfo?.format === '.jpeg' ||
-        fileInfo?.format === '.png' ||
-        fileInfo?.format === '.jpg') && (
+      {(fileInfo?.format === ".jpeg" ||
+        fileInfo?.format === ".png" ||
+        fileInfo?.format === ".jpg") && (
         <img
           className="w-[100px] h-[100px] rounded-[10px]"
           src={`data:image/;base64, ${file}`}
@@ -52,32 +61,40 @@ export const FileInfo: FC<{ link: string; id: string }> = ({ link, id }) => {
       <div className="ml-[15px]">
         <div className={styles.flexText}>
           <p className={styles.text}>{fileInfo?.format.slice(1)}</p>
-          <p className={styles.text}>{fileInfo ? (fileInfo?.size / 1024).toFixed(1) : ''}kb</p>
+          <p className={styles.text}>
+            {fileInfo ? (fileInfo?.size / 1024).toFixed(1) : ""}kb
+          </p>
         </div>
         <p className={styles.text}>
-          Загружен {fileDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
+          Загружен{" "}
+          {fileDate?.toLocaleString("default", {
+            day: "numeric",
+            month: "long",
+          })}{" "}
           {fileDate?.getFullYear()}
         </p>
-        <button
-          className={styles.btn}
-          onClick={() => {
-            (async () => {
-              // console.log(id);
-              await updateToken(handleFileDelete, id);
-              // const token = localStorage.getItem('token')
-              // await handleFileDelete( token, id)
-              await fetchDocuments.fetchDocuments();
-              try {
-                fetchDocuments.removeDocument(id);
-              } catch (e) {
-                fetchDocuments.removeDocument(id);
-              }
-            })();
-          }}
-        >
-          <img src="/trash-bin.svg" alt="" />
-          Удалить <br />
-        </button>
+        {!isDisabled && (
+          <button
+            className={styles.btn}
+            onClick={() => {
+              (async () => {
+                // console.log(id);
+                await updateToken(handleFileDelete, id);
+                // const token = localStorage.getItem('token')
+                // await handleFileDelete( token, id)
+                await fetchDocuments.fetchDocuments();
+                try {
+                  fetchDocuments.removeDocument(id);
+                } catch (e) {
+                  fetchDocuments.removeDocument(id);
+                }
+              })();
+            }}
+          >
+            <img src="/trash-bin.svg" alt="" />
+            Удалить <br />
+          </button>
+        )}
       </div>
     </div>
   );

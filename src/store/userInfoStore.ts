@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { UserInfoT } from '@/types/app';
-import { axiosInstance } from '@/utils';
-import { surveyCheck } from '@/api';
+import { create } from "zustand";
+import { UserInfoT } from "@/types/app";
+import { axiosInstance } from "@/utils";
+import { surveyCheck } from "@/api";
 interface UserInfoState {
   user: UserInfoT;
   fetchUser: (token: string) => Promise<void>;
@@ -15,25 +15,25 @@ interface UserInfoState {
 }
 
 export const useUserInfoStore = create<UserInfoState>()((set) => {
-
   return {
     is_contractor: null,
     user: {
-      id: '',
-      email: '',
-      phone: '',
-      first_name: '',
-      middle_name: '',
-      last_name: '',
+      id: "",
+      email: "",
+      phone: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
       verified: false,
+      email_verified: false,
       is_contractor: false,
       role: 0,
-      created_at: '',
-      avatar: '',
+      created_at: "",
+      avatar: "",
       organization: {
-        id: '',
-        short_name: '',
-        inn: '',
+        id: "",
+        short_name: "",
+        inn: "",
       },
     },
     passedSurvey: false,
@@ -45,7 +45,6 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
         headers: { authorization: `Bearer ${token}` },
       });
       if (response.status !== 200) throw response;
-      // console.log(response.data);
 
       const surveyPass = await surveyCheck(token);
       set({
@@ -60,13 +59,18 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
           is_contractor: response.data.is_contractor,
           role: response.data.role,
           verified: response.data.verified,
+          email_verified: response.data.email_verified,
           email: response.data.email,
           avatar: response.data.avatar,
-          organization: response.data.organiztion,
+          organization: {
+            id: response.data.organization.id,
+            short_name: response.data.organization.short_name,
+            inn: response.data.organization.inn,
+          },
         },
         isLoggedIn: true,
       });
-      set({ is_contractor: response.data.is_contractor })
+      set({ is_contractor: response.data.is_contractor });
       set({ loading: false });
     },
     isLoggedIn: false,
@@ -76,5 +80,5 @@ export const useUserInfoStore = create<UserInfoState>()((set) => {
     setPassedSurvey(e) {
       set({ passedSurvey: e });
     },
-  }
+  };
 });
