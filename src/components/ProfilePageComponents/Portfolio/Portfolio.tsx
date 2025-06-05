@@ -1,9 +1,15 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import styles from './portfolio.module.css';
-import { Checkbox, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
-import { PortfolioForm } from '../PortfolioForm/PortfolioForm';
-import TrashIC from './trash-bin.svg?react';
-import { deletePortfolio, updateToken } from '@/api';
+import { FC, useEffect, useRef, useState } from "react";
+import styles from "./portfolio.module.css";
+import {
+  Checkbox,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@nextui-org/react";
+import { PortfolioForm } from "../PortfolioForm/PortfolioForm";
+import TrashIC from "./trash-bin.svg?react";
+import { deletePortfolio, updateToken } from "@/api";
+import { cdnUrl } from "@/api/hosts";
 
 export const Portfolio: FC<{
   setPortfolio: (e: {
@@ -32,7 +38,9 @@ export const Portfolio: FC<{
 }> = ({ portfolio, setPortfolio, setPortfolioList }) => {
   const windowRef = useRef<HTMLDivElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isChanging, setIschanging] = useState<{ id: string; isChanging: boolean }[]>([]);
+  const [isChanging, setIschanging] = useState<
+    { id: string; isChanging: boolean }[]
+  >([]);
   const [selectAllCheck, setSelectAllCheck] = useState(false);
   const closeForm = () => {
     setIsFormOpen(false);
@@ -84,7 +92,8 @@ export const Portfolio: FC<{
       <div className={styles.infoContainer}>
         <img src="/info-blue-ic.svg" alt="" />
         <p className={styles.infoTextBig}>
-          Разместите фотографии с примерами работ вашей компании и напишите описание
+          Разместите фотографии с примерами работ вашей компании и напишите
+          описание
         </p>
       </div>
       <Popover
@@ -95,16 +104,23 @@ export const Portfolio: FC<{
         backdrop="opaque"
         classNames={propoverSlots}
       >
-        <PopoverTrigger disabled={portfolio.length === 10} onClick={() => setIsFormOpen(true)}>
+        <PopoverTrigger
+          disabled={portfolio.length === 10}
+          onClick={() => setIsFormOpen(true)}
+        >
           <button className={styles.btn}>
             <img className={styles.btnImg} src="/add-file-ic.svg" alt="" />
             <div className={styles.btnText}>
               <p className={styles.btnTextBig}>Добавить работы</p>
               {portfolio.length === 10 && (
-                <p className={styles.count}>Вы загрузили максимальное количество работ (10)</p>
+                <p className={styles.count}>
+                  Вы загрузили максимальное количество работ (10)
+                </p>
               )}
               {portfolio.length < 10 && (
-                <p className={styles.count}>Можно загрузить до {10 - portfolio.length} шт.</p>
+                <p className={styles.count}>
+                  Можно загрузить до {10 - portfolio.length} шт.
+                </p>
               )}
             </div>
           </button>
@@ -112,7 +128,10 @@ export const Portfolio: FC<{
         <PopoverContent>
           <div className="flex justify-center items-center w-screen min-h-screen">
             <div className={styles.form}>
-              <button onClick={() => setIsFormOpen(false)} className={styles.closeBtn}>
+              <button
+                onClick={() => setIsFormOpen(false)}
+                className={styles.closeBtn}
+              >
                 <img src="/x-icon.svg" alt="" />
               </button>
               <PortfolioForm
@@ -126,7 +145,7 @@ export const Portfolio: FC<{
       </Popover>
       <div className={styles.controls}>
         <Checkbox
-          classNames={{ ...checkStyle, label: 'text-black' }}
+          classNames={{ ...checkStyle, label: "text-black" }}
           isSelected={selectAllCheck}
           onValueChange={(e) => {
             setSelectAllCheck(e);
@@ -180,7 +199,11 @@ export const Portfolio: FC<{
             <p className={styles.descriptionText}>{e.description}</p>
             <div className={styles.imagesContainer}>
               {e.links.map((i) => (
-                <img className={styles.portfolioImg} key={i} src={`https://cdn.ubrato.ru/s3${i}`} />
+                <img
+                  className={styles.portfolioImg}
+                  key={i}
+                  src={`${cdnUrl}/s3${i}`}
+                />
               ))}
             </div>
             <div className={styles.controls}>

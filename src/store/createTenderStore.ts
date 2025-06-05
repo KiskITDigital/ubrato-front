@@ -1,8 +1,9 @@
-import { updateToken, uploadFile } from '@/api';
-import { getCities } from '@/api/index';
-import { City } from '@/types/app';
-import { ChangeEvent } from 'react';
-import { create } from 'zustand';
+import { updateToken, uploadFile } from "@/api";
+import { cdnUrl } from "@/api/hosts";
+import { getCities } from "@/api/index";
+import { City } from "@/types/app";
+import { ChangeEvent } from "react";
+import { create } from "zustand";
 
 interface createTenderState {
   executorToSend: { id: string; name: string } | null;
@@ -52,22 +53,22 @@ interface createTenderState {
   } | null;
   handleSimpleInput: (
     whatToChange:
-      | 'name'
-      | 'reception_time_start'
-      | 'reception_time_end'
-      | 'price'
-      | 'is_contract_price'
-      | 'is_NDS'
-      | 'description'
-      | 'wishes'
-      | 'floor_space'
-      | 'objectName'
-      | 'objectCategory'
-      | 'city'
-      | 'reception_start'
-      | 'reception_end'
-      | 'work_start'
-      | 'work_end',
+      | "name"
+      | "reception_time_start"
+      | "reception_time_end"
+      | "price"
+      | "is_contract_price"
+      | "is_NDS"
+      | "description"
+      | "wishes"
+      | "floor_space"
+      | "objectName"
+      | "objectCategory"
+      | "city"
+      | "reception_start"
+      | "reception_end"
+      | "work_start"
+      | "work_end",
     newVal: string | boolean | Date,
     mask?: (value: string) => string
   ) => void;
@@ -90,7 +91,7 @@ interface createTenderState {
   handleFileUpload: (
     event: ChangeEvent<HTMLInputElement>,
     newId: number | null,
-    isClaeningTZ?: 'upload-tz'
+    isClaeningTZ?: "upload-tz"
   ) => void;
   changeAttachmentText: (id: number, text: string) => void;
   removeAttachment: (id: number) => void;
@@ -104,20 +105,20 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   isValidating: false,
   errors: [],
   cleaningTZ: null,
-  name: '',
-  price: '',
+  name: "",
+  price: "",
   is_contract_price: false,
-  floor_space: '',
-  description: '',
-  wishes: '',
+  floor_space: "",
+  description: "",
+  wishes: "",
   attachments: [],
   services_groups: [],
 
   is_NDS: true,
 
-  city: '',
+  city: "",
 
-  objectName: '',
+  objectName: "",
   objectCategory: [],
 
   services: [],
@@ -125,9 +126,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   cities: [],
 
   reception_start: new Date(),
-  reception_time_start: '00:00',
+  reception_time_start: "00:00",
   reception_end: new Date(),
-  reception_time_end: '00:00',
+  reception_time_end: "00:00",
 
   work_start: new Date(),
   work_end: new Date(),
@@ -141,32 +142,37 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   },
   handleSimpleInput: (
     whatToChange:
-      | 'name'
-      | 'reception_time_start'
-      | 'reception_time_end'
-      | 'price'
-      | 'is_contract_price'
-      | 'is_NDS'
-      | 'description'
-      | 'wishes'
-      | 'floor_space'
-      | 'objectName'
-      | 'objectCategory'
-      | 'city'
-      | 'reception_start'
-      | 'reception_end'
-      | 'work_start'
-      | 'work_end',
+      | "name"
+      | "reception_time_start"
+      | "reception_time_end"
+      | "price"
+      | "is_contract_price"
+      | "is_NDS"
+      | "description"
+      | "wishes"
+      | "floor_space"
+      | "objectName"
+      | "objectCategory"
+      | "city"
+      | "reception_start"
+      | "reception_end"
+      | "work_start"
+      | "work_end",
     newVal: string | boolean | Date,
     mask?: (value: string) => string
   ) => {
     set((state) => ({
       ...state,
-      [whatToChange]: mask && typeof newVal === 'string' ? mask(newVal) : newVal,
+      [whatToChange]:
+        mask && typeof newVal === "string" ? mask(newVal) : newVal,
     }));
   },
   addObject: (newObjectName: string, newObjectTypes: string[]) => {
-    set((state) => ({ ...state, objectName: newObjectName, objectCategory: newObjectTypes }));
+    set((state) => ({
+      ...state,
+      objectName: newObjectName,
+      objectCategory: newObjectTypes,
+    }));
   },
 
   removeObjectType: (typeInd: number) => {
@@ -192,12 +198,22 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
         },
       ],
     }));
-    set((state) => ({ ...state, errors: state.errors.filter((error) => error !== 'services') }));
+    set((state) => ({
+      ...state,
+      errors: state.errors.filter((error) => error !== "services"),
+    }));
   },
   removeService: (id: number) => {
-    set((state) => ({ ...state, services: state.services.filter((service) => service.id !== id) }));
+    set((state) => ({
+      ...state,
+      services: state.services.filter((service) => service.id !== id),
+    }));
   },
-  changeService: (serviceToChangeId: number, newServiceName: string, newServiceTypes: string[]) => {
+  changeService: (
+    serviceToChangeId: number,
+    newServiceName: string,
+    newServiceTypes: string[]
+  ) => {
     set((state) => ({
       ...state,
       services: state.services.map((service) =>
@@ -228,14 +244,19 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
       );
       if (serviceToFind!.types.length <= 1) {
         const newState = state;
-        newState.services = newState.services.filter((service) => service.id !== serviceId);
+        newState.services = newState.services.filter(
+          (service) => service.id !== serviceId
+        );
         return { ...state, services: newState.services };
       } else {
         return {
           ...state,
           services: state.services.map((service) =>
             service.id === serviceId
-              ? { ...service, types: service.types.filter((type) => type.id !== typeId) }
+              ? {
+                  ...service,
+                  types: service.types.filter((type) => type.id !== typeId),
+                }
               : service
           ),
         };
@@ -262,37 +283,43 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   handleFileUpload: async (
     event: ChangeEvent<HTMLInputElement>,
     idToChange: number | null,
-    isClaeningTZ?: 'upload-tz'
+    isClaeningTZ?: "upload-tz"
   ) => {
     const files = event.target.files;
     const file = files![files!.length - 1];
 
     let newFile:
-      | { id: number; fileName: string; linkToSend: string; fileType: string; fileSize: number }
+      | {
+          id: number;
+          fileName: string;
+          linkToSend: string;
+          fileType: string;
+          fileSize: number;
+        }
       | undefined;
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const parameters = {
       file,
       private: false,
     };
     if (token) {
       try {
-        const link = await updateToken<string, { file: File; private: boolean }>(
-          uploadFile,
-          parameters
-        );
-        const fileType = file.type.split('/')[0];
-        const fileName = link.slice(link.lastIndexOf('/') + 1);
-        if (fileType === 'image' || fileType === 'application') {
+        const link = await updateToken<
+          string,
+          { file: File; private: boolean }
+        >(uploadFile, parameters);
+        const fileType = file.type.split("/")[0];
+        const fileName = link.slice(link.lastIndexOf("/") + 1);
+        if (fileType === "image" || fileType === "application") {
           newFile = {
             id: idToChange || Date.now(),
             fileName,
-            linkToSend: `https://cdn.ubrato.ru/s3${link}`,
+            linkToSend: `${cdnUrl}/s3${link}`,
             fileType,
             fileSize: file.size,
           };
           if (isClaeningTZ) {
-            if (isClaeningTZ === 'upload-tz') {
+            if (isClaeningTZ === "upload-tz") {
               set((state) => ({ ...state, cleaningTZ: newFile }));
             } else {
               set((state) => ({ ...state, cleaningTZ: null }));
@@ -310,12 +337,12 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             set((state) => ({
               ...state,
               attachments: [...state.attachments, newFile!],
-              errors: state.errors.filter((error) => error !== 'attachments'),
+              errors: state.errors.filter((error) => error !== "attachments"),
             }));
           }
         }
       } catch (e) {
-        console.error('sending file err: ', e);
+        console.error("sending file err: ", e);
       }
     }
   },
@@ -329,15 +356,15 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     const newErrors: string[] = [];
     set((state) => {
       const new_is_contract_price = state.is_contract_price;
-      if (!state.name) newErrors.push('name');
+      if (!state.name) newErrors.push("name");
       if (!isDraft) {
-        if (!state.price) newErrors.push('price')
+        if (!state.price) newErrors.push("price");
         // if (!state.price) new_is_contract_price = true;
         // if (!state.cleaningTZ) newErrors.push('tz')
-        if (!state.city) newErrors.push('city');
-        if (!state.objectName) newErrors.push('object');
+        if (!state.city) newErrors.push("city");
+        if (!state.objectName) newErrors.push("object");
         // if (!state.floor_space) newErrors.push('floor_space')
-        if (!state.services.length) newErrors.push('services');
+        if (!state.services.length) newErrors.push("services");
         // if (!state.description) newErrors.push('description')
         // if (!state.wishes) newErrors.push('wishes')
         // if (!state.attachments.length) newErrors.push('attachments')
@@ -367,27 +394,29 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
   removeAttachment: (id: number) => {
     set((state) => ({
       ...state,
-      attachments: state.attachments.filter((attachment) => attachment.id !== id),
+      attachments: state.attachments.filter(
+        (attachment) => attachment.id !== id
+      ),
     }));
   },
 
   clear: () => {
     set(() => ({
-      name: '',
-      price: '',
+      name: "",
+      price: "",
       is_contract_price: false,
-      floor_space: '',
-      description: '',
-      wishes: '',
+      floor_space: "",
+      description: "",
+      wishes: "",
       attachments: [],
       services_groups: [],
       cleaningTZ: null,
 
       is_NDS: true,
 
-      city: '',
+      city: "",
 
-      objectName: '',
+      objectName: "",
       objectCategory: [],
 
       services: [],
@@ -395,9 +424,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
       cities: [],
 
       reception_start: new Date(),
-      reception_time_start: '',
+      reception_time_start: "",
       reception_end: new Date(),
-      reception_time_end: '',
+      reception_time_end: "",
 
       work_start: new Date(),
       work_end: new Date(),

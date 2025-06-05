@@ -1,17 +1,28 @@
-import { FC, useEffect, useRef, useState } from 'react';
-import styles from './companyinfo.module.css';
-import { fetchOrganizationInfo, fetchFileInfo, updateToken, uploadFile } from '@/api';
-import { Link } from 'react-router-dom';
-import { contacntsT, orgInfoT, putBrandContacts, putBrandData } from '@/api/profileOrganization';
-import { Avatar, Checkbox } from '@nextui-org/react';
-import { InputPhone } from '../inputPhone/InputPhone';
-import { InputContact } from '../InputContact/InputContact';
-import Modal from '@/components/Modal';
-import ContactModal from '@/components/Modal/ContactModal';
+import { FC, useEffect, useRef, useState } from "react";
+import styles from "./companyinfo.module.css";
+import {
+  fetchOrganizationInfo,
+  fetchFileInfo,
+  updateToken,
+  uploadFile,
+} from "@/api";
+import { Link } from "react-router-dom";
+import {
+  contacntsT,
+  orgInfoT,
+  putBrandContacts,
+  putBrandData,
+} from "@/api/profileOrganization";
+import { Avatar, Checkbox } from "@nextui-org/react";
+import { InputPhone } from "../inputPhone/InputPhone";
+import { InputContact } from "../InputContact/InputContact";
+import Modal from "@/components/Modal";
+import ContactModal from "@/components/Modal/ContactModal";
+import { cdnUrl } from "@/api/hosts";
 
 export const CompanyInfo: FC = () => {
   const [companyInfo, setCompanyInfo] = useState<orgInfoT>();
-  const [brandName, setBrandName] = useState('');
+  const [brandName, setBrandName] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
   const [isBrandEqual, setIsBrandEqual] = useState(true);
   const [avatarDate, setAvatarDate] = useState<Date>();
@@ -30,10 +41,12 @@ export const CompanyInfo: FC = () => {
 
   const [emails, setEmails] = useState<{ contact: string; info: string }[]>([]);
   const [phones, setPhones] = useState<{ contact: string; info: string }[]>([]);
-  const [messengers, setMessengers] = useState<{ contact: string; info: string }[]>([]);
+  const [messengers, setMessengers] = useState<
+    { contact: string; info: string }[]
+  >([]);
   const [isContactsEqual, setIsContactsEqual] = useState(true);
   const [checkValue, setCheckValue] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [dataChanged, setDataChanged] = useState(false);
 
   const initialBrandInfo = useRef<{ brand_name: string; avatar: string }>();
@@ -82,7 +95,9 @@ export const CompanyInfo: FC = () => {
     }
     (async () => {
       if (avatar !== null) {
-        const avatarInfoRes = await fetchFileInfo(avatar.replace('https://cdn.ubrato.ru/s3', ''));
+        const avatarInfoRes = await fetchFileInfo(
+          avatar.replace(`${cdnUrl}/s3`, "")
+        );
         setAvatarDate(new Date(avatarInfoRes.ctime));
         setAvatarInfo(avatarInfoRes);
       }
@@ -97,7 +112,7 @@ export const CompanyInfo: FC = () => {
       if (res.avatar) {
         (async () => {
           const avatarInfoRes = await fetchFileInfo(
-            res.avatar.replace('https://cdn.ubrato.ru/s3', '')
+            res.avatar.replace(`${cdnUrl}/s3`, "")
           );
           setAvatarDate(new Date(avatarInfoRes.ctime));
           setAvatarInfo(avatarInfoRes);
@@ -106,20 +121,23 @@ export const CompanyInfo: FC = () => {
       if (res.email.length > 0) {
         setEmails([...res.email]);
       } else {
-        setEmails([...res.email, { contact: '', info: '' }]);
+        setEmails([...res.email, { contact: "", info: "" }]);
       }
       if (res.phone.length > 0) {
         setPhones([...res.phone]);
       } else {
-        setPhones([...res.email, { contact: '', info: '' }]);
+        setPhones([...res.email, { contact: "", info: "" }]);
       }
       if (res.messenger.length > 0) {
         setMessengers([...res.messenger]);
       } else {
-        setMessengers([...res.messenger, { contact: '', info: '' }]);
+        setMessengers([...res.messenger, { contact: "", info: "" }]);
       }
       setCompanyInfo(res);
-      initialBrandInfo.current = { brand_name: res.brand_name, avatar: res.avatar };
+      initialBrandInfo.current = {
+        brand_name: res.brand_name,
+        avatar: res.avatar,
+      };
       initialContacts.current = {
         phones: JSON.parse(JSON.stringify(res.phone)),
         emails: JSON.parse(JSON.stringify(res.email)),
@@ -136,8 +154,9 @@ export const CompanyInfo: FC = () => {
       <div className={styles.infoContainer}>
         <img src="/info-ic.svg" alt="" />
         <p className={styles.infoText}>
-          Вся информация с этой страницы будет опубликована в публичном профиле вашей компании за
-          исключением контактов. Их ваши контрагенты увидят после подведения итогов тендера.
+          Вся информация с этой страницы будет опубликована в публичном профиле
+          вашей компании за исключением контактов. Их ваши контрагенты увидят
+          после подведения итогов тендера.
         </p>
       </div>
       <div className={styles.brandInfo}>
@@ -154,19 +173,22 @@ export const CompanyInfo: FC = () => {
           />
           <p className={styles.gridHeader}>Логотип компании</p>
           <div className={styles.avatarContainer}>
-            <Avatar src={avatar ?? ''} classNames={avatarStyle} />
+            <Avatar src={avatar ?? ""} classNames={avatarStyle} />
             <div className={styles.avatarInfo}>
               {avatar && (
                 <>
                   <div className={styles.flexText}>
                     <p className={styles.text}>{avatarInfo?.format.slice(1)}</p>
                     <p className={styles.text}>
-                      {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ''}kb
+                      {avatarInfo ? (avatarInfo?.size / 1024).toFixed(1) : ""}kb
                     </p>
                   </div>
                   <p className={styles.text}>
-                    Загружен{' '}
-                    {avatarDate?.toLocaleString('default', { day: 'numeric', month: 'long' })}{' '}
+                    Загружен{" "}
+                    {avatarDate?.toLocaleString("default", {
+                      day: "numeric",
+                      month: "long",
+                    })}{" "}
                     {avatarDate?.getFullYear()}
                   </p>
                 </>
@@ -175,17 +197,20 @@ export const CompanyInfo: FC = () => {
                 <input
                   onChange={async (e) => {
                     const rawData = e.target.files![0];
-                    const token = localStorage.getItem('token');
+                    const token = localStorage.getItem("token");
                     const parameters = {
                       file: rawData,
                       private: false,
                     };
                     if (token) {
-                      const link = await updateToken<string, { file: File; private: boolean }>(
-                        uploadFile,
-                        parameters
-                      );
-                      const avatar = `https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`;
+                      const link = await updateToken<
+                        string,
+                        { file: File; private: boolean }
+                      >(uploadFile, parameters);
+                      const avatar = `${cdnUrl}/s3${link?.replace(
+                        "/files",
+                        ""
+                      )}`;
                       setAvatar(avatar);
                     }
                   }}
@@ -201,7 +226,7 @@ export const CompanyInfo: FC = () => {
               {avatar && (
                 <p
                   onClick={() => {
-                    setAvatar('');
+                    setAvatar("");
                     setAvatarInfo(null);
                   }}
                   className={`${styles.avatarInput} ${styles.deleteAvatar}`}
@@ -214,11 +239,14 @@ export const CompanyInfo: FC = () => {
           </div>
           <button
             onClick={() => {
-              const params = { name: brandName, avatar: avatar ?? '' };
+              const params = { name: brandName, avatar: avatar ?? "" };
               (async () => {
                 await updateToken(putBrandData, params);
                 const res = await updateToken(fetchOrganizationInfo, null);
-                initialBrandInfo.current = { brand_name: res.brand_name, avatar: res.avatar };
+                initialBrandInfo.current = {
+                  brand_name: res.brand_name,
+                  avatar: res.avatar,
+                };
                 setBrandName(res.brand_name);
                 setAvatar(res.avatar);
                 setCompanyInfo(res);
@@ -240,16 +268,26 @@ export const CompanyInfo: FC = () => {
             {phones.length ? (
               <>
                 {phones.map((_, ix) => (
-                  <InputPhone phones={phones} setPhones={setPhones} ix={ix} key={ix} />
+                  <InputPhone
+                    phones={phones}
+                    setPhones={setPhones}
+                    ix={ix}
+                    key={ix}
+                  />
                 ))}
               </>
             ) : (
-              <InputPhone phones={phones} setPhones={setPhones} ix={0} key={0} />
+              <InputPhone
+                phones={phones}
+                setPhones={setPhones}
+                ix={0}
+                key={0}
+              />
             )}
             <button
               onClick={() => {
                 const newPhones = [...phones];
-                newPhones.push({ contact: '', info: '' });
+                newPhones.push({ contact: "", info: "" });
                 setPhones(newPhones);
               }}
               className={styles.addContact}
@@ -262,16 +300,28 @@ export const CompanyInfo: FC = () => {
             {emails.length ? (
               <>
                 {emails.map((_, ix) => (
-                  <InputContact data={emails} setData={setEmails} ix={ix} id="email" key={ix} />
+                  <InputContact
+                    data={emails}
+                    setData={setEmails}
+                    ix={ix}
+                    id="email"
+                    key={ix}
+                  />
                 ))}
               </>
             ) : (
-              <InputContact data={emails} setData={setEmails} ix={0} id="email" key={0} />
+              <InputContact
+                data={emails}
+                setData={setEmails}
+                ix={0}
+                id="email"
+                key={0}
+              />
             )}
             <button
               onClick={() => {
                 const newMails = [...emails];
-                newMails.push({ contact: '', info: '' });
+                newMails.push({ contact: "", info: "" });
                 setEmails(newMails);
               }}
               className={styles.addContact}
@@ -305,7 +355,7 @@ export const CompanyInfo: FC = () => {
             <button
               onClick={() => {
                 const newMessengers = [...messengers];
-                newMessengers.push({ contact: '', info: '' });
+                newMessengers.push({ contact: "", info: "" });
                 setMessengers(newMessengers);
               }}
               className={styles.addContact}
@@ -324,20 +374,20 @@ export const CompanyInfo: FC = () => {
                   isSelected={checkValue}
                   onValueChange={(e) => {
                     setCheckValue(e);
-                    setError('');
+                    setError("");
                   }}
                   classNames={checkStyle}
                 >
                   <p className="text-sm">
-                    Я даю{' '}
+                    Я даю{" "}
                     <Link
                       className={styles.link}
                       target="_blank"
                       to="/documents/soglasie_na_obrabotku_personalnyh_dannyh"
                     >
                       Согласие на обработку персональных данных
-                    </Link>{' '}
-                    в соответствии с{' '}
+                    </Link>{" "}
+                    в соответствии с{" "}
                     <Link
                       className={styles.link}
                       target="_blank"
@@ -359,7 +409,9 @@ export const CompanyInfo: FC = () => {
                   const params: contacntsT = {
                     phones: phones.filter((e) => e.contact.length !== 0),
                     emails: emails.filter((e) => e.contact.length !== 0),
-                    messengers: messengers.filter((e) => e.contact.length !== 0),
+                    messengers: messengers.filter(
+                      (e) => e.contact.length !== 0
+                    ),
                   };
                   await updateToken(putBrandContacts, params);
                   const res = await updateToken(fetchOrganizationInfo, null);
@@ -374,7 +426,7 @@ export const CompanyInfo: FC = () => {
                   setDataChanged(!dataChanged);
                 })();
               } else {
-                setError('Обязательное поле');
+                setError("Обязательное поле");
               }
             }}
             className={styles.brandBtn}
@@ -389,17 +441,22 @@ export const CompanyInfo: FC = () => {
         <div className={styles.infoContainer}>
           <img src="/info-ic.svg" alt="" />
           <p className={styles.infoText}>
-            Данные компании получены из Единого государственного реестра юридических лиц
-            автоматически на основе идентификационного номера налогоплательщика. Если вы заметили
-            ошибку,{' '}
-            <span className="underline cursor-pointer" onClick={() => setOpenModal(true)}>
+            Данные компании получены из Единого государственного реестра
+            юридических лиц автоматически на основе идентификационного номера
+            налогоплательщика. Если вы заметили ошибку,{" "}
+            <span
+              className="underline cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            >
               свяжитесь
-            </span>{' '}
+            </span>{" "}
             с администрацией Ubrato.
           </p>
         </div>
         <div className="grid grid-cols-2 w-full items-center mt-[20px] gap-[16px]">
-          <p className={`text-base ${styles.rowName}`}>Сокращенное наименование</p>
+          <p className={`text-base ${styles.rowName}`}>
+            Сокращенное наименование
+          </p>
           <p className={styles.rowData}>{companyInfo?.short_name}</p>
           <p className={`text-base ${styles.rowName}`}>Полное наименование</p>
           <p className={styles.rowData}>{companyInfo?.full_name}</p>
@@ -412,11 +469,16 @@ export const CompanyInfo: FC = () => {
           <p className={`text-base ${styles.rowName}`}>КПП</p>
           <p className={`${styles.rowData} w-[222px]`}>{companyInfo?.kpp}</p>
           <p className={`text-base ${styles.rowName}`}>Код налогового органа</p>
-          <p className={`${styles.rowData} w-[222px]`}>{companyInfo?.tax_code}</p>
+          <p className={`${styles.rowData} w-[222px]`}>
+            {companyInfo?.tax_code}
+          </p>
         </div>
       </div>
       <Modal isOpen={openModal}>
-        <ContactModal type="SURVEY_TYPE_FEEDBACK" onClose={() => setOpenModal(false)} />
+        <ContactModal
+          type="SURVEY_TYPE_FEEDBACK"
+          onClose={() => setOpenModal(false)}
+        />
       </Modal>
     </div>
   );
