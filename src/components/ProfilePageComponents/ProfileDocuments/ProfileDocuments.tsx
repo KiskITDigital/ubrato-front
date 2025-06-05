@@ -30,6 +30,8 @@ export const ProfileDocuments: FC = () => {
     }
     if (!isEmailVerified) {
       setOpenIVerifyEmailModal(true);
+    } else {
+      setOpenIVerifyEmailModal(false);
     }
   }, [userStore]);
 
