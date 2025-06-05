@@ -2,7 +2,12 @@ services:
   front:
     image: ubrato-front
     container_name: ubrato-front
-    build: .
+    build:
+      context: .
+      args:
+        VITE_SERVER_URI: https://api.ubrato.ru
+        VITE_CDN_URI: https://cdn.ubrato.ru
+        VITE_TYPESENSE_API_KEY: NXrcTzQffx7t0N6t0QKtlQ3Enbh7Q5DR
     restart: unless-stopped
     networks:
       - ubrato-front-network
