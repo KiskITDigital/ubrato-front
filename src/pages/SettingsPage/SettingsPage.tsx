@@ -248,7 +248,7 @@ const SettingsPage: FC = () => {
                 : styles.statusUnSuccess
             }`}
           >
-            {status === "success" ? "Верифицирован" : "Подтвердите почту"}
+            {status === "success" ? "Верифицирован" : "Пройдите верификацию"}
           </p>
           {status === "unverified" && (
             <div className={styles.statusVerifyBlock}>
