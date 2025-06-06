@@ -671,7 +671,11 @@ const SettingsPage: FC = () => {
         />
       </Modal>
       <Modal isOpen={openDeleteAccountModal}>
-        <InfoModal title="" text="Аккаунт успешно удален" onClose={logout} />
+        <InfoModal
+          title=""
+          text="Вы инициировали процедуру удаления учетной записи на Ubrato. Чтобы удалить учетную запись, пожалуйста, подтвердите свое решение по почте"
+          onClose={logout}
+        />
       </Modal>
     </section>
   );
