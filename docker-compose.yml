@@ -1,6 +1,6 @@
 services:
   front:
-    image: ubrato-front
+    image: registry.ubrato.ru/ubrato-front:latest
     container_name: ubrato-front
     build:
       context: .
@@ -8,6 +8,8 @@ services:
         VITE_SERVER_URI: https://api.ubrato.ru
         VITE_CDN_URI: https://cdn.ubrato.ru
         VITE_TYPESENSE_API_KEY: NXrcTzQffx7t0N6t0QKtlQ3Enbh7Q5DR
+        VITE_TYPESENSE_API_URI: search.ubrato.ru
+        VITE_TYPESENSE_API_PORT: 443
     restart: unless-stopped
     networks:
       - ubrato-front-network
