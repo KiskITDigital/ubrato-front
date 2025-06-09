@@ -1,9 +1,12 @@
-import { FC, ReactNode, useEffect, useState } from 'react';
-import styles from './main-filter.module.css';
-import { Hits, InstantSearch, SearchBox } from 'react-instantsearch';
-import { generateSearchClient, generateTypesenseClient } from '../generateSearchclient';
-import { useFindExecutorState } from '@/store/findExecutorStore';
-import { getCities } from '@/api';
+import { FC, ReactNode, useEffect, useState } from "react";
+import styles from "./main-filter.module.css";
+import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
+import {
+  generateSearchClient,
+  generateTypesenseClient,
+} from "../generateSearchclient";
+import { useFindExecutorState } from "@/store/findExecutorStore";
+import { getCities } from "@/api";
 
 const MainFilter: FC = () => {
   const findExecutorState = useFindExecutorState();
@@ -42,7 +45,9 @@ const MainFilter: FC = () => {
   };
 
   const filter = () => {
-    findExecutorState.handleLocation(chosenLocation ? +chosenLocation.id : null);
+    findExecutorState.handleLocation(
+      chosenLocation ? +chosenLocation.id : null
+    );
     findExecutorState.handleObjectTypesId(objectTypesId);
     findExecutorState.handleServicesTypesId(servicesTypesId);
   };
@@ -50,23 +55,25 @@ const MainFilter: FC = () => {
   const objectImages: {
     [key: string]: string;
   } = {
-    HoReCa: 'horeca',
-    'Транспортная инфраструктура': 'road',
-    Транспорт: 'transport',
-    'Торговая недвижимость': 'trading',
-    Территория: 'territory',
-    'Спортивно-оздоровительные объекты': 'stadium',
-    'Складская недвижимость': 'stock',
-    'Производственная недвижимость': 'factory',
-    'Природные объекты': 'nature',
-    'Офисная недвижимость': 'office',
-    'Объекты образования': 'school',
-    'Объекты культурного наследия': 'museum',
-    'Объект здравоохранения': 'pharmacy',
-    'Жилая недвижимость': 'living-building',
+    HoReCa: "horeca",
+    "Транспортная инфраструктура": "road",
+    Транспорт: "transport",
+    "Торговая недвижимость": "trading",
+    Территория: "territory",
+    "Спортивно-оздоровительные объекты": "stadium",
+    "Складская недвижимость": "stock",
+    "Производственная недвижимость": "factory",
+    "Природные объекты": "nature",
+    "Офисная недвижимость": "office",
+    "Объекты образования": "school",
+    "Объекты культурного наследия": "museum",
+    "Объект здравоохранения": "pharmacy",
+    "Жилая недвижимость": "living-building",
   };
 
-  const [cityList, setCityList] = useState<{ id: string; name: string; region_id: string }[]>([]);
+  const [cityList, setCityList] = useState<
+    { id: string; name: string; region_id: string }[]
+  >([]);
 
   const getLocalCities = async (query: string) => {
     let cities: { id: string; name: string; region_id: string }[] = [];
@@ -77,7 +84,7 @@ const MainFilter: FC = () => {
         region_id: string;
       }[];
     } else {
-      const documents = await generateTypesenseClient('city_index', {
+      const documents = await generateTypesenseClient("city_index", {
         filter_by:
           'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"',
       });
@@ -89,12 +96,12 @@ const MainFilter: FC = () => {
           }[])
         : [];
       newCities.forEach((city) => {
-        if (!('name' in city)) return;
-        if (city.name === 'Москва') cities[0] = city;
-        else if (city.name === 'Санкт-Петербург') cities[1] = city;
-        else if (city.name === 'Нижний Новгород') cities[2] = city;
-        else if (city.name === 'Казань') cities[3] = city;
-        else if (city.name === 'Екатеринбург') cities[4] = city;
+        if (!("name" in city)) return;
+        if (city.name === "Москва") cities[0] = city;
+        else if (city.name === "Санкт-Петербург") cities[1] = city;
+        else if (city.name === "Нижний Новгород") cities[2] = city;
+        else if (city.name === "Казань") cities[3] = city;
+        else if (city.name === "Екатеринбург") cities[4] = city;
       });
     }
     setCityList(cities);
@@ -118,7 +125,7 @@ const MainFilter: FC = () => {
 
   useEffect(() => {
     setIsSearchClient(true);
-    getLocalCities('');
+    getLocalCities("");
     // getObjects()
   }, []);
 
@@ -157,7 +164,11 @@ const MainFilter: FC = () => {
               />
             </label>
             {cityList.map((city) => (
-              <div className={styles.hitList} key={city.id} onClick={() => setChosenLocation(city)}>
+              <div
+                className={styles.hitList}
+                key={city.id}
+                onClick={() => setChosenLocation(city)}
+              >
                 <p className={styles.location}>{city.name}</p>
               </div>
             ))}
@@ -183,12 +194,18 @@ const MainFilter: FC = () => {
               classNames={{
                 list: styles.hitList,
               }}
-              hitComponent={({ hit }: { hit: { id: number; name: string } }) => (
+              hitComponent={({
+                hit,
+              }: {
+                hit: { id: number; name: string };
+              }) => (
                 <>
                   <p
                     className={styles.objectItem}
                     onClick={() => {
-                      setObjectId(hit.id === objectId ? null : (hit.id as number));
+                      setObjectId(
+                        hit.id === objectId ? null : (hit.id as number)
+                      );
                       setObjectTypesId([]);
                     }}
                   >
@@ -219,14 +236,21 @@ const MainFilter: FC = () => {
                                 onClick={() =>
                                   setObjectTypesId((prev) =>
                                     prev.includes(+hitType.id)
-                                      ? [...prev.filter((el) => el !== +hitType.id)]
+                                      ? [
+                                          ...prev.filter(
+                                            (el) => el !== +hitType.id
+                                          ),
+                                        ]
                                       : [...prev, +hitType.id]
                                   )
                                 }
                                 // onClick={(e) => { console.log(objectTypesId, hitType.id, e); setObjectTypesId([+hitType.id]) }}
                               >
                                 {objectTypesId.includes(+hitType.id) ? (
-                                  <img src="/find-executor/checkmark.svg" alt="check-mark" />
+                                  <img
+                                    src="/find-executor/checkmark.svg"
+                                    alt="check-mark"
+                                  />
                                 ) : (
                                   <span></span>
                                 )}
@@ -242,11 +266,13 @@ const MainFilter: FC = () => {
               )}
             />
             <button
-              className={`${styles.showMore} ${areAllObjects ? styles.showLess : ''}`}
+              className={`${styles.showMore} ${
+                areAllObjects ? styles.showLess : ""
+              }`}
               onClick={() => setAreAllObjects((prev) => !prev)}
             >
               <img src="/find-executor/arrow-down.svg" alt="" />
-              Показать {areAllObjects ? 'меньше' : 'все'}
+              Показать {areAllObjects ? "меньше" : "все"}
             </button>
           </InstantSearch>
         </div>
@@ -270,7 +296,11 @@ const MainFilter: FC = () => {
               classNames={{
                 list: styles.hitList,
               }}
-              hitComponent={({ hit }: { hit: { id: number; name: string } }) => (
+              hitComponent={({
+                hit,
+              }: {
+                hit: { id: number; name: string };
+              }) => (
                 <>
                   <p
                     className={styles.objectItem}
@@ -309,13 +339,20 @@ const MainFilter: FC = () => {
                                 onClick={() =>
                                   setServicesTypesId((prev) =>
                                     prev.includes(+hitType.id)
-                                      ? [...prev.filter((el) => el !== +hitType.id)]
+                                      ? [
+                                          ...prev.filter(
+                                            (el) => el !== +hitType.id
+                                          ),
+                                        ]
                                       : [...prev, +hitType.id]
                                   )
                                 }
                               >
                                 {servicesTypesId.includes(+hitType.id) ? (
-                                  <img src="/find-executor/checkmark.svg" alt="check-mark" />
+                                  <img
+                                    src="/find-executor/checkmark.svg"
+                                    alt="check-mark"
+                                  />
                                 ) : (
                                   <span></span>
                                 )}
@@ -331,11 +368,13 @@ const MainFilter: FC = () => {
               )}
             />
             <button
-              className={`${styles.showMore} ${areAllServices ? styles.showLess : ''}`}
+              className={`${styles.showMore} ${
+                areAllServices ? styles.showLess : ""
+              }`}
               onClick={() => setAreAllServices((prev) => !prev)}
             >
               <img src="/find-executor/arrow-down.svg" alt="" />
-              Показать {areAllServices ? 'меньше' : 'все'}
+              Показать {areAllServices ? "меньше" : "все"}
             </button>
           </InstantSearch>
         </div>

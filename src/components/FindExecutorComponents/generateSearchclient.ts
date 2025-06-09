@@ -1,9 +1,9 @@
-import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
-import Typesense from 'typesense';
-import { executorList } from '@/types/app';
-import { SearchResponseHit } from 'typesense/lib/Typesense/Documents';
-import { getExecutor, isFavoriteExecutor, updateToken } from '@/api/index';
-import { transformServices } from '@/utils';
+import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import Typesense from "typesense";
+import { executorList } from "@/types/app";
+import { SearchResponseHit } from "typesense/lib/Typesense/Documents";
+import { getExecutor, isFavoriteExecutor, updateToken } from "@/api/index";
+import { transformServices } from "@/utils";
 
 interface typesenseService {
   id: string;
@@ -12,21 +12,24 @@ interface typesenseService {
   service_group_index: { id: string; name: string };
 }
 
-export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
+export const generateSearchClient = (
+  limit: number = 10,
+  parameters?: { filter_by?: string }
+) => {
   const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
     server: {
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
         {
-          host: 'search.ubrato.ru',
-          port: 443,
-          protocol: 'https',
-          path: '',
+          host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
+          port: import.meta.env.VITE_TYPESENSE_API_PORT,
+          protocol: "https",
+          path: "",
         },
       ],
     },
     additionalSearchParameters: {
-      query_by: 'name',
+      query_by: "name",
       limit: limit,
       ...parameters,
     },
@@ -41,7 +44,12 @@ export const generateTypesenseClient = async (
     per_page?: number;
     page?: number;
     filter_by?: string;
-    sort_by?: '' | 'name:asc' | 'name:desc' | 'created_at:asc' | 'created_at:desc';
+    sort_by?:
+      | ""
+      | "name:asc"
+      | "name:desc"
+      | "created_at:asc"
+      | "created_at:desc";
     include_fields?: string;
   }
 ) => {
@@ -50,30 +58,35 @@ export const generateTypesenseClient = async (
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
         {
-          host: 'search.ubrato.ru',
+          host: "search.ubrato.ru",
           port: 443,
-          protocol: 'https',
-          path: '',
+          protocol: "https",
+          path: "",
         },
       ],
     });
 
     const searchParameters = {
-      q: '',
-      query_by: 'name',
+      q: "",
+      query_by: "name",
       ...parameters,
     };
 
-    const res = await client.collections(collection).documents().search(searchParameters);
+    const res = await client
+      .collections(collection)
+      .documents()
+      .search(searchParameters);
     return res || [];
   } catch (e) {
-    console.error('Typesense.Client error: ', e);
+    console.error("Typesense.Client error: ", e);
   }
 };
 
-export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefined) => {
+export const getExecutorList = async (
+  hits: SearchResponseHit<object>[] | undefined
+) => {
   const newExecutorList = [] as executorList[];
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const promises = (hits || [])
     .map((res, index) => {
@@ -83,29 +96,39 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
       return (async () => {
         const data = await getExecutor(id);
         const isFavorite =
-          (!!token && (await updateToken(isFavoriteExecutor, id))?.data?.status) || false;
+          (!!token &&
+            (await updateToken(isFavoriteExecutor, id))?.data?.status) ||
+          false;
 
         // const serviceTypesFilter = data.contractorInfo.services.map((service: { id: number, name: string, price: number }) => service.id).reduce((acc: string, serviceId: number) => acc + serviceId + ", ", "")
         // console.log(serviceTypesFilter);
 
         (
-          await generateTypesenseClient('service_type_index', {
+          await generateTypesenseClient("service_type_index", {
             filter_by: `id:[${data.contractorInfo.services
-              .map((service: { id: number; name: string; price: number }) => service.id)
-              .reduce((acc: string, serviceId: number) => acc + serviceId + ', ', '')}]`,
+              .map(
+                (service: { id: number; name: string; price: number }) =>
+                  service.id
+              )
+              .reduce(
+                (acc: string, serviceId: number) => acc + serviceId + ", ",
+                ""
+              )}]`,
             per_page: 250,
-            include_fields: '$service_group_index(id, name)',
+            include_fields: "$service_group_index(id, name)",
           })
         )?.hits
           ?.map((document) => document.document)
           .forEach((service: typesenseService | object) => {
-            if (!('id' in service)) return;
+            if (!("id" in service)) return;
             const serviceToFind = data.contractorInfo.services.find(
-              (serviceFromData: { id: number }) => +service.id === serviceFromData.id
+              (serviceFromData: { id: number }) =>
+                +service.id === serviceFromData.id
             );
             serviceToFind.group_name = service.service_group_index.name;
             serviceToFind.name =
-              service.name.slice(0, 1).toLocaleLowerCase() + service.name.slice(1);
+              service.name.slice(0, 1).toLocaleLowerCase() +
+              service.name.slice(1);
           });
         // console.log(serviceGroupHits);
 
@@ -114,8 +137,8 @@ export const getExecutorList = async (hits: SearchResponseHit<object>[] | undefi
           executorData: {
             id: data.organizationInfo.id,
             img: data.organizationInfo.avatar
-              ? `${data.organizationInfo.avatar?.replace('/files', '')}`
-              : '/avatar-ic.svg',
+              ? `${data.organizationInfo.avatar?.replace("/files", "")}`
+              : "/avatar-ic.svg",
             name: data.organizationInfo.short_name,
             inn: data.organizationInfo.inn,
             text: data.contractorInfo.description,

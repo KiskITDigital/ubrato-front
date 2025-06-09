@@ -1,43 +1,59 @@
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 import { Hits, InstantSearch, SearchBox } from "react-instantsearch";
 import {
   generateSearchClient,
   generateTypesenseClient,
 } from "../generateSearchClient";
-// import { usetenderListState } from '@/store/findExecutorStore';
 import { getCities } from "@/api";
 import { useTenderListState } from "@/store/tendersListStore";
+import { Cities, FILTER_BY_CITY, objectImages } from "./filters.constants";
 
 const MainFilterTender: FC = () => {
   const tenderListState = useTenderListState();
-  const [isSearchClient, setIsSearchClient] = useState(false);
-
+  const [isSearchClientReady, setIsSearchClientReady] = useState(false);
   const [areAllObjects, setAreAllObjects] = useState(false);
   const [areAllServices, setAreAllServices] = useState(false);
-
   const [chosenLocation, setChosenLocation] = useState<{
     id: string;
     name: string;
     region_id: string;
   } | null>(null);
+  const [objectsId, setObjectsIds] = useState<number[]>([]); // вместо objectId
 
-  const [objectId, setObjectId] = useState<null | number>(null);
-  const [objectTypesId, setobjectTypesId] = useState<number[]>([]);
-
+  const [objectTypesId, setObjectTypesId] = useState<number[]>([]);
   const [servicesId, setServicesId] = useState<number[]>([]);
   const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
+  const [cityList, setCityList] = useState<
+    { id: string; name: string; region_id: string }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchError, setSearchError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const initializeSearch = async () => {
+      try {
+        await getLocalCities("");
+        setIsSearchClientReady(true);
+      } catch (error) {
+        console.error("Initialization error:", error);
+        setSearchError("Не удалось инициализировать поиск");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeSearch();
+  }, []);
 
   const reset = () => {
     setChosenLocation(null);
-    setObjectId(null);
-    setobjectTypesId([]);
+    setObjectsIds([]);
+    setObjectTypesId([]);
     setServicesId([]);
     setServicesTypesId([]);
-
     setAreAllObjects(false);
     setAreAllServices(false);
-
     tenderListState.handleLocation(null);
     tenderListState.handleObjectTypesId([]);
     tenderListState.handleServicesTypesId([]);
@@ -49,69 +65,60 @@ const MainFilterTender: FC = () => {
     tenderListState.handleServicesTypesId(servicesTypesId);
   };
 
-  const objectImages: {
-    [key: string]: string;
-  } = {
-    HoReCa: "horeca",
-    "Транспортная инфраструктура": "road",
-    Транспорт: "transport",
-    "Торговая недвижимость": "trading",
-    Территория: "territory",
-    "Спортивно-оздоровительные объекты": "stadium",
-    "Складская недвижимость": "stock",
-    "Производственная недвижимость": "factory",
-    "Природные объекты": "nature",
-    "Офисная недвижимость": "office",
-    "Объекты образования": "school",
-    "Объекты культурного наследия": "museum",
-    "Объект здравоохранения": "pharmacy",
-    "Жилая недвижимость": "living-building",
-  };
-
-  const [cityList, setCityList] = useState<
-    { id: string; name: string; region_id: string }[]
-  >([]);
-
   const getLocalCities = async (query: string) => {
-    let cities: { id: string; name: string; region_id: string }[] = [];
-    if (query.trim()) {
-      cities = (await getCities(query)).data.slice(0, 5) as {
-        id: string;
-        name: string;
-        region_id: string;
-      }[];
-    } else {
-      const documents = await generateTypesenseClient("city_index", {
-        filter_by:
-          'name:="Москва" || name:="Санкт-Петербург" || name:="Казань" || name:="Нижний Новгород" || name:="Екатеринбург"',
-      });
-      const newCities = documents
-        ? (documents.map((document) => document.document) as {
-            id: string;
-            name: string;
-            region_id: string;
-          }[])
-        : [];
-      newCities.forEach((city) => {
-        if (!("name" in city)) return;
-        if (city.name === "Москва") cities[0] = city;
-        else if (city.name === "Санкт-Петербург") cities[1] = city;
-        else if (city.name === "Нижний Новгород") cities[2] = city;
-        else if (city.name === "Казань") cities[3] = city;
-        else if (city.name === "Екатеринбург") cities[4] = city;
-      });
+    try {
+      let cities: { id: string; name: string; region_id: string }[] = [];
+
+      if (query.trim()) {
+        const response = await getCities(query);
+        cities = response.data.slice(0, 5) as {
+          id: string;
+          name: string;
+          region_id: string;
+        }[];
+      } else {
+        const documents = await generateTypesenseClient("city_index", {
+          filter_by: FILTER_BY_CITY,
+        });
+
+        const newCities = documents
+          ? (documents.map((document) => document.document) as {
+              id: string;
+              name: string;
+              region_id: string;
+            }[])
+          : [];
+
+        newCities.forEach((city) => {
+          if (!("name" in city)) return;
+          if (city.name === Cities.Moscow) cities[0] = city;
+          else if (city.name === Cities.SaintPetersburg) cities[1] = city;
+          else if (city.name === Cities.NizhnyNovgorod) cities[2] = city;
+          else if (city.name === Cities.Kazan) cities[3] = city;
+          else if (city.name === Cities.Yekaterinburg) cities[4] = city;
+        });
+      }
+
+      setCityList(cities);
+    } catch (error) {
+      console.error("Error fetching cities:", error);
+      setSearchError("Не удалось загрузить список городов");
     }
-    setCityList(cities);
   };
 
-  useEffect(() => {
-    setIsSearchClient(true);
-    getLocalCities("");
-  }, []);
+  if (isLoading) {
+    return <div className={styles.loading}>Загрузка...</div>;
+  }
+
+  if (searchError) {
+    return <div className={styles.error}>{searchError}</div>;
+  }
 
   return (
     <div className={`container ${styles.container}`}>
       <p className={styles.mainTitle}>Фильтры</p>
+
+      {/* Локации */}
       <div className={styles.block}>
         <p className={styles.title}>Локации:</p>
         {chosenLocation ? (
@@ -119,9 +126,7 @@ const MainFilterTender: FC = () => {
             <p className={styles.chosenLocation}>
               {chosenLocation.name}
               <img
-                onClick={() => {
-                  setChosenLocation(null);
-                }}
+                onClick={() => setChosenLocation(null)}
                 className={styles.removeChosenLocation}
                 src="/create-tender/create-tender-close.svg"
                 alt="delete icon"
@@ -155,11 +160,12 @@ const MainFilterTender: FC = () => {
           </>
         )}
       </div>
-      {isSearchClient && (
+
+      {isSearchClientReady && (
         <div className={styles.block}>
           <InstantSearch
             indexName="object_group_index"
-            searchClient={generateSearchClient(areAllObjects ? 250 : 5)}
+            searchClient={generateSearchClient(areAllObjects ? 250 : 10)}
           >
             <p className={styles.title}>Объекты:</p>
             <label className={styles.inputFilterLabel}>
@@ -170,6 +176,7 @@ const MainFilterTender: FC = () => {
               />
               <SearchBox className={styles.inputFilter} placeholder="Поиск" />
             </label>
+
             <Hits
               classNames={{
                 list: styles.hitList,
@@ -183,20 +190,27 @@ const MainFilterTender: FC = () => {
                   <p
                     className={styles.objectItem}
                     onClick={() => {
-                      setObjectId(
-                        hit.id === objectId ? null : (hit.id as number)
+                      setObjectsIds((prev) =>
+                        prev.includes(hit.id)
+                          ? prev.filter((el) => el !== hit.id)
+                          : [...prev, hit.id]
                       );
-                      setobjectTypesId([]);
+                      if (objectsId.includes(hit.id)) {
+                        setObjectTypesId([]);
+                      }
                     }}
                   >
                     <img
                       className={styles.objectItemImage}
-                      src={`/find-executor/${objectImages[hit.name]}.svg`}
-                      alt="object image"
+                      src={`/find-executor/${
+                        objectImages[hit.name] || "default"
+                      }.svg`}
+                      alt="object"
                     />
-                    {hit.name as ReactNode}
+                    {hit.name}
                   </p>
-                  {hit.id == objectId && (
+
+                  {objectsId.includes(hit.id) && (
                     <InstantSearch
                       indexName="object_type_index"
                       searchClient={generateSearchClient(250)}
@@ -206,7 +220,11 @@ const MainFilterTender: FC = () => {
                           list: styles.objectTypeList,
                         }}
                         hitComponent={(props: {
-                          hit: { id: number; group_id: number; name: string };
+                          hit: {
+                            id: number;
+                            group_id: number;
+                            name: string;
+                          };
                         }) => {
                           const { hit: hitType } = props;
                           return (
@@ -214,19 +232,14 @@ const MainFilterTender: FC = () => {
                               <p
                                 className={styles.objectTypeItem}
                                 onClick={() =>
-                                  setobjectTypesId((prev) =>
-                                    prev.includes(+hitType.id)
-                                      ? [
-                                          ...prev.filter(
-                                            (el) => el !== +hitType.id
-                                          ),
-                                        ]
-                                      : [...prev, +hitType.id]
+                                  setObjectTypesId((prev) =>
+                                    prev.includes(hitType.id)
+                                      ? prev.filter((el) => el !== hitType.id)
+                                      : [...prev, hitType.id]
                                   )
                                 }
-                                // onClick={(e) => { console.log(objectTypesId, hitType.id, e); setobjectTypesId([+hitType.id]) }}
                               >
-                                {objectTypesId.includes(+hitType.id) ? (
+                                {objectTypesId.includes(hitType.id) ? (
                                   <img
                                     src="/find-executor/checkmark.svg"
                                     alt="check-mark"
@@ -234,7 +247,7 @@ const MainFilterTender: FC = () => {
                                 ) : (
                                   <span></span>
                                 )}
-                                {hitType.name as ReactNode}
+                                {hitType.name}
                               </p>
                             )
                           );
@@ -245,6 +258,7 @@ const MainFilterTender: FC = () => {
                 </>
               )}
             />
+
             <button
               className={`${styles.showMore} ${
                 areAllObjects ? styles.showLess : ""
@@ -257,7 +271,9 @@ const MainFilterTender: FC = () => {
           </InstantSearch>
         </div>
       )}
-      {isSearchClient && (
+
+      {/* Услуги */}
+      {isSearchClientReady && (
         <div className={styles.block}>
           <InstantSearch
             indexName="service_group_index"
@@ -286,20 +302,21 @@ const MainFilterTender: FC = () => {
                     className={styles.objectItem}
                     onClick={() => {
                       setServicesId((prev) =>
-                        prev.includes(+hit.id)
-                          ? [...prev.filter((el) => el !== +hit.id)]
-                          : [...prev, +hit.id]
+                        prev.includes(Number(hit.id))
+                          ? prev.filter((el) => el !== Number(hit.id))
+                          : [...prev, Number(hit.id)]
                       );
                     }}
                   >
                     <img
                       className={styles.objectItemImage}
                       src="/find-executor/service.svg"
-                      alt="serivce image"
+                      alt="service"
                     />
-                    {hit.name as ReactNode}
+                    {hit.name}
                   </p>
-                  {servicesId.includes(+hit.id) && (
+
+                  {servicesId.includes(Number(hit.id)) && (
                     <InstantSearch
                       indexName="service_type_index"
                       searchClient={generateSearchClient(250)}
@@ -309,7 +326,11 @@ const MainFilterTender: FC = () => {
                           list: styles.objectTypeList,
                         }}
                         hitComponent={(props: {
-                          hit: { id: number; group_id: number; name: string };
+                          hit: {
+                            id: number;
+                            group_id: number;
+                            name: string;
+                          };
                         }) => {
                           const { hit: hitType } = props;
                           return (
@@ -318,17 +339,13 @@ const MainFilterTender: FC = () => {
                                 className={styles.objectTypeItem}
                                 onClick={() =>
                                   setServicesTypesId((prev) =>
-                                    prev.includes(+hitType.id)
-                                      ? [
-                                          ...prev.filter(
-                                            (el) => el !== +hitType.id
-                                          ),
-                                        ]
-                                      : [...prev, +hitType.id]
+                                    prev.includes(hitType.id)
+                                      ? prev.filter((el) => el !== hitType.id)
+                                      : [...prev, hitType.id]
                                   )
                                 }
                               >
-                                {servicesTypesId.includes(+hitType.id) ? (
+                                {servicesTypesId.includes(hitType.id) ? (
                                   <img
                                     src="/find-executor/checkmark.svg"
                                     alt="check-mark"
@@ -336,7 +353,7 @@ const MainFilterTender: FC = () => {
                                 ) : (
                                   <span></span>
                                 )}
-                                {hitType.name as ReactNode}
+                                {hitType.name}
                               </p>
                             )
                           );
@@ -347,6 +364,7 @@ const MainFilterTender: FC = () => {
                 </>
               )}
             />
+
             <button
               className={`${styles.showMore} ${
                 areAllServices ? styles.showLess : ""
@@ -359,6 +377,8 @@ const MainFilterTender: FC = () => {
           </InstantSearch>
         </div>
       )}
+
+      {/* Кнопки фильтрации */}
       <div className={styles.block}>
         <button className={styles.makeFilters} onClick={filter}>
           Применить фильтры

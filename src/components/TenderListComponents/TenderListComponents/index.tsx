@@ -32,7 +32,11 @@ import {
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
-import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import {
+  addFavouriteTender,
+  isFavoriteTender,
+  removeFavoriteTender,
+} from "@/api/favouriteTenders";
 
 export interface TenderList {
   id: string;
@@ -98,7 +102,11 @@ export const TenderListComp: FC = () => {
       header: () => {
         return (
           <div className="flex items-center">
-            <img className="" src="/find-executor/heart-inactive.svg" alt="heart" />
+            <img
+              className=""
+              src="/find-executor/heart-inactive.svg"
+              alt="heart"
+            />
           </div>
         );
       },
@@ -155,11 +163,14 @@ export const TenderListComp: FC = () => {
             <div className="flex gap-1">
               <p className="text-[14px] text-accent">{row.getValue("city")}</p>
               <p className="truncate text-[rgba(0,0,0,.6)]">
-                {(row.getValue("categories") as { name: string; services: string[] }[]).map(
-                  (e, ix) => {
-                    return <span key={ix}>{e.name} </span>;
-                  }
-                )}
+                {(
+                  row.getValue("categories") as {
+                    name: string;
+                    services: string[];
+                  }[]
+                ).map((e, ix) => {
+                  return <span key={ix}>{e.name} </span>;
+                })}
               </p>
             </div>
           </div>
@@ -170,13 +181,17 @@ export const TenderListComp: FC = () => {
       accessorKey: "reception_end",
       header: ({ column }) => {
         return (
-          <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             <p>Приём откликов</p>{" "}
             <div className="flex items-center justify-center">
               <p>по</p>
               <img
                 src={
-                  column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"
+                  column.getIsSorted() === "asc"
+                    ? "/icons/arrow-up.svg"
+                    : "/icons/arrow-down.svg"
                 }
                 className="ml-2 h-4 w-4"
               />
@@ -200,10 +215,16 @@ export const TenderListComp: FC = () => {
             <p>Оказание услуг</p>
             <div className="flex items-center justify-between">
               <p>с</p>
-              <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+              <button
+                onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+                }
+              >
                 <img
                   src={
-                    column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"
+                    column.getIsSorted() === "asc"
+                      ? "/icons/arrow-up.svg"
+                      : "/icons/arrow-down.svg"
                   }
                   className="ml-2 h-4 w-4"
                 />
@@ -241,7 +262,11 @@ export const TenderListComp: FC = () => {
             <p className="w-full text-center text-[rgba(0,0,0,.6)]">
               {toDate(row.getValue("work_start"))}
             </p>
-            <img className="w-[11px] min-w-[11px]" src="/arrow-with-line-gray.svg" alt="" />
+            <img
+              className="w-[11px] min-w-[11px]"
+              src="/arrow-with-line-gray.svg"
+              alt=""
+            />
             <p className="w-full text-center text-[rgba(0,0,0,.6)]">
               {toDate(row.getValue("work_end"))}
             </p>
@@ -261,14 +286,22 @@ export const TenderListComp: FC = () => {
           >
             Стоимость, руб
             <img
-              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
+              src={
+                column.getIsSorted() === "asc"
+                  ? "/icons/arrow-up.svg"
+                  : "/icons/arrow-down.svg"
+              }
               className="ml-2 h-4 w-4"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p className="text-accent w-[80px] text-end">{row.getValue("price")} ₽</p>;
+        return (
+          <p className="text-accent w-[80px] text-end">
+            {row.getValue("price")} ₽
+          </p>
+        );
       },
     },
   ];
@@ -334,7 +367,11 @@ export const TenderListComp: FC = () => {
       per_page: paginationPerPage,
       page: paginationPage,
       filter_by: filters,
-      sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`,
+      sort_by: `${
+        sorting.length
+          ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}`
+          : ""
+      }`,
       preset: "",
     };
 
@@ -347,7 +384,9 @@ export const TenderListComp: FC = () => {
 
         const tenders = [] as TenderList[];
         setAllExecutorListLength(response.found);
-        setPaginationTotal(response?.found ? Math.ceil(response.found / paginationPerPage) : 0);
+        setPaginationTotal(
+          response?.found ? Math.ceil(response.found / paginationPerPage) : 0
+        );
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -406,7 +445,9 @@ export const TenderListComp: FC = () => {
   return (
     <div ref={portalContainer} className="w-full z-0">
       <div className="flex justify-between">
-        <div className="text-[24px]">Найдено тендеров: {allExecutorListLength}</div>
+        <div className="text-[24px]">
+          Найдено тендеров: {allExecutorListLength}
+        </div>
         <div className="w-fit flex items-center gap-2">
           <p className="whitespace-nowrap">Показывать на странице</p>
           <Select
@@ -420,7 +461,8 @@ export const TenderListComp: FC = () => {
               mainWrapper:
                 "flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]",
               trigger: "flex justify-between p-0",
-              selectorIcon: "z-10 relative data-[open]:rotate-180 duration-300 transition-all",
+              selectorIcon:
+                "z-10 relative data-[open]:rotate-180 duration-300 transition-all",
               popoverContent:
                 "p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white",
             }}
@@ -444,7 +486,10 @@ export const TenderListComp: FC = () => {
                 {headerGroup.headers.map((header, headerIndex) => {
                   if (headerIndex < 4) {
                     return (
-                      <div className="hidden" key={"h-" + headerGroupIndex + headerIndex}></div>
+                      <div
+                        className="hidden"
+                        key={"h-" + headerGroupIndex + headerIndex}
+                      ></div>
                     );
                   }
                   return (
@@ -457,7 +502,10 @@ export const TenderListComp: FC = () => {
                     >
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -474,7 +522,12 @@ export const TenderListComp: FC = () => {
                 >
                   {row.getVisibleCells().map((cell, cellIndex) => {
                     if (cellIndex < 4) {
-                      return <div className="hidden" key={"cell-" + rowIndex + cellIndex}></div>;
+                      return (
+                        <div
+                          className="hidden"
+                          key={"cell-" + rowIndex + cellIndex}
+                        ></div>
+                      );
                     }
                     return (
                       <TableCell
@@ -482,7 +535,10 @@ export const TenderListComp: FC = () => {
                         key={"cell-" + rowIndex + cellIndex}
                         // style={{ width: cell.column.getSize() }}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </TableCell>
                     );
                   })}
