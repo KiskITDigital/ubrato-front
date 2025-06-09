@@ -20,7 +20,6 @@ import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
 import { useIMask } from "react-imask";
 import { deleteAccount } from "@/api/deleteAccount";
-import { logout } from "@/utils/auth/auth";
 import InfoModal from "@/components/Modal/InfoModal";
 
 const SettingsPage: FC = () => {
@@ -232,6 +231,9 @@ const SettingsPage: FC = () => {
   const [openDeleteAccountModal, setOpenDeleteAccountModal] =
     useState<boolean>(false);
 
+  function closeDeleteAccountModal() {
+    setOpenDeleteAccountModal(false);
+  }
   return (
     <section ref={startRef} className={`${styles.container}`}>
       <p className={styles.title}>Настройки аккаунта</p>
@@ -674,7 +676,7 @@ const SettingsPage: FC = () => {
         <InfoModal
           title=""
           text="Вы инициировали процедуру удаления учетной записи на Ubrato. Чтобы удалить учетную запись, пожалуйста, подтвердите свое решение по почте"
-          onClose={logout}
+          onClose={closeDeleteAccountModal}
         />
       </Modal>
     </section>

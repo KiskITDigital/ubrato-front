@@ -40,6 +40,7 @@ import { QATab } from "@/components/OneTenderComponents/QATab/QATab";
 import { AdditionalInfo } from "@/components/OneTenderComponents/AdditionalInfo/AdditionalInfo";
 import { OrdererProfileView } from "@/components/OrgnizationProfile/OrdererProfile/OrdererProfile";
 import { ContractorProfileView } from "@/components/OrgnizationProfile/ContractorProfile/ContractorProfile";
+import ConfirmDeleteAccoutPage from "@/pages/ConfirmDeleteAccoutPage";
 
 export const Router = () => {
   return (
@@ -53,6 +54,10 @@ export const Router = () => {
         <Route path="alltenders" element={<AllTendersPage />} />
         <Route path="my-tenders" element={<MyTendersPage />} />
         <Route path="login" element={<LoginPage />} />
+        <Route
+          path="delete-confirmation"
+          element={<ConfirmDeleteAccoutPage />}
+        />
         <Route path="registration" element={<RegisterPage />} />
         <Route path="confirm-email" element={<ConfirmEmailPage />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
@@ -85,7 +90,10 @@ export const Router = () => {
           <Route path="more_inforamtion" element={<AdditionalInfo />} />
         </Route>
         <Route path="knowledge-base" element={<KnowledgeBasePage />} />
-        <Route path="organization/:org_id" element={<OrganizationProfilePage />}>
+        <Route
+          path="organization/:org_id"
+          element={<OrganizationProfilePage />}
+        >
           <Route path="" element={<OrdererProfileView />} />
           <Route path="orderer" element={<OrdererProfileView />} />
           <Route path="contractor" element={<ContractorProfileView />} />
