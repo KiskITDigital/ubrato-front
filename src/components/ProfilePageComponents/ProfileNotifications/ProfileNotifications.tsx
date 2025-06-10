@@ -21,12 +21,14 @@ export const ProfileNotifications: FC = () => {
     return useNotificationsStore.getState().expandedIds.includes(id);
   };
 
-  const toDate = (date: string) => {
-    const timestamp = date;
-    const newDate = new Date(Date.parse(timestamp));
-    newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toISOString().split("T")[0];
-    return formattedDate;
+  const toDateTime = (date: string) => {
+    const newDate = new Date(Date.parse(date));
+    if (isNaN(newDate.getTime())) {
+      throw new Error("Invalid date string");
+    }
+    const datePart = newDate.toISOString().split("T")[0];
+    const timePart = newDate.toTimeString().split(" ")[0];
+    return `${datePart} ${timePart}`;
   };
 
   return (
@@ -39,7 +41,7 @@ export const ProfileNotifications: FC = () => {
           key={e.id}
         >
           <div className={s.header_line}>
-            <div className={s.created_at}>{toDate(e.created_at)}</div>
+            <div className={s.created_at}>{toDateTime(e.created_at)}</div>
             <div className={s.content}>
               <h2
                 className={`${s.notification_header} ${
