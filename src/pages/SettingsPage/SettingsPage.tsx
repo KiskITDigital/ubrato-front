@@ -235,7 +235,7 @@ const SettingsPage: FC = () => {
     setOpenDeleteAccountModal(false);
   }
   return (
-    <section ref={startRef} className={`${styles.container}`}>
+    <section ref={startRef} className={styles.container}>
       <p className={styles.title}>Настройки аккаунта</p>
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Статус</p>
