@@ -5,7 +5,8 @@ import s from "./styles.module.css";
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
-  // console.log(notificationsStore.notifications.notifications);
+  const notifications = notificationsStore.notifications.notifications;
+  const reversedNotifications = notifications.reverse();
 
   const handleNotificationClick = (id: number) => {
     notificationsStore.setNotificationRead(id);
@@ -34,7 +35,7 @@ export const ProfileNotifications: FC = () => {
   return (
     <div>
       <h1 className={s.title}>Уведомления</h1>
-      {notificationsStore.notifications.notifications.map((e) => (
+      {reversedNotifications.map((e) => (
         <div
           className={s.notification_container}
           onClick={() => handleNotificationClick(e.id)}
