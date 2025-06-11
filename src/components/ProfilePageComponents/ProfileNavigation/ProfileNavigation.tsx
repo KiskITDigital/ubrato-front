@@ -201,17 +201,15 @@ export const ProfileNavigation: FC = () => {
           Документы
         </ProtectedLink>
 
-        {isEmailVerified && (
-          <ProtectedLink
-            to="settings"
-            className={`${styles.link} ${
-              page.includes("settings") ? styles.active : ""
-            }`}
-          >
-            <SettingsIC />
-            Настройки аккаунта
-          </ProtectedLink>
-        )}
+        <ProtectedLink
+          to="settings"
+          className={`${styles.link} ${
+            page.includes("settings") ? styles.active : ""
+          }`}
+        >
+          <SettingsIC />
+          Настройки аккаунта
+        </ProtectedLink>
 
         <ProtectedLink
           to="help"

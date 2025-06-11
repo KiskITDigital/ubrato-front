@@ -14,6 +14,7 @@ const allowedRoutes = [
   "/profile/notifications",
   "/profile/help",
   "/profile/documents",
+  "/profile/settings",
 ];
 
 export const ProfilePage: FC = () => {
