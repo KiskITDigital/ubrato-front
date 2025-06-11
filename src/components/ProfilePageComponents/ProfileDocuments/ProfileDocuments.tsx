@@ -91,7 +91,7 @@ export const ProfileDocuments: FC = () => {
             type={document.type}
             link={document.link}
             idFile={document.idFile}
-            isDisabled={isVerificationPending}
+            isDisabled={isVerificationPending || !isEmailVerified}
           />
         );
       })}

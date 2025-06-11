@@ -54,7 +54,7 @@ export const FileInput: FC<FileInputProps> = ({
         </p>
         <label className={styles.label} htmlFor={id}>
           <input
-            disabled={Boolean(link)}
+            disabled={Boolean(link) || isDisabled}
             onChange={(e) => {
               if (!e.target.files || e.target.files.length === 0) return;
 
@@ -100,7 +100,11 @@ export const FileInput: FC<FileInputProps> = ({
             id={id}
             accept="image/png, image/jpeg, application/pdf, text/xml"
           />
-          <div className={`${styles.fileBtn} ${Boolean(link) && "hidden"}`}>
+          <div
+            className={`${styles.fileBtn} ${Boolean(link) && "hidden"} ${
+              isDisabled && "cursorDisabled"
+            }`}
+          >
             Загрузить
           </div>
           {error && <p className={styles.error}>{error}</p>}
