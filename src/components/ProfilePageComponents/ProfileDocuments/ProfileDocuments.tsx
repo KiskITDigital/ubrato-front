@@ -131,7 +131,7 @@ export const ProfileDocuments: FC = () => {
       <Modal isOpen={openVerifyEmailModal}>
         <InfoModal
           title=""
-          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
+          text="Вы проходите процедуру регистрации на Ubrato. Чтобы начать пользоваться сайтом, пожалуйста, подтвердите адрес электронной почты и пройдите верификацию."
           onClose={closeVerifyEmailModal}
         />
       </Modal>
