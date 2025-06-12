@@ -1,17 +1,19 @@
 import { useNotificationsStore } from "@/store/notificationsStore";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import s from "./styles.module.css";
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
   const notifications = notificationsStore.notifications.notifications;
-  const reversedNotifications = notifications.reverse();
+
+  const reversedNotifications = useMemo(() => {
+    return [...notifications].reverse();
+  }, [notifications]);
 
   const handleNotificationClick = (id: number) => {
     notificationsStore.setNotificationRead(id);
     notificationsStore.toggleNotificationExpansion(id);
-    console.log(notificationsStore.notifications);
   };
 
   useEffect(() => {

@@ -29,9 +29,8 @@
   border-radius: 13px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   /* transition: max-height 0.5s ease-out, padding 0.5s ease-out; */
-  max-height: 150px;
+  max-height: 200px;
 }
-
 
 .notification_header {
   font-size: 16px;
@@ -46,14 +45,11 @@
   padding: 0 0 10px 6px;
 }
 
-
 .message {
   display: flex;
   flex-direction: column;
   padding: 10px;
 }
-
-
 
 .title {
   font-size: 28px;
