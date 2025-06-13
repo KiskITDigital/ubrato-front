@@ -19,8 +19,7 @@ const MainFilterTender: FC = () => {
     name: string;
     region_id: string;
   } | null>(null);
-  const [objectsId, setObjectsIds] = useState<number[]>([]); // вместо objectId
-
+  const [objectsId, setObjectsIds] = useState<number[]>([]);
   const [objectTypesId, setObjectTypesId] = useState<number[]>([]);
   const [servicesId, setServicesId] = useState<number[]>([]);
   const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
@@ -29,6 +28,11 @@ const MainFilterTender: FC = () => {
   >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchError, setSearchError] = useState<string | null>(null);
+
+  const [selectedObjectNames, setSelectedObjectNames] = useState<string[]>([]);
+  const [selectedServiceNames, setSelectedServiceNames] = useState<string[]>(
+    []
+  );
 
   useEffect(() => {
     const initializeSearch = async () => {
@@ -54,15 +58,22 @@ const MainFilterTender: FC = () => {
     setServicesTypesId([]);
     setAreAllObjects(false);
     setAreAllServices(false);
+    setSelectedObjectNames([]);
+    setSelectedServiceNames([]);
+
     tenderListState.handleLocation(null);
     tenderListState.handleObjectTypesId([]);
     tenderListState.handleServicesTypesId([]);
+    tenderListState.handleSelectedObjectNames([]);
+    tenderListState.handleSelectedServiceNames([]);
   };
 
   const filter = () => {
     tenderListState.handleLocation(chosenLocation ? +chosenLocation.id : null);
     tenderListState.handleObjectTypesId(objectTypesId);
     tenderListState.handleServicesTypesId(servicesTypesId);
+    tenderListState.handleSelectedObjectNames(selectedObjectNames);
+    tenderListState.handleSelectedServiceNames(selectedServiceNames);
   };
 
   const getLocalCities = async (query: string) => {
@@ -104,6 +115,40 @@ const MainFilterTender: FC = () => {
       console.error("Error fetching cities:", error);
       setSearchError("Не удалось загрузить список городов");
     }
+  };
+
+  const handleObjectSelect = (hit: { id: number; name: string }) => {
+    const isSelected = objectsId.includes(hit.id);
+
+    setObjectsIds((prev) =>
+      isSelected ? prev.filter((el) => el !== hit.id) : [...prev, hit.id]
+    );
+
+    setSelectedObjectNames((prev) =>
+      isSelected
+        ? prev.filter((name) => name !== hit.name)
+        : [...prev, hit.name]
+    );
+
+    // При снятии объекта удаляем связанные с ним типы
+    if (isSelected) {
+      setObjectTypesId([]);
+    }
+  };
+
+  const handleServiceSelect = (hit: { id: number; name: string }) => {
+    const hitId = Number(hit.id);
+    const isSelected = servicesId.includes(hitId);
+
+    setServicesId((prev) =>
+      isSelected ? prev.filter((el) => el !== hitId) : [...prev, hitId]
+    );
+
+    setSelectedServiceNames((prev) =>
+      isSelected
+        ? prev.filter((name) => name !== hit.name)
+        : [...prev, hit.name]
+    );
   };
 
   if (isLoading) {
@@ -189,16 +234,7 @@ const MainFilterTender: FC = () => {
                 <>
                   <p
                     className={styles.objectItem}
-                    onClick={() => {
-                      setObjectsIds((prev) =>
-                        prev.includes(hit.id)
-                          ? prev.filter((el) => el !== hit.id)
-                          : [...prev, hit.id]
-                      );
-                      if (objectsId.includes(hit.id)) {
-                        setObjectTypesId([]);
-                      }
-                    }}
+                    onClick={() => handleObjectSelect(hit)}
                   >
                     <img
                       className={styles.objectItemImage}
@@ -300,13 +336,7 @@ const MainFilterTender: FC = () => {
                 <>
                   <p
                     className={styles.objectItem}
-                    onClick={() => {
-                      setServicesId((prev) =>
-                        prev.includes(Number(hit.id))
-                          ? prev.filter((el) => el !== Number(hit.id))
-                          : [...prev, Number(hit.id)]
-                      );
-                    }}
+                    onClick={() => handleServiceSelect(hit)}
                   >
                     <img
                       className={styles.objectItemImage}

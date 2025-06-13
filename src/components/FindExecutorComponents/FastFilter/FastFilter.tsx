@@ -7,10 +7,20 @@ const FastFilterBlock: FC<{
   title: string;
   values: string[];
   setValues: (newFastFilterTexts: string[]) => void;
-}> = ({ title, values, setValues }) => {
+  onRemoveObject?: (name: string) => void;
+  onRemoveService?: (name: string) => void;
+}> = ({ title, values, setValues, onRemoveObject, onRemoveService }) => {
   const [inputFilter, setInputFilter] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [querySuggestions, setQuerySuggestions] = useState<any[]>([]);
   // const preDefinedValues: string[] = ['Уборка офиса', 'Уборка ТЦ', 'Уборка склада', 'Уборка территории', 'Зимняя уборка']
+
+  // Функция для определения типа фильтра
+  const getFilterType = (name: string) => {
+    if (onRemoveObject && values.includes(name)) return "object";
+    if (onRemoveService && values.includes(name)) return "service";
+    return "text";
+  };
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -96,7 +106,6 @@ const FastFilterBlock: FC<{
       prev[1],
       ...values.map((filter) => ({ name: filter })),
     ]);
-    // console.log(values)
   }, [values.length, values]);
 
   useEffect(() => {
@@ -149,8 +158,8 @@ const FastFilterBlock: FC<{
   return (
     <div className={`container ${styles.container}`}>
       <h1 className={styles.title}>
-        {/* <span>Поиск</span> {title} [услуга] - [объект] */}
-        <span>Поиск</span> {title}
+        <span>Поиск</span> {title}{" "}
+        {values.filter((v) => getFilterType(v) !== "text").join(" + ")}
       </h1>
       <div className="w-full relative">
         <label className={styles.inputFilterLabel}>
@@ -192,29 +201,31 @@ const FastFilterBlock: FC<{
 
       {!!values.length && (
         <div className={styles.filters}>
-          <>
-            {values.map((filter, ind) => (
+          {values.map((filter, ind) => {
+            const type = getFilterType(filter);
+            return (
               <div key={ind} className={styles.filter}>
                 <p className={styles.filterName}>{filter}</p>
                 <img
-                  onClick={() =>
-                    setValues(values.filter((el) => el !== filter))
-                  }
+                  onClick={() => {
+                    if (type === "object" && onRemoveObject) {
+                      onRemoveObject(filter);
+                    } else if (type === "service" && onRemoveService) {
+                      onRemoveService(filter);
+                    } else {
+                      setValues(values.filter((el) => el !== filter));
+                    }
+                  }}
                   className={styles.removeFilter}
                   src="/create-tender/create-tender-close.svg"
                   alt="delete icon"
                 />
               </div>
-            ))}
-            <button
-              onClick={() => setValues([])}
-              className={styles.removeAllFilters}
-            >
-              Сброcить все
-            </button>
-          </>
+            );
+          })}
         </div>
       )}
+
       {breadCrumbs.length > 1 && (
         <div className={styles.breadCrumbs}>
           {breadCrumbs.map(

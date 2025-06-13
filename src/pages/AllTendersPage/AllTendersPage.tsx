@@ -11,6 +11,12 @@ export const AllTendersPage: FC = () => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const allFilters = [
+    ...tenderListState.fastFilterTexts,
+    ...tenderListState.selectedObjectNames,
+    ...tenderListState.selectedServiceNames,
+  ];
+
   useEffect(() => {
     startRef.current!.scrollIntoView({ behavior: "smooth" });
     setTimeout(() => {
@@ -23,8 +29,10 @@ export const AllTendersPage: FC = () => {
     <div ref={startRef} className={s.main_blokkk}>
       <FastFilterBlock
         title="тендера"
-        values={tenderListState.fastFilterTexts}
+        values={allFilters}
         setValues={tenderListState.handleFastFilterTexts}
+        onRemoveObject={tenderListState.removeSelectedObjectName}
+        onRemoveService={tenderListState.removeSelectedServiceName}
       />
       <div className={s.block_container}>
         <MainFilterTender></MainFilterTender>
