@@ -1,4 +1,4 @@
-import { updateToken, surveyCheck } from "@/api";
+import { surveyCheck } from "@/api";
 import { ProfileNavigation } from "@/components";
 import { useUserInfoStore } from "@/store/userInfoStore";
 import { FC, useEffect } from "react";
@@ -18,41 +18,74 @@ const allowedRoutes = [
 ];
 
 export const ProfilePage: FC = () => {
-  const userStore = useUserInfoStore();
+  const {
+    isLoggedIn,
+    user,
+    loading: storeLoading,
+    fetchUser,
+    setPassedSurvey,
+  } = useUserInfoStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const setPassedSurvey = userStore.setPassedSurvey;
-  const isEmailVerified = userStore.user.email_verified;
-
-  useEffect(() => {
-    (async () => {
-      setPassedSurvey(await updateToken<boolean, null>(surveyCheck, null));
-    })();
-  }, [setPassedSurvey]);
-
   const navigationType = useNavigationType();
 
   useEffect(() => {
-    if (!userStore.isLoggedIn) {
-      if (navigationType === "POP") navigate(-1);
-      else navigate("/login");
+    const token = localStorage.getItem("token");
+    if (token && !isLoggedIn && !storeLoading) {
+      fetchUser(token).catch(() => {
+        navigate("/login");
+      });
     }
-  }, [navigate]);
+  }, [fetchUser, isLoggedIn, storeLoading, navigate]);
 
   useEffect(() => {
-    const isAllowedRoute = allowedRoutes.includes(location.pathname);
+    if (!isLoggedIn) return;
 
-    if (!isEmailVerified && !isAllowedRoute) {
+    const checkSurvey = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          setPassedSurvey(await surveyCheck(token));
+        }
+      } catch (error) {
+        console.error("Survey check failed:", error);
+      }
+    };
+
+    checkSurvey();
+  }, [isLoggedIn, setPassedSurvey]);
+
+  useEffect(() => {
+    if (storeLoading) return;
+
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
+
+    const isAllowedRoute = allowedRoutes.includes(location.pathname);
+    if (!user.email_verified && !isAllowedRoute) {
       navigate("/profile/documents");
     }
-  }, [location.pathname]);
+  }, [
+    isLoggedIn,
+    user.email_verified,
+    location.pathname,
+    navigate,
+    storeLoading,
+    navigationType,
+  ]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (!userStore.isLoggedIn) {
-    return <div></div>;
+  if (storeLoading) {
+    return <div className="container flex">Loading...</div>;
+  }
+
+  if (!isLoggedIn) {
+    return null;
   }
 
   return (
