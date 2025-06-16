@@ -46,7 +46,11 @@ export const ProfileDocuments: FC = () => {
       (document) => document.idFile && document.link
     );
 
-    setDisabled(!allDocumentsUploaded || isVerificationPending);
+    setDisabled(
+      !allDocumentsUploaded ||
+        isVerificationPending ||
+        !profileDocuments.documents.length
+    );
   }, [profileDocuments.documents, isVerificationPending]);
 
   async function handleUserVerify() {
