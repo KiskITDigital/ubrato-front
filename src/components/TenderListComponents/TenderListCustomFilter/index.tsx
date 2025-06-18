@@ -19,10 +19,6 @@ const MainFilterTender: FC = () => {
     name: string;
     region_id: string;
   } | null>(null);
-  const [objectsId, setObjectsIds] = useState<number[]>([]);
-  const [objectTypesId, setObjectTypesId] = useState<number[]>([]);
-  const [servicesId, setServicesId] = useState<number[]>([]);
-  const [servicesTypesId, setServicesTypesId] = useState<number[]>([]);
   const [cityList, setCityList] = useState<
     { id: string; name: string; region_id: string }[]
   >([]);
@@ -52,10 +48,10 @@ const MainFilterTender: FC = () => {
 
   const reset = () => {
     setChosenLocation(null);
-    setObjectsIds([]);
-    setObjectTypesId([]);
-    setServicesId([]);
-    setServicesTypesId([]);
+    tenderListState.handleObjectsIds([]);
+    tenderListState.handleObjectTypesIds([]);
+    tenderListState.handleServicesIds([]);
+    tenderListState.handleServicesTypesIds([]);
     setAreAllObjects(false);
     setAreAllServices(false);
     setSelectedObjectNames([]);
@@ -70,8 +66,8 @@ const MainFilterTender: FC = () => {
 
   const filter = () => {
     tenderListState.handleLocation(chosenLocation ? +chosenLocation.id : null);
-    tenderListState.handleObjectTypesId(objectTypesId);
-    tenderListState.handleServicesTypesId(servicesTypesId);
+    tenderListState.handleObjectTypesId(tenderListState.objectTypesIds);
+    tenderListState.handleServicesTypesId(tenderListState.servicesTypesIds);
     tenderListState.handleSelectedObjectNames(selectedObjectNames);
     tenderListState.handleSelectedServiceNames(selectedServiceNames);
   };
@@ -117,11 +113,13 @@ const MainFilterTender: FC = () => {
     }
   };
 
-  const handleObjectSelect = (hit: { id: number; name: string }) => {
-    const isSelected = objectsId.includes(hit.id);
+  const handleObjectTypesSelect = (hit: { id: number; name: string }) => {
+    const isSelected = tenderListState.objectTypesIds.includes(hit.id);
 
-    setObjectsIds((prev) =>
-      isSelected ? prev.filter((el) => el !== hit.id) : [...prev, hit.id]
+    tenderListState.handleObjectTypesIds(
+      isSelected
+        ? tenderListState.objectTypesIds.filter((el) => el !== hit.id)
+        : [...tenderListState.objectTypesIds, hit.id]
     );
 
     setSelectedObjectNames((prev) =>
@@ -129,25 +127,47 @@ const MainFilterTender: FC = () => {
         ? prev.filter((name) => name !== hit.name)
         : [...prev, hit.name]
     );
-
-    // При снятии объекта удаляем связанные с ним типы
-    if (isSelected) {
-      setObjectTypesId([]);
-    }
   };
 
-  const handleServiceSelect = (hit: { id: number; name: string }) => {
+  const handleServicesTypesSelect = (hit: { id: number; name: string }) => {
     const hitId = Number(hit.id);
-    const isSelected = servicesId.includes(hitId);
+    const isSelected = tenderListState.servicesTypesIds.includes(hitId);
 
-    setServicesId((prev) =>
-      isSelected ? prev.filter((el) => el !== hitId) : [...prev, hitId]
+    tenderListState.handleServicesTypesIds(
+      isSelected
+        ? tenderListState.servicesTypesIds.filter((el) => el !== hitId)
+        : [...tenderListState.servicesTypesIds, hitId]
     );
 
     setSelectedServiceNames((prev) =>
       isSelected
         ? prev.filter((name) => name !== hit.name)
         : [...prev, hit.name]
+    );
+  };
+
+  const handleObjectSelect = (hit: { id: number; name: string }) => {
+    const isSelected = tenderListState.objectsIds.includes(hit.id);
+
+    tenderListState.handleObjectsIds(
+      isSelected
+        ? tenderListState.objectsIds.filter((el) => el !== hit.id)
+        : [...tenderListState.objectsIds, hit.id]
+    );
+
+    if (isSelected) {
+      tenderListState.handleObjectTypesIds([]);
+    }
+  };
+
+  const handleServiceSelect = (hit: { id: number; name: string }) => {
+    const hitId = Number(hit.id);
+    const isSelected = tenderListState.servicesIds.includes(hitId);
+
+    tenderListState.handleServicesIds(
+      isSelected
+        ? tenderListState.servicesIds.filter((el) => el !== hitId)
+        : [...tenderListState.servicesIds, hitId]
     );
   };
 
@@ -246,7 +266,7 @@ const MainFilterTender: FC = () => {
                     {hit.name}
                   </p>
 
-                  {objectsId.includes(hit.id) && (
+                  {tenderListState.objectsIds.includes(hit.id) && (
                     <InstantSearch
                       indexName="object_type_index"
                       searchClient={generateSearchClient(250)}
@@ -267,15 +287,11 @@ const MainFilterTender: FC = () => {
                             hitType.group_id === hit.id && (
                               <p
                                 className={styles.objectTypeItem}
-                                onClick={() =>
-                                  setObjectTypesId((prev) =>
-                                    prev.includes(hitType.id)
-                                      ? prev.filter((el) => el !== hitType.id)
-                                      : [...prev, hitType.id]
-                                  )
-                                }
+                                onClick={() => handleObjectTypesSelect(hitType)}
                               >
-                                {objectTypesId.includes(hitType.id) ? (
+                                {tenderListState.objectTypesIds.includes(
+                                  hitType.id
+                                ) ? (
                                   <img
                                     src="/find-executor/checkmark.svg"
                                     alt="check-mark"
@@ -346,7 +362,7 @@ const MainFilterTender: FC = () => {
                     {hit.name}
                   </p>
 
-                  {servicesId.includes(Number(hit.id)) && (
+                  {tenderListState.servicesIds.includes(Number(hit.id)) && (
                     <InstantSearch
                       indexName="service_type_index"
                       searchClient={generateSearchClient(250)}
@@ -368,14 +384,12 @@ const MainFilterTender: FC = () => {
                               <p
                                 className={styles.objectTypeItem}
                                 onClick={() =>
-                                  setServicesTypesId((prev) =>
-                                    prev.includes(hitType.id)
-                                      ? prev.filter((el) => el !== hitType.id)
-                                      : [...prev, hitType.id]
-                                  )
+                                  handleServicesTypesSelect(hitType)
                                 }
                               >
-                                {servicesTypesId.includes(hitType.id) ? (
+                                {tenderListState.servicesTypesIds.includes(
+                                  hitType.id
+                                ) ? (
                                   <img
                                     src="/find-executor/checkmark.svg"
                                     alt="check-mark"
