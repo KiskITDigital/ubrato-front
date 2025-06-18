@@ -202,11 +202,11 @@ const FastFilterBlock: FC<{
       {!!values.length && (
         <div className={styles.filters}>
           {values.map((filter, ind) => {
-            const type = getFilterType(filter);
+            // const type = getFilterType(filter);
             return (
               <div key={ind} className={styles.filter}>
                 <p className={styles.filterName}>{filter}</p>
-                <img
+                {/* <img
                   onClick={() => {
                     if (type === "object" && onRemoveObject) {
                       onRemoveObject(filter);
@@ -219,7 +219,7 @@ const FastFilterBlock: FC<{
                   className={styles.removeFilter}
                   src="/create-tender/create-tender-close.svg"
                   alt="delete icon"
-                />
+                /> */}
               </div>
             );
           })}

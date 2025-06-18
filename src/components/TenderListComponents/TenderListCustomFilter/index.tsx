@@ -130,13 +130,12 @@ const MainFilterTender: FC = () => {
   };
 
   const handleServicesTypesSelect = (hit: { id: number; name: string }) => {
-    const hitId = Number(hit.id);
-    const isSelected = tenderListState.servicesTypesIds.includes(hitId);
+    const isSelected = tenderListState.servicesTypesIds.includes(hit.id);
 
     tenderListState.handleServicesTypesIds(
       isSelected
-        ? tenderListState.servicesTypesIds.filter((el) => el !== hitId)
-        : [...tenderListState.servicesTypesIds, hitId]
+        ? tenderListState.servicesTypesIds.filter((el) => el !== hit.id)
+        : [...tenderListState.servicesTypesIds, hit.id]
     );
 
     setSelectedServiceNames((prev) =>
