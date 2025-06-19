@@ -5,9 +5,14 @@ import { City } from "@/types/app";
 import { ChangeEvent } from "react";
 import { create } from "zustand";
 
+interface ErrorType {
+  field: string;
+  message: string;
+}
+
 interface createTenderState {
   executorToSend: { id: string; name: string } | null;
-  errors: string[];
+  errors: ErrorType[];
   name: string;
   price: string;
   is_contract_price: boolean;
@@ -85,8 +90,9 @@ interface createTenderState {
   cities: City[];
   attachmentIdToChange: number | null;
   getCities: (query: string) => void;
-  addError: (newError: string) => void;
-  removeError: (errorToRemove: string) => void;
+  addError: (field: string, message: string) => void;
+  removeError: (field: string) => void;
+  getError: (field: string) => string | null;
   validateInputs: (isDraft: boolean) => boolean;
   handleFileUpload: (
     event: ChangeEvent<HTMLInputElement>,
@@ -100,7 +106,7 @@ interface createTenderState {
   clear: () => void;
 }
 
-export const useCreateTenderState = create<createTenderState>()((set) => ({
+export const useCreateTenderState = create<createTenderState>()((set, get) => ({
   executorToSend: null,
   isValidating: false,
   errors: [],
@@ -200,7 +206,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     }));
     set((state) => ({
       ...state,
-      errors: state.errors.filter((error) => error !== "services"),
+      errors: state.errors.filter((error) => error.field !== "services"),
     }));
   },
   removeService: (id: number) => {
@@ -269,15 +275,29 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     set((state) => ({ ...state, cities: newSities ?? [] }));
   },
 
-  addError: (newError: string) => {
-    set((state) => ({ ...state, errors: [...state.errors, newError] }));
+  addError: (field: string, message: string) => {
+    set((state) => {
+      // Удаляем старую ошибку для этого поля, если есть
+      const filteredErrors = state.errors.filter(
+        (error) => error.field !== field
+      );
+      return {
+        ...state,
+        errors: [...filteredErrors, { field, message }],
+      };
+    });
   },
 
-  removeError: (errorToRemove: string) => {
+  removeError: (field: string) => {
     set((state) => ({
       ...state,
-      errors: [...state.errors.filter((error) => error !== errorToRemove)],
+      errors: state.errors.filter((error) => error.field !== field),
     }));
+  },
+
+  getError: (field: string) => {
+    const error = get().errors.find((err) => err.field === field);
+    return error ? error.message : null;
   },
 
   handleFileUpload: async (
@@ -337,7 +357,9 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
             set((state) => ({
               ...state,
               attachments: [...state.attachments, newFile!],
-              errors: state.errors.filter((error) => error !== "attachments"),
+              errors: state.errors.filter(
+                (error) => error.field !== "attachments"
+              ),
             }));
           }
         }
@@ -353,30 +375,41 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
     set((state) => ({ ...state, isValidating: newVal }));
   },
   validateInputs: (isDraft: boolean) => {
-    const newErrors: string[] = [];
+    const newErrors: ErrorType[] = [];
     set((state) => {
       const new_is_contract_price = state.is_contract_price;
-      if (!state.name) newErrors.push("name");
-      if (!isDraft) {
-        if (!state.price) newErrors.push("price");
-        // if (!state.price) new_is_contract_price = true;
-        // if (!state.cleaningTZ) newErrors.push('tz')
-        if (!state.city) newErrors.push("city");
-        if (!state.objectName) newErrors.push("object");
-        // if (!state.floor_space) newErrors.push('floor_space')
-        if (!state.services.length) newErrors.push("services");
-        // if (!state.description) newErrors.push('description')
-        // if (!state.wishes) newErrors.push('wishes')
-        // if (!state.attachments.length) newErrors.push('attachments')
+
+      // Валидация названия
+      if (!state.name) {
+        newErrors.push({
+          field: "name",
+          message: "Обязательно для заполнения",
+        });
+      } else if (state.name.length < 3) {
+        newErrors.push({ field: "name", message: "Минимум 3 символа" });
+      } else if (state.name.length > 100) {
+        newErrors.push({ field: "name", message: "Максимум 100 символов" });
       }
+
+      if (!isDraft) {
+        if (!state.price)
+          newErrors.push({ field: "price", message: "Укажите цену" });
+        if (!state.city)
+          newErrors.push({ field: "city", message: "Укажите город" });
+        if (!state.objectName)
+          newErrors.push({ field: "object", message: "Укажите объект" });
+        if (!state.services.length)
+          newErrors.push({ field: "services", message: "Добавьте услуги" });
+      }
+
       return {
         ...state,
-        errors: [...newErrors],
+        errors: newErrors,
         isValidating: true,
         is_contract_price: new_is_contract_price,
       };
     });
-    return !!newErrors.length;
+    return newErrors.length > 0;
   },
 
   changeAttachmentIdToChange: (newVal: number | null) => {
@@ -433,6 +466,7 @@ export const useCreateTenderState = create<createTenderState>()((set) => ({
       city_id: 0,
       object_group_id: 0,
       object_type_id: 0,
+      errors: [],
     }));
   },
 }));

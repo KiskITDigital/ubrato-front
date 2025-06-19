@@ -60,13 +60,19 @@ export const CreateTender: FC = () => {
     }
   }, [createTenderState]);
 
+  // Находим первое поле с ошибкой для скролла
+  const getFirstErrorField = () => {
+    if (createTenderState.errors.length === 0) return null;
+    return createTenderState.errors[0].field;
+  };
+
+  const firstErrorField = getFirstErrorField();
+
   return (
     <div className={`container ${styles.container}`}>
       <span ref={startRef}></span>
       <Title />
-      <NameTender
-        ref={createTenderState.errors[0] === "name" ? errorRef : undefined}
-      />
+      <NameTender ref={firstErrorField === "name" ? errorRef : undefined} />
       <div className={`${styles.switcher}`}>
         <div className={`${styles.switcher__div} ${styles.borderBottomBlue}`}>
           <p>Тендер</p>
@@ -93,42 +99,27 @@ export const CreateTender: FC = () => {
         </div>
       )}
       <>
-        <Dates
-          ref2={createTenderState.errors[0] === "price" ? errorRef : undefined}
-        />
-        <CleaningTZ
-          ref={createTenderState.errors[0] === "tz" ? errorRef : undefined}
-        />
-        <City
-          ref={createTenderState.errors[0] === "city" ? errorRef : undefined}
-        />
+        <Dates ref2={firstErrorField === "price" ? errorRef : undefined} />
+        <CleaningTZ ref={firstErrorField === "tz" ? errorRef : undefined} />
+        <City ref={firstErrorField === "city" ? errorRef : undefined} />
         <Object
           ref={
-            createTenderState.errors[0] === "floor_space" ||
-            createTenderState.errors[0] === "object"
+            firstErrorField === "floor_space" || firstErrorField === "object"
               ? errorRef
               : undefined
           }
           windowWidth={windowWidth}
         />
         <Services
-          ref={
-            createTenderState.errors[0] === "services" ? errorRef : undefined
-          }
+          ref={firstErrorField === "services" ? errorRef : undefined}
           windowWidth={windowWidth}
         />
         <Description
-          ref={
-            createTenderState.errors[0] === "description" ? errorRef : undefined
-          }
+          ref={firstErrorField === "description" ? errorRef : undefined}
         />
-        <Wishes
-          ref={createTenderState.errors[0] === "wishes" ? errorRef : undefined}
-        />
+        <Wishes ref={firstErrorField === "wishes" ? errorRef : undefined} />
         <Attachments
-          ref={
-            createTenderState.errors[0] === "attachments" ? errorRef : undefined
-          }
+          ref={firstErrorField === "attachments" ? errorRef : undefined}
           windowWidth={windowWidth}
         />
         <SendButtons />
