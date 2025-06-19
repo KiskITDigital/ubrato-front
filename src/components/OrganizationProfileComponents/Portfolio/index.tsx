@@ -1,9 +1,12 @@
-import { Portfolio as PortfolioType } from '@/types/app';
-import { FC, useState } from 'react';
-import styles from './portfolio.module.css';
-import { getShorterText } from '../Description';
+import { Portfolio as PortfolioType } from "@/types/app";
+import { FC, useState } from "react";
+import styles from "./portfolio.module.css";
+import { getShorterText } from "../Description";
+import { cdnUrl } from "@/api/hosts";
 
-const Portfolio: FC<{ portfolio: PortfolioType[] }> = ({ portfolio: portfolioList }) => {
+const Portfolio: FC<{ portfolio: PortfolioType[] }> = ({
+  portfolio: portfolioList,
+}) => {
   const [isShorterTextIds, setIsShorterTextIds] = useState<string[]>(
     portfolioList.map((el) => el.id)
   );
@@ -18,13 +21,15 @@ const Portfolio: FC<{ portfolio: PortfolioType[] }> = ({ portfolio: portfolioLis
             {isShorterTextIds.includes(portfolio.id)
               ? getShorterText(portfolio.description)
               : portfolio.description}
-            {portfolio.description.split(' ').length > 10 &&
+            {portfolio.description.split(" ").length > 10 &&
               (isShorterTextIds.includes(portfolio.id) ? (
                 <>
-                  ...{' '}
+                  ...{" "}
                   <span
                     onClick={() =>
-                      setIsShorterTextIds((prev) => prev.filter((el) => el !== portfolio.id))
+                      setIsShorterTextIds((prev) =>
+                        prev.filter((el) => el !== portfolio.id)
+                      )
                     }
                     className={styles.showMore}
                   >
@@ -35,7 +40,9 @@ const Portfolio: FC<{ portfolio: PortfolioType[] }> = ({ portfolio: portfolioLis
                 <>
                   <br />
                   <span
-                    onClick={() => setIsShorterTextIds((prev) => [...prev, portfolio.id])}
+                    onClick={() =>
+                      setIsShorterTextIds((prev) => [...prev, portfolio.id])
+                    }
                     className={styles.showMore}
                   >
                     Показать меньше
@@ -48,7 +55,7 @@ const Portfolio: FC<{ portfolio: PortfolioType[] }> = ({ portfolio: portfolioLis
               <img
                 className={styles.portfolioImage}
                 key={ind}
-                src={`https://cdn.ubrato.ru/s3${link?.replace('/files', '')}`}
+                src={`${cdnUrl}/s3${link?.replace("/files", "")}`}
                 alt=""
               />
             ))}

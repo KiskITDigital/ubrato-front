@@ -20,7 +20,6 @@ import Modal from "@/components/Modal";
 import ContactModal from "@/components/Modal/ContactModal";
 import { useIMask } from "react-imask";
 import { deleteAccount } from "@/api/deleteAccount";
-import { logout } from "@/utils/auth/auth";
 import InfoModal from "@/components/Modal/InfoModal";
 
 const SettingsPage: FC = () => {
@@ -232,8 +231,11 @@ const SettingsPage: FC = () => {
   const [openDeleteAccountModal, setOpenDeleteAccountModal] =
     useState<boolean>(false);
 
+  function closeDeleteAccountModal() {
+    setOpenDeleteAccountModal(false);
+  }
   return (
-    <section ref={startRef} className={`${styles.container}`}>
+    <section ref={startRef} className={styles.container}>
       <p className={styles.title}>Настройки аккаунта</p>
       <div className="flex gap-10 border-b border-black/30 pb-6">
         <p className="min-w-[220px] font-bold">Статус</p>
@@ -248,7 +250,7 @@ const SettingsPage: FC = () => {
                 : styles.statusUnSuccess
             }`}
           >
-            {status === "success" ? "Верифицирован" : "Подтвердите почту"}
+            {status === "success" ? "Верифицирован" : "Пройдите верификацию"}
           </p>
           {status === "unverified" && (
             <div className={styles.statusVerifyBlock}>
@@ -671,7 +673,11 @@ const SettingsPage: FC = () => {
         />
       </Modal>
       <Modal isOpen={openDeleteAccountModal}>
-        <InfoModal title="" text="Аккаунт успешно удален" onClose={logout} />
+        <InfoModal
+          title=""
+          text="Вы инициировали процедуру удаления учетной записи на Ubrato. Чтобы удалить учетную запись, пожалуйста, подтвердите свое решение по почте"
+          onClose={closeDeleteAccountModal}
+        />
       </Modal>
     </section>
   );

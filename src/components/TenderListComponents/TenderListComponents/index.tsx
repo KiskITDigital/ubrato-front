@@ -1,11 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  FC,
-  // ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import Typesense from "typesense";
 import { fetchProduct, updateToken } from "@/api";
 import { Pagination, Select, SelectItem } from "@nextui-org/react";
@@ -24,15 +18,17 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  // getPaginationRowModel,
   getSortedRowModel,
-  GlobalFilterTableState,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoStore } from "@/store/userInfoStore";
-import { addFavouriteTender, isFavoriteTender, removeFavoriteTender } from "@/api/favouriteTenders";
+import {
+  addFavouriteTender,
+  isFavoriteTender,
+  removeFavoriteTender,
+} from "@/api/favouriteTenders";
 
 export interface TenderList {
   id: string;
@@ -81,7 +77,6 @@ export const TenderListComp: FC = () => {
   const toDate = (date: string) => {
     const timestamp = date;
     const newDate = new Date(Date.parse(timestamp));
-    // newDate.setHours(0, 0, 0, 0);
     const formattedDate = newDate.toLocaleDateString("ru-RU");
     return formattedDate;
   };
@@ -98,7 +93,11 @@ export const TenderListComp: FC = () => {
       header: () => {
         return (
           <div className="flex items-center">
-            <img className="" src="/find-executor/heart-inactive.svg" alt="heart" />
+            <img
+              className=""
+              src="/find-executor/heart-inactive.svg"
+              alt="heart"
+            />
           </div>
         );
       },
@@ -136,10 +135,6 @@ export const TenderListComp: FC = () => {
         return (
           <div className="flex items-center w-[318px] justify-center">
             <p>Тендеры</p>
-            {/* <img
-              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
-              className="ml-2 h-4 w-4"
-            /> */}
           </div>
         );
       },
@@ -155,11 +150,14 @@ export const TenderListComp: FC = () => {
             <div className="flex gap-1">
               <p className="text-[14px] text-accent">{row.getValue("city")}</p>
               <p className="truncate text-[rgba(0,0,0,.6)]">
-                {(row.getValue("categories") as { name: string; services: string[] }[]).map(
-                  (e, ix) => {
-                    return <span key={ix}>{e.name} </span>;
-                  }
-                )}
+                {(
+                  row.getValue("categories") as {
+                    name: string;
+                    services: string[];
+                  }[]
+                ).map((e, ix) => {
+                  return <span key={ix}>{e.name} </span>;
+                })}
               </p>
             </div>
           </div>
@@ -170,13 +168,17 @@ export const TenderListComp: FC = () => {
       accessorKey: "reception_end",
       header: ({ column }) => {
         return (
-          <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
             <p>Приём откликов</p>{" "}
             <div className="flex items-center justify-center">
               <p>по</p>
               <img
                 src={
-                  column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"
+                  column.getIsSorted() === "asc"
+                    ? "/icons/arrow-up.svg"
+                    : "/icons/arrow-down.svg"
                 }
                 className="ml-2 h-4 w-4"
               />
@@ -200,10 +202,16 @@ export const TenderListComp: FC = () => {
             <p>Оказание услуг</p>
             <div className="flex items-center justify-between">
               <p>с</p>
-              <button onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+              <button
+                onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc")
+                }
+              >
                 <img
                   src={
-                    column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"
+                    column.getIsSorted() === "asc"
+                      ? "/icons/arrow-up.svg"
+                      : "/icons/arrow-down.svg"
                   }
                   className="ml-2 h-4 w-4"
                 />
@@ -241,7 +249,11 @@ export const TenderListComp: FC = () => {
             <p className="w-full text-center text-[rgba(0,0,0,.6)]">
               {toDate(row.getValue("work_start"))}
             </p>
-            <img className="w-[11px] min-w-[11px]" src="/arrow-with-line-gray.svg" alt="" />
+            <img
+              className="w-[11px] min-w-[11px]"
+              src="/arrow-with-line-gray.svg"
+              alt=""
+            />
             <p className="w-full text-center text-[rgba(0,0,0,.6)]">
               {toDate(row.getValue("work_end"))}
             </p>
@@ -261,36 +273,38 @@ export const TenderListComp: FC = () => {
           >
             Стоимость, руб
             <img
-              src={column.getIsSorted() === "asc" ? "/icons/arrow-up.svg" : "/icons/arrow-down.svg"}
+              src={
+                column.getIsSorted() === "asc"
+                  ? "/icons/arrow-up.svg"
+                  : "/icons/arrow-down.svg"
+              }
               className="ml-2 h-4 w-4"
             />
           </button>
         );
       },
       cell: ({ row }) => {
-        return <p className="text-accent w-[80px] text-end">{row.getValue("price")} ₽</p>;
+        return (
+          <p className="text-accent w-[80px] text-end">
+            {row.getValue("price")} ₽
+          </p>
+        );
       },
     },
   ];
 
   const fallbackData: Array<TenderList> = [];
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = useState<GlobalFilterTableState>();
   const table = useReactTable({
     data: tenderList || fallbackData,
     columns: columns,
     enableMultiSort: true,
     manualPagination: true,
-    // pageCount: paginationTotal,
-    // rowCount: paginationPerPage,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
-    onGlobalFilterChange: setGlobalFilter,
-    // getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting: sorting,
-      globalFilter: globalFilter,
     },
   });
 
@@ -309,32 +323,54 @@ export const TenderListComp: FC = () => {
 
     const filters = (() => {
       const filters = [];
-      if (tenderListState.locationId)
+
+      // Фильтр по локации
+      if (tenderListState.locationId) {
         filters.push(`$city_index(id:=${tenderListState.locationId})`);
-      if (tenderListState.objectTypesId.length)
-        tenderListState.objectTypesId.forEach((object) =>
-          filters.push(`$tender_object(object_type_id:=${object})`)
+      }
+
+      // Фильтр по объектам - объединяем все ID в одно выражение
+      if (tenderListState.objectTypesId.length > 0) {
+        const objectConditions = tenderListState.objectTypesId
+          .map((id) => `object_type_id:=${id}`)
+          .join(" || ");
+        filters.push(`$tender_object(${objectConditions})`);
+      }
+
+      // Фильтр по услугам - объединяем все ID в одно выражение
+      if (tenderListState.servicesTypesId.length > 0) {
+        const serviceConditions = tenderListState.servicesTypesId
+          .map((id) => `service_type_id:=${id}`)
+          .join(" || ");
+        filters.push(`$tender_service(${serviceConditions})`);
+      }
+
+      // Фильтр по тексту
+      if (tenderListState.fastFilterTexts.length > 0) {
+        const textFilters = tenderListState.fastFilterTexts.map(
+          (filter) =>
+            `(name:*${filter}* OR description:*${filter}* OR wishes:*${filter}*)`
         );
-      if (tenderListState.servicesTypesId.length)
-        tenderListState.servicesTypesId.forEach((service) =>
-          filters.push(`$tender_service(service_type_id:=${service})`)
-        );
-      if (tenderListState.fastFilterTexts)
-        tenderListState.fastFilterTexts.forEach((filter) =>
-          filters.push(
-            `( name:=*${filter}* || name:=*${filter.toLocaleLowerCase()}* || name:=*${filter.toLocaleUpperCase()}*)`
-          )
-        );
+        filters.push(`(${textFilters.join(" OR ")})`);
+      }
+
       return filters.join(" && ");
     })();
 
+    const searchQuery =
+      tenderListState.fastFilterTexts.length > 0
+        ? tenderListState.fastFilterTexts.join(" ")
+        : "*";
+
     const searchParameters = {
-      q: tenderListState.fastFilterTexts,
+      q: searchQuery,
       query_by: "name, description, wishes",
       per_page: paginationPerPage,
       page: paginationPage,
       filter_by: filters,
-      sort_by: `${sorting.length ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}` : ""}`,
+      sort_by: sorting.length
+        ? `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}`
+        : "",
       preset: "",
     };
 
@@ -343,11 +379,12 @@ export const TenderListComp: FC = () => {
       .documents()
       .search(searchParameters)
       .then(async (response) => {
-        // console.log(response.hits);
-
         const tenders = [] as TenderList[];
-        setAllExecutorListLength(response.found);
-        setPaginationTotal(response?.found ? Math.ceil(response.found / paginationPerPage) : 0);
+        setAllExecutorListLength(response.found || 0);
+        setPaginationTotal(
+          response?.found ? Math.ceil(response.found / paginationPerPage) : 0
+        );
+
         const promises = (response.hits || [])
           .map((res, index) => {
             const { id } = res.document as { id: string };
@@ -371,13 +408,12 @@ export const TenderListComp: FC = () => {
               } as { index: number; tenderData: TenderList };
             })();
           })
-          .filter((promise) => promise !== null);
+          .filter(Boolean);
 
         const results = await Promise.all(promises);
         results
           .sort((a, b) => a!.index - b!.index)
           .forEach((result) => {
-            // console.log(result?.tenderData);
             tenders.push(result!.tenderData);
           });
         setTenderList(tenders);
@@ -385,8 +421,6 @@ export const TenderListComp: FC = () => {
       .catch((error) => {
         console.error("Ошибка:", error);
       });
-
-    // console.log(allExecutorListLength);
   }, [
     paginationPage,
     paginationPerPage,
@@ -397,7 +431,6 @@ export const TenderListComp: FC = () => {
     sortingValue,
     sorting,
     userInfoStore.user.id,
-
     needUpdate,
   ]);
 
@@ -406,29 +439,31 @@ export const TenderListComp: FC = () => {
   return (
     <div ref={portalContainer} className="w-full z-0">
       <div className="flex justify-between">
-        <div className="text-[24px]">Найдено тендеров: {allExecutorListLength}</div>
+        <div className="text-[24px]">
+          Найдено тендеров: {allExecutorListLength}
+        </div>
         <div className="w-fit flex items-center gap-2">
           <p className="whitespace-nowrap">Показывать на странице</p>
           <Select
             aria-label="Показывать на странице"
-            defaultSelectedKeys={[20]}
+            defaultSelectedKeys={["20"]}
             onChange={(e) => {
-              // console.log(Number(e.target.value));
               setDefaultPerPage(Number(e.target.value));
             }}
             classNames={{
               mainWrapper:
                 "flex bg-red p-[5px] w-[80px] pt-[5px] border-solid border-accent border-[2px] rounded-[6px]",
               trigger: "flex justify-between p-0",
-              selectorIcon: "z-10 relative data-[open]:rotate-180 duration-300 transition-all",
+              selectorIcon:
+                "z-10 relative data-[open]:rotate-180 duration-300 transition-all",
               popoverContent:
                 "p-0 pt-[10px] ml-[-7px] mt-[-5px] w-[80px] border-solid border-accent border-[2px] border-t-0 rounded-b-[6px] bg-white",
             }}
             popoverProps={{ portalContainer: portalContainer.current! }}
           >
-            <SelectItem key={20}>20</SelectItem>
-            <SelectItem key={50}>50</SelectItem>
-            <SelectItem key={100}>100</SelectItem>
+            <SelectItem key="20">20</SelectItem>
+            <SelectItem key="50">50</SelectItem>
+            <SelectItem key="100">100</SelectItem>
           </Select>
         </div>
       </div>
@@ -436,61 +471,54 @@ export const TenderListComp: FC = () => {
       <div className="mt-[20px]">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup, headerGroupIndex) => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                key={"h-group-" + Math.random()}
+                key={`h-group-${headerGroup.id}`}
                 className="justify-between bg-[#F4F7F9] rounded-[13px] !border border-[rgba(0,0,0,.05)] h-[65px]"
               >
-                {headerGroup.headers.map((header, headerIndex) => {
-                  if (headerIndex < 4) {
-                    return (
-                      <div className="hidden" key={"h-" + headerGroupIndex + headerIndex}></div>
-                    );
-                  }
-                  return (
+                {headerGroup.headers
+                  .filter((_, index) => index >= 4)
+                  .map((header) => (
                     <TableHead
-                      key={"h-" + headerGroupIndex + headerIndex}
-                      // style={{ width: header.getSize() }}
+                      key={`h-${header.id}`}
                       onClick={() => {
                         setSortingValue(header.column.id);
                       }}
                     >
                       {header.isPlaceholder
                         ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  );
-                })}
+                  ))}
               </TableRow>
             ))}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, rowIndex) => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={"row" + rowIndex}
-                  data-state={row.getIsSelected() && "selected"}
+                  key={`row-${row.id}`}
                   className="justify-between w-[800px] px-[15px] gap-0 h-[85px] pt-[15px] [&:not(:last-child)]:border-b border-dashed [&:not(:last-child)]:pb-[15px] [&:not(:last-child)]:h-[100px]"
                 >
-                  {row.getVisibleCells().map((cell, cellIndex) => {
-                    if (cellIndex < 4) {
-                      return <div className="hidden" key={"cell-" + rowIndex + cellIndex}></div>;
-                    }
-                    return (
-                      <TableCell
-                        className="w-fit"
-                        key={"cell-" + rowIndex + cellIndex}
-                        // style={{ width: cell.column.getSize() }}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {row
+                    .getVisibleCells()
+                    .filter((_, index) => index >= 4)
+                    .map((cell) => (
+                      <TableCell className="w-fit" key={`cell-${cell.id}`}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
                       </TableCell>
-                    );
-                  })}
+                    ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="text-center">
+                <TableCell colSpan={columns.length - 4} className="text-center">
                   Ничего не найдено.
                 </TableCell>
               </TableRow>
@@ -499,28 +527,9 @@ export const TenderListComp: FC = () => {
         </Table>
       </div>
 
-      {allExecutorListLength > tenderList.length && (
+      {allExecutorListLength > 0 && (
         <div className="flex flex-col w-full pt-4 gap-2">
-          {/* {paginationPerPage < allExecutorListLength && (
-            <button
-              onClick={() => {
-                setPaginationPage(1);
-                setPaginationPerPage((prev) => prev + defaultPerPage);
-              }}
-              className={s.showMore}
-            >
-              Показать ещё
-              <img src="/find-executor/arrow-down.svg" alt="" />
-            </button>
-          )} */}
-
           <div className="flex items-center justify-center">
-            {/* <button
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </button> */}
             {!!paginationTotal && (
               <Pagination
                 classNames={paginationClassNames}
@@ -534,12 +543,6 @@ export const TenderListComp: FC = () => {
                 }}
               />
             )}
-            {/* <button
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </button> */}
           </div>
         </div>
       )}

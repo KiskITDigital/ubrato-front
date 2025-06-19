@@ -1,16 +1,19 @@
 import { useNotificationsStore } from "@/store/notificationsStore";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import s from "./styles.module.css";
 
 export const ProfileNotifications: FC = () => {
   const notificationsStore = useNotificationsStore();
-  // console.log(notificationsStore.notifications.notifications);
+  const notifications = notificationsStore.notifications.notifications;
+
+  const reversedNotifications = useMemo(() => {
+    return [...notifications].reverse();
+  }, [notifications]);
 
   const handleNotificationClick = (id: number) => {
     notificationsStore.setNotificationRead(id);
     notificationsStore.toggleNotificationExpansion(id);
-    console.log(notificationsStore.notifications);
   };
 
   useEffect(() => {
@@ -21,25 +24,27 @@ export const ProfileNotifications: FC = () => {
     return useNotificationsStore.getState().expandedIds.includes(id);
   };
 
-  const toDate = (date: string) => {
-    const timestamp = date;
-    const newDate = new Date(Date.parse(timestamp));
-    newDate.setHours(0, 0, 0, 0);
-    const formattedDate = newDate.toISOString().split("T")[0];
-    return formattedDate;
+  const toDateTime = (date: string) => {
+    const newDate = new Date(Date.parse(date));
+    if (isNaN(newDate.getTime())) {
+      throw new Error("Invalid date string");
+    }
+    const datePart = newDate.toISOString().split("T")[0];
+    const timePart = newDate.toTimeString().split(" ")[0];
+    return `${datePart} ${timePart}`;
   };
 
   return (
     <div>
       <h1 className={s.title}>Уведомления</h1>
-      {notificationsStore.notifications.notifications.map((e) => (
+      {reversedNotifications.map((e) => (
         <div
           className={s.notification_container}
           onClick={() => handleNotificationClick(e.id)}
           key={e.id}
         >
           <div className={s.header_line}>
-            <div className={s.created_at}>{toDate(e.created_at)}</div>
+            <div className={s.created_at}>{toDateTime(e.created_at)}</div>
             <div className={s.content}>
               <h2
                 className={`${s.notification_header} ${

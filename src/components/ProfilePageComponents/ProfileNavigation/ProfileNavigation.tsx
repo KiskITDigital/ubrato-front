@@ -17,34 +17,39 @@ import {
 import { logout } from "@/utils/auth/auth";
 import Modal from "@/components/Modal";
 import InfoModal from "@/components/Modal/InfoModal";
+import {
+  allowedNotEmailVerifiedRoutes,
+  allowedNotUserVerifiedRoutes,
+} from "./routes.constants";
 
 interface ProtectedLinkProps {
   to: string;
   children: React.ReactNode;
   className?: string;
 }
-const allowedRoutes = [
-  "notifications",
-  "help",
-  "documents",
-  "/my-tenders",
-  "/survey",
-];
 
 export const ProfileNavigation: FC = () => {
   const userStore = useUserInfoStore();
   const location = useLocation();
   const isEmailVerified = userStore.user.email_verified;
+  const isUserVerified = userStore.user.verified;
+  const isContractor = userStore.user.is_contractor;
 
   const [page, setPage] = useState("");
-  const [openInfoModal, setOpenInfoModal] = useState(false);
+  const [openVerifyEmailInfoModal, setOpenVerifyEmailInfoModal] =
+    useState(false);
+  const [openVerifyUserInfoModal, setOpenVerifyUserInfoModal] = useState(false);
 
   useEffect(() => {
     setPage(location.pathname);
   }, [location]);
 
-  const closeInfoModal = () => {
-    setOpenInfoModal(false);
+  const closeVerifyEmailInfoModal = () => {
+    setOpenVerifyEmailInfoModal(false);
+  };
+
+  const closeVerifyUserInfoModal = () => {
+    setOpenVerifyUserInfoModal(false);
   };
 
   const ProtectedLink = ({
@@ -52,18 +57,31 @@ export const ProfileNavigation: FC = () => {
     children,
     className = "",
   }: ProtectedLinkProps) => {
-    const isAllowedRoute = allowedRoutes.includes(to);
+    const isAllowedEmailRoute = allowedNotEmailVerifiedRoutes.includes(to);
+    const isAllowedUserRoute = allowedNotUserVerifiedRoutes.includes(to);
+
+    const handleClick = (e: React.MouseEvent) => {
+      if (!isEmailVerified && !isAllowedEmailRoute) {
+        e.preventDefault();
+        setOpenVerifyEmailInfoModal(true);
+        return;
+      }
+
+      if (isEmailVerified && !isUserVerified && !isAllowedUserRoute) {
+        e.preventDefault();
+        setOpenVerifyUserInfoModal(true);
+      }
+    };
+
+    const canNavigate =
+      (isEmailVerified || isAllowedEmailRoute) &&
+      (isUserVerified || isAllowedUserRoute || isAllowedEmailRoute);
 
     return (
       <Link
-        to={isEmailVerified || isAllowedRoute ? to : "#"}
+        to={canNavigate ? to : "#"}
         className={className}
-        onClick={(e) => {
-          if (!isEmailVerified && !isAllowedRoute) {
-            e.preventDefault();
-            setOpenInfoModal(true);
-          }
-        }}
+        onClick={handleClick}
       >
         {children}
       </Link>
@@ -87,75 +105,81 @@ export const ProfileNavigation: FC = () => {
       </div>
 
       <div className={styles.links}>
-        {userStore.user.is_contractor && (
+        {isContractor && isUserVerified && (
           <ProtectedLink to="/survey" className={`${styles.link}`}>
             <SurveyIC />
             Анкета
           </ProtectedLink>
         )}
 
-        <ProtectedLink
-          to=""
-          className={`${styles.link} ${
-            !page.includes("profile/") ? styles.active : ""
-          }`}
-        >
-          <CompanyProfiveIC />
-          Профиль компании
-        </ProtectedLink>
-
-        <ProtectedLink
-          className={`${styles.link} ${styles.sublink} ${
-            page.includes("orderer") && !page.includes("tenders")
-              ? styles.active
-              : ""
-          }`}
-          to="orderer"
-        >
-          Заказчик
-        </ProtectedLink>
-
-        {userStore.user.is_contractor ? (
+        {isUserVerified && (
           <ProtectedLink
-            className={`${styles.link} ${styles.sublink} ${
-              page.includes("contractor") && !page.includes("tenders")
-                ? styles.active
-                : ""
+            to=""
+            className={`${styles.link} ${
+              !page.includes("profile/") ? styles.active : ""
             }`}
-            to="contractor"
           >
-            Исполнитель
-          </ProtectedLink>
-        ) : (
-          <ProtectedLink
-            className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
-            to="become-contractor"
-          >
-            <p className={styles.become_link}>Стать исполнителем</p>
+            <CompanyProfiveIC />
+            Профиль компании
           </ProtectedLink>
         )}
 
-        <ProtectedLink
-          to="/my-tenders"
-          className={`${styles.link} ${
-            page.includes("tenders") && !page.includes("tenders/")
-              ? styles.active
-              : ""
-          }`}
-        >
-          <TenderIC />
-          Мои тендеры
-        </ProtectedLink>
+        {isUserVerified && (
+          <>
+            <ProtectedLink
+              className={`${styles.link} ${styles.sublink} ${
+                page.includes("orderer") && !page.includes("tenders")
+                  ? styles.active
+                  : ""
+              }`}
+              to="orderer"
+            >
+              Заказчик
+            </ProtectedLink>
 
-        <ProtectedLink
-          to="favourite"
-          className={`${styles.link} ${
-            page.includes("favourite") ? styles.active : ""
-          }`}
-        >
-          <HeartIC />
-          Избранное
-        </ProtectedLink>
+            {isContractor ? (
+              <ProtectedLink
+                className={`${styles.link} ${styles.sublink} ${
+                  page.includes("contractor") && !page.includes("tenders")
+                    ? styles.active
+                    : ""
+                }`}
+                to="contractor"
+              >
+                Исполнитель
+              </ProtectedLink>
+            ) : (
+              <ProtectedLink
+                className={`${styles.link} ${styles.sublink} ${styles.become_link__padding}`}
+                to="become-contractor"
+              >
+                <p className={styles.become_link}>Стать исполнителем</p>
+              </ProtectedLink>
+            )}
+
+            <ProtectedLink
+              to="/my-tenders"
+              className={`${styles.link} ${
+                page.includes("tenders") && !page.includes("tenders/")
+                  ? styles.active
+                  : ""
+              }`}
+            >
+              <TenderIC />
+              Мои тендеры
+            </ProtectedLink>
+
+            <ProtectedLink
+              to="favourite"
+              className={`${styles.link} ${
+                page.includes("favourite") ? styles.active : ""
+              }`}
+            >
+              <HeartIC />
+              Избранное
+            </ProtectedLink>
+          </>
+        )}
 
         <ProtectedLink
           to="notifications"
@@ -203,11 +227,19 @@ export const ProfileNavigation: FC = () => {
         Выйти
       </button>
 
-      <Modal isOpen={openInfoModal}>
+      <Modal isOpen={openVerifyEmailInfoModal}>
         <InfoModal
           title=""
           text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
-          onClose={closeInfoModal}
+          onClose={closeVerifyEmailInfoModal}
+        />
+      </Modal>
+
+      <Modal isOpen={openVerifyUserInfoModal}>
+        <InfoModal
+          title=""
+          text="Необходимо пройти верификацию."
+          onClose={closeVerifyUserInfoModal}
         />
       </Modal>
     </div>

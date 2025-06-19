@@ -1,7 +1,10 @@
-import TypesenseInstantsearchAdapter from 'typesense-instantsearch-adapter';
-import Typesense from 'typesense';
+import TypesenseInstantsearchAdapter from "typesense-instantsearch-adapter";
+import Typesense from "typesense";
 
-export const generateSearchClient = (limit: number = 10, parameters?: { filter_by?: string }) => {
+export const generateSearchClient = (
+  limit: number = 10,
+  parameters?: { filter_by?: string }
+) => {
   const typesenseInstantsearchAdapter = new TypesenseInstantsearchAdapter({
     server: {
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
@@ -9,13 +12,13 @@ export const generateSearchClient = (limit: number = 10, parameters?: { filter_b
         {
           host: `${import.meta.env.VITE_TYPESENSE_API_URI}`,
           port: import.meta.env.VITE_TYPESENSE_API_PORT,
-          protocol: 'https',
-          path: '',
+          protocol: "https",
+          path: "",
         },
       ],
     },
     additionalSearchParameters: {
-      query_by: 'name',
+      query_by: "name",
       limit: limit,
       ...parameters,
     },
@@ -30,7 +33,12 @@ export const generateTypesenseClient = async (
     per_page?: number;
     page?: number;
     filter_by?: string;
-    sort_by?: '' | 'name:asc' | 'name:desc' | 'created_at:asc' | 'created_at:desc';
+    sort_by?:
+      | ""
+      | "name:asc"
+      | "name:desc"
+      | "created_at:asc"
+      | "created_at:desc";
     include_fields?: string;
   }
 ) => {
@@ -39,24 +47,27 @@ export const generateTypesenseClient = async (
       apiKey: `${import.meta.env.VITE_TYPESENSE_API_KEY}`,
       nodes: [
         {
-          host: 'search.ubrato.ru',
+          host: "search.ubrato.ru",
           port: 443,
-          protocol: 'https',
-          path: '',
+          protocol: "https",
+          path: "",
         },
       ],
     });
 
     const searchParameters = {
-      q: '',
-      query_by: 'name',
+      q: "",
+      query_by: "name",
       ...parameters,
     };
 
-    const res = await client.collections(collection).documents().search(searchParameters);
+    const res = await client
+      .collections(collection)
+      .documents()
+      .search(searchParameters);
 
     return res.hits || [];
   } catch (e) {
-    console.error('Typesense.Client error: ', e);
+    console.error("Typesense.Client error: ", e);
   }
 };

@@ -30,6 +30,8 @@ export const ProfileDocuments: FC = () => {
     }
     if (!isEmailVerified) {
       setOpenIVerifyEmailModal(true);
+    } else {
+      setOpenIVerifyEmailModal(false);
     }
   }, [userStore]);
 
@@ -44,7 +46,11 @@ export const ProfileDocuments: FC = () => {
       (document) => document.idFile && document.link
     );
 
-    setDisabled(!allDocumentsUploaded || isVerificationPending);
+    setDisabled(
+      !allDocumentsUploaded ||
+        isVerificationPending ||
+        !profileDocuments.documents.length
+    );
   }, [profileDocuments.documents, isVerificationPending]);
 
   async function handleUserVerify() {
@@ -89,7 +95,7 @@ export const ProfileDocuments: FC = () => {
             type={document.type}
             link={document.link}
             idFile={document.idFile}
-            isDisabled={isVerificationPending}
+            isDisabled={isVerificationPending || !isEmailVerified}
           />
         );
       })}
@@ -129,7 +135,7 @@ export const ProfileDocuments: FC = () => {
       <Modal isOpen={openVerifyEmailModal}>
         <InfoModal
           title=""
-          text="Для завершения регистрации, пожалуйста, подтвердите адрес электронной почты."
+          text="Вы проходите процедуру регистрации на Ubrato. Чтобы начать пользоваться сайтом, пожалуйста, подтвердите адрес электронной почты и пройдите верификацию."
           onClose={closeVerifyEmailModal}
         />
       </Modal>

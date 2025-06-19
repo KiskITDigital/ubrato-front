@@ -24,6 +24,10 @@ li {
   margin: 0 auto;
 }
 
+.cursorDisabled {
+  cursor: not-allowed !important;
+}
+
 .flex {
   display: flex;
 }
